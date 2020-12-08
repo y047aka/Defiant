@@ -1,5 +1,5 @@
 module UI exposing
-    ( button, buttonWithOption, labeledButton
+    ( button, basicButton, buttonWithOption, labeledButton
     , header
     , label, basicLabel, labelWithOption
     , section
@@ -7,7 +7,7 @@ module UI exposing
 
 {-|
 
-@docs button, buttonWithOption, labeledButton
+@docs button, basicButton, buttonWithOption, labeledButton
 @docs header
 @docs label, basicLabel, labelWithOption
 @docs primaryLabel, secondaryLabel
@@ -30,6 +30,11 @@ import UI.Section as Section
 button : List (Attribute msg) -> List (Html msg) -> Html msg
 button =
     Button.button
+
+
+basicButton : List (Attribute msg) -> List (Html msg) -> Html msg
+basicButton =
+    Button.basicButton
 
 
 buttonWithOption : Label.Options -> List (Attribute msg) -> List (Html msg) -> Html msg

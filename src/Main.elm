@@ -101,6 +101,11 @@ view model =
                         , button [ onClick Increment ] [ text "+" ]
                         ]
                     ]
+                , example []
+                    [ header [] [ text "Basic" ]
+                    , p [] [ text "A basic button is less pronounced" ]
+                    , basicButton [] [ text "Add Friend" ]
+                    ]
                 , example [] <|
                     [ header [] [ text "Colored" ]
                     , p [] [ text "A button can have different colors" ]

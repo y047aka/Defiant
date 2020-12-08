@@ -1,4 +1,4 @@
-module UI.Button exposing (button, buttonWithOption, labeledButton)
+module UI.Button exposing (basicButton, button, buttonWithOption, labeledButton)
 
 import Css exposing (..)
 import Css.Global exposing (children, selector, typeSelector)
@@ -89,6 +89,33 @@ basis additionalStyles =
 button : List (Attribute msg) -> List (Html msg) -> Html msg
 button =
     basis []
+
+
+basicButton : List (Attribute msg) -> List (Html msg) -> Html msg
+basicButton =
+    basis
+        [ -- .ui.basic.button
+          property "background" "transparent none"
+        , color (rgba 0 0 0 0.6)
+        , fontWeight normal
+        , borderRadius (rem 0.28571429)
+        , textTransform none
+        , textShadow none |> important
+        , property "-webkit-box-shadow" "0 0 0 1px rgba(34, 36, 38, 0.15) inset"
+        , property "box-shadow" "0 0 0 1px rgba(34, 36, 38, 0.15) inset"
+
+        -- .ui.basic.button:hover
+        , backgroundColor (hex "#FFFFFF")
+        , color (rgba 0 0 0 0.8)
+        , property "-webkit-box-shadow" "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
+        , property "box-shadow" "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
+
+        -- .ui.basic.button:focus
+        , backgroundColor (hex "#FFFFFF")
+        , color (rgba 0 0 0 0.8)
+        , property "-webkit-box-shadow" "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
+        , property "box-shadow" "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
+        ]
 
 
 type alias Options =
