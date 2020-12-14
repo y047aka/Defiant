@@ -2,6 +2,7 @@ module UI.Button exposing (basicButton, button, buttonWithOption, labeledButton)
 
 import Css exposing (..)
 import Css.Global exposing (children, selector, typeSelector)
+import Css.Prefix as Prefix
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes exposing (css)
 import UI.Modifier as Modifier exposing (Palette(..))
@@ -30,12 +31,8 @@ basis additionalStyles =
         , textAlign center
         , textDecoration none
         , borderRadius (rem 0.28571429)
-        , property "-webkit-box-shadow" "0 0 0 1px transparent inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
-        , property "box-shadow" "0 0 0 1px transparent inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
-        , property "-webkit-user-select" "none"
-        , property "-moz-user-select" "none"
-        , property "-ms-user-select" "none"
-        , property "user-select" "none"
+        , Prefix.boxShadow "0 0 0 1px transparent inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
+        , Prefix.userSelect "none"
         , property "-webkit-transition" "opacity 0.1s ease, background-color 0.1s ease, color 0.1s ease, background 0.1s ease, -webkit-box-shadow 0.1s ease"
         , property "transition" "opacity 0.1s ease, background-color 0.1s ease, color 0.1s ease, background 0.1s ease, -webkit-box-shadow 0.1s ease"
         , property "transition" "opacity 0.1s ease, background-color 0.1s ease, color 0.1s ease, box-shadow 0.1s ease, background 0.1s ease"
@@ -47,8 +44,7 @@ basis additionalStyles =
         , hover
             [ backgroundColor (hex "#CACBCD")
             , backgroundImage none
-            , property "-webkit-box-shadow" "0 0 0 1px transparent inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
-            , property "box-shadow" "0 0 0 1px transparent inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
+            , Prefix.boxShadow "0 0 0 1px transparent inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
             , color (rgba 0 0 0 0.8)
             ]
 
@@ -57,8 +53,7 @@ basis additionalStyles =
             [ backgroundColor (hex "#CACBCD")
             , color (rgba 0 0 0 0.8)
             , backgroundImage none
-            , property "-webkit-box-shadow" ""
-            , property "box-shadow" ""
+            , Prefix.boxShadow ""
             ]
 
         -- .ui.button:active
@@ -66,8 +61,7 @@ basis additionalStyles =
             [ backgroundColor (hex "#BABBBC")
             , backgroundImage none
             , color (rgba 0 0 0 0.9)
-            , property "-webkit-box-shadow" "0 0 0 1px transparent inset, none"
-            , property "box-shadow" "0 0 0 1px transparent inset, none"
+            , Prefix.boxShadow "0 0 0 1px transparent inset, none"
             ]
 
         -- .ui.button:disabled
@@ -75,8 +69,7 @@ basis additionalStyles =
             [ cursor default
             , opacity (num 0.45) |> important
             , backgroundImage none
-            , property "-webkit-box-shadow" "none"
-            , property "box-shadow" "none"
+            , Prefix.boxShadow "none"
             , pointerEvents none |> important
             ]
 
@@ -101,20 +94,17 @@ basicButton =
         , borderRadius (rem 0.28571429)
         , textTransform none
         , textShadow none |> important
-        , property "-webkit-box-shadow" "0 0 0 1px rgba(34, 36, 38, 0.15) inset"
-        , property "box-shadow" "0 0 0 1px rgba(34, 36, 38, 0.15) inset"
+        , Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.15) inset"
 
         -- .ui.basic.button:hover
         , backgroundColor (hex "#FFFFFF")
         , color (rgba 0 0 0 0.8)
-        , property "-webkit-box-shadow" "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
-        , property "box-shadow" "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
+        , Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
 
         -- .ui.basic.button:focus
         , backgroundColor (hex "#FFFFFF")
         , color (rgba 0 0 0 0.8)
-        , property "-webkit-box-shadow" "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
-        , property "box-shadow" "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
+        , Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
         ]
 
 
@@ -177,8 +167,7 @@ buttonWithOption { palette } =
         , backgroundImage none
 
         -- .ui.xxx.button
-        , property "-webkit-box-shadow" "0 0 0 0 rgba(34, 36, 38, 0.15) inset"
-        , property "box-shadow" "0 0 0 0 rgba(34, 36, 38, 0.15) inset"
+        , Prefix.boxShadow "0 0 0 0 rgba(34, 36, 38, 0.15) inset"
 
         -- .ui.xxx.button:hover
         , hover
@@ -307,10 +296,7 @@ labeledButton attributes =
             , textAlign center
             , textDecoration none
             , borderRadius (rem 0.28571429)
-            , property "-webkit-user-select" "none"
-            , property "-moz-user-select" "none"
-            , property "-ms-user-select" "none"
-            , property "user-select" "none"
+            , Prefix.userSelect "none"
             , property "-webkit-tap-highlight-color" "transparent"
 
             -- .ui.labeled.button:not(.icon)
@@ -324,8 +310,7 @@ labeledButton attributes =
             , backgroundColor transparent
             , padding zero |> important
             , borderStyle none
-            , property "-webkit-box-shadow" "none"
-            , boxShadow none
+            , Prefix.boxShadow "none"
             , children
                 [ typeSelector "button"
                     [ -- .ui.labeled.button > .button
