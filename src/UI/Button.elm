@@ -108,54 +108,57 @@ type alias Options =
 
 buttonWithOption : Options -> List (Attribute msg) -> List (Html msg) -> Html msg
 buttonWithOption options =
-    basis
-        [ -- .ui.xxx.button
-          palette <|
+    let
+        ( palette_, paletteOnHover, paletteOnFocus ) =
             case options.palette of
                 Modifier.Primary ->
-                    primary
+                    ( primary, primaryOnHover, primaryOnFocus )
 
                 Modifier.Secondary ->
-                    secondary
+                    ( secondary, secondaryOnHover, secondaryOnFocus )
 
                 Modifier.Red ->
-                    red
+                    ( red, redOnHover, redOnFocus )
 
                 Modifier.Orange ->
-                    orange
+                    ( orange, orangeOnHover, orangeOnFocus )
 
                 Modifier.Yellow ->
-                    yellow
+                    ( yellow, yellowOnHover, yellowOnFocus )
 
                 Modifier.Olive ->
-                    olive
+                    ( olive, oliveOnHover, oliveOnFocus )
 
                 Modifier.Green ->
-                    green
+                    ( green, greenOnHover, greenOnFocus )
 
                 Modifier.Teal ->
-                    teal
+                    ( teal, tealOnHover, tealOnFocus )
 
                 Modifier.Blue ->
-                    blue
+                    ( blue, blueOnHover, blueOnFocus )
 
                 Modifier.Violet ->
-                    violet
+                    ( violet, violetOnHover, violetOnFocus )
 
                 Modifier.Purple ->
-                    purple
+                    ( purple, purpleOnHover, purpleOnFocus )
 
                 Modifier.Pink ->
-                    pink
+                    ( pink, pinkOnHover, pinkOnFocus )
 
                 Modifier.Brown ->
-                    brown
+                    ( brown, brownOnHover, brownOnFocus )
 
                 Modifier.Grey ->
-                    grey
+                    ( grey, greyOnHover, greyOnFocus )
 
                 Modifier.Black ->
-                    black
+                    ( black, blackOnHover, blackOnFocus )
+    in
+    basis
+        [ -- .ui.xxx.button
+          palette palette_
         , textShadow none
         , backgroundImage none
 
@@ -164,102 +167,13 @@ buttonWithOption options =
 
         -- .ui.xxx.button:hover
         , hover
-            [ palette <|
-                case options.palette of
-                    Modifier.Primary ->
-                        primaryOnHover
-
-                    Modifier.Secondary ->
-                        secondaryOnHover
-
-                    Modifier.Red ->
-                        redOnHover
-
-                    Modifier.Orange ->
-                        orangeOnHover
-
-                    Modifier.Yellow ->
-                        yellowOnHover
-
-                    Modifier.Olive ->
-                        oliveOnHover
-
-                    Modifier.Green ->
-                        greenOnHover
-
-                    Modifier.Teal ->
-                        tealOnHover
-
-                    Modifier.Blue ->
-                        blueOnHover
-
-                    Modifier.Violet ->
-                        violetOnHover
-
-                    Modifier.Purple ->
-                        purpleOnHover
-
-                    Modifier.Pink ->
-                        pinkOnHover
-
-                    Modifier.Brown ->
-                        brownOnHover
-
-                    Modifier.Grey ->
-                        greyOnHover
-
-                    Modifier.Black ->
-                        blackOnHover
+            [ palette paletteOnHover
             , textShadow none
             ]
 
         -- .ui.xxx.button:focus
         , focus
-            [ case options.palette of
-                Modifier.Primary ->
-                    palette primaryOnFocus
-
-                Modifier.Secondary ->
-                    palette secondaryOnFocus
-
-                Modifier.Red ->
-                    palette redOnFocus
-
-                Modifier.Orange ->
-                    palette orangeOnFocus
-
-                Modifier.Yellow ->
-                    palette yellowOnFocus
-
-                Modifier.Olive ->
-                    palette oliveOnFocus
-
-                Modifier.Green ->
-                    palette greenOnFocus
-
-                Modifier.Teal ->
-                    palette tealOnFocus
-
-                Modifier.Blue ->
-                    palette blueOnFocus
-
-                Modifier.Violet ->
-                    palette violetOnFocus
-
-                Modifier.Purple ->
-                    palette purpleOnFocus
-
-                Modifier.Pink ->
-                    palette pinkOnFocus
-
-                Modifier.Brown ->
-                    palette brownOnFocus
-
-                Modifier.Grey ->
-                    palette greyOnFocus
-
-                Modifier.Black ->
-                    palette blackOnFocus
+            [ palette paletteOnFocus
             , textShadow none
             ]
         ]
