@@ -6,11 +6,17 @@ import Css.Global exposing (children, selector, typeSelector)
 import Css.Prefix as Prefix
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes exposing (css)
+import Maybe.Extra as Maybe
 import UI.Modifier as Modifier
 
 
-basis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-basis additionalStyles =
+basis :
+    Maybe { default : Palette, onHover : Palette, onFocus : Palette }
+    -> List Style
+    -> List (Attribute msg)
+    -> List (Html msg)
+    -> Html msg
+basis maybeOptions additionalStyles =
     Html.styled Html.button <|
         [ -- .ui.button
           cursor pointer
@@ -19,7 +25,7 @@ basis additionalStyles =
         , outline none
         , borderStyle none
         , verticalAlign baseline
-        , palette basis_
+        , palette <| Maybe.unwrap basis_ .default maybeOptions
         , fontFamilies Modifier.fontFamilies
         , margin4 zero (em 0.25) zero zero
         , padding3 (em 0.78571429) (em 1.5) (em 0.78571429)
@@ -42,21 +48,21 @@ basis additionalStyles =
 
         -- .ui.button:hover
         , hover
-            [ palette basisOnHover
+            [ palette <| Maybe.unwrap basisOnHover .onHover maybeOptions
             , backgroundImage none
             , Prefix.boxShadow "0 0 0 1px transparent inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
             ]
 
         -- .ui.button:focus
         , focus
-            [ palette basisOnFocus
+            [ palette <| Maybe.unwrap basisOnFocus .onFocus maybeOptions
             , backgroundImage none
             , Prefix.boxShadow ""
             ]
 
         -- .ui.button:active
         , active
-            [ palette basisOnActive
+            [ Maybe.withDefault (palette basisOnActive) <| Maybe.map (\_ -> Css.Extra.none) maybeOptions
             , backgroundImage none
             , Prefix.boxShadow "0 0 0 1px transparent inset, none"
             ]
@@ -78,15 +84,14 @@ basis additionalStyles =
 
 button : List (Attribute msg) -> List (Html msg) -> Html msg
 button =
-    basis []
+    basis Nothing []
 
 
 basicButton : List (Attribute msg) -> List (Html msg) -> Html msg
 basicButton =
-    basis
+    basis (Just { default = basic, onHover = basicOnHover, onFocus = basicOnFocus })
         [ -- .ui.basic.button
           property "background" "transparent none"
-        , palette basic
         , fontWeight normal
         , borderRadius (rem 0.28571429)
         , textTransform none
@@ -94,11 +99,9 @@ basicButton =
         , Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.15) inset"
 
         -- .ui.basic.button:hover
-        , palette basicOnHover
         , Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
 
         -- .ui.basic.button:focus
-        , palette basicOnFocus
         , Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
         ]
 
@@ -110,57 +113,56 @@ type alias Options =
 buttonWithOption : Options -> List (Attribute msg) -> List (Html msg) -> Html msg
 buttonWithOption options =
     let
-        ( palette_, paletteOnHover, paletteOnFocus ) =
+        palette_ =
             case options.palette of
                 Modifier.Primary ->
-                    ( primary, primaryOnHover, primaryOnFocus )
+                    { default = primary, onHover = primaryOnHover, onFocus = primaryOnFocus }
 
                 Modifier.Secondary ->
-                    ( secondary, secondaryOnHover, secondaryOnFocus )
+                    { default = secondary, onHover = secondaryOnHover, onFocus = secondaryOnFocus }
 
                 Modifier.Red ->
-                    ( red, redOnHover, redOnFocus )
+                    { default = red, onHover = redOnHover, onFocus = redOnFocus }
 
                 Modifier.Orange ->
-                    ( orange, orangeOnHover, orangeOnFocus )
+                    { default = orange, onHover = orangeOnHover, onFocus = orangeOnFocus }
 
                 Modifier.Yellow ->
-                    ( yellow, yellowOnHover, yellowOnFocus )
+                    { default = yellow, onHover = yellowOnHover, onFocus = yellowOnFocus }
 
                 Modifier.Olive ->
-                    ( olive, oliveOnHover, oliveOnFocus )
+                    { default = olive, onHover = oliveOnHover, onFocus = oliveOnFocus }
 
                 Modifier.Green ->
-                    ( green, greenOnHover, greenOnFocus )
+                    { default = green, onHover = greenOnHover, onFocus = greenOnFocus }
 
                 Modifier.Teal ->
-                    ( teal, tealOnHover, tealOnFocus )
+                    { default = teal, onHover = tealOnHover, onFocus = tealOnFocus }
 
                 Modifier.Blue ->
-                    ( blue, blueOnHover, blueOnFocus )
+                    { default = blue, onHover = blueOnHover, onFocus = blueOnFocus }
 
                 Modifier.Violet ->
-                    ( violet, violetOnHover, violetOnFocus )
+                    { default = violet, onHover = violetOnHover, onFocus = violetOnFocus }
 
                 Modifier.Purple ->
-                    ( purple, purpleOnHover, purpleOnFocus )
+                    { default = purple, onHover = purpleOnHover, onFocus = purpleOnFocus }
 
                 Modifier.Pink ->
-                    ( pink, pinkOnHover, pinkOnFocus )
+                    { default = pink, onHover = pinkOnHover, onFocus = pinkOnFocus }
 
                 Modifier.Brown ->
-                    ( brown, brownOnHover, brownOnFocus )
+                    { default = brown, onHover = brownOnHover, onFocus = brownOnFocus }
 
                 Modifier.Grey ->
-                    ( grey, greyOnHover, greyOnFocus )
+                    { default = grey, onHover = greyOnHover, onFocus = greyOnFocus }
 
                 Modifier.Black ->
-                    ( black, blackOnHover, blackOnFocus )
+                    { default = black, onHover = blackOnHover, onFocus = blackOnFocus }
     in
-    basis
+    basis (Just palette_)
         [ -- .ui.xxx.button
-          palette palette_
-        , textShadow none
+          textShadow none
         , backgroundImage none
 
         -- .ui.xxx.button
@@ -168,15 +170,11 @@ buttonWithOption options =
 
         -- .ui.xxx.button:hover
         , hover
-            [ palette paletteOnHover
-            , textShadow none
-            ]
+            [ textShadow none ]
 
         -- .ui.xxx.button:focus
         , focus
-            [ palette paletteOnFocus
-            , textShadow none
-            ]
+            [ textShadow none ]
         ]
 
 

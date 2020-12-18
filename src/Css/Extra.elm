@@ -1,4 +1,4 @@
-module Css.Extra exposing (Palette, palette, transparent_)
+module Css.Extra exposing (Palette, none, palette, transparent_)
 
 import Css exposing (..)
 
