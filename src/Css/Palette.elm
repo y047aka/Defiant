@@ -45,6 +45,7 @@ import Css exposing (Color, hex)
 type alias Palette =
     { background : Color
     , color : Color
+    , border : Color
     }
 
 
@@ -52,6 +53,7 @@ empty : Palette
 empty =
     { background = transparent_
     , color = transparent_
+    , border = transparent_
     }
 
 
@@ -101,7 +103,10 @@ secondaryOnFocus =
 
 red : Palette
 red =
-    { colored | background = hex "#DB2828" }
+    { colored
+        | background = hex "#DB2828"
+        , border = hex "#DB2828"
+    }
 
 
 redOnHover : Palette
@@ -116,7 +121,10 @@ redOnFocus =
 
 orange : Palette
 orange =
-    { colored | background = hex "#F2711C" }
+    { colored
+        | background = hex "#F2711C"
+        , border = hex "#F2711C"
+    }
 
 
 orangeOnHover : Palette
@@ -131,7 +139,10 @@ orangeOnFocus =
 
 yellow : Palette
 yellow =
-    { colored | background = hex "#FBBD08" }
+    { colored
+        | background = hex "#FBBD08"
+        , border = hex "#FBBD08"
+    }
 
 
 yellowOnHover : Palette
@@ -146,7 +157,10 @@ yellowOnFocus =
 
 olive : Palette
 olive =
-    { colored | background = hex "#B5CC18" }
+    { colored
+        | background = hex "#B5CC18"
+        , border = hex "#B5CC18"
+    }
 
 
 oliveOnHover : Palette
@@ -161,7 +175,10 @@ oliveOnFocus =
 
 green : Palette
 green =
-    { colored | background = hex "#21BA45" }
+    { colored
+        | background = hex "#21BA45"
+        , border = hex "#21BA45"
+    }
 
 
 greenOnHover : Palette
@@ -176,7 +193,10 @@ greenOnFocus =
 
 teal : Palette
 teal =
-    { colored | background = hex "#00B5AD" }
+    { colored
+        | background = hex "#00B5AD"
+        , border = hex "#00B5AD"
+    }
 
 
 tealOnHover : Palette
@@ -191,7 +211,10 @@ tealOnFocus =
 
 blue : Palette
 blue =
-    { colored | background = hex "#2185D0" }
+    { colored
+        | background = hex "#2185D0"
+        , border = hex "#2185D0"
+    }
 
 
 blueOnHover : Palette
@@ -206,7 +229,10 @@ blueOnFocus =
 
 violet : Palette
 violet =
-    { colored | background = hex "#6435C9" }
+    { colored
+        | background = hex "#6435C9"
+        , border = hex "#6435C9"
+    }
 
 
 violetOnHover : Palette
@@ -221,7 +247,10 @@ violetOnFocus =
 
 purple : Palette
 purple =
-    { colored | background = hex "#A333C8" }
+    { colored
+        | background = hex "#A333C8"
+        , border = hex "#A333C8"
+    }
 
 
 purpleOnHover : Palette
@@ -236,7 +265,10 @@ purpleOnFocus =
 
 pink : Palette
 pink =
-    { colored | background = hex "#E03997" }
+    { colored
+        | background = hex "#E03997"
+        , border = hex "#E03997"
+    }
 
 
 pinkOnHover : Palette
@@ -251,7 +283,10 @@ pinkOnFocus =
 
 brown : Palette
 brown =
-    { colored | background = hex "#A5673F" }
+    { colored
+        | background = hex "#A5673F"
+        , border = hex "#A5673F"
+    }
 
 
 brownOnHover : Palette
@@ -266,7 +301,10 @@ brownOnFocus =
 
 grey : Palette
 grey =
-    { colored | background = hex "#767676" }
+    { colored
+        | background = hex "#767676"
+        , border = hex "#767676"
+    }
 
 
 greyOnHover : Palette
@@ -281,7 +319,10 @@ greyOnFocus =
 
 black : Palette
 black =
-    { colored | background = hex "#1B1C1D" }
+    { colored
+        | background = hex "#1B1C1D"
+        , border = hex "#1B1C1D"
+    }
 
 
 blackOnHover : Palette

@@ -1,6 +1,8 @@
 module UI.Label exposing (Options, basicLabel, label, labelWithOption)
 
 import Css exposing (..)
+import Css.Extra exposing (palette)
+import Css.Palette exposing (..)
 import Html.Styled as Html exposing (Attribute, Html)
 import UI.Modifier exposing (Palette(..))
 
@@ -66,110 +68,53 @@ type alias Options =
 
 
 labelWithOption : Options -> List (Attribute msg) -> List (Html msg) -> Html msg
-labelWithOption { palette } =
-    basis <|
-        case palette of
-            Primary ->
-                [ -- .ui.primary.label
-                  backgroundColor (hex "#2185D0")
-                , borderColor (hex "#2185D0")
-                , color (rgba 255 255 255 0.9)
-                ]
+labelWithOption options =
+    basis
+        [ -- .ui.xxx.label
+          palette <|
+            case options.palette of
+                Primary ->
+                    { primary | color = rgba 255 255 255 0.9 }
 
-            Secondary ->
-                [ -- .ui.secondary.label
-                  backgroundColor (hex "#1B1C1D")
-                , borderColor (hex "#1B1C1D")
-                , color (rgba 255 255 255 0.9)
-                ]
+                Secondary ->
+                    { secondary | color = rgba 255 255 255 0.9 }
 
-            Red ->
-                [ -- .ui.red.label
-                  backgroundColor (hex "#DB2828")
-                , borderColor (hex "#DB2828")
-                , color (hex "#FFFFFF")
-                ]
+                Red ->
+                    red
 
-            Orange ->
-                [ -- .ui.red.label
-                  backgroundColor (hex "#F2711C")
-                , borderColor (hex "#F2711C")
-                , color (hex "#FFFFFF")
-                ]
+                Orange ->
+                    orange
 
-            Yellow ->
-                [ -- .ui.yellow.label
-                  backgroundColor (hex "#FBBD08")
-                , borderColor (hex "#FBBD08")
-                , color (hex "#FFFFFF")
-                ]
+                Yellow ->
+                    yellow
 
-            Olive ->
-                [ -- .ui.olive.label
-                  backgroundColor (hex "#B5CC18")
-                , borderColor (hex "#B5CC18")
-                , color (hex "#FFFFFF")
-                ]
+                Olive ->
+                    olive
 
-            Green ->
-                [ -- .ui.green.label
-                  backgroundColor (hex "#21BA45")
-                , borderColor (hex "#21BA45")
-                , color (hex "#FFFFFF")
-                ]
+                Green ->
+                    green
 
-            Teal ->
-                [ -- .ui.teal.label
-                  backgroundColor (hex "#00B5AD")
-                , borderColor (hex "#00B5AD")
-                , color (hex "#FFFFFF")
-                ]
+                Teal ->
+                    teal
 
-            Blue ->
-                [ -- .ui.blue.label
-                  backgroundColor (hex "#2185D0")
-                , borderColor (hex "#2185D0")
-                , color (hex "#FFFFFF")
-                ]
+                Blue ->
+                    blue
 
-            Violet ->
-                [ -- .ui.violet.label
-                  backgroundColor (hex "#6435C9")
-                , borderColor (hex "#6435C9")
-                , color (hex "#FFFFFF")
-                ]
+                Violet ->
+                    violet
 
-            Purple ->
-                [ -- .ui.purple.label
-                  backgroundColor (hex "#A333C8")
-                , borderColor (hex "#A333C8")
-                , color (hex "#FFFFFF")
-                ]
+                Purple ->
+                    purple
 
-            Pink ->
-                [ -- .ui.pink.label
-                  backgroundColor (hex "#E03997")
-                , borderColor (hex "#E03997")
-                , color (hex "#FFFFFF")
-                ]
+                Pink ->
+                    pink
 
-            Brown ->
-                [ -- .ui.brown.label
-                  backgroundColor (hex "#A5673F")
-                , borderColor (hex "#A5673F")
-                , color (hex "#FFFFFF")
-                ]
+                Brown ->
+                    brown
 
-            Grey ->
-                [ -- .ui.grey.label
-                  backgroundColor (hex "#767676")
-                , borderColor (hex "#767676")
-                , color (hex "#FFFFFF")
-                ]
+                Grey ->
+                    grey
 
-            Black ->
-                [ -- .ui.black.label
-                  backgroundColor (hex "#1B1C1D")
-                , borderColor (hex "#1B1C1D")
-                , color (hex "#FFFFFF")
-                ]
+                Black ->
+                    black
+        ]

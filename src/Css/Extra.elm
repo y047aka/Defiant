@@ -9,8 +9,7 @@ palette p =
     batch
         [ whenStyle (p.background /= transparent_) <| backgroundColor p.background
         , whenStyle (p.color /= transparent_) <| color p.color
-
-        -- , whenStyle (p.border /= transparent_) <| borderColor p.border
+        , whenStyle (p.border /= transparent_) <| borderColor p.border
         ]
 
 

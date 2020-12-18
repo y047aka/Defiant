@@ -280,13 +280,15 @@ basis_ : Palette
 basis_ =
     { background = hex "#E0E1E2"
     , color = textColor
+    , border = transparent_
     }
 
 
 basisOnHover : Palette
 basisOnHover =
-    { background = hex "#CACBCD"
-    , color = hoverColor
+    { basis_
+        | background = hex "#CACBCD"
+        , color = hoverColor
     }
 
 
@@ -297,8 +299,9 @@ basisOnFocus =
 
 basisOnActive : Palette
 basisOnActive =
-    { background = hex "#BABBBC"
-    , color = rgba 0 0 0 0.9
+    { basis_
+        | background = hex "#BABBBC"
+        , color = rgba 0 0 0 0.9
     }
 
 
@@ -310,13 +313,15 @@ basic : Palette
 basic =
     { background = rgba 0 0 0 0
     , color = textColor
+    , border = transparent_
     }
 
 
 basicOnHover : Palette
 basicOnHover =
-    { background = hex "#FFFFFF"
-    , color = hoverColor
+    { basic
+        | background = hex "#FFFFFF"
+        , color = hoverColor
     }
 
 
