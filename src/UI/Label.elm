@@ -4,21 +4,20 @@ import Css exposing (..)
 import Css.Extra exposing (palette)
 import Css.Palette exposing (..)
 import Html.Styled as Html exposing (Attribute, Html)
-import UI.Modifier exposing (Palette(..))
+import UI.Modifier as Modifier
 
 
-basis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-basis additionalStyles =
+basis : Maybe Palette -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+basis maybePalette additionalStyles =
     Html.styled Html.div <|
         [ -- .ui.label
           display inlineBlock
         , lineHeight (int 1)
         , verticalAlign baseline
         , margin2 zero (em 0.14285714)
-        , backgroundColor (hex "#E8E8E8")
         , backgroundImage none
+        , palette <| Maybe.withDefault basis_ maybePalette
         , padding2 (em 0.5833) (em 0.833)
-        , color (rgba 0 0 0 0.6)
         , textTransform none
         , fontWeight bold
         , border3 zero solid transparent
@@ -42,16 +41,14 @@ basis additionalStyles =
 
 label : List (Attribute msg) -> List (Html msg) -> Html msg
 label =
-    basis []
+    basis Nothing []
 
 
 basicLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 basicLabel =
-    basis
+    basis (Just basic)
         [ -- .ui.basic.label
-          backgroundColor (hex "#FFFFFF")
-        , border3 (px 1) solid (rgba 34 36 38 0.15)
-        , color (rgba 0 0 0 0.87)
+          border3 (px 1) solid (rgba 34 36 38 0.15)
         , property "-webkit-box-shadow" "none"
         , boxShadow none
         , paddingTop <| em 0.5833
@@ -64,57 +61,77 @@ basicLabel =
 
 
 type alias Options =
-    { palette : Palette }
+    { palette : Modifier.Palette }
 
 
 labelWithOption : Options -> List (Attribute msg) -> List (Html msg) -> Html msg
 labelWithOption options =
-    basis
-        [ -- .ui.xxx.label
-          palette <|
+    let
+        palette_ =
             case options.palette of
-                Primary ->
+                Modifier.Primary ->
                     { primary | color = rgba 255 255 255 0.9 }
 
-                Secondary ->
+                Modifier.Secondary ->
                     { secondary | color = rgba 255 255 255 0.9 }
 
-                Red ->
+                Modifier.Red ->
                     red
 
-                Orange ->
+                Modifier.Orange ->
                     orange
 
-                Yellow ->
+                Modifier.Yellow ->
                     yellow
 
-                Olive ->
+                Modifier.Olive ->
                     olive
 
-                Green ->
+                Modifier.Green ->
                     green
 
-                Teal ->
+                Modifier.Teal ->
                     teal
 
-                Blue ->
+                Modifier.Blue ->
                     blue
 
-                Violet ->
+                Modifier.Violet ->
                     violet
 
-                Purple ->
+                Modifier.Purple ->
                     purple
 
-                Pink ->
+                Modifier.Pink ->
                     pink
 
-                Brown ->
+                Modifier.Brown ->
                     brown
 
-                Grey ->
+                Modifier.Grey ->
                     grey
 
-                Black ->
+                Modifier.Black ->
                     black
-        ]
+    in
+    basis (Just palette_) []
+
+
+
+-- PALETTE
+
+
+basis_ : Palette
+basis_ =
+    { background = hex "#E8E8E8"
+    , color = textColor
+    , border = transparent_
+    }
+
+
+basic : Palette
+basic =
+    { background = hex "#FFFFFF"
+    , color = rgba 0 0 0 0.87
+    , border = transparent_
+    }

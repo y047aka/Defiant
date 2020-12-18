@@ -268,14 +268,6 @@ labeledButton attributes =
 -- PALETTE
 
 
-textColor =
-    rgba 0 0 0 0.6
-
-
-hoverColor =
-    rgba 0 0 0 0.8
-
-
 basis_ : Palette
 basis_ =
     { background = hex "#E0E1E2"
@@ -303,10 +295,6 @@ basisOnActive =
         | background = hex "#BABBBC"
         , color = rgba 0 0 0 0.9
     }
-
-
-
--- BASIC
 
 
 basic : Palette

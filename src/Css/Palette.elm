@@ -15,7 +15,7 @@ module Css.Palette exposing
     , brown, brownOnHover, brownOnFocus
     , grey, greyOnHover, greyOnFocus
     , black, blackOnHover, blackOnFocus
-    , transparent_
+    , transparent_, textColor, hoverColor
     )
 
 {-|
@@ -36,10 +36,11 @@ module Css.Palette exposing
 @docs brown, brownOnHover, brownOnFocus
 @docs grey, greyOnHover, greyOnFocus
 @docs black, blackOnHover, blackOnFocus
+@docs transparent_, textColor, hoverColor
 
 -}
 
-import Css exposing (Color, hex)
+import Css exposing (Color, hex, rgba)
 
 
 type alias Palette =
@@ -55,11 +56,6 @@ empty =
     , color = transparent_
     , border = transparent_
     }
-
-
-transparent_ : Color
-transparent_ =
-    Css.rgba 0 0 0 0
 
 
 
@@ -333,3 +329,22 @@ blackOnHover =
 blackOnFocus : Palette
 blackOnFocus =
     { black | background = hex "#2f3032" }
+
+
+
+-- COLOR
+
+
+transparent_ : Color
+transparent_ =
+    Css.rgba 0 0 0 0
+
+
+textColor : Color
+textColor =
+    rgba 0 0 0 0.6
+
+
+hoverColor : Color
+hoverColor =
+    rgba 0 0 0 0.8
