@@ -86,6 +86,7 @@ basicButton =
     basis
         [ -- .ui.basic.button
           property "background" "transparent none"
+        , palette basic
         , fontWeight normal
         , borderRadius (rem 0.28571429)
         , textTransform none
