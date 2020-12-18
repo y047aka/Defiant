@@ -1,12 +1,7 @@
-module Css.Extra exposing (Palette, none, palette, transparent_)
+module Css.Extra exposing (none, palette)
 
 import Css exposing (..)
-
-
-type alias Palette =
-    { background : Color
-    , color : Color
-    }
+import Css.Palette exposing (Palette, transparent_)
 
 
 palette : Palette -> Style
@@ -17,11 +12,6 @@ palette p =
 
         -- , whenStyle (p.border /= transparent_) <| borderColor p.border
         ]
-
-
-transparent_ : Color
-transparent_ =
-    Css.rgba 0 0 0 0
 
 
 
