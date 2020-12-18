@@ -1,10 +1,21 @@
-module UI.Label exposing (Options, basicLabel, label, labelWithOption)
+module UI.Label exposing
+    ( label, basicLabel
+    , primaryLabel, secondaryLabel
+    , redLabel, orangeLabel, yellowLabel, oliveLabel, greenLabel, tealLabel, blueLabel, violetLabel, purpleLabel, pinkLabel, brownLabel, greyLabel, blackLabel
+    )
+
+{-|
+
+@docs label, basicLabel
+@docs primaryLabel, secondaryLabel
+@docs redLabel, orangeLabel, yellowLabel, oliveLabel, greenLabel, tealLabel, blueLabel, violetLabel, purpleLabel, pinkLabel, brownLabel, greyLabel, blackLabel
+
+-}
 
 import Css exposing (..)
 import Css.Extra exposing (palette)
 import Css.Palette exposing (..)
 import Html.Styled as Html exposing (Attribute, Html)
-import UI.Modifier as Modifier
 
 
 basis : Maybe Palette -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -60,61 +71,84 @@ basicLabel =
         ]
 
 
-type alias Options =
-    { palette : Modifier.Palette }
+coloredLabel : Palette -> List (Attribute msg) -> List (Html msg) -> Html msg
+coloredLabel palettes =
+    basis (Just palettes) []
 
 
-labelWithOption : Options -> List (Attribute msg) -> List (Html msg) -> Html msg
-labelWithOption options =
-    let
-        palette_ =
-            case options.palette of
-                Modifier.Primary ->
-                    { primary | color = rgba 255 255 255 0.9 }
+primaryLabel : List (Attribute msg) -> List (Html msg) -> Html msg
+primaryLabel =
+    coloredLabel { primary | color = rgba 255 255 255 0.9 }
 
-                Modifier.Secondary ->
-                    { secondary | color = rgba 255 255 255 0.9 }
 
-                Modifier.Red ->
-                    red
+secondaryLabel : List (Attribute msg) -> List (Html msg) -> Html msg
+secondaryLabel =
+    coloredLabel { secondary | color = rgba 255 255 255 0.9 }
 
-                Modifier.Orange ->
-                    orange
 
-                Modifier.Yellow ->
-                    yellow
+redLabel : List (Attribute msg) -> List (Html msg) -> Html msg
+redLabel =
+    coloredLabel red
 
-                Modifier.Olive ->
-                    olive
 
-                Modifier.Green ->
-                    green
+orangeLabel : List (Attribute msg) -> List (Html msg) -> Html msg
+orangeLabel =
+    coloredLabel orange
 
-                Modifier.Teal ->
-                    teal
 
-                Modifier.Blue ->
-                    blue
+yellowLabel : List (Attribute msg) -> List (Html msg) -> Html msg
+yellowLabel =
+    coloredLabel yellow
 
-                Modifier.Violet ->
-                    violet
 
-                Modifier.Purple ->
-                    purple
+oliveLabel : List (Attribute msg) -> List (Html msg) -> Html msg
+oliveLabel =
+    coloredLabel olive
 
-                Modifier.Pink ->
-                    pink
 
-                Modifier.Brown ->
-                    brown
+greenLabel : List (Attribute msg) -> List (Html msg) -> Html msg
+greenLabel =
+    coloredLabel green
 
-                Modifier.Grey ->
-                    grey
 
-                Modifier.Black ->
-                    black
-    in
-    basis (Just palette_) []
+tealLabel : List (Attribute msg) -> List (Html msg) -> Html msg
+tealLabel =
+    coloredLabel teal
+
+
+blueLabel : List (Attribute msg) -> List (Html msg) -> Html msg
+blueLabel =
+    coloredLabel blue
+
+
+violetLabel : List (Attribute msg) -> List (Html msg) -> Html msg
+violetLabel =
+    coloredLabel violet
+
+
+purpleLabel : List (Attribute msg) -> List (Html msg) -> Html msg
+purpleLabel =
+    coloredLabel purple
+
+
+pinkLabel : List (Attribute msg) -> List (Html msg) -> Html msg
+pinkLabel =
+    coloredLabel pink
+
+
+brownLabel : List (Attribute msg) -> List (Html msg) -> Html msg
+brownLabel =
+    coloredLabel brown
+
+
+greyLabel : List (Attribute msg) -> List (Html msg) -> Html msg
+greyLabel =
+    coloredLabel grey
+
+
+blackLabel : List (Attribute msg) -> List (Html msg) -> Html msg
+blackLabel =
+    coloredLabel black
 
 
 

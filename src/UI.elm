@@ -1,15 +1,15 @@
 module UI exposing
-    ( button, basicButton, buttonWithOption, labeledButton
+    ( button, basicButton, labeledButton
     , header
-    , label, basicLabel, labelWithOption
+    , label, basicLabel
     , section
     )
 
 {-|
 
-@docs button, basicButton, buttonWithOption, labeledButton
+@docs button, basicButton, labeledButton
 @docs header
-@docs label, basicLabel, labelWithOption
+@docs label, basicLabel
 @docs primaryLabel, secondaryLabel
 @docs section
 
@@ -35,11 +35,6 @@ button =
 basicButton : List (Attribute msg) -> List (Html msg) -> Html msg
 basicButton =
     Button.basicButton
-
-
-buttonWithOption : Label.Options -> List (Attribute msg) -> List (Html msg) -> Html msg
-buttonWithOption options =
-    Button.buttonWithOption options
 
 
 labeledButton : List (Attribute msg) -> List (Html msg) -> Html msg
@@ -68,11 +63,6 @@ label =
 basicLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 basicLabel =
     Label.basicLabel
-
-
-labelWithOption : Label.Options -> List (Attribute msg) -> List (Html msg) -> Html msg
-labelWithOption options =
-    Label.labelWithOption options
 
 
 

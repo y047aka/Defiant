@@ -7,6 +7,8 @@ import Html.Styled exposing (div, main_, p, text, toUnstyled)
 import Html.Styled.Attributes exposing (css)
 import Html.Styled.Events exposing (onClick)
 import UI exposing (..)
+import UI.Button exposing (blackButton, blueButton, brownButton, greenButton, greyButton, oliveButton, orangeButton, pinkButton, primaryButton, purpleButton, redButton, secondaryButton, tealButton, violetButton, yellowButton)
+import UI.Label exposing (blackLabel, blueLabel, brownLabel, greenLabel, greyLabel, oliveLabel, orangeLabel, pinkLabel, primaryLabel, purpleLabel, redLabel, secondaryLabel, tealLabel, violetLabel, yellowLabel)
 import UI.Modifier exposing (Palette(..))
 
 
@@ -110,24 +112,22 @@ view model =
                     [ header [] [ text "Colored" ]
                     , p [] [ text "A button can have different colors" ]
                     ]
-                        ++ List.map
-                            (\item -> buttonWithOption { palette = item.palette } [] [ text item.label ])
-                            [ { label = "Primary", palette = Primary }
-                            , { label = "Secondary", palette = Secondary }
-                            , { label = "Red", palette = Red }
-                            , { label = "Orange", palette = Orange }
-                            , { label = "Yellow", palette = Yellow }
-                            , { label = "Olive", palette = Olive }
-                            , { label = "Green", palette = Green }
-                            , { label = "Teal", palette = Teal }
-                            , { label = "Blue", palette = Blue }
-                            , { label = "Violet", palette = Violet }
-                            , { label = "Purple", palette = Purple }
-                            , { label = "Pink", palette = Pink }
-                            , { label = "Brown", palette = Brown }
-                            , { label = "Grey", palette = Grey }
-                            , { label = "Black", palette = Black }
-                            ]
+                        ++ [ primaryButton [] [ text "Primary" ]
+                           , secondaryButton [] [ text "Secondary" ]
+                           , redButton [] [ text "Red" ]
+                           , orangeButton [] [ text "Orange" ]
+                           , yellowButton [] [ text "Yellow" ]
+                           , oliveButton [] [ text "Olive" ]
+                           , greenButton [] [ text "Green" ]
+                           , tealButton [] [ text "Teal" ]
+                           , blueButton [] [ text "Blue" ]
+                           , violetButton [] [ text "Violet" ]
+                           , purpleButton [] [ text "Purple" ]
+                           , pinkButton [] [ text "Pink" ]
+                           , brownButton [] [ text "Brown" ]
+                           , greyButton [] [ text "Grey" ]
+                           , blackButton [] [ text "Black" ]
+                           ]
                 ]
             , section []
                 [ example []
@@ -144,23 +144,21 @@ view model =
                     [ header [] [ text "Colored" ]
                     , p [] [ text "A label can have different colors" ]
                     ]
-                        ++ List.map
-                            (\item -> labelWithOption { palette = item.palette } [] [ text item.label ])
-                            [ { label = "Primary", palette = Primary }
-                            , { label = "Secondary", palette = Secondary }
-                            , { label = "Red", palette = Red }
-                            , { label = "Orange", palette = Orange }
-                            , { label = "Yellow", palette = Yellow }
-                            , { label = "Olive", palette = Olive }
-                            , { label = "Green", palette = Green }
-                            , { label = "Teal", palette = Teal }
-                            , { label = "Blue", palette = Blue }
-                            , { label = "Violet", palette = Violet }
-                            , { label = "Purple", palette = Purple }
-                            , { label = "Pink", palette = Pink }
-                            , { label = "Brown", palette = Brown }
-                            , { label = "Grey", palette = Grey }
-                            , { label = "Black", palette = Black }
-                            ]
+                        ++ [ primaryLabel [] [ text "Primary" ]
+                           , secondaryLabel [] [ text "Secondary" ]
+                           , redLabel [] [ text "Red" ]
+                           , orangeLabel [] [ text "Orange" ]
+                           , yellowLabel [] [ text "Yellow" ]
+                           , oliveLabel [] [ text "Olive" ]
+                           , greenLabel [] [ text "Green" ]
+                           , tealLabel [] [ text "Teal" ]
+                           , blueLabel [] [ text "Blue" ]
+                           , violetLabel [] [ text "Violet" ]
+                           , purpleLabel [] [ text "Purple" ]
+                           , pinkLabel [] [ text "Pink" ]
+                           , brownLabel [] [ text "Brown" ]
+                           , greyLabel [] [ text "Grey" ]
+                           , blackLabel [] [ text "Black" ]
+                           ]
                 ]
             ]
