@@ -7,8 +7,8 @@ import Html.Styled exposing (div, main_, p, text, toUnstyled)
 import Html.Styled.Attributes exposing (css)
 import Html.Styled.Events exposing (onClick)
 import UI exposing (..)
-import UI.Button exposing (blackButton, blueButton, brownButton, greenButton, greyButton, oliveButton, orangeButton, pinkButton, primaryButton, purpleButton, redButton, secondaryButton, tealButton, violetButton, yellowButton)
-import UI.Label exposing (blackLabel, blueLabel, brownLabel, greenLabel, greyLabel, oliveLabel, orangeLabel, pinkLabel, primaryLabel, purpleLabel, redLabel, secondaryLabel, tealLabel, violetLabel, yellowLabel)
+import UI.Button exposing (..)
+import UI.Label exposing (..)
 import UI.Modifier exposing (Palette(..))
 
 
