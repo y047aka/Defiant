@@ -8,6 +8,7 @@ import Html.Styled.Attributes exposing (css)
 import Html.Styled.Events exposing (onClick)
 import UI exposing (..)
 import UI.Button exposing (..)
+import UI.Header exposing (..)
 import UI.Label exposing (..)
 import UI.Modifier exposing (Palette(..))
 import UI.Table exposing (..)
@@ -67,6 +68,7 @@ view model =
     toUnstyled <|
         main_ []
             [ sectionForButtons model
+            , sectionForHeaders
             , sectionForLabels
             , sectionForTables
             ]
@@ -126,6 +128,32 @@ sectionForButtons model =
                    , greyButton [] [ text "Grey" ]
                    , blackButton [] [ text "Black" ]
                    ]
+        ]
+
+
+sectionForHeaders : Html Msg
+sectionForHeaders =
+    section []
+        [ example []
+            [ header [] [ text "Content Headers" ]
+            , p [] [ text "Headers may be oriented to give the importance of a section in the context of the content that surrounds it" ]
+            , massiveHeader [] [ text "Massive Header" ]
+            , wireframeParagraph
+            , hugeHeader [] [ text "Huge Header" ]
+            , wireframeParagraph
+            , bigHeader [] [ text "Big Header" ]
+            , wireframeParagraph
+            , largeHeader [] [ text "Large Header" ]
+            , wireframeParagraph
+            , mediumHeader [] [ text "Medium Header" ]
+            , wireframeParagraph
+            , smallHeader [] [ text "Small Header" ]
+            , wireframeParagraph
+            , tinyHeader [] [ text "Tiny Header" ]
+            , wireframeParagraph
+            , miniHeader [] [ text "Mini Header" ]
+            , wireframeParagraph
+            ]
         ]
 
 

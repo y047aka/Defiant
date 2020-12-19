@@ -1,17 +1,7 @@
-module UI exposing (header, section)
+module UI exposing (section)
 
 import Html.Styled exposing (Attribute, Html)
-import UI.Header as Header
 import UI.Section as Section
-
-
-
--- HEADER
-
-
-header : List (Attribute msg) -> List (Html msg) -> Html msg
-header =
-    Header.header
 
 
 
