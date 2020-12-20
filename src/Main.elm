@@ -3,8 +3,8 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 import Browser
 import Css exposing (em, margin2, padding2, position, relative, zero)
 import Html
-import Html.Styled exposing (Attribute, Html, div, main_, p, text, toUnstyled)
-import Html.Styled.Attributes exposing (css)
+import Html.Styled exposing (Attribute, Html, div, main_, p, span, text, toUnstyled)
+import Html.Styled.Attributes exposing (class, css)
 import Html.Styled.Events exposing (onClick)
 import UI exposing (..)
 import UI.Button exposing (..)
@@ -12,6 +12,7 @@ import UI.Header exposing (..)
 import UI.Label exposing (..)
 import UI.Modifier exposing (Palette(..))
 import UI.Table exposing (..)
+import UI.Text exposing (..)
 
 
 
@@ -70,6 +71,7 @@ view model =
             [ sectionForButtons model
             , sectionForHeaders
             , sectionForLabels
+            , sectionForTexts
             , sectionForTables
             ]
 
@@ -190,6 +192,68 @@ sectionForLabels =
                    , greyLabel [] [ text "Grey" ]
                    , blackLabel [] [ text "Black" ]
                    ]
+        ]
+
+
+sectionForTexts : Html Msg
+sectionForTexts =
+    section []
+        [ example []
+            [ header [] [ text "Text" ]
+            , p [] [ text "A text is always used inline and uses one color from the FUI color palette" ]
+            , div []
+                [ text "This is "
+                , redText "red"
+                , text " inline text and this is "
+                , blueText "blue"
+                , text " inline text and this is "
+                , purpleText "purple"
+                , text " inline text"
+                ]
+            , div []
+                [ text "This is "
+                , span [ class "inverted red" ] [ text "red" ]
+                , text " inline text and this is "
+                , span [ class "inverted blue" ] [ text "blue" ]
+                , text " inline text and this is "
+                , span [ class "inverted purple" ] [ text "purple" ]
+                , text " inline text"
+                ]
+            , div []
+                [ text "This is "
+                , infoText "info"
+                , text " inline text and this is "
+                , successText "success"
+                , text " inline text and this is "
+                , warningText "warning"
+                , text " inline text and this is "
+                , errorText "error"
+                , text " inline text"
+                ]
+            , div []
+                [ text "This is "
+                , infoText "info"
+                , text " inline text and this is "
+                , successText "success"
+                , text " inline text and this is "
+                , warningText "warning"
+                , text " inline text and this is "
+                , errorText "error"
+                , text " inline text"
+                ]
+            ]
+        , example []
+            [ header [] [ text "Size" ]
+            , p [] [ text "Text can vary in the same sizes as icons" ]
+            , p [] [ text "Starting with ", miniText "mini", text " text" ]
+            , p [] [ text "which turns into ", tinyText "tiny", text " text" ]
+            , p [] [ text "changing to ", smallText "small", text " text until it is" ]
+            , p [] [ text "the default ", mediumText "medium", text " text" ]
+            , p [] [ text "and could be ", largeText "large", text " text" ]
+            , p [] [ text "to turn into ", bigText "big", text " text" ]
+            , p [] [ text "then growing to ", hugeText "huge", text " text" ]
+            , p [] [ text "to finally become ", massiveText "massive", text " text" ]
+            ]
         ]
 
 
