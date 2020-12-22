@@ -15,7 +15,7 @@ module UI.Button exposing
 -}
 
 import Css exposing (..)
-import Css.Extra exposing (palette)
+import Css.Extra
 import Css.Global exposing (children, selector, typeSelector)
 import Css.Palette exposing (..)
 import Css.Prefix as Prefix

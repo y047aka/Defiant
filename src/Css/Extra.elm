@@ -1,16 +1,6 @@
-module Css.Extra exposing (none, palette)
+module Css.Extra exposing (none, whenStyle)
 
 import Css exposing (..)
-import Css.Palette exposing (Palette, transparent_)
-
-
-palette : Palette -> Style
-palette p =
-    batch
-        [ whenStyle (p.background /= transparent_) <| backgroundColor p.background
-        , whenStyle (p.color /= transparent_) <| color p.color
-        , whenStyle (p.border /= transparent_) <| borderColor p.border
-        ]
 
 
 

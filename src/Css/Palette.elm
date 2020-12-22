@@ -1,5 +1,6 @@
 module Css.Palette exposing
     ( Palette
+    , palette
     , primary, primaryOnHover, primaryOnFocus
     , secondary, secondaryOnHover, secondaryOnFocus
     , red, redOnHover, redOnFocus
@@ -21,6 +22,7 @@ module Css.Palette exposing
 {-|
 
 @docs Palette
+@docs palette
 @docs primary, primaryOnHover, primaryOnFocus
 @docs secondary, secondaryOnHover, secondaryOnFocus
 @docs red, redOnHover, redOnFocus
@@ -40,7 +42,8 @@ module Css.Palette exposing
 
 -}
 
-import Css exposing (Color, hex, rgba)
+import Css exposing (..)
+import Css.Extra exposing (whenStyle)
 
 
 type alias Palette =
@@ -48,6 +51,15 @@ type alias Palette =
     , color : Color
     , border : Color
     }
+
+
+palette : Palette -> Style
+palette p =
+    batch
+        [ whenStyle (p.background /= transparent_) <| backgroundColor p.background
+        , whenStyle (p.color /= transparent_) <| color p.color
+        , whenStyle (p.border /= transparent_) <| borderColor p.border
+        ]
 
 
 empty : Palette

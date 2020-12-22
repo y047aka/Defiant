@@ -13,7 +13,6 @@ module UI.Label exposing
 -}
 
 import Css exposing (..)
-import Css.Extra exposing (palette)
 import Css.Palette exposing (..)
 import Html.Styled as Html exposing (Attribute, Html)
 
