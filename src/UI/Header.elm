@@ -13,9 +13,9 @@ module UI.Header exposing
 
 import Css exposing (..)
 import Css.Global exposing (adjacentSiblings, typeSelector)
+import Css.Typography as Typography exposing (fomanticFont, init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes exposing (css, src)
-import UI.Modifier as Modifier
 
 
 basis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -25,10 +25,13 @@ basis additionalStyles =
           borderStyle none
         , margin3 (calc (rem 2) minus (em 0.1428571428571429)) zero (rem 1)
         , padding2 zero zero
-        , fontFamilies Modifier.fontFamilies
-        , fontWeight bold
-        , lineHeight (em 1.28571429)
-        , textTransform none
+        , typography
+            { init
+                | fontFamilies = fomanticFont
+                , fontWeight = Typography.bold
+                , lineHeight = Typography.em 1.28571429
+                , textTransform = Typography.none
+            }
         , color (rgba 0 0 0 0.87)
 
         -- .ui.header:first-child

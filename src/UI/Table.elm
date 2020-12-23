@@ -14,6 +14,7 @@ import Css exposing (..)
 import Css.Global exposing (children, descendants, each)
 import Css.Palette exposing (..)
 import Css.Prefix as Prefix
+import Css.Typography as Typography exposing (init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
@@ -27,8 +28,11 @@ basis additionalStyles =
         , border3 (px 1) solid (rgba 34 36 38 0.15)
         , Prefix.boxShadow "none"
         , borderRadius (rem 0.28571429)
-        , textAlign left
-        , verticalAlign middle
+        , typography
+            { init
+                | textAlign = Typography.left
+                , verticalAlign = Typography.middle
+            }
         , color (rgba 0 0 0 0.87)
         , borderCollapse separate
         , borderSpacing zero
@@ -44,8 +48,11 @@ basis additionalStyles =
             [ -- .ui.table > thead
               -- .ui.table > tbody
               each [ Css.Global.thead, Css.Global.tbody ]
-                [ property "text-align" "inherit"
-                , property "vertical-align" "inherit"
+                [ typography
+                    { init
+                        | textAlign = Typography.inherit
+                        , verticalAlign = Typography.inherit
+                    }
                 ]
 
             -- .ui.table > thead
@@ -153,7 +160,8 @@ td =
         [ -- .ui.table > tbody > tr > td
           -- .ui.table > tr > td
           padding2 (em 0.78571429) (em 0.78571429)
-        , property "text-align" "inherit"
+        , typography
+            { init | textAlign = Typography.inherit }
         ]
 
 
@@ -163,13 +171,16 @@ th =
         [ -- .ui.table > thead > tr > th
           cursor auto
         , backgroundColor (hex "#F9FAFB")
-        , property "text-align" "inherit"
+        , typography
+            { init
+                | textAlign = Typography.inherit
+                , verticalAlign = Typography.inherit
+                , fontStyle = Typography.none
+                , fontWeight = Typography.bold
+                , textTransform = Typography.none
+            }
         , color (rgba 0 0 0 0.87)
         , padding2 (em 0.92857143) (em 0.78571429)
-        , property "vertical-align" "inherit"
-        , property "font-style" "none"
-        , fontWeight bold
-        , textTransform none
         , borderBottom3 (px 1) solid (rgba 34 36 38 0.1)
         , property "border-left" "none"
 

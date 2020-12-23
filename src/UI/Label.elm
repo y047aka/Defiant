@@ -14,6 +14,7 @@ module UI.Label exposing
 
 import Css exposing (..)
 import Css.Palette exposing (..)
+import Css.Typography as Typography exposing (init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
@@ -22,14 +23,18 @@ basis maybePalette additionalStyles =
     Html.styled Html.div <|
         [ -- .ui.label
           display inlineBlock
-        , lineHeight (int 1)
-        , verticalAlign baseline
+        , typography
+            { init
+                | lineHeight = Typography.int 1
+                , verticalAlign = Typography.baseline
+                , fontSize = Typography.rem 0.85714286
+                , fontWeight = Typography.bold
+                , textTransform = Typography.none
+            }
         , margin2 zero (em 0.14285714)
         , backgroundImage none
         , palette <| Maybe.withDefault basis_ maybePalette
         , padding2 (em 0.5833) (em 0.833)
-        , textTransform none
-        , fontWeight bold
         , border3 zero solid transparent
         , borderRadius (rem 0.28571429)
         , property "-webkit-transition" "background 0.1s ease"
@@ -42,9 +47,6 @@ basis maybePalette additionalStyles =
         -- .ui.label:last-child
         , lastChild
             [ marginRight zero ]
-
-        -- .ui.label
-        , fontSize (rem 0.85714286)
         ]
             ++ additionalStyles
 

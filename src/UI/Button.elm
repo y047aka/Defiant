@@ -19,10 +19,10 @@ import Css.Extra
 import Css.Global exposing (children, selector, typeSelector)
 import Css.Palette exposing (..)
 import Css.Prefix as Prefix
+import Css.Typography as Typography exposing (fomanticFont, init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes exposing (css)
 import Maybe.Extra as Maybe
-import UI.Modifier as Modifier
 
 
 basis :
@@ -39,18 +39,21 @@ basis maybeOptions additionalStyles =
         , minHeight (em 1)
         , outline none
         , borderStyle none
-        , verticalAlign baseline
+        , typography
+            { init
+                | textAlign = Typography.center
+                , verticalAlign = Typography.baseline
+                , fontFamilies = fomanticFont
+                , textTransform = Typography.none
+                , fontStyle = Typography.normal
+                , fontWeight = Typography.bold
+                , lineHeight = Typography.em 1
+                , textDecoration = Typography.none
+            }
         , palette <| Maybe.unwrap basis_ .default maybeOptions
-        , fontFamilies Modifier.fontFamilies
         , margin4 zero (em 0.25) zero zero
         , padding3 (em 0.78571429) (em 1.5) (em 0.78571429)
-        , textTransform none
         , textShadow none
-        , fontWeight bold
-        , lineHeight (em 1)
-        , fontStyle normal
-        , textAlign center
-        , textDecoration none
         , borderRadius (rem 0.28571429)
         , Prefix.boxShadow "0 0 0 1px transparent inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
         , Prefix.userSelect "none"
@@ -107,9 +110,12 @@ basicButton =
     basis (Just { default = basic, onHover = basicOnHover, onFocus = basicOnFocus })
         [ -- .ui.basic.button
           property "background" "transparent none"
-        , fontWeight normal
+        , typography
+            { init
+                | fontWeight = Typography.normal
+                , textTransform = Typography.none
+            }
         , borderRadius (rem 0.28571429)
-        , textTransform none
         , textShadow none |> important
         , Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.15) inset"
 
@@ -130,17 +136,20 @@ labeledButton attributes =
             , minHeight (em 1)
             , outline none
             , borderStyle none
-            , verticalAlign baseline
+            , typography
+                { init
+                    | textAlign = Typography.center
+                    , verticalAlign = Typography.baseline
+                    , fontFamilies = fomanticFont
+                    , textTransform = Typography.none
+                    , fontStyle = Typography.normal
+                    , fontWeight = Typography.bold
+                    , lineHeight = Typography.em 1
+                    , textDecoration = Typography.none
+                }
             , color (rgba 0 0 0 0.6)
-            , fontFamilies Modifier.fontFamilies
             , margin4 zero (em 0.25) zero zero
-            , textTransform none
             , textShadow none
-            , fontWeight bold
-            , lineHeight (em 1)
-            , fontStyle normal
-            , textAlign center
-            , textDecoration none
             , borderRadius (rem 0.28571429)
             , Prefix.userSelect "none"
             , property "-webkit-tap-highlight-color" "transparent"

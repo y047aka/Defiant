@@ -1,11 +1,6 @@
-module UI.Modifier exposing (Palette(..), fontFamilies)
+module UI.Modifier exposing (Palette(..))
 
 import Css exposing (..)
-
-
-fontFamilies : List String
-fontFamilies =
-    [ qt "Lato", qt "Helvetica Neue", "Arial", "Helvetica", "sans-serif" ]
 
 
 type Palette
