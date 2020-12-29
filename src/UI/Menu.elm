@@ -1,14 +1,15 @@
 module UI.Menu exposing
     ( menu, item, activeItem
-    , secondaryMenu, secondaryMenuItem, secondaryMenuActiveItem
     , leftMenu, rightMenu, cenerMenu
+    , secondaryMenu, secondaryMenuItem, secondaryMenuActiveItem
     )
 
 {-|
 
 @docs menu, item, activeItem
-@docs secondaryMenu, secondaryMenuItem, secondaryMenuActiveItem
 @docs leftMenu, rightMenu, cenerMenu
+@docs secondaryMenu, secondaryMenuItem, secondaryMenuActiveItem
+@docs verticalMenu, verticalItem, verticalActiveItem
 
 -}
 
@@ -131,6 +132,50 @@ activeItem =
         ]
 
 
+leftMenu : List (Attribute msg) -> List (Html msg) -> Html msg
+leftMenu =
+    Html.styled Html.div
+        [ -- .ui.menu:not(.vertical) .right.item
+          -- .ui.menu:not(.vertical) .right.menu
+          Prefix.displayFlex
+        , marginRight auto |> important
+
+        -- .ui.menu:not(.vertical) :not(.dropdown) > .left.menu
+        -- .ui.menu:not(.vertical) :not(.dropdown) > .right.menu
+        , display inherit
+        ]
+
+
+rightMenu : List (Attribute msg) -> List (Html msg) -> Html msg
+rightMenu =
+    Html.styled Html.div
+        [ -- .ui.menu:not(.vertical) .right.item
+          -- .ui.menu:not(.vertical) .right.menu
+          Prefix.displayFlex
+        , marginLeft auto |> important
+
+        -- .ui.menu:not(.vertical) :not(.dropdown) > .left.menu,
+        -- .ui.menu:not(.vertical) :not(.dropdown) > .right.menu
+        , display inherit
+
+        -- .ui.menu .right.item::before
+        -- .ui.menu .right.menu > .item::before
+        -- right: auto;
+        -- left: 0;
+        ]
+
+
+cenerMenu : List (Attribute msg) -> List (Html msg) -> Html msg
+cenerMenu =
+    Html.styled Html.div
+        [ -- .ui.menu:not(.vertical) .center.item
+          -- .ui.menu:not(.vertical) .center.menu
+          Prefix.displayFlex
+        , marginLeft auto |> important
+        , marginRight auto |> important
+        ]
+
+
 secondaryMenu : List (Attribute msg) -> List (Html msg) -> Html msg
 secondaryMenu =
     menuBasis
@@ -173,48 +218,4 @@ secondaryMenuActiveItem =
         , backgroundColor (rgba 0 0 0 0.05)
         , color (rgba 0 0 0 0.95)
         , borderRadius (rem 0.28571429)
-        ]
-
-
-leftMenu : List (Attribute msg) -> List (Html msg) -> Html msg
-leftMenu =
-    Html.styled Html.div
-        [ -- .ui.menu:not(.vertical) .right.item
-          -- .ui.menu:not(.vertical) .right.menu
-          Prefix.displayFlex
-        , marginRight auto |> important
-
-        -- .ui.menu:not(.vertical) :not(.dropdown) > .left.menu
-        -- .ui.menu:not(.vertical) :not(.dropdown) > .right.menu
-        , display inherit
-        ]
-
-
-rightMenu : List (Attribute msg) -> List (Html msg) -> Html msg
-rightMenu =
-    Html.styled Html.div
-        [ -- .ui.menu:not(.vertical) .right.item
-          -- .ui.menu:not(.vertical) .right.menu
-          Prefix.displayFlex
-        , marginLeft auto |> important
-
-        -- .ui.menu:not(.vertical) :not(.dropdown) > .left.menu,
-        -- .ui.menu:not(.vertical) :not(.dropdown) > .right.menu
-        , display inherit
-
-        -- .ui.menu .right.item::before
-        -- .ui.menu .right.menu > .item::before
-        -- right: auto;
-        -- left: 0;
-        ]
-
-
-cenerMenu : List (Attribute msg) -> List (Html msg) -> Html msg
-cenerMenu =
-    Html.styled Html.div
-        [ -- .ui.menu:not(.vertical) .center.item
-          -- .ui.menu:not(.vertical) .center.menu
-          Prefix.displayFlex
-        , marginLeft auto |> important
-        , marginRight auto |> important
         ]
