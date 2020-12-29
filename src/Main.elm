@@ -10,6 +10,7 @@ import UI exposing (..)
 import UI.Button exposing (..)
 import UI.Header exposing (..)
 import UI.Label exposing (..)
+import UI.Menu exposing (..)
 import UI.Modifier exposing (Palette(..))
 import UI.Table exposing (..)
 import UI.Text exposing (..)
@@ -72,6 +73,7 @@ view model =
             , sectionForHeaders
             , sectionForLabels
             , sectionForTexts
+            , sectionForMenus
             , sectionForTables
             ]
 
@@ -253,6 +255,25 @@ sectionForTexts =
             , p [] [ text "to turn into ", bigText "big", text " text" ]
             , p [] [ text "then growing to ", hugeText "huge", text " text" ]
             , p [] [ text "to finally become ", massiveText "massive", text " text" ]
+            ]
+        ]
+
+
+sectionForMenus : Html Msg
+sectionForMenus =
+    section []
+        [ example []
+            [ header [] [ text "Secondary Menu" ]
+            , p [] [ text "A menu can adjust its appearance to de-emphasize its contents" ]
+            , secondaryMenu []
+                [ secondaryMenuActiveItem [] [ text "Home" ]
+                , secondaryMenuItem [] [] [ text "Messages" ]
+                , secondaryMenuItem [] [] [ text "Friends" ]
+                , rightMenu []
+                    [ secondaryMenuItem [] [] [ text "Search..." ]
+                    , secondaryMenuItem [] [] [ text "Logout" ]
+                    ]
+                ]
             ]
         ]
 
