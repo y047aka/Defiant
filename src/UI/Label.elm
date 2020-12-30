@@ -1,11 +1,13 @@
 module UI.Label exposing
-    ( label, basicLabel
+    ( basis
+    , label, basicLabel
     , primaryLabel, secondaryLabel
     , redLabel, orangeLabel, yellowLabel, oliveLabel, greenLabel, tealLabel, blueLabel, violetLabel, purpleLabel, pinkLabel, brownLabel, greyLabel, blackLabel
     )
 
 {-|
 
+@docs basis
 @docs label, basicLabel
 @docs primaryLabel, secondaryLabel
 @docs redLabel, orangeLabel, yellowLabel, oliveLabel, greenLabel, tealLabel, blueLabel, violetLabel, purpleLabel, pinkLabel, brownLabel, greyLabel, blackLabel

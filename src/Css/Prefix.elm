@@ -1,4 +1,4 @@
-module Css.Prefix exposing (alignItems, alignSelf, boxShadow, displayFlex, flex, userSelect)
+module Css.Prefix exposing (alignItems, alignSelf, boxShadow, displayFlex, flex, flexDirection, userSelect)
 
 import Css exposing (Style, batch, property)
 import Css.Extra
@@ -52,6 +52,12 @@ flex value =
             |> Maybe.withDefault Css.Extra.none
         )
             :: prefixedProperties [ "-ms-", "" ] "flex" value
+
+
+flexDirection : String -> Style
+flexDirection value =
+    batch <|
+        prefixedProperties [ "-ms-", "" ] "flex-direction" value
 
 
 userSelect : String -> Style

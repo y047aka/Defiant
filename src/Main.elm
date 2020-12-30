@@ -275,6 +275,25 @@ sectionForMenus =
                     ]
                 ]
             ]
+        , example []
+            [ header [] [ text "Vertical Menu" ]
+            , p [] [ text "A vertical menu displays elements vertically.." ]
+            , verticalMenu []
+                [ verticalMenuActiveItem []
+                    [ text "Inbox"
+                    , verticalMenuActiveItemLabel [] [ text "1" ]
+                    ]
+                , verticalMenuItem [] [] <|
+                    [ text "Spam"
+                    , verticalMenuActiveItemLabel [] [ text "51" ]
+                    ]
+                , verticalMenuItem [] [] <|
+                    [ text "Updates"
+                    , verticalMenuActiveItemLabel [] [ text "1" ]
+                    ]
+                , verticalMenuItem [] [] [ text "Search mail..." ]
+                ]
+            ]
         ]
 
 

@@ -1,15 +1,16 @@
 module UI.Menu exposing
     ( menu, item, activeItem
-    , leftMenu, rightMenu, cenerMenu
+    , leftMenu, rightMenu, centerMenu
     , secondaryMenu, secondaryMenuItem, secondaryMenuActiveItem
+    , verticalMenu, verticalMenuItem, verticalMenuActiveItem, verticalMenuActiveItemLabel
     )
 
 {-|
 
 @docs menu, item, activeItem
-@docs leftMenu, rightMenu, cenerMenu
+@docs leftMenu, rightMenu, centerMenu
 @docs secondaryMenu, secondaryMenuItem, secondaryMenuActiveItem
-@docs verticalMenu, verticalItem, verticalActiveItem
+@docs verticalMenu, verticalMenuItem, verticalMenuActiveItem, verticalMenuActiveItemLabel
 
 -}
 
@@ -18,6 +19,7 @@ import Css.Palette exposing (..)
 import Css.Prefix as Prefix
 import Css.Typography as Typography exposing (fomanticFont, init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
+import UI.Label
 
 
 menuBasis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -65,6 +67,9 @@ menuBasis additionalStyles =
         -- .ui.menu:not(.vertical) .item
         -- Prefix.displayFlex
         -- Prefix.alignItems "center"
+        --
+        -- .ui.menu
+        , fontSize (rem 1)
         ]
             ++ additionalStyles
 
@@ -165,8 +170,8 @@ rightMenu =
         ]
 
 
-cenerMenu : List (Attribute msg) -> List (Html msg) -> Html msg
-cenerMenu =
+centerMenu : List (Attribute msg) -> List (Html msg) -> Html msg
+centerMenu =
     Html.styled Html.div
         [ -- .ui.menu:not(.vertical) .center.item
           -- .ui.menu:not(.vertical) .center.menu
@@ -218,4 +223,89 @@ secondaryMenuActiveItem =
         , backgroundColor (rgba 0 0 0 0.05)
         , color (rgba 0 0 0 0.95)
         , borderRadius (rem 0.28571429)
+        ]
+
+
+verticalMenu : List (Attribute msg) -> List (Html msg) -> Html msg
+verticalMenu =
+    menuBasis
+        [ -- .ui.vertical.menu
+          display block
+        , property "-webkit-box-orient" "vertical"
+        , property "-webkit-box-direction" "normal"
+        , Prefix.flexDirection "column"
+        , backgroundColor (hex "#FFFFFF")
+        , Prefix.boxShadow "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
+
+        -- .ui.vertical.menu
+        , width (rem 15)
+        ]
+
+
+verticalMenuItem : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+verticalMenuItem additionalStyles =
+    itemBasis <|
+        [ -- .ui.vertical.menu .item
+          display block
+        , property "background" "none"
+        , property "border-top" "none"
+        , property "border-right" "none"
+
+        -- .ui.vertical.menu > .item:first-child
+        , firstChild
+            [ borderRadius4 (rem 0.28571429) (rem 0.28571429) zero zero ]
+
+        -- .ui.vertical.menu > .item:last-child
+        , lastChild
+            [ borderRadius4 zero zero (rem 0.28571429) (rem 0.28571429) ]
+
+        -- .ui.vertical.menu .item:before
+        , before
+            [ position absolute
+            , property "content" (qt "")
+            , top zero
+            , left zero
+            , width (pct 100)
+            , height (px 1)
+            , backgroundColor (rgba 34 36 38 0.1)
+            ]
+
+        -- .ui.vertical.menu .item:first-child:before
+        , firstChild
+            [ before
+                [ display none |> important ]
+            ]
+        ]
+            ++ additionalStyles
+
+
+verticalMenuActiveItem : List (Attribute msg) -> List (Html msg) -> Html msg
+verticalMenuActiveItem =
+    verticalMenuItem
+        [ -- .ui.vertical.menu .active.item
+          backgroundColor (rgba 0 0 0 0.05)
+        , borderRadius zero
+        , Prefix.boxShadow "none"
+        ]
+
+
+verticalMenuActiveItemLabel : List (Attribute msg) -> List (Html msg) -> Html msg
+verticalMenuActiveItemLabel =
+    UI.Label.basis Nothing
+        [ -- .ui.menu .item > .label:not(.floating)
+          marginLeft (em 1)
+        , padding2 (em 0.3) (em 0.78571429)
+
+        -- .ui.vertical.menu .item > .label
+        , marginTop (em -0.15)
+        , marginBottom (em -0.15)
+        , padding2 (em 0.3) (em 0.78571429)
+
+        -- .ui.menu .item > .label
+        , backgroundColor (hex "#999999")
+        , color (hex "#FFFFFF")
+
+        -- .ui.vertical.menu .item > .label
+        , float right
+        , textAlign center
         ]
