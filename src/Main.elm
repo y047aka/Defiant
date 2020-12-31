@@ -1,13 +1,14 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
-import Css exposing (em, margin2, padding2, position, relative, zero)
+import Css exposing (..)
 import Html
 import Html.Styled exposing (Attribute, Html, div, main_, p, span, text, toUnstyled)
 import Html.Styled.Attributes exposing (class, css)
 import Html.Styled.Events exposing (onClick)
 import UI exposing (..)
 import UI.Button exposing (..)
+import UI.Grid exposing (..)
 import UI.Header exposing (..)
 import UI.Label exposing (..)
 import UI.Menu exposing (..)
@@ -73,6 +74,7 @@ view model =
             , sectionForHeaders
             , sectionForLabels
             , sectionForTexts
+            , sectionForGrid
             , sectionForMenus
             , sectionForTables
             ]
@@ -255,6 +257,49 @@ sectionForTexts =
             , p [] [ text "to turn into ", bigText "big", text " text" ]
             , p [] [ text "then growing to ", hugeText "huge", text " text" ]
             , p [] [ text "to finally become ", massiveText "massive", text " text" ]
+            ]
+        ]
+
+
+sectionForGrid : Html Msg
+sectionForGrid =
+    section []
+        [ example []
+            [ header [] [ text "Grids" ]
+            , p [] [ text "A grid is a structure with a long history used to align negative space in designs." ]
+            , p [] [ text "Using a grid makes content appear to flow more naturally on your page." ]
+            , let
+                dummyContent =
+                    css
+                        [ after
+                            [ property "content" (qt "")
+                            , display block
+                            , minHeight (px 50)
+                            , backgroundColor (rgba 86 61 124 0.1)
+                            , property "box-shadow" "0px 0px 0px 1px rgba(86, 61, 124, 0.2) inset"
+                            ]
+                        ]
+              in
+              grid
+                [ css
+                    [ position relative
+                    , before
+                        [ position absolute
+                        , top (rem 1)
+                        , left (rem 1)
+                        , backgroundColor (hex "FAFAFA")
+                        , property "content" (qt "")
+                        , width (calc (pct 100) minus (rem 2))
+                        , height (calc (pct 100) minus (rem 2))
+                        , property "box-shadow" "0px 0px 0px 1px #DDDDDD inset"
+                        ]
+                    ]
+                ]
+                [ fourWideColumn [ dummyContent ] []
+                , fourWideColumn [ dummyContent ] []
+                , fourWideColumn [ dummyContent ] []
+                , fourWideColumn [ dummyContent ] []
+                ]
             ]
         ]
 

@@ -160,8 +160,7 @@ labeledButton attributes =
             , display inlineFlex
             , property "-webkit-box-orient" "horizontal"
             , property "-webkit-box-direction" "normal"
-            , property "-ms-flex-direction" "row"
-            , flexDirection row
+            , Prefix.flexDirection "row"
             , backgroundColor transparent
             , padding zero |> important
             , borderStyle none

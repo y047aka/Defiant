@@ -1,4 +1,4 @@
-module Css.Prefix exposing (alignItems, alignSelf, boxShadow, displayFlex, flex, flexDirection, userSelect)
+module Css.Prefix exposing (alignItems, alignSelf, boxShadow, displayFlex, flex, flexDirection, flexWrap, userSelect)
 
 import Css exposing (Style, batch, property)
 import Css.Extra
@@ -58,6 +58,12 @@ flexDirection : String -> Style
 flexDirection value =
     batch <|
         prefixedProperties [ "-ms-", "" ] "flex-direction" value
+
+
+flexWrap : String -> Style
+flexWrap value =
+    batch <|
+        prefixedProperties [ "-ms-", "" ] "flex-wrap" value
 
 
 userSelect : String -> Style
