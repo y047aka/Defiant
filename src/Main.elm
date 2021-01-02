@@ -3,11 +3,12 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 import Browser
 import Css exposing (..)
 import Html
-import Html.Styled exposing (Attribute, Html, div, main_, p, span, text, toUnstyled)
+import Html.Styled exposing (Html, a, div, main_, p, span, text, toUnstyled)
 import Html.Styled.Attributes exposing (class, css)
 import Html.Styled.Events exposing (onClick)
 import UI exposing (..)
 import UI.Button exposing (..)
+import UI.Example exposing (..)
 import UI.Grid exposing (..)
 import UI.Header exposing (..)
 import UI.Label exposing (..)
@@ -70,14 +71,30 @@ view : Model -> Html.Html Msg
 view model =
     toUnstyled <|
         main_ []
-            [ sectionForButtons model
-            , sectionForHeaders
-            , sectionForLabels
-            , sectionForTexts
-            , sectionForGrid
-            , sectionForMenus
-            , sectionForTables
+            [ toc [] [ tableOfContents ]
+            , article []
+                [ sectionForButtons model
+                , sectionForHeaders
+                , sectionForLabels
+                , sectionForTexts
+                , sectionForGrid
+                , sectionForMenus
+                , sectionForTables
+                ]
             ]
+
+
+tableOfContents : Html msg
+tableOfContents =
+    verticalInvertedMenu []
+        [ verticalInvertedMenuItem [] [ a [] [ text "Button" ] ]
+        , verticalInvertedMenuItem [] [ a [] [ text "Header" ] ]
+        , verticalInvertedMenuItem [] [ a [] [ text "Label" ] ]
+        , verticalInvertedMenuItem [] [ a [] [ text "Text" ] ]
+        , verticalInvertedMenuItem [] [ a [] [ text "Grid" ] ]
+        , verticalInvertedMenuItem [] [ a [] [ text "Menu" ] ]
+        , verticalInvertedMenuItem [] [ a [] [ text "Table" ] ]
+        ]
 
 
 sectionForButtons : Model -> Html Msg
@@ -449,15 +466,3 @@ sectionForTables =
                 ]
             ]
         ]
-
-
-example : List (Attribute Msg) -> List (Html Msg) -> Html Msg
-example attributes =
-    div <|
-        css
-            [ -- .example {
-              margin2 (em 1) zero
-            , padding2 (em 1) zero
-            , position relative
-            ]
-            :: attributes
