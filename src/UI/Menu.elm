@@ -3,6 +3,7 @@ module UI.Menu exposing
     , leftMenu, rightMenu, centerMenu
     , secondaryMenu, secondaryMenuItem, secondaryMenuActiveItem
     , verticalMenu, verticalMenuItem, verticalMenuActiveItem, verticalMenuActiveItemLabel
+    , verticalInvertedMenu, verticalInvertedMenuItem
     )
 
 {-|
@@ -11,6 +12,7 @@ module UI.Menu exposing
 @docs leftMenu, rightMenu, centerMenu
 @docs secondaryMenu, secondaryMenuItem, secondaryMenuActiveItem
 @docs verticalMenu, verticalMenuItem, verticalMenuActiveItem, verticalMenuActiveItemLabel
+@docs verticalInvertedMenu, verticalInvertedMenuItem
 
 -}
 
@@ -226,9 +228,9 @@ secondaryMenuActiveItem =
         ]
 
 
-verticalMenu : List (Attribute msg) -> List (Html msg) -> Html msg
-verticalMenu =
-    menuBasis
+verticalMenu : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+verticalMenu additionalStyles =
+    menuBasis <|
         [ -- .ui.vertical.menu
           display block
         , property "-webkit-box-orient" "vertical"
@@ -240,6 +242,7 @@ verticalMenu =
         -- .ui.vertical.menu
         , width (rem 15)
         ]
+            ++ additionalStyles
 
 
 verticalMenuItem : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -308,4 +311,28 @@ verticalMenuActiveItemLabel =
         -- .ui.vertical.menu .item > .label
         , float right
         , textAlign center
+        ]
+
+
+verticalInvertedMenu : List (Attribute msg) -> List (Html msg) -> Html msg
+verticalInvertedMenu =
+    verticalMenu
+        [ -- .ui.inverted.menu
+          border3 zero solid transparent
+        , backgroundColor (hex "#1B1C1D")
+        , Prefix.boxShadow "none"
+        ]
+
+
+verticalInvertedMenuItem : List (Attribute msg) -> List (Html msg) -> Html msg
+verticalInvertedMenuItem =
+    verticalMenuItem
+        [ -- .ui.inverted.menu .item
+          -- .ui.inverted.menu .item > a:not(.ui)
+          property "background" "transparent"
+        , color (rgba 255 255 255 0.9)
+
+        -- .ui.vertical.inverted.menu .item:before
+        , before
+            [ backgroundColor (rgba 255 255 255 0.08) ]
         ]
