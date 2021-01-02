@@ -1,4 +1,14 @@
-module UI.Grid exposing (fourWideColumn, grid)
+module UI.Grid exposing
+    ( grid
+    , fourWideColumn, twelveWideColumn
+    )
+
+{-|
+
+@docs grid
+@docs fourWideColumn, twelveWideColumn
+
+-}
 
 import Css exposing (..)
 import Css.Global exposing (children, everything)
@@ -63,9 +73,25 @@ grid =
 fourWideColumn : List (Attribute msg) -> List (Html msg) -> Html msg
 fourWideColumn =
     columnBasis <|
-        [ -- .ui[class*="four column"].grid > .row > .column
-          -- .ui[class*="four column"].grid > .column:not(.row)
-          width (pct 25)
+        [ -- .ui.grid > .row > [class*="four wide mobile"].column
+          -- .ui.grid > .column.row > [class*="four wide mobile"].column
+          -- .ui.grid > [class*="four wide mobile"].column
+          -- .ui.column.grid > [class*="four wide mobile"].column
+          width (pct 25) |> important
+
+        -- override
+        , boxSizing borderBox
+        ]
+
+
+twelveWideColumn : List (Attribute msg) -> List (Html msg) -> Html msg
+twelveWideColumn =
+    columnBasis <|
+        [ -- .ui.grid > .row > [class*="twelve wide"].column
+          -- .ui.grid > .column.row > [class*="twelve wide"].column
+          -- .ui.grid > [class*="twelve wide"].column
+          -- .ui.column.grid > [class*="twelve wide"].column
+          width (pct 75) |> important
 
         -- override
         , boxSizing borderBox
