@@ -3,8 +3,8 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 import Browser
 import Css exposing (..)
 import Html
-import Html.Styled exposing (Html, a, div, main_, p, span, text, toUnstyled)
-import Html.Styled.Attributes exposing (class, css)
+import Html.Styled exposing (Html, div, main_, p, span, text, toUnstyled)
+import Html.Styled.Attributes as Attributes exposing (class, css, href, id, rel, target)
 import Html.Styled.Events exposing (onClick)
 import UI exposing (..)
 import UI.Button exposing (..)
@@ -87,19 +87,19 @@ view model =
 tableOfContents : Html msg
 tableOfContents =
     verticalInvertedMenu []
-        [ verticalInvertedMenuItem [] [ a [] [ text "Button" ] ]
-        , verticalInvertedMenuItem [] [ a [] [ text "Header" ] ]
-        , verticalInvertedMenuItem [] [ a [] [ text "Label" ] ]
-        , verticalInvertedMenuItem [] [ a [] [ text "Text" ] ]
-        , verticalInvertedMenuItem [] [ a [] [ text "Grid" ] ]
-        , verticalInvertedMenuItem [] [ a [] [ text "Menu" ] ]
-        , verticalInvertedMenuItem [] [ a [] [ text "Table" ] ]
+        [ verticalInvertedMenuLinkItem [ href "#button" ] [ text "Button" ]
+        , verticalInvertedMenuLinkItem [ href "#header" ] [ text "Header" ]
+        , verticalInvertedMenuLinkItem [ href "#label" ] [ text "Label" ]
+        , verticalInvertedMenuLinkItem [ href "#text" ] [ text "Text" ]
+        , verticalInvertedMenuLinkItem [ href "#grid" ] [ text "Grid" ]
+        , verticalInvertedMenuLinkItem [ href "#menu" ] [ text "Menu" ]
+        , verticalInvertedMenuLinkItem [ href "#table" ] [ text "Table" ]
         ]
 
 
 sectionForButtons : Model -> Html Msg
 sectionForButtons model =
-    section []
+    section [ id "button" ]
         [ example []
             [ header [] [ text "Button" ]
             , p [] [ text "A standard button" ]
@@ -156,7 +156,7 @@ sectionForButtons model =
 
 sectionForHeaders : Html Msg
 sectionForHeaders =
-    section []
+    section [ id "header" ]
         [ example []
             [ header [] [ text "Content Headers" ]
             , p [] [ text "Headers may be oriented to give the importance of a section in the context of the content that surrounds it" ]
@@ -182,7 +182,7 @@ sectionForHeaders =
 
 sectionForLabels : Html Msg
 sectionForLabels =
-    section []
+    section [ id "label" ]
         [ example []
             [ header [] [ text "Label" ]
             , p [] [ text "A label" ]
@@ -218,7 +218,7 @@ sectionForLabels =
 
 sectionForTexts : Html Msg
 sectionForTexts =
-    section []
+    section [ id "text" ]
         [ example []
             [ header [] [ text "Text" ]
             , p [] [ text "A text is always used inline and uses one color from the FUI color palette" ]
@@ -280,7 +280,7 @@ sectionForTexts =
 
 sectionForGrid : Html Msg
 sectionForGrid =
-    section []
+    section [ id "grid" ]
         [ example []
             [ header [] [ text "Grids" ]
             , p [] [ text "A grid is a structure with a long history used to align negative space in designs." ]
@@ -323,7 +323,7 @@ sectionForGrid =
 
 sectionForMenus : Html Msg
 sectionForMenus =
-    section []
+    section [ id "menu" ]
         [ example []
             [ header [] [ text "Secondary Menu" ]
             , p [] [ text "A menu can adjust its appearance to de-emphasize its contents" ]
@@ -345,15 +345,23 @@ sectionForMenus =
                     [ text "Inbox"
                     , verticalMenuActiveItemLabel [] [ text "1" ]
                     ]
-                , verticalMenuItem [] [] <|
+                , verticalMenuItem div [] [] <|
                     [ text "Spam"
                     , verticalMenuActiveItemLabel [] [ text "51" ]
                     ]
-                , verticalMenuItem [] [] <|
+                , verticalMenuItem div [] [] <|
                     [ text "Updates"
                     , verticalMenuActiveItemLabel [] [ text "1" ]
                     ]
-                , verticalMenuItem [] [] [ text "Search mail..." ]
+                , verticalMenuItem div [] [] [ text "Search mail..." ]
+                ]
+            ]
+        , example []
+            [ header [] [ text "Link Item" ]
+            , p [] [ text "A menu may contain a link item, or an item formatted as if it is a link." ]
+            , verticalMenu [] [] <|
+                [ verticalMenuLinkItem [] [ href "http://www.google.com", Attributes.target "_blank", rel "noopener" ] [ text "Visit Google" ]
+                , verticalMenuLinkItem [] [] [ text "Javascript Link" ]
                 ]
             ]
         , example []
@@ -370,7 +378,7 @@ sectionForMenus =
 
 sectionForTables : Html Msg
 sectionForTables =
-    section []
+    section [ id "table" ]
         [ example []
             [ header [] [ text "Table" ]
             , p [] [ text "A standard table" ]
