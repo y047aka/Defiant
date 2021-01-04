@@ -122,7 +122,7 @@ massiveHeader =
 wireframeParagraph : Html msg
 wireframeParagraph =
     Html.img
-        [ src "/static/images/wireframe/short-paragraph.png"
+        [ src "./static/images/wireframe/short-paragraph.png"
         , css
             [ marginTop (rem 1)
             , marginBottom (rem 1)
