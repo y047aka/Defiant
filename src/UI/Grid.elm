@@ -78,9 +78,6 @@ fourWideColumn =
           -- .ui.grid > [class*="four wide mobile"].column
           -- .ui.column.grid > [class*="four wide mobile"].column
           width (pct 25) |> important
-
-        -- override
-        , boxSizing borderBox
         ]
 
 
@@ -92,7 +89,4 @@ twelveWideColumn =
           -- .ui.grid > [class*="twelve wide"].column
           -- .ui.column.grid > [class*="twelve wide"].column
           width (pct 75) |> important
-
-        -- override
-        , boxSizing borderBox
         ]

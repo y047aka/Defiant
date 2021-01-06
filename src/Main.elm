@@ -2,6 +2,9 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
 import Css exposing (..)
+import Css.Global exposing (global)
+import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
+import Css.Reset exposing (normalize)
 import Html
 import Html.Styled exposing (Html, div, main_, p, span, text, toUnstyled)
 import Html.Styled.Attributes as Attributes exposing (class, css, href, id, rel, target)
@@ -70,16 +73,19 @@ update msg model =
 view : Model -> Html.Html Msg
 view model =
     toUnstyled <|
-        main_ []
-            [ toc [] [ tableOfContents ]
-            , article []
-                [ sectionForButtons model
-                , sectionForHeaders
-                , sectionForLabels
-                , sectionForTexts
-                , sectionForGrid
-                , sectionForMenus
-                , sectionForTables
+        div []
+            [ global (normalize ++ additionalReset ++ globalCustomize)
+            , main_ []
+                [ toc [] [ tableOfContents ]
+                , article []
+                    [ sectionForButtons model
+                    , sectionForHeaders
+                    , sectionForLabels
+                    , sectionForTexts
+                    , sectionForGrid
+                    , sectionForMenus
+                    , sectionForTables
+                    ]
                 ]
             ]
 

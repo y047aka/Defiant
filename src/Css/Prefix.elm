@@ -1,4 +1,4 @@
-module Css.Prefix exposing (alignItems, alignSelf, boxShadow, displayFlex, flex, flexDirection, flexWrap, userSelect)
+module Css.Prefix exposing (alignItems, alignSelf, appearance, boxShadow, boxSizing, displayFlex, flex, flexDirection, flexWrap, userSelect)
 
 import Css exposing (Style, batch, property)
 import Css.Extra
@@ -27,10 +27,22 @@ alignSelf value =
         ]
 
 
+appearance : String -> Style
+appearance value =
+    batch <|
+        prefixedProperties [ "-webkit-", "-moz-" ] "appearance" value
+
+
 boxShadow : String -> Style
 boxShadow value =
     batch <|
         prefixedProperties [ "-webkit-", "" ] "box-shadow" value
+
+
+boxSizing : String -> Style
+boxSizing value =
+    batch <|
+        prefixedProperties [ "-webkit-", "" ] "box-sizing" value
 
 
 displayFlex : Style
