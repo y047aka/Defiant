@@ -17,6 +17,7 @@ module UI.Button exposing
 import Css exposing (..)
 import Css.Extra
 import Css.Global exposing (children, selector, typeSelector)
+import Css.Layout as Layout exposing (layout)
 import Css.Palette exposing (..)
 import Css.Prefix as Prefix
 import Css.Typography as Typography exposing (fomanticFont, init, typography)
@@ -32,6 +33,10 @@ basis :
     -> List (Html msg)
     -> Html msg
 basis maybeOptions additionalStyles =
+    let
+        defaultLayout =
+            Layout.default
+    in
     Html.styled Html.button <|
         [ -- .ui.button
           cursor pointer
@@ -39,11 +44,10 @@ basis maybeOptions additionalStyles =
         , minHeight (em 1)
         , outline none
         , borderStyle none
+        , layout { defaultLayout | textAlign = Layout.center }
         , typography
             { init
-                | textAlign = Typography.center
-                , verticalAlign = Typography.baseline
-                , fontFamilies = fomanticFont
+                | fontFamilies = fomanticFont
                 , textTransform = Typography.none
                 , fontStyle = Typography.normal
                 , fontWeight = Typography.bold
@@ -129,6 +133,10 @@ basicButton =
 
 labeledButton : List (Attribute msg) -> List (Html msg) -> Html msg
 labeledButton attributes =
+    let
+        defaultLayout =
+            Layout.default
+    in
     Html.div <|
         css
             [ -- .ui.button
@@ -136,11 +144,10 @@ labeledButton attributes =
             , minHeight (em 1)
             , outline none
             , borderStyle none
+            , layout { defaultLayout | textAlign = Layout.center }
             , typography
                 { init
-                    | textAlign = Typography.center
-                    , verticalAlign = Typography.baseline
-                    , fontFamilies = fomanticFont
+                    | fontFamilies = fomanticFont
                     , textTransform = Typography.none
                     , fontStyle = Typography.normal
                     , fontWeight = Typography.bold

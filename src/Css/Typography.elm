@@ -8,8 +8,6 @@ module Css.Typography exposing
     , inherit, none
     , normal, italic, oblique
     , bold
-    , left, center, right
-    , baseline, top, middle, bottom
     , capitalize, uppercase, lowercase
     )
 
@@ -24,8 +22,6 @@ module Css.Typography exposing
 @docs inherit, none
 @docs normal, italic, oblique
 @docs bold
-@docs left, center, right
-@docs baseline, top, middle, bottom
 @docs capitalize, uppercase, lowercase
 
 -}
@@ -36,8 +32,6 @@ import Css.Extra exposing (whenStyle)
 
 type alias Typography =
     { lineHeight : String
-    , textAlign : String
-    , verticalAlign : String
     , fontFamilies : List String
     , fontStyle : String
     , fontSize : String
@@ -54,9 +48,7 @@ typography t =
             whenStyle (v /= "") <| property p v
     in
     batch
-        [ setUnlessBlank "text-align" t.textAlign
-        , setUnlessBlank "vertical-align" t.verticalAlign
-        , whenStyle (t.fontFamilies /= []) <| fontFamilies t.fontFamilies
+        [ whenStyle (t.fontFamilies /= []) <| fontFamilies t.fontFamilies
         , setUnlessBlank "font-style" t.fontStyle
         , setUnlessBlank "font-size" t.fontSize
         , setUnlessBlank "font-weight" t.fontWeight
@@ -68,9 +60,7 @@ typography t =
 
 init : Typography
 init =
-    { textAlign = ""
-    , verticalAlign = ""
-    , fontFamilies = []
+    { fontFamilies = []
     , fontStyle = ""
     , fontSize = ""
     , fontWeight = ""
@@ -139,41 +129,6 @@ inherit =
 none : String
 none =
     "none"
-
-
-left : String
-left =
-    "left"
-
-
-center : String
-center =
-    "center"
-
-
-right : String
-right =
-    "right"
-
-
-baseline : String
-baseline =
-    "baseline"
-
-
-top : String
-top =
-    "top"
-
-
-middle : String
-middle =
-    "middle"
-
-
-bottom : String
-bottom =
-    "bottom"
 
 
 normal : String

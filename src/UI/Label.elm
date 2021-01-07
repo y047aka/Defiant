@@ -15,6 +15,7 @@ module UI.Label exposing
 -}
 
 import Css exposing (..)
+import Css.Layout as Layout exposing (layout)
 import Css.Palette exposing (..)
 import Css.Typography as Typography exposing (init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
@@ -25,10 +26,10 @@ basis maybePalette additionalStyles =
     Html.styled Html.div <|
         [ -- .ui.label
           display inlineBlock
+        , layout Layout.default
         , typography
             { init
                 | lineHeight = Typography.int 1
-                , verticalAlign = Typography.baseline
                 , fontSize = Typography.rem 0.85714286
                 , fontWeight = Typography.bold
                 , textTransform = Typography.none

@@ -17,6 +17,7 @@ module UI.Menu exposing
 -}
 
 import Css exposing (..)
+import Css.Layout as Layout exposing (layout)
 import Css.Palette exposing (..)
 import Css.Prefix as Prefix
 import Css.Typography as Typography exposing (init, typography)
@@ -83,13 +84,17 @@ itemBasis :
     -> List (Html msg)
     -> Html msg
 itemBasis tag additionalStyles =
+    let
+        initialLayout =
+            Layout.init
+    in
     Html.styled tag <|
         [ -- .ui.menu .item
           position relative
+        , layout { initialLayout | verticalAlign = Layout.middle }
         , typography
             { init
-                | verticalAlign = Typography.middle
-                , textTransform = Typography.none
+                | textTransform = Typography.none
                 , fontWeight = Typography.normal
                 , lineHeight = Typography.int 1
                 , textDecoration = Typography.none

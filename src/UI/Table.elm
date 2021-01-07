@@ -12,6 +12,7 @@ module UI.Table exposing
 
 import Css exposing (..)
 import Css.Global exposing (children, descendants, each)
+import Css.Layout as Layout exposing (layout)
 import Css.Palette exposing (..)
 import Css.Prefix as Prefix
 import Css.Typography as Typography exposing (init, typography)
@@ -20,6 +21,10 @@ import Html.Styled as Html exposing (Attribute, Html)
 
 basis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 basis additionalStyles =
+    let
+        initialLayout =
+            Layout.init
+    in
     Html.styled Html.table <|
         [ -- .ui.table
           width (pct 100)
@@ -28,10 +33,10 @@ basis additionalStyles =
         , border3 (px 1) solid (rgba 34 36 38 0.15)
         , Prefix.boxShadow "none"
         , borderRadius (rem 0.28571429)
-        , typography
-            { init
-                | textAlign = Typography.left
-                , verticalAlign = Typography.middle
+        , layout
+            { initialLayout
+                | textAlign = Layout.left
+                , verticalAlign = Layout.middle
             }
         , color (rgba 0 0 0 0.87)
         , borderCollapse separate
@@ -48,8 +53,8 @@ basis additionalStyles =
             [ -- .ui.table > thead
               -- .ui.table > tbody
               each [ Css.Global.thead, Css.Global.tbody ]
-                [ typography
-                    { init
+                [ layout
+                    { initialLayout
                         | textAlign = Typography.inherit
                         , verticalAlign = Typography.inherit
                     }
@@ -156,26 +161,36 @@ tr =
 
 td : List (Attribute msg) -> List (Html msg) -> Html msg
 td =
+    let
+        initialLayout =
+            Layout.init
+    in
     Html.styled Html.td
         [ -- .ui.table > tbody > tr > td
           -- .ui.table > tr > td
           padding2 (em 0.78571429) (em 0.78571429)
-        , typography
-            { init | textAlign = Typography.inherit }
+        , layout { initialLayout | textAlign = Typography.inherit }
         ]
 
 
 th : List (Attribute msg) -> List (Html msg) -> Html msg
 th =
+    let
+        initialLayout =
+            Layout.init
+    in
     Html.styled Html.th
         [ -- .ui.table > thead > tr > th
           cursor auto
         , backgroundColor (hex "#F9FAFB")
-        , typography
-            { init
+        , layout
+            { initialLayout
                 | textAlign = Typography.inherit
                 , verticalAlign = Typography.inherit
-                , fontStyle = Typography.none
+            }
+        , typography
+            { init
+                | fontStyle = Typography.none
                 , fontWeight = Typography.bold
                 , textTransform = Typography.none
             }
