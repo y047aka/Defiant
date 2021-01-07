@@ -13,25 +13,23 @@ module UI.Header exposing
 
 import Css exposing (..)
 import Css.Global exposing (adjacentSiblings, typeSelector)
-import Css.Typography as Typography exposing (fomanticFont, init, typography)
+import Css.Typography as Typography exposing (typography)
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes exposing (css, src)
 
 
 basis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 basis additionalStyles =
+    let
+        headingTypography =
+            Typography.heading
+    in
     Html.styled Html.h1 <|
         [ -- .ui.header
           borderStyle none
         , margin3 (calc (rem 2) minus (em 0.1428571428571429)) zero (rem 1)
         , padding2 zero zero
-        , typography
-            { init
-                | fontFamilies = fomanticFont
-                , fontWeight = Typography.bold
-                , lineHeight = Typography.em 1.28571429
-                , textTransform = Typography.none
-            }
+        , typography { headingTypography | textTransform = Typography.none }
         , color (rgba 0 0 0 0.87)
 
         -- .ui.header:first-child

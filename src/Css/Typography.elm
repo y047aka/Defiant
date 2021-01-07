@@ -2,6 +2,7 @@ module Css.Typography exposing
     ( Typography
     , typography
     , init
+    , default, heading
     , fomanticFont
     , int, num, px, rem, em
     , inherit, none
@@ -17,6 +18,7 @@ module Css.Typography exposing
 @docs Typography
 @docs typography
 @docs init
+@docs default, heading
 @docs fomanticFont
 @docs int, num, px, rem, em
 @docs inherit, none
@@ -52,13 +54,13 @@ typography t =
             whenStyle (v /= "") <| property p v
     in
     batch
-        [ setUnlessBlank "line-height" t.lineHeight
-        , setUnlessBlank "text-align" t.textAlign
+        [ setUnlessBlank "text-align" t.textAlign
         , setUnlessBlank "vertical-align" t.verticalAlign
         , whenStyle (t.fontFamilies /= []) <| fontFamilies t.fontFamilies
         , setUnlessBlank "font-style" t.fontStyle
         , setUnlessBlank "font-size" t.fontSize
         , setUnlessBlank "font-weight" t.fontWeight
+        , setUnlessBlank "line-height" t.lineHeight
         , setUnlessBlank "text-transform" t.textTransform
         , setUnlessBlank "text-decoration" t.textDecoration
         ]
@@ -66,13 +68,13 @@ typography t =
 
 init : Typography
 init =
-    { lineHeight = ""
-    , textAlign = ""
+    { textAlign = ""
     , verticalAlign = ""
     , fontFamilies = []
     , fontStyle = ""
     , fontSize = ""
     , fontWeight = ""
+    , lineHeight = ""
     , textTransform = ""
     , textDecoration = ""
     }
@@ -80,15 +82,18 @@ init =
 
 default : Typography
 default =
-    { lineHeight = num 1.5
-    , textAlign = left
-    , verticalAlign = baseline
-    , fontFamilies = fomanticFont
-    , fontStyle = normal
-    , fontWeight = normal
-    , fontSize = px 16
-    , textTransform = none
-    , textDecoration = none
+    { init
+        | fontFamilies = fomanticFont
+        , fontSize = px 14
+        , lineHeight = em 1.4285
+    }
+
+
+heading : Typography
+heading =
+    { default
+        | fontWeight = bold
+        , lineHeight = em 1.28571429
     }
 
 

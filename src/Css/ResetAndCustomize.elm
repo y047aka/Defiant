@@ -3,7 +3,7 @@ module Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
 import Css exposing (..)
 import Css.Global exposing (Snippet, each, everything, selector)
 import Css.Prefix as Prefix
-import Css.Typography exposing (fomanticFont)
+import Css.Typography as Typography exposing (typography)
 
 
 additionalReset : List Snippet
@@ -45,10 +45,8 @@ globalCustomize =
         , overflowX hidden
         , minWidth (px 320)
         , property "background" "#FFFFFF"
-        , fontFamilies fomanticFont
-        , fontSize (px 14)
-        , lineHeight (em 1.4285)
         , color (rgba 0 0 0 0.87)
+        , typography Typography.default
         ]
 
     -- Headers
@@ -59,11 +57,9 @@ globalCustomize =
         , Css.Global.h4
         , Css.Global.h5
         ]
-        [ fontFamilies fomanticFont
-        , lineHeight (em 1.28571429)
-        , margin3 (calc (rem 2) minus (em 0.1428571428571429)) zero (rem 1)
-        , fontWeight bold
+        [ margin3 (calc (rem 2) minus (em 0.1428571428571429)) zero (rem 1)
         , padding zero
+        , typography Typography.heading
         ]
     , Css.Global.h1
         [ minHeight (rem 1)
@@ -97,7 +93,7 @@ globalCustomize =
     -- Text
     , Css.Global.p
         [ margin3 zero zero (em 1)
-        , lineHeight (em 1.4285)
+        , typography Typography.default
         , firstChild
             [ marginTop zero ]
         , lastChild

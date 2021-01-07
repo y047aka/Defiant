@@ -19,22 +19,22 @@ module UI.Menu exposing
 import Css exposing (..)
 import Css.Palette exposing (..)
 import Css.Prefix as Prefix
-import Css.Typography as Typography exposing (fomanticFont, init, typography)
+import Css.Typography as Typography exposing (init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
 import UI.Label
 
 
 menuBasis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 menuBasis additionalStyles =
+    let
+        defaultTypography =
+            Typography.default
+    in
     Html.styled Html.div <|
         [ -- .ui.menu
           Prefix.displayFlex
         , margin2 (rem 1) zero
-        , typography
-            { init
-                | fontFamilies = fomanticFont
-                , fontWeight = Typography.normal
-            }
+        , typography { defaultTypography | fontWeight = Typography.normal }
         , backgroundColor (hex "#FFFFFF")
         , border3 (px 1) solid (rgba 34 36 38 0.15)
         , Prefix.boxShadow "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
