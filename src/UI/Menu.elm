@@ -382,9 +382,8 @@ verticalMenuLinkItem { inverted, additionalStyles } =
 
 verticalMenuActiveItem : List (Attribute msg) -> List (Html msg) -> Html msg
 verticalMenuActiveItem =
-    verticalMenuItemBasis
+    verticalMenuItem
         { inverted = False
-        , tag = Html.div
         , additionalStyles =
             [ -- .ui.vertical.menu .active.item
               backgroundColor (rgba 0 0 0 0.05)
@@ -423,7 +422,7 @@ verticalInvertedMenu =
 
 verticalInvertedMenuItem : List (Attribute msg) -> List (Html msg) -> Html msg
 verticalInvertedMenuItem =
-    verticalMenuItemBasis { inverted = True, tag = Html.div, additionalStyles = [] }
+    verticalMenuItem { inverted = True, additionalStyles = [] }
 
 
 verticalInvertedMenuLinkItem : List (Attribute msg) -> List (Html msg) -> Html msg
