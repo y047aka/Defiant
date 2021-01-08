@@ -17,6 +17,7 @@ module UI.Menu exposing
 -}
 
 import Css exposing (..)
+import Css.Extra exposing (whenStyle)
 import Css.Layout as Layout exposing (layout)
 import Css.Palette exposing (..)
 import Css.Prefix as Prefix
@@ -238,8 +239,12 @@ secondaryMenuActiveItem =
         ]
 
 
-verticalMenu : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-verticalMenu additionalStyles =
+verticalMenu :
+    { inverted : Bool, additionalStyles : List Style }
+    -> List (Attribute msg)
+    -> List (Html msg)
+    -> Html msg
+verticalMenu { inverted, additionalStyles } =
     menuBasis <|
         [ -- .ui.vertical.menu
           display block
@@ -251,23 +256,41 @@ verticalMenu additionalStyles =
 
         -- .ui.vertical.menu
         , width (rem 15)
+
+        -- .ui.inverted.menu
+        , whenStyle inverted <|
+            batch
+                [ border3 zero solid transparent
+                , backgroundColor (hex "#1B1C1D")
+                , Prefix.boxShadow "none"
+                ]
         ]
             ++ additionalStyles
 
 
-verticalMenuItem :
-    (List (Attribute msg) -> List (Html msg) -> Html msg)
-    -> List Style
+verticalMenuItemBasis :
+    { inverted : Bool
+    , tag : List (Attribute msg) -> List (Html msg) -> Html msg
+    , additionalStyles : List Style
+    }
     -> List (Attribute msg)
     -> List (Html msg)
     -> Html msg
-verticalMenuItem tag additionalStyles =
+verticalMenuItemBasis { inverted, tag, additionalStyles } =
     itemBasis tag <|
         [ -- .ui.vertical.menu .item
           display block
         , property "background" "none"
         , property "border-top" "none"
         , property "border-right" "none"
+
+        -- .ui.inverted.menu .item
+        -- .ui.inverted.menu .item > a:not(.ui)
+        , whenStyle inverted <|
+            batch
+                [ property "background" "transparent"
+                , color (rgba 255 255 255 0.9)
+                ]
 
         -- .ui.vertical.menu > .item:first-child
         , firstChild
@@ -288,6 +311,11 @@ verticalMenuItem tag additionalStyles =
             , backgroundColor (rgba 34 36 38 0.1)
             ]
 
+        -- .ui.vertical.inverted.menu .item:before
+        , whenStyle inverted <|
+            before
+                [ backgroundColor (rgba 255 255 255 0.08) ]
+
         -- .ui.vertical.menu .item:first-child:before
         , firstChild
             [ before
@@ -297,38 +325,73 @@ verticalMenuItem tag additionalStyles =
             ++ additionalStyles
 
 
-verticalMenuLinkItem : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-verticalMenuLinkItem additionalStyles =
-    verticalMenuItem Html.a <|
-        [ -- .ui.link.menu .item:hover
-          -- .ui.menu .dropdown.item:hover
-          -- .ui.menu .link.item:hover
-          -- .ui.menu a.item:hover
-          hover
-            [ cursor pointer
-            , backgroundColor (rgba 0 0 0 0.03)
-            , color (rgba 0 0 0 0.95)
-            ]
+verticalMenuItem :
+    { inverted : Bool, additionalStyles : List Style }
+    -> List (Attribute msg)
+    -> List (Html msg)
+    -> Html msg
+verticalMenuItem { inverted, additionalStyles } =
+    verticalMenuItemBasis
+        { inverted = inverted
+        , tag = Html.div
+        , additionalStyles = additionalStyles
+        }
 
-        -- .ui.link.menu .item:active
-        -- .ui.menu .link.item:active
-        -- .ui.menu a.item:active
-        , active
-            [ backgroundColor (rgba 0 0 0 0.03)
-            , color (rgba 0 0 0 0.95)
+
+verticalMenuLinkItem :
+    { inverted : Bool, additionalStyles : List Style }
+    -> List (Attribute msg)
+    -> List (Html msg)
+    -> Html msg
+verticalMenuLinkItem { inverted, additionalStyles } =
+    verticalMenuItemBasis
+        { inverted = inverted
+        , tag = Html.a
+        , additionalStyles =
+            [ -- .ui.link.menu .item:hover
+              -- .ui.menu .dropdown.item:hover
+              -- .ui.menu .link.item:hover
+              -- .ui.menu a.item:hover
+              hover
+                [ cursor pointer
+                , backgroundColor (rgba 0 0 0 0.03)
+                , color (rgba 0 0 0 0.95)
+                ]
+
+            -- .ui.link.inverted.menu .item:hover
+            -- .ui.inverted.menu .dropdown.item:hover
+            -- .ui.inverted.menu .link.item:hover
+            -- .ui.inverted.menu a.item:hover
+            , whenStyle inverted <|
+                hover
+                    [ property "background" "rgba(255, 255, 255, 0.08)"
+                    , color (hex "#ffffff")
+                    ]
+
+            -- .ui.link.menu .item:active
+            -- .ui.menu .link.item:active
+            -- .ui.menu a.item:active
+            , active
+                [ backgroundColor (rgba 0 0 0 0.03)
+                , color (rgba 0 0 0 0.95)
+                ]
             ]
-        ]
-            ++ additionalStyles
+                ++ additionalStyles
+        }
 
 
 verticalMenuActiveItem : List (Attribute msg) -> List (Html msg) -> Html msg
 verticalMenuActiveItem =
-    verticalMenuItem Html.div
-        [ -- .ui.vertical.menu .active.item
-          backgroundColor (rgba 0 0 0 0.05)
-        , borderRadius zero
-        , Prefix.boxShadow "none"
-        ]
+    verticalMenuItemBasis
+        { inverted = False
+        , tag = Html.div
+        , additionalStyles =
+            [ -- .ui.vertical.menu .active.item
+              backgroundColor (rgba 0 0 0 0.05)
+            , borderRadius zero
+            , Prefix.boxShadow "none"
+            ]
+        }
 
 
 verticalMenuActiveItemLabel : List (Attribute msg) -> List (Html msg) -> Html msg
@@ -355,49 +418,14 @@ verticalMenuActiveItemLabel =
 
 verticalInvertedMenu : List (Attribute msg) -> List (Html msg) -> Html msg
 verticalInvertedMenu =
-    verticalMenu
-        [ -- .ui.inverted.menu
-          border3 zero solid transparent
-        , backgroundColor (hex "#1B1C1D")
-        , Prefix.boxShadow "none"
-        ]
+    verticalMenu { inverted = True, additionalStyles = [] }
 
 
 verticalInvertedMenuItem : List (Attribute msg) -> List (Html msg) -> Html msg
 verticalInvertedMenuItem =
-    verticalMenuItem Html.div
-        [ -- .ui.inverted.menu .item
-          -- .ui.inverted.menu .item > a:not(.ui)
-          property "background" "transparent"
-        , color (rgba 255 255 255 0.9)
-
-        -- .ui.vertical.inverted.menu .item:before
-        , before
-            [ backgroundColor (rgba 255 255 255 0.08) ]
-        ]
+    verticalMenuItemBasis { inverted = True, tag = Html.div, additionalStyles = [] }
 
 
 verticalInvertedMenuLinkItem : List (Attribute msg) -> List (Html msg) -> Html msg
 verticalInvertedMenuLinkItem =
-    verticalMenuLinkItem
-        [ -- .ui.inverted.menu .item
-          -- .ui.inverted.menu .item > a:not(.ui)
-          property "background" "transparent"
-        , color (rgba 255 255 255 0.9)
-
-        -- .ui.vertical.inverted.menu .item:before
-        , before
-            [ backgroundColor (rgba 255 255 255 0.08) ]
-
-        -- .ui.secondary.inverted.menu .link.item:not(.disabled)
-        -- .ui.secondary.inverted.menu a.item:not(.disabled)
-        , color (rgba 255 255 255 0.7)
-
-        -- .ui.secondary.inverted.menu .dropdown.item:hover
-        -- .ui.secondary.inverted.menu .link.item:hover
-        -- .ui.secondary.inverted.menu a.item:hover
-        , hover
-            [ backgroundColor (rgba 255 255 255 0.08)
-            , color (hex "#ffffff")
-            ]
-        ]
+    verticalMenuLinkItem { inverted = True, additionalStyles = [] }

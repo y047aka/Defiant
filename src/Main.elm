@@ -383,28 +383,28 @@ sectionForMenus =
         , example []
             [ header [] [ text "Vertical Menu" ]
             , p [] [ text "A vertical menu displays elements vertically.." ]
-            , verticalMenu [] [] <|
+            , verticalMenu { inverted = False, additionalStyles = [] } [] <|
                 [ verticalMenuActiveItem []
                     [ text "Inbox"
                     , verticalMenuActiveItemLabel [] [ text "1" ]
                     ]
-                , verticalMenuItem div [] [] <|
+                , verticalMenuItem { inverted = False, additionalStyles = [] } [] <|
                     [ text "Spam"
                     , verticalMenuActiveItemLabel [] [ text "51" ]
                     ]
-                , verticalMenuItem div [] [] <|
+                , verticalMenuItem { inverted = False, additionalStyles = [] } [] <|
                     [ text "Updates"
                     , verticalMenuActiveItemLabel [] [ text "1" ]
                     ]
-                , verticalMenuItem div [] [] [ text "Search mail..." ]
+                , verticalMenuItem { inverted = False, additionalStyles = [] } [] [ text "Search mail..." ]
                 ]
             ]
         , example []
             [ header [] [ text "Link Item" ]
             , p [] [ text "A menu may contain a link item, or an item formatted as if it is a link." ]
-            , verticalMenu [] [] <|
-                [ verticalMenuLinkItem [] [ href "http://www.google.com", Attributes.target "_blank", rel "noopener" ] [ text "Visit Google" ]
-                , verticalMenuLinkItem [] [] [ text "Javascript Link" ]
+            , verticalMenu { inverted = False, additionalStyles = [] } [] <|
+                [ verticalMenuLinkItem { inverted = False, additionalStyles = [] } [ href "http://www.google.com", Attributes.target "_blank", rel "noopener" ] [ text "Visit Google" ]
+                , verticalMenuLinkItem { inverted = False, additionalStyles = [] } [] [ text "Javascript Link" ]
                 ]
             ]
         , example []
