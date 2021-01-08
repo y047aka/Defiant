@@ -29,7 +29,11 @@ basis additionalStyles =
           borderStyle none
         , margin3 (calc (rem 2) minus (em 0.1428571428571429)) zero (rem 1)
         , padding2 zero zero
-        , typography { headingTypography | textTransform = Typography.none }
+        , typography
+            { headingTypography
+                | fontSize = ""
+                , textTransform = Typography.none
+            }
         , color (rgba 0 0 0 0.87)
 
         -- .ui.header:first-child
