@@ -17,6 +17,7 @@ module UI.Label exposing
 import Css exposing (..)
 import Css.Layout as Layout exposing (layout)
 import Css.Palette exposing (..)
+import Css.Prefix as Prefix
 import Css.Typography as Typography exposing (init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
 
@@ -64,8 +65,7 @@ basicLabel =
     basis (Just basic)
         [ -- .ui.basic.label
           border3 (px 1) solid (rgba 34 36 38 0.15)
-        , property "-webkit-box-shadow" "none"
-        , boxShadow none
+        , Prefix.boxShadow "none"
         , paddingTop <| em 0.5833
         , paddingBottom <| em 0.5833
         , paddingRight <| em 0.833

@@ -84,6 +84,7 @@ view model =
                     , sectionForHeaders
                     , sectionForLabels
                     , sectionForPlaceholder
+                    , sectionForSegments
                     , sectionForTexts
                     , sectionForGrid
                     , sectionForMenus
@@ -102,6 +103,7 @@ tableOfContents =
             , { url = "#header", label = "Header" }
             , { url = "#label", label = "Label" }
             , { url = "#placeholder", label = "Placeholder" }
+            , { url = "#segments", label = "Segments" }
             , { url = "#text", label = "Text" }
             , { url = "#grid", label = "Grid" }
             , { url = "#menu", label = "Menu" }
@@ -275,6 +277,24 @@ sectionForPlaceholder =
                 , line [] []
                 , line [] []
                 ]
+            ]
+        ]
+
+
+sectionForSegments : Html msg
+sectionForSegments =
+    segment [ id "segments" ]
+        [ example []
+            [ header [] [ text "Segment" ]
+            , p [] [ text "A segment of content" ]
+            , segment [] [ wireframeParagraph ]
+            ]
+        , example []
+            [ header [] [ text "Vertical Segment" ]
+            , p [] [ text "A vertical segment formats content to be aligned as part of a vertical group" ]
+            , verticalSegment [] [ wireframeParagraph ]
+            , verticalSegment [] [ wireframeParagraph ]
+            , verticalSegment [] [ wireframeParagraph ]
             ]
         ]
 
