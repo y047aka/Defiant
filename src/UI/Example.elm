@@ -1,18 +1,21 @@
 module UI.Example exposing
     ( toc, article
     , example
+    , wireframeParagraph
     )
 
 {-|
 
 @docs toc, article
 @docs example
+@docs wireframeParagraph
 
 -}
 
 import Css exposing (..)
 import Css.Prefix as Prefix
 import Html.Styled as Html exposing (Attribute, Html)
+import Html.Styled.Attributes exposing (css, src)
 
 
 article : List (Attribute msg) -> List (Html msg) -> Html msg
@@ -48,3 +51,21 @@ example =
         , padding2 (em 1) zero
         , position relative
         ]
+
+
+wireframeParagraph : Html msg
+wireframeParagraph =
+    Html.img
+        [ src "./static/images/wireframe/short-paragraph.png"
+        , css
+            [ marginTop (rem 1)
+            , marginBottom (rem 1)
+            , maxWidth (px 500)
+            , opacity (num 0.5)
+            , display block
+            , position relative
+            , verticalAlign middle
+            , backgroundColor Css.transparent
+            ]
+        ]
+        []

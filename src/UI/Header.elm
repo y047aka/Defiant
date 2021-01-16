@@ -1,7 +1,6 @@
 module UI.Header exposing
     ( header, massiveHeader
     , hugeHeader, bigHeader, largeHeader, mediumHeader, smallHeader, tinyHeader, miniHeader
-    , wireframeParagraph
     )
 
 {-|
@@ -15,7 +14,6 @@ import Css exposing (..)
 import Css.Global exposing (adjacentSiblings, typeSelector)
 import Css.Typography as Typography exposing (typography)
 import Html.Styled as Html exposing (Attribute, Html)
-import Html.Styled.Attributes exposing (css, src)
 
 
 basis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -119,21 +117,3 @@ massiveHeader =
           fontSize (em 2.28571429)
         , minHeight (em 1)
         ]
-
-
-wireframeParagraph : Html msg
-wireframeParagraph =
-    Html.img
-        [ src "./static/images/wireframe/short-paragraph.png"
-        , css
-            [ marginTop (rem 1)
-            , marginBottom (rem 1)
-            , maxWidth (px 500)
-            , opacity (num 0.5)
-            , display block
-            , position relative
-            , verticalAlign middle
-            , backgroundColor Css.transparent
-            ]
-        ]
-        []
