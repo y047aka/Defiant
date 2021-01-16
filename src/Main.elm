@@ -9,7 +9,6 @@ import Html
 import Html.Styled exposing (Html, div, h1, h2, h3, h4, h5, main_, p, span, text, toUnstyled)
 import Html.Styled.Attributes as Attributes exposing (class, css, href, id, rel, target)
 import Html.Styled.Events exposing (onClick)
-import UI exposing (..)
 import UI.Button exposing (..)
 import UI.Example exposing (..)
 import UI.Grid exposing (..)
@@ -18,6 +17,7 @@ import UI.Label exposing (..)
 import UI.Menu exposing (..)
 import UI.Modifier exposing (Palette(..))
 import UI.Placeholder exposing (..)
+import UI.Segment exposing (..)
 import UI.Table exposing (..)
 import UI.Text exposing (..)
 
@@ -111,7 +111,7 @@ tableOfContents =
 
 sectionForSite : Html Msg
 sectionForSite =
-    section [ id "site" ]
+    segment [ id "site" ]
         [ example []
             [ header [] [ text "Headers" ]
             , p [] [ text "A site can define styles for headers" ]
@@ -145,7 +145,7 @@ sectionForSite =
 
 sectionForButtons : Model -> Html Msg
 sectionForButtons model =
-    section [ id "button" ]
+    segment [ id "button" ]
         [ example []
             [ header [] [ text "Button" ]
             , p [] [ text "A standard button" ]
@@ -202,7 +202,7 @@ sectionForButtons model =
 
 sectionForHeaders : Html Msg
 sectionForHeaders =
-    section [ id "header" ]
+    segment [ id "header" ]
         [ example []
             [ header [] [ text "Content Headers" ]
             , p [] [ text "Headers may be oriented to give the importance of a section in the context of the content that surrounds it" ]
@@ -228,7 +228,7 @@ sectionForHeaders =
 
 sectionForLabels : Html Msg
 sectionForLabels =
-    section [ id "label" ]
+    segment [ id "label" ]
         [ example []
             [ header [] [ text "Label" ]
             , p [] [ text "A label" ]
@@ -264,7 +264,7 @@ sectionForLabels =
 
 sectionForPlaceholder : Html msg
 sectionForPlaceholder =
-    section [ id "placeholder" ]
+    segment [ id "placeholder" ]
         [ example []
             [ header [] [ text "Lines" ]
             , p [] [ text "A placeholder can contain have lines of text" ]
@@ -281,7 +281,7 @@ sectionForPlaceholder =
 
 sectionForTexts : Html Msg
 sectionForTexts =
-    section [ id "text" ]
+    segment [ id "text" ]
         [ example []
             [ header [] [ text "Text" ]
             , p [] [ text "A text is always used inline and uses one color from the FUI color palette" ]
@@ -343,7 +343,7 @@ sectionForTexts =
 
 sectionForGrid : Html Msg
 sectionForGrid =
-    section [ id "grid" ]
+    segment [ id "grid" ]
         [ example []
             [ header [] [ text "Grids" ]
             , p [] [ text "A grid is a structure with a long history used to align negative space in designs." ]
@@ -386,7 +386,7 @@ sectionForGrid =
 
 sectionForMenus : Html Msg
 sectionForMenus =
-    section [ id "menu" ]
+    segment [ id "menu" ]
         [ example []
             [ header [] [ text "Secondary Menu" ]
             , p [] [ text "A menu can adjust its appearance to de-emphasize its contents" ]
@@ -441,7 +441,7 @@ sectionForMenus =
 
 sectionForTables : Html Msg
 sectionForTables =
-    section [ id "table" ]
+    segment [ id "table" ]
         [ example []
             [ header [] [ text "Table" ]
             , p [] [ text "A standard table" ]

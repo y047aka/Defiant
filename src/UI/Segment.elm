@@ -1,12 +1,12 @@
-module UI.Section exposing (section)
+module UI.Segment exposing (segment)
 
 import Css exposing (..)
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes exposing (css)
 
 
-section : List (Attribute msg) -> List (Html msg) -> Html msg
-section attributes =
+segment : List (Attribute msg) -> List (Html msg) -> Html msg
+segment attributes =
     Html.section <|
         css
             [ -- .ui.segment {
