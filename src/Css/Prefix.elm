@@ -69,7 +69,7 @@ flex value =
             |> Maybe.map (Css.property "-webkit-box-flex")
             |> Maybe.withDefault Css.Extra.none
         )
-            :: prefixedProperties [ "-ms-", "" ] "flex" value
+            :: prefixedProperties [ "-webkit-", "-ms-", "" ] "flex" value
 
 
 flexDirection : String -> Style
