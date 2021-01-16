@@ -58,14 +58,21 @@ wireframeParagraph =
     Html.img
         [ src "./static/images/wireframe/short-paragraph.png"
         , css
-            [ marginTop (rem 1)
-            , marginBottom (rem 1)
-            , maxWidth (px 500)
-            , opacity (num 0.5)
-            , display block
-            , position relative
+            [ -- .ui.image
+              position relative
+            , display inlineBlock
             , verticalAlign middle
+            , maxWidth (pct 100)
             , backgroundColor Css.transparent
+
+            -- img.ui.image
+            , display block
+
+            -- #example .example .wireframe.image
+            , opacity (num 0.5)
+
+            -- #example.header .wireframe.image
+            , maxWidth (px 500)
             ]
         ]
         []
