@@ -1,4 +1,4 @@
-module Css.Prefix exposing (alignItems, alignSelf, appearance, boxShadow, boxSizing, displayFlex, flex, flexDirection, flexWrap, userSelect)
+module Css.Prefix exposing (alignItems, alignSelf, animationDelay, appearance, boxShadow, boxSizing, displayFlex, flex, flexDirection, flexWrap, userSelect)
 
 import Css exposing (Style, batch, property)
 import Css.Extra
@@ -25,6 +25,12 @@ alignSelf value =
         [ Css.property "-ms-flex-item-align" value
         , Css.property "align-self" value
         ]
+
+
+animationDelay : String -> Style
+animationDelay value =
+    batch <|
+        prefixedProperties [ "-webkit-", "" ] "animation-delay" value
 
 
 appearance : String -> Style

@@ -17,6 +17,7 @@ import UI.Header exposing (..)
 import UI.Label exposing (..)
 import UI.Menu exposing (..)
 import UI.Modifier exposing (Palette(..))
+import UI.Placeholder exposing (..)
 import UI.Table exposing (..)
 import UI.Text exposing (..)
 
@@ -82,6 +83,7 @@ view model =
                     , sectionForButtons model
                     , sectionForHeaders
                     , sectionForLabels
+                    , sectionForPlaceholder
                     , sectionForTexts
                     , sectionForGrid
                     , sectionForMenus
@@ -99,6 +101,7 @@ tableOfContents =
             , { url = "#button", label = "Button" }
             , { url = "#header", label = "Header" }
             , { url = "#label", label = "Label" }
+            , { url = "#placeholder", label = "Placeholder" }
             , { url = "#text", label = "Text" }
             , { url = "#grid", label = "Grid" }
             , { url = "#menu", label = "Menu" }
@@ -256,6 +259,23 @@ sectionForLabels =
                    , greyLabel [] [ text "Grey" ]
                    , blackLabel [] [ text "Black" ]
                    ]
+        ]
+
+
+sectionForPlaceholder : Html msg
+sectionForPlaceholder =
+    section [ id "placeholder" ]
+        [ example []
+            [ header [] [ text "Lines" ]
+            , p [] [ text "A placeholder can contain have lines of text" ]
+            , placeholder []
+                [ line [] []
+                , line [] []
+                , line [] []
+                , line [] []
+                , line [] []
+                ]
+            ]
         ]
 
 
