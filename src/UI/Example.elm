@@ -1,14 +1,14 @@
 module UI.Example exposing
     ( toc, article
     , example, exampleContainer
-    , wireframeParagraph
+    , wireframeParagraph, wireframeShortParagraph
     )
 
 {-|
 
 @docs toc, article
 @docs example, exampleContainer
-@docs wireframeParagraph
+@docs wireframeParagraph, wireframeShortParagraph
 
 -}
 
@@ -17,7 +17,7 @@ import Css.Global exposing (children)
 import Css.Media as Media exposing (only, screen, withMedia)
 import Css.Prefix as Prefix
 import Html.Styled as Html exposing (Attribute, Html)
-import Html.Styled.Attributes exposing (css, src)
+import Html.Styled.Attributes exposing (src)
 
 
 article : List (Attribute msg) -> List (Html msg) -> Html msg
@@ -112,23 +112,41 @@ exampleContainer =
         ]
 
 
+imageBasis : List (Attribute msg) -> List (Html msg) -> Html msg
+imageBasis =
+    Html.styled Html.img
+        [ -- .ui.image
+          position relative
+        , display inlineBlock
+        , verticalAlign middle
+        , maxWidth (pct 100)
+        , backgroundColor Css.transparent
+
+        -- img.ui.image
+        , display block
+
+        -- #example .example .wireframe.image
+        , opacity (num 0.5)
+
+        -- #example .example :not(.images) > .wireframe.image
+        , marginTop (rem 1)
+        , marginBottom (rem 1)
+
+        -- #example .example :not(.images) > .wireframe.image:first-child
+        , firstChild
+            [ marginTop (em 0) ]
+
+        -- #example .example :not(.images) > .wireframe.image:last-child
+        , lastChild
+            [ marginBottom (em 0) ]
+        ]
+
+
 wireframeParagraph : Html msg
 wireframeParagraph =
-    Html.img
-        [ src "./static/images/wireframe/short-paragraph.png"
-        , css
-            [ -- .ui.image
-              position relative
-            , display inlineBlock
-            , verticalAlign middle
-            , maxWidth (pct 100)
-            , backgroundColor Css.transparent
+    imageBasis [ src "./static/images/wireframe/paragraph.png" ] []
 
-            -- img.ui.image
-            , display block
 
-            -- #example .example .wireframe.image
-            , opacity (num 0.5)
-            ]
-        ]
-        []
+wireframeShortParagraph : Html msg
+wireframeShortParagraph =
+    imageBasis [ src "./static/images/wireframe/short-paragraph.png" ] []

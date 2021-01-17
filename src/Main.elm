@@ -245,21 +245,21 @@ sectionForHeaders =
             [ Header.header [] [ text "Content Headers" ]
             , p [] [ text "Headers may be oriented to give the importance of a section in the context of the content that surrounds it" ]
             , massiveHeader [] [ text "Massive Header" ]
-            , wireframeParagraph
+            , wireframeShortParagraph
             , hugeHeader [] [ text "Huge Header" ]
-            , wireframeParagraph
+            , wireframeShortParagraph
             , bigHeader [] [ text "Big Header" ]
-            , wireframeParagraph
+            , wireframeShortParagraph
             , largeHeader [] [ text "Large Header" ]
-            , wireframeParagraph
+            , wireframeShortParagraph
             , mediumHeader [] [ text "Medium Header" ]
-            , wireframeParagraph
+            , wireframeShortParagraph
             , smallHeader [] [ text "Small Header" ]
-            , wireframeParagraph
+            , wireframeShortParagraph
             , tinyHeader [] [ text "Tiny Header" ]
-            , wireframeParagraph
+            , wireframeShortParagraph
             , miniHeader [] [ text "Mini Header" ]
-            , wireframeParagraph
+            , wireframeShortParagraph
             ]
         ]
 
@@ -323,27 +323,27 @@ sectionForSegments =
         [ example []
             [ Header.header [] [ text "Segment" ]
             , p [] [ text "A segment of content" ]
-            , segment [] [ wireframeParagraph ]
+            , segment [] [ wireframeShortParagraph ]
             ]
         , example []
             [ Header.header [] [ text "Vertical Segment" ]
             , p [] [ text "A vertical segment formats content to be aligned as part of a vertical group" ]
-            , verticalSegment [] [ wireframeParagraph ]
-            , verticalSegment [] [ wireframeParagraph ]
-            , verticalSegment [] [ wireframeParagraph ]
+            , verticalSegment [] [ wireframeShortParagraph ]
+            , verticalSegment [] [ wireframeShortParagraph ]
+            , verticalSegment [] [ wireframeShortParagraph ]
             ]
         , example []
             [ Header.header [] [ text "Disabled" ]
             , p [] [ text "A segment may show its content is disabled" ]
-            , disabledSegment [] [ wireframeParagraph ]
+            , disabledSegment [] [ wireframeShortParagraph ]
             ]
         , example []
             [ Header.header [] [ text "Padded" ]
             , p [] [ text "A segment can increase its padding" ]
-            , paddedSegment [] [ wireframeParagraph ]
+            , paddedSegment [] [ wireframeShortParagraph ]
             ]
         , example []
-            [ veryPaddedSegment [] [ wireframeParagraph ] ]
+            [ veryPaddedSegment [] [ wireframeShortParagraph ] ]
         , example []
             [ Header.header [] [ text "Basic" ]
             , p [] [ text "A basic segment has no special formatting\n\n" ]
