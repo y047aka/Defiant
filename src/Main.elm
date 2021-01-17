@@ -6,10 +6,11 @@ import Css.Global exposing (global)
 import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
 import Html
-import Html.Styled exposing (Html, div, h1, h2, h3, h4, h5, main_, p, span, text, toUnstyled)
+import Html.Styled exposing (Html, a, div, h1, h2, h3, h4, h5, main_, p, span, strong, text, toUnstyled)
 import Html.Styled.Attributes as Attributes exposing (class, css, href, id, rel, target)
 import Html.Styled.Events exposing (onClick)
 import UI.Button exposing (..)
+import UI.Container exposing (..)
 import UI.Example exposing (..)
 import UI.Grid exposing (..)
 import UI.Header exposing (..)
@@ -81,6 +82,7 @@ view model =
                 , article []
                     [ sectionForSite
                     , sectionForButtons model
+                    , sectionForContainers
                     , sectionForHeaders
                     , sectionForLabels
                     , sectionForPlaceholder
@@ -100,6 +102,7 @@ tableOfContents =
         List.map (\{ url, label } -> verticalInvertedMenuLinkItem [ href url ] [ text label ])
             [ { url = "#site", label = "Site" }
             , { url = "#button", label = "Button" }
+            , { url = "#container", label = "Container" }
             , { url = "#header", label = "Header" }
             , { url = "#label", label = "Label" }
             , { url = "#placeholder", label = "Placeholder" }
@@ -199,6 +202,36 @@ sectionForButtons model =
                    , greyButton [] [ text "Grey" ]
                    , blackButton [] [ text "Black" ]
                    ]
+        ]
+
+
+sectionForContainers : Html Msg
+sectionForContainers =
+    let
+        content =
+            p []
+                [ text "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa "
+                , strong [] [ text "strong" ]
+                , text ". Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede "
+                , a [ href "#" ] [ text "link" ]
+                , text " mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi."
+                ]
+    in
+    exampleContainer [ id "container" ]
+        [ example []
+            [ header [] [ text "Container" ]
+            , p [] [ text "A standard container" ]
+            , container [] [ content ]
+            ]
+        , example []
+            [ header [] [ text "Text Container" ]
+            , p [] [ text "A container can reduce its maximum width to more naturally accomodate a single column of text" ]
+            , textContainer []
+                [ h2 [] [ text "Header" ]
+                , content
+                , content
+                ]
+            ]
         ]
 
 
