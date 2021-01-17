@@ -1,4 +1,4 @@
-module UI.Segment exposing (segment, verticalSegment)
+module UI.Segment exposing (basicSegment, disabledSegment, paddedSegment, segment, verticalSegment, veryPaddedSegment)
 
 import Css exposing (..)
 import Css.Prefix as Prefix
@@ -49,4 +49,42 @@ verticalSegment =
         -- .ui.vertical.segment:last-child
         , lastChild
             [ property "border-bottom" "none" ]
+        ]
+
+
+disabledSegment : List (Attribute msg) -> List (Html msg) -> Html msg
+disabledSegment =
+    basis
+        [ -- .ui.disabled.segment
+          opacity (num 0.45)
+        , color (rgba 40 40 40 0.3)
+        ]
+
+
+paddedSegment : List (Attribute msg) -> List (Html msg) -> Html msg
+paddedSegment =
+    basis
+        [ -- .ui.padded.segment
+          padding (em 1.5)
+        ]
+
+
+veryPaddedSegment : List (Attribute msg) -> List (Html msg) -> Html msg
+veryPaddedSegment =
+    basis
+        [ -- .ui[class*="very padded"].segment
+          padding (em 3)
+        ]
+
+
+basicSegment : List (Attribute msg) -> List (Html msg) -> Html msg
+basicSegment =
+    basis
+        [ -- .ui.basic.segment
+          -- .ui.segments .ui.basic.segment
+          -- .ui.basic.segments
+          property "background" "none transparent"
+        , Prefix.boxShadow "none"
+        , property "border" "none"
+        , borderRadius zero
         ]
