@@ -17,6 +17,7 @@ import UI.Grid exposing (..)
 import UI.Header as Header exposing (..)
 import UI.Label exposing (..)
 import UI.Menu exposing (..)
+import UI.Message exposing (..)
 import UI.Modifier exposing (Palette(..))
 import UI.Placeholder exposing (..)
 import UI.Segment exposing (..)
@@ -91,6 +92,7 @@ view model =
                     , sectionForTexts
                     , sectionForGrids
                     , sectionForMenus
+                    , sectionForMessages
                     , sectionForTables
                     , sectionForCards
                     ]
@@ -108,10 +110,11 @@ tableOfContents =
             , { url = "#header", label = "Header" }
             , { url = "#label", label = "Label" }
             , { url = "#placeholder", label = "Placeholder" }
-            , { url = "#segments", label = "Segments" }
+            , { url = "#segment", label = "Segment" }
             , { url = "#text", label = "Text" }
             , { url = "#grid", label = "Grid" }
             , { url = "#menu", label = "Menu" }
+            , { url = "#message", label = "Message" }
             , { url = "#table", label = "Table" }
             , { url = "#card", label = "Card" }
             ]
@@ -319,7 +322,7 @@ sectionForPlaceholders =
 
 sectionForSegments : Html msg
 sectionForSegments =
-    exampleContainer [ id "segments" ]
+    exampleContainer [ id "segment" ]
         [ example []
             [ Header.header [] [ text "Segment" ]
             , p [] [ text "A segment of content" ]
@@ -508,6 +511,20 @@ sectionForMenus =
                 [ verticalInvertedMenuItem [] [ text "Home" ]
                 , verticalInvertedMenuItem [] [ text "Messages" ]
                 , verticalInvertedMenuItem [] [ text "Friends" ]
+                ]
+            ]
+        ]
+
+
+sectionForMessages : Html msg
+sectionForMessages =
+    exampleContainer [ id "message" ]
+        [ example []
+            [ Header.header [] [ text "Message" ]
+            , p [] [ text "A basic message" ]
+            , message []
+                [ Header.header [] [ text "Changes in Service" ]
+                , p [] [ text "We just updated our privacy policy here to better service our customers. We recommend reviewing the changes." ]
                 ]
             ]
         ]

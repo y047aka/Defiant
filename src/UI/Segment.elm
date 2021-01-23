@@ -10,7 +10,7 @@ basis additionalStyles =
     Html.styled Html.section <|
         [ -- .ui.segment
           position relative
-        , backgroundColor (hex "#FFFFFF")
+        , property "background" "#FFFFFF"
         , Prefix.boxShadow "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
         , margin2 (rem 1) zero
         , padding2 (em 1) (em 1)
