@@ -22,7 +22,7 @@ basis additionalStyles =
         headingTypography =
             Typography.heading
     in
-    Html.styled Html.h1 <|
+    Html.styled Html.header <|
         [ -- .ui.header
           borderStyle none
         , margin3 (calc (rem 2) minus (em 0.1428571428571429)) zero (rem 1)

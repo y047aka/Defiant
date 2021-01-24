@@ -35,7 +35,7 @@ basis additionalStyles =
         --
         , descendants
             [ -- .ui.message .header:not(.ui)
-              selector ".header:not(.ui)"
+              Css.Global.header
                 [ fontSize (em 1.14285714) ]
 
             -- .ui.message p
@@ -50,11 +50,11 @@ basis additionalStyles =
                 -- .ui.message p:last-child
                 , lastChild
                     [ marginBottom zero ]
-
-                -- .ui.message .header + p
-                , nthChild "n+2"
-                    [ marginTop (em 0.25) ]
                 ]
+
+            -- .ui.message .header + p
+            , selector "header + p"
+                [ marginTop (em 0.25) ]
             ]
         ]
             ++ additionalStyles

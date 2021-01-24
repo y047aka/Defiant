@@ -1,4 +1,4 @@
-module UI.Card exposing (card, cards, content, description, header, meta)
+module UI.Card exposing (card, cards, content, description, meta)
 
 import Css exposing (..)
 import Css.Global exposing (children, descendants, everything, selector)
@@ -165,25 +165,24 @@ content =
                     [ property "color" "''" ]
                 ]
             ]
-        ]
 
+        -- .ui.cards > .card > .content > .header
+        -- .ui.card > .content > .header
+        , children
+            [ Css.Global.header
+                [ display block
+                , property "margin" "''"
+                , fontFamilies fomanticFont
+                , color (rgba 0 0 0 0.85)
 
-header : List (Attribute msg) -> List (Html msg) -> Html msg
-header =
-    Html.styled Html.div <|
-        [ -- .ui.cards > .card > .content > .header
-          -- .ui.card > .content > .header
-          display block
-        , property "margin" "''"
-        , fontFamilies fomanticFont
-        , color (rgba 0 0 0 0.85)
-
-        -- .ui.cards > .card > .content > .header:not(.ui)
-        -- .ui.card > .content > .header:not(.ui)
-        , fontWeight bold
-        , fontSize (em 1.28571429)
-        , marginTop (em -0.21425)
-        , lineHeight (em 1.28571429)
+                -- .ui.cards > .card > .content > .header:not(.ui)
+                -- .ui.card > .content > .header:not(.ui)
+                , fontWeight bold
+                , fontSize (em 1.28571429)
+                , marginTop (em -0.21425)
+                , lineHeight (em 1.28571429)
+                ]
+            ]
         ]
 
 
