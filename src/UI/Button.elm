@@ -27,12 +27,14 @@ import Maybe.Extra as Maybe
 
 
 basis :
-    Maybe { default : Palette, onHover : Palette, onFocus : Palette }
+    { boxShadow : Bool
+    , palettes : Maybe { default : Palette, onHover : Palette, onFocus : Palette }
+    }
     -> List Style
     -> List (Attribute msg)
     -> List (Html msg)
     -> Html msg
-basis maybeOptions additionalStyles =
+basis options additionalStyles =
     let
         defaultLayout =
             Layout.default
@@ -54,12 +56,11 @@ basis maybeOptions additionalStyles =
                 , lineHeight = Typography.em 1
                 , textDecoration = Typography.none
             }
-        , palette <| Maybe.unwrap basis_ .default maybeOptions
+        , palette <| Maybe.unwrap basis_ .default options.palettes
         , margin4 zero (em 0.25) zero zero
         , padding3 (em 0.78571429) (em 1.5) (em 0.78571429)
         , textShadow none
         , borderRadius (rem 0.28571429)
-        , Prefix.boxShadow "0 0 0 1px transparent inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
         , Prefix.userSelect "none"
         , property "-webkit-transition" "opacity 0.1s ease, background-color 0.1s ease, color 0.1s ease, background 0.1s ease, -webkit-box-shadow 0.1s ease"
         , property "transition" "opacity 0.1s ease, background-color 0.1s ease, color 0.1s ease, background 0.1s ease, -webkit-box-shadow 0.1s ease"
@@ -67,26 +68,50 @@ basis maybeOptions additionalStyles =
         , property "transition" "opacity 0.1s ease, background-color 0.1s ease, color 0.1s ease, box-shadow 0.1s ease, background 0.1s ease, -webkit-box-shadow 0.1s ease"
         , property "will-change" "auto"
         , property "-webkit-tap-highlight-color" "transparent"
+        , batch <|
+            if options.boxShadow then
+                -- .ui.basic.button
+                [ Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.15) inset"
+
+                -- .ui.basic.button:hover
+                , hover [ Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset" ]
+
+                -- .ui.basic.button:focus
+                , focus [ Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset" ]
+                ]
+
+            else
+                [ Prefix.boxShadow "0 0 0 1px transparent inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
+
+                -- .ui.button:hover
+                , hover [ Prefix.boxShadow "0 0 0 1px transparent inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset" ]
+
+                -- .ui.button:focus
+                , focus [ Prefix.boxShadow "" ]
+
+                -- .ui.button:active
+                , active [ Prefix.boxShadow "0 0 0 1px transparent inset, none" ]
+
+                -- .ui.button:disabled
+                , disabled [ Prefix.boxShadow "none" ]
+                ]
 
         -- .ui.button:hover
         , hover
-            [ palette <| Maybe.unwrap basisOnHover .onHover maybeOptions
+            [ palette <| Maybe.unwrap basisOnHover .onHover options.palettes
             , backgroundImage none
-            , Prefix.boxShadow "0 0 0 1px transparent inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
             ]
 
         -- .ui.button:focus
         , focus
-            [ palette <| Maybe.unwrap basisOnFocus .onFocus maybeOptions
+            [ palette <| Maybe.unwrap basisOnFocus .onFocus options.palettes
             , backgroundImage none
-            , Prefix.boxShadow ""
             ]
 
         -- .ui.button:active
         , active
-            [ Maybe.withDefault (palette basisOnActive) <| Maybe.map (\_ -> Css.Extra.none) maybeOptions
+            [ Maybe.withDefault (palette basisOnActive) <| Maybe.map (\_ -> Css.Extra.none) options.palettes
             , backgroundImage none
-            , Prefix.boxShadow "0 0 0 1px transparent inset, none"
             ]
 
         -- .ui.button:disabled
@@ -94,7 +119,6 @@ basis maybeOptions additionalStyles =
             [ cursor default
             , opacity (num 0.45) |> important
             , backgroundImage none
-            , Prefix.boxShadow "none"
             , pointerEvents none |> important
             ]
 
@@ -106,12 +130,15 @@ basis maybeOptions additionalStyles =
 
 button : List (Attribute msg) -> List (Html msg) -> Html msg
 button =
-    basis Nothing []
+    basis { boxShadow = False, palettes = Nothing } []
 
 
 basicButton : List (Attribute msg) -> List (Html msg) -> Html msg
 basicButton =
-    basis (Just { default = basic, onHover = basicOnHover, onFocus = basicOnFocus })
+    basis
+        { boxShadow = True
+        , palettes = Just { default = basic, onHover = basicOnHover, onFocus = basicOnFocus }
+        }
         [ -- .ui.basic.button
           property "background" "transparent none"
         , typography
@@ -121,13 +148,6 @@ basicButton =
             }
         , borderRadius (rem 0.28571429)
         , textShadow none |> important
-        , Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.15) inset"
-
-        -- .ui.basic.button:hover
-        , Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
-
-        -- .ui.basic.button:focus
-        , Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
         ]
 
 
@@ -227,7 +247,7 @@ coloredButton :
     -> List (Html msg)
     -> Html msg
 coloredButton palettes =
-    basis (Just palettes)
+    basis { boxShadow = False, palettes = Just palettes }
         [ -- .ui.xxx.button
           textShadow none
         , backgroundImage none
