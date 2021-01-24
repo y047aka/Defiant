@@ -22,8 +22,8 @@ import Css.Typography as Typography exposing (init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
-basis : Maybe Palette -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-basis maybePalette additionalStyles =
+basis : { border : Bool, palette : Maybe Palette } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+basis options additionalStyles =
     Html.styled Html.div <|
         [ -- .ui.label
           display inlineBlock
@@ -37,9 +37,23 @@ basis maybePalette additionalStyles =
             }
         , margin2 zero (em 0.14285714)
         , backgroundImage none
-        , palette <| Maybe.withDefault basis_ maybePalette
-        , padding2 (em 0.5833) (em 0.833)
-        , border3 zero solid transparent
+        , palette <| Maybe.withDefault basis_ options.palette
+        , batch <|
+            if options.border then
+                -- .ui.basic.label
+                [ border3 (px 1) solid (rgba 34 36 38 0.15)
+                , property "padding-top" "calc(0.5833em - 1px)"
+                , property "padding-bottom" "calc(0.5833em - 1px)"
+                , property "padding-right" "calc(0.833em - 1px)"
+
+                -- .ui.basic.label:not(.tag):not(.image):not(.ribbon)
+                , property "padding-left" "calc(0.833em - 1px)"
+                ]
+
+            else
+                [ padding2 (em 0.5833) (em 0.833)
+                , border3 zero solid transparent
+                ]
         , borderRadius (rem 0.28571429)
         , property "-webkit-transition" "background 0.1s ease"
         , property "transition" "background 0.1s ease"
@@ -57,27 +71,20 @@ basis maybePalette additionalStyles =
 
 label : List (Attribute msg) -> List (Html msg) -> Html msg
 label =
-    basis Nothing []
+    basis { border = False, palette = Nothing } []
 
 
 basicLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 basicLabel =
-    basis (Just basic)
+    basis { border = True, palette = Just basic }
         [ -- .ui.basic.label
-          border3 (px 1) solid (rgba 34 36 38 0.15)
-        , Prefix.boxShadow "none"
-        , paddingTop <| em 0.5833
-        , paddingBottom <| em 0.5833
-        , paddingRight <| em 0.833
-
-        -- .ui.basic.label:not(.tag):not(.image):not(.ribbon)
-        , paddingLeft <| em 0.833
+          Prefix.boxShadow "none"
         ]
 
 
 coloredLabel : Palette -> List (Attribute msg) -> List (Html msg) -> Html msg
 coloredLabel palettes =
-    basis (Just palettes) []
+    basis { border = False, palette = Just palettes } []
 
 
 primaryLabel : List (Attribute msg) -> List (Html msg) -> Html msg

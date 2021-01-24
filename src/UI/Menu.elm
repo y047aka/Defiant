@@ -395,7 +395,7 @@ verticalMenuActiveItem =
 
 verticalMenuActiveItemLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 verticalMenuActiveItemLabel =
-    UI.Label.basis Nothing
+    UI.Label.basis { border = False, palette = Nothing } <|
         [ -- .ui.menu .item > .label:not(.floating)
           marginLeft (em 1)
         , padding2 (em 0.3) (em 0.78571429)
