@@ -5,17 +5,27 @@ import Css.Prefix as Prefix
 import Html.Styled as Html exposing (Attribute, Html)
 
 
-basis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-basis additionalStyles =
+basis : { borderAndShadows : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+basis { borderAndShadows } additionalStyles =
     Html.styled Html.section <|
         [ -- .ui.segment
           position relative
-        , property "background" "#FFFFFF"
-        , Prefix.boxShadow "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
         , margin2 (rem 1) zero
         , padding2 (em 1) (em 1)
-        , borderRadius (rem 0.28571429)
-        , border3 (px 1) solid (rgba 34 36 38 0.15)
+        , batch <|
+            if borderAndShadows then
+                [ property "background" "#FFFFFF"
+                , Prefix.boxShadow "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
+                , borderRadius (rem 0.28571429)
+                , border3 (px 1) solid (rgba 34 36 38 0.15)
+                ]
+
+            else
+                [ property "background" "none transparent"
+                , Prefix.boxShadow "none"
+                , property "border" "none"
+                , borderRadius zero
+                ]
 
         -- .ui.segment:first-child
         , pseudoClass "first-child"
@@ -30,20 +40,16 @@ basis additionalStyles =
 
 segment : List (Attribute msg) -> List (Html msg) -> Html msg
 segment =
-    basis []
+    basis { borderAndShadows = True } []
 
 
 verticalSegment : List (Attribute msg) -> List (Html msg) -> Html msg
 verticalSegment =
-    basis
+    basis { borderAndShadows = False }
         [ -- .ui.vertical.segment
           margin zero
         , paddingLeft zero
         , paddingRight zero
-        , property "background" "none transparent"
-        , borderRadius zero
-        , Prefix.boxShadow "none"
-        , property "border" "none"
         , borderBottom3 (px 1) solid (rgba 34 36 38 0.15)
 
         -- .ui.vertical.segment:last-child
@@ -54,7 +60,7 @@ verticalSegment =
 
 disabledSegment : List (Attribute msg) -> List (Html msg) -> Html msg
 disabledSegment =
-    basis
+    basis { borderAndShadows = True }
         [ -- .ui.disabled.segment
           opacity (num 0.45)
         , color (rgba 40 40 40 0.3)
@@ -63,7 +69,7 @@ disabledSegment =
 
 paddedSegment : List (Attribute msg) -> List (Html msg) -> Html msg
 paddedSegment =
-    basis
+    basis { borderAndShadows = True }
         [ -- .ui.padded.segment
           padding (em 1.5)
         ]
@@ -71,7 +77,7 @@ paddedSegment =
 
 veryPaddedSegment : List (Attribute msg) -> List (Html msg) -> Html msg
 veryPaddedSegment =
-    basis
+    basis { borderAndShadows = True }
         [ -- .ui[class*="very padded"].segment
           padding (em 3)
         ]
@@ -79,12 +85,7 @@ veryPaddedSegment =
 
 basicSegment : List (Attribute msg) -> List (Html msg) -> Html msg
 basicSegment =
-    basis
-        [ -- .ui.basic.segment
-          -- .ui.segments .ui.basic.segment
-          -- .ui.basic.segments
-          property "background" "none transparent"
-        , Prefix.boxShadow "none"
-        , property "border" "none"
-        , borderRadius zero
-        ]
+    -- .ui.basic.segment
+    -- .ui.segments .ui.basic.segment
+    -- .ui.basic.segments
+    basis { borderAndShadows = False } []
