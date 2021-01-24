@@ -25,9 +25,7 @@ import Html.Styled.Attributes exposing (css)
 
 
 basis :
-    { palettes : { default : Palette, onHover : Palette, onFocus : Palette, onActive : Palette }
-    , shadow : Bool
-    }
+    { palettes : PalettesByState, shadow : Bool }
     -> List Style
     -> List (Attribute msg)
     -> List (Html msg)
@@ -131,19 +129,12 @@ basis { palettes, shadow } additionalStyles =
 
 button : List (Attribute msg) -> List (Html msg) -> Html msg
 button =
-    basis
-        { palettes = { default = basis_, onHover = basisOnHover, onFocus = basisOnFocus, onActive = basisOnActive }
-        , shadow = False
-        }
-        []
+    basis { palettes = defaultPalettes, shadow = False } []
 
 
 basicButton : List (Attribute msg) -> List (Html msg) -> Html msg
 basicButton =
-    basis
-        { palettes = { default = basic, onHover = basicOnHover, onFocus = basicOnFocus, onActive = basicOnActive }
-        , shadow = True
-        }
+    basis { palettes = basicPalettes, shadow = True }
         [ -- .ui.basic.button
           property "background" "transparent none"
         , typography
@@ -247,7 +238,7 @@ labeledButton attributes =
 
 
 coloredButton :
-    { default : Palette, onHover : Palette, onFocus : Palette, onActive : Palette }
+    PalettesByState
     -> List (Attribute msg)
     -> List (Html msg)
     -> Html msg
@@ -272,85 +263,107 @@ coloredButton palettes =
 
 primaryButton : List (Attribute msg) -> List (Html msg) -> Html msg
 primaryButton =
-    coloredButton { default = primary, onHover = primaryOnHover, onFocus = primaryOnFocus, onActive = primaryOnActive }
+    coloredButton <| PalettesByState primary primaryOnHover primaryOnFocus primaryOnActive
 
 
 secondaryButton : List (Attribute msg) -> List (Html msg) -> Html msg
 secondaryButton =
-    coloredButton { default = secondary, onHover = secondaryOnHover, onFocus = secondaryOnFocus, onActive = secondaryOnActive }
+    coloredButton <| PalettesByState secondary secondaryOnHover secondaryOnFocus secondaryOnActive
 
 
 redButton : List (Attribute msg) -> List (Html msg) -> Html msg
 redButton =
-    coloredButton { default = red, onHover = redOnHover, onFocus = redOnFocus, onActive = redOnActive }
+    coloredButton <| PalettesByState red redOnHover redOnFocus redOnActive
 
 
 orangeButton : List (Attribute msg) -> List (Html msg) -> Html msg
 orangeButton =
-    coloredButton { default = orange, onHover = orangeOnHover, onFocus = orangeOnFocus, onActive = orangeOnActive }
+    coloredButton <| PalettesByState orange orangeOnHover orangeOnFocus orangeOnActive
 
 
 yellowButton : List (Attribute msg) -> List (Html msg) -> Html msg
 yellowButton =
-    coloredButton { default = yellow, onHover = yellowOnHover, onFocus = yellowOnFocus, onActive = yellowOnActive }
+    coloredButton <| PalettesByState yellow yellowOnHover yellowOnFocus yellowOnActive
 
 
 oliveButton : List (Attribute msg) -> List (Html msg) -> Html msg
 oliveButton =
-    coloredButton { default = olive, onHover = oliveOnHover, onFocus = oliveOnFocus, onActive = oliveOnActive }
+    coloredButton <| PalettesByState olive oliveOnHover oliveOnFocus oliveOnActive
 
 
 greenButton : List (Attribute msg) -> List (Html msg) -> Html msg
 greenButton =
-    coloredButton { default = green, onHover = greenOnHover, onFocus = greenOnFocus, onActive = greenOnActive }
+    coloredButton <| PalettesByState green greenOnHover greenOnFocus greenOnActive
 
 
 tealButton : List (Attribute msg) -> List (Html msg) -> Html msg
 tealButton =
-    coloredButton { default = teal, onHover = tealOnHover, onFocus = tealOnFocus, onActive = tealOnActive }
+    coloredButton <| PalettesByState teal tealOnHover tealOnFocus tealOnActive
 
 
 blueButton : List (Attribute msg) -> List (Html msg) -> Html msg
 blueButton =
-    coloredButton { default = blue, onHover = blueOnHover, onFocus = blueOnFocus, onActive = blueOnActive }
+    coloredButton <| PalettesByState blue blueOnHover blueOnFocus blueOnActive
 
 
 violetButton : List (Attribute msg) -> List (Html msg) -> Html msg
 violetButton =
-    coloredButton { default = violet, onHover = violetOnHover, onFocus = violetOnFocus, onActive = violetOnActive }
+    coloredButton <| PalettesByState violet violetOnHover violetOnFocus violetOnActive
 
 
 purpleButton : List (Attribute msg) -> List (Html msg) -> Html msg
 purpleButton =
-    coloredButton { default = purple, onHover = purpleOnHover, onFocus = purpleOnFocus, onActive = purpleOnActive }
+    coloredButton <| PalettesByState purple purpleOnHover purpleOnFocus purpleOnActive
 
 
 pinkButton : List (Attribute msg) -> List (Html msg) -> Html msg
 pinkButton =
-    coloredButton { default = purple, onHover = purpleOnHover, onFocus = purpleOnFocus, onActive = purpleOnActive }
+    coloredButton <| PalettesByState purple purpleOnHover purpleOnFocus purpleOnActive
 
 
 brownButton : List (Attribute msg) -> List (Html msg) -> Html msg
 brownButton =
-    coloredButton { default = brown, onHover = brownOnHover, onFocus = brownOnFocus, onActive = brownOnActive }
+    coloredButton <| PalettesByState brown brownOnHover brownOnFocus brownOnActive
 
 
 greyButton : List (Attribute msg) -> List (Html msg) -> Html msg
 greyButton =
-    coloredButton { default = grey, onHover = greyOnHover, onFocus = greyOnFocus, onActive = greyOnActive }
+    coloredButton <| PalettesByState grey greyOnHover greyOnFocus greyOnActive
 
 
 blackButton : List (Attribute msg) -> List (Html msg) -> Html msg
 blackButton =
-    coloredButton { default = black, onHover = blackOnHover, onFocus = blackOnFocus, onActive = blackOnActive }
+    coloredButton <| PalettesByState black blackOnHover blackOnFocus blackOnActive
+
+
+
+-- PALETTES
+
+
+type alias PalettesByState =
+    { default : Palette
+    , onHover : Palette
+    , onFocus : Palette
+    , onActive : Palette
+    }
+
+
+defaultPalettes : PalettesByState
+defaultPalettes =
+    PalettesByState basisDefault basisOnHover basisOnFocus basisOnActive
+
+
+basicPalettes : PalettesByState
+basicPalettes =
+    PalettesByState basic basicOnHover basicOnFocus basicOnActive
 
 
 
 -- PALETTE
 
 
-basis_ : Palette
-basis_ =
+basisDefault : Palette
+basisDefault =
     { background = hex "#E0E1E2"
     , color = textColor
     , border = transparent_
@@ -359,7 +372,7 @@ basis_ =
 
 basisOnHover : Palette
 basisOnHover =
-    { basis_
+    { basisDefault
         | background = hex "#CACBCD"
         , color = hoverColor
     }
@@ -372,7 +385,7 @@ basisOnFocus =
 
 basisOnActive : Palette
 basisOnActive =
-    { basis_
+    { basisDefault
         | background = hex "#BABBBC"
         , color = rgba 0 0 0 0.9
     }
