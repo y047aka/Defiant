@@ -52,7 +52,6 @@ basis { palettes, shadow } additionalStyles =
                 , lineHeight = Typography.em 1
                 , textDecoration = Typography.none
             }
-        , palette palettes.default
         , margin4 zero (em 0.25) zero zero
         , padding3 (em 0.78571429) (em 1.5) (em 0.78571429)
         , textShadow none
@@ -64,54 +63,34 @@ basis { palettes, shadow } additionalStyles =
         , property "transition" "opacity 0.1s ease, background-color 0.1s ease, color 0.1s ease, box-shadow 0.1s ease, background 0.1s ease, -webkit-box-shadow 0.1s ease"
         , property "will-change" "auto"
         , property "-webkit-tap-highlight-color" "transparent"
+        , palettesByState palettes
         , batch <|
             if shadow then
-                -- .ui.basic.button
-                [ Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.15) inset"
-
-                -- .ui.basic.button:hover
-                , hover [ Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset" ]
-
-                -- .ui.basic.button:focus
-                , focus [ Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset" ]
-
-                -- .ui.basic.button:active
-                , active [ Prefix.boxShadow "0 0 0 1px rgba(0, 0, 0, 0.15) inset, 0 1px 4px 0 rgba(34, 36, 38, 0.15) inset" ]
+                [ Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.15) inset" -- .ui.basic.button
+                , hover [ Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset" ] -- .ui.basic.button:hover
+                , focus [ Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset" ] -- .ui.basic.button:focus
+                , active [ Prefix.boxShadow "0 0 0 1px rgba(0, 0, 0, 0.15) inset, 0 1px 4px 0 rgba(34, 36, 38, 0.15) inset" ] -- .ui.basic.button:active
                 ]
 
             else
                 [ Prefix.boxShadow "0 0 0 1px transparent inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
-
-                -- .ui.button:hover
-                , hover [ Prefix.boxShadow "0 0 0 1px transparent inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset" ]
-
-                -- .ui.button:focus
-                , focus [ Prefix.boxShadow "" ]
-
-                -- .ui.button:active
-                , active [ Prefix.boxShadow "0 0 0 1px transparent inset, none" ]
-
-                -- .ui.button:disabled
-                , disabled [ Prefix.boxShadow "none" ]
+                , hover [ Prefix.boxShadow "0 0 0 1px transparent inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset" ] -- .ui.button:hover
+                , focus [ Prefix.boxShadow "" ] -- .ui.button:focus
+                , active [ Prefix.boxShadow "0 0 0 1px transparent inset, none" ] -- .ui.button:active
+                , disabled [ Prefix.boxShadow "none" ] -- .ui.button:disabled
                 ]
 
         -- .ui.button:hover
         , hover
-            [ palette palettes.onHover
-            , backgroundImage none
-            ]
+            [ backgroundImage none ]
 
         -- .ui.button:focus
         , focus
-            [ palette palettes.onFocus
-            , backgroundImage none
-            ]
+            [ backgroundImage none ]
 
         -- .ui.button:active
         , active
-            [ palette palettes.onActive
-            , backgroundImage none
-            ]
+            [ backgroundImage none ]
 
         -- .ui.button:disabled
         , disabled
@@ -337,7 +316,7 @@ blackButton =
 
 
 
--- PALETTES
+-- PALETTES BY STATE
 
 
 type alias PalettesByState =
@@ -346,6 +325,16 @@ type alias PalettesByState =
     , onFocus : Palette
     , onActive : Palette
     }
+
+
+palettesByState : PalettesByState -> Style
+palettesByState { default, onHover, onFocus, onActive } =
+    batch
+        [ palette default
+        , hover [ palette onHover ]
+        , focus [ palette onFocus ]
+        , active [ palette onActive ]
+        ]
 
 
 defaultPalettes : PalettesByState
