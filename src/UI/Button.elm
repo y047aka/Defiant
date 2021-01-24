@@ -15,7 +15,6 @@ module UI.Button exposing
 -}
 
 import Css exposing (..)
-import Css.Extra
 import Css.Global exposing (children, selector, typeSelector)
 import Css.Layout as Layout exposing (layout)
 import Css.Palette exposing (..)
@@ -23,18 +22,17 @@ import Css.Prefix as Prefix
 import Css.Typography as Typography exposing (fomanticFont, init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes exposing (css)
-import Maybe.Extra as Maybe
 
 
 basis :
-    { boxShadow : Bool
-    , palettes : Maybe { default : Palette, onHover : Palette, onFocus : Palette }
+    { palettes : { default : Palette, onHover : Palette, onFocus : Palette, onActive : Palette }
+    , shadow : Bool
     }
     -> List Style
     -> List (Attribute msg)
     -> List (Html msg)
     -> Html msg
-basis options additionalStyles =
+basis { palettes, shadow } additionalStyles =
     let
         defaultLayout =
             Layout.default
@@ -56,7 +54,7 @@ basis options additionalStyles =
                 , lineHeight = Typography.em 1
                 , textDecoration = Typography.none
             }
-        , palette <| Maybe.unwrap basis_ .default options.palettes
+        , palette palettes.default
         , margin4 zero (em 0.25) zero zero
         , padding3 (em 0.78571429) (em 1.5) (em 0.78571429)
         , textShadow none
@@ -69,7 +67,7 @@ basis options additionalStyles =
         , property "will-change" "auto"
         , property "-webkit-tap-highlight-color" "transparent"
         , batch <|
-            if options.boxShadow then
+            if shadow then
                 -- .ui.basic.button
                 [ Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.15) inset"
 
@@ -78,6 +76,9 @@ basis options additionalStyles =
 
                 -- .ui.basic.button:focus
                 , focus [ Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset" ]
+
+                -- .ui.basic.button:active
+                , active [ Prefix.boxShadow "0 0 0 1px rgba(0, 0, 0, 0.15) inset, 0 1px 4px 0 rgba(34, 36, 38, 0.15) inset" ]
                 ]
 
             else
@@ -98,19 +99,19 @@ basis options additionalStyles =
 
         -- .ui.button:hover
         , hover
-            [ palette <| Maybe.unwrap basisOnHover .onHover options.palettes
+            [ palette palettes.onHover
             , backgroundImage none
             ]
 
         -- .ui.button:focus
         , focus
-            [ palette <| Maybe.unwrap basisOnFocus .onFocus options.palettes
+            [ palette palettes.onFocus
             , backgroundImage none
             ]
 
         -- .ui.button:active
         , active
-            [ Maybe.withDefault (palette basisOnActive) <| Maybe.map (\_ -> Css.Extra.none) options.palettes
+            [ palette palettes.onActive
             , backgroundImage none
             ]
 
@@ -130,14 +131,18 @@ basis options additionalStyles =
 
 button : List (Attribute msg) -> List (Html msg) -> Html msg
 button =
-    basis { boxShadow = False, palettes = Nothing } []
+    basis
+        { palettes = { default = basis_, onHover = basisOnHover, onFocus = basisOnFocus, onActive = basisOnActive }
+        , shadow = False
+        }
+        []
 
 
 basicButton : List (Attribute msg) -> List (Html msg) -> Html msg
 basicButton =
     basis
-        { boxShadow = True
-        , palettes = Just { default = basic, onHover = basicOnHover, onFocus = basicOnFocus }
+        { palettes = { default = basic, onHover = basicOnHover, onFocus = basicOnFocus, onActive = basicOnActive }
+        , shadow = True
         }
         [ -- .ui.basic.button
           property "background" "transparent none"
@@ -242,12 +247,12 @@ labeledButton attributes =
 
 
 coloredButton :
-    { default : Palette, onHover : Palette, onFocus : Palette }
+    { default : Palette, onHover : Palette, onFocus : Palette, onActive : Palette }
     -> List (Attribute msg)
     -> List (Html msg)
     -> Html msg
 coloredButton palettes =
-    basis { boxShadow = False, palettes = Just palettes }
+    basis { palettes = palettes, shadow = False }
         [ -- .ui.xxx.button
           textShadow none
         , backgroundImage none
@@ -267,77 +272,77 @@ coloredButton palettes =
 
 primaryButton : List (Attribute msg) -> List (Html msg) -> Html msg
 primaryButton =
-    coloredButton { default = primary, onHover = primaryOnHover, onFocus = primaryOnFocus }
+    coloredButton { default = primary, onHover = primaryOnHover, onFocus = primaryOnFocus, onActive = primaryOnActive }
 
 
 secondaryButton : List (Attribute msg) -> List (Html msg) -> Html msg
 secondaryButton =
-    coloredButton { default = secondary, onHover = secondaryOnHover, onFocus = secondaryOnFocus }
+    coloredButton { default = secondary, onHover = secondaryOnHover, onFocus = secondaryOnFocus, onActive = secondaryOnActive }
 
 
 redButton : List (Attribute msg) -> List (Html msg) -> Html msg
 redButton =
-    coloredButton { default = red, onHover = redOnHover, onFocus = redOnFocus }
+    coloredButton { default = red, onHover = redOnHover, onFocus = redOnFocus, onActive = redOnActive }
 
 
 orangeButton : List (Attribute msg) -> List (Html msg) -> Html msg
 orangeButton =
-    coloredButton { default = orange, onHover = orangeOnHover, onFocus = orangeOnFocus }
+    coloredButton { default = orange, onHover = orangeOnHover, onFocus = orangeOnFocus, onActive = orangeOnActive }
 
 
 yellowButton : List (Attribute msg) -> List (Html msg) -> Html msg
 yellowButton =
-    coloredButton { default = yellow, onHover = yellowOnHover, onFocus = yellowOnFocus }
+    coloredButton { default = yellow, onHover = yellowOnHover, onFocus = yellowOnFocus, onActive = yellowOnActive }
 
 
 oliveButton : List (Attribute msg) -> List (Html msg) -> Html msg
 oliveButton =
-    coloredButton { default = olive, onHover = oliveOnHover, onFocus = oliveOnFocus }
+    coloredButton { default = olive, onHover = oliveOnHover, onFocus = oliveOnFocus, onActive = oliveOnActive }
 
 
 greenButton : List (Attribute msg) -> List (Html msg) -> Html msg
 greenButton =
-    coloredButton { default = green, onHover = greenOnHover, onFocus = greenOnFocus }
+    coloredButton { default = green, onHover = greenOnHover, onFocus = greenOnFocus, onActive = greenOnActive }
 
 
 tealButton : List (Attribute msg) -> List (Html msg) -> Html msg
 tealButton =
-    coloredButton { default = teal, onHover = tealOnHover, onFocus = tealOnFocus }
+    coloredButton { default = teal, onHover = tealOnHover, onFocus = tealOnFocus, onActive = tealOnActive }
 
 
 blueButton : List (Attribute msg) -> List (Html msg) -> Html msg
 blueButton =
-    coloredButton { default = blue, onHover = blueOnHover, onFocus = blueOnFocus }
+    coloredButton { default = blue, onHover = blueOnHover, onFocus = blueOnFocus, onActive = blueOnActive }
 
 
 violetButton : List (Attribute msg) -> List (Html msg) -> Html msg
 violetButton =
-    coloredButton { default = violet, onHover = violetOnHover, onFocus = violetOnFocus }
+    coloredButton { default = violet, onHover = violetOnHover, onFocus = violetOnFocus, onActive = violetOnActive }
 
 
 purpleButton : List (Attribute msg) -> List (Html msg) -> Html msg
 purpleButton =
-    coloredButton { default = purple, onHover = purpleOnHover, onFocus = purpleOnFocus }
+    coloredButton { default = purple, onHover = purpleOnHover, onFocus = purpleOnFocus, onActive = purpleOnActive }
 
 
 pinkButton : List (Attribute msg) -> List (Html msg) -> Html msg
 pinkButton =
-    coloredButton { default = purple, onHover = purpleOnHover, onFocus = purpleOnFocus }
+    coloredButton { default = purple, onHover = purpleOnHover, onFocus = purpleOnFocus, onActive = purpleOnActive }
 
 
 brownButton : List (Attribute msg) -> List (Html msg) -> Html msg
 brownButton =
-    coloredButton { default = brown, onHover = brownOnHover, onFocus = brownOnFocus }
+    coloredButton { default = brown, onHover = brownOnHover, onFocus = brownOnFocus, onActive = brownOnActive }
 
 
 greyButton : List (Attribute msg) -> List (Html msg) -> Html msg
 greyButton =
-    coloredButton { default = grey, onHover = greyOnHover, onFocus = greyOnFocus }
+    coloredButton { default = grey, onHover = greyOnHover, onFocus = greyOnFocus, onActive = greyOnActive }
 
 
 blackButton : List (Attribute msg) -> List (Html msg) -> Html msg
 blackButton =
-    coloredButton { default = black, onHover = blackOnHover, onFocus = blackOnFocus }
+    coloredButton { default = black, onHover = blackOnHover, onFocus = blackOnFocus, onActive = blackOnActive }
 
 
 
@@ -392,3 +397,11 @@ basicOnHover =
 basicOnFocus : Palette
 basicOnFocus =
     basicOnHover
+
+
+basicOnActive : Palette
+basicOnActive =
+    { basic
+        | background = hex "#F8F8F8"
+        , color = rgba 0 0 0 0.9
+    }

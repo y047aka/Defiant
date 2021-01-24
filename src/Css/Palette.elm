@@ -1,21 +1,21 @@
 module Css.Palette exposing
     ( Palette
     , palette
-    , primary, primaryOnHover, primaryOnFocus
-    , secondary, secondaryOnHover, secondaryOnFocus
-    , red, redOnHover, redOnFocus
-    , orange, orangeOnHover, orangeOnFocus
-    , yellow, yellowOnHover, yellowOnFocus
-    , olive, oliveOnHover, oliveOnFocus
-    , green, greenOnHover, greenOnFocus
-    , teal, tealOnHover, tealOnFocus
-    , blue, blueOnHover, blueOnFocus
-    , violet, violetOnHover, violetOnFocus
-    , purple, purpleOnHover, purpleOnFocus
-    , pink, pinkOnHover, pinkOnFocus
-    , brown, brownOnHover, brownOnFocus
-    , grey, greyOnHover, greyOnFocus
-    , black, blackOnHover, blackOnFocus
+    , primary, primaryOnHover, primaryOnFocus, primaryOnActive
+    , secondary, secondaryOnHover, secondaryOnFocus, secondaryOnActive
+    , red, redOnHover, redOnFocus, redOnActive
+    , orange, orangeOnHover, orangeOnFocus, orangeOnActive
+    , yellow, yellowOnHover, yellowOnFocus, yellowOnActive
+    , olive, oliveOnHover, oliveOnFocus, oliveOnActive
+    , green, greenOnHover, greenOnFocus, greenOnActive
+    , teal, tealOnHover, tealOnFocus, tealOnActive
+    , blue, blueOnHover, blueOnFocus, blueOnActive
+    , violet, violetOnHover, violetOnFocus, violetOnActive
+    , purple, purpleOnHover, purpleOnFocus, purpleOnActive
+    , pink, pinkOnHover, pinkOnFocus, pinkOnActive
+    , brown, brownOnHover, brownOnFocus, brownOnActive
+    , grey, greyOnHover, greyOnFocus, greyOnActive
+    , black, blackOnHover, blackOnFocus, blackOnActive
     , transparent_, textColor, hoverColor
     )
 
@@ -23,21 +23,21 @@ module Css.Palette exposing
 
 @docs Palette
 @docs palette
-@docs primary, primaryOnHover, primaryOnFocus
-@docs secondary, secondaryOnHover, secondaryOnFocus
-@docs red, redOnHover, redOnFocus
-@docs orange, orangeOnHover, orangeOnFocus
-@docs yellow, yellowOnHover, yellowOnFocus
-@docs olive, oliveOnHover, oliveOnFocus
-@docs green, greenOnHover, greenOnFocus
-@docs teal, tealOnHover, tealOnFocus
-@docs blue, blueOnHover, blueOnFocus
-@docs violet, violetOnHover, violetOnFocus
-@docs purple, purpleOnHover, purpleOnFocus
-@docs pink, pinkOnHover, pinkOnFocus
-@docs brown, brownOnHover, brownOnFocus
-@docs grey, greyOnHover, greyOnFocus
-@docs black, blackOnHover, blackOnFocus
+@docs primary, primaryOnHover, primaryOnFocus, primaryOnActive
+@docs secondary, secondaryOnHover, secondaryOnFocus, secondaryOnActive
+@docs red, redOnHover, redOnFocus, redOnActive
+@docs orange, orangeOnHover, orangeOnFocus, orangeOnActive
+@docs yellow, yellowOnHover, yellowOnFocus, yellowOnActive
+@docs olive, oliveOnHover, oliveOnFocus, oliveOnActive
+@docs green, greenOnHover, greenOnFocus, greenOnActive
+@docs teal, tealOnHover, tealOnFocus, tealOnActive
+@docs blue, blueOnHover, blueOnFocus, blueOnActive
+@docs violet, violetOnHover, violetOnFocus, violetOnActive
+@docs purple, purpleOnHover, purpleOnFocus, purpleOnActive
+@docs pink, pinkOnHover, pinkOnFocus, pinkOnActive
+@docs brown, brownOnHover, brownOnFocus, brownOnActive
+@docs grey, greyOnHover, greyOnFocus, greyOnActive
+@docs black, blackOnHover, blackOnFocus, blackOnActive
 @docs transparent_, textColor, hoverColor
 
 -}
@@ -94,6 +94,11 @@ primaryOnFocus =
     blueOnFocus
 
 
+primaryOnActive : Palette
+primaryOnActive =
+    blueOnActive
+
+
 secondary : Palette
 secondary =
     black
@@ -107,6 +112,11 @@ secondaryOnHover =
 secondaryOnFocus : Palette
 secondaryOnFocus =
     blackOnFocus
+
+
+secondaryOnActive : Palette
+secondaryOnActive =
+    blackOnActive
 
 
 red : Palette
@@ -127,6 +137,11 @@ redOnFocus =
     { red | background = hex "#ca1010" }
 
 
+redOnActive : Palette
+redOnActive =
+    { red | background = hex "#b21e1e" }
+
+
 orange : Palette
 orange =
     { colored
@@ -143,6 +158,11 @@ orangeOnHover =
 orangeOnFocus : Palette
 orangeOnFocus =
     { orange | background = hex "#e55b00" }
+
+
+orangeOnActive : Palette
+orangeOnActive =
+    { orange | background = hex "#cf590c" }
 
 
 yellow : Palette
@@ -163,6 +183,11 @@ yellowOnFocus =
     { yellow | background = hex "#daa300" }
 
 
+yellowOnActive : Palette
+yellowOnActive =
+    { yellow | background = hex "#cd9903" }
+
+
 olive : Palette
 olive =
     { colored
@@ -179,6 +204,11 @@ oliveOnHover =
 oliveOnFocus : Palette
 oliveOnFocus =
     { olive | background = hex "#a0b605" }
+
+
+oliveOnActive : Palette
+oliveOnActive =
+    { olive | background = hex "#8d9e13" }
 
 
 green : Palette
@@ -199,6 +229,11 @@ greenOnFocus =
     { green | background = hex "#0ea432" }
 
 
+greenOnActive : Palette
+greenOnActive =
+    { green | background = hex "#198f35" }
+
+
 teal : Palette
 teal =
     { colored
@@ -215,6 +250,11 @@ tealOnHover =
 tealOnFocus : Palette
 tealOnFocus =
     { teal | background = hex "#008c86" }
+
+
+tealOnActive : Palette
+tealOnActive =
+    { teal | background = hex "#00827c" }
 
 
 blue : Palette
@@ -235,6 +275,11 @@ blueOnFocus =
     { blue | background = hex "#0d71bb" }
 
 
+blueOnActive : Palette
+blueOnActive =
+    { blue | background = hex "#1a69a4" }
+
+
 violet : Palette
 violet =
     { colored
@@ -251,6 +296,11 @@ violetOnHover =
 violetOnFocus : Palette
 violetOnFocus =
     { violet | background = hex "#4f20b5" }
+
+
+violetOnActive : Palette
+violetOnActive =
+    { violet | background = hex "#502aa1" }
 
 
 purple : Palette
@@ -271,6 +321,11 @@ purpleOnFocus =
     { purple | background = hex "#8f1eb4" }
 
 
+purpleOnActive : Palette
+purpleOnActive =
+    { purple | background = hex "#82299f" }
+
+
 pink : Palette
 pink =
     { colored
@@ -287,6 +342,11 @@ pinkOnHover =
 pinkOnFocus : Palette
 pinkOnFocus =
     { pink | background = hex "#e10f85" }
+
+
+pinkOnActive : Palette
+pinkOnActive =
+    { pink | background = hex "#c71f7e" }
 
 
 brown : Palette
@@ -307,6 +367,11 @@ brownOnFocus =
     { brown | background = hex "#90532b" }
 
 
+brownOnActive : Palette
+brownOnActive =
+    { brown | background = hex "#805031" }
+
+
 grey : Palette
 grey =
     { colored
@@ -325,6 +390,11 @@ greyOnFocus =
     { grey | background = hex "#8a8a8a" }
 
 
+greyOnActive : Palette
+greyOnActive =
+    { grey | background = hex "#909090" }
+
+
 black : Palette
 black =
     { colored
@@ -341,6 +411,11 @@ blackOnHover =
 blackOnFocus : Palette
 blackOnFocus =
     { black | background = hex "#2f3032" }
+
+
+blackOnActive : Palette
+blackOnActive =
+    { black | background = hex "#343637" }
 
 
 
