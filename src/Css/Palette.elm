@@ -43,7 +43,7 @@ module Css.Palette exposing
 -}
 
 import Css exposing (..)
-import Css.Extra exposing (whenStyle)
+import Css.Extra exposing (when)
 
 
 type alias Palette =
@@ -56,9 +56,9 @@ type alias Palette =
 palette : Palette -> Style
 palette p =
     batch
-        [ whenStyle (p.background /= transparent_) <| backgroundColor p.background
-        , whenStyle (p.color /= transparent_) <| color p.color
-        , whenStyle (p.border /= transparent_) <| borderColor p.border
+        [ when (p.background /= transparent_) <| backgroundColor p.background
+        , when (p.color /= transparent_) <| color p.color
+        , when (p.border /= transparent_) <| borderColor p.border
         ]
 
 

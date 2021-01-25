@@ -17,7 +17,7 @@ module UI.Menu exposing
 -}
 
 import Css exposing (..)
-import Css.Extra exposing (whenStyle)
+import Css.Extra exposing (when)
 import Css.Layout as Layout exposing (layout)
 import Css.Palette exposing (..)
 import Css.Prefix as Prefix
@@ -258,7 +258,7 @@ verticalMenu { inverted, additionalStyles } =
         , width (rem 15)
 
         -- .ui.inverted.menu
-        , whenStyle inverted <|
+        , when inverted <|
             batch
                 [ border3 zero solid transparent
                 , backgroundColor (hex "#1B1C1D")
@@ -286,7 +286,7 @@ verticalMenuItemBasis { inverted, tag, additionalStyles } =
 
         -- .ui.inverted.menu .item
         -- .ui.inverted.menu .item > a:not(.ui)
-        , whenStyle inverted <|
+        , when inverted <|
             batch
                 [ property "background" "transparent"
                 , color (rgba 255 255 255 0.9)
@@ -312,7 +312,7 @@ verticalMenuItemBasis { inverted, tag, additionalStyles } =
             ]
 
         -- .ui.vertical.inverted.menu .item:before
-        , whenStyle inverted <|
+        , when inverted <|
             before
                 [ backgroundColor (rgba 255 255 255 0.08) ]
 
@@ -362,7 +362,7 @@ verticalMenuLinkItem { inverted, additionalStyles } =
             -- .ui.inverted.menu .dropdown.item:hover
             -- .ui.inverted.menu .link.item:hover
             -- .ui.inverted.menu a.item:hover
-            , whenStyle inverted <|
+            , when inverted <|
                 hover
                     [ property "background" "rgba(255, 255, 255, 0.08)"
                     , color (hex "#ffffff")

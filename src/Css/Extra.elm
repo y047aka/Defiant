@@ -1,4 +1,4 @@
-module Css.Extra exposing (none, whenStyle)
+module Css.Extra exposing (none, when)
 
 import Css exposing (..)
 
@@ -12,8 +12,8 @@ none =
     batch []
 
 
-whenStyle : Bool -> Style -> Style
-whenStyle condition style =
+when : Bool -> Style -> Style
+when condition style =
     if condition then
         style
 

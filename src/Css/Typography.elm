@@ -27,7 +27,7 @@ module Css.Typography exposing
 -}
 
 import Css exposing (Style, batch, fontFamilies, property, qt)
-import Css.Extra exposing (whenStyle)
+import Css.Extra exposing (when)
 
 
 type alias Typography =
@@ -45,10 +45,10 @@ typography : Typography -> Style
 typography t =
     let
         setUnlessBlank p v =
-            whenStyle (v /= "") <| property p v
+            when (v /= "") <| property p v
     in
     batch
-        [ whenStyle (t.fontFamilies /= []) <| fontFamilies t.fontFamilies
+        [ when (t.fontFamilies /= []) <| fontFamilies t.fontFamilies
         , setUnlessBlank "font-style" t.fontStyle
         , setUnlessBlank "font-size" t.fontSize
         , setUnlessBlank "font-weight" t.fontWeight
