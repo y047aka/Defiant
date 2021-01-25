@@ -37,103 +37,88 @@ secondaryText =
 
 
 redText : String -> Html msg
-redText str =
-    -- span.ui.red.text
-    coloredText (hex "#DB2828") str
+redText =
+    coloredText red
 
 
 orangeText : String -> Html msg
-orangeText str =
-    -- span.ui.orange.text
-    coloredText (hex "#F2711C") str
+orangeText =
+    coloredText orange
 
 
 yellowText : String -> Html msg
-yellowText str =
-    -- span.ui.yellow.text
-    coloredText (hex "#FBBD08") str
+yellowText =
+    coloredText yellow
 
 
 oliveText : String -> Html msg
-oliveText str =
-    -- span.ui.olive.text
-    coloredText (hex "#B5CC18") str
+oliveText =
+    coloredText olive
 
 
 greenText : String -> Html msg
-greenText str =
-    -- span.ui.green.text
-    coloredText (hex "#21BA45") str
+greenText =
+    coloredText green
 
 
 tealText : String -> Html msg
-tealText str =
-    -- span.ui.teal.text
-    coloredText (hex "#00B5AD") str
+tealText =
+    coloredText teal
 
 
 blueText : String -> Html msg
-blueText str =
-    -- span.ui.blue.text
-    coloredText (hex "#2185D0") str
+blueText =
+    coloredText blue
 
 
 violetText : String -> Html msg
-violetText str =
-    -- span.ui.violet.text
-    coloredText (hex "#6435C9") str
+violetText =
+    coloredText violet
 
 
 purpleText : String -> Html msg
-purpleText str =
-    -- span.ui.purple.text
-    coloredText (hex "#A333C8") str
+purpleText =
+    coloredText purple
 
 
 pinkText : String -> Html msg
-pinkText str =
-    -- span.ui.pink.text
-    coloredText (hex "#E03997") str
+pinkText =
+    coloredText pink
 
 
 brownText : String -> Html msg
-brownText str =
-    -- span.ui.brown.text
-    coloredText (hex "#A5673F") str
+brownText =
+    coloredText brown
 
 
 greyText : String -> Html msg
-greyText str =
-    -- span.ui.grey.text
-    coloredText (hex "#767676") str
+greyText =
+    coloredText grey
 
 
 blackText : String -> Html msg
-blackText str =
-    -- span.ui.black.text
-    coloredText (hex "#1B1C1D") str
+blackText =
+    coloredText black
 
 
 errorText : String -> Html msg
 errorText =
-    redText
+    coloredText error
 
 
 infoText : String -> Html msg
-infoText str =
-    -- span.ui.info.text
-    coloredText (hex "#31CCEC") str
+infoText =
+    coloredText info
 
 
 successText : String -> Html msg
 successText =
-    greenText
+    coloredText success
 
 
 warningText : String -> Html msg
-warningText str =
-    -- span.ui.warning.text
-    coloredText (hex "#F2C037") str
+warningText =
+    coloredText warning
 
 
 disabledText : String -> Html msg
@@ -188,3 +173,107 @@ massiveText : String -> Html msg
 massiveText str =
     -- span.ui.massive.text
     Html.span [ css [ fontSize (em 8) ] ] [ text str ]
+
+
+
+-- COLOR
+
+
+red : Color
+red =
+    -- span.ui.red.text
+    hex "#DB2828"
+
+
+orange : Color
+orange =
+    -- span.ui.orange.text
+    hex "#F2711C"
+
+
+yellow : Color
+yellow =
+    -- span.ui.yellow.text
+    hex "#FBBD08"
+
+
+olive : Color
+olive =
+    -- span.ui.olive.text
+    hex "#B5CC18"
+
+
+green : Color
+green =
+    -- span.ui.green.text
+    hex "#21BA45"
+
+
+teal : Color
+teal =
+    -- span.ui.teal.text
+    hex "#00B5AD"
+
+
+blue : Color
+blue =
+    -- span.ui.blue.text
+    hex "#2185D0"
+
+
+violet : Color
+violet =
+    -- span.ui.violet.text
+    hex "#6435C9"
+
+
+purple : Color
+purple =
+    -- span.ui.purple.text
+    hex "#A333C8"
+
+
+pink : Color
+pink =
+    -- span.ui.pink.text
+    hex "#E03997"
+
+
+brown : Color
+brown =
+    -- span.ui.brown.text
+    hex "#A5673F"
+
+
+grey : Color
+grey =
+    -- span.ui.grey.text
+    hex "#767676"
+
+
+black : Color
+black =
+    -- span.ui.black.text
+    hex "#1B1C1D"
+
+
+error : Color
+error =
+    red
+
+
+info : Color
+info =
+    -- span.ui.info.text
+    hex "#31CCEC"
+
+
+success : Color
+success =
+    green
+
+
+warning : Color
+warning =
+    -- span.ui.warning.text
+    hex "#F2C037"
