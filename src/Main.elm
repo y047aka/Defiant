@@ -362,7 +362,7 @@ sectionForTexts =
         [ example []
             [ header [] [ text "Text" ]
             , p [] [ text "A text is always used inline and uses one color from the FUI color palette" ]
-            , div []
+            , segment []
                 [ text "This is "
                 , redText "red"
                 , text " inline text and this is "
@@ -371,7 +371,7 @@ sectionForTexts =
                 , purpleText "purple"
                 , text " inline text"
                 ]
-            , div []
+            , invertedSegment []
                 [ text "This is "
                 , span [ class "inverted red" ] [ text "red" ]
                 , text " inline text and this is "
@@ -380,7 +380,7 @@ sectionForTexts =
                 , span [ class "inverted purple" ] [ text "purple" ]
                 , text " inline text"
                 ]
-            , div []
+            , segment []
                 [ text "This is "
                 , infoText "info"
                 , text " inline text and this is "
@@ -391,7 +391,7 @@ sectionForTexts =
                 , errorText "error"
                 , text " inline text"
                 ]
-            , div []
+            , invertedSegment []
                 [ text "This is "
                 , infoText "info"
                 , text " inline text and this is "
@@ -406,14 +406,16 @@ sectionForTexts =
         , example []
             [ header [] [ text "Size" ]
             , p [] [ text "Text can vary in the same sizes as icons" ]
-            , p [] [ text "Starting with ", miniText "mini", text " text" ]
-            , p [] [ text "which turns into ", tinyText "tiny", text " text" ]
-            , p [] [ text "changing to ", smallText "small", text " text until it is" ]
-            , p [] [ text "the default ", mediumText "medium", text " text" ]
-            , p [] [ text "and could be ", largeText "large", text " text" ]
-            , p [] [ text "to turn into ", bigText "big", text " text" ]
-            , p [] [ text "then growing to ", hugeText "huge", text " text" ]
-            , p [] [ text "to finally become ", massiveText "massive", text " text" ]
+            , segment []
+                [ p [] [ text "Starting with ", miniText "mini", text " text" ]
+                , p [] [ text "which turns into ", tinyText "tiny", text " text" ]
+                , p [] [ text "changing to ", smallText "small", text " text until it is" ]
+                , p [] [ text "the default ", mediumText "medium", text " text" ]
+                , p [] [ text "and could be ", largeText "large", text " text" ]
+                , p [] [ text "to turn into ", bigText "big", text " text" ]
+                , p [] [ text "then growing to ", hugeText "huge", text " text" ]
+                , p [] [ text "to finally become ", massiveText "massive", text " text" ]
+                ]
             ]
         ]
 
