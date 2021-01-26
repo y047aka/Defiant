@@ -364,20 +364,20 @@ sectionForTexts =
             , p [] [ text "A text is always used inline and uses one color from the FUI color palette" ]
             , segment []
                 [ text "This is "
-                , redText "red"
+                , redText { inverted = False } "red"
                 , text " inline text and this is "
-                , blueText "blue"
+                , blueText { inverted = False } "blue"
                 , text " inline text and this is "
-                , purpleText "purple"
+                , purpleText { inverted = False } "purple"
                 , text " inline text"
                 ]
             , invertedSegment []
                 [ text "This is "
-                , span [ class "inverted red" ] [ text "red" ]
+                , redText { inverted = True } "red"
                 , text " inline text and this is "
-                , span [ class "inverted blue" ] [ text "blue" ]
+                , blueText { inverted = True } "blue"
                 , text " inline text and this is "
-                , span [ class "inverted purple" ] [ text "purple" ]
+                , purpleText { inverted = True } "purple"
                 , text " inline text"
                 ]
             , segment []

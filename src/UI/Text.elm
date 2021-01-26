@@ -15,6 +15,7 @@ module UI.Text exposing
 -}
 
 import Css exposing (..)
+import Css.Color as Color exposing (..)
 import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Attributes exposing (css)
 
@@ -26,99 +27,108 @@ coloredText color_ str =
         [ text str ]
 
 
-primaryText : String -> Html msg
+primaryText : { inverted : Bool } -> String -> Html msg
 primaryText =
     blueText
 
 
-secondaryText : String -> Html msg
+secondaryText : { inverted : Bool } -> String -> Html msg
 secondaryText =
     blackText
 
 
-redText : String -> Html msg
-redText =
-    coloredText red
+redText : { inverted : Bool } -> String -> Html msg
+redText { inverted } =
+    coloredText <| colorSelector inverted ( red, hex "#FF695E" )
 
 
-orangeText : String -> Html msg
-orangeText =
-    coloredText orange
+orangeText : { inverted : Bool } -> String -> Html msg
+orangeText { inverted } =
+    coloredText <| colorSelector inverted ( orange, hex "#FF851B" )
 
 
-yellowText : String -> Html msg
-yellowText =
-    coloredText yellow
+yellowText : { inverted : Bool } -> String -> Html msg
+yellowText { inverted } =
+    coloredText <| colorSelector inverted ( yellow, hex "#FFE21F" )
 
 
-oliveText : String -> Html msg
-oliveText =
-    coloredText olive
+oliveText : { inverted : Bool } -> String -> Html msg
+oliveText { inverted } =
+    coloredText <| colorSelector inverted ( olive, hex "#D9E778" )
 
 
-greenText : String -> Html msg
-greenText =
-    coloredText green
+greenText : { inverted : Bool } -> String -> Html msg
+greenText { inverted } =
+    coloredText <| colorSelector inverted ( green, hex "#2ECC40" )
 
 
-tealText : String -> Html msg
-tealText =
-    coloredText teal
+tealText : { inverted : Bool } -> String -> Html msg
+tealText { inverted } =
+    coloredText <| colorSelector inverted ( teal, hex "#6DFFFF" )
 
 
-blueText : String -> Html msg
-blueText =
-    coloredText blue
+blueText : { inverted : Bool } -> String -> Html msg
+blueText { inverted } =
+    coloredText <| colorSelector inverted ( blue, hex "#54C8FF" )
 
 
-violetText : String -> Html msg
-violetText =
-    coloredText violet
+violetText : { inverted : Bool } -> String -> Html msg
+violetText { inverted } =
+    coloredText <| colorSelector inverted ( violet, hex "#A291FB" )
 
 
-purpleText : String -> Html msg
-purpleText =
-    coloredText purple
+purpleText : { inverted : Bool } -> String -> Html msg
+purpleText { inverted } =
+    coloredText <| colorSelector inverted ( purple, hex "#DC73FF" )
 
 
-pinkText : String -> Html msg
-pinkText =
-    coloredText pink
+pinkText : { inverted : Bool } -> String -> Html msg
+pinkText { inverted } =
+    coloredText <| colorSelector inverted ( pink, hex "#FF8EDF" )
 
 
-brownText : String -> Html msg
-brownText =
-    coloredText brown
+brownText : { inverted : Bool } -> String -> Html msg
+brownText { inverted } =
+    coloredText <| colorSelector inverted ( brown, hex "#D67C1C" )
 
 
-greyText : String -> Html msg
-greyText =
-    coloredText grey
+greyText : { inverted : Bool } -> String -> Html msg
+greyText { inverted } =
+    coloredText <| colorSelector inverted ( grey, hex "#DCDDDE" )
 
 
-blackText : String -> Html msg
-blackText =
-    coloredText black
+blackText : { inverted : Bool } -> String -> Html msg
+blackText { inverted } =
+    coloredText <| colorSelector inverted ( black, hex "#545454" )
 
 
-errorText : String -> Html msg
-errorText =
-    coloredText error
+colorSelector : Bool -> ( Color, Color ) -> Color
+colorSelector isInverted ( default, inverted ) =
+    if isInverted then
+        inverted
+
+    else
+        default
 
 
 infoText : String -> Html msg
 infoText =
-    coloredText info
+    coloredText Color.info
 
 
 successText : String -> Html msg
 successText =
-    coloredText success
+    coloredText Color.success
 
 
 warningText : String -> Html msg
 warningText =
-    coloredText warning
+    coloredText Color.warning
+
+
+errorText : String -> Html msg
+errorText =
+    coloredText Color.error
 
 
 disabledText : String -> Html msg
@@ -173,107 +183,3 @@ massiveText : String -> Html msg
 massiveText str =
     -- span.ui.massive.text
     Html.span [ css [ fontSize (em 8) ] ] [ text str ]
-
-
-
--- COLOR
-
-
-red : Color
-red =
-    -- span.ui.red.text
-    hex "#DB2828"
-
-
-orange : Color
-orange =
-    -- span.ui.orange.text
-    hex "#F2711C"
-
-
-yellow : Color
-yellow =
-    -- span.ui.yellow.text
-    hex "#FBBD08"
-
-
-olive : Color
-olive =
-    -- span.ui.olive.text
-    hex "#B5CC18"
-
-
-green : Color
-green =
-    -- span.ui.green.text
-    hex "#21BA45"
-
-
-teal : Color
-teal =
-    -- span.ui.teal.text
-    hex "#00B5AD"
-
-
-blue : Color
-blue =
-    -- span.ui.blue.text
-    hex "#2185D0"
-
-
-violet : Color
-violet =
-    -- span.ui.violet.text
-    hex "#6435C9"
-
-
-purple : Color
-purple =
-    -- span.ui.purple.text
-    hex "#A333C8"
-
-
-pink : Color
-pink =
-    -- span.ui.pink.text
-    hex "#E03997"
-
-
-brown : Color
-brown =
-    -- span.ui.brown.text
-    hex "#A5673F"
-
-
-grey : Color
-grey =
-    -- span.ui.grey.text
-    hex "#767676"
-
-
-black : Color
-black =
-    -- span.ui.black.text
-    hex "#1B1C1D"
-
-
-error : Color
-error =
-    red
-
-
-info : Color
-info =
-    -- span.ui.info.text
-    hex "#31CCEC"
-
-
-success : Color
-success =
-    green
-
-
-warning : Color
-warning =
-    -- span.ui.warning.text
-    hex "#F2C037"
