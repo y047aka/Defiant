@@ -1,11 +1,11 @@
 module UI.Table exposing
-    ( table, celledTable, stripedTable
+    ( table, stripedTable, celledTable, basicTable, veryBasicTable
     , thead, tbody, tfoot, tr, td, th
     )
 
 {-|
 
-@docs table, celledTable, stripedTable
+@docs table, stripedTable, celledTable, basicTable, veryBasicTable
 @docs thead, tbody, tfoot, tr, td, th
 
 -}
@@ -19,8 +19,13 @@ import Css.Typography as Typography exposing (init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
-basis : { striped : Bool, celled : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-basis { striped, celled } additionalStyles =
+basis :
+    { border : Bool, striped : Bool, celled : Bool, thead : Bool }
+    -> List Style
+    -> List (Attribute msg)
+    -> List (Html msg)
+    -> Html msg
+basis options additionalStyles =
     let
         initialLayout =
             Layout.init
@@ -30,7 +35,12 @@ basis { striped, celled } additionalStyles =
           width (pct 100)
         , backgroundColor (hex "#FFFFFF")
         , margin2 (em 1) zero
-        , border3 (px 1) solid (rgba 34 36 38 0.15)
+        , batch <|
+            if options.border then
+                [ border3 (px 1) solid (rgba 34 36 38 0.15) ]
+
+            else
+                []
         , Prefix.boxShadow "none"
         , borderRadius (rem 0.28571429)
         , layout
@@ -75,7 +85,7 @@ basis { striped, celled } additionalStyles =
 
         -- Striped
         , batch <|
-            if striped then
+            if options.striped then
                 [ descendants
                     [ -- .ui.striped.table > tr:nth-child(2n)
                       -- .ui.striped.table > tbody > tr:nth-child(2n)
@@ -91,7 +101,7 @@ basis { striped, celled } additionalStyles =
 
         -- Celled
         , batch <|
-            if celled then
+            if options.celled then
                 [ descendants
                     [ each [ Css.Global.th, Css.Global.td ]
                         [ -- .ui.celled.table > tr > th
@@ -118,23 +128,76 @@ basis { striped, celled } additionalStyles =
 
             else
                 []
+
+        -- Table Header
+        , batch <|
+            if options.thead then
+                [ descendants
+                    [ -- .ui.table > thead > tr > th
+                      Css.Global.th
+                        [ backgroundColor (hex "#F9FAFB") ]
+                    ]
+                ]
+
+            else
+                []
         ]
             ++ additionalStyles
 
 
 table : List (Attribute msg) -> List (Html msg) -> Html msg
 table =
-    basis { striped = False, celled = False } []
-
-
-celledTable : List (Attribute msg) -> List (Html msg) -> Html msg
-celledTable =
-    basis { striped = False, celled = True } []
+    basis
+        { border = True
+        , striped = False
+        , celled = False
+        , thead = True
+        }
+        []
 
 
 stripedTable : List (Attribute msg) -> List (Html msg) -> Html msg
 stripedTable =
-    basis { striped = True, celled = False } []
+    basis
+        { border = True
+        , striped = True
+        , celled = False
+        , thead = True
+        }
+        []
+
+
+celledTable : List (Attribute msg) -> List (Html msg) -> Html msg
+celledTable =
+    basis
+        { border = True
+        , striped = False
+        , celled = True
+        , thead = True
+        }
+        []
+
+
+basicTable : List (Attribute msg) -> List (Html msg) -> Html msg
+basicTable =
+    basis
+        { border = True
+        , striped = False
+        , celled = False
+        , thead = False
+        }
+        []
+
+
+veryBasicTable : List (Attribute msg) -> List (Html msg) -> Html msg
+veryBasicTable =
+    basis
+        { border = False
+        , striped = False
+        , celled = False
+        , thead = False
+        }
+        []
 
 
 thead : List (Attribute msg) -> List (Html msg) -> Html msg
@@ -196,7 +259,6 @@ th =
     Html.styled Html.th
         [ -- .ui.table > thead > tr > th
           cursor auto
-        , backgroundColor (hex "#F9FAFB")
         , layout
             { initialLayout
                 | textAlign = Typography.inherit
