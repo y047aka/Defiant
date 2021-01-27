@@ -19,8 +19,8 @@ import Css.Typography as Typography exposing (init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
-basis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-basis additionalStyles =
+basis : { striped : Bool, celled : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+basis { striped, celled } additionalStyles =
     let
         initialLayout =
             Layout.init
@@ -72,55 +72,69 @@ basis additionalStyles =
                 , property "transition" "background 0.1s ease, color 0.1s ease"
                 ]
             ]
+
+        -- Striped
+        , batch <|
+            if striped then
+                [ descendants
+                    [ -- .ui.striped.table > tr:nth-child(2n)
+                      -- .ui.striped.table > tbody > tr:nth-child(2n)
+                      Css.Global.tr
+                        [ nthChild "2n"
+                            [ backgroundColor (rgba 0 0 50 0.02) ]
+                        ]
+                    ]
+                ]
+
+            else
+                []
+
+        -- Celled
+        , batch <|
+            if celled then
+                [ descendants
+                    [ each [ Css.Global.th, Css.Global.td ]
+                        [ -- .ui.celled.table > tr > th
+                          -- .ui.celled.table > thead > tr > th
+                          -- .ui.celled.table > tbody > tr > th
+                          -- .ui.celled.table > tfoot > tr > th
+                          -- .ui.celled.table > tr > td
+                          -- .ui.celled.table > tbody > tr > td
+                          -- .ui.celled.table > tfoot > tr > td
+                          borderLeft3 (px 1) solid (rgba 34 36 38 0.1)
+
+                        -- .ui.celled.table > tr > th:first-child
+                        -- .ui.celled.table > thead > tr > th:first-child
+                        -- .ui.celled.table > tbody > tr > th:first-child
+                        -- .ui.celled.table > tfoot > tr > th:first-child
+                        -- .ui.celled.table > tr > td:first-child
+                        -- .ui.celled.table > tbody > tr > td:first-child
+                        -- .ui.celled.table > tfoot > tr > td:first-child
+                        , firstChild
+                            [ property "border-left" "none" ]
+                        ]
+                    ]
+                ]
+
+            else
+                []
         ]
             ++ additionalStyles
 
 
 table : List (Attribute msg) -> List (Html msg) -> Html msg
 table =
-    basis []
+    basis { striped = False, celled = False } []
 
 
 celledTable : List (Attribute msg) -> List (Html msg) -> Html msg
 celledTable =
-    basis
-        [ descendants
-            [ each [ Css.Global.th, Css.Global.td ]
-                [ -- .ui.celled.table > tr > th
-                  -- .ui.celled.table > thead > tr > th
-                  -- .ui.celled.table > tbody > tr > th
-                  -- .ui.celled.table > tfoot > tr > th
-                  -- .ui.celled.table > tr > td
-                  -- .ui.celled.table > tbody > tr > td
-                  -- .ui.celled.table > tfoot > tr > td
-                  borderLeft3 (px 1) solid (rgba 34 36 38 0.1)
-
-                -- .ui.celled.table > tr > th:first-child
-                -- .ui.celled.table > thead > tr > th:first-child
-                -- .ui.celled.table > tbody > tr > th:first-child
-                -- .ui.celled.table > tfoot > tr > th:first-child
-                -- .ui.celled.table > tr > td:first-child
-                -- .ui.celled.table > tbody > tr > td:first-child
-                -- .ui.celled.table > tfoot > tr > td:first-child
-                , firstChild
-                    [ property "border-left" "none" ]
-                ]
-            ]
-        ]
+    basis { striped = False, celled = True } []
 
 
 stripedTable : List (Attribute msg) -> List (Html msg) -> Html msg
 stripedTable =
-    basis
-        [ descendants
-            [ -- .ui.striped.table > tr:nth-child(2n)
-              -- .ui.striped.table > tbody > tr:nth-child(2n)
-              Css.Global.tr
-                [ nthChild "2n"
-                    [ backgroundColor (rgba 0 0 50 0.02) ]
-                ]
-            ]
-        ]
+    basis { striped = True, celled = False } []
 
 
 thead : List (Attribute msg) -> List (Html msg) -> Html msg
