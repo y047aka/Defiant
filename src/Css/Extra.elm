@@ -1,4 +1,4 @@
-module Css.Extra exposing (none, when)
+module Css.Extra exposing (none, orNone, when)
 
 import Css exposing (..)
 
@@ -19,3 +19,10 @@ when condition style =
 
     else
         none
+
+
+orNone : Maybe a -> (a -> Style) -> Style
+orNone maybe f =
+    maybe
+        |> Maybe.map f
+        |> Maybe.withDefault none

@@ -16,15 +16,25 @@ module UI.Text exposing
 
 import Css exposing (..)
 import Css.Color as Color exposing (..)
+import Css.Extra exposing (orNone)
 import Html.Styled as Html exposing (Html, text)
-import Html.Styled.Attributes exposing (css)
+
+
+basis : { size : Maybe (FontSize a), color : Maybe Color } -> List Style -> String -> Html msg
+basis options additionalStyles str =
+    Html.styled Html.span
+        ([ orNone options.size fontSize
+         , orNone options.color color
+         ]
+            ++ additionalStyles
+        )
+        []
+        [ text str ]
 
 
 coloredText : Color -> String -> Html msg
 coloredText color_ str =
-    Html.span
-        [ css [ color color_ ] ]
-        [ text str ]
+    basis { size = Nothing, color = Just color_ } [] str
 
 
 primaryText : { inverted : Bool } -> String -> Html msg
@@ -134,52 +144,52 @@ errorText =
 disabledText : String -> Html msg
 disabledText str =
     -- span.ui.disabled.text
-    Html.span [ css [ opacity (num 0.45) ] ] [ text str ]
+    basis { size = Nothing, color = Nothing } [ opacity (num 0.45) ] str
 
 
 miniText : String -> Html msg
 miniText str =
     -- span.ui.mini.text
-    Html.span [ css [ fontSize (em 0.4) ] ] [ text str ]
+    basis { size = Just (em 0.4), color = Nothing } [] str
 
 
 tinyText : String -> Html msg
 tinyText str =
     -- span.ui.tiny.text
-    Html.span [ css [ fontSize (em 0.5) ] ] [ text str ]
+    basis { size = Just (em 0.5), color = Nothing } [] str
 
 
 smallText : String -> Html msg
 smallText str =
     -- span.ui.small.text
-    Html.span [ css [ fontSize (em 0.75) ] ] [ text str ]
+    basis { size = Just (em 0.75), color = Nothing } [] str
 
 
 mediumText : String -> Html msg
 mediumText str =
     -- span.ui.medium.text
-    Html.span [ css [ fontSize (em 1) ] ] [ text str ]
+    basis { size = Just (em 1), color = Nothing } [] str
 
 
 largeText : String -> Html msg
 largeText str =
     -- span.ui.large.text
-    Html.span [ css [ fontSize (em 1.5) ] ] [ text str ]
+    basis { size = Just (em 1.5), color = Nothing } [] str
 
 
 bigText : String -> Html msg
 bigText str =
     -- span.ui.big.text
-    Html.span [ css [ fontSize (em 2) ] ] [ text str ]
+    basis { size = Just (em 2), color = Nothing } [] str
 
 
 hugeText : String -> Html msg
 hugeText str =
     -- span.ui.huge.text
-    Html.span [ css [ fontSize (em 4) ] ] [ text str ]
+    basis { size = Just (em 4), color = Nothing } [] str
 
 
 massiveText : String -> Html msg
 massiveText str =
     -- span.ui.massive.text
-    Html.span [ css [ fontSize (em 8) ] ] [ text str ]
+    basis { size = Just (em 8), color = Nothing } [] str
