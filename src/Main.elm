@@ -435,6 +435,26 @@ sectionForBreadcrumbs =
                 , activeSection [] [ text "T-Shirt" ]
                 ]
             ]
+        , example []
+            [ header [] [ text "Divider" ]
+            , p [] [ text "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text." ]
+            , breadcrumb
+                [ section [] [ text "Home" ]
+                , divider [] [ text "/" ]
+                , section [] [ text "Registration" ]
+                , divider [] [ text "/" ]
+                , activeSection [] [ text "Personal Information" ]
+                ]
+            ]
+        , example []
+            [ header [] [ text "Active" ]
+            , p [] [ text "A section can be active" ]
+            , breadcrumb
+                [ section [] [ text "Products" ]
+                , divider [] [ text "/" ]
+                , activeSection [] [ text "Paper Towels" ]
+                ]
+            ]
         ]
 
 

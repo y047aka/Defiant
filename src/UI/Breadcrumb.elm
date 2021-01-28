@@ -2,7 +2,6 @@ module UI.Breadcrumb exposing (activeSection, breadcrumb, divider, section)
 
 import Css exposing (..)
 import Css.Color exposing (..)
-import Css.Extra exposing (when)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
@@ -36,19 +35,46 @@ divider =
         , fontSize (em 0.92857143)
         , color (rgba 0 0 0 0.4)
         , verticalAlign baseline
+
+        -- Override
+        , margin3 zero (rem 0.71428571) zero
         ]
 
 
 sectionBasis : { active : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
 sectionBasis { active } =
-    Html.styled Html.div <|
+    let
+        tag =
+            if active then
+                Html.div
+
+            else
+                Html.a
+    in
+    Html.styled tag
         [ -- .ui.breadcrumb .section
           display inlineBlock
         , margin zero
         , padding zero
 
-        -- .ui.breadcrumb .active.section
-        , when active <| fontWeight bold
+        -- Active
+        , batch <|
+            if active then
+                [ -- .ui.breadcrumb .active.section
+                  fontWeight bold
+                ]
+
+            else
+                [ -- .ui.breadcrumb a
+                  color (hex "#4183C4")
+
+                -- .ui.breadcrumb a:hover
+                , hover
+                    [ color (hex "#1e70bf") ]
+
+                -- .ui.breadcrumb a.section
+                , cursor pointer
+                ]
         ]
 
 
