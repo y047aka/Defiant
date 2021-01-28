@@ -9,6 +9,7 @@ import Html
 import Html.Styled exposing (Html, a, div, h1, h2, h3, h4, h5, main_, p, strong, text, toUnstyled)
 import Html.Styled.Attributes as Attributes exposing (css, href, id, rel)
 import Html.Styled.Events exposing (onClick)
+import UI.Breadcrumb exposing (..)
 import UI.Button exposing (..)
 import UI.Card as Card exposing (..)
 import UI.Container exposing (..)
@@ -90,6 +91,7 @@ view model =
                     , sectionForPlaceholders
                     , sectionForSegments
                     , sectionForTexts
+                    , sectionForBreadcrumbs
                     , sectionForGrids
                     , sectionForMenus
                     , sectionForMessages
@@ -112,6 +114,7 @@ tableOfContents =
             , { url = "#placeholder", label = "Placeholder" }
             , { url = "#segment", label = "Segment" }
             , { url = "#text", label = "Text" }
+            , { url = "#breadcrumb", label = "Breadcrumb" }
             , { url = "#grid", label = "Grid" }
             , { url = "#menu", label = "Menu" }
             , { url = "#message", label = "Message" }
@@ -415,6 +418,23 @@ sectionForTexts =
                 , p [] [ text "to turn into ", bigText "big", text " text" ]
                 , p [] [ text "then growing to ", hugeText "huge", text " text" ]
                 , p [] [ text "to finally become ", massiveText "massive", text " text" ]
+                ]
+            ]
+        ]
+
+
+sectionForBreadcrumbs : Html msg
+sectionForBreadcrumbs =
+    exampleContainer [ id "breadcrumb" ]
+        [ example []
+            [ header [] [ text "Breadcrumb" ]
+            , p [] [ text "A standard breadcrumb" ]
+            , breadcrumb
+                [ section [] [ text "Home" ]
+                , divider [] [ text "/" ]
+                , section [] [ text "Store" ]
+                , divider [] [ text "/" ]
+                , activeSection [] [ text "T-Shirt" ]
                 ]
             ]
         ]
