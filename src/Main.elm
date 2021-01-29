@@ -1,6 +1,7 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
-import Browser
+import Browser exposing (Document)
+import Browser.Navigation as Nav exposing (Key)
 import Css exposing (..)
 import Css.Global exposing (global)
 import Css.Reset exposing (normalize)
@@ -24,6 +25,8 @@ import UI.Placeholder exposing (..)
 import UI.Segment exposing (..)
 import UI.Table exposing (..)
 import UI.Text exposing (..)
+import Url exposing (Url)
+import Url.Parser as Parser exposing (Parser, s)
 
 
 
@@ -32,10 +35,13 @@ import UI.Text exposing (..)
 
 main : Program () Model Msg
 main =
-    Browser.sandbox
+    Browser.application
         { init = init
         , update = update
         , view = view
+        , subscriptions = \_ -> Sub.none
+        , onUrlChange = UrlChanged
+        , onUrlRequest = UrlRequested
         }
 
 
@@ -44,12 +50,138 @@ main =
 
 
 type alias Model =
-    Int
+    { key : Key
+    , page : Page
+    , count : Int
+    }
 
 
-init : Model
-init =
-    0
+type Page
+    = NotFound
+    | TopPage
+    | SitePage
+    | ButtonPage
+    | ContainerPage
+    | HeaderPage
+    | LabelPage
+    | PlaceholderPage
+    | SegmentPage
+    | TextPage
+    | BreadcrumbPage
+    | GridPage
+    | MenuPage
+    | MessagePage
+    | TablePage
+    | CardPage
+
+
+init : () -> Url -> Key -> ( Model, Cmd Msg )
+init _ url key =
+    routing url
+        { key = key
+        , page = TopPage
+        , count = 0
+        }
+
+
+
+-- ROUTER
+
+
+type Route
+    = Top
+    | Site
+    | Button
+    | Container
+    | Header
+    | Label
+    | Placeholder
+    | Segment
+    | Text
+    | Breadcrumb
+    | Grid
+    | Menu
+    | Message
+    | Table
+    | Card
+
+
+parser : Parser (Route -> a) a
+parser =
+    Parser.oneOf
+        [ Parser.map Top Parser.top
+        , Parser.map Site (s "site")
+        , Parser.map Button (s "button")
+        , Parser.map Container (s "container")
+        , Parser.map Header (s "header")
+        , Parser.map Label (s "label")
+        , Parser.map Placeholder (s "placeholder")
+        , Parser.map Segment (s "segment")
+        , Parser.map Text (s "text")
+        , Parser.map Breadcrumb (s "breadcrumb")
+        , Parser.map Grid (s "grid")
+        , Parser.map Menu (s "menu")
+        , Parser.map Message (s "message")
+        , Parser.map Table (s "table")
+        , Parser.map Card (s "card")
+        ]
+
+
+routing : Url -> Model -> ( Model, Cmd Msg )
+routing url model =
+    let
+        maybeRoute : Maybe Route
+        maybeRoute =
+            Parser.parse parser url
+    in
+    case maybeRoute of
+        Nothing ->
+            ( { model | page = NotFound }, Cmd.none )
+
+        Just Top ->
+            ( { model | page = TopPage }, Cmd.none )
+
+        Just Site ->
+            ( { model | page = SitePage }, Cmd.none )
+
+        Just Button ->
+            ( { model | page = ButtonPage }, Cmd.none )
+
+        Just Container ->
+            ( { model | page = ContainerPage }, Cmd.none )
+
+        Just Header ->
+            ( { model | page = HeaderPage }, Cmd.none )
+
+        Just Label ->
+            ( { model | page = LabelPage }, Cmd.none )
+
+        Just Placeholder ->
+            ( { model | page = PlaceholderPage }, Cmd.none )
+
+        Just Segment ->
+            ( { model | page = SegmentPage }, Cmd.none )
+
+        Just Text ->
+            ( { model | page = TextPage }, Cmd.none )
+
+        Just Breadcrumb ->
+            ( { model | page = BreadcrumbPage }, Cmd.none )
+
+        Just Grid ->
+            ( { model | page = GridPage }, Cmd.none )
+
+        Just Menu ->
+            ( { model | page = MenuPage }, Cmd.none )
+
+        Just Message ->
+            ( { model | page = MessagePage }, Cmd.none )
+
+        Just Table ->
+            ( { model | page = TablePage }, Cmd.none )
+
+        Just Card ->
+            ( { model | page = CardPage }, Cmd.none )
 
 
 
@@ -57,75 +189,229 @@ init =
 
 
 type Msg
-    = Increment
+    = UrlRequested Browser.UrlRequest
+    | UrlChanged Url
+    | Increment
     | Decrement
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        UrlRequested urlRequest ->
+            case urlRequest of
+                Browser.Internal url ->
+                    ( model, Nav.pushUrl model.key (Url.toString url) )
+
+                Browser.External href ->
+                    ( model, Nav.load href )
+
+        UrlChanged url ->
+            routing url model
+
         Increment ->
-            model + 1
+            ( { model | count = model.count + 1 }, Cmd.none )
 
         Decrement ->
-            model - 1
+            ( { model | count = model.count - 1 }, Cmd.none )
 
 
 
 -- VIEW
 
 
-view : Model -> Html.Html Msg
+view : Model -> Document Msg
 view model =
-    toUnstyled <|
-        div []
-            [ global (normalize ++ additionalReset ++ globalCustomize)
-            , main_ []
-                [ toc [] [ tableOfContents ]
-                , article []
-                    [ sectionForSite
-                    , sectionForButtons model
-                    , sectionForContainers
-                    , sectionForHeaders
-                    , sectionForLabels
-                    , sectionForPlaceholders
-                    , sectionForSegments
-                    , sectionForTexts
-                    , sectionForBreadcrumbs
-                    , sectionForGrids
-                    , sectionForMenus
-                    , sectionForMessages
-                    , sectionForTables
-                    , sectionForCards
+    let
+        body s =
+            [ toUnstyled <|
+                div []
+                    [ global (normalize ++ additionalReset ++ globalCustomize)
+                    , main_ []
+                        [ basicSegment [] [ s ] ]
                     ]
-                ]
             ]
+    in
+    case model.page of
+        NotFound ->
+            { title = "Not Found"
+            , body = []
+            }
+
+        TopPage ->
+            { title = "Defiant"
+            , body = body tableOfContents
+            }
+
+        SitePage ->
+            { title = "Site"
+            , body = body sectionForSite
+            }
+
+        ButtonPage ->
+            { title = "Button"
+            , body = body (sectionForButtons model)
+            }
+
+        ContainerPage ->
+            { title = "Container"
+            , body = body sectionForContainers
+            }
+
+        HeaderPage ->
+            { title = "Header"
+            , body = body sectionForHeaders
+            }
+
+        LabelPage ->
+            { title = "Label"
+            , body = body sectionForLabels
+            }
+
+        PlaceholderPage ->
+            { title = "Placeholder"
+            , body = body sectionForPlaceholders
+            }
+
+        SegmentPage ->
+            { title = "Segment"
+            , body = body sectionForSegments
+            }
+
+        TextPage ->
+            { title = "Text"
+            , body = body sectionForTexts
+            }
+
+        BreadcrumbPage ->
+            { title = "Breadcrumb"
+            , body = body sectionForBreadcrumbs
+            }
+
+        GridPage ->
+            { title = "Grid"
+            , body = body sectionForGrids
+            }
+
+        MenuPage ->
+            { title = "Menu"
+            , body = body sectionForMenus
+            }
+
+        MessagePage ->
+            { title = "Message"
+            , body = body sectionForMessages
+            }
+
+        TablePage ->
+            { title = "Table"
+            , body = body sectionForTables
+            }
+
+        CardPage ->
+            { title = "Card"
+            , body = body sectionForCards
+            }
 
 
 tableOfContents : Html msg
 tableOfContents =
-    verticalInvertedMenu [] <|
-        List.map (\{ url, label } -> verticalInvertedMenuLinkItem [ href url ] [ text label ])
-            [ { url = "#site", label = "Site" }
-            , { url = "#button", label = "Button" }
-            , { url = "#container", label = "Container" }
-            , { url = "#header", label = "Header" }
-            , { url = "#label", label = "Label" }
-            , { url = "#placeholder", label = "Placeholder" }
-            , { url = "#segment", label = "Segment" }
-            , { url = "#text", label = "Text" }
-            , { url = "#breadcrumb", label = "Breadcrumb" }
-            , { url = "#grid", label = "Grid" }
-            , { url = "#menu", label = "Menu" }
-            , { url = "#message", label = "Message" }
-            , { url = "#table", label = "Table" }
-            , { url = "#card", label = "Card" }
-            ]
+    container []
+        [ cards [] <|
+            List.map
+                (\{ label, description, category, url } ->
+                    card []
+                        [ a [ href url ]
+                            [ Card.content []
+                                [ header [] [ text label ]
+                                , Card.meta [] [ text category ]
+                                , Card.description [] [ text description ]
+                                ]
+                            ]
+                        ]
+                )
+                contents
+        ]
 
 
-sectionForSite : Html Msg
+contents : List { label : String, description : String, category : String, url : String }
+contents =
+    [ { label = "Site"
+      , description = "A site is a set of global constraints that define the basic parameters of all UI elements"
+      , category = "Globals"
+      , url = "/site"
+      }
+    , { label = "Button"
+      , description = "A button indicates a possible user action"
+      , category = "Elements"
+      , url = "/button"
+      }
+    , { label = "Container"
+      , description = "A container limits content to a maximum width"
+      , category = "Elements"
+      , url = "/container"
+      }
+    , { label = "Header"
+      , description = "A header provides a short summary of content"
+      , category = "Elements"
+      , url = "/header"
+      }
+    , { label = "Label"
+      , description = "A label displays content classification"
+      , category = "Elements"
+      , url = "/label"
+      }
+    , { label = "Placeholder"
+      , description = "A placeholder is used to reserve splace for content that soon will appear in a layout"
+      , category = "Elements"
+      , url = "/placeholder"
+      }
+    , { label = "Segment"
+      , description = "A segment is used to create a grouping of related content"
+      , category = "Elements"
+      , url = "/segment"
+      }
+    , { label = "Text"
+      , description = "A text is used to style some inline text with a simple color"
+      , category = "Elements"
+      , url = "/text"
+      }
+    , { label = "Breadcrumb"
+      , description = "A breadcrumb is used to show hierarchy between content"
+      , category = "Collections"
+      , url = "/breadcrumb"
+      }
+    , { label = "Grid"
+      , description = "A grid is used to harmonize negative space in a layout"
+      , category = "Collections"
+      , url = "/grid"
+      }
+    , { label = "Menu"
+      , description = "A menu displays grouped navigation actions"
+      , category = "Collections"
+      , url = "/menu"
+      }
+    , { label = "Message"
+      , description = "A message displays information that explains nearby content"
+      , category = "Collections"
+      , url = "/message"
+      }
+    , { label = "Table"
+      , description = "A table displays a collections of data grouped into rows"
+      , category = "Collections"
+      , url = "/table"
+      }
+    , { label = "Card"
+      , description = "A card displays site content in a manner similar to a playing card"
+      , category = "Views"
+      , url = "/card"
+      }
+    ]
+
+
+sectionForSite : Html msg
 sectionForSite =
-    exampleContainer [ id "site" ]
+    container [ id "site" ]
         [ example []
             [ header [] [ text "Headers" ]
             , p [] [ text "A site can define styles for headers" ]
@@ -158,8 +444,8 @@ sectionForSite =
 
 
 sectionForButtons : Model -> Html Msg
-sectionForButtons model =
-    exampleContainer [ id "button" ]
+sectionForButtons { count } =
+    container [ id "button" ]
         [ example []
             [ header [] [ text "Button" ]
             , p [] [ text "A standard button" ]
@@ -182,7 +468,7 @@ sectionForButtons model =
                 ]
             , labeledButton []
                 [ button [ onClick Decrement ] [ text "-" ]
-                , basicLabel [] [ text (String.fromInt model) ]
+                , basicLabel [] [ text (String.fromInt count) ]
                 , button [ onClick Increment ] [ text "+" ]
                 ]
             ]
@@ -213,7 +499,7 @@ sectionForButtons model =
         ]
 
 
-sectionForContainers : Html Msg
+sectionForContainers : Html msg
 sectionForContainers =
     let
         content =
@@ -225,7 +511,7 @@ sectionForContainers =
                 , text " mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi."
                 ]
     in
-    exampleContainer [ id "container" ]
+    container [ id "container" ]
         [ example []
             [ header [] [ text "Container" ]
             , p [] [ text "A standard container" ]
@@ -243,9 +529,9 @@ sectionForContainers =
         ]
 
 
-sectionForHeaders : Html Msg
+sectionForHeaders : Html msg
 sectionForHeaders =
-    exampleContainer [ id "header" ]
+    container [ id "header" ]
         [ example []
             [ header [] [ text "Content Headers" ]
             , p [] [ text "Headers may be oriented to give the importance of a section in the context of the content that surrounds it" ]
@@ -269,9 +555,9 @@ sectionForHeaders =
         ]
 
 
-sectionForLabels : Html Msg
+sectionForLabels : Html msg
 sectionForLabels =
-    exampleContainer [ id "label" ]
+    container [ id "label" ]
         [ example []
             [ header [] [ text "Label" ]
             , p [] [ text "A label" ]
@@ -306,7 +592,7 @@ sectionForLabels =
 
 sectionForPlaceholders : Html msg
 sectionForPlaceholders =
-    exampleContainer [ id "placeholder" ]
+    container [ id "placeholder" ]
         [ example []
             [ header [] [ text "Lines" ]
             , p [] [ text "A placeholder can contain have lines of text" ]
@@ -323,7 +609,7 @@ sectionForPlaceholders =
 
 sectionForSegments : Html msg
 sectionForSegments =
-    exampleContainer [ id "segment" ]
+    container [ id "segment" ]
         [ example []
             [ header [] [ text "Segment" ]
             , p [] [ text "A segment of content" ]
@@ -357,9 +643,9 @@ sectionForSegments =
         ]
 
 
-sectionForTexts : Html Msg
+sectionForTexts : Html msg
 sectionForTexts =
-    exampleContainer [ id "text" ]
+    container [ id "text" ]
         [ example []
             [ header [] [ text "Text" ]
             , p [] [ text "A text is always used inline and uses one color from the FUI color palette" ]
@@ -423,7 +709,7 @@ sectionForTexts =
 
 sectionForBreadcrumbs : Html msg
 sectionForBreadcrumbs =
-    exampleContainer [ id "breadcrumb" ]
+    container [ id "breadcrumb" ]
         [ example []
             [ header [] [ text "Breadcrumb" ]
             , p [] [ text "A standard breadcrumb" ]
@@ -458,9 +744,9 @@ sectionForBreadcrumbs =
         ]
 
 
-sectionForGrids : Html Msg
+sectionForGrids : Html msg
 sectionForGrids =
-    exampleContainer [ id "grid" ]
+    container [ id "grid" ]
         [ example []
             [ header [] [ text "Grids" ]
             , p [] [ text "A grid is a structure with a long history used to align negative space in designs." ]
@@ -501,9 +787,9 @@ sectionForGrids =
         ]
 
 
-sectionForMenus : Html Msg
+sectionForMenus : Html msg
 sectionForMenus =
-    exampleContainer [ id "menu" ]
+    container [ id "menu" ]
         [ example []
             [ header [] [ text "Secondary Menu" ]
             , p [] [ text "A menu can adjust its appearance to de-emphasize its contents" ]
@@ -558,7 +844,7 @@ sectionForMenus =
 
 sectionForMessages : Html msg
 sectionForMessages =
-    exampleContainer [ id "message" ]
+    container [ id "message" ]
         [ example []
             [ header [] [ text "Message" ]
             , p [] [ text "A basic message" ]
@@ -570,9 +856,9 @@ sectionForMessages =
         ]
 
 
-sectionForTables : Html Msg
+sectionForTables : Html msg
 sectionForTables =
-    exampleContainer [ id "table" ]
+    container [ id "table" ]
         [ example []
             [ header [] [ text "Table" ]
             , p [] [ text "A standard table" ]
@@ -730,7 +1016,7 @@ sectionForTables =
 
 sectionForCards : Html msg
 sectionForCards =
-    exampleContainer [ id "card" ]
+    container [ id "card" ]
         [ example []
             [ header [] [ text "Header" ]
             , p [] [ text "A card can contain a header" ]
