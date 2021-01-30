@@ -4,7 +4,7 @@
     "minify": "google-closure-compiler --js=docs/elm.optimized.js --js_output_file=docs/elm.js",
     "postminify": "rm -rf docs/elm.optimized.js",
     "build": "npm run compile && npm run minify",
-    "start": "elm-live src/Main.elm --open"
+    "start": "elm-live src/Main.elm --pushstate --open"
   },
   "devDependencies": {
     "elm": "^0.19.1-3",
