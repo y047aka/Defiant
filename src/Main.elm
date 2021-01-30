@@ -10,6 +10,7 @@ import Html
 import Html.Styled exposing (Html, a, div, h1, h2, h3, h4, h5, main_, p, strong, text, toUnstyled)
 import Html.Styled.Attributes as Attributes exposing (css, href, id, rel)
 import Html.Styled.Events exposing (onClick)
+import Maybe.Extra
 import UI.Breadcrumb exposing (..)
 import UI.Button exposing (..)
 import UI.Card as Card exposing (..)
@@ -223,95 +224,129 @@ update msg model =
 view : Model -> Document Msg
 view model =
     let
-        body s =
-            [ toUnstyled <|
-                div []
-                    [ global (normalize ++ additionalReset ++ globalCustomize)
-                    , main_ []
-                        [ basicSegment [] [ s ] ]
-                    ]
-            ]
+        document { title, breadcrumbItems, contents } =
+            { title = Maybe.withDefault "" title ++ Maybe.Extra.unwrap "Defiant" (\_ -> " | Defiant") title
+            , body =
+                [ toUnstyled <|
+                    div []
+                        [ global (normalize ++ additionalReset ++ globalCustomize)
+                        , basicSegment []
+                            [ container []
+                                [ breadcrumbItems
+                                    |> List.indexedMap (breadcrumbItem <| List.length breadcrumbItems)
+                                    |> List.intersperse (divider [] [ text "/" ])
+                                    |> breadcrumb
+                                ]
+                            ]
+                        , basicSegment [] [ contents ]
+                        ]
+                ]
+            }
+
+        breadcrumbItem length index item =
+            if index + 1 == length then
+                activeSection [] [ text item ]
+
+            else
+                section [ href "/" ] [ text item ]
     in
-    case model.page of
-        NotFound ->
-            { title = "Not Found"
-            , body = []
-            }
+    document <|
+        case model.page of
+            NotFound ->
+                { title = Just "Not Found"
+                , breadcrumbItems = [ "Top", "Not Found" ]
+                , contents = text ""
+                }
 
-        TopPage ->
-            { title = "Defiant"
-            , body = body tableOfContents
-            }
+            TopPage ->
+                { title = Nothing
+                , breadcrumbItems = [ "Top" ]
+                , contents = tableOfContents
+                }
 
-        SitePage ->
-            { title = "Site"
-            , body = body sectionForSite
-            }
+            SitePage ->
+                { title = Just "Site"
+                , breadcrumbItems = [ "Top", "Site" ]
+                , contents = sectionForSite
+                }
 
-        ButtonPage ->
-            { title = "Button"
-            , body = body (sectionForButtons model)
-            }
+            ButtonPage ->
+                { title = Just "Button"
+                , breadcrumbItems = [ "Top", "Button" ]
+                , contents = sectionForButtons model
+                }
 
-        ContainerPage ->
-            { title = "Container"
-            , body = body sectionForContainers
-            }
+            ContainerPage ->
+                { title = Just "Container"
+                , breadcrumbItems = [ "Top", "Container" ]
+                , contents = sectionForContainers
+                }
 
-        HeaderPage ->
-            { title = "Header"
-            , body = body sectionForHeaders
-            }
+            HeaderPage ->
+                { title = Just "Header"
+                , breadcrumbItems = [ "Top", "Header" ]
+                , contents = sectionForHeaders
+                }
 
-        LabelPage ->
-            { title = "Label"
-            , body = body sectionForLabels
-            }
+            LabelPage ->
+                { title = Just "Label"
+                , breadcrumbItems = [ "Top", "Label" ]
+                , contents = sectionForLabels
+                }
 
-        PlaceholderPage ->
-            { title = "Placeholder"
-            , body = body sectionForPlaceholders
-            }
+            PlaceholderPage ->
+                { title = Just "Placeholder"
+                , breadcrumbItems = [ "Top", "Placeholder" ]
+                , contents = sectionForPlaceholders
+                }
 
-        SegmentPage ->
-            { title = "Segment"
-            , body = body sectionForSegments
-            }
+            SegmentPage ->
+                { title = Just "Segment"
+                , breadcrumbItems = [ "Top", "Segment" ]
+                , contents = sectionForSegments
+                }
 
-        TextPage ->
-            { title = "Text"
-            , body = body sectionForTexts
-            }
+            TextPage ->
+                { title = Just "Text"
+                , breadcrumbItems = [ "Top", "Text" ]
+                , contents = sectionForTexts
+                }
 
-        BreadcrumbPage ->
-            { title = "Breadcrumb"
-            , body = body sectionForBreadcrumbs
-            }
+            BreadcrumbPage ->
+                { title = Just "Breadcrumb"
+                , breadcrumbItems = [ "Top", "Breadcrumb" ]
+                , contents = sectionForBreadcrumbs
+                }
 
-        GridPage ->
-            { title = "Grid"
-            , body = body sectionForGrids
-            }
+            GridPage ->
+                { title = Just "Grid"
+                , breadcrumbItems = [ "Top", "Grid" ]
+                , contents = sectionForGrids
+                }
 
-        MenuPage ->
-            { title = "Menu"
-            , body = body sectionForMenus
-            }
+            MenuPage ->
+                { title = Just "Menu"
+                , breadcrumbItems = [ "Top", "Menu" ]
+                , contents = sectionForMenus
+                }
 
-        MessagePage ->
-            { title = "Message"
-            , body = body sectionForMessages
-            }
+            MessagePage ->
+                { title = Just "Message"
+                , breadcrumbItems = [ "Top", "Message" ]
+                , contents = sectionForMessages
+                }
 
-        TablePage ->
-            { title = "Table"
-            , body = body sectionForTables
-            }
+            TablePage ->
+                { title = Just "Table"
+                , breadcrumbItems = [ "Top", "Table" ]
+                , contents = sectionForTables
+                }
 
-        CardPage ->
-            { title = "Card"
-            , body = body sectionForCards
-            }
+            CardPage ->
+                { title = Just "Card"
+                , breadcrumbItems = [ "Top", "Card" ]
+                , contents = sectionForCards
+                }
 
 
 tableOfContents : Html msg
@@ -330,12 +365,12 @@ tableOfContents =
                             ]
                         ]
                 )
-                contents
+                contents_
         ]
 
 
-contents : List { label : String, description : String, category : String, url : String }
-contents =
+contents_ : List { label : String, description : String, category : String, url : String }
+contents_ =
     [ { label = "Site"
       , description = "A site is a set of global constraints that define the basic parameters of all UI elements"
       , category = "Globals"
