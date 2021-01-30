@@ -134,55 +134,59 @@ routing url model =
         maybeRoute : Maybe Route
         maybeRoute =
             Parser.parse parser url
+
+        switchTo page =
+            ( { model | page = page }, Cmd.none )
     in
-    case maybeRoute of
-        Nothing ->
-            ( { model | page = NotFound }, Cmd.none )
+    switchTo <|
+        case maybeRoute of
+            Nothing ->
+                NotFound
 
-        Just Top ->
-            ( { model | page = TopPage }, Cmd.none )
+            Just Top ->
+                TopPage
 
-        Just Site ->
-            ( { model | page = SitePage }, Cmd.none )
+            Just Site ->
+                SitePage
 
-        Just Button ->
-            ( { model | page = ButtonPage }, Cmd.none )
+            Just Button ->
+                ButtonPage
 
-        Just Container ->
-            ( { model | page = ContainerPage }, Cmd.none )
+            Just Container ->
+                ContainerPage
 
-        Just Header ->
-            ( { model | page = HeaderPage }, Cmd.none )
+            Just Header ->
+                HeaderPage
 
-        Just Label ->
-            ( { model | page = LabelPage }, Cmd.none )
+            Just Label ->
+                LabelPage
 
-        Just Placeholder ->
-            ( { model | page = PlaceholderPage }, Cmd.none )
+            Just Placeholder ->
+                PlaceholderPage
 
-        Just Segment ->
-            ( { model | page = SegmentPage }, Cmd.none )
+            Just Segment ->
+                SegmentPage
 
-        Just Text ->
-            ( { model | page = TextPage }, Cmd.none )
+            Just Text ->
+                TextPage
 
-        Just Breadcrumb ->
-            ( { model | page = BreadcrumbPage }, Cmd.none )
+            Just Breadcrumb ->
+                BreadcrumbPage
 
-        Just Grid ->
-            ( { model | page = GridPage }, Cmd.none )
+            Just Grid ->
+                GridPage
 
-        Just Menu ->
-            ( { model | page = MenuPage }, Cmd.none )
+            Just Menu ->
+                MenuPage
 
-        Just Message ->
-            ( { model | page = MessagePage }, Cmd.none )
+            Just Message ->
+                MessagePage
 
-        Just Table ->
-            ( { model | page = TablePage }, Cmd.none )
+            Just Table ->
+                TablePage
 
-        Just Card ->
-            ( { model | page = CardPage }, Cmd.none )
+            Just Card ->
+                CardPage
 
 
 
