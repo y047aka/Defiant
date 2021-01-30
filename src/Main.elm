@@ -109,29 +109,23 @@ type Route
 
 parser : Parser (Route -> a) a
 parser =
-    let
-        contents =
-            [ Parser.map Top Parser.top
-            , Parser.map Site (s "site")
-            , Parser.map Button (s "button")
-            , Parser.map Container (s "container")
-            , Parser.map Header (s "header")
-            , Parser.map Label (s "label")
-            , Parser.map Placeholder (s "placeholder")
-            , Parser.map Segment (s "segment")
-            , Parser.map Text (s "text")
-            , Parser.map Breadcrumb (s "breadcrumb")
-            , Parser.map Grid (s "grid")
-            , Parser.map Menu (s "menu")
-            , Parser.map Message (s "message")
-            , Parser.map Table (s "table")
-            , Parser.map Card (s "card")
-            ]
-    in
     Parser.oneOf <|
-        s "Defiant"
-            </> Parser.oneOf contents
-            :: contents
+        [ Parser.map Top Parser.top
+        , Parser.map Site (s "site")
+        , Parser.map Button (s "button")
+        , Parser.map Container (s "container")
+        , Parser.map Header (s "header")
+        , Parser.map Label (s "label")
+        , Parser.map Placeholder (s "placeholder")
+        , Parser.map Segment (s "segment")
+        , Parser.map Text (s "text")
+        , Parser.map Breadcrumb (s "breadcrumb")
+        , Parser.map Grid (s "grid")
+        , Parser.map Menu (s "menu")
+        , Parser.map Message (s "message")
+        , Parser.map Table (s "table")
+        , Parser.map Card (s "card")
+        ]
 
 
 routing : Url -> Model -> ( Model, Cmd Msg )

@@ -1,8 +1,8 @@
 {
   "scripts": {
-    "compile": "elm make src/Main.elm --optimize --output=docs/elm.optimized.js",
-    "minify": "google-closure-compiler --js=docs/elm.optimized.js --js_output_file=docs/elm.js",
-    "postminify": "rm -rf docs/elm.optimized.js",
+    "compile": "elm make src/Main.elm --optimize --output=public/elm.optimized.js",
+    "minify": "google-closure-compiler --js=public/elm.optimized.js --js_output_file=public/elm.js",
+    "postminify": "rm -rf public/elm.optimized.js",
     "build": "npm run compile && npm run minify",
     "start": "elm-live src/Main.elm --pushstate --open"
   },
