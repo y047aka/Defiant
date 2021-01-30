@@ -7,7 +7,7 @@ import Css.Global exposing (global)
 import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
 import Html
-import Html.Styled exposing (Html, a, div, h1, h2, h3, h4, h5, main_, p, strong, text, toUnstyled)
+import Html.Styled exposing (Html, a, div, h1, h2, h3, h4, h5, p, strong, text, toUnstyled)
 import Html.Styled.Attributes as Attributes exposing (css, href, id, rel)
 import Html.Styled.Events exposing (onClick)
 import Maybe.Extra
@@ -27,7 +27,7 @@ import UI.Segment exposing (..)
 import UI.Table exposing (..)
 import UI.Text exposing (..)
 import Url exposing (Url)
-import Url.Parser as Parser exposing (Parser, s)
+import Url.Parser as Parser exposing ((</>), Parser, s)
 
 
 
@@ -109,23 +109,29 @@ type Route
 
 parser : Parser (Route -> a) a
 parser =
-    Parser.oneOf
-        [ Parser.map Top Parser.top
-        , Parser.map Site (s "site")
-        , Parser.map Button (s "button")
-        , Parser.map Container (s "container")
-        , Parser.map Header (s "header")
-        , Parser.map Label (s "label")
-        , Parser.map Placeholder (s "placeholder")
-        , Parser.map Segment (s "segment")
-        , Parser.map Text (s "text")
-        , Parser.map Breadcrumb (s "breadcrumb")
-        , Parser.map Grid (s "grid")
-        , Parser.map Menu (s "menu")
-        , Parser.map Message (s "message")
-        , Parser.map Table (s "table")
-        , Parser.map Card (s "card")
-        ]
+    let
+        contents =
+            [ Parser.map Top Parser.top
+            , Parser.map Site (s "site")
+            , Parser.map Button (s "button")
+            , Parser.map Container (s "container")
+            , Parser.map Header (s "header")
+            , Parser.map Label (s "label")
+            , Parser.map Placeholder (s "placeholder")
+            , Parser.map Segment (s "segment")
+            , Parser.map Text (s "text")
+            , Parser.map Breadcrumb (s "breadcrumb")
+            , Parser.map Grid (s "grid")
+            , Parser.map Menu (s "menu")
+            , Parser.map Message (s "message")
+            , Parser.map Table (s "table")
+            , Parser.map Card (s "card")
+            ]
+    in
+    Parser.oneOf <|
+        s "Defiant"
+            </> Parser.oneOf contents
+            :: contents
 
 
 routing : Url -> Model -> ( Model, Cmd Msg )
