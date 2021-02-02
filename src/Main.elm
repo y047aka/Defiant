@@ -20,7 +20,7 @@ import UI.Grid exposing (..)
 import UI.Header exposing (..)
 import UI.Input as Input exposing (..)
 import UI.Label as Label exposing (..)
-import UI.Menu exposing (..)
+import UI.Menu as Menu exposing (..)
 import UI.Message exposing (..)
 import UI.Modifier exposing (Palette(..))
 import UI.Placeholder exposing (..)
@@ -876,12 +876,15 @@ sectionForMenus =
         [ example []
             [ header [] [ text "Secondary Menu" ]
             , p [] [ text "A menu can adjust its appearance to de-emphasize its contents" ]
-            , secondaryMenu []
+            , secondaryMenu { inverted = False } [] <|
                 [ secondaryMenuActiveItem [] [ text "Home" ]
                 , secondaryMenuItem [] [] [ text "Messages" ]
                 , secondaryMenuItem [] [] [ text "Friends" ]
                 , rightMenu []
-                    [ secondaryMenuItem [] [] [ text "Search..." ]
+                    [ secondaryMenuItem [] [] <|
+                        [ input []
+                            [ Html.Styled.input [ type_ "text", Attributes.placeholder "Search..." ] [] ]
+                        ]
                     , secondaryMenuItem [] [] [ text "Logout" ]
                     ]
                 ]

@@ -26,8 +26,8 @@ import Html.Styled as Html exposing (Attribute, Html)
 import UI.Label
 
 
-menuBasis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-menuBasis additionalStyles =
+menuBasis : { vertical : Bool, borderAndShadows : Bool, inverted : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+menuBasis { vertical, borderAndShadows, inverted } additionalStyles =
     let
         defaultTypography =
             Typography.default
@@ -37,7 +37,7 @@ menuBasis additionalStyles =
           Prefix.displayFlex
         , margin2 (rem 1) zero
         , typography { defaultTypography | fontWeight = Typography.normal }
-        , backgroundColor (hex "#FFFFFF")
+        , property "background" "#FFFFFF"
         , border3 (px 1) solid (rgba 34 36 38 0.15)
         , Prefix.boxShadow "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
         , borderRadius (rem 0.28571429)
@@ -74,6 +74,51 @@ menuBasis additionalStyles =
         --
         -- .ui.menu
         , fontSize (rem 1)
+
+        -- Vertical
+        , batch <|
+            if vertical then
+                [ -- .ui.vertical.menu
+                  display block
+                , property "-webkit-box-orient" "vertical"
+                , property "-webkit-box-direction" "normal"
+                , Prefix.flexDirection "column"
+                , backgroundColor (hex "#FFFFFF")
+                , Prefix.boxShadow "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
+
+                -- .ui.vertical.menu
+                , width (rem 15)
+                ]
+
+            else
+                []
+
+        -- Border And Shadows
+        , batch <|
+            if borderAndShadows then
+                []
+
+            else
+                [ -- .ui.secondary.menu
+                  property "background" "none"
+                , marginLeft (em -0.35714286)
+                , marginRight (em -0.35714286)
+                , borderRadius zero
+                , property "border" "none"
+                , Prefix.boxShadow "none"
+                ]
+
+        -- Inverted
+        , batch <|
+            if inverted then
+                [ -- .ui.inverted.menu
+                  border3 zero solid transparent
+                , backgroundColor (hex "#1B1C1D")
+                , Prefix.boxShadow "none"
+                ]
+
+            else
+                []
         ]
             ++ additionalStyles
 
@@ -129,9 +174,9 @@ itemBasis tag additionalStyles =
             ++ additionalStyles
 
 
-menu : List (Attribute msg) -> List (Html msg) -> Html msg
-menu =
-    menuBasis []
+menu : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+menu { inverted } =
+    menuBasis { vertical = False, borderAndShadows = True, inverted = inverted } []
 
 
 item : List (Attribute msg) -> List (Html msg) -> Html msg
@@ -194,17 +239,9 @@ centerMenu =
         ]
 
 
-secondaryMenu : List (Attribute msg) -> List (Html msg) -> Html msg
-secondaryMenu =
-    menuBasis
-        [ -- .ui.secondary.menu
-          property "background" "none"
-        , marginLeft (em -0.35714286)
-        , marginRight (em -0.35714286)
-        , borderRadius zero
-        , property "border" "none"
-        , Prefix.boxShadow "none"
-        ]
+secondaryMenu : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+secondaryMenu { inverted } =
+    menuBasis { vertical = False, borderAndShadows = False, inverted = inverted } []
 
 
 secondaryMenuItem : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -245,27 +282,7 @@ verticalMenu :
     -> List (Html msg)
     -> Html msg
 verticalMenu { inverted, additionalStyles } =
-    menuBasis <|
-        [ -- .ui.vertical.menu
-          display block
-        , property "-webkit-box-orient" "vertical"
-        , property "-webkit-box-direction" "normal"
-        , Prefix.flexDirection "column"
-        , backgroundColor (hex "#FFFFFF")
-        , Prefix.boxShadow "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
-
-        -- .ui.vertical.menu
-        , width (rem 15)
-
-        -- .ui.inverted.menu
-        , when inverted <|
-            batch
-                [ border3 zero solid transparent
-                , backgroundColor (hex "#1B1C1D")
-                , Prefix.boxShadow "none"
-                ]
-        ]
-            ++ additionalStyles
+    menuBasis { vertical = True, borderAndShadows = True, inverted = inverted } additionalStyles
 
 
 verticalMenuItemBasis :
