@@ -1,6 +1,6 @@
-module Css.Prefix exposing (alignItems, alignSelf, animationDelay, appearance, boxShadow, boxSizing, displayFlex, flex, flexDirection, flexWrap, userSelect)
+module Css.Prefix exposing (alignItems, alignSelf, animationDelay, appearance, boxShadow, boxSizing, displayFlex, displayInlineFlex, flex, flexDirection, flexWrap, userSelect)
 
-import Css exposing (Style, batch, property)
+import Css exposing (Style, batch, display, inlineFlex, property)
 import Css.Extra
 
 
@@ -57,6 +57,15 @@ displayFlex =
         [ property "display" "-webkit-box"
         , property "display" "-ms-flexbox"
         , Css.displayFlex
+        ]
+
+
+displayInlineFlex : Style
+displayInlineFlex =
+    batch
+        [ property "display" "-webkit-inline-box"
+        , property "display" "-ms-inline-flexbox"
+        , display inlineFlex
         ]
 
 

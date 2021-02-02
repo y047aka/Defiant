@@ -8,7 +8,7 @@ import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
 import Html
 import Html.Styled exposing (Html, a, div, h1, h2, h3, h4, h5, p, strong, text, toUnstyled)
-import Html.Styled.Attributes as Attributes exposing (css, href, id, rel)
+import Html.Styled.Attributes as Attributes exposing (css, href, id, rel, type_)
 import Html.Styled.Events exposing (onClick)
 import Maybe.Extra
 import UI.Breadcrumb exposing (..)
@@ -18,7 +18,8 @@ import UI.Container exposing (..)
 import UI.Example exposing (..)
 import UI.Grid exposing (..)
 import UI.Header exposing (..)
-import UI.Label exposing (..)
+import UI.Input as Input exposing (..)
+import UI.Label as Label exposing (..)
 import UI.Menu exposing (..)
 import UI.Message exposing (..)
 import UI.Modifier exposing (Palette(..))
@@ -64,6 +65,7 @@ type Page
     | ButtonPage
     | ContainerPage
     | HeaderPage
+    | InputPage
     | LabelPage
     | PlaceholderPage
     | SegmentPage
@@ -95,6 +97,7 @@ type Route
     | Button
     | Container
     | Header
+    | Input
     | Label
     | Placeholder
     | Segment
@@ -115,6 +118,7 @@ parser =
         , Parser.map Button (s "button")
         , Parser.map Container (s "container")
         , Parser.map Header (s "header")
+        , Parser.map Input (s "input")
         , Parser.map Label (s "label")
         , Parser.map Placeholder (s "placeholder")
         , Parser.map Segment (s "segment")
@@ -157,6 +161,9 @@ routing url model =
 
             Just Header ->
                 HeaderPage
+
+            Just Input ->
+                InputPage
 
             Just Label ->
                 LabelPage
@@ -292,6 +299,12 @@ view model =
                 , contents = sectionForHeaders
                 }
 
+            InputPage ->
+                { title = Just "Input"
+                , breadcrumbItems = [ "Top", "Input" ]
+                , contents = sectionForInputs
+                }
+
             LabelPage ->
                 { title = Just "Label"
                 , breadcrumbItems = [ "Top", "Label" ]
@@ -394,6 +407,11 @@ contents_ =
       , description = "A header provides a short summary of content"
       , category = "Elements"
       , url = "/header"
+      }
+    , { label = "Input"
+      , description = "An input is a field used to elicit a response from a user"
+      , category = "Elements"
+      , url = "/input"
       }
     , { label = "Label"
       , description = "A label displays content classification"
@@ -594,13 +612,39 @@ sectionForHeaders =
         ]
 
 
+sectionForInputs : Html msg
+sectionForInputs =
+    container [ id "input" ]
+        [ example []
+            [ header [] [ text "Input" ]
+            , p [] [ text "A standard input" ]
+            , input []
+                [ Html.Styled.input [ type_ "text", Attributes.placeholder "Search..." ] [] ]
+            ]
+        , example []
+            [ header [] [ text "Labeled" ]
+            , p [] [ text "An input can be formatted with a label" ]
+            , input []
+                [ Input.label [] [ text "http://" ]
+                , Html.Styled.input [ type_ "text", Attributes.placeholder "mysite.com" ] []
+                ]
+            ]
+        , example []
+            [ input []
+                [ Html.Styled.input [ type_ "text", Attributes.placeholder "Enter weight.." ] []
+                , Input.label [] [ text "kg" ]
+                ]
+            ]
+        ]
+
+
 sectionForLabels : Html msg
 sectionForLabels =
     container [ id "label" ]
         [ example []
             [ header [] [ text "Label" ]
             , p [] [ text "A label" ]
-            , label [] [ text "23" ]
+            , Label.label [] [ text "23" ]
             ]
         , example []
             [ header [] [ text "Basic" ]
