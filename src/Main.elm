@@ -8,7 +8,7 @@ import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
 import Html
 import Html.Styled exposing (Html, a, div, h1, h2, h3, h4, h5, p, strong, text, toUnstyled)
-import Html.Styled.Attributes as Attributes exposing (css, href, id, rel, type_)
+import Html.Styled.Attributes as Attributes exposing (css, href, rel, type_)
 import Html.Styled.Events exposing (onClick)
 import Maybe.Extra
 import UI.Breadcrumb exposing (..)
@@ -468,7 +468,7 @@ contents_ =
 
 sectionForSite : Html msg
 sectionForSite =
-    container [ id "site" ]
+    container []
         [ example []
             [ header [] [ text "Headers" ]
             , p [] [ text "A site can define styles for headers" ]
@@ -502,7 +502,7 @@ sectionForSite =
 
 sectionForButtons : Model -> Html Msg
 sectionForButtons { count } =
-    container [ id "button" ]
+    container []
         [ example []
             [ header [] [ text "Button" ]
             , p [] [ text "A standard button" ]
@@ -568,7 +568,7 @@ sectionForContainers =
                 , text " mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi."
                 ]
     in
-    container [ id "container" ]
+    container []
         [ example []
             [ header [] [ text "Container" ]
             , p [] [ text "A standard container" ]
@@ -588,7 +588,7 @@ sectionForContainers =
 
 sectionForHeaders : Html msg
 sectionForHeaders =
-    container [ id "header" ]
+    container []
         [ example []
             [ header [] [ text "Content Headers" ]
             , p [] [ text "Headers may be oriented to give the importance of a section in the context of the content that surrounds it" ]
@@ -614,7 +614,7 @@ sectionForHeaders =
 
 sectionForInputs : Html msg
 sectionForInputs =
-    container [ id "input" ]
+    container []
         [ example []
             [ header [] [ text "Input" ]
             , p [] [ text "A standard input" ]
@@ -640,7 +640,7 @@ sectionForInputs =
 
 sectionForLabels : Html msg
 sectionForLabels =
-    container [ id "label" ]
+    container []
         [ example []
             [ header [] [ text "Label" ]
             , p [] [ text "A label" ]
@@ -675,7 +675,7 @@ sectionForLabels =
 
 sectionForPlaceholders : Html msg
 sectionForPlaceholders =
-    container [ id "placeholder" ]
+    container []
         [ example []
             [ header [] [ text "Lines" ]
             , p [] [ text "A placeholder can contain have lines of text" ]
@@ -692,7 +692,7 @@ sectionForPlaceholders =
 
 sectionForSegments : Html msg
 sectionForSegments =
-    container [ id "segment" ]
+    container []
         [ example []
             [ header [] [ text "Segment" ]
             , p [] [ text "A segment of content" ]
@@ -728,7 +728,7 @@ sectionForSegments =
 
 sectionForTexts : Html msg
 sectionForTexts =
-    container [ id "text" ]
+    container []
         [ example []
             [ header [] [ text "Text" ]
             , p [] [ text "A text is always used inline and uses one color from the FUI color palette" ]
@@ -792,7 +792,7 @@ sectionForTexts =
 
 sectionForBreadcrumbs : Html msg
 sectionForBreadcrumbs =
-    container [ id "breadcrumb" ]
+    container []
         [ example []
             [ header [] [ text "Breadcrumb" ]
             , p [] [ text "A standard breadcrumb" ]
@@ -829,7 +829,7 @@ sectionForBreadcrumbs =
 
 sectionForGrids : Html msg
 sectionForGrids =
-    container [ id "grid" ]
+    container []
         [ example []
             [ header [] [ text "Grids" ]
             , p [] [ text "A grid is a structure with a long history used to align negative space in designs." ]
@@ -872,7 +872,7 @@ sectionForGrids =
 
 sectionForMenus : Html msg
 sectionForMenus =
-    container [ id "menu" ]
+    container []
         [ example []
             [ header [] [ text "Secondary Menu" ]
             , p [] [ text "A menu can adjust its appearance to de-emphasize its contents" ]
@@ -946,7 +946,7 @@ sectionForMenus =
 
 sectionForMessages : Html msg
 sectionForMessages =
-    container [ id "message" ]
+    container []
         [ example []
             [ header [] [ text "Message" ]
             , p [] [ text "A basic message" ]
@@ -960,7 +960,7 @@ sectionForMessages =
 
 sectionForTables : Html msg
 sectionForTables =
-    container [ id "table" ]
+    container []
         [ example []
             [ header [] [ text "Table" ]
             , p [] [ text "A standard table" ]
@@ -1118,7 +1118,7 @@ sectionForTables =
 
 sectionForCards : Html msg
 sectionForCards =
-    container [ id "card" ]
+    container []
         [ example []
             [ header [] [ text "Header" ]
             , p [] [ text "A card can contain a header" ]
