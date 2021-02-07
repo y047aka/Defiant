@@ -7,7 +7,7 @@ import Css.Global exposing (global)
 import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
 import Html
-import Html.Styled exposing (Html, a, div, h1, h2, h3, h4, h5, p, strong, text, toUnstyled)
+import Html.Styled exposing (Attribute, Html, a, div, h1, h2, h3, h4, h5, p, strong, text, toUnstyled)
 import Html.Styled.Attributes as Attributes exposing (css, href, rel, type_)
 import Html.Styled.Events exposing (onClick)
 import Maybe.Extra
@@ -629,6 +629,7 @@ examplesForHeaders =
 examplesForIcons : List (Html msg)
 examplesForIcons =
     let
+        column : List (Attribute msg) -> List (Html msg) -> Html msg
         column attributes =
             Grid.column <|
                 css
