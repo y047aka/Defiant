@@ -18,6 +18,7 @@ import UI.Container exposing (..)
 import UI.Example exposing (..)
 import UI.Grid exposing (..)
 import UI.Header exposing (..)
+import UI.Icon exposing (..)
 import UI.Input as Input exposing (..)
 import UI.Label as Label exposing (..)
 import UI.Menu as Menu exposing (..)
@@ -65,6 +66,7 @@ type Page
     | ButtonPage
     | ContainerPage
     | HeaderPage
+    | IconPage
     | InputPage
     | LabelPage
     | PlaceholderPage
@@ -97,6 +99,7 @@ type Route
     | Button
     | Container
     | Header
+    | Icon
     | Input
     | Label
     | Placeholder
@@ -118,6 +121,7 @@ parser =
         , Parser.map Button (s "button")
         , Parser.map Container (s "container")
         , Parser.map Header (s "header")
+        , Parser.map Icon (s "icon")
         , Parser.map Input (s "input")
         , Parser.map Label (s "label")
         , Parser.map Placeholder (s "placeholder")
@@ -161,6 +165,9 @@ routing url model =
 
             Just Header ->
                 HeaderPage
+
+            Just Icon ->
+                IconPage
 
             Just Input ->
                 InputPage
@@ -300,6 +307,12 @@ view model =
                 , contents = examplesForHeaders
                 }
 
+            IconPage ->
+                { title = Just "Icon"
+                , breadcrumbItems = [ "Top", "Icon" ]
+                , contents = examplesForIcons
+                }
+
             InputPage ->
                 { title = Just "Input"
                 , breadcrumbItems = [ "Top", "Input" ]
@@ -407,6 +420,11 @@ contents_ =
       , description = "A header provides a short summary of content"
       , category = "Elements"
       , url = "/header"
+      }
+    , { label = "Icon"
+      , description = "An icon is a glyph used to represent something else"
+      , category = "Elements"
+      , url = "/icon"
       }
     , { label = "Input"
       , description = "An input is a field used to elicit a response from a user"
@@ -604,6 +622,40 @@ examplesForHeaders =
         , wireframeShortParagraph
         , miniHeader [] [ text "Mini Header" ]
         , wireframeShortParagraph
+        ]
+    ]
+
+
+examplesForIcons : List (Html msg)
+examplesForIcons =
+    [ example []
+        [ header [] [ text "Accessibility" ]
+        , p [] [ text "Icons can represent accessibility standards" ]
+        , div []
+            [ icon "fab" "accessible-icon"
+            , icon "fas" "american-sign-language-interpreting"
+            , icon "fas" "assistive-listening-systems"
+            , icon "fas" "audio-description"
+            , icon "fas" "blind"
+            ]
+        , div []
+            [ icon "fas" "braille"
+            , icon "fas" "closed-captioning"
+            , icon "far" "closed-captioning"
+            , icon "fas" "deaf"
+            , icon "fas" "low-vision"
+            ]
+        , div []
+            [ icon "fas" "phone-volume"
+            , icon "fas" "question-circle"
+            , icon "far" "question-circle"
+            , icon "fas" "sign-language"
+            , icon "fas" "tty"
+            ]
+        , div []
+            [ icon "fas" "universal-access"
+            , icon "fas" "wheelchair"
+            ]
         ]
     ]
 
