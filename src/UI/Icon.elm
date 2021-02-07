@@ -12,13 +12,13 @@ icon attributes str =
         ( fileName, symbolName ) =
             case String.words str of
                 [ "fab", s ] ->
-                    ( "brands", s )
+                    ( "brands", String.dropLeft 3 s )
 
                 [ "far", s ] ->
-                    ( "regular", s )
+                    ( "regular", String.dropLeft 3 s )
 
                 [ "fas", s ] ->
-                    ( "solid", s )
+                    ( "solid", String.dropLeft 3 s )
 
                 _ ->
                     ( "", "" )
@@ -42,8 +42,10 @@ icon attributes str =
               property "background" "none" |> important
 
             -- Override
-            , maxWidth (pct 100)
-            , maxHeight (pct 100)
+            , width (em 1.18)
+            , height (em 1)
+            , verticalAlign bottom
+            , fill currentColor
             ]
             []
             [ Svg.use [ xlinkHref url ] [] ]
