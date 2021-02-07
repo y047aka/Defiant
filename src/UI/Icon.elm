@@ -1,27 +1,30 @@
 module UI.Icon exposing (icon)
 
 import Css exposing (..)
-import Html.Styled as Html exposing (Html)
+import Html.Styled as Html exposing (Attribute, Html)
 import Svg.Styled as Svg
 import Svg.Styled.Attributes exposing (xlinkHref)
 
 
-icon : String -> String -> Html msg
-icon type_ symbolName =
+icon : List (Attribute msg) -> String -> Html msg
+icon attributes str =
     let
-        fileName =
-            case type_ of
-                "fab" ->
-                    "brands"
+        ( fileName, symbolName ) =
+            case String.words str of
+                [ "fab", s ] ->
+                    ( "brands", s )
 
-                "far" ->
-                    "regular"
+                [ "far", s ] ->
+                    ( "regular", s )
 
-                "fas" ->
-                    "solid"
+                [ "fas", s ] ->
+                    ( "solid", s )
 
                 _ ->
-                    ""
+                    ( "", "" )
+
+        url =
+            "./static/sprites/" ++ fileName ++ ".svg#" ++ symbolName
     in
     Html.styled Html.i
         [ -- i.icon
@@ -33,7 +36,7 @@ icon type_ symbolName =
         , textAlign center
         , property "speak" "none"
         ]
-        []
+        attributes
         [ Svg.styled Svg.svg
             [ -- i.icon:before
               property "background" "none" |> important
@@ -43,5 +46,5 @@ icon type_ symbolName =
             , maxHeight (pct 100)
             ]
             []
-            [ Svg.use [ xlinkHref <| "./static/sprites/" ++ fileName ++ ".svg#" ++ symbolName ] [] ]
+            [ Svg.use [ xlinkHref url ] [] ]
         ]

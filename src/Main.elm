@@ -16,9 +16,9 @@ import UI.Button exposing (..)
 import UI.Card as Card exposing (..)
 import UI.Container exposing (..)
 import UI.Example exposing (..)
-import UI.Grid exposing (..)
+import UI.Grid as Grid exposing (..)
 import UI.Header exposing (..)
-import UI.Icon exposing (..)
+import UI.Icon as Icon exposing (..)
 import UI.Input as Input exposing (..)
 import UI.Label as Label exposing (..)
 import UI.Menu as Menu exposing (..)
@@ -628,33 +628,64 @@ examplesForHeaders =
 
 examplesForIcons : List (Html msg)
 examplesForIcons =
+    let
+        column attributes =
+            Grid.column <|
+                css
+                    [ -- #example .icon.example .grid > .column
+                      opacity (num 0.8)
+                    , textAlign center
+                    , color transparent
+                    , property "-moz-align-items" "center"
+                    , property "-ms-align-items" "center"
+                    , property "align-items" "center"
+
+                    -- #example .icon.example .grid .column
+                    , color (hex "#333333")
+                    ]
+                    :: attributes
+
+        icon =
+            Icon.icon
+                [ css
+                    [ -- #example .icon.example .column .icon
+                      opacity (num 1)
+                    , height (em 1)
+                    , color (hex "#333333")
+                    , display block
+                    , margin3 (em 0) auto (em 0.25)
+                    , fontSize (em 2)
+                    ]
+                ]
+    in
     [ example []
         [ header [] [ text "Accessibility" ]
         , p [] [ text "Icons can represent accessibility standards" ]
-        , div []
-            [ icon "fab" "accessible-icon"
-            , icon "fas" "american-sign-language-interpreting"
-            , icon "fas" "assistive-listening-systems"
-            , icon "fas" "audio-description"
-            , icon "fas" "blind"
-            ]
-        , div []
-            [ icon "fas" "braille"
-            , icon "fas" "closed-captioning"
-            , icon "far" "closed-captioning"
-            , icon "fas" "deaf"
-            , icon "fas" "low-vision"
-            ]
-        , div []
-            [ icon "fas" "phone-volume"
-            , icon "fas" "question-circle"
-            , icon "far" "question-circle"
-            , icon "fas" "sign-language"
-            , icon "fas" "tty"
-            ]
-        , div []
-            [ icon "fas" "universal-access"
-            , icon "fas" "wheelchair"
+        , fiveColumnsGrid []
+            [ -- row 1
+              column [] [ icon "fab accessible-icon", text "accessible icon" ]
+            , column [] [ icon "fas american-sign-language-interpreting", text "american sign language interpreting" ]
+            , column [] [ icon "fas assistive-listening-systems", text "assistive listening systems" ]
+            , column [] [ icon "fas audio-description", text "audio-description" ]
+            , column [] [ icon "fas blind", text "blind" ]
+
+            -- row 2
+            , column [] [ icon "fas braille", text "braille" ]
+            , column [] [ icon "fas closed-captioning", text "closed captioning" ]
+            , column [] [ icon "far closed-captioning", text "closed captioning" ]
+            , column [] [ icon "fas deaf", text "deaf" ]
+            , column [] [ icon "fas low-vision", text "low vision" ]
+
+            -- row 3
+            , column [] [ icon "fas phone-volume", text "phone volume" ]
+            , column [] [ icon "fas question-circle", text "question circle" ]
+            , column [] [ icon "far question-circle", text "question circle" ]
+            , column [] [ icon "fas sign-language", text "sign language" ]
+            , column [] [ icon "fas tty", text "tty" ]
+
+            -- row 4
+            , column [] [ icon "fas universal-access", text "universal access" ]
+            , column [] [ icon "fas wheelchair", text "wheelchair" ]
             ]
         ]
     ]

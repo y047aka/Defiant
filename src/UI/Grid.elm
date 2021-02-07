@@ -1,12 +1,12 @@
 module UI.Grid exposing
-    ( grid
-    , fourWideColumn, twelveWideColumn
+    ( grid, fiveColumnsGrid
+    , column, fourWideColumn, twelveWideColumn
     )
 
 {-|
 
-@docs grid
-@docs fourWideColumn, twelveWideColumn
+@docs grid, fiveColumnsGrid
+@docs column, fourWideColumn, twelveWideColumn
 
 -}
 
@@ -68,6 +68,23 @@ columnBasis additionalStyles =
 grid : List (Attribute msg) -> List (Html msg) -> Html msg
 grid =
     gridBasis []
+
+
+fiveColumnsGrid : List (Attribute msg) -> List (Html msg) -> Html msg
+fiveColumnsGrid =
+    gridBasis
+        [ -- .ui[class*="five column"].grid > .row > .column
+          -- .ui[class*="five column"].grid > .column:not(.row)
+          children
+            [ Css.Global.div
+                [ width (pct 20) ]
+            ]
+        ]
+
+
+column : List (Attribute msg) -> List (Html msg) -> Html msg
+column =
+    columnBasis []
 
 
 fourWideColumn : List (Attribute msg) -> List (Html msg) -> Html msg
