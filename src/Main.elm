@@ -249,7 +249,8 @@ view model =
                                     |> breadcrumb
                                 ]
                             ]
-                        , basicSegment [] [ contents ]
+                        , basicSegment []
+                            [ container [] contents ]
                         ]
                 ]
             }
@@ -266,7 +267,7 @@ view model =
             NotFound ->
                 { title = Just "Not Found"
                 , breadcrumbItems = [ "Top", "Not Found" ]
-                , contents = text ""
+                , contents = []
                 }
 
             TopPage ->
@@ -278,112 +279,111 @@ view model =
             SitePage ->
                 { title = Just "Site"
                 , breadcrumbItems = [ "Top", "Site" ]
-                , contents = sectionForSite
+                , contents = examplesForSite
                 }
 
             ButtonPage ->
                 { title = Just "Button"
                 , breadcrumbItems = [ "Top", "Button" ]
-                , contents = sectionForButtons model
+                , contents = examplesForButtons model
                 }
 
             ContainerPage ->
                 { title = Just "Container"
                 , breadcrumbItems = [ "Top", "Container" ]
-                , contents = sectionForContainers
+                , contents = examplesForContainers
                 }
 
             HeaderPage ->
                 { title = Just "Header"
                 , breadcrumbItems = [ "Top", "Header" ]
-                , contents = sectionForHeaders
+                , contents = examplesForHeaders
                 }
 
             InputPage ->
                 { title = Just "Input"
                 , breadcrumbItems = [ "Top", "Input" ]
-                , contents = sectionForInputs
+                , contents = examplesForInputs
                 }
 
             LabelPage ->
                 { title = Just "Label"
                 , breadcrumbItems = [ "Top", "Label" ]
-                , contents = sectionForLabels
+                , contents = examplesForLabels
                 }
 
             PlaceholderPage ->
                 { title = Just "Placeholder"
                 , breadcrumbItems = [ "Top", "Placeholder" ]
-                , contents = sectionForPlaceholders
+                , contents = examplesForPlaceholders
                 }
 
             SegmentPage ->
                 { title = Just "Segment"
                 , breadcrumbItems = [ "Top", "Segment" ]
-                , contents = sectionForSegments
+                , contents = examplesForSegments
                 }
 
             TextPage ->
                 { title = Just "Text"
                 , breadcrumbItems = [ "Top", "Text" ]
-                , contents = sectionForTexts
+                , contents = examplesForTexts
                 }
 
             BreadcrumbPage ->
                 { title = Just "Breadcrumb"
                 , breadcrumbItems = [ "Top", "Breadcrumb" ]
-                , contents = sectionForBreadcrumbs
+                , contents = examplesForBreadcrumbs
                 }
 
             GridPage ->
                 { title = Just "Grid"
                 , breadcrumbItems = [ "Top", "Grid" ]
-                , contents = sectionForGrids
+                , contents = examplesForGrids
                 }
 
             MenuPage ->
                 { title = Just "Menu"
                 , breadcrumbItems = [ "Top", "Menu" ]
-                , contents = sectionForMenus
+                , contents = examplesForMenus
                 }
 
             MessagePage ->
                 { title = Just "Message"
                 , breadcrumbItems = [ "Top", "Message" ]
-                , contents = sectionForMessages
+                , contents = examplesForMessages
                 }
 
             TablePage ->
                 { title = Just "Table"
                 , breadcrumbItems = [ "Top", "Table" ]
-                , contents = sectionForTables
+                , contents = examplesForTables
                 }
 
             CardPage ->
                 { title = Just "Card"
                 , breadcrumbItems = [ "Top", "Card" ]
-                , contents = sectionForCards
+                , contents = examplesForCards
                 }
 
 
-tableOfContents : Html msg
+tableOfContents : List (Html msg)
 tableOfContents =
-    container []
-        [ cards [] <|
-            List.map
-                (\{ label, description, category, url } ->
-                    card []
-                        [ a [ href url ]
-                            [ Card.content []
-                                [ header [] [ text label ]
-                                , Card.meta [] [ text category ]
-                                , Card.description [] [ text description ]
-                                ]
+    [ cards [] <|
+        List.map
+            (\{ label, description, category, url } ->
+                card []
+                    [ a [ href url ]
+                        [ Card.content []
+                            [ header [] [ text label ]
+                            , Card.meta [] [ text category ]
+                            , Card.description [] [ text description ]
                             ]
                         ]
-                )
-                contents_
-        ]
+                    ]
+            )
+            contents_
+    ]
 
 
 contents_ : List { label : String, description : String, category : String, url : String }
@@ -466,98 +466,96 @@ contents_ =
     ]
 
 
-sectionForSite : Html msg
-sectionForSite =
-    container []
-        [ example []
-            [ header [] [ text "Headers" ]
-            , p [] [ text "A site can define styles for headers" ]
-            , h1 [] [ text "First Header" ]
-            , h2 [] [ text "Second Header" ]
-            , h3 [] [ text "Third Header" ]
-            , h4 [] [ text "Fourth Header" ]
-            , h5 [] [ text "Fifth Header" ]
+examplesForSite : List (Html msg)
+examplesForSite =
+    [ example []
+        [ header [] [ text "Headers" ]
+        , p [] [ text "A site can define styles for headers" ]
+        , h1 [] [ text "First Header" ]
+        , h2 [] [ text "Second Header" ]
+        , h3 [] [ text "Third Header" ]
+        , h4 [] [ text "Fourth Header" ]
+        , h5 [] [ text "Fifth Header" ]
+        ]
+    , example []
+        [ header [] [ text "Page Font" ]
+        , p [] [ text "A site can specify styles for page content." ]
+        , p [] [ text "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vel tincidunt eros, nec venenatis ipsum. Nulla hendrerit urna ex, id sagittis mi scelerisque vitae. Vestibulum posuere rutrum interdum. Sed ut ullamcorper odio, non pharetra eros. Aenean sed lacus sed enim ornare vestibulum quis a felis. Sed cursus nunc sit amet mauris sodales tempus. Nullam mattis, dolor non posuere commodo, sapien ligula hendrerit orci, non placerat erat felis vel dui. Cras vulputate ligula ut ex tincidunt tincidunt. Maecenas eget gravida lorem. Nunc nec facilisis risus. Mauris congue elit sit amet elit varius mattis. Praesent convallis placerat magna, a bibendum nibh lacinia non." ]
+        , p [] [ text "Fusce mollis sagittis elit ut maximus. Nullam blandit lacus sit amet luctus euismod. Duis luctus leo vel consectetur consequat. Phasellus ex ligula, pellentesque et neque vitae, elementum placerat eros. Proin eleifend odio nec velit lacinia suscipit. Morbi mollis ante nec dapibus gravida. In tincidunt augue eu elit porta, vel condimentum purus posuere. Maecenas tincidunt, erat sed elementum sagittis, tortor erat faucibus tellus, nec molestie mi purus sit amet tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris a tincidunt metus. Fusce congue metus aliquam ex auctor eleifend." ]
+        , p [] [ text "Ut imperdiet dignissim feugiat. Phasellus tristique odio eu justo dapibus, nec rutrum ipsum luctus. Ut posuere nec tortor eu ullamcorper. Etiam pellentesque tincidunt tortor, non sagittis nibh pretium sit amet. Sed neque dolor, blandit eu ornare vel, lacinia porttitor nisi. Vestibulum sit amet diam rhoncus, consectetur enim sit amet, interdum mauris. Praesent feugiat finibus quam, porttitor varius est egestas id." ]
+        ]
+    , example []
+        [ header [] [ text "Text Selection" ]
+        , p [] [ text "A site can specify text selection styles." ]
+        , p [] [ text "Fusce mollis sagittis elit ut maximus. Nullam blandit lacus sit amet luctus euismod. Duis luctus leo vel consectetur consequat. Phasellus ex ligula, pellentesque et neque vitae, elementum placerat eros. Proin eleifend odio nec velit lacinia suscipit. Morbi mollis ante nec dapibus gravida. In tincidunt augue eu elit porta, vel condimentum purus posuere. Maecenas tincidunt, erat sed elementum sagittis, tortor erat faucibus tellus, nec molestie mi purus sit amet tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris a tincidunt metus. Fusce congue metus aliquam ex auctor eleifend." ]
+        ]
+    , example []
+        [ header [] [ text "Spacing" ]
+        , p [] [ text "A site can define default spacing for headers and paragraphs" ]
+        , p [] [ text "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vel tincidunt eros, nec venenatis ipsum. Nulla hendrerit urna ex, id sagittis mi scelerisque vitae. Vestibulum posuere rutrum interdum. Sed ut ullamcorper odio, non pharetra eros. Aenean sed lacus sed enim ornare vestibulum quis a felis. Sed cursus nunc sit amet mauris sodales tempus. Nullam mattis, dolor non posuere commodo, sapien ligula hendrerit orci, non placerat erat felis vel dui. Cras vulputate ligula ut ex tincidunt tincidunt. Maecenas eget gravida lorem. Nunc nec facilisis risus. Mauris congue elit sit amet elit varius mattis. Praesent convallis placerat magna, a bibendum nibh lacinia non." ]
+        , p [] [ text "Fusce mollis sagittis elit ut maximus. Nullam blandit lacus sit amet luctus euismod. Duis luctus leo vel consectetur consequat. Phasellus ex ligula, pellentesque et neque vitae, elementum placerat eros. Proin eleifend odio nec velit lacinia suscipit. Morbi mollis ante nec dapibus gravida. In tincidunt augue eu elit porta, vel condimentum purus posuere. Maecenas tincidunt, erat sed elementum sagittis, tortor erat faucibus tellus, nec molestie mi purus sit amet tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris a tincidunt metus. Fusce congue metus aliquam ex auctor eleifend." ]
+        , p [] [ text "Ut imperdiet dignissim feugiat. Phasellus tristique odio eu justo dapibus, nec rutrum ipsum luctus. Ut posuere nec tortor eu ullamcorper. Etiam pellentesque tincidunt tortor, non sagittis nibh pretium sit amet. Sed neque dolor, blandit eu ornare vel, lacinia porttitor nisi. Vestibulum sit amet diam rhoncus, consectetur enim sit amet, interdum mauris. Praesent feugiat finibus quam, porttitor varius est egestas id." ]
+        ]
+    ]
+
+
+examplesForButtons : Model -> List (Html Msg)
+examplesForButtons { count } =
+    [ example []
+        [ header [] [ text "Button" ]
+        , p [] [ text "A standard button" ]
+        , button [] [ text "Follow" ]
+        ]
+    , example []
+        [ button [] [ text "Button" ]
+        , button [] [ text "Focusable" ]
+        ]
+    , example []
+        [ header [] [ text "Animated" ]
+        , p [] [ text "A button can animate to show hidden content" ]
+        ]
+    , example []
+        [ header [] [ text "Labeled" ]
+        , p [] [ text "A button can appear alongside a label" ]
+        , labeledButton []
+            [ button [] [ text "Like" ]
+            , basicLabel [] [ text "2048" ]
             ]
-        , example []
-            [ header [] [ text "Page Font" ]
-            , p [] [ text "A site can specify styles for page content." ]
-            , p [] [ text "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vel tincidunt eros, nec venenatis ipsum. Nulla hendrerit urna ex, id sagittis mi scelerisque vitae. Vestibulum posuere rutrum interdum. Sed ut ullamcorper odio, non pharetra eros. Aenean sed lacus sed enim ornare vestibulum quis a felis. Sed cursus nunc sit amet mauris sodales tempus. Nullam mattis, dolor non posuere commodo, sapien ligula hendrerit orci, non placerat erat felis vel dui. Cras vulputate ligula ut ex tincidunt tincidunt. Maecenas eget gravida lorem. Nunc nec facilisis risus. Mauris congue elit sit amet elit varius mattis. Praesent convallis placerat magna, a bibendum nibh lacinia non." ]
-            , p [] [ text "Fusce mollis sagittis elit ut maximus. Nullam blandit lacus sit amet luctus euismod. Duis luctus leo vel consectetur consequat. Phasellus ex ligula, pellentesque et neque vitae, elementum placerat eros. Proin eleifend odio nec velit lacinia suscipit. Morbi mollis ante nec dapibus gravida. In tincidunt augue eu elit porta, vel condimentum purus posuere. Maecenas tincidunt, erat sed elementum sagittis, tortor erat faucibus tellus, nec molestie mi purus sit amet tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris a tincidunt metus. Fusce congue metus aliquam ex auctor eleifend." ]
-            , p [] [ text "Ut imperdiet dignissim feugiat. Phasellus tristique odio eu justo dapibus, nec rutrum ipsum luctus. Ut posuere nec tortor eu ullamcorper. Etiam pellentesque tincidunt tortor, non sagittis nibh pretium sit amet. Sed neque dolor, blandit eu ornare vel, lacinia porttitor nisi. Vestibulum sit amet diam rhoncus, consectetur enim sit amet, interdum mauris. Praesent feugiat finibus quam, porttitor varius est egestas id." ]
-            ]
-        , example []
-            [ header [] [ text "Text Selection" ]
-            , p [] [ text "A site can specify text selection styles." ]
-            , p [] [ text "Fusce mollis sagittis elit ut maximus. Nullam blandit lacus sit amet luctus euismod. Duis luctus leo vel consectetur consequat. Phasellus ex ligula, pellentesque et neque vitae, elementum placerat eros. Proin eleifend odio nec velit lacinia suscipit. Morbi mollis ante nec dapibus gravida. In tincidunt augue eu elit porta, vel condimentum purus posuere. Maecenas tincidunt, erat sed elementum sagittis, tortor erat faucibus tellus, nec molestie mi purus sit amet tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris a tincidunt metus. Fusce congue metus aliquam ex auctor eleifend." ]
-            ]
-        , example []
-            [ header [] [ text "Spacing" ]
-            , p [] [ text "A site can define default spacing for headers and paragraphs" ]
-            , p [] [ text "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vel tincidunt eros, nec venenatis ipsum. Nulla hendrerit urna ex, id sagittis mi scelerisque vitae. Vestibulum posuere rutrum interdum. Sed ut ullamcorper odio, non pharetra eros. Aenean sed lacus sed enim ornare vestibulum quis a felis. Sed cursus nunc sit amet mauris sodales tempus. Nullam mattis, dolor non posuere commodo, sapien ligula hendrerit orci, non placerat erat felis vel dui. Cras vulputate ligula ut ex tincidunt tincidunt. Maecenas eget gravida lorem. Nunc nec facilisis risus. Mauris congue elit sit amet elit varius mattis. Praesent convallis placerat magna, a bibendum nibh lacinia non." ]
-            , p [] [ text "Fusce mollis sagittis elit ut maximus. Nullam blandit lacus sit amet luctus euismod. Duis luctus leo vel consectetur consequat. Phasellus ex ligula, pellentesque et neque vitae, elementum placerat eros. Proin eleifend odio nec velit lacinia suscipit. Morbi mollis ante nec dapibus gravida. In tincidunt augue eu elit porta, vel condimentum purus posuere. Maecenas tincidunt, erat sed elementum sagittis, tortor erat faucibus tellus, nec molestie mi purus sit amet tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris a tincidunt metus. Fusce congue metus aliquam ex auctor eleifend." ]
-            , p [] [ text "Ut imperdiet dignissim feugiat. Phasellus tristique odio eu justo dapibus, nec rutrum ipsum luctus. Ut posuere nec tortor eu ullamcorper. Etiam pellentesque tincidunt tortor, non sagittis nibh pretium sit amet. Sed neque dolor, blandit eu ornare vel, lacinia porttitor nisi. Vestibulum sit amet diam rhoncus, consectetur enim sit amet, interdum mauris. Praesent feugiat finibus quam, porttitor varius est egestas id." ]
+        , labeledButton []
+            [ button [ onClick Decrement ] [ text "-" ]
+            , basicLabel [] [ text (String.fromInt count) ]
+            , button [ onClick Increment ] [ text "+" ]
             ]
         ]
-
-
-sectionForButtons : Model -> Html Msg
-sectionForButtons { count } =
-    container []
-        [ example []
-            [ header [] [ text "Button" ]
-            , p [] [ text "A standard button" ]
-            , button [] [ text "Follow" ]
-            ]
-        , example []
-            [ button [] [ text "Button" ]
-            , button [] [ text "Focusable" ]
-            ]
-        , example []
-            [ header [] [ text "Animated" ]
-            , p [] [ text "A button can animate to show hidden content" ]
-            ]
-        , example []
-            [ header [] [ text "Labeled" ]
-            , p [] [ text "A button can appear alongside a label" ]
-            , labeledButton []
-                [ button [] [ text "Like" ]
-                , basicLabel [] [ text "2048" ]
-                ]
-            , labeledButton []
-                [ button [ onClick Decrement ] [ text "-" ]
-                , basicLabel [] [ text (String.fromInt count) ]
-                , button [ onClick Increment ] [ text "+" ]
-                ]
-            ]
-        , example []
-            [ header [] [ text "Basic" ]
-            , p [] [ text "A basic button is less pronounced" ]
-            , basicButton [] [ text "Add Friend" ]
-            ]
-        , example [] <|
-            [ header [] [ text "Colored" ]
-            , p [] [ text "A button can have different colors" ]
-            , primaryButton [] [ text "Primary" ]
-            , secondaryButton [] [ text "Secondary" ]
-            , redButton [] [ text "Red" ]
-            , orangeButton [] [ text "Orange" ]
-            , yellowButton [] [ text "Yellow" ]
-            , oliveButton [] [ text "Olive" ]
-            , greenButton [] [ text "Green" ]
-            , tealButton [] [ text "Teal" ]
-            , blueButton [] [ text "Blue" ]
-            , violetButton [] [ text "Violet" ]
-            , purpleButton [] [ text "Purple" ]
-            , pinkButton [] [ text "Pink" ]
-            , brownButton [] [ text "Brown" ]
-            , greyButton [] [ text "Grey" ]
-            , blackButton [] [ text "Black" ]
-            ]
+    , example []
+        [ header [] [ text "Basic" ]
+        , p [] [ text "A basic button is less pronounced" ]
+        , basicButton [] [ text "Add Friend" ]
         ]
+    , example [] <|
+        [ header [] [ text "Colored" ]
+        , p [] [ text "A button can have different colors" ]
+        , primaryButton [] [ text "Primary" ]
+        , secondaryButton [] [ text "Secondary" ]
+        , redButton [] [ text "Red" ]
+        , orangeButton [] [ text "Orange" ]
+        , yellowButton [] [ text "Yellow" ]
+        , oliveButton [] [ text "Olive" ]
+        , greenButton [] [ text "Green" ]
+        , tealButton [] [ text "Teal" ]
+        , blueButton [] [ text "Blue" ]
+        , violetButton [] [ text "Violet" ]
+        , purpleButton [] [ text "Purple" ]
+        , pinkButton [] [ text "Pink" ]
+        , brownButton [] [ text "Brown" ]
+        , greyButton [] [ text "Grey" ]
+        , blackButton [] [ text "Black" ]
+        ]
+    ]
 
 
-sectionForContainers : Html msg
-sectionForContainers =
+examplesForContainers : List (Html msg)
+examplesForContainers =
     let
         content =
             p []
@@ -568,610 +566,597 @@ sectionForContainers =
                 , text " mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi."
                 ]
     in
-    container []
-        [ example []
-            [ header [] [ text "Container" ]
-            , p [] [ text "A standard container" ]
-            , container [] [ content ]
-            ]
-        , example []
-            [ header [] [ text "Text Container" ]
-            , p [] [ text "A container can reduce its maximum width to more naturally accomodate a single column of text" ]
-            , textContainer []
-                [ h2 [] [ text "Header" ]
-                , content
-                , content
-                ]
+    [ example []
+        [ header [] [ text "Container" ]
+        , p [] [ text "A standard container" ]
+        , container [] [ content ]
+        ]
+    , example []
+        [ header [] [ text "Text Container" ]
+        , p [] [ text "A container can reduce its maximum width to more naturally accomodate a single column of text" ]
+        , textContainer []
+            [ h2 [] [ text "Header" ]
+            , content
+            , content
             ]
         ]
+    ]
 
 
-sectionForHeaders : Html msg
-sectionForHeaders =
-    container []
-        [ example []
-            [ header [] [ text "Content Headers" ]
-            , p [] [ text "Headers may be oriented to give the importance of a section in the context of the content that surrounds it" ]
-            , massiveHeader [] [ text "Massive Header" ]
-            , wireframeShortParagraph
-            , hugeHeader [] [ text "Huge Header" ]
-            , wireframeShortParagraph
-            , bigHeader [] [ text "Big Header" ]
-            , wireframeShortParagraph
-            , largeHeader [] [ text "Large Header" ]
-            , wireframeShortParagraph
-            , mediumHeader [] [ text "Medium Header" ]
-            , wireframeShortParagraph
-            , smallHeader [] [ text "Small Header" ]
-            , wireframeShortParagraph
-            , tinyHeader [] [ text "Tiny Header" ]
-            , wireframeShortParagraph
-            , miniHeader [] [ text "Mini Header" ]
-            , wireframeShortParagraph
+examplesForHeaders : List (Html msg)
+examplesForHeaders =
+    [ example []
+        [ header [] [ text "Content Headers" ]
+        , p [] [ text "Headers may be oriented to give the importance of a section in the context of the content that surrounds it" ]
+        , massiveHeader [] [ text "Massive Header" ]
+        , wireframeShortParagraph
+        , hugeHeader [] [ text "Huge Header" ]
+        , wireframeShortParagraph
+        , bigHeader [] [ text "Big Header" ]
+        , wireframeShortParagraph
+        , largeHeader [] [ text "Large Header" ]
+        , wireframeShortParagraph
+        , mediumHeader [] [ text "Medium Header" ]
+        , wireframeShortParagraph
+        , smallHeader [] [ text "Small Header" ]
+        , wireframeShortParagraph
+        , tinyHeader [] [ text "Tiny Header" ]
+        , wireframeShortParagraph
+        , miniHeader [] [ text "Mini Header" ]
+        , wireframeShortParagraph
+        ]
+    ]
+
+
+examplesForInputs : List (Html msg)
+examplesForInputs =
+    [ example []
+        [ header [] [ text "Input" ]
+        , p [] [ text "A standard input" ]
+        , input []
+            [ Html.Styled.input [ type_ "text", Attributes.placeholder "Search..." ] [] ]
+        ]
+    , example []
+        [ header [] [ text "Labeled" ]
+        , p [] [ text "An input can be formatted with a label" ]
+        , input []
+            [ Input.label [] [ text "http://" ]
+            , Html.Styled.input [ type_ "text", Attributes.placeholder "mysite.com" ] []
             ]
         ]
-
-
-sectionForInputs : Html msg
-sectionForInputs =
-    container []
-        [ example []
-            [ header [] [ text "Input" ]
-            , p [] [ text "A standard input" ]
-            , input []
-                [ Html.Styled.input [ type_ "text", Attributes.placeholder "Search..." ] [] ]
-            ]
-        , example []
-            [ header [] [ text "Labeled" ]
-            , p [] [ text "An input can be formatted with a label" ]
-            , input []
-                [ Input.label [] [ text "http://" ]
-                , Html.Styled.input [ type_ "text", Attributes.placeholder "mysite.com" ] []
-                ]
-            ]
-        , example []
-            [ input []
-                [ Html.Styled.input [ type_ "text", Attributes.placeholder "Enter weight.." ] []
-                , Input.label [] [ text "kg" ]
-                ]
+    , example []
+        [ input []
+            [ Html.Styled.input [ type_ "text", Attributes.placeholder "Enter weight.." ] []
+            , Input.label [] [ text "kg" ]
             ]
         ]
+    ]
 
 
-sectionForLabels : Html msg
-sectionForLabels =
-    container []
-        [ example []
-            [ header [] [ text "Label" ]
-            , p [] [ text "A label" ]
-            , Label.label [] [ text "23" ]
-            ]
-        , example []
-            [ header [] [ text "Basic" ]
-            , p [] [ text "A label can reduce its complexity" ]
-            , basicLabel [] [ text "Basic" ]
-            ]
-        , example [] <|
-            [ header [] [ text "Colored" ]
-            , p [] [ text "A label can have different colors" ]
-            , primaryLabel [] [ text "Primary" ]
-            , secondaryLabel [] [ text "Secondary" ]
-            , redLabel [] [ text "Red" ]
-            , orangeLabel [] [ text "Orange" ]
-            , yellowLabel [] [ text "Yellow" ]
-            , oliveLabel [] [ text "Olive" ]
-            , greenLabel [] [ text "Green" ]
-            , tealLabel [] [ text "Teal" ]
-            , blueLabel [] [ text "Blue" ]
-            , violetLabel [] [ text "Violet" ]
-            , purpleLabel [] [ text "Purple" ]
-            , pinkLabel [] [ text "Pink" ]
-            , brownLabel [] [ text "Brown" ]
-            , greyLabel [] [ text "Grey" ]
-            , blackLabel [] [ text "Black" ]
+examplesForLabels : List (Html msg)
+examplesForLabels =
+    [ example []
+        [ header [] [ text "Label" ]
+        , p [] [ text "A label" ]
+        , Label.label [] [ text "23" ]
+        ]
+    , example []
+        [ header [] [ text "Basic" ]
+        , p [] [ text "A label can reduce its complexity" ]
+        , basicLabel [] [ text "Basic" ]
+        ]
+    , example [] <|
+        [ header [] [ text "Colored" ]
+        , p [] [ text "A label can have different colors" ]
+        , primaryLabel [] [ text "Primary" ]
+        , secondaryLabel [] [ text "Secondary" ]
+        , redLabel [] [ text "Red" ]
+        , orangeLabel [] [ text "Orange" ]
+        , yellowLabel [] [ text "Yellow" ]
+        , oliveLabel [] [ text "Olive" ]
+        , greenLabel [] [ text "Green" ]
+        , tealLabel [] [ text "Teal" ]
+        , blueLabel [] [ text "Blue" ]
+        , violetLabel [] [ text "Violet" ]
+        , purpleLabel [] [ text "Purple" ]
+        , pinkLabel [] [ text "Pink" ]
+        , brownLabel [] [ text "Brown" ]
+        , greyLabel [] [ text "Grey" ]
+        , blackLabel [] [ text "Black" ]
+        ]
+    ]
+
+
+examplesForPlaceholders : List (Html msg)
+examplesForPlaceholders =
+    [ example []
+        [ header [] [ text "Lines" ]
+        , p [] [ text "A placeholder can contain have lines of text" ]
+        , placeholder []
+            [ line [] []
+            , line [] []
+            , line [] []
+            , line [] []
+            , line [] []
             ]
         ]
+    ]
 
 
-sectionForPlaceholders : Html msg
-sectionForPlaceholders =
-    container []
-        [ example []
-            [ header [] [ text "Lines" ]
-            , p [] [ text "A placeholder can contain have lines of text" ]
-            , placeholder []
-                [ line [] []
-                , line [] []
-                , line [] []
-                , line [] []
-                , line [] []
-                ]
+examplesForSegments : List (Html msg)
+examplesForSegments =
+    [ example []
+        [ header [] [ text "Segment" ]
+        , p [] [ text "A segment of content" ]
+        , segment [] [ wireframeShortParagraph ]
+        ]
+    , example []
+        [ header [] [ text "Vertical Segment" ]
+        , p [] [ text "A vertical segment formats content to be aligned as part of a vertical group" ]
+        , verticalSegment [] [ wireframeShortParagraph ]
+        , verticalSegment [] [ wireframeShortParagraph ]
+        , verticalSegment [] [ wireframeShortParagraph ]
+        ]
+    , example []
+        [ header [] [ text "Disabled" ]
+        , p [] [ text "A segment may show its content is disabled" ]
+        , disabledSegment [] [ wireframeShortParagraph ]
+        ]
+    , example []
+        [ header [] [ text "Padded" ]
+        , p [] [ text "A segment can increase its padding" ]
+        , paddedSegment [] [ wireframeShortParagraph ]
+        ]
+    , example []
+        [ veryPaddedSegment [] [ wireframeShortParagraph ] ]
+    , example []
+        [ header [] [ text "Basic" ]
+        , p [] [ text "A basic segment has no special formatting\n\n" ]
+        , basicSegment []
+            [ p [] [ text "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo." ] ]
+        ]
+    ]
+
+
+examplesForTexts : List (Html msg)
+examplesForTexts =
+    [ example []
+        [ header [] [ text "Text" ]
+        , p [] [ text "A text is always used inline and uses one color from the FUI color palette" ]
+        , segment []
+            [ text "This is "
+            , redText { inverted = False } "red"
+            , text " inline text and this is "
+            , blueText { inverted = False } "blue"
+            , text " inline text and this is "
+            , purpleText { inverted = False } "purple"
+            , text " inline text"
+            ]
+        , invertedSegment []
+            [ text "This is "
+            , redText { inverted = True } "red"
+            , text " inline text and this is "
+            , blueText { inverted = True } "blue"
+            , text " inline text and this is "
+            , purpleText { inverted = True } "purple"
+            , text " inline text"
+            ]
+        , segment []
+            [ text "This is "
+            , infoText "info"
+            , text " inline text and this is "
+            , successText "success"
+            , text " inline text and this is "
+            , warningText "warning"
+            , text " inline text and this is "
+            , errorText "error"
+            , text " inline text"
+            ]
+        , invertedSegment []
+            [ text "This is "
+            , infoText "info"
+            , text " inline text and this is "
+            , successText "success"
+            , text " inline text and this is "
+            , warningText "warning"
+            , text " inline text and this is "
+            , errorText "error"
+            , text " inline text"
             ]
         ]
-
-
-sectionForSegments : Html msg
-sectionForSegments =
-    container []
-        [ example []
-            [ header [] [ text "Segment" ]
-            , p [] [ text "A segment of content" ]
-            , segment [] [ wireframeShortParagraph ]
-            ]
-        , example []
-            [ header [] [ text "Vertical Segment" ]
-            , p [] [ text "A vertical segment formats content to be aligned as part of a vertical group" ]
-            , verticalSegment [] [ wireframeShortParagraph ]
-            , verticalSegment [] [ wireframeShortParagraph ]
-            , verticalSegment [] [ wireframeShortParagraph ]
-            ]
-        , example []
-            [ header [] [ text "Disabled" ]
-            , p [] [ text "A segment may show its content is disabled" ]
-            , disabledSegment [] [ wireframeShortParagraph ]
-            ]
-        , example []
-            [ header [] [ text "Padded" ]
-            , p [] [ text "A segment can increase its padding" ]
-            , paddedSegment [] [ wireframeShortParagraph ]
-            ]
-        , example []
-            [ veryPaddedSegment [] [ wireframeShortParagraph ] ]
-        , example []
-            [ header [] [ text "Basic" ]
-            , p [] [ text "A basic segment has no special formatting\n\n" ]
-            , basicSegment []
-                [ p [] [ text "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo." ] ]
+    , example []
+        [ header [] [ text "Size" ]
+        , p [] [ text "Text can vary in the same sizes as icons" ]
+        , segment []
+            [ p [] [ text "Starting with ", miniText "mini", text " text" ]
+            , p [] [ text "which turns into ", tinyText "tiny", text " text" ]
+            , p [] [ text "changing to ", smallText "small", text " text until it is" ]
+            , p [] [ text "the default ", mediumText "medium", text " text" ]
+            , p [] [ text "and could be ", largeText "large", text " text" ]
+            , p [] [ text "to turn into ", bigText "big", text " text" ]
+            , p [] [ text "then growing to ", hugeText "huge", text " text" ]
+            , p [] [ text "to finally become ", massiveText "massive", text " text" ]
             ]
         ]
+    ]
 
 
-sectionForTexts : Html msg
-sectionForTexts =
-    container []
-        [ example []
-            [ header [] [ text "Text" ]
-            , p [] [ text "A text is always used inline and uses one color from the FUI color palette" ]
-            , segment []
-                [ text "This is "
-                , redText { inverted = False } "red"
-                , text " inline text and this is "
-                , blueText { inverted = False } "blue"
-                , text " inline text and this is "
-                , purpleText { inverted = False } "purple"
-                , text " inline text"
-                ]
-            , invertedSegment []
-                [ text "This is "
-                , redText { inverted = True } "red"
-                , text " inline text and this is "
-                , blueText { inverted = True } "blue"
-                , text " inline text and this is "
-                , purpleText { inverted = True } "purple"
-                , text " inline text"
-                ]
-            , segment []
-                [ text "This is "
-                , infoText "info"
-                , text " inline text and this is "
-                , successText "success"
-                , text " inline text and this is "
-                , warningText "warning"
-                , text " inline text and this is "
-                , errorText "error"
-                , text " inline text"
-                ]
-            , invertedSegment []
-                [ text "This is "
-                , infoText "info"
-                , text " inline text and this is "
-                , successText "success"
-                , text " inline text and this is "
-                , warningText "warning"
-                , text " inline text and this is "
-                , errorText "error"
-                , text " inline text"
-                ]
-            ]
-        , example []
-            [ header [] [ text "Size" ]
-            , p [] [ text "Text can vary in the same sizes as icons" ]
-            , segment []
-                [ p [] [ text "Starting with ", miniText "mini", text " text" ]
-                , p [] [ text "which turns into ", tinyText "tiny", text " text" ]
-                , p [] [ text "changing to ", smallText "small", text " text until it is" ]
-                , p [] [ text "the default ", mediumText "medium", text " text" ]
-                , p [] [ text "and could be ", largeText "large", text " text" ]
-                , p [] [ text "to turn into ", bigText "big", text " text" ]
-                , p [] [ text "then growing to ", hugeText "huge", text " text" ]
-                , p [] [ text "to finally become ", massiveText "massive", text " text" ]
-                ]
+examplesForBreadcrumbs : List (Html msg)
+examplesForBreadcrumbs =
+    [ example []
+        [ header [] [ text "Breadcrumb" ]
+        , p [] [ text "A standard breadcrumb" ]
+        , breadcrumb
+            [ section [] [ text "Home" ]
+            , divider [] [ text "/" ]
+            , section [] [ text "Store" ]
+            , divider [] [ text "/" ]
+            , activeSection [] [ text "T-Shirt" ]
             ]
         ]
-
-
-sectionForBreadcrumbs : Html msg
-sectionForBreadcrumbs =
-    container []
-        [ example []
-            [ header [] [ text "Breadcrumb" ]
-            , p [] [ text "A standard breadcrumb" ]
-            , breadcrumb
-                [ section [] [ text "Home" ]
-                , divider [] [ text "/" ]
-                , section [] [ text "Store" ]
-                , divider [] [ text "/" ]
-                , activeSection [] [ text "T-Shirt" ]
-                ]
-            ]
-        , example []
-            [ header [] [ text "Divider" ]
-            , p [] [ text "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text." ]
-            , breadcrumb
-                [ section [] [ text "Home" ]
-                , divider [] [ text "/" ]
-                , section [] [ text "Registration" ]
-                , divider [] [ text "/" ]
-                , activeSection [] [ text "Personal Information" ]
-                ]
-            ]
-        , example []
-            [ header [] [ text "Active" ]
-            , p [] [ text "A section can be active" ]
-            , breadcrumb
-                [ section [] [ text "Products" ]
-                , divider [] [ text "/" ]
-                , activeSection [] [ text "Paper Towels" ]
-                ]
+    , example []
+        [ header [] [ text "Divider" ]
+        , p [] [ text "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text." ]
+        , breadcrumb
+            [ section [] [ text "Home" ]
+            , divider [] [ text "/" ]
+            , section [] [ text "Registration" ]
+            , divider [] [ text "/" ]
+            , activeSection [] [ text "Personal Information" ]
             ]
         ]
+    , example []
+        [ header [] [ text "Active" ]
+        , p [] [ text "A section can be active" ]
+        , breadcrumb
+            [ section [] [ text "Products" ]
+            , divider [] [ text "/" ]
+            , activeSection [] [ text "Paper Towels" ]
+            ]
+        ]
+    ]
 
 
-sectionForGrids : Html msg
-sectionForGrids =
-    container []
-        [ example []
-            [ header [] [ text "Grids" ]
-            , p [] [ text "A grid is a structure with a long history used to align negative space in designs." ]
-            , p [] [ text "Using a grid makes content appear to flow more naturally on your page." ]
-            , let
-                dummyContent =
-                    css
-                        [ after
-                            [ property "content" (qt "")
-                            , display block
-                            , minHeight (px 50)
-                            , backgroundColor (rgba 86 61 124 0.1)
-                            , property "box-shadow" "0px 0px 0px 1px rgba(86, 61, 124, 0.2) inset"
-                            ]
-                        ]
-              in
-              grid
-                [ css
-                    [ position relative
-                    , before
-                        [ position absolute
-                        , top (rem 1)
-                        , left (rem 1)
-                        , backgroundColor (hex "FAFAFA")
-                        , property "content" (qt "")
-                        , width (calc (pct 100) minus (rem 2))
-                        , height (calc (pct 100) minus (rem 2))
-                        , property "box-shadow" "0px 0px 0px 1px #DDDDDD inset"
+examplesForGrids : List (Html msg)
+examplesForGrids =
+    [ example []
+        [ header [] [ text "Grids" ]
+        , p [] [ text "A grid is a structure with a long history used to align negative space in designs." ]
+        , p [] [ text "Using a grid makes content appear to flow more naturally on your page." ]
+        , let
+            dummyContent =
+                css
+                    [ after
+                        [ property "content" (qt "")
+                        , display block
+                        , minHeight (px 50)
+                        , backgroundColor (rgba 86 61 124 0.1)
+                        , property "box-shadow" "0px 0px 0px 1px rgba(86, 61, 124, 0.2) inset"
                         ]
                     ]
+          in
+          grid
+            [ css
+                [ position relative
+                , before
+                    [ position absolute
+                    , top (rem 1)
+                    , left (rem 1)
+                    , backgroundColor (hex "FAFAFA")
+                    , property "content" (qt "")
+                    , width (calc (pct 100) minus (rem 2))
+                    , height (calc (pct 100) minus (rem 2))
+                    , property "box-shadow" "0px 0px 0px 1px #DDDDDD inset"
+                    ]
                 ]
-                [ fourWideColumn [ dummyContent ] []
-                , fourWideColumn [ dummyContent ] []
-                , fourWideColumn [ dummyContent ] []
-                , fourWideColumn [ dummyContent ] []
+            ]
+            [ fourWideColumn [ dummyContent ] []
+            , fourWideColumn [ dummyContent ] []
+            , fourWideColumn [ dummyContent ] []
+            , fourWideColumn [ dummyContent ] []
+            ]
+        ]
+    ]
+
+
+examplesForMenus : List (Html msg)
+examplesForMenus =
+    [ example []
+        [ header [] [ text "Secondary Menu" ]
+        , p [] [ text "A menu can adjust its appearance to de-emphasize its contents" ]
+        , secondaryMenu { inverted = False } [] <|
+            [ secondaryMenuActiveItem [] [ text "Home" ]
+            , secondaryMenuItem [] [] [ text "Messages" ]
+            , secondaryMenuItem [] [] [ text "Friends" ]
+            , rightMenu []
+                [ secondaryMenuItem [] [] <|
+                    [ input []
+                        [ Html.Styled.input [ type_ "text", Attributes.placeholder "Search..." ] [] ]
+                    ]
+                , secondaryMenuItem [] [] [ text "Logout" ]
                 ]
             ]
         ]
-
-
-sectionForMenus : Html msg
-sectionForMenus =
-    container []
-        [ example []
-            [ header [] [ text "Secondary Menu" ]
-            , p [] [ text "A menu can adjust its appearance to de-emphasize its contents" ]
-            , secondaryMenu { inverted = False } [] <|
-                [ secondaryMenuActiveItem [] [ text "Home" ]
-                , secondaryMenuItem [] [] [ text "Messages" ]
-                , secondaryMenuItem [] [] [ text "Friends" ]
-                , rightMenu []
-                    [ secondaryMenuItem [] [] <|
-                        [ input []
-                            [ Html.Styled.input [ type_ "text", Attributes.placeholder "Search..." ] [] ]
-                        ]
-                    , secondaryMenuItem [] [] [ text "Logout" ]
-                    ]
+    , example []
+        [ header [] [ text "Vertical Menu" ]
+        , p [] [ text "A vertical menu displays elements vertically.." ]
+        , verticalMenu { inverted = False, additionalStyles = [] } [] <|
+            [ verticalMenuActiveItem []
+                [ text "Inbox"
+                , verticalMenuActiveItemLabel [] [ text "1" ]
                 ]
-            ]
-        , example []
-            [ header [] [ text "Vertical Menu" ]
-            , p [] [ text "A vertical menu displays elements vertically.." ]
-            , verticalMenu { inverted = False, additionalStyles = [] } [] <|
-                [ verticalMenuActiveItem []
-                    [ text "Inbox"
-                    , verticalMenuActiveItemLabel [] [ text "1" ]
-                    ]
-                , verticalMenuItem { inverted = False, additionalStyles = [] } [] <|
-                    [ text "Spam"
-                    , verticalMenuActiveItemLabel [] [ text "51" ]
-                    ]
-                , verticalMenuItem { inverted = False, additionalStyles = [] } [] <|
-                    [ text "Updates"
-                    , verticalMenuActiveItemLabel [] [ text "1" ]
-                    ]
-                , verticalMenuItem { inverted = False, additionalStyles = [] } [] [ text "Search mail..." ]
+            , verticalMenuItem { inverted = False, additionalStyles = [] } [] <|
+                [ text "Spam"
+                , verticalMenuActiveItemLabel [] [ text "51" ]
                 ]
-            ]
-        , example []
-            [ header [] [ text "Link Item" ]
-            , p [] [ text "A menu may contain a link item, or an item formatted as if it is a link." ]
-            , verticalMenu { inverted = False, additionalStyles = [] } [] <|
-                [ verticalMenuLinkItem { inverted = False, additionalStyles = [] } [ href "http://www.google.com", Attributes.target "_blank", rel "noopener" ] [ text "Visit Google" ]
-                , verticalMenuLinkItem { inverted = False, additionalStyles = [] } [] [ text "Javascript Link" ]
+            , verticalMenuItem { inverted = False, additionalStyles = [] } [] <|
+                [ text "Updates"
+                , verticalMenuActiveItemLabel [] [ text "1" ]
                 ]
+            , verticalMenuItem { inverted = False, additionalStyles = [] } [] [ text "Search mail..." ]
             ]
-        , example []
-            [ header [] [ text "Inverted" ]
-            , p [] [ text "A menu may have its colors inverted to show greater contrast" ]
-            , Menu.menu { inverted = True } [] <|
+        ]
+    , example []
+        [ header [] [ text "Link Item" ]
+        , p [] [ text "A menu may contain a link item, or an item formatted as if it is a link." ]
+        , verticalMenu { inverted = False, additionalStyles = [] } [] <|
+            [ verticalMenuLinkItem { inverted = False, additionalStyles = [] } [ href "http://www.google.com", Attributes.target "_blank", rel "noopener" ] [ text "Visit Google" ]
+            , verticalMenuLinkItem { inverted = False, additionalStyles = [] } [] [ text "Javascript Link" ]
+            ]
+        ]
+    , example []
+        [ header [] [ text "Inverted" ]
+        , p [] [ text "A menu may have its colors inverted to show greater contrast" ]
+        , Menu.menu { inverted = True } [] <|
+            [ linkItem { inverted = True } [] [ text "Home" ]
+            , linkItem { inverted = True } [] [ text "Messages" ]
+            , linkItem { inverted = True } [] [ text "Friends" ]
+            ]
+        ]
+    , example []
+        [ verticalInvertedMenu []
+            [ verticalMenuLinkItem { inverted = True, additionalStyles = [] } [] [ text "Home" ]
+            , verticalMenuLinkItem { inverted = True, additionalStyles = [] } [] [ text "Messages" ]
+            , verticalMenuLinkItem { inverted = True, additionalStyles = [] } [] [ text "Friends" ]
+            ]
+        ]
+    , example []
+        [ invertedSegment []
+            [ secondaryMenu { inverted = False } [] <|
                 [ linkItem { inverted = True } [] [ text "Home" ]
                 , linkItem { inverted = True } [] [ text "Messages" ]
                 , linkItem { inverted = True } [] [ text "Friends" ]
                 ]
             ]
-        , example []
-            [ verticalInvertedMenu []
-                [ verticalMenuLinkItem { inverted = True, additionalStyles = [] } [] [ text "Home" ]
-                , verticalMenuLinkItem { inverted = True, additionalStyles = [] } [] [ text "Messages" ]
-                , verticalMenuLinkItem { inverted = True, additionalStyles = [] } [] [ text "Friends" ]
-                ]
+        ]
+    ]
+
+
+examplesForMessages : List (Html msg)
+examplesForMessages =
+    [ example []
+        [ header [] [ text "Message" ]
+        , p [] [ text "A basic message" ]
+        , message []
+            [ header [] [ text "Changes in Service" ]
+            , p [] [ text "We just updated our privacy policy here to better service our customers. We recommend reviewing the changes." ]
             ]
-        , example []
-            [ invertedSegment []
-                [ secondaryMenu { inverted = False } [] <|
-                    [ linkItem { inverted = True } [] [ text "Home" ]
-                    , linkItem { inverted = True } [] [ text "Messages" ]
-                    , linkItem { inverted = True } [] [ text "Friends" ]
+        ]
+    ]
+
+
+examplesForTables : List (Html msg)
+examplesForTables =
+    [ example []
+        [ header [] [ text "Table" ]
+        , p [] [ text "A standard table" ]
+        , celledTable []
+            [ thead []
+                [ tr []
+                    [ th [] [ text "Name" ]
+                    , th [] [ text "Age" ]
+                    , th [] [ text "Job" ]
+                    ]
+                ]
+            , tbody []
+                [ tr []
+                    [ td [] [ text "James" ]
+                    , td [] [ text "24" ]
+                    , td [] [ text "Engineer" ]
+                    ]
+                , tr []
+                    [ td [] [ text "Jill" ]
+                    , td [] [ text "26" ]
+                    , td [] [ text "Engineer" ]
+                    ]
+                , tr []
+                    [ td [] [ text "Elyse" ]
+                    , td [] [ text "24" ]
+                    , td [] [ text "Designer" ]
                     ]
                 ]
             ]
         ]
-
-
-sectionForMessages : Html msg
-sectionForMessages =
-    container []
-        [ example []
-            [ header [] [ text "Message" ]
-            , p [] [ text "A basic message" ]
-            , message []
-                [ header [] [ text "Changes in Service" ]
-                , p [] [ text "We just updated our privacy policy here to better service our customers. We recommend reviewing the changes." ]
-                ]
-            ]
-        ]
-
-
-sectionForTables : Html msg
-sectionForTables =
-    container []
-        [ example []
-            [ header [] [ text "Table" ]
-            , p [] [ text "A standard table" ]
-            , celledTable []
-                [ thead []
-                    [ tr []
-                        [ th [] [ text "Name" ]
-                        , th [] [ text "Age" ]
-                        , th [] [ text "Job" ]
-                        ]
-                    ]
-                , tbody []
-                    [ tr []
-                        [ td [] [ text "James" ]
-                        , td [] [ text "24" ]
-                        , td [] [ text "Engineer" ]
-                        ]
-                    , tr []
-                        [ td [] [ text "Jill" ]
-                        , td [] [ text "26" ]
-                        , td [] [ text "Engineer" ]
-                        ]
-                    , tr []
-                        [ td [] [ text "Elyse" ]
-                        , td [] [ text "24" ]
-                        , td [] [ text "Designer" ]
-                        ]
+    , example []
+        [ header [] [ text "Striped" ]
+        , p [] [ text "A table can stripe alternate rows of content with a darker color to increase contrast" ]
+        , stripedTable []
+            [ thead []
+                [ tr []
+                    [ th [] [ text "Name" ]
+                    , th [] [ text "Date Joined" ]
+                    , th [] [ text "E-mail" ]
+                    , th [] [ text "Called" ]
                     ]
                 ]
-            ]
-        , example []
-            [ header [] [ text "Striped" ]
-            , p [] [ text "A table can stripe alternate rows of content with a darker color to increase contrast" ]
-            , stripedTable []
-                [ thead []
-                    [ tr []
-                        [ th [] [ text "Name" ]
-                        , th [] [ text "Date Joined" ]
-                        , th [] [ text "E-mail" ]
-                        , th [] [ text "Called" ]
-                        ]
+            , tbody []
+                [ tr []
+                    [ td [] [ text "John Lilki" ]
+                    , td [] [ text "September 14, 2013" ]
+                    , td [] [ text "jhlilk22@yahoo.com" ]
+                    , td [] [ text "No" ]
                     ]
-                , tbody []
-                    [ tr []
-                        [ td [] [ text "John Lilki" ]
-                        , td [] [ text "September 14, 2013" ]
-                        , td [] [ text "jhlilk22@yahoo.com" ]
-                        , td [] [ text "No" ]
-                        ]
-                    , tr []
-                        [ td [] [ text "Jamie Harington" ]
-                        , td [] [ text "January 11, 2014" ]
-                        , td [] [ text "jamieharingonton@yahoo.com" ]
-                        , td [] [ text "Yes" ]
-                        ]
-                    , tr []
-                        [ td [] [ text "Jill Lewis" ]
-                        , td [] [ text "May 11, 2014" ]
-                        , td [] [ text "jilsewris22@yahoo.com" ]
-                        , td [] [ text "Yes" ]
-                        ]
-                    , tr []
-                        [ td [] [ text "John Lilki" ]
-                        , td [] [ text "September 14, 2013" ]
-                        , td [] [ text "jhlilk22@yahoo.com" ]
-                        , td [] [ text "No" ]
-                        ]
-                    , tr []
-                        [ td [] [ text "John Lilki" ]
-                        , td [] [ text "September 14, 2013" ]
-                        , td [] [ text "jhlilk22@yahoo.com" ]
-                        , td [] [ text "No" ]
-                        ]
-                    , tr []
-                        [ td [] [ text "Jamie Harington" ]
-                        , td [] [ text "January 11, 2014" ]
-                        , td [] [ text "jamieharingonton@yahoo.com" ]
-                        , td [] [ text "Yes" ]
-                        ]
-                    , tr []
-                        [ td [] [ text "Jill Lewis" ]
-                        , td [] [ text "May 11, 2014" ]
-                        , td [] [ text "jilsewris22@yahoo.com" ]
-                        , td [] [ text "Yes" ]
-                        ]
-                    , tr []
-                        [ td [] [ text "John Lilki" ]
-                        , td [] [ text "September 14, 2013" ]
-                        , td [] [ text "jhlilk22@yahoo.com" ]
-                        , td [] [ text "No" ]
-                        ]
+                , tr []
+                    [ td [] [ text "Jamie Harington" ]
+                    , td [] [ text "January 11, 2014" ]
+                    , td [] [ text "jamieharingonton@yahoo.com" ]
+                    , td [] [ text "Yes" ]
                     ]
-                ]
-            ]
-        , example []
-            [ header [] [ text "Basic" ]
-            , p [] [ text "A table can reduce its complexity to increase readability." ]
-            , basicTable []
-                [ thead []
-                    [ tr []
-                        [ th [] [ text "Name" ]
-                        , th [] [ text "Status" ]
-                        , th [] [ text "Notes" ]
-                        ]
+                , tr []
+                    [ td [] [ text "Jill Lewis" ]
+                    , td [] [ text "May 11, 2014" ]
+                    , td [] [ text "jilsewris22@yahoo.com" ]
+                    , td [] [ text "Yes" ]
                     ]
-                , tbody []
-                    [ tr []
-                        [ td [] [ text "John" ]
-                        , td [] [ text "Approved" ]
-                        , td [] [ text "None" ]
-                        ]
-                    , tr []
-                        [ td [] [ text "Jamie" ]
-                        , td [] [ text "Approved" ]
-                        , td [] [ text "Requires call" ]
-                        ]
-                    , tr []
-                        [ td [] [ text "Jill" ]
-                        , td [] [ text "Denied" ]
-                        , td [] [ text "None" ]
-                        ]
+                , tr []
+                    [ td [] [ text "John Lilki" ]
+                    , td [] [ text "September 14, 2013" ]
+                    , td [] [ text "jhlilk22@yahoo.com" ]
+                    , td [] [ text "No" ]
                     ]
-                ]
-            ]
-        , example []
-            [ veryBasicTable []
-                [ thead []
-                    [ tr []
-                        [ th [] [ text "Name" ]
-                        , th [] [ text "Status" ]
-                        , th [] [ text "Notes" ]
-                        ]
+                , tr []
+                    [ td [] [ text "John Lilki" ]
+                    , td [] [ text "September 14, 2013" ]
+                    , td [] [ text "jhlilk22@yahoo.com" ]
+                    , td [] [ text "No" ]
                     ]
-                , tbody []
-                    [ tr []
-                        [ td [] [ text "John" ]
-                        , td [] [ text "Approved" ]
-                        , td [] [ text "None" ]
-                        ]
-                    , tr []
-                        [ td [] [ text "Jamie" ]
-                        , td [] [ text "Approved" ]
-                        , td [] [ text "Requires call" ]
-                        ]
-                    , tr []
-                        [ td [] [ text "Jill" ]
-                        , td [] [ text "Denied" ]
-                        , td [] [ text "None" ]
-                        ]
+                , tr []
+                    [ td [] [ text "Jamie Harington" ]
+                    , td [] [ text "January 11, 2014" ]
+                    , td [] [ text "jamieharingonton@yahoo.com" ]
+                    , td [] [ text "Yes" ]
+                    ]
+                , tr []
+                    [ td [] [ text "Jill Lewis" ]
+                    , td [] [ text "May 11, 2014" ]
+                    , td [] [ text "jilsewris22@yahoo.com" ]
+                    , td [] [ text "Yes" ]
+                    ]
+                , tr []
+                    [ td [] [ text "John Lilki" ]
+                    , td [] [ text "September 14, 2013" ]
+                    , td [] [ text "jhlilk22@yahoo.com" ]
+                    , td [] [ text "No" ]
                     ]
                 ]
             ]
         ]
-
-
-sectionForCards : Html msg
-sectionForCards =
-    container []
-        [ example []
-            [ header [] [ text "Header" ]
-            , p [] [ text "A card can contain a header" ]
-            , cards []
-                [ card []
-                    [ Card.content []
-                        [ header [] [ text "Elliot Fu" ]
-                        , meta [] [ text "Friend" ]
-                        , description [] [ text "Elliot Fu is a film-maker from New York." ]
-                        ]
+    , example []
+        [ header [] [ text "Basic" ]
+        , p [] [ text "A table can reduce its complexity to increase readability." ]
+        , basicTable []
+            [ thead []
+                [ tr []
+                    [ th [] [ text "Name" ]
+                    , th [] [ text "Status" ]
+                    , th [] [ text "Notes" ]
                     ]
-                , card []
-                    [ Card.content []
-                        [ header [] [ text "Veronika Ossi" ]
-                        , meta [] [ text "Friend" ]
-                        , description [] [ text "Veronika Ossi is a set designer living in New York who enjoys kittens, music, and partying." ]
-                        ]
+                ]
+            , tbody []
+                [ tr []
+                    [ td [] [ text "John" ]
+                    , td [] [ text "Approved" ]
+                    , td [] [ text "None" ]
                     ]
-                , card []
-                    [ Card.content []
-                        [ header [] [ text "Jenny Hess" ]
-                        , meta [] [ text "Friend" ]
-                        , description [] [ text "Jenny is a student studying Media Management at the New School" ]
-                        ]
+                , tr []
+                    [ td [] [ text "Jamie" ]
+                    , td [] [ text "Approved" ]
+                    , td [] [ text "Requires call" ]
+                    ]
+                , tr []
+                    [ td [] [ text "Jill" ]
+                    , td [] [ text "Denied" ]
+                    , td [] [ text "None" ]
                     ]
                 ]
             ]
-        , example []
-            [ header [] [ text "Metadata" ]
-            , p [] [ text "A card can contain content metadata" ]
+        ]
+    , example []
+        [ veryBasicTable []
+            [ thead []
+                [ tr []
+                    [ th [] [ text "Name" ]
+                    , th [] [ text "Status" ]
+                    , th [] [ text "Notes" ]
+                    ]
+                ]
+            , tbody []
+                [ tr []
+                    [ td [] [ text "John" ]
+                    , td [] [ text "Approved" ]
+                    , td [] [ text "None" ]
+                    ]
+                , tr []
+                    [ td [] [ text "Jamie" ]
+                    , td [] [ text "Approved" ]
+                    , td [] [ text "Requires call" ]
+                    ]
+                , tr []
+                    [ td [] [ text "Jill" ]
+                    , td [] [ text "Denied" ]
+                    , td [] [ text "None" ]
+                    ]
+                ]
+            ]
+        ]
+    ]
+
+
+examplesForCards : List (Html msg)
+examplesForCards =
+    [ example []
+        [ header [] [ text "Header" ]
+        , p [] [ text "A card can contain a header" ]
+        , cards []
+            [ card []
+                [ Card.content []
+                    [ header [] [ text "Elliot Fu" ]
+                    , meta [] [ text "Friend" ]
+                    , description [] [ text "Elliot Fu is a film-maker from New York." ]
+                    ]
+                ]
             , card []
                 [ Card.content []
-                    [ header [] [ text "Cute Dog" ]
-                    , meta []
-                        [ text "2 days ago "
-                        , a [] [ text "Animals" ]
-                        ]
-                    , wireframeParagraph
+                    [ header [] [ text "Veronika Ossi" ]
+                    , meta [] [ text "Friend" ]
+                    , description [] [ text "Veronika Ossi is a set designer living in New York who enjoys kittens, music, and partying." ]
                     ]
                 ]
-            ]
-        , example []
-            [ header [] [ text "Description" ]
-            , p [] [ text "A card can contain a description with one or more paragraphs" ]
             , card []
                 [ Card.content []
-                    [ header [] [ text "Cute Dog" ]
-                    , meta [] [ text "2 days ago " ]
-                    , description []
-                        [ p [] [ text "Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size." ]
-                        , p [] [ text "Many people also have their own barometers for what makes a cute dog." ]
-                        ]
+                    [ header [] [ text "Jenny Hess" ]
+                    , meta [] [ text "Friend" ]
+                    , description [] [ text "Jenny is a student studying Media Management at the New School" ]
                     ]
                 ]
             ]
         ]
+    , example []
+        [ header [] [ text "Metadata" ]
+        , p [] [ text "A card can contain content metadata" ]
+        , card []
+            [ Card.content []
+                [ header [] [ text "Cute Dog" ]
+                , meta []
+                    [ text "2 days ago "
+                    , a [] [ text "Animals" ]
+                    ]
+                , wireframeParagraph
+                ]
+            ]
+        ]
+    , example []
+        [ header [] [ text "Description" ]
+        , p [] [ text "A card can contain a description with one or more paragraphs" ]
+        , card []
+            [ Card.content []
+                [ header [] [ text "Cute Dog" ]
+                , meta [] [ text "2 days ago " ]
+                , description []
+                    [ p [] [ text "Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size." ]
+                    , p [] [ text "Many people also have their own barometers for what makes a cute dog." ]
+                    ]
+                ]
+            ]
+        ]
+    ]
