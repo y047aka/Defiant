@@ -1,30 +1,35 @@
 module UI.Icon exposing (icon)
 
 import Css exposing (..)
-import Html.Styled as Html exposing (Attribute, Html)
+import FontAwesome.Icon
+import Html.Styled as Html exposing (Attribute, Html, fromUnstyled)
+import Icon.Brands as Brands
+import Icon.Regular as Regular
+import Icon.Solid as Solid
 import Svg.Styled as Svg
-import Svg.Styled.Attributes exposing (xlinkHref)
 
 
 icon : List (Attribute msg) -> String -> Html msg
 icon attributes str =
     let
-        ( fileName, symbolName ) =
+        maybeIcon =
             case String.words str of
-                [ "fab", s ] ->
-                    ( "brands", String.dropLeft 3 s )
+                [ "fab", symbol ] ->
+                    String.dropLeft 3 symbol |> Brands.fromString
 
-                [ "far", s ] ->
-                    ( "regular", String.dropLeft 3 s )
+                [ "far", symbol ] ->
+                    String.dropLeft 3 symbol |> Regular.fromString
 
-                [ "fas", s ] ->
-                    ( "solid", String.dropLeft 3 s )
+                [ "fas", symbol ] ->
+                    String.dropLeft 3 symbol |> Solid.fromString
 
                 _ ->
-                    ( "", "" )
+                    Nothing
 
-        url =
-            "./static/sprites/" ++ fileName ++ ".svg#" ++ symbolName
+        svg =
+            maybeIcon
+                |> Maybe.map (FontAwesome.Icon.viewIcon >> fromUnstyled)
+                |> Maybe.withDefault (Html.text "")
     in
     Html.styled Html.i
         [ -- i.icon
@@ -48,5 +53,5 @@ icon attributes str =
             , fill currentColor
             ]
             []
-            [ Svg.use [ xlinkHref url ] [] ]
+            [ svg ]
         ]
