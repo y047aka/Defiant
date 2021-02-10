@@ -15,6 +15,7 @@ module UI.Label exposing
 -}
 
 import Css exposing (..)
+import Css.Global exposing (children)
 import Css.Layout as Layout exposing (layout)
 import Css.Palette exposing (..)
 import Css.Prefix as Prefix
@@ -65,6 +66,15 @@ basis options additionalStyles =
         -- .ui.label:last-child
         , lastChild
             [ marginRight zero ]
+
+        -- .ui.left.icon.label > .icon
+        -- .ui.label > .icon
+        , children
+            [ Css.Global.i
+                [ width auto
+                , margin4 zero (em 0.75) zero zero
+                ]
+            ]
         ]
             ++ additionalStyles
 

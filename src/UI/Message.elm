@@ -1,7 +1,7 @@
 module UI.Message exposing (message)
 
 import Css exposing (..)
-import Css.Global exposing (descendants, selector)
+import Css.Global exposing (children, descendants, selector)
 import Css.Prefix as Prefix
 import Html.Styled as Html exposing (Attribute, Html)
 
@@ -55,6 +55,33 @@ basis additionalStyles =
             -- .ui.message .header + p
             , selector "header + p"
                 [ marginTop (em 0.25) ]
+            ]
+
+        -- .ui.icon.message {
+        , Prefix.displayFlex
+        , width (pct 100)
+        , Prefix.alignItems "center"
+
+        -- .ui.message > i.icon
+        , children
+            [ Css.Global.i
+                [ marginRight (em 0.6)
+
+                -- .ui.icon.message > i.icon:not(.close)
+                , display block
+                , Prefix.flex "0 0 auto"
+                , width auto
+                , lineHeight (int 1)
+                , verticalAlign middle
+                , fontSize (em 3)
+                , opacity (num 0.8)
+                ]
+            , Css.Global.div
+                [ -- .ui.icon.message > .content
+                  display block
+                , Prefix.flex "1 1 auto"
+                , verticalAlign middle
+                ]
             ]
         ]
             ++ additionalStyles

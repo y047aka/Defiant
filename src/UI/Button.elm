@@ -15,7 +15,7 @@ module UI.Button exposing
 -}
 
 import Css exposing (..)
-import Css.Global exposing (children, selector, typeSelector)
+import Css.Global exposing (children, descendants, selector, typeSelector)
 import Css.Layout as Layout exposing (layout)
 import Css.Palette exposing (..)
 import Css.Prefix as Prefix
@@ -82,11 +82,25 @@ basis { palettes, shadow } additionalStyles =
 
         -- .ui.button:hover
         , hover
-            [ backgroundImage none ]
+            [ backgroundImage none
+
+            -- .ui.button:hover .icon
+            , descendants
+                [ Css.Global.i
+                    [ opacity (num 0.85) ]
+                ]
+            ]
 
         -- .ui.button:focus
         , focus
-            [ backgroundImage none ]
+            [ backgroundImage none
+
+            -- .ui.button:focus .icon
+            , descendants
+                [ Css.Global.i
+                    [ opacity (num 0.85) ]
+                ]
+            ]
 
         -- .ui.button:active
         , active
@@ -102,6 +116,22 @@ basis { palettes, shadow } additionalStyles =
 
         -- .ui.button
         , fontSize (rem 1)
+
+        -- .ui.button > .icon:not(.button)
+        , children
+            [ Css.Global.i
+                [ height auto
+                , opacity (num 0.8)
+                , property "-webkit-transition" "opacity 0.1s ease"
+                , property "transition" "opacity 0.1s ease"
+                , property "color" "''"
+
+                -- .ui.button:not(.icon) > .icon:not(.button):not(.dropdown)
+                -- .ui.button:not(.icon) > .icons:not(.button):not(.dropdown)
+                , margin4 zero (em 0.42857143) zero (em -0.21428571)
+                , verticalAlign baseline
+                ]
+            ]
         ]
             ++ additionalStyles
 

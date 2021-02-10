@@ -36,6 +36,10 @@ divider =
         , color (rgba 0 0 0 0.4)
         , verticalAlign baseline
 
+        -- .ui.breadcrumb .icon.divider
+        , fontSize (em 0.85714286)
+        , verticalAlign baseline
+
         -- Override
         , margin3 zero (rem 0.71428571) zero
         ]
