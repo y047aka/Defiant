@@ -25,6 +25,7 @@ import UI.Menu as Menu exposing (..)
 import UI.Message exposing (..)
 import UI.Modifier exposing (Palette(..))
 import UI.Placeholder exposing (..)
+import UI.Rail exposing (..)
 import UI.Segment exposing (..)
 import UI.Table exposing (..)
 import UI.Text exposing (..)
@@ -70,6 +71,7 @@ type Page
     | InputPage
     | LabelPage
     | PlaceholderPage
+    | RailPage
     | SegmentPage
     | TextPage
     | BreadcrumbPage
@@ -103,6 +105,7 @@ type Route
     | Input
     | Label
     | Placeholder
+    | Rail
     | Segment
     | Text
     | Breadcrumb
@@ -125,6 +128,7 @@ parser =
         , Parser.map Input (s "input")
         , Parser.map Label (s "label")
         , Parser.map Placeholder (s "placeholder")
+        , Parser.map Rail (s "rail")
         , Parser.map Segment (s "segment")
         , Parser.map Text (s "text")
         , Parser.map Breadcrumb (s "breadcrumb")
@@ -177,6 +181,9 @@ routing url model =
 
             Just Placeholder ->
                 PlaceholderPage
+
+            Just Rail ->
+                RailPage
 
             Just Segment ->
                 SegmentPage
@@ -331,6 +338,12 @@ view model =
                 , contents = examplesForPlaceholders
                 }
 
+            RailPage ->
+                { title = Just "Rail"
+                , breadcrumbItems = [ "Top", "Rail" ]
+                , contents = examplesForRails
+                }
+
             SegmentPage ->
                 { title = Just "Segment"
                 , breadcrumbItems = [ "Top", "Segment" ]
@@ -440,6 +453,11 @@ contents_ =
       , description = "A placeholder is used to reserve splace for content that soon will appear in a layout"
       , category = "Elements"
       , url = "/placeholder"
+      }
+    , { label = "Rail"
+      , description = "A rail is used to show accompanying content outside the boundaries of the main view of a site"
+      , category = "Elements"
+      , url = "/rail"
       }
     , { label = "Segment"
       , description = "A segment is used to create a grouping of related content"
@@ -792,6 +810,23 @@ examplesForPlaceholders =
             , line [] []
             , line [] []
             , line [] []
+            ]
+        ]
+    ]
+
+
+examplesForRails : List (Html msg)
+examplesForRails =
+    [ example []
+        [ header [] [ text "Rail" ]
+        , p [] [ text "A rail can be presented on the left or right side of a container" ]
+        , segment [ css [ width (pct 45), left (pct 27.5) ] ]
+            [ leftRail []
+                [ segment [] [ text "Left Rail Content" ] ]
+            , rightRail []
+                [ segment [] [ text "Right Rail Content" ] ]
+            , wireframeParagraph
+            , wireframeParagraph
             ]
         ]
     ]
