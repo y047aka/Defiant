@@ -306,103 +306,103 @@ view model =
             ButtonPage ->
                 { title = Just "Button"
                 , breadcrumbItems = [ "Top", "Button" ]
-                , contents = examplesForButtons model
+                , contents = examplesForButton model
                 }
 
             ContainerPage ->
                 { title = Just "Container"
                 , breadcrumbItems = [ "Top", "Container" ]
-                , contents = examplesForContainers
+                , contents = examplesForContainer
                 }
 
             HeaderPage ->
                 { title = Just "Header"
                 , breadcrumbItems = [ "Top", "Header" ]
-                , contents = examplesForHeaders
+                , contents = examplesForHeader
                 }
 
             IconPage ->
                 { title = Just "Icon"
                 , breadcrumbItems = [ "Top", "Icon" ]
-                , contents = examplesForIcons
+                , contents = examplesForIcon
                 }
 
             ImagePage ->
                 { title = Just "Image"
                 , breadcrumbItems = [ "Top", "Image" ]
-                , contents = examplesForImages
+                , contents = examplesForImage
                 }
 
             InputPage ->
                 { title = Just "Input"
                 , breadcrumbItems = [ "Top", "Input" ]
-                , contents = examplesForInputs
+                , contents = examplesForInput
                 }
 
             LabelPage ->
                 { title = Just "Label"
                 , breadcrumbItems = [ "Top", "Label" ]
-                , contents = examplesForLabels
+                , contents = examplesForLabel
                 }
 
             PlaceholderPage ->
                 { title = Just "Placeholder"
                 , breadcrumbItems = [ "Top", "Placeholder" ]
-                , contents = examplesForPlaceholders
+                , contents = examplesForPlaceholder
                 }
 
             RailPage ->
                 { title = Just "Rail"
                 , breadcrumbItems = [ "Top", "Rail" ]
-                , contents = examplesForRails
+                , contents = examplesForRail
                 }
 
             SegmentPage ->
                 { title = Just "Segment"
                 , breadcrumbItems = [ "Top", "Segment" ]
-                , contents = examplesForSegments
+                , contents = examplesForSegment
                 }
 
             TextPage ->
                 { title = Just "Text"
                 , breadcrumbItems = [ "Top", "Text" ]
-                , contents = examplesForTexts
+                , contents = examplesForText
                 }
 
             BreadcrumbPage ->
                 { title = Just "Breadcrumb"
                 , breadcrumbItems = [ "Top", "Breadcrumb" ]
-                , contents = examplesForBreadcrumbs
+                , contents = examplesForBreadcrumb
                 }
 
             GridPage ->
                 { title = Just "Grid"
                 , breadcrumbItems = [ "Top", "Grid" ]
-                , contents = examplesForGrids
+                , contents = examplesForGrid
                 }
 
             MenuPage ->
                 { title = Just "Menu"
                 , breadcrumbItems = [ "Top", "Menu" ]
-                , contents = examplesForMenus
+                , contents = examplesForMenu
                 }
 
             MessagePage ->
                 { title = Just "Message"
                 , breadcrumbItems = [ "Top", "Message" ]
-                , contents = examplesForMessages
+                , contents = examplesForMessage
                 }
 
             TablePage ->
                 { title = Just "Table"
                 , breadcrumbItems = [ "Top", "Table" ]
-                , contents = examplesForTables
+                , contents = examplesForTable
                 }
 
             CardPage ->
                 { title = Just "Card"
                 , breadcrumbItems = [ "Top", "Card" ]
-                , contents = examplesForCards
+                , contents = examplesForCard
                 }
 
 
@@ -553,8 +553,8 @@ examplesForSite =
     ]
 
 
-examplesForButtons : Model -> List (Html Msg)
-examplesForButtons { count } =
+examplesForButton : Model -> List (Html Msg)
+examplesForButton { count } =
     [ example []
         [ header [] [ text "Button" ]
         , p [] [ text "A standard button" ]
@@ -619,8 +619,8 @@ examplesForButtons { count } =
     ]
 
 
-examplesForContainers : List (Html msg)
-examplesForContainers =
+examplesForContainer : List (Html msg)
+examplesForContainer =
     let
         content =
             p []
@@ -648,8 +648,8 @@ examplesForContainers =
     ]
 
 
-examplesForHeaders : List (Html msg)
-examplesForHeaders =
+examplesForHeader : List (Html msg)
+examplesForHeader =
     [ example []
         [ header [] [ text "Content Headers" ]
         , p [] [ text "Headers may be oriented to give the importance of a section in the context of the content that surrounds it" ]
@@ -673,8 +673,8 @@ examplesForHeaders =
     ]
 
 
-examplesForIcons : List (Html msg)
-examplesForIcons =
+examplesForIcon : List (Html msg)
+examplesForIcon =
     let
         column : List (Attribute msg) -> List (Html msg) -> Html msg
         column attributes =
@@ -739,8 +739,8 @@ examplesForIcons =
     ]
 
 
-examplesForImages : List (Html msg)
-examplesForImages =
+examplesForImage : List (Html msg)
+examplesForImage =
     [ example []
         [ header [] [ text "Image" ]
         , p [] [ text "An image" ]
@@ -749,8 +749,8 @@ examplesForImages =
     ]
 
 
-examplesForInputs : List (Html msg)
-examplesForInputs =
+examplesForInput : List (Html msg)
+examplesForInput =
     [ example []
         [ header [] [ text "Input" ]
         , p [] [ text "A standard input" ]
@@ -774,8 +774,8 @@ examplesForInputs =
     ]
 
 
-examplesForLabels : List (Html msg)
-examplesForLabels =
+examplesForLabel : List (Html msg)
+examplesForLabel =
     [ example []
         [ header [] [ text "Label" ]
         , p [] [ text "A label" ]
@@ -827,8 +827,8 @@ examplesForLabels =
     ]
 
 
-examplesForPlaceholders : List (Html msg)
-examplesForPlaceholders =
+examplesForPlaceholder : List (Html msg)
+examplesForPlaceholder =
     [ example []
         [ header [] [ text "Lines" ]
         , p [] [ text "A placeholder can contain have lines of text" ]
@@ -843,8 +843,8 @@ examplesForPlaceholders =
     ]
 
 
-examplesForRails : List (Html msg)
-examplesForRails =
+examplesForRail : List (Html msg)
+examplesForRail =
     [ example []
         [ header [] [ text "Rail" ]
         , p [] [ text "A rail can be presented on the left or right side of a container" ]
@@ -860,8 +860,8 @@ examplesForRails =
     ]
 
 
-examplesForSegments : List (Html msg)
-examplesForSegments =
+examplesForSegment : List (Html msg)
+examplesForSegment =
     [ example []
         [ header [] [ text "Segment" ]
         , p [] [ text "A segment of content" ]
@@ -895,8 +895,8 @@ examplesForSegments =
     ]
 
 
-examplesForTexts : List (Html msg)
-examplesForTexts =
+examplesForText : List (Html msg)
+examplesForText =
     [ example []
         [ header [] [ text "Text" ]
         , p [] [ text "A text is always used inline and uses one color from the FUI color palette" ]
@@ -958,8 +958,8 @@ examplesForTexts =
     ]
 
 
-examplesForBreadcrumbs : List (Html msg)
-examplesForBreadcrumbs =
+examplesForBreadcrumb : List (Html msg)
+examplesForBreadcrumb =
     [ example []
         [ header [] [ text "Breadcrumb" ]
         , p [] [ text "A standard breadcrumb" ]
@@ -1003,8 +1003,8 @@ examplesForBreadcrumbs =
     ]
 
 
-examplesForGrids : List (Html msg)
-examplesForGrids =
+examplesForGrid : List (Html msg)
+examplesForGrid =
     [ example []
         [ header [] [ text "Grids" ]
         , p [] [ text "A grid is a structure with a long history used to align negative space in designs." ]
@@ -1045,8 +1045,8 @@ examplesForGrids =
     ]
 
 
-examplesForMenus : List (Html msg)
-examplesForMenus =
+examplesForMenu : List (Html msg)
+examplesForMenu =
     [ example []
         [ header [] [ text "Secondary Menu" ]
         , p [] [ text "A menu can adjust its appearance to de-emphasize its contents" ]
@@ -1118,8 +1118,8 @@ examplesForMenus =
     ]
 
 
-examplesForMessages : List (Html msg)
-examplesForMessages =
+examplesForMessage : List (Html msg)
+examplesForMessage =
     [ example []
         [ header [] [ text "Message" ]
         , p [] [ text "A basic message" ]
@@ -1144,8 +1144,8 @@ examplesForMessages =
     ]
 
 
-examplesForTables : List (Html msg)
-examplesForTables =
+examplesForTable : List (Html msg)
+examplesForTable =
     [ example []
         [ header [] [ text "Table" ]
         , p [] [ text "A standard table" ]
@@ -1301,8 +1301,8 @@ examplesForTables =
     ]
 
 
-examplesForCards : List (Html msg)
-examplesForCards =
+examplesForCard : List (Html msg)
+examplesForCard =
     [ example []
         [ header [] [ text "Header" ]
         , p [] [ text "A card can contain a header" ]
