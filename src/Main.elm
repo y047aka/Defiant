@@ -8,7 +8,7 @@ import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
 import Html
 import Html.Styled exposing (Attribute, Html, a, div, h1, h2, h3, h4, h5, p, strong, text, toUnstyled)
-import Html.Styled.Attributes as Attributes exposing (css, href, rel, type_)
+import Html.Styled.Attributes as Attributes exposing (css, href, rel, src, type_)
 import Html.Styled.Events exposing (onClick)
 import Maybe.Extra
 import UI.Breadcrumb exposing (..)
@@ -19,6 +19,7 @@ import UI.Example exposing (..)
 import UI.Grid as Grid exposing (..)
 import UI.Header exposing (..)
 import UI.Icon as Icon exposing (..)
+import UI.Image exposing (..)
 import UI.Input as Input exposing (..)
 import UI.Label as Label exposing (..)
 import UI.Menu as Menu exposing (..)
@@ -68,6 +69,7 @@ type Page
     | ContainerPage
     | HeaderPage
     | IconPage
+    | ImagePage
     | InputPage
     | LabelPage
     | PlaceholderPage
@@ -102,6 +104,7 @@ type Route
     | Container
     | Header
     | Icon
+    | Image
     | Input
     | Label
     | Placeholder
@@ -125,6 +128,7 @@ parser =
         , Parser.map Container (s "container")
         , Parser.map Header (s "header")
         , Parser.map Icon (s "icon")
+        , Parser.map Image (s "image")
         , Parser.map Input (s "input")
         , Parser.map Label (s "label")
         , Parser.map Placeholder (s "placeholder")
@@ -172,6 +176,9 @@ routing url model =
 
             Just Icon ->
                 IconPage
+
+            Just Image ->
+                ImagePage
 
             Just Input ->
                 InputPage
@@ -320,6 +327,12 @@ view model =
                 , contents = examplesForIcons
                 }
 
+            ImagePage ->
+                { title = Just "Image"
+                , breadcrumbItems = [ "Top", "Image" ]
+                , contents = examplesForImages
+                }
+
             InputPage ->
                 { title = Just "Input"
                 , breadcrumbItems = [ "Top", "Input" ]
@@ -438,6 +451,11 @@ contents_ =
       , description = "An icon is a glyph used to represent something else"
       , category = "Elements"
       , url = "/icon"
+      }
+    , { label = "Image"
+      , description = "An image is a graphic representation of something"
+      , category = "Elements"
+      , url = "/image"
       }
     , { label = "Input"
       , description = "An input is a field used to elicit a response from a user"
@@ -717,6 +735,16 @@ examplesForIcons =
             , column [] [ icon "fas fa-universal-access", text "universal access" ]
             , column [] [ icon "fas fa-wheelchair", text "wheelchair" ]
             ]
+        ]
+    ]
+
+
+examplesForImages : List (Html msg)
+examplesForImages =
+    [ example []
+        [ header [] [ text "Image" ]
+        , p [] [ text "An image" ]
+        , smallImage [ src "./static/images/wireframe/image.png" ] []
         ]
     ]
 
