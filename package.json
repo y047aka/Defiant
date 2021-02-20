@@ -8,9 +8,9 @@
   },
   "devDependencies": {
     "elm": "^0.19.1-5",
-    "elm-format": "^0.8.5-rc1",
+    "elm-format": "^0.8.5",
     "elm-json": "^0.2.10",
     "elm-live": "^4.0.2",
-    "google-closure-compiler": "^20210106.0.0"
+    "google-closure-compiler": "^20210202.0.0"
   }
 }
