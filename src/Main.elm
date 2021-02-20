@@ -24,7 +24,7 @@ import UI.Input as Input exposing (..)
 import UI.Label as Label exposing (..)
 import UI.Menu as Menu exposing (..)
 import UI.Message exposing (..)
-import UI.Placeholder exposing (..)
+import UI.Placeholder exposing (line, placeholder)
 import UI.Rail exposing (..)
 import UI.Segment exposing (..)
 import UI.Table exposing (..)
@@ -1303,31 +1303,87 @@ examplesForTable =
 examplesForCard : List (Html msg)
 examplesForCard =
     [ example []
-        [ header [] [ text "Header" ]
-        , p [] [ text "A card can contain a header" ]
-        , cards []
-            [ card []
-                [ Card.content []
-                    [ header [] [ text "Elliot Fu" ]
-                    , meta [] [ text "Friend" ]
-                    , description [] [ text "Elliot Fu is a film-maker from New York." ]
-                    ]
+        [ header [] [ text "Card" ]
+        , p [] [ text "A single card." ]
+        , card []
+            [ image [ src "./static/images/avatar/kristy.png" ] []
+            , Card.content []
+                [ header [] [ text "Kristy" ]
+                , meta [] [ text "Joined in 2013" ]
+                , description [] [ text "Kristy is an art director living in New York." ]
                 ]
-            , card []
-                [ Card.content []
-                    [ header [] [ text "Veronika Ossi" ]
-                    , meta [] [ text "Friend" ]
-                    , description [] [ text "Veronika Ossi is a set designer living in New York who enjoys kittens, music, and partying." ]
-                    ]
-                ]
-            , card []
-                [ Card.content []
-                    [ header [] [ text "Jenny Hess" ]
-                    , meta [] [ text "Friend" ]
-                    , description [] [ text "Jenny is a student studying Media Management at the New School" ]
-                    ]
+            , extraContent []
+                [ icon [] "fas fa-user"
+                , text "22 Friends"
                 ]
             ]
+        ]
+    , example []
+        [ header [] [ text "Cards" ]
+        , p [] [ text "A group of cards." ]
+        , cards [] <|
+            List.map
+                (\{ name, type_, description_, friends, imageUrl } ->
+                    card []
+                        [ image [ src imageUrl ] []
+                        , Card.content []
+                            [ header [] [ text name ]
+                            , meta [] [ text type_ ]
+                            , description [] [ text description_ ]
+                            ]
+                        , extraContent []
+                            [ icon [] "fas fa-user"
+                            , text (String.fromInt friends ++ " Friends")
+                            ]
+                        ]
+                )
+                [ { name = "Matt Giampietro"
+                  , type_ = "Friends"
+                  , description_ = "Matthew is an interior designer living in New York."
+                  , friends = 75
+                  , imageUrl = "./static/images/avatar/matthew.png"
+                  }
+                , { name = "Molly"
+                  , type_ = "Coworker"
+                  , description_ = "Molly is a personal assistant living in Paris."
+                  , friends = 35
+                  , imageUrl = "./static/images/avatar/molly.png"
+                  }
+                , { name = "Elyse"
+                  , type_ = "Coworker"
+                  , description_ = "Elyse is a copywriter working in New York."
+                  , friends = 151
+                  , imageUrl = "./static/images/avatar/elyse.png"
+                  }
+                ]
+        ]
+    , example []
+        [ header [] [ text "Header" ]
+        , p [] [ text "A card can contain a header" ]
+        , cards [] <|
+            List.map
+                (\{ name, type_, description_ } ->
+                    card []
+                        [ Card.content []
+                            [ header [] [ text name ]
+                            , meta [] [ text type_ ]
+                            , description [] [ text description_ ]
+                            ]
+                        ]
+                )
+                [ { name = "Elliot Fu"
+                  , type_ = "Friend"
+                  , description_ = "Elliot Fu is a film-maker from New York."
+                  }
+                , { name = "Veronika Ossi"
+                  , type_ = "Friend"
+                  , description_ = "Veronika Ossi is a set designer living in New York who enjoys kittens, music, and partying."
+                  }
+                , { name = "Jenny Hess"
+                  , type_ = "Friend"
+                  , description_ = "Jenny is a student studying Media Management at the New School"
+                  }
+                ]
         ]
     , example []
         [ header [] [ text "Metadata" ]
@@ -1354,6 +1410,24 @@ examplesForCard =
                     [ p [] [ text "Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size." ]
                     , p [] [ text "Many people also have their own barometers for what makes a cute dog." ]
                     ]
+                ]
+            ]
+        ]
+    , example []
+        [ header [] [ text "Extra Content" ]
+        , p [] [ text "A card can contain extra content meant to be formatted separately from the main content" ]
+        , card []
+            [ Card.content []
+                [ header [] [ text "Cute Dog" ]
+                , meta [] [ text "2 days ago " ]
+                , description []
+                    [ p [] [ text "Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size." ]
+                    , p [] [ text "Many people also have their own barometers for what makes a cute dog." ]
+                    ]
+                ]
+            , extraContent []
+                [ icon [] "fas fa-check"
+                , text "121 Votes"
                 ]
             ]
         ]

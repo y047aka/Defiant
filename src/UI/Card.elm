@@ -1,4 +1,14 @@
-module UI.Card exposing (card, cards, content, description, meta)
+module UI.Card exposing
+    ( card, cards
+    , content, meta, description, extraContent
+    )
+
+{-|
+
+@docs card, cards
+@docs content, meta, description, extraContent
+
+-}
 
 import Css exposing (..)
 import Css.Global exposing (children, descendants, everything, selector)
@@ -112,8 +122,8 @@ card =
     cardBasis []
 
 
-content : List (Attribute msg) -> List (Html msg) -> Html msg
-content =
+contentBasis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+contentBasis additionalStyles =
     Html.styled Html.div <|
         [ -- .ui.cards > .card > .content
           -- .ui.card > .content
@@ -184,6 +194,12 @@ content =
                 ]
             ]
         ]
+            ++ additionalStyles
+
+
+content : List (Attribute msg) -> List (Html msg) -> Html msg
+content =
+    contentBasis []
 
 
 meta : List (Attribute msg) -> List (Html msg) -> Html msg
@@ -235,4 +251,29 @@ description =
         -- .ui.card > .content > .description
         , property "clear" "both"
         , color (rgba 0 0 0 0.68)
+        ]
+
+
+extraContent : List (Attribute msg) -> List (Html msg) -> Html msg
+extraContent =
+    contentBasis
+        [ -- .ui.cards > .card > .extra
+          -- .ui.card > .extra
+          maxWidth (pct 100)
+        , minHeight zero |> important
+        , property "-webkit-box-flex" "0"
+        , property "-ms-flex-positive" "0"
+        , property "flex-grow" "0"
+        , borderTop3 (px 1) solid (rgba 0 0 0 0.05) |> important
+        , position static
+        , property "background" "none"
+        , width auto
+        , margin2 zero zero
+        , padding2 (em 0.75) (em 1)
+        , top zero
+        , left zero
+        , color (rgba 0 0 0 0.4)
+        , Prefix.boxShadow "none"
+        , property "-webkit-transition" "color 0.1s ease"
+        , property "transition" "color 0.1s ease"
         ]
