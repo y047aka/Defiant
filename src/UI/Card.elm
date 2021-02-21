@@ -46,8 +46,8 @@ cards =
         ]
 
 
-cardBasis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-cardBasis additionalStyles =
+cardBasis : { borderAndShadows : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+cardBasis { borderAndShadows } additionalStyles =
     Html.styled Html.div <|
         [ -- .ui.cards > .card
           -- .ui.card
@@ -63,13 +63,18 @@ cardBasis additionalStyles =
         , padding zero
         , property "border" "none"
         , borderRadius (rem 0.28571429)
-        , Prefix.boxShadow "0 1px 3px 0 #D4D4D5, 0 0 0 1px #D4D4D5"
         , property "-webkit-transition" "-webkit-box-shadow 0.1s ease, -webkit-transform 0.1s ease"
         , property "transition" "-webkit-box-shadow 0.1s ease, -webkit-transform 0.1s ease"
         , property "transition" "box-shadow 0.1s ease, transform 0.1s ease"
         , property "transition" "box-shadow 0.1s ease, transform 0.1s ease, -webkit-box-shadow 0.1s ease, -webkit-transform 0.1s ease"
         , property "z-index" "''"
         , property "word-wrap" "break-word"
+        , batch <|
+            if borderAndShadows then
+                [ Prefix.boxShadow "0 1px 3px 0 #D4D4D5, 0 0 0 1px #D4D4D5" ]
+
+            else
+                []
 
         -- .ui.card
         , margin2 (em 1) zero
@@ -119,7 +124,7 @@ cardBasis additionalStyles =
 
 card : List (Attribute msg) -> List (Html msg) -> Html msg
 card =
-    cardBasis []
+    cardBasis { borderAndShadows = True } []
 
 
 contentBasis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
