@@ -17,6 +17,7 @@ import Css.Palette exposing (..)
 import Css.Prefix as Prefix
 import Css.Typography as Typography exposing (init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
+import UI.Internal exposing (chassis)
 
 
 basis :
@@ -30,17 +31,11 @@ basis options additionalStyles =
         initialLayout =
             Layout.init
     in
-    Html.styled Html.table <|
+    chassis { tag = Html.table, border = options.border, borderColor = rgba 34 36 38 0.15 } <|
         [ -- .ui.table
           width (pct 100)
         , backgroundColor (hex "#FFFFFF")
         , margin2 (em 1) zero
-        , batch <|
-            if options.border then
-                [ border3 (px 1) solid (rgba 34 36 38 0.15) ]
-
-            else
-                []
         , Prefix.boxShadow "none"
         , borderRadius (rem 0.28571429)
         , layout

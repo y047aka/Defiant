@@ -20,27 +20,26 @@ import Css exposing (..)
 import Css.Extra exposing (when)
 import Css.Prefix as Prefix
 import Html.Styled as Html exposing (Attribute, Html)
+import UI.Internal exposing (chassis)
 
 
-basis : { borderAndShadows : Bool, inverted : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-basis { borderAndShadows, inverted } additionalStyles =
-    Html.styled Html.section <|
+basis : { border : Bool, shadow : Bool, inverted : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+basis { border, shadow, inverted } additionalStyles =
+    chassis { tag = Html.section, border = border, borderColor = rgba 34 36 38 0.15 } <|
         [ -- .ui.segment
           position relative
         , margin2 (rem 1) zero
         , padding2 (em 1) (em 1)
         , batch <|
-            if borderAndShadows then
+            if shadow then
                 [ property "background" "#FFFFFF"
                 , Prefix.boxShadow "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
                 , borderRadius (rem 0.28571429)
-                , border3 (px 1) solid (rgba 34 36 38 0.15)
                 ]
 
             else
                 [ property "background" "none transparent"
                 , Prefix.boxShadow "none"
-                , property "border" "none"
                 , borderRadius zero
                 ]
 
@@ -69,12 +68,12 @@ basis { borderAndShadows, inverted } additionalStyles =
 
 segment : List (Attribute msg) -> List (Html msg) -> Html msg
 segment =
-    basis { borderAndShadows = True, inverted = False } []
+    basis { border = True, shadow = True, inverted = False } []
 
 
 verticalSegment : List (Attribute msg) -> List (Html msg) -> Html msg
 verticalSegment =
-    basis { borderAndShadows = False, inverted = False }
+    basis { border = False, shadow = False, inverted = False }
         [ -- .ui.vertical.segment
           margin zero
         , paddingLeft zero
@@ -89,7 +88,7 @@ verticalSegment =
 
 disabledSegment : List (Attribute msg) -> List (Html msg) -> Html msg
 disabledSegment =
-    basis { borderAndShadows = True, inverted = False }
+    basis { border = True, shadow = True, inverted = False }
         [ -- .ui.disabled.segment
           opacity (num 0.45)
         , color (rgba 40 40 40 0.3)
@@ -98,7 +97,7 @@ disabledSegment =
 
 paddedSegment : List (Attribute msg) -> List (Html msg) -> Html msg
 paddedSegment =
-    basis { borderAndShadows = True, inverted = False }
+    basis { border = True, shadow = True, inverted = False }
         [ -- .ui.padded.segment
           padding (em 1.5)
         ]
@@ -106,7 +105,7 @@ paddedSegment =
 
 veryPaddedSegment : List (Attribute msg) -> List (Html msg) -> Html msg
 veryPaddedSegment =
-    basis { borderAndShadows = True, inverted = False }
+    basis { border = True, shadow = True, inverted = False }
         [ -- .ui[class*="very padded"].segment
           padding (em 3)
         ]
@@ -117,9 +116,9 @@ basicSegment =
     -- .ui.basic.segment
     -- .ui.segments .ui.basic.segment
     -- .ui.basic.segments
-    basis { borderAndShadows = False, inverted = False } []
+    basis { border = False, shadow = False, inverted = False } []
 
 
 invertedSegment : List (Attribute msg) -> List (Html msg) -> Html msg
 invertedSegment =
-    basis { borderAndShadows = True, inverted = True } []
+    basis { border = True, shadow = True, inverted = True } []

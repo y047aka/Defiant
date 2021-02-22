@@ -15,6 +15,7 @@ import Css.Global exposing (children, descendants, everything, selector)
 import Css.Prefix as Prefix
 import Css.Typography exposing (fomanticFont)
 import Html.Styled as Html exposing (Attribute, Html)
+import UI.Internal exposing (chassis)
 
 
 cards : List (Attribute msg) -> List (Html msg) -> Html msg
@@ -46,9 +47,9 @@ cards =
         ]
 
 
-cardBasis : { borderAndShadows : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-cardBasis { borderAndShadows } additionalStyles =
-    Html.styled Html.div <|
+cardBasis : { border : Bool, shadow : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+cardBasis { border, shadow } additionalStyles =
+    chassis { tag = Html.div, border = border, borderColor = hex "#D4D4D5" } <|
         [ -- .ui.cards > .card
           -- .ui.card
           maxWidth (pct 100)
@@ -61,7 +62,6 @@ cardBasis { borderAndShadows } additionalStyles =
         , minHeight zero
         , property "background" "#FFFFFF"
         , padding zero
-        , property "border" "none"
         , borderRadius (rem 0.28571429)
         , property "-webkit-transition" "-webkit-box-shadow 0.1s ease, -webkit-transform 0.1s ease"
         , property "transition" "-webkit-box-shadow 0.1s ease, -webkit-transform 0.1s ease"
@@ -70,8 +70,8 @@ cardBasis { borderAndShadows } additionalStyles =
         , property "z-index" "''"
         , property "word-wrap" "break-word"
         , batch <|
-            if borderAndShadows then
-                [ Prefix.boxShadow "0 1px 3px 0 #D4D4D5, 0 0 0 1px #D4D4D5" ]
+            if shadow then
+                [ Prefix.boxShadow "0 1px 2px 0 #D4D4D5" ]
 
             else
                 []
@@ -124,7 +124,7 @@ cardBasis { borderAndShadows } additionalStyles =
 
 card : List (Attribute msg) -> List (Html msg) -> Html msg
 card =
-    cardBasis { borderAndShadows = True } []
+    cardBasis { border = True, shadow = True } []
 
 
 contentBasis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg

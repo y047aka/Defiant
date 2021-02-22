@@ -23,22 +23,22 @@ import Css.Palette exposing (..)
 import Css.Prefix as Prefix
 import Css.Typography as Typography exposing (init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
+import UI.Internal exposing (chassis)
 import UI.Label
 
 
-menuBasis : { vertical : Bool, borderAndShadows : Bool, inverted : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-menuBasis { vertical, borderAndShadows, inverted } additionalStyles =
+menuBasis : { vertical : Bool, border : Bool, shadow : Bool, inverted : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+menuBasis { vertical, border, shadow, inverted } additionalStyles =
     let
         defaultTypography =
             Typography.default
     in
-    Html.styled Html.div <|
+    chassis { tag = Html.div, border = border, borderColor = rgba 34 36 38 0.15 } <|
         [ -- .ui.menu
           Prefix.displayFlex
         , margin2 (rem 1) zero
         , typography { defaultTypography | fontWeight = Typography.normal }
         , property "background" "#FFFFFF"
-        , border3 (px 1) solid (rgba 34 36 38 0.15)
         , Prefix.boxShadow "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
         , borderRadius (rem 0.28571429)
         , minHeight (em 2.85714286)
@@ -93,9 +93,9 @@ menuBasis { vertical, borderAndShadows, inverted } additionalStyles =
             else
                 []
 
-        -- Border And Shadows
+        -- Shadow
         , batch <|
-            if borderAndShadows then
+            if shadow then
                 []
 
             else
@@ -104,7 +104,6 @@ menuBasis { vertical, borderAndShadows, inverted } additionalStyles =
                 , marginLeft (em -0.35714286)
                 , marginRight (em -0.35714286)
                 , borderRadius zero
-                , property "border" "none"
                 , Prefix.boxShadow "none"
                 ]
 
@@ -289,7 +288,7 @@ itemBasis { tag, vertical, borderAndShadows, inverted } additionalStyles =
 
 menu : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
 menu { inverted } =
-    menuBasis { vertical = False, borderAndShadows = True, inverted = inverted } []
+    menuBasis { vertical = False, border = True, shadow = True, inverted = inverted } []
 
 
 item : List (Attribute msg) -> List (Html msg) -> Html msg
@@ -359,7 +358,7 @@ centerMenu =
 
 secondaryMenu : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
 secondaryMenu { inverted } =
-    menuBasis { vertical = False, borderAndShadows = False, inverted = inverted } []
+    menuBasis { vertical = False, border = False, shadow = False, inverted = inverted } []
 
 
 secondaryMenuItem : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -390,7 +389,7 @@ verticalMenu :
     -> List (Html msg)
     -> Html msg
 verticalMenu { inverted, additionalStyles } =
-    menuBasis { vertical = True, borderAndShadows = True, inverted = inverted } additionalStyles
+    menuBasis { vertical = True, border = True, shadow = True, inverted = inverted } additionalStyles
 
 
 verticalMenuItem :
