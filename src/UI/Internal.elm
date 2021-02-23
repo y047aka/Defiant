@@ -8,19 +8,29 @@ chassis :
     { tag : List (Attribute msg) -> List (Html msg) -> Html msg
     , borderRadius_ : Maybe (Length compatible units)
     , border : Bool
-    , borderColor : Color
+    , palette_ :
+        { background : Maybe Color
+        , color : Maybe Color
+        , border : Color
+        }
     }
     -> List Style
     -> List (Attribute msg)
     -> List (Html msg)
     -> Html msg
-chassis { tag, borderRadius_, border, borderColor } additionalStyles =
+chassis { tag, borderRadius_, border, palette_ } additionalStyles =
     Html.styled tag <|
         [ borderRadius_
             |> Maybe.map borderRadius
             |> Maybe.withDefault (borderRadius zero)
+        , palette_.background
+            |> Maybe.map backgroundColor
+            |> Maybe.withDefault (property "background" "none")
+        , palette_.color
+            |> Maybe.map color
+            |> Maybe.withDefault (batch [])
         , if border then
-            border3 (px 1) solid borderColor
+            border3 (px 1) solid palette_.border
 
           else
             property "border" "none"

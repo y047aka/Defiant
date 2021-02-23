@@ -34,23 +34,27 @@ basis { border, shadow, inverted } additionalStyles =
             else
                 Nothing
         , border = border
-        , borderColor = rgba 34 36 38 0.15
+        , palette_ =
+            { background =
+                if shadow then
+                    Just (hex "#FFF")
+
+                else
+                    Nothing
+            , color = Nothing
+            , border = rgba 34 36 38 0.15
+            }
         }
     <|
         [ -- .ui.segment
           position relative
         , margin2 (rem 1) zero
         , padding2 (em 1) (em 1)
-        , batch <|
-            if shadow then
-                [ property "background" "#FFFFFF"
-                , Prefix.boxShadow "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
-                ]
+        , if shadow then
+            Prefix.boxShadow "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
 
-            else
-                [ property "background" "none transparent"
-                , Prefix.boxShadow "none"
-                ]
+          else
+            Prefix.boxShadow "none"
 
         -- .ui.segment:first-child
         , pseudoClass "first-child"

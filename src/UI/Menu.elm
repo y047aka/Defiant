@@ -42,14 +42,22 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
             else
                 Nothing
         , border = border
-        , borderColor = rgba 34 36 38 0.15
+        , palette_ =
+            { background =
+                if shadow then
+                    Just (hex "#FFF")
+
+                else
+                    Nothing
+            , color = Nothing
+            , border = rgba 34 36 38 0.15
+            }
         }
     <|
         [ -- .ui.menu
           Prefix.displayFlex
         , margin2 (rem 1) zero
         , typography { defaultTypography | fontWeight = Typography.normal }
-        , property "background" "#FFFFFF"
         , Prefix.boxShadow "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
         , minHeight (em 2.85714286)
 
@@ -93,7 +101,6 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
                 , property "-webkit-box-orient" "vertical"
                 , property "-webkit-box-direction" "normal"
                 , Prefix.flexDirection "column"
-                , backgroundColor (hex "#FFFFFF")
                 , Prefix.boxShadow "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
 
                 -- .ui.vertical.menu
@@ -110,8 +117,7 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
 
             else
                 [ -- .ui.secondary.menu
-                  property "background" "none"
-                , marginLeft (em -0.35714286)
+                  marginLeft (em -0.35714286)
                 , marginRight (em -0.35714286)
                 , Prefix.boxShadow "none"
                 ]

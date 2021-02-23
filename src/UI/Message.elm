@@ -9,15 +9,23 @@ import UI.Internal exposing (chassis)
 
 basis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 basis additionalStyles =
-    chassis { tag = Html.section, borderRadius_ = Just (rem 0.28571429), border = True, borderColor = rgba 34 36 38 0.22 } <|
+    chassis
+        { tag = Html.section
+        , borderRadius_ = Just (rem 0.28571429)
+        , border = True
+        , palette_ =
+            { background = Just (hex "#F8F8F9")
+            , color = Just (rgba 0 0 0 0.87)
+            , border = rgba 34 36 38 0.22
+            }
+        }
+    <|
         [ -- .ui.message
           position relative
         , minHeight (em 1)
         , margin2 (em 1) zero
-        , property "background" "#F8F8F9"
         , padding2 (em 1) (em 1.5)
         , lineHeight (em 1.4285)
-        , color (rgba 0 0 0 0.87)
         , property "-webkit-transition" "opacity 0.1s ease, color 0.1s ease, background 0.1s ease, -webkit-box-shadow 0.1s ease"
         , property "transition" "opacity 0.1s ease, color 0.1s ease, background 0.1s ease, -webkit-box-shadow 0.1s ease"
         , property "transition" "opacity 0.1s ease, color 0.1s ease, background 0.1s ease, box-shadow 0.1s ease"
