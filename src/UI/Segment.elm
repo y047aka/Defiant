@@ -27,6 +27,9 @@ basis : { border : Bool, shadow : Bool, inverted : Bool } -> List Style -> List 
 basis { border, shadow, inverted } additionalStyles =
     chassis
         { tag = Html.section
+        , position_ = Just <| position relative
+        , margin_ = Just <| margin2 (rem 1) zero
+        , padding_ = Just <| padding2 (em 1) (em 1)
         , borderRadius_ =
             if shadow then
                 Just (rem 0.28571429)
@@ -47,10 +50,7 @@ basis { border, shadow, inverted } additionalStyles =
         }
     <|
         [ -- .ui.segment
-          position relative
-        , margin2 (rem 1) zero
-        , padding2 (em 1) (em 1)
-        , if shadow then
+          if shadow then
             Prefix.boxShadow "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
 
           else

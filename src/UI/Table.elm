@@ -33,6 +33,9 @@ basis options additionalStyles =
     in
     chassis
         { tag = Html.table
+        , position_ = Nothing
+        , margin_ = Just <| margin2 (em 1) zero
+        , padding_ = Nothing
         , borderRadius_ = Just (rem 0.28571429)
         , border = options.border
         , palette_ =
@@ -44,7 +47,6 @@ basis options additionalStyles =
     <|
         [ -- .ui.table
           width (pct 100)
-        , margin2 (em 1) zero
         , Prefix.boxShadow "none"
         , layout
             { initialLayout

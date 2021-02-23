@@ -51,6 +51,9 @@ cardBasis : { border : Bool, shadow : Bool } -> List Style -> List (Attribute ms
 cardBasis { border, shadow } additionalStyles =
     chassis
         { tag = Html.div
+        , position_ = Just <| position relative
+        , margin_ = Just <| margin2 (em 1) zero
+        , padding_ = Just <| padding zero
         , borderRadius_ = Just (rem 0.28571429)
         , border = border
         , palette_ =
@@ -63,14 +66,12 @@ cardBasis { border, shadow } additionalStyles =
         [ -- .ui.cards > .card
           -- .ui.card
           maxWidth (pct 100)
-        , position relative
         , Prefix.displayFlex
         , property "-webkit-box-orient" "vertical"
         , property "-webkit-box-direction" "normal"
         , Prefix.flexDirection "column"
         , width (px 290)
         , minHeight zero
-        , padding zero
         , property "-webkit-transition" "-webkit-box-shadow 0.1s ease, -webkit-transform 0.1s ease"
         , property "transition" "-webkit-box-shadow 0.1s ease, -webkit-transform 0.1s ease"
         , property "transition" "box-shadow 0.1s ease, transform 0.1s ease"
@@ -83,9 +84,6 @@ cardBasis { border, shadow } additionalStyles =
 
             else
                 []
-
-        -- .ui.card
-        , margin2 (em 1) zero
 
         -- .ui.cards > .card a
         -- .ui.card a

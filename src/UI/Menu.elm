@@ -35,6 +35,9 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
     in
     chassis
         { tag = Html.div
+        , position_ = Nothing
+        , margin_ = Just <| margin2 (rem 1) zero
+        , padding_ = Nothing
         , borderRadius_ =
             if shadow then
                 Just (rem 0.28571429)
@@ -56,7 +59,6 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
     <|
         [ -- .ui.menu
           Prefix.displayFlex
-        , margin2 (rem 1) zero
         , typography { defaultTypography | fontWeight = Typography.normal }
         , Prefix.boxShadow "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
         , minHeight (em 2.85714286)
@@ -79,8 +81,8 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
             [ marginBottom zero ]
 
         -- .ui.menu .menu
-        , margin zero
-
+        -- , margin zero
+        --
         -- .ui.menu:not(.vertical) > .menu
         -- display: -webkit-box;
         -- display: -ms-flexbox;

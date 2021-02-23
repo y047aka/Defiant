@@ -6,6 +6,9 @@ import Html.Styled as Html exposing (Attribute, Html)
 
 chassis :
     { tag : List (Attribute msg) -> List (Html msg) -> Html msg
+    , position_ : Maybe Style
+    , margin_ : Maybe Style
+    , padding_ : Maybe Style
     , borderRadius_ : Maybe (Length compatible units)
     , border : Bool
     , palette_ :
@@ -18,9 +21,15 @@ chassis :
     -> List (Attribute msg)
     -> List (Html msg)
     -> Html msg
-chassis { tag, borderRadius_, border, palette_ } additionalStyles =
+chassis { tag, position_, margin_, padding_, borderRadius_, border, palette_ } additionalStyles =
     Html.styled tag <|
-        [ borderRadius_
+        [ position_
+            |> Maybe.withDefault (batch [])
+        , margin_
+            |> Maybe.withDefault (batch [])
+        , padding_
+            |> Maybe.withDefault (batch [])
+        , borderRadius_
             |> Maybe.map borderRadius
             |> Maybe.withDefault (borderRadius zero)
         , palette_.background

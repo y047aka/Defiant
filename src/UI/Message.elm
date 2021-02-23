@@ -11,6 +11,9 @@ basis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 basis additionalStyles =
     chassis
         { tag = Html.section
+        , position_ = Just <| position relative
+        , margin_ = Just <| margin2 (em 1) zero
+        , padding_ = Just <| padding2 (em 1) (em 1.5)
         , borderRadius_ = Just (rem 0.28571429)
         , border = True
         , palette_ =
@@ -21,10 +24,7 @@ basis additionalStyles =
         }
     <|
         [ -- .ui.message
-          position relative
-        , minHeight (em 1)
-        , margin2 (em 1) zero
-        , padding2 (em 1) (em 1.5)
+          minHeight (em 1)
         , lineHeight (em 1.4285)
         , property "-webkit-transition" "opacity 0.1s ease, color 0.1s ease, background 0.1s ease, -webkit-box-shadow 0.1s ease"
         , property "transition" "opacity 0.1s ease, color 0.1s ease, background 0.1s ease, -webkit-box-shadow 0.1s ease"
