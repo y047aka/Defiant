@@ -55,11 +55,15 @@ cardBasis { border, shadow } additionalStyles =
         , margin = Just <| margin2 (em 1) zero
         , padding = Just <| padding zero
         , borderRadius = Just (rem 0.28571429)
-        , border = border
         , palette =
             { background = Just (hex "#FFF")
             , color = Nothing
-            , border = hex "#D4D4D5"
+            , border =
+                if border then
+                    Just (hex "#D4D4D5")
+
+                else
+                    Nothing
             }
         }
     <|

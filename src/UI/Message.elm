@@ -15,11 +15,10 @@ basis additionalStyles =
         , margin = Just <| margin2 (em 1) zero
         , padding = Just <| padding2 (em 1) (em 1.5)
         , borderRadius = Just (rem 0.28571429)
-        , border = True
         , palette =
             { background = Just (hex "#F8F8F9")
             , color = Just (rgba 0 0 0 0.87)
-            , border = rgba 34 36 38 0.22
+            , border = Just (rgba 34 36 38 0.22)
             }
         }
     <|

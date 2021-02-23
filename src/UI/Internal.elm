@@ -10,11 +10,10 @@ chassis :
     , margin : Maybe Style
     , padding : Maybe Style
     , borderRadius : Maybe (Length compatible units)
-    , border : Bool
     , palette :
         { background : Maybe Color
         , color : Maybe Color
-        , border : Color
+        , border : Maybe Color
         }
     }
     -> List Style
@@ -38,10 +37,8 @@ chassis opts additionalStyles =
         , opts.palette.color
             |> Maybe.map color
             |> Maybe.withDefault (batch [])
-        , if opts.border then
-            border3 (px 1) solid opts.palette.border
-
-          else
-            property "border" "none"
+        , opts.palette.border
+            |> Maybe.map (border3 (px 1) solid)
+            |> Maybe.withDefault (property "border" "none")
         ]
             ++ additionalStyles

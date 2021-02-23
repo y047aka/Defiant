@@ -44,7 +44,6 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
 
             else
                 Nothing
-        , border = border
         , palette =
             { background =
                 if shadow then
@@ -53,7 +52,12 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
                 else
                     Nothing
             , color = Nothing
-            , border = rgba 34 36 38 0.15
+            , border =
+                if border then
+                    Just (rgba 34 36 38 0.15)
+
+                else
+                    Nothing
             }
         }
     <|

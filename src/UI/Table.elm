@@ -37,11 +37,15 @@ basis options additionalStyles =
         , margin = Just <| margin2 (em 1) zero
         , padding = Nothing
         , borderRadius = Just (rem 0.28571429)
-        , border = options.border
         , palette =
             { background = Just (hex "#FFF")
             , color = Just (rgba 0 0 0 0.87)
-            , border = rgba 34 36 38 0.15
+            , border =
+                if options.border then
+                    Just (rgba 34 36 38 0.15)
+
+                else
+                    Nothing
             }
         }
     <|
