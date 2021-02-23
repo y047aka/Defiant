@@ -17,26 +17,14 @@ module UI.Segment exposing
 -}
 
 import Css exposing (..)
-import Css.Extra exposing (when)
-import Css.Prefix as Prefix
 import Html.Styled as Html exposing (Attribute, Html)
 import UI.Internal exposing (chassis)
 
 
 basis : { border : Bool, shadow : Bool, inverted : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 basis { border, shadow, inverted } additionalStyles =
-    chassis
-        { tag = Html.section
-        , position = Just <| position relative
-        , margin = Just <| margin2 (rem 1) zero
-        , padding = Just <| padding2 (em 1) (em 1)
-        , borderRadius =
-            if shadow then
-                Just (rem 0.28571429)
-
-            else
-                Nothing
-        , palette =
+    let
+        defaultPalette =
             { background =
                 if shadow then
                     Just (hex "#FFF")
@@ -51,12 +39,37 @@ basis { border, shadow, inverted } additionalStyles =
                 else
                     Nothing
             }
-        , boxShadow =
+
+        invertedPalette =
+            { background = Just (hex "#1B1C1D")
+            , color = Just (rgba 255 255 255 0.9)
+            , border = Nothing
+            }
+    in
+    chassis
+        { tag = Html.section
+        , position = Just <| position relative
+        , margin = Just <| margin2 (rem 1) zero
+        , padding = Just <| padding2 (em 1) (em 1)
+        , borderRadius =
             if shadow then
-                Just "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
+                Just (rem 0.28571429)
 
             else
                 Nothing
+        , palette =
+            if inverted then
+                invertedPalette
+
+            else
+                defaultPalette
+        , boxShadow =
+            case ( shadow, inverted ) of
+                ( True, False ) ->
+                    Just "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
+
+                _ ->
+                    Nothing
         }
     <|
         [ -- .ui.segment:first-child
@@ -66,18 +79,6 @@ basis { border, shadow, inverted } additionalStyles =
         -- .ui.segment:last-child
         , pseudoClass "last-child"
             [ marginBottom zero ]
-
-        -- .ui.inverted.segment
-        , when inverted <|
-            batch
-                [ property "border" "none"
-                , Prefix.boxShadow "none"
-
-                -- .ui.inverted.segment
-                -- .ui.primary.inverted.segment
-                , property "background" "#1B1C1D"
-                , color (rgba 255 255 255 0.9)
-                ]
         ]
             ++ additionalStyles
 

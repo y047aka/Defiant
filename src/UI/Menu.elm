@@ -32,19 +32,8 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
     let
         defaultTypography =
             Typography.default
-    in
-    chassis
-        { tag = Html.div
-        , position = Nothing
-        , margin = Just <| margin2 (rem 1) zero
-        , padding = Nothing
-        , borderRadius =
-            if shadow then
-                Just (rem 0.28571429)
 
-            else
-                Nothing
-        , palette =
+        defaultPalette =
             { background =
                 if shadow then
                     Just (hex "#FFF")
@@ -59,12 +48,37 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
                 else
                     Nothing
             }
-        , boxShadow =
+
+        invertedPalette =
+            { defaultPalette
+                | background = Just (hex "#1B1C1D")
+                , border = Nothing
+            }
+    in
+    chassis
+        { tag = Html.div
+        , position = Nothing
+        , margin = Just <| margin2 (rem 1) zero
+        , padding = Nothing
+        , borderRadius =
             if shadow then
-                Just "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
+                Just (rem 0.28571429)
 
             else
                 Nothing
+        , palette =
+            if inverted then
+                invertedPalette
+
+            else
+                defaultPalette
+        , boxShadow =
+            case ( shadow, inverted ) of
+                ( True, False ) ->
+                    Just "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
+
+                _ ->
+                    Nothing
         }
     <|
         [ -- .ui.menu
@@ -130,18 +144,6 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
                   marginLeft (em -0.35714286)
                 , marginRight (em -0.35714286)
                 ]
-
-        -- Inverted
-        , batch <|
-            if inverted then
-                [ -- .ui.inverted.menu
-                  border3 zero solid transparent
-                , backgroundColor (hex "#1B1C1D")
-                , Prefix.boxShadow "none"
-                ]
-
-            else
-                []
         ]
             ++ additionalStyles
 
