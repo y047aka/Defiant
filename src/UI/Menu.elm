@@ -59,12 +59,17 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
                 else
                     Nothing
             }
+        , boxShadow =
+            if shadow then
+                Just "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
+
+            else
+                Nothing
         }
     <|
         [ -- .ui.menu
           Prefix.displayFlex
         , typography { defaultTypography | fontWeight = Typography.normal }
-        , Prefix.boxShadow "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
         , minHeight (em 2.85714286)
 
         -- .ui.menu:after
@@ -107,7 +112,6 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
                 , property "-webkit-box-orient" "vertical"
                 , property "-webkit-box-direction" "normal"
                 , Prefix.flexDirection "column"
-                , Prefix.boxShadow "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
 
                 -- .ui.vertical.menu
                 , width (rem 15)
@@ -125,7 +129,6 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
                 [ -- .ui.secondary.menu
                   marginLeft (em -0.35714286)
                 , marginRight (em -0.35714286)
-                , Prefix.boxShadow "none"
                 ]
 
         -- Inverted

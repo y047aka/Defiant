@@ -20,6 +20,7 @@ basis additionalStyles =
             , color = Just (rgba 0 0 0 0.87)
             , border = Just (rgba 34 36 38 0.22)
             }
+        , boxShadow = Nothing
         }
     <|
         [ -- .ui.message
@@ -29,7 +30,6 @@ basis additionalStyles =
         , property "transition" "opacity 0.1s ease, color 0.1s ease, background 0.1s ease, -webkit-box-shadow 0.1s ease"
         , property "transition" "opacity 0.1s ease, color 0.1s ease, background 0.1s ease, box-shadow 0.1s ease"
         , property "transition" "opacity 0.1s ease, color 0.1s ease, background 0.1s ease, box-shadow 0.1s ease, -webkit-box-shadow 0.1s ease"
-        , Prefix.boxShadow "0 0 0 0 rgba(0, 0, 0, 0)"
 
         -- .ui.message:first-child
         , firstChild

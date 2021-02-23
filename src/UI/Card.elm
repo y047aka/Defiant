@@ -65,6 +65,12 @@ cardBasis { border, shadow } additionalStyles =
                 else
                     Nothing
             }
+        , boxShadow =
+            if shadow then
+                Just "0 1px 2px 0 #D4D4D5"
+
+            else
+                Nothing
         }
     <|
         [ -- .ui.cards > .card
@@ -82,12 +88,6 @@ cardBasis { border, shadow } additionalStyles =
         , property "transition" "box-shadow 0.1s ease, transform 0.1s ease, -webkit-box-shadow 0.1s ease, -webkit-transform 0.1s ease"
         , property "z-index" "''"
         , property "word-wrap" "break-word"
-        , batch <|
-            if shadow then
-                [ Prefix.boxShadow "0 1px 2px 0 #D4D4D5" ]
-
-            else
-                []
 
         -- .ui.cards > .card a
         -- .ui.card a

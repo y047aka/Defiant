@@ -47,11 +47,11 @@ basis options additionalStyles =
                 else
                     Nothing
             }
+        , boxShadow = Nothing
         }
     <|
         [ -- .ui.table
           width (pct 100)
-        , Prefix.boxShadow "none"
         , layout
             { initialLayout
                 | textAlign = Layout.left

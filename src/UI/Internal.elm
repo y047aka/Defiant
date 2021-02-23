@@ -1,6 +1,7 @@
 module UI.Internal exposing (chassis)
 
 import Css exposing (..)
+import Css.Prefix as Prefix
 import Html.Styled as Html exposing (Attribute, Html)
 
 
@@ -15,6 +16,7 @@ chassis :
         , color : Maybe Color
         , border : Maybe Color
         }
+    , boxShadow : Maybe String
     }
     -> List Style
     -> List (Attribute msg)
@@ -39,6 +41,9 @@ chassis opts additionalStyles =
             |> Maybe.withDefault (batch [])
         , opts.palette.border
             |> Maybe.map (border3 (px 1) solid)
-            |> Maybe.withDefault (property "border" "none")
+            |> Maybe.withDefault (batch [])
+        , opts.boxShadow
+            |> Maybe.map Prefix.boxShadow
+            |> Maybe.withDefault (batch [])
         ]
             ++ additionalStyles

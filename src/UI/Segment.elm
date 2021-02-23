@@ -51,17 +51,16 @@ basis { border, shadow, inverted } additionalStyles =
                 else
                     Nothing
             }
+        , boxShadow =
+            if shadow then
+                Just "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
+
+            else
+                Nothing
         }
     <|
-        [ -- .ui.segment
-          if shadow then
-            Prefix.boxShadow "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
-
-          else
-            Prefix.boxShadow "none"
-
-        -- .ui.segment:first-child
-        , pseudoClass "first-child"
+        [ -- .ui.segment:first-child
+          pseudoClass "first-child"
             [ marginTop zero ]
 
         -- .ui.segment:last-child
