@@ -6,6 +6,7 @@ import Html.Styled as Html exposing (Attribute, Html)
 
 chassis :
     { tag : List (Attribute msg) -> List (Html msg) -> Html msg
+    , borderRadius_ : Maybe (Length compatible units)
     , border : Bool
     , borderColor : Color
     }
@@ -13,9 +14,12 @@ chassis :
     -> List (Attribute msg)
     -> List (Html msg)
     -> Html msg
-chassis { tag, border, borderColor } additionalStyles =
+chassis { tag, borderRadius_, border, borderColor } additionalStyles =
     Html.styled tag <|
-        [ if border then
+        [ borderRadius_
+            |> Maybe.map borderRadius
+            |> Maybe.withDefault (borderRadius zero)
+        , if border then
             border3 (px 1) solid borderColor
 
           else

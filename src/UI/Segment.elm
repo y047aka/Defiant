@@ -25,7 +25,18 @@ import UI.Internal exposing (chassis)
 
 basis : { border : Bool, shadow : Bool, inverted : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 basis { border, shadow, inverted } additionalStyles =
-    chassis { tag = Html.section, border = border, borderColor = rgba 34 36 38 0.15 } <|
+    chassis
+        { tag = Html.section
+        , borderRadius_ =
+            if shadow then
+                Just (rem 0.28571429)
+
+            else
+                Nothing
+        , border = border
+        , borderColor = rgba 34 36 38 0.15
+        }
+    <|
         [ -- .ui.segment
           position relative
         , margin2 (rem 1) zero
@@ -34,13 +45,11 @@ basis { border, shadow, inverted } additionalStyles =
             if shadow then
                 [ property "background" "#FFFFFF"
                 , Prefix.boxShadow "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
-                , borderRadius (rem 0.28571429)
                 ]
 
             else
                 [ property "background" "none transparent"
                 , Prefix.boxShadow "none"
-                , borderRadius zero
                 ]
 
         -- .ui.segment:first-child

@@ -49,7 +49,7 @@ cards =
 
 cardBasis : { border : Bool, shadow : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 cardBasis { border, shadow } additionalStyles =
-    chassis { tag = Html.div, border = border, borderColor = hex "#D4D4D5" } <|
+    chassis { tag = Html.div, borderRadius_ = Just (rem 0.28571429), border = border, borderColor = hex "#D4D4D5" } <|
         [ -- .ui.cards > .card
           -- .ui.card
           maxWidth (pct 100)
@@ -62,7 +62,6 @@ cardBasis { border, shadow } additionalStyles =
         , minHeight zero
         , property "background" "#FFFFFF"
         , padding zero
-        , borderRadius (rem 0.28571429)
         , property "-webkit-transition" "-webkit-box-shadow 0.1s ease, -webkit-transform 0.1s ease"
         , property "transition" "-webkit-box-shadow 0.1s ease, -webkit-transform 0.1s ease"
         , property "transition" "box-shadow 0.1s ease, transform 0.1s ease"

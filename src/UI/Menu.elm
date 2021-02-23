@@ -33,14 +33,24 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
         defaultTypography =
             Typography.default
     in
-    chassis { tag = Html.div, border = border, borderColor = rgba 34 36 38 0.15 } <|
+    chassis
+        { tag = Html.div
+        , borderRadius_ =
+            if shadow then
+                Just (rem 0.28571429)
+
+            else
+                Nothing
+        , border = border
+        , borderColor = rgba 34 36 38 0.15
+        }
+    <|
         [ -- .ui.menu
           Prefix.displayFlex
         , margin2 (rem 1) zero
         , typography { defaultTypography | fontWeight = Typography.normal }
         , property "background" "#FFFFFF"
         , Prefix.boxShadow "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
-        , borderRadius (rem 0.28571429)
         , minHeight (em 2.85714286)
 
         -- .ui.menu:after
@@ -103,7 +113,6 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
                   property "background" "none"
                 , marginLeft (em -0.35714286)
                 , marginRight (em -0.35714286)
-                , borderRadius zero
                 , Prefix.boxShadow "none"
                 ]
 

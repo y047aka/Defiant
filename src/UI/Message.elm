@@ -9,7 +9,7 @@ import UI.Internal exposing (chassis)
 
 basis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 basis additionalStyles =
-    chassis { tag = Html.section, border = True, borderColor = rgba 34 36 38 0.22 } <|
+    chassis { tag = Html.section, borderRadius_ = Just (rem 0.28571429), border = True, borderColor = rgba 34 36 38 0.22 } <|
         [ -- .ui.message
           position relative
         , minHeight (em 1)
@@ -22,7 +22,6 @@ basis additionalStyles =
         , property "transition" "opacity 0.1s ease, color 0.1s ease, background 0.1s ease, -webkit-box-shadow 0.1s ease"
         , property "transition" "opacity 0.1s ease, color 0.1s ease, background 0.1s ease, box-shadow 0.1s ease"
         , property "transition" "opacity 0.1s ease, color 0.1s ease, background 0.1s ease, box-shadow 0.1s ease, -webkit-box-shadow 0.1s ease"
-        , borderRadius (rem 0.28571429)
         , Prefix.boxShadow "0 0 0 0 rgba(0, 0, 0, 0)"
 
         -- .ui.message:first-child

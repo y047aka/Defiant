@@ -31,13 +31,12 @@ basis options additionalStyles =
         initialLayout =
             Layout.init
     in
-    chassis { tag = Html.table, border = options.border, borderColor = rgba 34 36 38 0.15 } <|
+    chassis { tag = Html.table, borderRadius_ = Just (rem 0.28571429), border = options.border, borderColor = rgba 34 36 38 0.15 } <|
         [ -- .ui.table
           width (pct 100)
         , backgroundColor (hex "#FFFFFF")
         , margin2 (em 1) zero
         , Prefix.boxShadow "none"
-        , borderRadius (rem 0.28571429)
         , layout
             { initialLayout
                 | textAlign = Layout.left
