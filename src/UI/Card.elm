@@ -51,12 +51,12 @@ cardBasis : { border : Bool, shadow : Bool } -> List Style -> List (Attribute ms
 cardBasis { border, shadow } additionalStyles =
     chassis
         { tag = Html.div
-        , position_ = Just <| position relative
-        , margin_ = Just <| margin2 (em 1) zero
-        , padding_ = Just <| padding zero
-        , borderRadius_ = Just (rem 0.28571429)
+        , position = Just <| position relative
+        , margin = Just <| margin2 (em 1) zero
+        , padding = Just <| padding zero
+        , borderRadius = Just (rem 0.28571429)
         , border = border
-        , palette_ =
+        , palette =
             { background = Just (hex "#FFF")
             , color = Nothing
             , border = hex "#D4D4D5"

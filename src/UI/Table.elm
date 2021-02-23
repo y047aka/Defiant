@@ -33,12 +33,12 @@ basis options additionalStyles =
     in
     chassis
         { tag = Html.table
-        , position_ = Nothing
-        , margin_ = Just <| margin2 (em 1) zero
-        , padding_ = Nothing
-        , borderRadius_ = Just (rem 0.28571429)
+        , position = Nothing
+        , margin = Just <| margin2 (em 1) zero
+        , padding = Nothing
+        , borderRadius = Just (rem 0.28571429)
         , border = options.border
-        , palette_ =
+        , palette =
             { background = Just (hex "#FFF")
             , color = Just (rgba 0 0 0 0.87)
             , border = rgba 34 36 38 0.15

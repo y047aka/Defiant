@@ -11,12 +11,12 @@ basis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 basis additionalStyles =
     chassis
         { tag = Html.section
-        , position_ = Just <| position relative
-        , margin_ = Just <| margin2 (em 1) zero
-        , padding_ = Just <| padding2 (em 1) (em 1.5)
-        , borderRadius_ = Just (rem 0.28571429)
+        , position = Just <| position relative
+        , margin = Just <| margin2 (em 1) zero
+        , padding = Just <| padding2 (em 1) (em 1.5)
+        , borderRadius = Just (rem 0.28571429)
         , border = True
-        , palette_ =
+        , palette =
             { background = Just (hex "#F8F8F9")
             , color = Just (rgba 0 0 0 0.87)
             , border = rgba 34 36 38 0.22

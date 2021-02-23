@@ -35,17 +35,17 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
     in
     chassis
         { tag = Html.div
-        , position_ = Nothing
-        , margin_ = Just <| margin2 (rem 1) zero
-        , padding_ = Nothing
-        , borderRadius_ =
+        , position = Nothing
+        , margin = Just <| margin2 (rem 1) zero
+        , padding = Nothing
+        , borderRadius =
             if shadow then
                 Just (rem 0.28571429)
 
             else
                 Nothing
         , border = border
-        , palette_ =
+        , palette =
             { background =
                 if shadow then
                     Just (hex "#FFF")

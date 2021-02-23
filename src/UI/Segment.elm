@@ -27,17 +27,17 @@ basis : { border : Bool, shadow : Bool, inverted : Bool } -> List Style -> List 
 basis { border, shadow, inverted } additionalStyles =
     chassis
         { tag = Html.section
-        , position_ = Just <| position relative
-        , margin_ = Just <| margin2 (rem 1) zero
-        , padding_ = Just <| padding2 (em 1) (em 1)
-        , borderRadius_ =
+        , position = Just <| position relative
+        , margin = Just <| margin2 (rem 1) zero
+        , padding = Just <| padding2 (em 1) (em 1)
+        , borderRadius =
             if shadow then
                 Just (rem 0.28571429)
 
             else
                 Nothing
         , border = border
-        , palette_ =
+        , palette =
             { background =
                 if shadow then
                     Just (hex "#FFF")

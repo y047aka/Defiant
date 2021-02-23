@@ -6,12 +6,12 @@ import Html.Styled as Html exposing (Attribute, Html)
 
 chassis :
     { tag : List (Attribute msg) -> List (Html msg) -> Html msg
-    , position_ : Maybe Style
-    , margin_ : Maybe Style
-    , padding_ : Maybe Style
-    , borderRadius_ : Maybe (Length compatible units)
+    , position : Maybe Style
+    , margin : Maybe Style
+    , padding : Maybe Style
+    , borderRadius : Maybe (Length compatible units)
     , border : Bool
-    , palette_ :
+    , palette :
         { background : Maybe Color
         , color : Maybe Color
         , border : Color
@@ -21,25 +21,25 @@ chassis :
     -> List (Attribute msg)
     -> List (Html msg)
     -> Html msg
-chassis { tag, position_, margin_, padding_, borderRadius_, border, palette_ } additionalStyles =
-    Html.styled tag <|
-        [ position_
+chassis opts additionalStyles =
+    Html.styled opts.tag <|
+        [ opts.position
             |> Maybe.withDefault (batch [])
-        , margin_
+        , opts.margin
             |> Maybe.withDefault (batch [])
-        , padding_
+        , opts.padding
             |> Maybe.withDefault (batch [])
-        , borderRadius_
+        , opts.borderRadius
             |> Maybe.map borderRadius
             |> Maybe.withDefault (borderRadius zero)
-        , palette_.background
+        , opts.palette.background
             |> Maybe.map backgroundColor
             |> Maybe.withDefault (property "background" "none")
-        , palette_.color
+        , opts.palette.color
             |> Maybe.map color
             |> Maybe.withDefault (batch [])
-        , if border then
-            border3 (px 1) solid palette_.border
+        , if opts.border then
+            border3 (px 1) solid opts.palette.border
 
           else
             property "border" "none"
