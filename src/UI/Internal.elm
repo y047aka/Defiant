@@ -1,11 +1,11 @@
-module UI.Internal exposing (chassis)
+module UI.Internal exposing (styledBlock)
 
 import Css exposing (..)
 import Css.Prefix as Prefix
 import Html.Styled as Html exposing (Attribute, Html)
 
 
-chassis :
+styledBlock :
     { tag : List (Attribute msg) -> List (Html msg) -> Html msg
     , position : Maybe Style
     , margin : Maybe Style
@@ -22,7 +22,7 @@ chassis :
     -> List (Attribute msg)
     -> List (Html msg)
     -> Html msg
-chassis opts additionalStyles =
+styledBlock opts additionalStyles =
     Html.styled opts.tag <|
         [ opts.position
             |> Maybe.withDefault (batch [])

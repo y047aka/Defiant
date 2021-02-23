@@ -18,7 +18,7 @@ module UI.Segment exposing
 
 import Css exposing (..)
 import Html.Styled as Html exposing (Attribute, Html)
-import UI.Internal exposing (chassis)
+import UI.Internal exposing (styledBlock)
 
 
 basis : { border : Bool, shadow : Bool, inverted : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -46,7 +46,7 @@ basis { border, shadow, inverted } additionalStyles =
             , border = Nothing
             }
     in
-    chassis
+    styledBlock
         { tag = Html.section
         , position = Just <| position relative
         , margin = Just <| margin2 (rem 1) zero

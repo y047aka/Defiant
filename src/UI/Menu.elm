@@ -23,7 +23,7 @@ import Css.Palette exposing (..)
 import Css.Prefix as Prefix
 import Css.Typography as Typography exposing (init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
-import UI.Internal exposing (chassis)
+import UI.Internal exposing (styledBlock)
 import UI.Label
 
 
@@ -55,7 +55,7 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
                 , border = Nothing
             }
     in
-    chassis
+    styledBlock
         { tag = Html.div
         , position = Nothing
         , margin = Just <| margin2 (rem 1) zero

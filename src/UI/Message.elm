@@ -4,12 +4,12 @@ import Css exposing (..)
 import Css.Global exposing (children, descendants, selector)
 import Css.Prefix as Prefix
 import Html.Styled as Html exposing (Attribute, Html)
-import UI.Internal exposing (chassis)
+import UI.Internal exposing (styledBlock)
 
 
 basis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 basis additionalStyles =
-    chassis
+    styledBlock
         { tag = Html.section
         , position = Just <| position relative
         , margin = Just <| margin2 (em 1) zero

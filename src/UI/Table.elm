@@ -17,7 +17,7 @@ import Css.Palette exposing (..)
 import Css.Prefix as Prefix
 import Css.Typography as Typography exposing (init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
-import UI.Internal exposing (chassis)
+import UI.Internal exposing (styledBlock)
 
 
 basis :
@@ -31,7 +31,7 @@ basis options additionalStyles =
         initialLayout =
             Layout.init
     in
-    chassis
+    styledBlock
         { tag = Html.table
         , position = Nothing
         , margin = Just <| margin2 (em 1) zero

@@ -15,7 +15,7 @@ import Css.Global exposing (children, descendants, everything, selector)
 import Css.Prefix as Prefix
 import Css.Typography exposing (fomanticFont)
 import Html.Styled as Html exposing (Attribute, Html)
-import UI.Internal exposing (chassis)
+import UI.Internal exposing (styledBlock)
 
 
 cards : List (Attribute msg) -> List (Html msg) -> Html msg
@@ -49,7 +49,7 @@ cards =
 
 cardBasis : { border : Bool, shadow : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 cardBasis { border, shadow } additionalStyles =
-    chassis
+    styledBlock
         { tag = Html.div
         , position = Just <| position relative
         , margin = Just <| margin2 (em 1) zero
