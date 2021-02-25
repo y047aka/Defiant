@@ -6,7 +6,6 @@ import Html.Styled as Html exposing (Attribute, Html, fromUnstyled)
 import Icon.Brands as Brands
 import Icon.Regular as Regular
 import Icon.Solid as Solid
-import Svg.Styled as Svg
 
 
 icon : List (Attribute msg) -> String -> Html msg
@@ -40,18 +39,10 @@ icon attributes str =
         , height (em 1)
         , textAlign center
         , property "speak" "none"
+
+        -- i.icon:before
+        , before
+            [ property "background" "none" |> important ]
         ]
         attributes
-        [ Svg.styled Svg.svg
-            [ -- i.icon:before
-              property "background" "none" |> important
-
-            -- Override
-            , width (em 1.18)
-            , height (em 1)
-            , verticalAlign bottom
-            , fill currentColor
-            ]
-            []
-            [ svg ]
-        ]
+        [ svg ]

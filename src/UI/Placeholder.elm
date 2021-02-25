@@ -22,8 +22,8 @@ basis additionalStyles =
     let
         placeholderShimmer =
             keyframes
-                [ ( 0, [ Animations.property "background-position" "-1200px 0;" ] )
-                , ( 100, [ Animations.property "background-position" "1200px 0;" ] )
+                [ ( 0, [ Animations.property "background-position" "-1200px 0" ] )
+                , ( 100, [ Animations.property "background-position" "1200px 0" ] )
                 ]
     in
     Html.styled Html.div <|

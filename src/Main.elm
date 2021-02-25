@@ -3,6 +3,7 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 import Browser exposing (Document)
 import Browser.Navigation as Nav exposing (Key)
 import Css exposing (..)
+import Css.FontAwesome exposing (fontAwesome)
 import Css.Global exposing (global)
 import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
@@ -260,7 +261,7 @@ view model =
             , body =
                 [ toUnstyled <|
                     div []
-                        [ global (normalize ++ additionalReset ++ globalCustomize)
+                        [ global (normalize ++ additionalReset ++ globalCustomize ++ fontAwesome)
                         , basicSegment []
                             [ container []
                                 [ breadcrumbItems
