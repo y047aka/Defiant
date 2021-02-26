@@ -22,6 +22,7 @@ import UI.Header exposing (..)
 import UI.Icon as Icon exposing (..)
 import UI.Image exposing (..)
 import UI.Input as Input exposing (..)
+import UI.Item as Item exposing (..)
 import UI.Label as Label exposing (..)
 import UI.Menu as Menu exposing (..)
 import UI.Message exposing (..)
@@ -82,6 +83,7 @@ type Page
     | MessagePage
     | TablePage
     | CardPage
+    | ItemPage
 
 
 init : () -> Url -> Key -> ( Model, Cmd Msg )
@@ -117,6 +119,7 @@ type Route
     | Message
     | Table
     | Card
+    | Item
 
 
 parser : Parser (Route -> a) a
@@ -141,6 +144,7 @@ parser =
         , Parser.map Message (s "message")
         , Parser.map Table (s "table")
         , Parser.map Card (s "card")
+        , Parser.map Item (s "item")
         ]
 
 
@@ -215,6 +219,9 @@ routing url model =
 
             Just Card ->
                 CardPage
+
+            Just Item ->
+                ItemPage
 
 
 
@@ -405,6 +412,12 @@ view model =
                 , contents = examplesForCard
                 }
 
+            ItemPage ->
+                { title = Just "Item"
+                , breadcrumbItems = [ "Top", "Item" ]
+                , contents = examplesForItem
+                }
+
 
 tableOfContents : List (Html msg)
 tableOfContents =
@@ -516,6 +529,11 @@ contents_ =
       , description = "A card displays site content in a manner similar to a playing card"
       , category = "Views"
       , url = "/card"
+      }
+    , { label = "Item"
+      , description = "An item view presents large collections of site content for display"
+      , category = "Views"
+      , url = "/item"
       }
     ]
 
@@ -1436,6 +1454,23 @@ examplesForCard =
                 [ icon [] "fas fa-check"
                 , text "121 Votes"
                 ]
+            ]
+        ]
+    ]
+
+
+examplesForItem : List (Html msg)
+examplesForItem =
+    [ example []
+        [ header [] [ text "Image" ]
+        , p [] [ text "An item can contain an image" ]
+        , dividedItems []
+            [ Item.item []
+                [ image [ src "./static/images/wireframe/image.png" ] [] ]
+            , Item.item []
+                [ image [ src "./static/images/wireframe/image.png" ] [] ]
+            , Item.item []
+                [ image [ src "./static/images/wireframe/image.png" ] [] ]
             ]
         ]
     ]
