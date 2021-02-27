@@ -1,4 +1,4 @@
-module UI.Image exposing (..)
+module UI.Image exposing (image, smallImage, tinyImage)
 
 import Css exposing (..)
 import Html.Styled as Html exposing (Attribute, Html)
@@ -23,6 +23,19 @@ basis additionalStyles =
 image : List (Attribute msg) -> List (Html msg) -> Html msg
 image =
     basis []
+
+
+tinyImage : List (Attribute msg) -> List (Html msg) -> Html msg
+tinyImage =
+    basis
+        [ -- .ui.tiny.images .image
+          -- .ui.tiny.images img
+          -- .ui.tiny.images svg
+          -- .ui.tiny.image
+          width (px 80)
+        , height auto
+        , fontSize (rem 0.85714286)
+        ]
 
 
 smallImage : List (Attribute msg) -> List (Html msg) -> Html msg

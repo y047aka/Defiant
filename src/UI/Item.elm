@@ -1,4 +1,16 @@
-module UI.Item exposing (dividedItems, item, items)
+module UI.Item exposing
+    ( items
+    , item, dividedItems
+    , content, middleAlignedContent
+    )
+
+{-|
+
+@docs items
+@docs item, dividedItems
+@docs content, middleAlignedContent
+
+-}
 
 import Css exposing (..)
 import Css.Global exposing (children)
@@ -141,4 +153,56 @@ item =
                 , width (px 175)
                 ]
             ]
+        ]
+
+
+contentBasis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+contentBasis additionalStyles =
+    Html.styled Html.div <|
+        [ -- .ui.items > .item > .content
+          display block
+        , Prefix.flex "1 1 auto"
+        , property "background" "none"
+        , color (rgba 0 0 0 0.87)
+        , margin zero
+        , padding zero
+        , Prefix.boxShadow "none"
+        , fontSize (em 1)
+        , property "border" "none"
+        , borderRadius zero
+
+        -- .ui.items > .item > .content:after
+        , after
+            [ display block
+            , property "content" "''"
+            , height zero
+            , property "clear" "both"
+            , overflow hidden
+            , visibility hidden
+            ]
+
+        -- .ui.items > .item > .image + .content
+        , nthChild "2"
+            [ minWidth zero
+            , width auto
+            , display block
+            , marginLeft zero
+            , Prefix.alignSelf "start"
+            , paddingLeft (em 1.5)
+            ]
+        ]
+            ++ additionalStyles
+
+
+content : List (Attribute msg) -> List (Html msg) -> Html msg
+content =
+    contentBasis []
+
+
+middleAlignedContent : List (Attribute msg) -> List (Html msg) -> Html msg
+middleAlignedContent =
+    contentBasis
+        [ -- .ui.items > .item > .image + [class*="middle aligned"].content
+          nthChild "2"
+            [ Prefix.alignSelf "center" ]
         ]
