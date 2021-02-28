@@ -1550,4 +1550,23 @@ examplesForItem =
                 ]
             ]
         ]
+    , example []
+        [ Header.header [] [ text "Extra Content" ]
+        , p [] [ text "An item can contain extra content meant to be formatted separately from the main content" ]
+        , items []
+            [ Item.item []
+                [ Item.content []
+                    [ Item.header [] [ text "Cute Dog" ]
+                    , Item.description []
+                        [ wireframeShortParagraph
+                        , wireframeShortParagraph
+                        ]
+                    , extra []
+                        [ icon [] "fas fa-check"
+                        , text "121 Votes"
+                        ]
+                    ]
+                ]
+            ]
+        ]
     ]

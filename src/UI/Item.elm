@@ -2,7 +2,7 @@ module UI.Item exposing
     ( items
     , item, dividedItems
     , content, middleAlignedContent
-    , header, meta, description
+    , header, meta, description, extra
     )
 
 {-|
@@ -10,7 +10,7 @@ module UI.Item exposing
 @docs items
 @docs item, dividedItems
 @docs content, middleAlignedContent
-@docs header, meta, description
+@docs header, meta, description, extra
 
 -}
 
@@ -257,4 +257,24 @@ description =
         , fontSize (em 1)
         , lineHeight (em 1.4285)
         , color (rgba 0 0 0 0.87)
+        ]
+
+
+extra : List (Attribute msg) -> List (Html msg) -> Html msg
+extra =
+    Html.styled Html.div
+        [ -- .ui.items > .item .extra
+          display block
+        , position relative
+        , property "background" "none"
+        , margin3 (rem 0.5) zero zero
+        , width (pct 100)
+        , padding3 zero zero zero
+        , top zero
+        , left zero
+        , color (rgba 0 0 0 0.4)
+        , Prefix.boxShadow "none"
+        , property "-webkit-transition" "color 0.1s ease"
+        , property "transition" "color 0.1s ease"
+        , property "border-top" "none"
         ]
