@@ -2,6 +2,7 @@ module UI.Item exposing
     ( items
     , item, dividedItems
     , content, middleAlignedContent
+    , header
     )
 
 {-|
@@ -9,12 +10,14 @@ module UI.Item exposing
 @docs items
 @docs item, dividedItems
 @docs content, middleAlignedContent
+@docs header
 
 -}
 
 import Css exposing (..)
 import Css.Global exposing (children)
 import Css.Prefix as Prefix
+import Css.Typography exposing (fomanticFont)
 import Html.Styled as Html exposing (Attribute, Html)
 import UI.Internal exposing (styledBlock)
 
@@ -205,4 +208,19 @@ middleAlignedContent =
         [ -- .ui.items > .item > .image + [class*="middle aligned"].content
           nthChild "2"
             [ Prefix.alignSelf "center" ]
+        ]
+
+
+header : List (Attribute msg) -> List (Html msg) -> Html msg
+header =
+    Html.styled Html.header
+        [ -- .ui.items > .item > .content > .header
+          display inlineBlock
+        , margin3 (em -0.21425) zero zero
+        , fontFamilies fomanticFont
+        , fontWeight bold
+        , color (rgba 0 0 0 0.85)
+
+        -- .ui.items > .item > .content > .header:not(.ui)
+        , fontSize (em 1.28571429)
         ]
