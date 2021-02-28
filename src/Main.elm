@@ -1387,26 +1387,26 @@ examplesForCard =
         , p [] [ text "A card can contain a header" ]
         , cards [] <|
             List.map
-                (\{ name, type_, description_ } ->
+                (\person ->
                     card []
                         [ Card.content []
-                            [ Header.header [] [ text name ]
-                            , Card.meta [] [ text type_ ]
-                            , Card.description [] [ text description_ ]
+                            [ Header.header [] [ text person.name ]
+                            , Card.meta [] [ text person.type_ ]
+                            , Card.description [] [ text person.description ]
                             ]
                         ]
                 )
                 [ { name = "Elliot Fu"
                   , type_ = "Friend"
-                  , description_ = "Elliot Fu is a film-maker from New York."
+                  , description = "Elliot Fu is a film-maker from New York."
                   }
                 , { name = "Veronika Ossi"
                   , type_ = "Friend"
-                  , description_ = "Veronika Ossi is a set designer living in New York who enjoys kittens, music, and partying."
+                  , description = "Veronika Ossi is a set designer living in New York who enjoys kittens, music, and partying."
                   }
                 , { name = "Jenny Hess"
                   , type_ = "Friend"
-                  , description_ = "Jenny is a student studying Media Management at the New School"
+                  , description = "Jenny is a student studying Media Management at the New School"
                   }
                 ]
         ]
@@ -1464,92 +1464,75 @@ examplesForItem =
     [ example []
         [ Header.header [] [ text "Image" ]
         , p [] [ text "An item can contain an image" ]
-        , dividedItems []
-            [ Item.item []
-                [ image [ src "./static/images/wireframe/image.png" ] [] ]
-            , Item.item []
-                [ image [ src "./static/images/wireframe/image.png" ] [] ]
-            , Item.item []
-                [ image [ src "./static/images/wireframe/image.png" ] [] ]
-            ]
+        , dividedItems [] <|
+            List.repeat 3
+                (Item.item []
+                    [ image [ src "./static/images/wireframe/image.png" ] [] ]
+                )
         ]
     , example []
         [ Header.header [] [ text "Content" ]
         , p [] [ text "An item can contain content" ]
-        , dividedItems []
-            [ Item.item []
-                [ tinyImage [ src "./static/images/wireframe/image.png" ] []
-                , middleAlignedContent [] [ text "Content A" ]
+        , dividedItems [] <|
+            List.map
+                (\{ content } ->
+                    Item.item []
+                        [ tinyImage [ src "./static/images/wireframe/image.png" ] []
+                        , middleAlignedContent [] [ text content ]
+                        ]
+                )
+                [ { content = "Content A" }
+                , { content = "Content B" }
+                , { content = "Content C" }
                 ]
-            , Item.item []
-                [ tinyImage [ src "./static/images/wireframe/image.png" ] []
-                , middleAlignedContent [] [ text "Content B" ]
-                ]
-            , Item.item []
-                [ tinyImage [ src "./static/images/wireframe/image.png" ] []
-                , middleAlignedContent [] [ text "Content C" ]
-                ]
-            ]
         ]
     , example []
         [ Header.header [] [ text "Header" ]
         , p [] [ text "An item can contain a header" ]
-        , items []
-            [ Item.item []
-                [ tinyImage [ src "./static/images/wireframe/image.png" ] []
-                , middleAlignedContent []
-                    [ Item.header [] [ text "12 Years a Slave" ] ]
+        , items [] <|
+            List.map
+                (\{ title } ->
+                    Item.item []
+                        [ tinyImage [ src "./static/images/wireframe/image.png" ] []
+                        , middleAlignedContent [] [ Item.header [] [ text title ] ]
+                        ]
+                )
+                [ { title = "12 Years a Slave" }
+                , { title = "My Neighbor Totoro" }
+                , { title = "Watchmen" }
                 ]
-            , Item.item []
-                [ tinyImage [ src "./static/images/wireframe/image.png" ] []
-                , middleAlignedContent []
-                    [ Item.header [] [ text "My Neighbor Totoro" ] ]
-                ]
-            , Item.item []
-                [ tinyImage [ src "./static/images/wireframe/image.png" ] []
-                , middleAlignedContent []
-                    [ Item.header [] [ text "Watchmen" ] ]
-                ]
-            ]
         ]
     , example []
         [ Header.header [] [ text "Metadata" ]
         , p [] [ text "An item can contain content metadata" ]
-        , items []
-            [ Item.item []
-                [ smallImage [ src "./static/images/wireframe/image.png" ] []
-                , Item.content []
-                    [ Item.header [] [ text "Arrowhead Valley Camp" ]
-                    , Item.meta []
-                        [ span [] [ text "$1200" ]
-                        , span [] [ text "1 Month" ]
+        , items [] <|
+            List.map
+                (\plan ->
+                    Item.item []
+                        [ smallImage [ src "./static/images/wireframe/image.png" ] []
+                        , Item.content []
+                            [ Item.header [] [ text plan.title ]
+                            , Item.meta []
+                                [ span [] [ text plan.price ]
+                                , span [] [ text plan.stay ]
+                                ]
+                            , Item.description [] [ wireframeShortParagraph ]
+                            ]
                         ]
-                    , Item.description [] [ wireframeShortParagraph ]
-                    ]
+                )
+                [ { title = "Arrowhead Valley Camp"
+                  , price = "$1200"
+                  , stay = "1 Month"
+                  }
+                , { title = "Buck's Homebrew Stayaway"
+                  , price = "$1000"
+                  , stay = "2 Weeks"
+                  }
+                , { title = "Astrology Camp"
+                  , price = "$1600"
+                  , stay = "6 Weeks"
+                  }
                 ]
-            , Item.item []
-                [ smallImage [ src "./static/images/wireframe/image.png" ] []
-                , Item.content []
-                    [ Item.header [] [ text "Buck's Homebrew Stayaway" ]
-                    , Item.meta []
-                        [ span [] [ text "$1000" ]
-                        , span [] [ text "2 Weeks" ]
-                        ]
-                    , Item.description [] [ wireframeShortParagraph ]
-                    ]
-                ]
-            , Item.item []
-                [ smallImage [ src "./static/images/wireframe/image.png" ] []
-                , Item.content []
-                    [ Item.header [] [ text "Astrology Camp" ]
-                    , Item.meta []
-                        [ span [] [ text "$1600" ]
-                        , span [] [ text "6 Weeks" ]
-                        ]
-                    , Item.description [] [ wireframeShortParagraph ]
-                    ]
-                ]
-            ]
         ]
     , example []
         [ Header.header [] [ text "Description" ]
