@@ -1462,6 +1462,23 @@ examplesForCard =
 examplesForItem : List (Html msg)
 examplesForItem =
     [ example []
+        [ Header.header [] [ text "Metadata" ]
+        , p [] [ text "An item can contain content metadata" ]
+        , items [] <|
+            List.repeat 2
+                (Item.item []
+                    [ image [ src "./static/images/wireframe/image.png" ] []
+                    , Item.content []
+                        [ Item.header [] [ text "Header" ]
+                        , Item.meta []
+                            [ span [] [ text "Description" ] ]
+                        , Item.description [] [ wireframeShortParagraph ]
+                        , extra [] [ text "Additional Details" ]
+                        ]
+                    ]
+                )
+        ]
+    , example []
         [ Header.header [] [ text "Image" ]
         , p [] [ text "An item can contain an image" ]
         , dividedItems [] <|
