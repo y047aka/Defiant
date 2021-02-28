@@ -2,7 +2,7 @@ module UI.Item exposing
     ( items
     , item, dividedItems
     , content, middleAlignedContent
-    , header
+    , header, meta, description
     )
 
 {-|
@@ -10,12 +10,12 @@ module UI.Item exposing
 @docs items
 @docs item, dividedItems
 @docs content, middleAlignedContent
-@docs header
+@docs header, meta, description
 
 -}
 
 import Css exposing (..)
-import Css.Global exposing (children)
+import Css.Global exposing (children, everything)
 import Css.Prefix as Prefix
 import Css.Typography exposing (fomanticFont)
 import Html.Styled as Html exposing (Attribute, Html)
@@ -223,4 +223,38 @@ header =
 
         -- .ui.items > .item > .content > .header:not(.ui)
         , fontSize (em 1.28571429)
+        ]
+
+
+meta : List (Attribute msg) -> List (Html msg) -> Html msg
+meta =
+    Html.styled Html.div
+        [ -- .ui.items > .item .meta
+          margin3 (em 0.5) zero (em 0.5)
+        , fontSize (em 1)
+        , lineHeight (em 1)
+        , color (rgba 0 0 0 0.6)
+
+        -- .ui.items > .item .meta *
+        , children
+            [ everything
+                [ marginRight (em 0.3)
+
+                -- .ui.items > .item .meta :last-child
+                , lastChild
+                    [ marginRight zero ]
+                ]
+            ]
+        ]
+
+
+description : List (Attribute msg) -> List (Html msg) -> Html msg
+description =
+    Html.styled Html.div
+        [ -- .ui.items > .item > .content > .description
+          marginTop (em 0.6)
+        , property "max-width" "auto"
+        , fontSize (em 1)
+        , lineHeight (em 1.4285)
+        , color (rgba 0 0 0 0.87)
         ]
