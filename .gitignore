@@ -5,4 +5,4 @@ node_modules
 elm-stuff
 
 # elm-live generates index.html
-/index.html
+/elm.js
