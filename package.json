@@ -11,6 +11,7 @@
     "elm-format": "^0.8.5",
     "elm-json": "^0.2.10",
     "elm-live": "^4.0.2",
+    "elm-review": "^2.4.6",
     "google-closure-compiler": "^20210202.0.0"
   }
 }
