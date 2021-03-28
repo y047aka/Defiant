@@ -19,7 +19,6 @@ module UI.Menu exposing
 import Css exposing (..)
 import Css.Extra exposing (when)
 import Css.Layout as Layout exposing (layout)
-import Css.Palette exposing (..)
 import Css.Prefix as Prefix
 import Css.Typography as Typography exposing (init, typography)
 import Html.Styled as Html exposing (Attribute, Html)

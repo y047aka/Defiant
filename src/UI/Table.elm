@@ -13,7 +13,6 @@ module UI.Table exposing
 import Css exposing (..)
 import Css.Global exposing (children, descendants, each)
 import Css.Layout as Layout exposing (layout)
-import Css.Palette exposing (..)
 import Css.Prefix as Prefix
 import Css.Typography as Typography exposing (init, typography)
 import Html.Styled as Html exposing (Attribute, Html)

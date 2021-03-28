@@ -7,7 +7,6 @@ import Css.FontAwesome exposing (fontAwesome)
 import Css.Global exposing (global)
 import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
-import Html
 import Html.Styled exposing (Attribute, Html, a, div, h1, h2, h3, h4, h5, p, span, strong, text, toUnstyled)
 import Html.Styled.Attributes as Attributes exposing (css, href, rel, src, type_)
 import Html.Styled.Events exposing (onClick)
@@ -32,7 +31,7 @@ import UI.Segment exposing (..)
 import UI.Table exposing (..)
 import UI.Text exposing (..)
 import Url exposing (Url)
-import Url.Parser as Parser exposing ((</>), Parser, s)
+import Url.Parser as Parser exposing (Parser, s)
 
 
 

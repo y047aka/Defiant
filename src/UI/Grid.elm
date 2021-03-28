@@ -12,7 +12,6 @@ module UI.Grid exposing
 
 import Css exposing (..)
 import Css.Global exposing (children, everything)
-import Css.Palette exposing (..)
 import Css.Prefix as Prefix
 import Html.Styled as Html exposing (Attribute, Html)
 

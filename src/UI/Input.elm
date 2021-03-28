@@ -2,7 +2,6 @@ module UI.Input exposing (input, label)
 
 import Css exposing (..)
 import Css.Global exposing (adjacentSiblings, children)
-import Css.Palette exposing (..)
 import Css.Prefix as Prefix
 import Css.Typography exposing (fomanticFont)
 import Html.Styled as Html exposing (Attribute, Html)

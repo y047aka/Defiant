@@ -1,7 +1,6 @@
 module UI.Breadcrumb exposing (activeSection, breadcrumb, divider, section)
 
 import Css exposing (..)
-import Css.Color exposing (..)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
