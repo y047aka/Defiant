@@ -1,9 +1,6 @@
 {
   "scripts": {
-    "compile": "elm make src/Main.elm --optimize --output=public/elm.optimized.js",
-    "minify": "google-closure-compiler --js=public/elm.optimized.js --js_output_file=public/elm.js",
-    "postminify": "rm -rf public/elm.optimized.js",
-    "build": "npm run compile && npm run minify",
+    "build": "node ./build.js",
     "start": "elm-live src/Main.elm --pushstate --hot --open -- --output=elm.js"
   },
   "devDependencies": {
@@ -12,6 +9,7 @@
     "elm-json": "^0.2.10",
     "elm-live": "^4.0.2",
     "elm-review": "^2.4.6",
-    "google-closure-compiler": "^20210202.0.0"
+    "esbuild": "^0.11.4",
+    "esbuild-plugin-elm": "0.0.2"
   }
 }
