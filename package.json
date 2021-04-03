@@ -1,7 +1,7 @@
 {
   "scripts": {
     "build": "node ./build.js",
-    "start": "elm-live src/Main.elm --pushstate --hot --open -- --output=elm.js"
+    "start": "elm-live src/Main.elm --pushstate --hot --open -- --debug --output=elm.js"
   },
   "devDependencies": {
     "elm": "^0.19.1-5",
