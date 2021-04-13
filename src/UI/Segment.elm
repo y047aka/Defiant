@@ -83,9 +83,9 @@ basis { border, shadow, inverted } additionalStyles =
             ++ additionalStyles
 
 
-segment : List (Attribute msg) -> List (Html msg) -> Html msg
-segment =
-    basis { border = True, shadow = True, inverted = False } []
+segment : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+segment { inverted } =
+    basis { border = True, shadow = True, inverted = inverted } []
 
 
 verticalSegment : List (Attribute msg) -> List (Html msg) -> Html msg

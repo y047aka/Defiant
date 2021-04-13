@@ -58,6 +58,7 @@ main =
 type alias Model =
     { key : Key
     , page : Page
+    , darkMode : Bool
     , count : Int
     }
 
@@ -92,6 +93,7 @@ init _ url key =
     routing url
         { key = key
         , page = TopPage
+        , darkMode = False
         , count = 0
         }
 
@@ -237,6 +239,7 @@ routing url model =
 type Msg
     = UrlRequested Browser.UrlRequest
     | UrlChanged Url
+    | ToggleDarkMode
     | Increment
     | Decrement
 
@@ -254,6 +257,9 @@ update msg model =
 
         UrlChanged url ->
             routing url model
+
+        ToggleDarkMode ->
+            ( { model | darkMode = not model.darkMode }, Cmd.none )
 
         Increment ->
             ( { model | count = model.count + 1 }, Cmd.none )
@@ -281,6 +287,20 @@ view model =
                                     |> List.indexedMap (breadcrumbItem <| List.length breadcrumbItems)
                                     |> List.intersperse (divider [] [ text "/" ])
                                     |> breadcrumb
+                                ]
+                            ]
+                        , basicSegment []
+                            [ container []
+                                [ checkbox []
+                                    [ input
+                                        [ id "darkmode"
+                                        , type_ "checkbox"
+                                        , Attributes.checked model.darkMode
+                                        , onClick ToggleDarkMode
+                                        ]
+                                        []
+                                    , Checkbox.label [ for "darkmode" ] [ text "Dark mode" ]
+                                    ]
                                 ]
                             ]
                         , basicSegment []
@@ -367,19 +387,19 @@ view model =
             RailPage ->
                 { title = Just "Rail"
                 , breadcrumbItems = [ "Top", "Rail" ]
-                , contents = examplesForRail
+                , contents = examplesForRail model.darkMode
                 }
 
             SegmentPage ->
                 { title = Just "Segment"
                 , breadcrumbItems = [ "Top", "Segment" ]
-                , contents = examplesForSegment
+                , contents = examplesForSegment model.darkMode
                 }
 
             TextPage ->
                 { title = Just "Text"
                 , breadcrumbItems = [ "Top", "Text" ]
-                , contents = examplesForText
+                , contents = examplesForText model.darkMode
                 }
 
             BreadcrumbPage ->
@@ -878,16 +898,17 @@ examplesForPlaceholder =
     ]
 
 
-examplesForRail : List (Html msg)
-examplesForRail =
+examplesForRail : Bool -> List (Html msg)
+examplesForRail darkMode =
     [ example []
         [ Header.header [] [ text "Rail" ]
         , p [] [ text "A rail can be presented on the left or right side of a container" ]
-        , segment [ css [ width (pct 45), left (pct 27.5) ] ]
+        , segment { inverted = darkMode }
+            [ css [ width (pct 45), left (pct 27.5) ] ]
             [ leftRail []
-                [ segment [] [ text "Left Rail Content" ] ]
+                [ segment { inverted = darkMode } [] [ text "Left Rail Content" ] ]
             , rightRail []
-                [ segment [] [ text "Right Rail Content" ] ]
+                [ segment { inverted = darkMode } [] [ text "Right Rail Content" ] ]
             , wireframeParagraph
             , wireframeParagraph
             ]
@@ -895,12 +916,12 @@ examplesForRail =
     ]
 
 
-examplesForSegment : List (Html msg)
-examplesForSegment =
+examplesForSegment : Bool -> List (Html msg)
+examplesForSegment darkMode =
     [ example []
         [ Header.header [] [ text "Segment" ]
         , p [] [ text "A segment of content" ]
-        , segment [] [ wireframeShortParagraph ]
+        , segment { inverted = darkMode } [] [ wireframeShortParagraph ]
         ]
     , example []
         [ Header.header [] [ text "Vertical Segment" ]
@@ -936,12 +957,13 @@ examplesForSegment =
     ]
 
 
-examplesForText : List (Html msg)
-examplesForText =
+examplesForText : Bool -> List (Html msg)
+examplesForText darkMode =
     [ example []
         [ Header.header [] [ text "Text" ]
         , p [] [ text "A text is always used inline and uses one color from the FUI color palette" ]
-        , segment []
+        , segment { inverted = darkMode }
+            []
             [ text "This is "
             , redText { inverted = False } "red"
             , text " inline text and this is "
@@ -959,7 +981,8 @@ examplesForText =
             , purpleText { inverted = True } "purple"
             , text " inline text"
             ]
-        , segment []
+        , segment { inverted = darkMode }
+            []
             [ text "This is "
             , infoText "info"
             , text " inline text and this is "
@@ -985,7 +1008,8 @@ examplesForText =
     , example []
         [ Header.header [] [ text "Size" ]
         , p [] [ text "Text can vary in the same sizes as icons" ]
-        , segment []
+        , segment { inverted = darkMode }
+            []
             [ p [] [ text "Starting with ", miniText "mini", text " text" ]
             , p [] [ text "which turns into ", tinyText "tiny", text " text" ]
             , p [] [ text "changing to ", smallText "small", text " text until it is" ]
