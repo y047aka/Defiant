@@ -7,20 +7,21 @@ import Css.FontAwesome exposing (fontAwesome)
 import Css.Global exposing (global)
 import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
-import Html.Styled exposing (Attribute, Html, a, div, h1, h2, h3, h4, h5, p, span, strong, text, toUnstyled)
-import Html.Styled.Attributes as Attributes exposing (css, href, rel, src, type_)
+import Html.Styled exposing (Attribute, Html, a, div, h1, h2, h3, h4, h5, input, p, span, strong, text, toUnstyled)
+import Html.Styled.Attributes as Attributes exposing (css, for, href, id, rel, src, type_)
 import Html.Styled.Events exposing (onClick)
 import Maybe.Extra
 import UI.Breadcrumb exposing (..)
 import UI.Button exposing (..)
 import UI.Card as Card exposing (..)
+import UI.Checkbox as Checkbox exposing (..)
 import UI.Container exposing (..)
 import UI.Example exposing (..)
 import UI.Grid as Grid exposing (..)
 import UI.Header as Header exposing (..)
 import UI.Icon as Icon exposing (..)
 import UI.Image exposing (..)
-import UI.Input as Input exposing (..)
+import UI.Input as Input
 import UI.Item as Item exposing (..)
 import UI.Label as Label exposing (..)
 import UI.Menu as Menu exposing (..)
@@ -83,6 +84,7 @@ type Page
     | TablePage
     | CardPage
     | ItemPage
+    | CheckboxPage
 
 
 init : () -> Url -> Key -> ( Model, Cmd Msg )
@@ -119,6 +121,7 @@ type Route
     | Table
     | Card
     | Item
+    | Checkbox
 
 
 parser : Parser (Route -> a) a
@@ -144,6 +147,7 @@ parser =
         , Parser.map Table (s "table")
         , Parser.map Card (s "card")
         , Parser.map Item (s "item")
+        , Parser.map Checkbox (s "checkbox")
         ]
 
 
@@ -221,6 +225,9 @@ routing url model =
 
             Just Item ->
                 ItemPage
+
+            Just Checkbox ->
+                CheckboxPage
 
 
 
@@ -417,6 +424,12 @@ view model =
                 , contents = examplesForItem
                 }
 
+            CheckboxPage ->
+                { title = Just "Checkbox"
+                , breadcrumbItems = [ "Top", "Checkbox" ]
+                , contents = examplesForCheckbox
+                }
+
 
 tableOfContents : List (Html msg)
 tableOfContents =
@@ -533,6 +546,11 @@ contents_ =
       , description = "An item view presents large collections of site content for display"
       , category = "Views"
       , url = "/item"
+      }
+    , { label = "Checkbox"
+      , description = "A checkbox allows a user to select a value from a small set of options, often binary"
+      , category = "Modules"
+      , url = "/checkbox"
       }
     ]
 
@@ -771,20 +789,20 @@ examplesForInput =
     [ example []
         [ Header.header [] [ text "Input" ]
         , p [] [ text "A standard input" ]
-        , input []
-            [ Html.Styled.input [ type_ "text", Attributes.placeholder "Search..." ] [] ]
+        , Input.input []
+            [ input [ type_ "text", Attributes.placeholder "Search..." ] [] ]
         ]
     , example []
         [ Header.header [] [ text "Labeled" ]
         , p [] [ text "An input can be formatted with a label" ]
-        , input []
+        , Input.input []
             [ Input.label [] [ text "http://" ]
-            , Html.Styled.input [ type_ "text", Attributes.placeholder "mysite.com" ] []
+            , input [ type_ "text", Attributes.placeholder "mysite.com" ] []
             ]
         ]
     , example []
-        [ input []
-            [ Html.Styled.input [ type_ "text", Attributes.placeholder "Enter weight.." ] []
+        [ Input.input []
+            [ input [ type_ "text", Attributes.placeholder "Enter weight.." ] []
             , Input.label [] [ text "kg" ]
             ]
         ]
@@ -1079,8 +1097,8 @@ examplesForMenu =
             , secondaryMenuItem [] [] [ text "Friends" ]
             , rightMenu []
                 [ secondaryMenuItem [] [] <|
-                    [ input []
-                        [ Html.Styled.input [ type_ "text", Attributes.placeholder "Search..." ] [] ]
+                    [ Input.input []
+                        [ input [ type_ "text", Attributes.placeholder "Search..." ] [] ]
                     ]
                 , secondaryMenuItem [] [] [ text "Logout" ]
                 ]
@@ -1583,6 +1601,19 @@ examplesForItem =
                         ]
                     ]
                 ]
+            ]
+        ]
+    ]
+
+
+examplesForCheckbox : List (Html msg)
+examplesForCheckbox =
+    [ example []
+        [ Header.header [] [ text "Checkbox" ]
+        , p [] [ text "A checkbox allows a user to select a value from a small set of options, often binary" ]
+        , checkbox []
+            [ input [ id "checkbox_example", type_ "checkbox" ] []
+            , Checkbox.label [ for "checkbox_example" ] [ text "Make my profile visible" ]
             ]
         ]
     ]
