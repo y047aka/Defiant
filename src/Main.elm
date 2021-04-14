@@ -965,35 +965,15 @@ examplesForText darkMode =
         , segment { inverted = darkMode }
             []
             [ text "This is "
-            , redText { inverted = False } "red"
+            , redText { inverted = darkMode } "red"
             , text " inline text and this is "
-            , blueText { inverted = False } "blue"
+            , blueText { inverted = darkMode } "blue"
             , text " inline text and this is "
-            , purpleText { inverted = False } "purple"
-            , text " inline text"
-            ]
-        , invertedSegment []
-            [ text "This is "
-            , redText { inverted = True } "red"
-            , text " inline text and this is "
-            , blueText { inverted = True } "blue"
-            , text " inline text and this is "
-            , purpleText { inverted = True } "purple"
+            , purpleText { inverted = darkMode } "purple"
             , text " inline text"
             ]
         , segment { inverted = darkMode }
             []
-            [ text "This is "
-            , infoText "info"
-            , text " inline text and this is "
-            , successText "success"
-            , text " inline text and this is "
-            , warningText "warning"
-            , text " inline text and this is "
-            , errorText "error"
-            , text " inline text"
-            ]
-        , invertedSegment []
             [ text "This is "
             , infoText "info"
             , text " inline text and this is "
