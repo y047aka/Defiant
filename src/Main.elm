@@ -420,7 +420,7 @@ view model =
             MenuPage ->
                 { title = Just "Menu"
                 , breadcrumbItems = [ "Top", "Menu" ]
-                , contents = examplesForMenu
+                , contents = examplesForMenu model
                 }
 
             MessagePage ->
@@ -1094,8 +1094,8 @@ examplesForGrid =
     ]
 
 
-examplesForMenu : List (Html msg)
-examplesForMenu =
+examplesForMenu : Model -> List (Html msg)
+examplesForMenu model =
     [ example []
         [ Header.header [] [ text "Secondary Menu" ]
         , p [] [ text "A menu can adjust its appearance to de-emphasize its contents" ]
@@ -1115,28 +1115,28 @@ examplesForMenu =
     , example []
         [ Header.header [] [ text "Vertical Menu" ]
         , p [] [ text "A vertical menu displays elements vertically.." ]
-        , verticalMenu { inverted = False, additionalStyles = [] } [] <|
-            [ verticalMenuActiveItem []
+        , verticalMenu { inverted = model.darkMode, additionalStyles = [] } [] <|
+            [ verticalMenuActiveItem { inverted = model.darkMode } [] <|
                 [ text "Inbox"
                 , verticalMenuActiveItemLabel [] [ text "1" ]
                 ]
-            , verticalMenuItem { inverted = False, additionalStyles = [] } [] <|
+            , verticalMenuItem { inverted = model.darkMode, additionalStyles = [] } [] <|
                 [ text "Spam"
                 , verticalMenuActiveItemLabel [] [ text "51" ]
                 ]
-            , verticalMenuItem { inverted = False, additionalStyles = [] } [] <|
+            , verticalMenuItem { inverted = model.darkMode, additionalStyles = [] } [] <|
                 [ text "Updates"
                 , verticalMenuActiveItemLabel [] [ text "1" ]
                 ]
-            , verticalMenuItem { inverted = False, additionalStyles = [] } [] [ text "Search mail..." ]
+            , verticalMenuItem { inverted = model.darkMode, additionalStyles = [] } [] [ text "Search mail..." ]
             ]
         ]
     , example []
         [ Header.header [] [ text "Link Item" ]
         , p [] [ text "A menu may contain a link item, or an item formatted as if it is a link." ]
-        , verticalMenu { inverted = False, additionalStyles = [] } [] <|
-            [ verticalMenuLinkItem { inverted = False, additionalStyles = [] } [ href "http://www.google.com", Attributes.target "_blank", rel "noopener" ] [ text "Visit Google" ]
-            , verticalMenuLinkItem { inverted = False, additionalStyles = [] } [] [ text "Javascript Link" ]
+        , verticalMenu { inverted = model.darkMode, additionalStyles = [] } [] <|
+            [ verticalMenuLinkItem { inverted = model.darkMode, additionalStyles = [] } [ href "http://www.google.com", Attributes.target "_blank", rel "noopener" ] [ text "Visit Google" ]
+            , verticalMenuLinkItem { inverted = model.darkMode, additionalStyles = [] } [] [ text "Javascript Link" ]
             ]
         ]
     , example []
@@ -1146,13 +1146,6 @@ examplesForMenu =
             [ linkItem { inverted = True } [] [ text "Home" ]
             , linkItem { inverted = True } [] [ text "Messages" ]
             , linkItem { inverted = True } [] [ text "Friends" ]
-            ]
-        ]
-    , example []
-        [ verticalInvertedMenu []
-            [ verticalMenuLinkItem { inverted = True, additionalStyles = [] } [] [ text "Home" ]
-            , verticalMenuLinkItem { inverted = True, additionalStyles = [] } [] [ text "Messages" ]
-            , verticalMenuLinkItem { inverted = True, additionalStyles = [] } [] [ text "Friends" ]
             ]
         ]
     , example []

@@ -3,7 +3,6 @@ module UI.Menu exposing
     , leftMenu, rightMenu, centerMenu
     , secondaryMenu, secondaryMenuItem, secondaryMenuActiveItem
     , verticalMenu, verticalMenuItem, verticalMenuLinkItem, verticalMenuActiveItem, verticalMenuActiveItemLabel
-    , verticalInvertedMenu, verticalInvertedMenuItem, verticalInvertedMenuLinkItem
     )
 
 {-|
@@ -12,7 +11,6 @@ module UI.Menu exposing
 @docs leftMenu, rightMenu, centerMenu
 @docs secondaryMenu, secondaryMenuItem, secondaryMenuActiveItem
 @docs verticalMenu, verticalMenuItem, verticalMenuLinkItem, verticalMenuActiveItem, verticalMenuActiveItemLabel
-@docs verticalInvertedMenu, verticalInvertedMenuItem, verticalInvertedMenuLinkItem
 
 -}
 
@@ -447,10 +445,10 @@ verticalMenuLinkItem { inverted, additionalStyles } =
         additionalStyles
 
 
-verticalMenuActiveItem : List (Attribute msg) -> List (Html msg) -> Html msg
-verticalMenuActiveItem =
+verticalMenuActiveItem : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+verticalMenuActiveItem { inverted } =
     verticalMenuItem
-        { inverted = False
+        { inverted = inverted
         , additionalStyles =
             [ -- .ui.vertical.menu .active.item
               backgroundColor (rgba 0 0 0 0.05)
@@ -480,18 +478,3 @@ verticalMenuActiveItemLabel =
         , float right
         , textAlign center
         ]
-
-
-verticalInvertedMenu : List (Attribute msg) -> List (Html msg) -> Html msg
-verticalInvertedMenu =
-    verticalMenu { inverted = True, additionalStyles = [] }
-
-
-verticalInvertedMenuItem : List (Attribute msg) -> List (Html msg) -> Html msg
-verticalInvertedMenuItem =
-    verticalMenuItem { inverted = True, additionalStyles = [] }
-
-
-verticalInvertedMenuLinkItem : List (Attribute msg) -> List (Html msg) -> Html msg
-verticalInvertedMenuLinkItem =
-    verticalMenuLinkItem { inverted = True, additionalStyles = [] }
