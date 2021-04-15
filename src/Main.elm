@@ -281,7 +281,8 @@ view model =
                 [ toUnstyled <|
                     div []
                         [ global (normalize ++ additionalReset ++ globalCustomize ++ fontAwesome)
-                        , basicSegment []
+                        , basicSegment { inverted = False }
+                            []
                             [ container []
                                 [ breadcrumbItems
                                     |> List.indexedMap (breadcrumbItem <| List.length breadcrumbItems)
@@ -289,7 +290,8 @@ view model =
                                     |> breadcrumb
                                 ]
                             ]
-                        , basicSegment []
+                        , basicSegment { inverted = False }
+                            []
                             [ container []
                                 [ checkbox []
                                     [ input
@@ -303,7 +305,8 @@ view model =
                                     ]
                                 ]
                             ]
-                        , basicSegment []
+                        , basicSegment { inverted = False }
+                            []
                             [ container [] contents ]
                         ]
                 ]
@@ -926,14 +929,14 @@ examplesForSegment darkMode =
     , example []
         [ Header.header [] [ text "Vertical Segment" ]
         , p [] [ text "A vertical segment formats content to be aligned as part of a vertical group" ]
-        , verticalSegment [] [ wireframeShortParagraph ]
-        , verticalSegment [] [ wireframeShortParagraph ]
-        , verticalSegment [] [ wireframeShortParagraph ]
+        , verticalSegment { inverted = darkMode } [] [ wireframeShortParagraph ]
+        , verticalSegment { inverted = darkMode } [] [ wireframeShortParagraph ]
+        , verticalSegment { inverted = darkMode } [] [ wireframeShortParagraph ]
         ]
     , example []
         [ Header.header [] [ text "Disabled" ]
         , p [] [ text "A segment may show its content is disabled" ]
-        , disabledSegment [] [ wireframeShortParagraph ]
+        , disabledSegment { inverted = darkMode } [] [ wireframeShortParagraph ]
         ]
     , example []
         [ Header.header [] [ text "Inverted" ]
@@ -944,14 +947,15 @@ examplesForSegment darkMode =
     , example []
         [ Header.header [] [ text "Padded" ]
         , p [] [ text "A segment can increase its padding" ]
-        , paddedSegment [] [ wireframeShortParagraph ]
+        , paddedSegment { inverted = darkMode } [] [ wireframeShortParagraph ]
         ]
     , example []
-        [ veryPaddedSegment [] [ wireframeShortParagraph ] ]
+        [ veryPaddedSegment { inverted = darkMode } [] [ wireframeShortParagraph ] ]
     , example []
         [ Header.header [] [ text "Basic" ]
         , p [] [ text "A basic segment has no special formatting\n\n" ]
-        , basicSegment []
+        , basicSegment { inverted = darkMode }
+            []
             [ p [] [ text "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo." ] ]
         ]
     ]

@@ -88,9 +88,9 @@ segment { inverted } =
     basis { border = True, shadow = True, inverted = inverted } []
 
 
-verticalSegment : List (Attribute msg) -> List (Html msg) -> Html msg
-verticalSegment =
-    basis { border = False, shadow = False, inverted = False }
+verticalSegment : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+verticalSegment { inverted } =
+    basis { border = False, shadow = False, inverted = inverted }
         [ -- .ui.vertical.segment
           margin zero
         , paddingLeft zero
@@ -103,37 +103,37 @@ verticalSegment =
         ]
 
 
-disabledSegment : List (Attribute msg) -> List (Html msg) -> Html msg
-disabledSegment =
-    basis { border = True, shadow = True, inverted = False }
+disabledSegment : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+disabledSegment { inverted } =
+    basis { border = True, shadow = True, inverted = inverted }
         [ -- .ui.disabled.segment
           opacity (num 0.45)
         , color (rgba 40 40 40 0.3)
         ]
 
 
-paddedSegment : List (Attribute msg) -> List (Html msg) -> Html msg
-paddedSegment =
-    basis { border = True, shadow = True, inverted = False }
+paddedSegment : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+paddedSegment { inverted } =
+    basis { border = True, shadow = True, inverted = inverted }
         [ -- .ui.padded.segment
           padding (em 1.5)
         ]
 
 
-veryPaddedSegment : List (Attribute msg) -> List (Html msg) -> Html msg
-veryPaddedSegment =
-    basis { border = True, shadow = True, inverted = False }
+veryPaddedSegment : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+veryPaddedSegment { inverted } =
+    basis { border = True, shadow = True, inverted = inverted }
         [ -- .ui[class*="very padded"].segment
           padding (em 3)
         ]
 
 
-basicSegment : List (Attribute msg) -> List (Html msg) -> Html msg
-basicSegment =
+basicSegment : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+basicSegment { inverted } =
     -- .ui.basic.segment
     -- .ui.segments .ui.basic.segment
     -- .ui.basic.segments
-    basis { border = False, shadow = False, inverted = False } []
+    basis { border = False, shadow = False, inverted = inverted } []
 
 
 invertedSegment : List (Attribute msg) -> List (Html msg) -> Html msg
