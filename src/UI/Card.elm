@@ -47,8 +47,15 @@ cards =
         ]
 
 
-cardBasis : { border : Bool, shadow : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-cardBasis { border, shadow } additionalStyles =
+cardBasis : { border : Bool, shadow : Bool, inverted : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+cardBasis { border, shadow, inverted } additionalStyles =
+    let
+        paletteBasis =
+            { background = Just (hex "#FFF")
+            , color = Nothing
+            , border = Nothing
+            }
+    in
     styledBlock
         { tag = Html.div
         , position = Just <| position relative
@@ -56,21 +63,30 @@ cardBasis { border, shadow } additionalStyles =
         , padding = Just <| padding zero
         , borderRadius = Just (rem 0.28571429)
         , palette =
-            { background = Just (hex "#FFF")
-            , color = Nothing
-            , border =
-                if border then
-                    Just (hex "#D4D4D5")
+            case ( border, inverted ) of
+                ( False, False ) ->
+                    paletteBasis
 
-                else
-                    Nothing
-            }
+                ( True, False ) ->
+                    { paletteBasis | border = Just (hex "#D4D4D5") }
+
+                ( False, True ) ->
+                    { paletteBasis | background = Just (hex "#1B1C1D") }
+
+                ( True, True ) ->
+                    { paletteBasis | background = Just (hex "#1B1C1D"), border = Just (hex "#D4D4D5") }
         , boxShadow =
-            if shadow then
-                Just "0 1px 2px 0 #D4D4D5"
+            case ( shadow, inverted ) of
+                ( True, False ) ->
+                    Just "0 1px 2px 0 #D4D4D5"
 
-            else
-                Nothing
+                ( True, True ) ->
+                    -- .ui.inverted.cards > .card
+                    -- .ui.inverted.card
+                    Just "0 1px 3px 0 #555555, 0 0 0 1px #555555"
+
+                ( False, _ ) ->
+                    Nothing
         }
     <|
         [ -- .ui.cards > .card
@@ -132,13 +148,13 @@ cardBasis { border, shadow } additionalStyles =
             ++ additionalStyles
 
 
-card : List (Attribute msg) -> List (Html msg) -> Html msg
-card =
-    cardBasis { border = True, shadow = True } []
+card : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+card { inverted } =
+    cardBasis { border = True, shadow = True, inverted = inverted } []
 
 
-contentBasis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-contentBasis additionalStyles =
+contentBasis : { inverted : Bool, additionalStyles : List Style } -> List (Attribute msg) -> List (Html msg) -> Html msg
+contentBasis { inverted, additionalStyles } =
     Html.styled Html.div <|
         [ -- .ui.cards > .card > .content
           -- .ui.card > .content
@@ -153,6 +169,15 @@ contentBasis additionalStyles =
         , Prefix.boxShadow "none"
         , fontSize (em 1)
         , borderRadius zero
+
+        -- Inverted
+        , if inverted then
+            -- .ui.inverted.cards > .card > .content
+            -- .ui.inverted.card > .content
+            borderTop3 (px 1) solid (rgba 255 255 255 0.15)
+
+          else
+            borderTop3 (px 1) solid (rgba 34 36 38 0.1)
 
         -- .ui.cards > .card > .content:after
         -- .ui.card > .content:after
@@ -206,24 +231,41 @@ contentBasis additionalStyles =
                 , fontSize (em 1.28571429)
                 , marginTop (em -0.21425)
                 , lineHeight (em 1.28571429)
+
+                -- Inverted
+                , if inverted then
+                    -- .ui.inverted.cards > .card > .content > .header
+                    -- .ui.inverted.card > .content > .header
+                    color (rgba 255 255 255 0.9)
+
+                  else
+                    color (rgba 0 0 0 0.85)
                 ]
             ]
         ]
             ++ additionalStyles
 
 
-content : List (Attribute msg) -> List (Html msg) -> Html msg
-content =
-    contentBasis []
+content : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+content { inverted } =
+    contentBasis { inverted = inverted, additionalStyles = [] }
 
 
-meta : List (Attribute msg) -> List (Html msg) -> Html msg
-meta =
+meta : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+meta { inverted } =
     Html.styled Html.div <|
         [ -- .ui.cards > .card .meta
           -- .ui.card .meta
           fontSize (em 1)
-        , color (rgba 0 0 0 0.4)
+
+        -- Inverted
+        , if inverted then
+            -- .ui.inverted.cards > .card .meta
+            -- .ui.inverted.card .meta
+            color (rgba 255 255 255 0.7)
+
+          else
+            color (rgba 0 0 0 0.4)
 
         -- .ui.cards > .card .meta *
         -- .ui.card .meta *
@@ -253,8 +295,8 @@ meta =
         ]
 
 
-description : List (Attribute msg) -> List (Html msg) -> Html msg
-description =
+description : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+description { inverted } =
     Html.styled Html.div <|
         [ -- .ui.cards > .card > .content > .meta + .description
           -- .ui.cards > .card > .content > .header + .description
@@ -265,30 +307,54 @@ description =
         -- .ui.cards > .card > .content > .description
         -- .ui.card > .content > .description
         , property "clear" "both"
-        , color (rgba 0 0 0 0.68)
+
+        -- Inverted
+        , if inverted then
+            -- .ui.inverted.cards > .card > .content > .description,
+            -- .ui.inverted.card > .content > .description {
+            color (rgba 255 255 255 0.8)
+
+          else
+            color (rgba 0 0 0 0.68)
         ]
 
 
-extraContent : List (Attribute msg) -> List (Html msg) -> Html msg
-extraContent =
+extraContent : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+extraContent { inverted } =
     contentBasis
-        [ -- .ui.cards > .card > .extra
-          -- .ui.card > .extra
-          maxWidth (pct 100)
-        , minHeight zero |> important
-        , property "-webkit-box-flex" "0"
-        , property "-ms-flex-positive" "0"
-        , property "flex-grow" "0"
-        , borderTop3 (px 1) solid (rgba 0 0 0 0.05) |> important
-        , position static
-        , property "background" "none"
-        , width auto
-        , margin2 zero zero
-        , padding2 (em 0.75) (em 1)
-        , top zero
-        , left zero
-        , color (rgba 0 0 0 0.4)
-        , Prefix.boxShadow "none"
-        , property "-webkit-transition" "color 0.1s ease"
-        , property "transition" "color 0.1s ease"
-        ]
+        { inverted = inverted
+        , additionalStyles =
+            [ -- .ui.cards > .card > .extra
+              -- .ui.card > .extra
+              maxWidth (pct 100)
+            , minHeight zero |> important
+            , property "-webkit-box-flex" "0"
+            , property "-ms-flex-positive" "0"
+            , property "flex-grow" "0"
+            , position static
+            , property "background" "none"
+            , width auto
+            , margin2 zero zero
+            , padding2 (em 0.75) (em 1)
+            , top zero
+            , left zero
+
+            -- Inverted
+            , if inverted then
+                -- .ui.inverted.cards > .card > .extra
+                -- .ui.inverted.card > .extra
+                batch
+                    [ color (rgba 255 255 255 0.7)
+                    , borderTop3 (px 1) solid (rgba 255 255 255 0.15) |> important
+                    ]
+
+              else
+                batch
+                    [ color (rgba 0 0 0 0.4)
+                    , borderTop3 (px 1) solid (rgba 0 0 0 0.05) |> important
+                    ]
+            , Prefix.boxShadow "none"
+            , property "-webkit-transition" "color 0.1s ease"
+            , property "transition" "color 0.1s ease"
+            ]
+        }

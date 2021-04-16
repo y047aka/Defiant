@@ -330,7 +330,7 @@ view model =
             TopPage ->
                 { title = Nothing
                 , breadcrumbItems = [ "Top" ]
-                , contents = tableOfContents
+                , contents = tableOfContents model.darkMode
                 }
 
             SitePage ->
@@ -438,7 +438,7 @@ view model =
             CardPage ->
                 { title = Just "Card"
                 , breadcrumbItems = [ "Top", "Card" ]
-                , contents = examplesForCard
+                , contents = examplesForCard model.darkMode
                 }
 
             ItemPage ->
@@ -454,17 +454,19 @@ view model =
                 }
 
 
-tableOfContents : List (Html msg)
-tableOfContents =
+tableOfContents : Bool -> List (Html msg)
+tableOfContents darkMode =
     [ cards [] <|
         List.map
             (\{ label, description, category, url } ->
-                card []
+                card { inverted = darkMode }
+                    []
                     [ a [ href url ]
-                        [ Card.content []
+                        [ Card.content { inverted = darkMode }
+                            []
                             [ Header.header [] [ text label ]
-                            , Card.meta [] [ text category ]
-                            , Card.description [] [ text description ]
+                            , Card.meta { inverted = darkMode } [] [ text category ]
+                            , Card.description { inverted = darkMode } [] [ text description ]
                             ]
                         ]
                     ]
@@ -1343,19 +1345,22 @@ examplesForTable =
     ]
 
 
-examplesForCard : List (Html msg)
-examplesForCard =
+examplesForCard : Bool -> List (Html msg)
+examplesForCard darkMode =
     [ example []
         [ Header.header [] [ text "Card" ]
         , p [] [ text "A single card." ]
-        , card []
+        , card { inverted = darkMode }
+            []
             [ image [ src "./static/images/avatar/kristy.png" ] []
-            , Card.content []
+            , Card.content { inverted = darkMode }
+                []
                 [ Header.header [] [ text "Kristy" ]
-                , Card.meta [] [ text "Joined in 2013" ]
-                , Card.description [] [ text "Kristy is an art director living in New York." ]
+                , Card.meta { inverted = darkMode } [] [ text "Joined in 2013" ]
+                , Card.description { inverted = darkMode } [] [ text "Kristy is an art director living in New York." ]
                 ]
-            , extraContent []
+            , extraContent { inverted = darkMode }
+                []
                 [ icon [] "fas fa-user"
                 , text "22 Friends"
                 ]
@@ -1367,14 +1372,17 @@ examplesForCard =
         , cards [] <|
             List.map
                 (\{ name, type_, description_, friends, imageUrl } ->
-                    card []
+                    card { inverted = darkMode }
+                        []
                         [ image [ src imageUrl ] []
-                        , Card.content []
+                        , Card.content { inverted = darkMode }
+                            []
                             [ Header.header [] [ text name ]
-                            , Card.meta [] [ text type_ ]
-                            , Card.description [] [ text description_ ]
+                            , Card.meta { inverted = darkMode } [] [ text type_ ]
+                            , Card.description { inverted = darkMode } [] [ text description_ ]
                             ]
-                        , extraContent []
+                        , extraContent { inverted = darkMode }
+                            []
                             [ icon [] "fas fa-user"
                             , text (String.fromInt friends ++ " Friends")
                             ]
@@ -1406,11 +1414,13 @@ examplesForCard =
         , cards [] <|
             List.map
                 (\person ->
-                    card []
-                        [ Card.content []
+                    card { inverted = darkMode }
+                        []
+                        [ Card.content { inverted = darkMode }
+                            []
                             [ Header.header [] [ text person.name ]
-                            , Card.meta [] [ text person.type_ ]
-                            , Card.description [] [ text person.description ]
+                            , Card.meta { inverted = darkMode } [] [ text person.type_ ]
+                            , Card.description { inverted = darkMode } [] [ text person.description ]
                             ]
                         ]
                 )
@@ -1431,10 +1441,13 @@ examplesForCard =
     , example []
         [ Header.header [] [ text "Metadata" ]
         , p [] [ text "A card can contain content metadata" ]
-        , card []
-            [ Card.content []
+        , card { inverted = darkMode }
+            []
+            [ Card.content { inverted = darkMode }
+                []
                 [ Header.header [] [ text "Cute Dog" ]
-                , Card.meta []
+                , Card.meta { inverted = darkMode }
+                    []
                     [ text "2 days ago "
                     , a [] [ text "Animals" ]
                     ]
@@ -1445,11 +1458,14 @@ examplesForCard =
     , example []
         [ Header.header [] [ text "Description" ]
         , p [] [ text "A card can contain a description with one or more paragraphs" ]
-        , card []
-            [ Card.content []
+        , card { inverted = darkMode }
+            []
+            [ Card.content { inverted = darkMode }
+                []
                 [ Header.header [] [ text "Cute Dog" ]
-                , Card.meta [] [ text "2 days ago " ]
-                , Card.description []
+                , Card.meta { inverted = darkMode } [] [ text "2 days ago " ]
+                , Card.description { inverted = darkMode }
+                    []
                     [ p [] [ text "Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size." ]
                     , p [] [ text "Many people also have their own barometers for what makes a cute dog." ]
                     ]
@@ -1459,16 +1475,20 @@ examplesForCard =
     , example []
         [ Header.header [] [ text "Extra Content" ]
         , p [] [ text "A card can contain extra content meant to be formatted separately from the main content" ]
-        , card []
-            [ Card.content []
+        , card { inverted = darkMode }
+            []
+            [ Card.content { inverted = darkMode }
+                []
                 [ Header.header [] [ text "Cute Dog" ]
-                , Card.meta [] [ text "2 days ago " ]
-                , Card.description []
+                , Card.meta { inverted = darkMode } [] [ text "2 days ago " ]
+                , Card.description { inverted = darkMode }
+                    []
                     [ p [] [ text "Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size." ]
                     , p [] [ text "Many people also have their own barometers for what makes a cute dog." ]
                     ]
                 ]
-            , extraContent []
+            , extraContent { inverted = darkMode }
+                []
                 [ icon [] "fas fa-check"
                 , text "121 Votes"
                 ]
