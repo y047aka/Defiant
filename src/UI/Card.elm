@@ -251,6 +251,30 @@ content { inverted } =
     contentBasis { inverted = inverted, additionalStyles = [] }
 
 
+description : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+description { inverted } =
+    Html.styled Html.div <|
+        [ -- .ui.cards > .card > .content > .meta + .description
+          -- .ui.cards > .card > .content > .header + .description
+          -- .ui.card > .content > .meta + .description
+          -- .ui.card > .content > .header + .description
+          marginTop (em 0.5)
+
+        -- .ui.cards > .card > .content > .description
+        -- .ui.card > .content > .description
+        , property "clear" "both"
+
+        -- Inverted
+        , if inverted then
+            -- .ui.inverted.cards > .card > .content > .description,
+            -- .ui.inverted.card > .content > .description {
+            color (rgba 255 255 255 0.8)
+
+          else
+            color (rgba 0 0 0 0.68)
+        ]
+
+
 meta : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
 meta { inverted } =
     Html.styled Html.div <|
@@ -292,30 +316,6 @@ meta { inverted } =
                     ]
                 ]
             ]
-        ]
-
-
-description : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-description { inverted } =
-    Html.styled Html.div <|
-        [ -- .ui.cards > .card > .content > .meta + .description
-          -- .ui.cards > .card > .content > .header + .description
-          -- .ui.card > .content > .meta + .description
-          -- .ui.card > .content > .header + .description
-          marginTop (em 0.5)
-
-        -- .ui.cards > .card > .content > .description
-        -- .ui.card > .content > .description
-        , property "clear" "both"
-
-        -- Inverted
-        , if inverted then
-            -- .ui.inverted.cards > .card > .content > .description,
-            -- .ui.inverted.card > .content > .description {
-            color (rgba 255 255 255 0.8)
-
-          else
-            color (rgba 0 0 0 0.68)
         ]
 
 
