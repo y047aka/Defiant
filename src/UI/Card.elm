@@ -1,12 +1,12 @@
 module UI.Card exposing
     ( card, cards
-    , content, meta, description, extraContent
+    , content, header, meta, description, extraContent
     )
 
 {-|
 
 @docs card, cards
-@docs content, meta, description, extraContent
+@docs content, header, meta, description, extraContent
 
 -}
 
@@ -215,33 +215,6 @@ contentBasis { inverted, additionalStyles } =
                     [ property "color" "''" ]
                 ]
             ]
-
-        -- .ui.cards > .card > .content > .header
-        -- .ui.card > .content > .header
-        , children
-            [ Css.Global.header
-                [ display block
-                , property "margin" "''"
-                , fontFamilies fomanticFont
-                , color (rgba 0 0 0 0.85)
-
-                -- .ui.cards > .card > .content > .header:not(.ui)
-                -- .ui.card > .content > .header:not(.ui)
-                , fontWeight bold
-                , fontSize (em 1.28571429)
-                , marginTop (em -0.21425)
-                , lineHeight (em 1.28571429)
-
-                -- Inverted
-                , if inverted then
-                    -- .ui.inverted.cards > .card > .content > .header
-                    -- .ui.inverted.card > .content > .header
-                    color (rgba 255 255 255 0.9)
-
-                  else
-                    color (rgba 0 0 0 0.85)
-                ]
-            ]
         ]
             ++ additionalStyles
 
@@ -249,6 +222,33 @@ contentBasis { inverted, additionalStyles } =
 content : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
 content { inverted } =
     contentBasis { inverted = inverted, additionalStyles = [] }
+
+
+header : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+header { inverted } =
+    Html.styled Html.header
+        [ -- .ui.cards > .card > .content > .header
+          -- .ui.card > .content > .header
+          display block
+        , property "margin" "''"
+        , fontFamilies fomanticFont
+
+        -- .ui.cards > .card > .content > .header:not(.ui)
+        -- .ui.card > .content > .header:not(.ui)
+        , fontWeight bold
+        , fontSize (em 1.28571429)
+        , marginTop (em -0.21425)
+        , lineHeight (em 1.28571429)
+
+        -- Inverted
+        , if inverted then
+            -- .ui.inverted.cards > .card > .content > .header
+            -- .ui.inverted.card > .content > .header
+            color (rgba 255 255 255 0.9)
+
+          else
+            color (rgba 0 0 0 0.85)
+        ]
 
 
 description : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg

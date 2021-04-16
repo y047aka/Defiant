@@ -464,7 +464,7 @@ tableOfContents darkMode =
                     [ a [ href url ]
                         [ Card.content { inverted = darkMode }
                             []
-                            [ Header.header [] [ text label ]
+                            [ Card.header { inverted = darkMode } [] [ text label ]
                             , Card.meta { inverted = darkMode } [] [ text category ]
                             , Card.description { inverted = darkMode } [] [ text description ]
                             ]
@@ -1355,7 +1355,7 @@ examplesForCard darkMode =
             [ image [ src "./static/images/avatar/kristy.png" ] []
             , Card.content { inverted = darkMode }
                 []
-                [ Header.header [] [ text "Kristy" ]
+                [ Card.header { inverted = darkMode } [] [ text "Kristy" ]
                 , Card.meta { inverted = darkMode } [] [ text "Joined in 2013" ]
                 , Card.description { inverted = darkMode } [] [ text "Kristy is an art director living in New York." ]
                 ]
@@ -1377,7 +1377,7 @@ examplesForCard darkMode =
                         [ image [ src imageUrl ] []
                         , Card.content { inverted = darkMode }
                             []
-                            [ Header.header [] [ text name ]
+                            [ Card.header { inverted = darkMode } [] [ text name ]
                             , Card.meta { inverted = darkMode } [] [ text type_ ]
                             , Card.description { inverted = darkMode } [] [ text description_ ]
                             ]
@@ -1418,7 +1418,7 @@ examplesForCard darkMode =
                         []
                         [ Card.content { inverted = darkMode }
                             []
-                            [ Header.header [] [ text person.name ]
+                            [ Card.header { inverted = darkMode } [] [ text person.name ]
                             , Card.meta { inverted = darkMode } [] [ text person.type_ ]
                             , Card.description { inverted = darkMode } [] [ text person.description ]
                             ]
@@ -1445,7 +1445,7 @@ examplesForCard darkMode =
             []
             [ Card.content { inverted = darkMode }
                 []
-                [ Header.header [] [ text "Cute Dog" ]
+                [ Card.header { inverted = darkMode } [] [ text "Cute Dog" ]
                 , Card.meta { inverted = darkMode }
                     []
                     [ text "2 days ago "
@@ -1462,7 +1462,7 @@ examplesForCard darkMode =
             []
             [ Card.content { inverted = darkMode }
                 []
-                [ Header.header [] [ text "Cute Dog" ]
+                [ Card.header { inverted = darkMode } [] [ text "Cute Dog" ]
                 , Card.meta { inverted = darkMode } [] [ text "2 days ago " ]
                 , Card.description { inverted = darkMode }
                     []
@@ -1479,7 +1479,7 @@ examplesForCard darkMode =
             []
             [ Card.content { inverted = darkMode }
                 []
-                [ Header.header [] [ text "Cute Dog" ]
+                [ Card.header { inverted = darkMode } [] [ text "Cute Dog" ]
                 , Card.meta { inverted = darkMode } [] [ text "2 days ago " ]
                 , Card.description { inverted = darkMode }
                     []
