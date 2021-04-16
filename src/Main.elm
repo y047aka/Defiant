@@ -11,11 +11,12 @@ import Html.Styled exposing (Attribute, Html, a, div, h1, h2, h3, h4, h5, input,
 import Html.Styled.Attributes as Attributes exposing (css, for, href, id, rel, src, type_)
 import Html.Styled.Events exposing (onClick)
 import Maybe.Extra
-import UI.Breadcrumb exposing (..)
+import UI.Breadcrumb as Breadcrumb exposing (..)
 import UI.Button exposing (..)
 import UI.Card as Card exposing (..)
 import UI.Checkbox as Checkbox exposing (..)
 import UI.Container exposing (..)
+import UI.Divider as Divider
 import UI.Example exposing (..)
 import UI.Grid as Grid exposing (..)
 import UI.Header as Header exposing (..)
@@ -69,6 +70,7 @@ type Page
     | SitePage
     | ButtonPage
     | ContainerPage
+    | DividerPage
     | HeaderPage
     | IconPage
     | ImagePage
@@ -107,6 +109,7 @@ type Route
     | Site
     | Button
     | Container
+    | Divider
     | Header
     | Icon
     | Image
@@ -133,6 +136,7 @@ parser =
         , Parser.map Site (s "site")
         , Parser.map Button (s "button")
         , Parser.map Container (s "container")
+        , Parser.map Divider (s "divider")
         , Parser.map Header (s "header")
         , Parser.map Icon (s "icon")
         , Parser.map Image (s "image")
@@ -179,6 +183,9 @@ routing url model =
 
             Just Container ->
                 ContainerPage
+
+            Just Divider ->
+                DividerPage
 
             Just Header ->
                 HeaderPage
@@ -286,7 +293,7 @@ view model =
                             [ container []
                                 [ breadcrumbItems
                                     |> List.indexedMap (breadcrumbItem <| List.length breadcrumbItems)
-                                    |> List.intersperse (divider [] [ text "/" ])
+                                    |> List.intersperse (Breadcrumb.divider [] [ text "/" ])
                                     |> breadcrumb
                                 ]
                             ]
@@ -349,6 +356,12 @@ view model =
                 { title = Just "Container"
                 , breadcrumbItems = [ "Top", "Container" ]
                 , contents = examplesForContainer
+                }
+
+            DividerPage ->
+                { title = Just "Divider"
+                , breadcrumbItems = [ "Top", "Divider" ]
+                , contents = examplesForDivider
                 }
 
             HeaderPage ->
@@ -491,6 +504,11 @@ contents_ =
       , description = "A container limits content to a maximum width"
       , category = "Elements"
       , url = "/container"
+      }
+    , { label = "Divider"
+      , description = "A divider visually segments content into groups"
+      , category = "Elements"
+      , url = "/divider"
       }
     , { label = "Header"
       , description = "A header provides a short summary of content"
@@ -704,6 +722,18 @@ examplesForContainer =
             , content
             , content
             ]
+        ]
+    ]
+
+
+examplesForDivider : List (Html msg)
+examplesForDivider =
+    [ example []
+        [ Header.header [] [ text "Divider" ]
+        , p [] [ text "A standard divider" ]
+        , wireframeShortParagraph
+        , Divider.divider [] []
+        , wireframeShortParagraph
         ]
     ]
 
@@ -1016,18 +1046,18 @@ examplesForBreadcrumb =
         , p [] [ text "A standard breadcrumb" ]
         , breadcrumb
             [ section [] [ text "Home" ]
-            , divider [] [ text "/" ]
+            , Breadcrumb.divider [] [ text "/" ]
             , section [] [ text "Store" ]
-            , divider [] [ text "/" ]
+            , Breadcrumb.divider [] [ text "/" ]
             , activeSection [] [ text "T-Shirt" ]
             ]
         ]
     , example []
         [ breadcrumb
             [ section [] [ text "Home" ]
-            , divider [] [ icon [] "fas fa-angle-right" ]
+            , Breadcrumb.divider [] [ icon [] "fas fa-angle-right" ]
             , section [] [ text "Store" ]
-            , divider [] [ icon [] "fas fa-angle-right" ]
+            , Breadcrumb.divider [] [ icon [] "fas fa-angle-right" ]
             , activeSection [] [ text "T-Shirt" ]
             ]
         ]
@@ -1036,9 +1066,9 @@ examplesForBreadcrumb =
         , p [] [ text "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text." ]
         , breadcrumb
             [ section [] [ text "Home" ]
-            , divider [] [ text "/" ]
+            , Breadcrumb.divider [] [ text "/" ]
             , section [] [ text "Registration" ]
-            , divider [] [ text "/" ]
+            , Breadcrumb.divider [] [ text "/" ]
             , activeSection [] [ text "Personal Information" ]
             ]
         ]
@@ -1047,7 +1077,7 @@ examplesForBreadcrumb =
         , p [] [ text "A section can be active" ]
         , breadcrumb
             [ section [] [ text "Products" ]
-            , divider [] [ text "/" ]
+            , Breadcrumb.divider [] [ text "/" ]
             , activeSection [] [ text "Paper Towels" ]
             ]
         ]
