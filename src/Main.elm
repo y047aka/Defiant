@@ -7,7 +7,7 @@ import Css.FontAwesome exposing (fontAwesome)
 import Css.Global exposing (global)
 import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
-import Html.Styled exposing (Attribute, Html, a, div, h1, h2, h3, h4, h5, input, p, span, strong, text, toUnstyled)
+import Html.Styled exposing (Attribute, Html, a, br, div, h1, h2, h3, h4, h5, input, p, span, strong, text, toUnstyled)
 import Html.Styled.Attributes as Attributes exposing (css, for, href, id, rel, src, type_)
 import Html.Styled.Events exposing (onClick)
 import Maybe.Extra
@@ -27,6 +27,7 @@ import UI.Item as Item exposing (..)
 import UI.Label as Label exposing (..)
 import UI.Menu as Menu exposing (..)
 import UI.Message exposing (..)
+import UI.Modal as Modal exposing (..)
 import UI.Placeholder exposing (line, placeholder)
 import UI.Rail exposing (..)
 import UI.Segment exposing (..)
@@ -88,6 +89,7 @@ type Page
     | CardPage
     | ItemPage
     | CheckboxPage
+    | ModalPage
 
 
 init : () -> Url -> Key -> ( Model, Cmd Msg )
@@ -127,6 +129,7 @@ type Route
     | Card
     | Item
     | Checkbox
+    | Modal
 
 
 parser : Parser (Route -> a) a
@@ -154,6 +157,7 @@ parser =
         , Parser.map Card (s "card")
         , Parser.map Item (s "item")
         , Parser.map Checkbox (s "checkbox")
+        , Parser.map Modal (s "modal")
         ]
 
 
@@ -237,6 +241,9 @@ routing url model =
 
             Just Checkbox ->
                 CheckboxPage
+
+            Just Modal ->
+                ModalPage
 
 
 
@@ -466,6 +473,12 @@ view model =
                 , contents = examplesForCheckbox
                 }
 
+            ModalPage ->
+                { title = Just "Modal"
+                , breadcrumbItems = [ "Top", "Modal" ]
+                , contents = examplesForModal model.darkMode
+                }
+
 
 tableOfContents : Bool -> List (Html msg)
 tableOfContents darkMode =
@@ -594,6 +607,11 @@ contents_ =
       , description = "A checkbox allows a user to select a value from a small set of options, often binary"
       , category = "Modules"
       , url = "/checkbox"
+      }
+    , { label = "Modal"
+      , description = "A modal displays content that temporarily blocks interactions with the main view of a site"
+      , category = "Modules"
+      , url = "/modal"
       }
     ]
 
@@ -1667,4 +1685,70 @@ examplesForCheckbox =
             , Checkbox.label [ for "checkbox_example" ] [ text "Make my profile visible" ]
             ]
         ]
+    ]
+
+
+examplesForModal : Bool -> List (Html msg)
+examplesForModal darkMode =
+    [ example []
+        [ Header.header [] [ text "Modal" ]
+        , p [] [ text "A standard modal" ]
+        , modal { inverted = darkMode }
+            []
+            [ Modal.header { inverted = darkMode } [] [ text "Select a Photo" ]
+            , Modal.content { inverted = darkMode }
+                []
+                [ Modal.description []
+                    [ p []
+                        [ text "We've found the following "
+                        , a [ href "https://www.gravatar.com", Attributes.target "_blank" ] [ text "gravatar" ]
+                        , text " image associated with your e-mail address."
+                        ]
+                    , p [] [ text "Is it okay to use this photo?" ]
+                    ]
+                ]
+            , Modal.actions { inverted = darkMode }
+                []
+                [ blackButton [] [ text "Nope" ]
+                , greenButton [] [ text "Yep, that's me" ]
+                ]
+            ]
+        ]
+    , br [] []
+    , br [] []
+    , br [] []
+    , br [] []
+    , br [] []
+    , br [] []
+    , br [] []
+    , br [] []
+    , br [] []
+    , br [] []
+    , example []
+        [ Header.header [] [ text "Basic" ]
+        , p [] [ text "A modal can reduce its complexity" ]
+        , basicModal []
+            [ Modal.basicHeader [] [ text "Archive Old Messages" ]
+            , Modal.basicContent []
+                [ Modal.description []
+                    [ p [] [ text "Your inbox is getting full, would you like us to enable automatic archiving of old messages?" ] ]
+                ]
+            , Modal.basicActions []
+                [ redButton [] [ text "No" ]
+                , greenButton [] [ text "Yes" ]
+                ]
+            ]
+        ]
+    , br [] []
+    , br [] []
+    , br [] []
+    , br [] []
+    , br [] []
+    , br [] []
+    , br [] []
+    , br [] []
+    , br [] []
+    , br [] []
+    , br [] []
+    , br [] []
     ]
