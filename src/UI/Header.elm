@@ -2,6 +2,7 @@ module UI.Header exposing
     ( header
     , massiveHeader, hugeHeader, bigHeader, largeHeader, mediumHeader, smallHeader, tinyHeader, miniHeader
     , subHeader
+    , iconHeader, iconHeaderContent
     )
 
 {-|
@@ -9,11 +10,12 @@ module UI.Header exposing
 @docs header
 @docs massiveHeader, hugeHeader, bigHeader, largeHeader, mediumHeader, smallHeader, tinyHeader, miniHeader
 @docs subHeader
+@docs iconHeader, iconHeaderContent
 
 -}
 
 import Css exposing (..)
-import Css.Global exposing (adjacentSiblings, typeSelector)
+import Css.Global exposing (adjacentSiblings, children, typeSelector)
 import Css.Typography as Typography exposing (typography)
 import Html.Styled as Html exposing (Attribute, Html)
 
@@ -132,4 +134,51 @@ subHeader =
         , fontSize (rem 1)
         , lineHeight (em 1.2)
         , color (rgba 0 0 0 0.6)
+        ]
+
+
+iconHeader : List (Attribute msg) -> List (Html msg) -> Html msg
+iconHeader =
+    basis
+        [ -- .ui.icon.header
+          display inlineBlock
+        , textAlign center
+        , margin3 (rem 2) zero (rem 1)
+
+        -- .ui.icon.header:after
+        , after
+            [ property "content" "''"
+            , display block
+            , height zero
+            , property "clear" "both"
+            , visibility hidden
+            ]
+
+        -- .ui.icon.header:first-child
+        , firstChild
+            [ marginTop zero ]
+
+        -- .ui.icon.header > i.icon
+        , children
+            [ Css.Global.i
+                [ property "float" "none"
+                , display block
+                , width auto
+                , height auto
+                , lineHeight (int 1)
+                , padding zero
+                , fontSize (em 3)
+                , margin3 zero auto (rem 0.5)
+                , opacity (int 1)
+                ]
+            ]
+        ]
+
+
+iconHeaderContent : List (Attribute msg) -> List (Html msg) -> Html msg
+iconHeaderContent =
+    Html.styled Html.div
+        [ -- .ui.icon.header .content
+          display block
+        , padding zero
         ]

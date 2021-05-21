@@ -779,6 +779,17 @@ examplesForHeader =
         , wireframeShortParagraph
         ]
     , example []
+        [ Header.header [] [ text "Icon Headers" ]
+        , p [] [ text "A header can be formatted to emphasize an icon" ]
+        , iconHeader []
+            [ icon [] "fas fa-cogs"
+            , iconHeaderContent []
+                [ text "Account Settings"
+                , subHeader [] [ text "Manage your account settings and set e-mail preferences." ]
+                ]
+            ]
+        ]
+    , example []
         [ Header.header [] [ text "Subheader" ]
         , p [] [ text "Headers may contain subheaders" ]
         , Header.header []
