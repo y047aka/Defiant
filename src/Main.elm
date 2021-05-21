@@ -778,6 +778,15 @@ examplesForHeader =
         , miniHeader [] [ text "Mini Header" ]
         , wireframeShortParagraph
         ]
+    , example []
+        [ Header.header [] [ text "Subheader" ]
+        , p [] [ text "Headers may contain subheaders" ]
+        , Header.header []
+            [ text "Account Settings"
+            , subHeader [] [ text "Manage your account settings and set e-mail preferences." ]
+            , wireframeShortParagraph
+            ]
+        ]
     ]
 
 

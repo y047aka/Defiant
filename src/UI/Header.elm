@@ -1,12 +1,14 @@
 module UI.Header exposing
-    ( header, massiveHeader
-    , hugeHeader, bigHeader, largeHeader, mediumHeader, smallHeader, tinyHeader, miniHeader
+    ( header
+    , massiveHeader, hugeHeader, bigHeader, largeHeader, mediumHeader, smallHeader, tinyHeader, miniHeader
+    , subHeader
     )
 
 {-|
 
-@docs header, massiveHeader
-@docs hugeHeader, bigHeader, largeHeader, mediumHeader, smallHeader, tinyHeader, miniHeader
+@docs header
+@docs massiveHeader, hugeHeader, bigHeader, largeHeader, mediumHeader, smallHeader, tinyHeader, miniHeader
+@docs subHeader
 
 -}
 
@@ -116,4 +118,18 @@ massiveHeader =
         [ -- .ui.massive.header
           fontSize (em 2.28571429)
         , minHeight (em 1)
+        ]
+
+
+subHeader : List (Attribute msg) -> List (Html msg) -> Html msg
+subHeader =
+    Html.styled Html.div
+        [ -- .ui.header .sub.header
+          display block
+        , fontWeight normal
+        , padding zero
+        , margin zero
+        , fontSize (rem 1)
+        , lineHeight (em 1.2)
+        , color (rgba 0 0 0 0.6)
         ]
