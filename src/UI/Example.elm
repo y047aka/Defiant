@@ -16,8 +16,10 @@ import Css exposing (..)
 import Css.Global exposing (children)
 import Css.Media as Media exposing (only, screen, withMedia)
 import Css.Prefix as Prefix
-import Html.Styled as Html exposing (Attribute, Html)
+import Html.Styled as Html exposing (Attribute, Html, p, text)
 import Html.Styled.Attributes exposing (src)
+import UI.Card exposing (description)
+import UI.Header as Header
 
 
 article : List (Attribute msg) -> List (Html msg) -> Html msg
@@ -53,8 +55,23 @@ toc =
         ]
 
 
-example : List (Attribute msg) -> List (Html msg) -> Html msg
-example =
+example : { title : String, description : String, contents : List (Html msg) } -> Html msg
+example options =
+    let
+        title =
+            if options.title == "" then
+                text ""
+
+            else
+                Header.header [] [ text options.title ]
+
+        description =
+            if options.description == "" then
+                text ""
+
+            else
+                p [] [ text options.description ]
+    in
     Html.styled Html.div
         [ -- #example .example
           margin2 (em 2) zero
@@ -62,6 +79,8 @@ example =
         , position relative
         , property "-webkit-tap-highlight-color" "transparent"
         ]
+        []
+        (title :: description :: options.contents)
 
 
 exampleContainer : List (Attribute msg) -> List (Html msg) -> Html msg
