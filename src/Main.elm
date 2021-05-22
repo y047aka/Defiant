@@ -7,7 +7,7 @@ import Css.FontAwesome exposing (fontAwesome)
 import Css.Global exposing (global)
 import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
-import Html.Styled exposing (Attribute, Html, a, br, div, h1, h2, h3, h4, h5, input, p, span, strong, text, toUnstyled)
+import Html.Styled exposing (Attribute, Html, a, div, h1, h2, h3, h4, h5, input, p, span, strong, text, toUnstyled)
 import Html.Styled.Attributes as Attributes exposing (css, for, href, id, rel, src, type_)
 import Html.Styled.Events exposing (onClick)
 import Maybe.Extra
@@ -63,8 +63,7 @@ type alias Model =
     , page : Page
     , darkMode : Bool
     , count : Int
-    , isDimmerActive : Bool
-    , isPageDimmerActive : Bool
+    , toggledItems : List String
     }
 
 
@@ -103,8 +102,7 @@ init _ url key =
         , page = TopPage
         , darkMode = False
         , count = 0
-        , isDimmerActive = False
-        , isPageDimmerActive = False
+        , toggledItems = []
         }
 
 
@@ -267,8 +265,7 @@ type Msg
     | ToggleDarkMode
     | Increment
     | Decrement
-    | ToggleDimmer
-    | TogglePageDimmer
+    | Toggle String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -294,11 +291,17 @@ update msg model =
         Decrement ->
             ( { model | count = model.count - 1 }, Cmd.none )
 
-        ToggleDimmer ->
-            ( { model | isDimmerActive = not model.isDimmerActive }, Cmd.none )
+        Toggle newItem ->
+            ( { model
+                | toggledItems =
+                    if List.member newItem model.toggledItems then
+                        List.filter ((/=) newItem) model.toggledItems
 
-        TogglePageDimmer ->
-            ( { model | isPageDimmerActive = not model.isPageDimmerActive }, Cmd.none )
+                    else
+                        newItem :: model.toggledItems
+              }
+            , Cmd.none
+            )
 
 
 
@@ -501,7 +504,7 @@ view model =
             ModalPage ->
                 { title = Just "Modal"
                 , breadcrumbItems = [ "Top", "Modal" ]
-                , contents = examplesForModal model.darkMode
+                , contents = examplesForModal model
                 }
 
 
@@ -1876,8 +1879,8 @@ examplesForCheckbox =
     ]
 
 
-examplesForDimmer : { a | isDimmerActive : Bool, isPageDimmerActive : Bool, darkMode : Bool } -> List (Html Msg)
-examplesForDimmer { isDimmerActive, isPageDimmerActive, darkMode } =
+examplesForDimmer : { a | toggledItems : List String, darkMode : Bool } -> List (Html Msg)
+examplesForDimmer { toggledItems, darkMode } =
     [ example
         { title = "Dimmer"
         , description = "A simple dimmer displays no content"
@@ -1888,9 +1891,9 @@ examplesForDimmer { isDimmerActive, isPageDimmerActive, darkMode } =
                 , div [] <|
                     List.repeat 1 (smallImage [ src "./static/images/wireframe/image.png" ] [])
                 , wireframeMediaParagraph
-                , dimmer isDimmerActive [ onClick ToggleDimmer ] []
+                , dimmer (List.member "dimmer" toggledItems) [ onClick (Toggle "dimmer") ] []
                 ]
-            , button [ onClick ToggleDimmer ] [ icon [] "fas fa-plus", text "Toggle" ]
+            , button [ onClick (Toggle "dimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
             ]
         }
     , example
@@ -1903,8 +1906,8 @@ examplesForDimmer { isDimmerActive, isPageDimmerActive, darkMode } =
                 , div [] <|
                     List.repeat 1 (smallImage [ src "./static/images/wireframe/image.png" ] [])
                 , wireframeMediaParagraph
-                , dimmer isDimmerActive
-                    [ onClick ToggleDimmer ]
+                , dimmer (List.member "contentDimmer" toggledItems)
+                    [ onClick (Toggle "contentDimmer") ]
                     [ Dimmer.content []
                         [ iconHeader { inverted = True }
                             []
@@ -1912,16 +1915,16 @@ examplesForDimmer { isDimmerActive, isPageDimmerActive, darkMode } =
                         ]
                     ]
                 ]
-            , button [ onClick ToggleDimmer ] [ icon [] "fas fa-plus", text "Toggle" ]
+            , button [ onClick (Toggle "contentDimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
             ]
         }
     , example
         { title = "Page Dimmer"
         , description = "A dimmer can be formatted to be fixed to the page"
         , contents =
-            [ button [ onClick TogglePageDimmer ] [ icon [] "fas fa-plus", text "Show" ]
-            , pageDimmer isPageDimmerActive
-                [ onClick TogglePageDimmer ]
+            [ button [ onClick (Toggle "pageDimmer") ] [ icon [] "fas fa-plus", text "Show" ]
+            , pageDimmer (List.member "pageDimmer" toggledItems)
+                [ onClick (Toggle "pageDimmer") ]
                 [ iconHeader { inverted = True }
                     []
                     [ icon [] "fas fa-envelope"
@@ -1936,71 +1939,57 @@ examplesForDimmer { isDimmerActive, isPageDimmerActive, darkMode } =
     ]
 
 
-examplesForModal : Bool -> List (Html msg)
-examplesForModal darkMode =
+examplesForModal : { a | toggledItems : List String, darkMode : Bool } -> List (Html Msg)
+examplesForModal { toggledItems, darkMode } =
     [ example
         { title = "Modal"
         , description = "A standard modal"
         , contents =
-            [ modal { inverted = darkMode }
-                []
-                [ Modal.header { inverted = darkMode } [] [ text "Select a Photo" ]
-                , Modal.content { inverted = darkMode }
+            [ button [ onClick (Toggle "modal") ] [ icon [] "fas fa-plus", text "Show" ]
+            , pageDimmer (List.member "modal" toggledItems)
+                [ onClick (Toggle "modal") ]
+                [ modal { inverted = darkMode }
                     []
-                    [ Modal.description []
-                        [ p []
-                            [ text "We've found the following "
-                            , a [ href "https://www.gravatar.com", Attributes.target "_blank" ] [ text "gravatar" ]
-                            , text " image associated with your e-mail address."
+                    [ Modal.header { inverted = darkMode } [] [ text "Select a Photo" ]
+                    , Modal.content { inverted = darkMode }
+                        []
+                        [ Modal.description []
+                            [ p []
+                                [ text "We've found the following "
+                                , a [ href "https://www.gravatar.com", Attributes.target "_blank" ] [ text "gravatar" ]
+                                , text " image associated with your e-mail address."
+                                ]
+                            , p [] [ text "Is it okay to use this photo?" ]
                             ]
-                        , p [] [ text "Is it okay to use this photo?" ]
                         ]
-                    ]
-                , Modal.actions { inverted = darkMode }
-                    []
-                    [ blackButton [] [ text "Nope" ]
-                    , greenButton [] [ text "Yep, that's me" ]
+                    , Modal.actions { inverted = darkMode }
+                        []
+                        [ blackButton [] [ text "Nope" ]
+                        , greenButton [] [ text "Yep, that's me" ]
+                        ]
                     ]
                 ]
             ]
         }
-    , br [] []
-    , br [] []
-    , br [] []
-    , br [] []
-    , br [] []
-    , br [] []
-    , br [] []
-    , br [] []
-    , br [] []
-    , br [] []
     , example
         { title = "Basic"
         , description = "A modal can reduce its complexity"
         , contents =
-            [ basicModal []
-                [ Modal.basicHeader [] [ text "Archive Old Messages" ]
-                , Modal.basicContent []
-                    [ Modal.description []
-                        [ p [] [ text "Your inbox is getting full, would you like us to enable automatic archiving of old messages?" ] ]
-                    ]
-                , Modal.basicActions []
-                    [ redButton [] [ text "No" ]
-                    , greenButton [] [ text "Yes" ]
+            [ button [ onClick (Toggle "basicModal") ] [ icon [] "fas fa-plus", text "Show" ]
+            , pageDimmer (List.member "basicModal" toggledItems)
+                [ onClick (Toggle "basicModal") ]
+                [ basicModal []
+                    [ Modal.basicHeader [] [ text "Archive Old Messages" ]
+                    , Modal.basicContent []
+                        [ Modal.description []
+                            [ p [] [ text "Your inbox is getting full, would you like us to enable automatic archiving of old messages?" ] ]
+                        ]
+                    , Modal.basicActions []
+                        [ redButton [] [ text "No" ]
+                        , greenButton [] [ text "Yes" ]
+                        ]
                     ]
                 ]
             ]
         }
-    , br [] []
-    , br [] []
-    , br [] []
-    , br [] []
-    , br [] []
-    , br [] []
-    , br [] []
-    , br [] []
-    , br [] []
-    , br [] []
-    , br [] []
-    , br [] []
     ]
