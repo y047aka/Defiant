@@ -16,6 +16,7 @@ import UI.Button exposing (..)
 import UI.Card as Card exposing (..)
 import UI.Checkbox as Checkbox exposing (..)
 import UI.Container exposing (..)
+import UI.Dimmer as Dimmer exposing (..)
 import UI.Divider as Divider
 import UI.Example exposing (..)
 import UI.Grid as Grid exposing (..)
@@ -62,6 +63,8 @@ type alias Model =
     , page : Page
     , darkMode : Bool
     , count : Int
+    , isDimmerActive : Bool
+    , isPageDimmerActive : Bool
     }
 
 
@@ -89,6 +92,7 @@ type Page
     | CardPage
     | ItemPage
     | CheckboxPage
+    | DimmerPage
     | ModalPage
 
 
@@ -99,6 +103,8 @@ init _ url key =
         , page = TopPage
         , darkMode = False
         , count = 0
+        , isDimmerActive = False
+        , isPageDimmerActive = False
         }
 
 
@@ -129,6 +135,7 @@ type Route
     | Card
     | Item
     | Checkbox
+    | Dimmer
     | Modal
 
 
@@ -157,6 +164,7 @@ parser =
         , Parser.map Card (s "card")
         , Parser.map Item (s "item")
         , Parser.map Checkbox (s "checkbox")
+        , Parser.map Dimmer (s "dimmer")
         , Parser.map Modal (s "modal")
         ]
 
@@ -242,6 +250,9 @@ routing url model =
             Just Checkbox ->
                 CheckboxPage
 
+            Just Dimmer ->
+                DimmerPage
+
             Just Modal ->
                 ModalPage
 
@@ -256,6 +267,8 @@ type Msg
     | ToggleDarkMode
     | Increment
     | Decrement
+    | ToggleDimmer
+    | TogglePageDimmer
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -280,6 +293,12 @@ update msg model =
 
         Decrement ->
             ( { model | count = model.count - 1 }, Cmd.none )
+
+        ToggleDimmer ->
+            ( { model | isDimmerActive = not model.isDimmerActive }, Cmd.none )
+
+        TogglePageDimmer ->
+            ( { model | isPageDimmerActive = not model.isPageDimmerActive }, Cmd.none )
 
 
 
@@ -473,6 +492,12 @@ view model =
                 , contents = examplesForCheckbox
                 }
 
+            DimmerPage ->
+                { title = Just "Dimmer"
+                , breadcrumbItems = [ "Top", "Dimmer" ]
+                , contents = examplesForDimmer model
+                }
+
             ModalPage ->
                 { title = Just "Modal"
                 , breadcrumbItems = [ "Top", "Modal" ]
@@ -607,6 +632,11 @@ contents_ =
       , description = "A checkbox allows a user to select a value from a small set of options, often binary"
       , category = "Modules"
       , url = "/checkbox"
+      }
+    , { label = "Dimmer"
+      , description = "A dimmer hides distractions to focus attention on particular content"
+      , category = "Modules"
+      , url = "/dimmer"
       }
     , { label = "Modal"
       , description = "A modal displays content that temporarily blocks interactions with the main view of a site"
@@ -1840,6 +1870,66 @@ examplesForCheckbox =
             [ checkbox []
                 [ input [ id "checkbox_example", type_ "checkbox" ] []
                 , Checkbox.label [ for "checkbox_example" ] [ text "Make my profile visible" ]
+                ]
+            ]
+        }
+    ]
+
+
+examplesForDimmer : { a | isDimmerActive : Bool, isPageDimmerActive : Bool, darkMode : Bool } -> List (Html Msg)
+examplesForDimmer { isDimmerActive, isPageDimmerActive, darkMode } =
+    [ example
+        { title = "Dimmer"
+        , description = "A simple dimmer displays no content"
+        , contents =
+            [ segment { inverted = darkMode }
+                []
+                [ Header.header { inverted = darkMode } [] [ text "Overlayable Section" ]
+                , div [] <|
+                    List.repeat 1 (smallImage [ src "./static/images/wireframe/image.png" ] [])
+                , wireframeMediaParagraph
+                , dimmer isDimmerActive [ onClick ToggleDimmer ] []
+                ]
+            , button [ onClick ToggleDimmer ] [ icon [] "fas fa-plus", text "Toggle" ]
+            ]
+        }
+    , example
+        { title = "Content Dimmer"
+        , description = "A dimmer can display content"
+        , contents =
+            [ segment { inverted = darkMode }
+                []
+                [ Header.header { inverted = darkMode } [] [ text "Overlayable Section" ]
+                , div [] <|
+                    List.repeat 1 (smallImage [ src "./static/images/wireframe/image.png" ] [])
+                , wireframeMediaParagraph
+                , dimmer isDimmerActive
+                    [ onClick ToggleDimmer ]
+                    [ Dimmer.content []
+                        [ iconHeader { inverted = True }
+                            []
+                            [ icon [] "fas fa-heart", text "Dimmed Message!" ]
+                        ]
+                    ]
+                ]
+            , button [ onClick ToggleDimmer ] [ icon [] "fas fa-plus", text "Toggle" ]
+            ]
+        }
+    , example
+        { title = "Page Dimmer"
+        , description = "A dimmer can be formatted to be fixed to the page"
+        , contents =
+            [ button [ onClick TogglePageDimmer ] [ icon [] "fas fa-plus", text "Show" ]
+            , pageDimmer isPageDimmerActive
+                [ onClick TogglePageDimmer ]
+                [ iconHeader { inverted = True }
+                    []
+                    [ icon [] "fas fa-envelope"
+                    , text "Dimmer Message"
+                    , subHeader { inverted = True }
+                        []
+                        [ text "Dimmer sub-header" ]
+                    ]
                 ]
             ]
         }

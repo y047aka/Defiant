@@ -1,14 +1,14 @@
 module UI.Example exposing
     ( toc, article
     , example, exampleContainer
-    , wireframeParagraph, wireframeShortParagraph
+    , wireframeParagraph, wireframeShortParagraph, wireframeMediaParagraph
     )
 
 {-|
 
 @docs toc, article
 @docs example, exampleContainer
-@docs wireframeParagraph, wireframeShortParagraph
+@docs wireframeParagraph, wireframeShortParagraph, wireframeMediaParagraph
 
 -}
 
@@ -169,3 +169,8 @@ wireframeParagraph =
 wireframeShortParagraph : Html msg
 wireframeShortParagraph =
     imageBasis [ src "./static/images/wireframe/short-paragraph.png" ] []
+
+
+wireframeMediaParagraph : Html msg
+wireframeMediaParagraph =
+    imageBasis [ src "./static/images/wireframe/media-paragraph.png" ] []

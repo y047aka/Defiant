@@ -1,4 +1,4 @@
-module Css.Prefix exposing (alignItems, alignSelf, animationDelay, appearance, backfaceVisibility, boxShadow, boxSizing, displayFlex, displayInlineFlex, flex, flexDirection, flexWrap, userSelect)
+module Css.Prefix exposing (alignItems, alignSelf, animationDelay, animationDuration, animationFillMode, appearance, backfaceVisibility, boxShadow, boxSizing, displayFlex, displayInlineFlex, flex, flexDirection, flexWrap, userSelect)
 
 import Css exposing (Style, batch, display, inlineFlex, property)
 import Css.Extra
@@ -31,6 +31,18 @@ animationDelay : String -> Style
 animationDelay value =
     batch <|
         prefixedProperties [ "-webkit-", "" ] "animation-delay" value
+
+
+animationDuration : String -> Style
+animationDuration value =
+    batch <|
+        prefixedProperties [ "-webkit-", "" ] "animation-duration" value
+
+
+animationFillMode : String -> Style
+animationFillMode value =
+    batch <|
+        prefixedProperties [ "-webkit-", "" ] "animation-fill-mode" value
 
 
 appearance : String -> Style
