@@ -63,7 +63,7 @@ example options =
                 text ""
 
             else
-                Header.header [] [ text options.title ]
+                Header.header { inverted = False } [] [ text options.title ]
 
         description =
             if options.description == "" then

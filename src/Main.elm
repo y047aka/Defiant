@@ -374,7 +374,7 @@ view model =
             HeaderPage ->
                 { title = Just "Header"
                 , breadcrumbItems = [ "Top", "Header" ]
-                , contents = examplesForHeader
+                , contents = examplesForHeader model.darkMode
                 }
 
             IconPage ->
@@ -446,7 +446,7 @@ view model =
             MessagePage ->
                 { title = Just "Message"
                 , breadcrumbItems = [ "Top", "Message" ]
-                , contents = examplesForMessage
+                , contents = examplesForMessage model.darkMode
                 }
 
             TablePage ->
@@ -781,27 +781,27 @@ examplesForDivider =
     ]
 
 
-examplesForHeader : List (Html msg)
-examplesForHeader =
+examplesForHeader : Bool -> List (Html msg)
+examplesForHeader darkMode =
     [ example
         { title = "Content Headers"
         , description = "Headers may be oriented to give the importance of a section in the context of the content that surrounds it"
         , contents =
-            [ massiveHeader [] [ text "Massive Header" ]
+            [ massiveHeader { inverted = darkMode } [] [ text "Massive Header" ]
             , wireframeShortParagraph
-            , hugeHeader [] [ text "Huge Header" ]
+            , hugeHeader { inverted = darkMode } [] [ text "Huge Header" ]
             , wireframeShortParagraph
-            , bigHeader [] [ text "Big Header" ]
+            , bigHeader { inverted = darkMode } [] [ text "Big Header" ]
             , wireframeShortParagraph
-            , largeHeader [] [ text "Large Header" ]
+            , largeHeader { inverted = darkMode } [] [ text "Large Header" ]
             , wireframeShortParagraph
-            , mediumHeader [] [ text "Medium Header" ]
+            , mediumHeader { inverted = darkMode } [] [ text "Medium Header" ]
             , wireframeShortParagraph
-            , smallHeader [] [ text "Small Header" ]
+            , smallHeader { inverted = darkMode } [] [ text "Small Header" ]
             , wireframeShortParagraph
-            , tinyHeader [] [ text "Tiny Header" ]
+            , tinyHeader { inverted = darkMode } [] [ text "Tiny Header" ]
             , wireframeShortParagraph
-            , miniHeader [] [ text "Mini Header" ]
+            , miniHeader { inverted = darkMode } [] [ text "Mini Header" ]
             , wireframeShortParagraph
             ]
         }
@@ -809,11 +809,12 @@ examplesForHeader =
         { title = "Icon Headers"
         , description = "A header can be formatted to emphasize an icon"
         , contents =
-            [ iconHeader []
+            [ iconHeader { inverted = darkMode }
+                []
                 [ icon [] "fas fa-cogs"
                 , iconHeaderContent []
                     [ text "Account Settings"
-                    , subHeader [] [ text "Manage your account settings and set e-mail preferences." ]
+                    , subHeader { inverted = darkMode } [] [ text "Manage your account settings and set e-mail preferences." ]
                     ]
                 ]
             ]
@@ -822,9 +823,10 @@ examplesForHeader =
         { title = "Subheader"
         , description = "Headers may contain subheaders"
         , contents =
-            [ Header.header []
+            [ Header.header { inverted = darkMode }
+                []
                 [ text "Account Settings"
-                , subHeader [] [ text "Manage your account settings and set e-mail preferences." ]
+                , subHeader { inverted = darkMode } [] [ text "Manage your account settings and set e-mail preferences." ]
                 , wireframeShortParagraph
                 ]
             ]
@@ -1324,15 +1326,15 @@ examplesForMenu model =
     ]
 
 
-examplesForMessage : List (Html msg)
-examplesForMessage =
+examplesForMessage : Bool -> List (Html msg)
+examplesForMessage darkMode =
     [ example
         { title = "Message"
         , description = "A basic message"
         , contents =
             [ message []
                 [ div []
-                    [ Header.header [] [ text "Changes in Service" ]
+                    [ Header.header { inverted = darkMode } [] [ text "Changes in Service" ]
                     , p [] [ text "We just updated our privacy policy here to better service our customers. We recommend reviewing the changes." ]
                     ]
                 ]
@@ -1345,7 +1347,7 @@ examplesForMessage =
             [ message []
                 [ icon [] "fas fa-inbox"
                 , div []
-                    [ Header.header [] [ text "Have you heard about our mailing list?" ]
+                    [ Header.header { inverted = darkMode } [] [ text "Have you heard about our mailing list?" ]
                     , p [] [ text "Get the best news in your e-mail every day." ]
                     ]
                 ]

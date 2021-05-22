@@ -20,8 +20,8 @@ import Css.Typography as Typography exposing (typography)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
-basis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-basis additionalStyles =
+basis : { inverted : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+basis { inverted } additionalStyles =
     let
         headingTypography =
             Typography.heading
@@ -36,7 +36,12 @@ basis additionalStyles =
                 | fontSize = ""
                 , textTransform = Typography.none
             }
-        , color (rgba 0 0 0 0.87)
+        , if inverted then
+            -- .ui.inverted.header
+            color (hex "#FFFFFF")
+
+          else
+            color (rgba 0 0 0 0.87)
 
         -- .ui.header:first-child
         , firstChild
@@ -55,76 +60,76 @@ basis additionalStyles =
             ++ additionalStyles
 
 
-header : List (Attribute msg) -> List (Html msg) -> Html msg
-header =
-    basis []
+header : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+header { inverted } =
+    basis { inverted = inverted } []
 
 
-miniHeader : List (Attribute msg) -> List (Html msg) -> Html msg
-miniHeader =
-    basis
+miniHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+miniHeader { inverted } =
+    basis { inverted = inverted }
         [ -- .ui.mini.header
           fontSize (em 0.85714286)
         ]
 
 
-tinyHeader : List (Attribute msg) -> List (Html msg) -> Html msg
-tinyHeader =
-    basis
+tinyHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+tinyHeader { inverted } =
+    basis { inverted = inverted }
         [ -- .ui.tiny.header
           fontSize (em 1)
         ]
 
 
-smallHeader : List (Attribute msg) -> List (Html msg) -> Html msg
-smallHeader =
-    basis
+smallHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+smallHeader { inverted } =
+    basis { inverted = inverted }
         [ -- .ui.small.header
           fontSize (em 1.07142857)
         ]
 
 
-mediumHeader : List (Attribute msg) -> List (Html msg) -> Html msg
-mediumHeader =
-    basis []
+mediumHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+mediumHeader { inverted } =
+    basis { inverted = inverted } []
 
 
-largeHeader : List (Attribute msg) -> List (Html msg) -> Html msg
-largeHeader =
-    basis
+largeHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+largeHeader { inverted } =
+    basis { inverted = inverted }
         [ -- .ui.large.header
           fontSize (em 1.71428571)
         ]
 
 
-bigHeader : List (Attribute msg) -> List (Html msg) -> Html msg
-bigHeader =
-    basis
+bigHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+bigHeader { inverted } =
+    basis { inverted = inverted }
         [ -- .ui.big.header
           fontSize (em 1.85714286)
         ]
 
 
-hugeHeader : List (Attribute msg) -> List (Html msg) -> Html msg
-hugeHeader =
-    basis
+hugeHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+hugeHeader { inverted } =
+    basis { inverted = inverted }
         [ -- .ui.huge.header
           fontSize (em 2)
         , minHeight (em 1)
         ]
 
 
-massiveHeader : List (Attribute msg) -> List (Html msg) -> Html msg
-massiveHeader =
-    basis
+massiveHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+massiveHeader { inverted } =
+    basis { inverted = inverted }
         [ -- .ui.massive.header
           fontSize (em 2.28571429)
         , minHeight (em 1)
         ]
 
 
-subHeader : List (Attribute msg) -> List (Html msg) -> Html msg
-subHeader =
+subHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+subHeader { inverted } =
     Html.styled Html.div
         [ -- .ui.header .sub.header
           display block
@@ -133,13 +138,18 @@ subHeader =
         , margin zero
         , fontSize (rem 1)
         , lineHeight (em 1.2)
-        , color (rgba 0 0 0 0.6)
+        , if inverted then
+            -- .ui.inverted.header .sub.header
+            color (rgba 255 255 255 0.8)
+
+          else
+            color (rgba 0 0 0 0.6)
         ]
 
 
-iconHeader : List (Attribute msg) -> List (Html msg) -> Html msg
-iconHeader =
-    basis
+iconHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+iconHeader { inverted } =
+    basis { inverted = inverted }
         [ -- .ui.icon.header
           display inlineBlock
         , textAlign center
