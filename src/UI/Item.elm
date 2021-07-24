@@ -18,7 +18,7 @@ import Css exposing (..)
 import Css.Global exposing (children, everything)
 import Css.Prefix as Prefix
 import Css.Typography exposing (fomanticFont)
-import Html.Styled as Html exposing (Attribute, Html)
+import Html.Styled as Html exposing (Attribute, Html, text)
 import UI.Internal exposing (styledBlock)
 
 
@@ -197,9 +197,32 @@ contentBasis additionalStyles =
             ++ additionalStyles
 
 
-content : List (Attribute msg) -> List (Html msg) -> Html msg
-content =
+content :
+    List (Attribute msg)
+    ->
+        { header : List (Html msg)
+        , meta : List (Html msg)
+        , description : List (Html msg)
+        , extra : List (Html msg)
+        }
+    -> Html msg
+content attributes hmde =
+    let
+        has list f =
+            case list of
+                [] ->
+                    text ""
+
+                nonEmpty ->
+                    f nonEmpty
+    in
     contentBasis []
+        attributes
+        [ has hmde.header (header [])
+        , has hmde.meta (meta [])
+        , has hmde.description (description [])
+        , has hmde.extra (extra [])
+        ]
 
 
 middleAlignedContent : List (Attribute msg) -> List (Html msg) -> Html msg

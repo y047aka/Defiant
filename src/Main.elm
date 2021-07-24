@@ -1546,12 +1546,11 @@ examplesForItem =
                     (Item.item []
                         [ image [ src "./static/images/wireframe/image.png" ] []
                         , Item.content []
-                            [ Item.header [] [ text "Header" ]
-                            , Item.meta []
-                                [ span [] [ text "Description" ] ]
-                            , Item.description [] [ wireframeShortParagraph ]
-                            , extra [] [ text "Additional Details" ]
-                            ]
+                            { header = [ text "Header" ]
+                            , meta = [ span [] [ text "Description" ] ]
+                            , description = [ wireframeShortParagraph ]
+                            , extra = [ text "Additional Details" ]
+                            }
                         ]
                     )
             ]
@@ -1613,13 +1612,14 @@ examplesForItem =
                         Item.item []
                             [ smallImage [ src "./static/images/wireframe/image.png" ] []
                             , Item.content []
-                                [ Item.header [] [ text plan.title ]
-                                , Item.meta []
+                                { header = [ text plan.title ]
+                                , meta =
                                     [ span [] [ text plan.price ]
                                     , span [] [ text plan.stay ]
                                     ]
-                                , Item.description [] [ wireframeShortParagraph ]
-                                ]
+                                , description = [ wireframeShortParagraph ]
+                                , extra = []
+                                }
                             ]
                     )
                     [ { title = "Arrowhead Valley Camp"
@@ -1645,12 +1645,14 @@ examplesForItem =
                 [ Item.item []
                     [ smallImage [ src "./static/images/wireframe/image.png" ] []
                     , Item.content []
-                        [ Item.header [] [ text "Cute Dog" ]
-                        , Item.description []
+                        { header = [ text "Cute Dog" ]
+                        , meta = []
+                        , description =
                             [ p [] [ text "Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size." ]
                             , p [] [ text "Many people also have their own barometers for what makes a cute dog." ]
                             ]
-                        ]
+                        , extra = []
+                        }
                     ]
                 ]
             ]
@@ -1662,16 +1664,17 @@ examplesForItem =
             [ items []
                 [ Item.item []
                     [ Item.content []
-                        [ Item.header [] [ text "Cute Dog" ]
-                        , Item.description []
+                        { header = [ text "Cute Dog" ]
+                        , meta = []
+                        , description =
                             [ wireframeShortParagraph
                             , wireframeShortParagraph
                             ]
-                        , extra []
+                        , extra =
                             [ icon [] "fas fa-check"
                             , text "121 Votes"
                             ]
-                        ]
+                        }
                     ]
                 ]
             ]
