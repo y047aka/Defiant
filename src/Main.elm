@@ -508,142 +508,177 @@ view model =
                 }
 
 
+type Category
+    = Globals
+    | Elements
+    | Collections
+    | Views
+    | Modules
+
+
+categoryToString : Category -> String
+categoryToString category =
+    case category of
+        Globals ->
+            "Globals"
+
+        Elements ->
+            "Elements"
+
+        Collections ->
+            "Collections"
+
+        Views ->
+            "Views"
+
+        Modules ->
+            "Modules"
+
+
 tableOfContents : Bool -> List (Html msg)
 tableOfContents darkMode =
-    [ cards [] <|
-        List.map
-            (\{ label, description, category, url } ->
-                card { inverted = darkMode }
-                    []
-                    [ a [ href url ]
-                        [ Card.content { inverted = darkMode }
-                            []
-                            [ Card.header { inverted = darkMode } [] [ text label ]
-                            , Card.meta { inverted = darkMode } [] [ text category ]
-                            , Card.description { inverted = darkMode } [] [ text description ]
-                            ]
+    let
+        item { label, description, url } =
+            card { inverted = darkMode }
+                []
+                [ a [ href url ]
+                    [ Card.content { inverted = darkMode }
+                        []
+                        [ Card.header { inverted = darkMode } [] [ text label ]
+                        , Card.description { inverted = darkMode } [] [ text description ]
                         ]
                     ]
-            )
-            contents_
-    ]
+                ]
+    in
+    List.map
+        (\category ->
+            basicSegment { inverted = darkMode }
+                []
+                [ Header.header { inverted = darkMode } [] [ text (categoryToString category) ]
+                , cards []
+                    (List.filter (.category >> (==) category) contents_
+                        |> List.map item
+                    )
+                ]
+        )
+        [ Globals, Elements, Collections, Views, Modules ]
 
 
-contents_ : List { label : String, description : String, category : String, url : String }
+contents_ : List { label : String, description : String, category : Category, url : String }
 contents_ =
     [ { label = "Site"
       , description = "A site is a set of global constraints that define the basic parameters of all UI elements"
-      , category = "Globals"
+      , category = Globals
       , url = "/site"
       }
     , { label = "Button"
       , description = "A button indicates a possible user action"
-      , category = "Elements"
+      , category = Elements
       , url = "/button"
       }
     , { label = "Container"
       , description = "A container limits content to a maximum width"
-      , category = "Elements"
+      , category = Elements
       , url = "/container"
       }
     , { label = "Divider"
       , description = "A divider visually segments content into groups"
-      , category = "Elements"
+      , category = Elements
       , url = "/divider"
       }
     , { label = "Header"
       , description = "A header provides a short summary of content"
-      , category = "Elements"
+      , category = Elements
       , url = "/header"
       }
     , { label = "Icon"
       , description = "An icon is a glyph used to represent something else"
-      , category = "Elements"
+      , category = Elements
       , url = "/icon"
       }
     , { label = "Image"
       , description = "An image is a graphic representation of something"
-      , category = "Elements"
+      , category = Elements
       , url = "/image"
       }
     , { label = "Input"
       , description = "An input is a field used to elicit a response from a user"
-      , category = "Elements"
+      , category = Elements
       , url = "/input"
       }
     , { label = "Label"
       , description = "A label displays content classification"
-      , category = "Elements"
+      , category = Elements
       , url = "/label"
       }
     , { label = "Placeholder"
       , description = "A placeholder is used to reserve splace for content that soon will appear in a layout"
-      , category = "Elements"
+      , category = Elements
       , url = "/placeholder"
       }
     , { label = "Rail"
       , description = "A rail is used to show accompanying content outside the boundaries of the main view of a site"
-      , category = "Elements"
+      , category = Elements
       , url = "/rail"
       }
     , { label = "Segment"
       , description = "A segment is used to create a grouping of related content"
-      , category = "Elements"
+      , category = Elements
       , url = "/segment"
       }
     , { label = "Text"
       , description = "A text is used to style some inline text with a simple color"
-      , category = "Elements"
+      , category = Elements
       , url = "/text"
       }
     , { label = "Breadcrumb"
       , description = "A breadcrumb is used to show hierarchy between content"
-      , category = "Collections"
+      , category = Collections
       , url = "/breadcrumb"
       }
     , { label = "Grid"
       , description = "A grid is used to harmonize negative space in a layout"
-      , category = "Collections"
+      , category = Collections
       , url = "/grid"
       }
     , { label = "Menu"
       , description = "A menu displays grouped navigation actions"
-      , category = "Collections"
+      , category = Collections
       , url = "/menu"
       }
     , { label = "Message"
       , description = "A message displays information that explains nearby content"
-      , category = "Collections"
+      , category = Collections
       , url = "/message"
       }
     , { label = "Table"
       , description = "A table displays a collections of data grouped into rows"
-      , category = "Collections"
+      , category = Collections
       , url = "/table"
       }
     , { label = "Card"
       , description = "A card displays site content in a manner similar to a playing card"
-      , category = "Views"
+      , category = Views
       , url = "/card"
       }
     , { label = "Item"
       , description = "An item view presents large collections of site content for display"
-      , category = "Views"
+      , category = Views
       , url = "/item"
       }
     , { label = "Checkbox"
       , description = "A checkbox allows a user to select a value from a small set of options, often binary"
-      , category = "Modules"
+      , category = Modules
       , url = "/checkbox"
       }
     , { label = "Dimmer"
       , description = "A dimmer hides distractions to focus attention on particular content"
-      , category = "Modules"
+      , category = Modules
       , url = "/dimmer"
       }
     , { label = "Modal"
       , description = "A modal displays content that temporarily blocks interactions with the main view of a site"
-      , category = "Modules"
+      , category = Modules
       , url = "/modal"
       }
     ]
