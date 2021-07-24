@@ -10,7 +10,7 @@ import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
 import Html.Styled exposing (Attribute, Html, a, div, h1, h2, h3, h4, h5, input, p, span, strong, text, toUnstyled)
 import Html.Styled.Attributes as Attributes exposing (css, for, href, id, rel, src, type_)
 import Html.Styled.Events exposing (onClick)
-import Maybe.Extra
+import PageSummary exposing (Category(..), PageSummary)
 import UI.Breadcrumb as Breadcrumb exposing (..)
 import UI.Button exposing (..)
 import UI.Card as Card exposing (..)
@@ -311,8 +311,13 @@ update msg model =
 view : Model -> Document Msg
 view model =
     let
-        document { title, breadcrumbItems, contents } =
-            { title = Maybe.withDefault "" title ++ Maybe.Extra.unwrap "Defiant" (\_ -> " | Defiant") title
+        document { summary, contents } =
+            { title =
+                if List.length summary.breadcrumbItems > 1 then
+                    summary.title ++ " | Defiant"
+
+                else
+                    "Defiant"
             , body =
                 [ toUnstyled <|
                     div []
@@ -320,8 +325,8 @@ view model =
                         , basicSegment { inverted = False }
                             []
                             [ container []
-                                [ breadcrumbItems
-                                    |> List.indexedMap (breadcrumbItem <| List.length breadcrumbItems)
+                                [ summary.breadcrumbItems
+                                    |> List.indexedMap (breadcrumbItem <| List.length summary.breadcrumbItems)
                                     |> List.intersperse (Breadcrumb.divider [] [ text "/" ])
                                     |> breadcrumb
                                 ]
@@ -358,193 +363,141 @@ view model =
     document <|
         case model.page of
             NotFound ->
-                { title = Just "Not Found"
-                , breadcrumbItems = [ "Top", "Not Found" ]
+                { summary = PageSummary.notFound
                 , contents = []
                 }
 
             TopPage ->
-                { title = Nothing
-                , breadcrumbItems = [ "Top" ]
+                { summary = PageSummary.root
                 , contents = tableOfContents model.darkMode
                 }
 
             SitePage ->
-                { title = Just "Site"
-                , breadcrumbItems = [ "Top", "Site" ]
+                { summary = PageSummary.site
                 , contents = examplesForSite
                 }
 
             ButtonPage ->
-                { title = Just "Button"
-                , breadcrumbItems = [ "Top", "Button" ]
+                { summary = PageSummary.button
                 , contents = examplesForButton model
                 }
 
             ContainerPage ->
-                { title = Just "Container"
-                , breadcrumbItems = [ "Top", "Container" ]
+                { summary = PageSummary.container
                 , contents = examplesForContainer
                 }
 
             DividerPage ->
-                { title = Just "Divider"
-                , breadcrumbItems = [ "Top", "Divider" ]
+                { summary = PageSummary.divider
                 , contents = examplesForDivider
                 }
 
             HeaderPage ->
-                { title = Just "Header"
-                , breadcrumbItems = [ "Top", "Header" ]
+                { summary = PageSummary.header
                 , contents = examplesForHeader model.darkMode
                 }
 
             IconPage ->
-                { title = Just "Icon"
-                , breadcrumbItems = [ "Top", "Icon" ]
+                { summary = PageSummary.icon
                 , contents = examplesForIcon
                 }
 
             ImagePage ->
-                { title = Just "Image"
-                , breadcrumbItems = [ "Top", "Image" ]
+                { summary = PageSummary.image
                 , contents = examplesForImage
                 }
 
             InputPage ->
-                { title = Just "Input"
-                , breadcrumbItems = [ "Top", "Input" ]
+                { summary = PageSummary.input
                 , contents = examplesForInput
                 }
 
             LabelPage ->
-                { title = Just "Label"
-                , breadcrumbItems = [ "Top", "Label" ]
+                { summary = PageSummary.label
                 , contents = examplesForLabel
                 }
 
             PlaceholderPage ->
-                { title = Just "Placeholder"
-                , breadcrumbItems = [ "Top", "Placeholder" ]
+                { summary = PageSummary.placeholder
                 , contents = examplesForPlaceholder
                 }
 
             RailPage ->
-                { title = Just "Rail"
-                , breadcrumbItems = [ "Top", "Rail" ]
+                { summary = PageSummary.rail
                 , contents = examplesForRail model.darkMode
                 }
 
             SegmentPage ->
-                { title = Just "Segment"
-                , breadcrumbItems = [ "Top", "Segment" ]
+                { summary = PageSummary.segment
                 , contents = examplesForSegment model.darkMode
                 }
 
             TextPage ->
-                { title = Just "Text"
-                , breadcrumbItems = [ "Top", "Text" ]
+                { summary = PageSummary.text
                 , contents = examplesForText model.darkMode
                 }
 
             BreadcrumbPage ->
-                { title = Just "Breadcrumb"
-                , breadcrumbItems = [ "Top", "Breadcrumb" ]
+                { summary = PageSummary.breadcrumb
                 , contents = examplesForBreadcrumb
                 }
 
             GridPage ->
-                { title = Just "Grid"
-                , breadcrumbItems = [ "Top", "Grid" ]
+                { summary = PageSummary.grid
                 , contents = examplesForGrid
                 }
 
             MenuPage ->
-                { title = Just "Menu"
-                , breadcrumbItems = [ "Top", "Menu" ]
+                { summary = PageSummary.menu
                 , contents = examplesForMenu model
                 }
 
             MessagePage ->
-                { title = Just "Message"
-                , breadcrumbItems = [ "Top", "Message" ]
+                { summary = PageSummary.message
                 , contents = examplesForMessage model.darkMode
                 }
 
             TablePage ->
-                { title = Just "Table"
-                , breadcrumbItems = [ "Top", "Table" ]
+                { summary = PageSummary.table
                 , contents = examplesForTable
                 }
 
             CardPage ->
-                { title = Just "Card"
-                , breadcrumbItems = [ "Top", "Card" ]
+                { summary = PageSummary.card
                 , contents = examplesForCard model.darkMode
                 }
 
             ItemPage ->
-                { title = Just "Item"
-                , breadcrumbItems = [ "Top", "Item" ]
+                { summary = PageSummary.item
                 , contents = examplesForItem
                 }
 
             CheckboxPage ->
-                { title = Just "Checkbox"
-                , breadcrumbItems = [ "Top", "Checkbox" ]
+                { summary = PageSummary.checkbox
                 , contents = examplesForCheckbox
                 }
 
             DimmerPage ->
-                { title = Just "Dimmer"
-                , breadcrumbItems = [ "Top", "Dimmer" ]
+                { summary = PageSummary.dimmer
                 , contents = examplesForDimmer model
                 }
 
             ModalPage ->
-                { title = Just "Modal"
-                , breadcrumbItems = [ "Top", "Modal" ]
+                { summary = PageSummary.modal
                 , contents = examplesForModal model
                 }
-
-
-type Category
-    = Globals
-    | Elements
-    | Collections
-    | Views
-    | Modules
-
-
-categoryToString : Category -> String
-categoryToString category =
-    case category of
-        Globals ->
-            "Globals"
-
-        Elements ->
-            "Elements"
-
-        Collections ->
-            "Collections"
-
-        Views ->
-            "Views"
-
-        Modules ->
-            "Modules"
 
 
 tableOfContents : Bool -> List (Html msg)
 tableOfContents darkMode =
     let
-        item { label, description, url } =
+        item { title, description, url } =
             card { inverted = darkMode }
                 []
                 [ a [ href url ]
                     [ Card.content { inverted = darkMode }
                         []
-                        [ Card.header { inverted = darkMode } [] [ text label ]
+                        [ Card.header { inverted = darkMode } [] [ text title ]
                         , Card.description { inverted = darkMode } [] [ text description ]
                         ]
                     ]
@@ -554,7 +507,7 @@ tableOfContents darkMode =
         (\category ->
             basicSegment { inverted = darkMode }
                 []
-                [ Header.header { inverted = darkMode } [] [ text (categoryToString category) ]
+                [ Header.header { inverted = darkMode } [] [ text (PageSummary.categoryToString category) ]
                 , cards []
                     (List.filter (.category >> (==) category) contents_
                         |> List.map item
@@ -564,123 +517,31 @@ tableOfContents darkMode =
         [ Globals, Elements, Collections, Views, Modules ]
 
 
-contents_ : List { label : String, description : String, category : Category, url : String }
+contents_ : List PageSummary
 contents_ =
-    [ { label = "Site"
-      , description = "A site is a set of global constraints that define the basic parameters of all UI elements"
-      , category = Globals
-      , url = "/site"
-      }
-    , { label = "Button"
-      , description = "A button indicates a possible user action"
-      , category = Elements
-      , url = "/button"
-      }
-    , { label = "Container"
-      , description = "A container limits content to a maximum width"
-      , category = Elements
-      , url = "/container"
-      }
-    , { label = "Divider"
-      , description = "A divider visually segments content into groups"
-      , category = Elements
-      , url = "/divider"
-      }
-    , { label = "Header"
-      , description = "A header provides a short summary of content"
-      , category = Elements
-      , url = "/header"
-      }
-    , { label = "Icon"
-      , description = "An icon is a glyph used to represent something else"
-      , category = Elements
-      , url = "/icon"
-      }
-    , { label = "Image"
-      , description = "An image is a graphic representation of something"
-      , category = Elements
-      , url = "/image"
-      }
-    , { label = "Input"
-      , description = "An input is a field used to elicit a response from a user"
-      , category = Elements
-      , url = "/input"
-      }
-    , { label = "Label"
-      , description = "A label displays content classification"
-      , category = Elements
-      , url = "/label"
-      }
-    , { label = "Placeholder"
-      , description = "A placeholder is used to reserve splace for content that soon will appear in a layout"
-      , category = Elements
-      , url = "/placeholder"
-      }
-    , { label = "Rail"
-      , description = "A rail is used to show accompanying content outside the boundaries of the main view of a site"
-      , category = Elements
-      , url = "/rail"
-      }
-    , { label = "Segment"
-      , description = "A segment is used to create a grouping of related content"
-      , category = Elements
-      , url = "/segment"
-      }
-    , { label = "Text"
-      , description = "A text is used to style some inline text with a simple color"
-      , category = Elements
-      , url = "/text"
-      }
-    , { label = "Breadcrumb"
-      , description = "A breadcrumb is used to show hierarchy between content"
-      , category = Collections
-      , url = "/breadcrumb"
-      }
-    , { label = "Grid"
-      , description = "A grid is used to harmonize negative space in a layout"
-      , category = Collections
-      , url = "/grid"
-      }
-    , { label = "Menu"
-      , description = "A menu displays grouped navigation actions"
-      , category = Collections
-      , url = "/menu"
-      }
-    , { label = "Message"
-      , description = "A message displays information that explains nearby content"
-      , category = Collections
-      , url = "/message"
-      }
-    , { label = "Table"
-      , description = "A table displays a collections of data grouped into rows"
-      , category = Collections
-      , url = "/table"
-      }
-    , { label = "Card"
-      , description = "A card displays site content in a manner similar to a playing card"
-      , category = Views
-      , url = "/card"
-      }
-    , { label = "Item"
-      , description = "An item view presents large collections of site content for display"
-      , category = Views
-      , url = "/item"
-      }
-    , { label = "Checkbox"
-      , description = "A checkbox allows a user to select a value from a small set of options, often binary"
-      , category = Modules
-      , url = "/checkbox"
-      }
-    , { label = "Dimmer"
-      , description = "A dimmer hides distractions to focus attention on particular content"
-      , category = Modules
-      , url = "/dimmer"
-      }
-    , { label = "Modal"
-      , description = "A modal displays content that temporarily blocks interactions with the main view of a site"
-      , category = Modules
-      , url = "/modal"
-      }
+    [ PageSummary.site
+    , PageSummary.button
+    , PageSummary.container
+    , PageSummary.divider
+    , PageSummary.header
+    , PageSummary.icon
+    , PageSummary.image
+    , PageSummary.input
+    , PageSummary.label
+    , PageSummary.placeholder
+    , PageSummary.rail
+    , PageSummary.segment
+    , PageSummary.text
+    , PageSummary.breadcrumb
+    , PageSummary.grid
+    , PageSummary.menu
+    , PageSummary.message
+    , PageSummary.table
+    , PageSummary.card
+    , PageSummary.item
+    , PageSummary.checkbox
+    , PageSummary.dimmer
+    , PageSummary.modal
     ]
 
 
