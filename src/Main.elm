@@ -369,7 +369,7 @@ view model =
 
             TopPage ->
                 { summary = PageSummary.root
-                , contents = tableOfContents model.darkMode
+                , contents = tableOfContents { inverted = model.darkMode }
                 }
 
             SitePage ->
@@ -394,7 +394,7 @@ view model =
 
             HeaderPage ->
                 { summary = PageSummary.header
-                , contents = examplesForHeader model.darkMode
+                , contents = examplesForHeader { inverted = model.darkMode }
                 }
 
             IconPage ->
@@ -424,17 +424,17 @@ view model =
 
             RailPage ->
                 { summary = PageSummary.rail
-                , contents = examplesForRail model.darkMode
+                , contents = examplesForRail { inverted = model.darkMode }
                 }
 
             SegmentPage ->
                 { summary = PageSummary.segment
-                , contents = examplesForSegment model.darkMode
+                , contents = examplesForSegment { inverted = model.darkMode }
                 }
 
             TextPage ->
                 { summary = PageSummary.text
-                , contents = examplesForText model.darkMode
+                , contents = examplesForText { inverted = model.darkMode }
                 }
 
             BreadcrumbPage ->
@@ -454,7 +454,7 @@ view model =
 
             MessagePage ->
                 { summary = PageSummary.message
-                , contents = examplesForMessage model.darkMode
+                , contents = examplesForMessage { inverted = model.darkMode }
                 }
 
             TablePage ->
@@ -464,7 +464,7 @@ view model =
 
             CardPage ->
                 { summary = PageSummary.card
-                , contents = examplesForCard model.darkMode
+                , contents = examplesForCard { inverted = model.darkMode }
                 }
 
             ItemPage ->
@@ -488,26 +488,26 @@ view model =
                 }
 
 
-tableOfContents : Bool -> List (Html msg)
-tableOfContents darkMode =
+tableOfContents : { inverted : Bool } -> List (Html msg)
+tableOfContents options =
     let
         item { title, description, url } =
-            card { inverted = darkMode }
+            card options
                 []
                 [ a [ href url ]
-                    [ Card.content { inverted = darkMode }
+                    [ Card.content options
                         []
-                        [ Card.header { inverted = darkMode } [] [ text title ]
-                        , Card.description { inverted = darkMode } [] [ text description ]
+                        [ Card.header options [] [ text title ]
+                        , Card.description options [] [ text description ]
                         ]
                     ]
                 ]
     in
     List.map
         (\category ->
-            basicSegment { inverted = darkMode }
+            basicSegment options
                 []
-                [ Header.header { inverted = darkMode } [] [ text (PageSummary.categoryToString category) ]
+                [ Header.header options [] [ text (PageSummary.categoryToString category) ]
                 , cards []
                     (List.filter (.category >> (==) category) contents_
                         |> List.map item
@@ -710,27 +710,27 @@ examplesForDivider =
     ]
 
 
-examplesForHeader : Bool -> List (Html msg)
-examplesForHeader darkMode =
+examplesForHeader : { inverted : Bool } -> List (Html msg)
+examplesForHeader options =
     [ example
         { title = "Content Headers"
         , description = "Headers may be oriented to give the importance of a section in the context of the content that surrounds it"
         , contents =
-            [ massiveHeader { inverted = darkMode } [] [ text "Massive Header" ]
+            [ massiveHeader options [] [ text "Massive Header" ]
             , wireframeShortParagraph
-            , hugeHeader { inverted = darkMode } [] [ text "Huge Header" ]
+            , hugeHeader options [] [ text "Huge Header" ]
             , wireframeShortParagraph
-            , bigHeader { inverted = darkMode } [] [ text "Big Header" ]
+            , bigHeader options [] [ text "Big Header" ]
             , wireframeShortParagraph
-            , largeHeader { inverted = darkMode } [] [ text "Large Header" ]
+            , largeHeader options [] [ text "Large Header" ]
             , wireframeShortParagraph
-            , mediumHeader { inverted = darkMode } [] [ text "Medium Header" ]
+            , mediumHeader options [] [ text "Medium Header" ]
             , wireframeShortParagraph
-            , smallHeader { inverted = darkMode } [] [ text "Small Header" ]
+            , smallHeader options [] [ text "Small Header" ]
             , wireframeShortParagraph
-            , tinyHeader { inverted = darkMode } [] [ text "Tiny Header" ]
+            , tinyHeader options [] [ text "Tiny Header" ]
             , wireframeShortParagraph
-            , miniHeader { inverted = darkMode } [] [ text "Mini Header" ]
+            , miniHeader options [] [ text "Mini Header" ]
             , wireframeShortParagraph
             ]
         }
@@ -738,12 +738,12 @@ examplesForHeader darkMode =
         { title = "Icon Headers"
         , description = "A header can be formatted to emphasize an icon"
         , contents =
-            [ iconHeader { inverted = darkMode }
+            [ iconHeader options
                 []
                 [ icon [] "fas fa-cogs"
                 , iconHeaderContent []
                     [ text "Account Settings"
-                    , subHeader { inverted = darkMode } [] [ text "Manage your account settings and set e-mail preferences." ]
+                    , subHeader options [] [ text "Manage your account settings and set e-mail preferences." ]
                     ]
                 ]
             ]
@@ -752,10 +752,10 @@ examplesForHeader darkMode =
         { title = "Subheader"
         , description = "Headers may contain subheaders"
         , contents =
-            [ Header.header { inverted = darkMode }
+            [ Header.header options
                 []
                 [ text "Account Settings"
-                , subHeader { inverted = darkMode } [] [ text "Manage your account settings and set e-mail preferences." ]
+                , subHeader options [] [ text "Manage your account settings and set e-mail preferences." ]
                 , wireframeShortParagraph
                 ]
             ]
@@ -957,18 +957,18 @@ examplesForPlaceholder =
     ]
 
 
-examplesForRail : Bool -> List (Html msg)
-examplesForRail darkMode =
+examplesForRail : { inverted : Bool } -> List (Html msg)
+examplesForRail options =
     [ example
         { title = "Rail"
         , description = "A rail can be presented on the left or right side of a container"
         , contents =
-            [ segment { inverted = darkMode }
+            [ segment options
                 [ css [ width (pct 45), left (pct 27.5) ] ]
                 [ leftRail []
-                    [ segment { inverted = darkMode } [] [ text "Left Rail Content" ] ]
+                    [ segment options [] [ text "Left Rail Content" ] ]
                 , rightRail []
-                    [ segment { inverted = darkMode } [] [ text "Right Rail Content" ] ]
+                    [ segment options [] [ text "Right Rail Content" ] ]
                 , wireframeParagraph
                 , wireframeParagraph
                 ]
@@ -977,26 +977,26 @@ examplesForRail darkMode =
     ]
 
 
-examplesForSegment : Bool -> List (Html msg)
-examplesForSegment darkMode =
+examplesForSegment : { inverted : Bool } -> List (Html msg)
+examplesForSegment options =
     [ example
         { title = "Segment"
         , description = "A segment of content"
-        , contents = [ segment { inverted = darkMode } [] [ wireframeShortParagraph ] ]
+        , contents = [ segment options [] [ wireframeShortParagraph ] ]
         }
     , example
         { title = "Vertical Segment"
         , description = "A vertical segment formats content to be aligned as part of a vertical group"
         , contents =
-            [ verticalSegment { inverted = darkMode } [] [ wireframeShortParagraph ]
-            , verticalSegment { inverted = darkMode } [] [ wireframeShortParagraph ]
-            , verticalSegment { inverted = darkMode } [] [ wireframeShortParagraph ]
+            [ verticalSegment options [] [ wireframeShortParagraph ]
+            , verticalSegment options [] [ wireframeShortParagraph ]
+            , verticalSegment options [] [ wireframeShortParagraph ]
             ]
         }
     , example
         { title = "Disabled"
         , description = "A segment may show its content is disabled"
-        , contents = [ disabledSegment { inverted = darkMode } [] [ wireframeShortParagraph ] ]
+        , contents = [ disabledSegment options [] [ wireframeShortParagraph ] ]
         }
     , example
         { title = "Inverted"
@@ -1009,18 +1009,18 @@ examplesForSegment darkMode =
     , example
         { title = "Padded"
         , description = "A segment can increase its padding"
-        , contents = [ paddedSegment { inverted = darkMode } [] [ wireframeShortParagraph ] ]
+        , contents = [ paddedSegment options [] [ wireframeShortParagraph ] ]
         }
     , example
         { title = ""
         , description = ""
-        , contents = [ veryPaddedSegment { inverted = darkMode } [] [ wireframeShortParagraph ] ]
+        , contents = [ veryPaddedSegment options [] [ wireframeShortParagraph ] ]
         }
     , example
         { title = "Basic"
         , description = "A basic segment has no special formatting"
         , contents =
-            [ basicSegment { inverted = darkMode }
+            [ basicSegment options
                 []
                 [ p [] [ text "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo." ] ]
             ]
@@ -1028,23 +1028,23 @@ examplesForSegment darkMode =
     ]
 
 
-examplesForText : Bool -> List (Html msg)
-examplesForText darkMode =
+examplesForText : { inverted : Bool } -> List (Html msg)
+examplesForText options =
     [ example
         { title = "Text"
         , description = "A text is always used inline and uses one color from the FUI color palette"
         , contents =
-            [ segment { inverted = darkMode }
+            [ segment options
                 []
                 [ text "This is "
-                , redText { inverted = darkMode } "red"
+                , redText options "red"
                 , text " inline text and this is "
-                , blueText { inverted = darkMode } "blue"
+                , blueText options "blue"
                 , text " inline text and this is "
-                , purpleText { inverted = darkMode } "purple"
+                , purpleText options "purple"
                 , text " inline text"
                 ]
-            , segment { inverted = darkMode }
+            , segment options
                 []
                 [ text "This is "
                 , infoText "info"
@@ -1062,7 +1062,7 @@ examplesForText darkMode =
         { title = "Size"
         , description = "Text can vary in the same sizes as icons"
         , contents =
-            [ segment { inverted = darkMode }
+            [ segment options
                 []
                 [ p [] [ text "Starting with ", miniText "mini", text " text" ]
                 , p [] [ text "which turns into ", tinyText "tiny", text " text" ]
@@ -1255,15 +1255,15 @@ examplesForMenu model =
     ]
 
 
-examplesForMessage : Bool -> List (Html msg)
-examplesForMessage darkMode =
+examplesForMessage : { inverted : Bool } -> List (Html msg)
+examplesForMessage options =
     [ example
         { title = "Message"
         , description = "A basic message"
         , contents =
             [ message []
                 [ div []
-                    [ Header.header { inverted = darkMode } [] [ text "Changes in Service" ]
+                    [ Header.header options [] [ text "Changes in Service" ]
                     , p [] [ text "We just updated our privacy policy here to better service our customers. We recommend reviewing the changes." ]
                     ]
                 ]
@@ -1276,7 +1276,7 @@ examplesForMessage darkMode =
             [ message []
                 [ icon [] "fas fa-inbox"
                 , div []
-                    [ Header.header { inverted = darkMode } [] [ text "Have you heard about our mailing list?" ]
+                    [ Header.header options [] [ text "Have you heard about our mailing list?" ]
                     , p [] [ text "Get the best news in your e-mail every day." ]
                     ]
                 ]
@@ -1371,22 +1371,22 @@ examplesForTable =
     ]
 
 
-examplesForCard : Bool -> List (Html msg)
-examplesForCard darkMode =
+examplesForCard : { inverted : Bool } -> List (Html msg)
+examplesForCard options =
     [ example
         { title = "Card"
         , description = "A single card."
         , contents =
-            [ card { inverted = darkMode }
+            [ card options
                 []
                 [ image [ src "./static/images/avatar/kristy.png" ] []
-                , Card.content { inverted = darkMode }
+                , Card.content options
                     []
-                    [ Card.header { inverted = darkMode } [] [ text "Kristy" ]
-                    , Card.meta { inverted = darkMode } [] [ text "Joined in 2013" ]
-                    , Card.description { inverted = darkMode } [] [ text "Kristy is an art director living in New York." ]
+                    [ Card.header options [] [ text "Kristy" ]
+                    , Card.meta options [] [ text "Joined in 2013" ]
+                    , Card.description options [] [ text "Kristy is an art director living in New York." ]
                     ]
-                , extraContent { inverted = darkMode }
+                , extraContent options
                     []
                     [ icon [] "fas fa-user"
                     , text "22 Friends"
@@ -1401,16 +1401,16 @@ examplesForCard darkMode =
             [ cards [] <|
                 List.map
                     (\{ name, type_, description_, friends, imageUrl } ->
-                        card { inverted = darkMode }
+                        card options
                             []
                             [ image [ src imageUrl ] []
-                            , Card.content { inverted = darkMode }
+                            , Card.content options
                                 []
-                                [ Card.header { inverted = darkMode } [] [ text name ]
-                                , Card.meta { inverted = darkMode } [] [ text type_ ]
-                                , Card.description { inverted = darkMode } [] [ text description_ ]
+                                [ Card.header options [] [ text name ]
+                                , Card.meta options [] [ text type_ ]
+                                , Card.description options [] [ text description_ ]
                                 ]
-                            , extraContent { inverted = darkMode }
+                            , extraContent options
                                 []
                                 [ icon [] "fas fa-user"
                                 , text (String.fromInt friends ++ " Friends")
@@ -1445,13 +1445,13 @@ examplesForCard darkMode =
             [ cards [] <|
                 List.map
                     (\person ->
-                        card { inverted = darkMode }
+                        card options
                             []
-                            [ Card.content { inverted = darkMode }
+                            [ Card.content options
                                 []
-                                [ Card.header { inverted = darkMode } [] [ text person.name ]
-                                , Card.meta { inverted = darkMode } [] [ text person.type_ ]
-                                , Card.description { inverted = darkMode } [] [ text person.description ]
+                                [ Card.header options [] [ text person.name ]
+                                , Card.meta options [] [ text person.type_ ]
+                                , Card.description options [] [ text person.description ]
                                 ]
                             ]
                     )
@@ -1474,12 +1474,12 @@ examplesForCard darkMode =
         { title = "Metadata"
         , description = "A card can contain content metadata"
         , contents =
-            [ card { inverted = darkMode }
+            [ card options
                 []
-                [ Card.content { inverted = darkMode }
+                [ Card.content options
                     []
-                    [ Card.header { inverted = darkMode } [] [ text "Cute Dog" ]
-                    , Card.meta { inverted = darkMode }
+                    [ Card.header options [] [ text "Cute Dog" ]
+                    , Card.meta options
                         []
                         [ text "2 days ago "
                         , a [] [ text "Animals" ]
@@ -1493,13 +1493,13 @@ examplesForCard darkMode =
         { title = "Description"
         , description = "A card can contain a description with one or more paragraphs"
         , contents =
-            [ card { inverted = darkMode }
+            [ card options
                 []
-                [ Card.content { inverted = darkMode }
+                [ Card.content options
                     []
-                    [ Card.header { inverted = darkMode } [] [ text "Cute Dog" ]
-                    , Card.meta { inverted = darkMode } [] [ text "2 days ago " ]
-                    , Card.description { inverted = darkMode }
+                    [ Card.header options [] [ text "Cute Dog" ]
+                    , Card.meta options [] [ text "2 days ago " ]
+                    , Card.description options
                         []
                         [ p [] [ text "Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size." ]
                         , p [] [ text "Many people also have their own barometers for what makes a cute dog." ]
@@ -1512,19 +1512,19 @@ examplesForCard darkMode =
         { title = "Extra Content"
         , description = "A card can contain extra content meant to be formatted separately from the main content"
         , contents =
-            [ card { inverted = darkMode }
+            [ card options
                 []
-                [ Card.content { inverted = darkMode }
+                [ Card.content options
                     []
-                    [ Card.header { inverted = darkMode } [] [ text "Cute Dog" ]
-                    , Card.meta { inverted = darkMode } [] [ text "2 days ago " ]
-                    , Card.description { inverted = darkMode }
+                    [ Card.header options [] [ text "Cute Dog" ]
+                    , Card.meta options [] [ text "2 days ago " ]
+                    , Card.description options
                         []
                         [ p [] [ text "Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size." ]
                         , p [] [ text "Many people also have their own barometers for what makes a cute dog." ]
                         ]
                     ]
-                , extraContent { inverted = darkMode }
+                , extraContent options
                     []
                     [ icon [] "fas fa-check"
                     , text "121 Votes"
@@ -1696,13 +1696,17 @@ examplesForCheckbox =
 
 examplesForDimmer : { a | toggledItems : List String, darkMode : Bool } -> List (Html Msg)
 examplesForDimmer { toggledItems, darkMode } =
+    let
+        options =
+            { inverted = darkMode }
+    in
     [ example
         { title = "Dimmer"
         , description = "A simple dimmer displays no content"
         , contents =
-            [ segment { inverted = darkMode }
+            [ segment options
                 []
-                [ Header.header { inverted = darkMode } [] [ text "Overlayable Section" ]
+                [ Header.header options [] [ text "Overlayable Section" ]
                 , div [] <|
                     List.repeat 1 (smallImage [ src "./static/images/wireframe/image.png" ] [])
                 , wireframeMediaParagraph
@@ -1715,9 +1719,9 @@ examplesForDimmer { toggledItems, darkMode } =
         { title = "Content Dimmer"
         , description = "A dimmer can display content"
         , contents =
-            [ segment { inverted = darkMode }
+            [ segment options
                 []
-                [ Header.header { inverted = darkMode } [] [ text "Overlayable Section" ]
+                [ Header.header options [] [ text "Overlayable Section" ]
                 , div [] <|
                     List.repeat 1 (smallImage [ src "./static/images/wireframe/image.png" ] [])
                 , wireframeMediaParagraph
@@ -1756,6 +1760,10 @@ examplesForDimmer { toggledItems, darkMode } =
 
 examplesForModal : { a | toggledItems : List String, darkMode : Bool } -> List (Html Msg)
 examplesForModal { toggledItems, darkMode } =
+    let
+        options =
+            { inverted = darkMode }
+    in
     [ example
         { title = "Modal"
         , description = "A standard modal"
@@ -1763,10 +1771,10 @@ examplesForModal { toggledItems, darkMode } =
             [ button [ onClick (Toggle "modal") ] [ icon [] "fas fa-plus", text "Show" ]
             , pageDimmer (List.member "modal" toggledItems)
                 [ onClick (Toggle "modal") ]
-                [ modal { inverted = darkMode }
+                [ modal options
                     []
-                    [ Modal.header { inverted = darkMode } [] [ text "Select a Photo" ]
-                    , Modal.content { inverted = darkMode }
+                    [ Modal.header options [] [ text "Select a Photo" ]
+                    , Modal.content options
                         []
                         [ Modal.description []
                             [ p []
@@ -1777,7 +1785,7 @@ examplesForModal { toggledItems, darkMode } =
                             , p [] [ text "Is it okay to use this photo?" ]
                             ]
                         ]
-                    , Modal.actions { inverted = darkMode }
+                    , Modal.actions options
                         []
                         [ blackButton [] [ text "Nope" ]
                         , greenButton [] [ text "Yep, that's me" ]
