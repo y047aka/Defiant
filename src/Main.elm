@@ -497,9 +497,10 @@ tableOfContents options =
                 [ a [ href url ]
                     [ Card.content options
                         []
-                        [ Card.header options [] [ text title ]
-                        , Card.description options [] [ text description ]
-                        ]
+                        { header = [ text title ]
+                        , meta = []
+                        , description = [ text description ]
+                        }
                     ]
                 ]
     in
@@ -1382,10 +1383,10 @@ examplesForCard options =
                 [ image [ src "./static/images/avatar/kristy.png" ] []
                 , Card.content options
                     []
-                    [ Card.header options [] [ text "Kristy" ]
-                    , Card.meta options [] [ text "Joined in 2013" ]
-                    , Card.description options [] [ text "Kristy is an art director living in New York." ]
-                    ]
+                    { header = [ text "Kristy" ]
+                    , meta = [ text "Joined in 2013" ]
+                    , description = [ text "Kristy is an art director living in New York." ]
+                    }
                 , extraContent options
                     []
                     [ icon [] "fas fa-user"
@@ -1406,10 +1407,10 @@ examplesForCard options =
                             [ image [ src imageUrl ] []
                             , Card.content options
                                 []
-                                [ Card.header options [] [ text name ]
-                                , Card.meta options [] [ text type_ ]
-                                , Card.description options [] [ text description_ ]
-                                ]
+                                { header = [ text name ]
+                                , meta = [ text type_ ]
+                                , description = [ text description_ ]
+                                }
                             , extraContent options
                                 []
                                 [ icon [] "fas fa-user"
@@ -1449,10 +1450,10 @@ examplesForCard options =
                             []
                             [ Card.content options
                                 []
-                                [ Card.header options [] [ text person.name ]
-                                , Card.meta options [] [ text person.type_ ]
-                                , Card.description options [] [ text person.description ]
-                                ]
+                                { header = [ text person.name ]
+                                , meta = [ text person.type_ ]
+                                , description = [ text person.description ]
+                                }
                             ]
                     )
                     [ { name = "Elliot Fu"
@@ -1478,14 +1479,13 @@ examplesForCard options =
                 []
                 [ Card.content options
                     []
-                    [ Card.header options [] [ text "Cute Dog" ]
-                    , Card.meta options
-                        []
+                    { header = [ text "Cute Dog" ]
+                    , meta =
                         [ text "2 days ago "
                         , a [] [ text "Animals" ]
                         ]
-                    , wireframeParagraph
-                    ]
+                    , description = [ wireframeParagraph ]
+                    }
                 ]
             ]
         }
@@ -1497,14 +1497,13 @@ examplesForCard options =
                 []
                 [ Card.content options
                     []
-                    [ Card.header options [] [ text "Cute Dog" ]
-                    , Card.meta options [] [ text "2 days ago " ]
-                    , Card.description options
-                        []
+                    { header = [ text "Cute Dog" ]
+                    , meta = [ text "2 days ago " ]
+                    , description =
                         [ p [] [ text "Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size." ]
                         , p [] [ text "Many people also have their own barometers for what makes a cute dog." ]
                         ]
-                    ]
+                    }
                 ]
             ]
         }
@@ -1516,14 +1515,13 @@ examplesForCard options =
                 []
                 [ Card.content options
                     []
-                    [ Card.header options [] [ text "Cute Dog" ]
-                    , Card.meta options [] [ text "2 days ago " ]
-                    , Card.description options
-                        []
+                    { header = [ text "Cute Dog" ]
+                    , meta = [ text "2 days ago " ]
+                    , description =
                         [ p [] [ text "Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size." ]
                         , p [] [ text "Many people also have their own barometers for what makes a cute dog." ]
                         ]
-                    ]
+                    }
                 , extraContent options
                     []
                     [ icon [] "fas fa-check"

@@ -14,7 +14,7 @@ import Css exposing (..)
 import Css.Global exposing (children, descendants, everything, selector)
 import Css.Prefix as Prefix
 import Css.Typography exposing (fomanticFont)
-import Html.Styled as Html exposing (Attribute, Html)
+import Html.Styled as Html exposing (Attribute, Html, text)
 import UI.Internal exposing (styledBlock)
 
 
@@ -219,9 +219,34 @@ contentBasis { inverted, additionalStyles } =
             ++ additionalStyles
 
 
-content : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-content { inverted } =
+content :
+    { inverted : Bool }
+    -> List (Attribute msg)
+    ->
+        { header : List (Html msg)
+        , meta : List (Html msg)
+        , description : List (Html msg)
+        }
+    -> Html msg
+content { inverted } attributes hmd =
+    let
+        has list f =
+            case list of
+                [] ->
+                    text ""
+
+                nonEmpty ->
+                    f nonEmpty
+
+        options =
+            { inverted = inverted }
+    in
     contentBasis { inverted = inverted, additionalStyles = [] }
+        attributes
+        [ has hmd.header (header options [])
+        , has hmd.meta (meta options [])
+        , has hmd.description (description options [])
+        ]
 
 
 header : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
