@@ -17,6 +17,7 @@ type Category
     | Collections
     | Views
     | Modules
+    | Defiant
 
 
 categoryToString : Category -> String
@@ -39,6 +40,9 @@ categoryToString category =
 
         Modules ->
             "Modules"
+
+        Defiant ->
+            "Defiant"
 
 
 root : PageSummary
@@ -288,4 +292,14 @@ modal =
     , description = "A modal displays content that temporarily blocks interactions with the main view of a site"
     , category = Modules
     , url = "/modal"
+    }
+
+
+sortableTable : PageSummary
+sortableTable =
+    { title = "SortableTable"
+    , breadcrumbItems = [ "Top", "Sortable Table" ]
+    , description = "Sortable table"
+    , category = Defiant
+    , url = "/sortable-table"
     }
