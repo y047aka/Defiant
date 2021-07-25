@@ -14,7 +14,8 @@ import Css exposing (..)
 import Css.Global exposing (children, each, selector)
 import Css.Prefix as Prefix
 import Css.Typography exposing (fomanticFont)
-import Html.Styled as Html exposing (Attribute, Html)
+import FontAwesome.Solid exposing (child)
+import Html.Styled as Html exposing (Attribute, Html, text)
 
 
 modalBasis : { shadow : Bool, inverted : Bool, additionalStyles : List Style } -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -73,13 +74,55 @@ modalBasis { shadow, inverted, additionalStyles } =
             ++ additionalStyles
 
 
-modal : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-modal { inverted } =
+modal :
+    { inverted : Bool }
+    -> List (Attribute msg)
+    ->
+        { header : List (Html msg)
+        , content : List (Html msg)
+        , actions : List (Html msg)
+        }
+    -> Html msg
+modal { inverted } attributes hca =
+    let
+        has list f =
+            case list of
+                [] ->
+                    text ""
+
+                nonEmpty ->
+                    f nonEmpty
+
+        options =
+            { inverted = inverted }
+    in
     modalBasis { shadow = True, inverted = inverted, additionalStyles = [] }
+        attributes
+        [ has hca.header (header options [])
+        , has hca.content (content options [])
+        , has hca.actions (actions options [])
+        ]
 
 
-basicModal : List (Attribute msg) -> List (Html msg) -> Html msg
-basicModal =
+basicModal :
+    List (Attribute msg)
+    ->
+        { header : List (Html msg)
+        , content : List (Html msg)
+        , actions : List (Html msg)
+        }
+    -> List (Html msg)
+    -> Html msg
+basicModal attributes hca children =
+    let
+        has list f =
+            case list of
+                [] ->
+                    text ""
+
+                nonEmpty ->
+                    f nonEmpty
+    in
     modalBasis
         { shadow = False
         , inverted = False
@@ -89,6 +132,13 @@ basicModal =
             , color (hex "#FFFFFF")
             ]
         }
+        attributes
+        ([ has hca.header (basicHeader [])
+         , has hca.content (basicContent [])
+         , has hca.actions (basicActions [])
+         ]
+            ++ children
+        )
 
 
 headerBasis : { inverted : Bool, additionalStyles : List Style } -> List (Attribute msg) -> List (Html msg) -> Html msg

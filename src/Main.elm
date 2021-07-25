@@ -1774,9 +1774,8 @@ examplesForModal { toggledItems, darkMode } =
                 [ onClick (Toggle "modal") ]
                 [ modal options
                     []
-                    [ Modal.header options [] [ text "Select a Photo" ]
-                    , Modal.content options
-                        []
+                    { header = [ text "Select a Photo" ]
+                    , content =
                         [ Modal.description []
                             [ p []
                                 [ text "We've found the following "
@@ -1786,12 +1785,11 @@ examplesForModal { toggledItems, darkMode } =
                             , p [] [ text "Is it okay to use this photo?" ]
                             ]
                         ]
-                    , Modal.actions options
-                        []
+                    , actions =
                         [ blackButton [] [ text "Nope" ]
                         , greenButton [] [ text "Yep, that's me" ]
                         ]
-                    ]
+                    }
                 ]
             ]
         }
@@ -1803,16 +1801,17 @@ examplesForModal { toggledItems, darkMode } =
             , pageDimmer (List.member "basicModal" toggledItems)
                 [ onClick (Toggle "basicModal") ]
                 [ basicModal []
-                    [ Modal.basicHeader [] [ text "Archive Old Messages" ]
-                    , Modal.basicContent []
+                    { header = [ text "Archive Old Messages" ]
+                    , content =
                         [ Modal.description []
                             [ p [] [ text "Your inbox is getting full, would you like us to enable automatic archiving of old messages?" ] ]
                         ]
-                    , Modal.basicActions []
+                    , actions =
                         [ redButton [] [ text "No" ]
                         , greenButton [] [ text "Yes" ]
                         ]
-                    ]
+                    }
+                    []
                 ]
             ]
         }
