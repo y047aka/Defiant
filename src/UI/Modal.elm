@@ -14,7 +14,6 @@ import Css exposing (..)
 import Css.Global exposing (children, each, selector)
 import Css.Prefix as Prefix
 import Css.Typography exposing (fomanticFont)
-import FontAwesome.Solid exposing (child)
 import Html.Styled as Html exposing (Attribute, Html, text)
 
 
