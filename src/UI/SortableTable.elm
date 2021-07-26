@@ -57,12 +57,13 @@ is not that crazy.
 
 -}
 
-import Html.Styled exposing (Attribute, Html, caption, span, table, td, text, tfoot, th, thead, tr)
+import Html.Styled exposing (Attribute, Html, caption, span, text)
 import Html.Styled.Attributes as Attr
 import Html.Styled.Events as E
 import Html.Styled.Keyed as Keyed
-import Html.Styled.Lazy exposing (lazy2, lazy3)
+import Html.Styled.Lazy exposing (lazy3)
 import Json.Decode as Json
+import UI.Table exposing (table, td, tfoot, th, thead, tr)
 
 
 
