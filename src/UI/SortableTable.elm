@@ -57,8 +57,9 @@ is not that crazy.
 
 -}
 
+import Css exposing (color, hex)
 import Html.Styled exposing (Attribute, Html, caption, span, text)
-import Html.Styled.Attributes as Attr
+import Html.Styled.Attributes exposing (css)
 import Html.Styled.Events as E
 import Html.Styled.Keyed as Keyed
 import Html.Styled.Lazy exposing (lazy3)
@@ -264,12 +265,12 @@ simpleTheadHelp ( name, status, onClick_ ) =
 
 darkGrey : String -> Html msg
 darkGrey symbol =
-    span [ Attr.style "color" "#555" ] [ text (" " ++ symbol) ]
+    span [ css [ color (hex "#555") ] ] [ text (" " ++ symbol) ]
 
 
 lightGrey : String -> Html msg
 lightGrey symbol =
-    span [ Attr.style "color" "#ccc" ] [ text (" " ++ symbol) ]
+    span [ css [ color (hex "#ccc") ] ] [ text (" " ++ symbol) ]
 
 
 simpleRowAttrs : data -> List (Attribute msg)
