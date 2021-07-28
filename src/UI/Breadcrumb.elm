@@ -1,11 +1,11 @@
-module UI.Breadcrumb exposing (activeSection, breadcrumb, divider, section)
+module UI.Breadcrumb exposing (activeSection, breadcrumb, section)
 
 import Css exposing (..)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
-breadcrumb : List (Html msg) -> Html msg
-breadcrumb =
+basis : List (Html msg) -> Html msg
+basis =
     Html.styled Html.div
         [ -- .ui.breadcrumb
           lineHeight (em 1.4285)
@@ -22,6 +22,15 @@ breadcrumb =
             [ marginBottom zero ]
         ]
         []
+
+
+breadcrumb : { divider : Html msg } -> List (Html msg) -> Html msg
+breadcrumb options children =
+    let
+        divider_ =
+            divider [] [ options.divider ]
+    in
+    basis (List.intersperse divider_ children)
 
 
 divider : List (Attribute msg) -> List (Html msg) -> Html msg
