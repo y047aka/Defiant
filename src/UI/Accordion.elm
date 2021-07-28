@@ -7,6 +7,12 @@ import Html.Styled as Html exposing (Attribute, Html)
 import UI.Internal exposing (styledBlock)
 
 
+type alias AccordionItem msg =
+    { title : List (Html msg)
+    , content : List (Html msg)
+    }
+
+
 basis : List (Attribute msg) -> List (Html msg) -> Html msg
 basis =
     styledBlock
@@ -28,11 +34,7 @@ basis =
         ]
 
 
-accordion :
-    { inverted : Bool }
-    -> List (Attribute msg)
-    -> List { title : List (Html msg), content : List (Html msg) }
-    -> Html msg
+accordion : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
 accordion options attributes items =
     basis attributes <|
         List.map (accordionItem options []) items
@@ -63,11 +65,7 @@ itemBasis =
         ]
 
 
-accordionItem :
-    { inverted : Bool }
-    -> List (Attribute msg)
-    -> { title : List (Html msg), content : List (Html msg) }
-    -> Html msg
+accordionItem : { inverted : Bool } -> List (Attribute msg) -> AccordionItem msg -> Html msg
 accordionItem options attributes children =
     itemBasis attributes
         [ title options [] children.title
