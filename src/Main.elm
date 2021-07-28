@@ -11,6 +11,7 @@ import Html.Styled exposing (Attribute, Html, a, div, h1, h2, h3, h4, h5, input,
 import Html.Styled.Attributes as Attributes exposing (css, for, href, id, rel, src, type_)
 import Html.Styled.Events exposing (onClick, onInput)
 import PageSummary exposing (Category(..), PageSummary)
+import UI.Accordion as Accordion
 import UI.Breadcrumb as Breadcrumb exposing (..)
 import UI.Button exposing (..)
 import UI.Card as Card exposing (..)
@@ -96,6 +97,7 @@ type Page
     | TablePage
     | CardPage
     | ItemPage
+    | AccordionPage
     | CheckboxPage
     | DimmerPage
     | ModalPage
@@ -144,6 +146,7 @@ type Route
     | Table
     | Card
     | Item
+    | Accordion
     | Checkbox
     | Dimmer
     | Modal
@@ -174,6 +177,7 @@ parser =
         , Parser.map Table (s "table")
         , Parser.map Card (s "card")
         , Parser.map Item (s "item")
+        , Parser.map Accordion (s "accordion")
         , Parser.map Checkbox (s "checkbox")
         , Parser.map Dimmer (s "dimmer")
         , Parser.map Modal (s "modal")
@@ -258,6 +262,9 @@ routing url model =
 
             Just Item ->
                 ItemPage
+
+            Just Accordion ->
+                AccordionPage
 
             Just Checkbox ->
                 CheckboxPage
@@ -498,6 +505,11 @@ view model =
                 , contents = examplesForItem
                 }
 
+            AccordionPage ->
+                { summary = PageSummary.accordion
+                , contents = examplesForAccordion { inverted = model.darkMode }
+                }
+
             CheckboxPage ->
                 { summary = PageSummary.checkbox
                 , contents = examplesForCheckbox
@@ -571,6 +583,7 @@ contents_ =
     , PageSummary.table
     , PageSummary.card
     , PageSummary.item
+    , PageSummary.accordion
     , PageSummary.checkbox
     , PageSummary.dimmer
     , PageSummary.modal
@@ -1707,6 +1720,47 @@ examplesForItem =
                         }
                     ]
                 ]
+            ]
+        }
+    ]
+
+
+examplesForAccordion : { inverted : Bool } -> List (Html Msg)
+examplesForAccordion options =
+    let
+        items =
+            [ { title = "What is a dog?"
+              , contents = [ "A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world." ]
+              }
+            , { title = "What kinds of dogs are there?"
+              , contents = [ "There are many breeds of dogs. Each breed varies in size and temperament. Owners often select a breed of dog that they find to be compatible with their own lifestyle and desires from a companion." ]
+              }
+            , { title = "How do you acquire a dog?"
+              , contents =
+                    [ "Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters."
+                    , "A pet shop may be the most convenient way to buy a dog. Buying a dog from a private owner allows you to assess the pedigree and upbringing of your dog before choosing to take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog who may not find one so readily."
+                    ]
+              }
+            ]
+                |> List.map
+                    (\{ title, contents } ->
+                        { title = [ text title ]
+                        , content = List.map (\c -> p [] [ text c ]) contents
+                        }
+                    )
+    in
+    [ example
+        { title = "Accordion"
+        , description = "A standard accordion"
+        , contents = [ Accordion.accordion options [] items ]
+        }
+    , example
+        { title = "Inverted"
+        , description = "An accordion can be formatted to appear on dark backgrounds"
+        , contents =
+            [ segment { inverted = True }
+                []
+                [ Accordion.accordion { inverted = True } [] items ]
             ]
         }
     ]

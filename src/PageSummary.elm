@@ -265,6 +265,16 @@ item =
     }
 
 
+accordion : PageSummary
+accordion =
+    { title = "Accordion"
+    , breadcrumbItems = [ "Top", "Accordion" ]
+    , description = "An accordion allows users to toggle the display of sections of content"
+    , category = Modules
+    , url = "/accordion"
+    }
+
+
 checkbox : PageSummary
 checkbox =
     { title = "Checkbox"
