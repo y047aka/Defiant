@@ -4,8 +4,8 @@ import Css exposing (..)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
-basis : List (Html msg) -> Html msg
-basis =
+basis : { inverted : Bool } -> List (Html msg) -> Html msg
+basis { inverted } =
     Html.styled Html.div
         [ -- .ui.breadcrumb
           lineHeight (em 1.4285)
@@ -20,33 +20,48 @@ basis =
         -- .ui.breadcrumb:last-child
         , lastChild
             [ marginBottom zero ]
+
+        -- Inverted
+        , if inverted then
+            -- .ui.inverted.breadcrumb
+            color (hex "#DCDDDE")
+
+          else
+            batch []
         ]
         []
 
 
-breadcrumb : { divider : Html msg } -> List (Html msg) -> Html msg
+breadcrumb : { divider : Html msg, inverted : Bool } -> List (Html msg) -> Html msg
 breadcrumb options children =
     let
         divider_ =
-            divider [] [ options.divider ]
+            divider { inverted = options.inverted } [] [ options.divider ]
     in
-    basis (List.intersperse divider_ children)
+    basis { inverted = options.inverted } (List.intersperse divider_ children)
 
 
-divider : List (Attribute msg) -> List (Html msg) -> Html msg
-divider =
+divider : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+divider { inverted } =
     Html.styled Html.div
         [ -- .ui.breadcrumb .divider
           display inlineBlock
         , opacity (num 0.7)
         , margin3 zero (rem 0.21428571) zero
         , fontSize (em 0.92857143)
-        , color (rgba 0 0 0 0.4)
         , verticalAlign baseline
 
         -- .ui.breadcrumb .icon.divider
         , fontSize (em 0.85714286)
         , verticalAlign baseline
+
+        -- Inverted
+        , if inverted then
+            -- .ui.inverted.breadcrumb > .divider
+            color (rgba 255 255 255 0.7)
+
+          else
+            color (rgba 0 0 0 0.4)
 
         -- Override
         , margin3 zero (rem 0.71428571) zero

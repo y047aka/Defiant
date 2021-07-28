@@ -360,7 +360,7 @@ view model =
                             [ container []
                                 [ summary.breadcrumbItems
                                     |> List.indexedMap (breadcrumbItem <| List.length summary.breadcrumbItems)
-                                    |> breadcrumb { divider = text "/" }
+                                    |> breadcrumb { divider = text "/", inverted = model.darkMode }
                                 ]
                             ]
                         , basicSegment { inverted = False }
@@ -471,7 +471,7 @@ view model =
 
             BreadcrumbPage ->
                 { summary = PageSummary.breadcrumb
-                , contents = examplesForBreadcrumb
+                , contents = examplesForBreadcrumb { inverted = model.darkMode }
                 }
 
             GridPage ->
@@ -1123,13 +1123,13 @@ examplesForText options =
     ]
 
 
-examplesForBreadcrumb : List (Html msg)
-examplesForBreadcrumb =
+examplesForBreadcrumb : { inverted : Bool } -> List (Html msg)
+examplesForBreadcrumb { inverted } =
     [ example
         { title = "Breadcrumb"
         , description = "A standard breadcrumb"
         , contents =
-            [ breadcrumb { divider = text "/" }
+            [ breadcrumb { divider = text "/", inverted = inverted }
                 [ section [] [ text "Home" ]
                 , section [] [ text "Store" ]
                 , activeSection [] [ text "T-Shirt" ]
@@ -1140,7 +1140,7 @@ examplesForBreadcrumb =
         { title = ""
         , description = ""
         , contents =
-            [ breadcrumb { divider = icon [] "fas fa-angle-right" }
+            [ breadcrumb { divider = icon [] "fas fa-angle-right", inverted = inverted }
                 [ section [] [ text "Home" ]
                 , section [] [ text "Store" ]
                 , activeSection [] [ text "T-Shirt" ]
@@ -1151,7 +1151,7 @@ examplesForBreadcrumb =
         { title = "Divider"
         , description = "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text."
         , contents =
-            [ breadcrumb { divider = text "/" }
+            [ breadcrumb { divider = text "/", inverted = inverted }
                 [ section [] [ text "Home" ]
                 , section [] [ text "Registration" ]
                 , activeSection [] [ text "Personal Information" ]
@@ -1162,9 +1162,23 @@ examplesForBreadcrumb =
         { title = "Active"
         , description = "A section can be active"
         , contents =
-            [ breadcrumb { divider = text "/" }
+            [ breadcrumb { divider = text "/", inverted = inverted }
                 [ section [] [ text "Products" ]
                 , activeSection [] [ text "Paper Towels" ]
+                ]
+            ]
+        }
+    , example
+        { title = "Inverted"
+        , description = "A breadcrumb can be inverted"
+        , contents =
+            [ segment { inverted = True }
+                []
+                [ breadcrumb { divider = text "/", inverted = True }
+                    [ section [] [ text "Home" ]
+                    , section [] [ text "Registration" ]
+                    , activeSection [] [ text "Personal Information" ]
+                    ]
                 ]
             ]
         }
