@@ -346,11 +346,12 @@ view model =
     let
         document { summary, contents } =
             { title =
-                if List.length summary.breadcrumbItems > 1 then
-                    summary.title ++ " | Defiant"
+                case model.page of
+                    TopPage ->
+                        "Defiant"
 
-                else
-                    "Defiant"
+                    _ ->
+                        summary.title ++ " | Defiant"
             , body =
                 [ toUnstyled <|
                     div []
@@ -358,9 +359,8 @@ view model =
                         , basicSegment { inverted = False }
                             []
                             [ container []
-                                [ summary.breadcrumbItems
-                                    |> List.indexedMap (breadcrumbItem <| List.length summary.breadcrumbItems)
-                                    |> breadcrumb { divider = text "/", inverted = model.darkMode }
+                                [ breadcrumb { divider = text "/", inverted = model.darkMode }
+                                    (breadcrumbItems summary)
                                 ]
                             ]
                         , basicSegment { inverted = False }
@@ -384,13 +384,6 @@ view model =
                         ]
                 ]
             }
-
-        breadcrumbItem length index item =
-            if index + 1 == length then
-                activeSection [] [ text item ]
-
-            else
-                section [ href "/" ] [ text item ]
     in
     document <|
         case model.page of
@@ -528,6 +521,18 @@ view model =
                 { summary = PageSummary.sortableTable
                 , contents = examplesForSortableTable model
                 }
+
+
+breadcrumbItems : PageSummary -> List BreadcrumbItem
+breadcrumbItems { title, url } =
+    case url of
+        "/" ->
+            [ { label = "Top", url = "/" } ]
+
+        _ ->
+            [ { label = "Top", url = "/" }
+            , { label = title, url = url }
+            ]
 
 
 tableOfContents : { inverted : Bool } -> List (Html msg)
@@ -1130,9 +1135,9 @@ examplesForBreadcrumb { inverted } =
         , description = "A standard breadcrumb"
         , contents =
             [ breadcrumb { divider = text "/", inverted = inverted }
-                [ section [] [ text "Home" ]
-                , section [] [ text "Store" ]
-                , activeSection [] [ text "T-Shirt" ]
+                [ { label = "Home", url = "/" }
+                , { label = "Store", url = "/" }
+                , { label = "T-Shirt", url = "" }
                 ]
             ]
         }
@@ -1141,9 +1146,9 @@ examplesForBreadcrumb { inverted } =
         , description = ""
         , contents =
             [ breadcrumb { divider = icon [] "fas fa-angle-right", inverted = inverted }
-                [ section [] [ text "Home" ]
-                , section [] [ text "Store" ]
-                , activeSection [] [ text "T-Shirt" ]
+                [ { label = "Home", url = "/" }
+                , { label = "Store", url = "/" }
+                , { label = "T-Shirt", url = "" }
                 ]
             ]
         }
@@ -1152,9 +1157,9 @@ examplesForBreadcrumb { inverted } =
         , description = "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text."
         , contents =
             [ breadcrumb { divider = text "/", inverted = inverted }
-                [ section [] [ text "Home" ]
-                , section [] [ text "Registration" ]
-                , activeSection [] [ text "Personal Information" ]
+                [ { label = "Home", url = "/" }
+                , { label = "Registration", url = "/" }
+                , { label = "Personal Information", url = "" }
                 ]
             ]
         }
@@ -1163,8 +1168,8 @@ examplesForBreadcrumb { inverted } =
         , description = "A section can be active"
         , contents =
             [ breadcrumb { divider = text "/", inverted = inverted }
-                [ section [] [ text "Products" ]
-                , activeSection [] [ text "Paper Towels" ]
+                [ { label = "Products", url = "/" }
+                , { label = "Paper Towels", url = "" }
                 ]
             ]
         }
@@ -1175,9 +1180,9 @@ examplesForBreadcrumb { inverted } =
             [ segment { inverted = True }
                 []
                 [ breadcrumb { divider = text "/", inverted = True }
-                    [ section [] [ text "Home" ]
-                    , section [] [ text "Registration" ]
-                    , activeSection [] [ text "Personal Information" ]
+                    [ { label = "Home", url = "/" }
+                    , { label = "Registration", url = "/" }
+                    , { label = "Personal Information", url = "" }
                     ]
                 ]
             ]

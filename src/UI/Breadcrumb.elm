@@ -1,7 +1,15 @@
-module UI.Breadcrumb exposing (activeSection, breadcrumb, section)
+module UI.Breadcrumb exposing (BreadcrumbItem, activeSection, breadcrumb, section)
 
 import Css exposing (..)
-import Html.Styled as Html exposing (Attribute, Html)
+import Html.Styled as Html exposing (Attribute, Html, text)
+import Html.Styled.Attributes exposing (href)
+import Svg.Styled exposing (Attribute)
+
+
+type alias BreadcrumbItem =
+    { label : String
+    , url : String
+    }
 
 
 basis : { inverted : Bool } -> List (Html msg) -> Html msg
@@ -32,13 +40,27 @@ basis { inverted } =
         []
 
 
-breadcrumb : { divider : Html msg, inverted : Bool } -> List (Html msg) -> Html msg
+breadcrumb : { divider : Html msg, inverted : Bool } -> List BreadcrumbItem -> Html msg
 breadcrumb options children =
     let
+        length =
+            List.length children
+
+        section_ index { label, url } =
+            if index + 1 == length then
+                activeSection [] [ text label ]
+
+            else
+                section [ href url ] [ text label ]
+
         divider_ =
             divider { inverted = options.inverted } [] [ options.divider ]
     in
-    basis { inverted = options.inverted } (List.intersperse divider_ children)
+    basis { inverted = options.inverted }
+        (children
+            |> List.indexedMap section_
+            |> List.intersperse divider_
+        )
 
 
 divider : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
