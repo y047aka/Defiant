@@ -1,12 +1,12 @@
 module UI.Card exposing
-    ( card, cards
-    , content, header, meta, description, extraContent
+    ( cards, card
+    , content, extraContent
     )
 
 {-|
 
-@docs card, cards
-@docs content, header, meta, description, extraContent
+@docs cards, card
+@docs content, extraContent
 
 -}
 

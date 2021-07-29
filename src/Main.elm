@@ -11,27 +11,27 @@ import Html.Styled exposing (Attribute, Html, a, div, h1, h2, h3, h4, h5, input,
 import Html.Styled.Attributes as Attributes exposing (css, for, href, id, rel, src, type_)
 import Html.Styled.Events exposing (onClick, onInput)
 import PageSummary exposing (Category(..), PageSummary)
-import UI.Accordion as Accordion
-import UI.Breadcrumb exposing (..)
+import UI.Accordion exposing (accordion)
+import UI.Breadcrumb exposing (BreadcrumbItem, breadcrumb)
 import UI.Button exposing (..)
-import UI.Card as Card exposing (..)
-import UI.Checkbox as Checkbox exposing (..)
-import UI.Container exposing (..)
-import UI.Dimmer as Dimmer exposing (..)
-import UI.Divider as Divider
+import UI.Card as Card exposing (card, cards, extraContent)
+import UI.Checkbox as Checkbox exposing (checkbox)
+import UI.Container exposing (container, textContainer)
+import UI.Dimmer as Dimmer exposing (dimmer, pageDimmer)
+import UI.Divider exposing (divider)
 import UI.Example exposing (..)
 import UI.Grid as Grid exposing (..)
 import UI.Header as Header exposing (..)
-import UI.Icon as Icon exposing (..)
-import UI.Image exposing (..)
+import UI.Icon exposing (icon)
+import UI.Image exposing (image, smallImage, tinyImage)
 import UI.Input as Input
 import UI.Item as Item exposing (..)
 import UI.Label as Label exposing (..)
 import UI.Menu as Menu exposing (..)
-import UI.Message exposing (..)
+import UI.Message exposing (message)
 import UI.Modal as Modal exposing (..)
 import UI.Placeholder exposing (line, placeholder)
-import UI.Rail exposing (..)
+import UI.Rail exposing (leftRail, rightRail)
 import UI.Segment exposing (..)
 import UI.SortableTable as Table
 import UI.Table exposing (..)
@@ -753,7 +753,7 @@ examplesForDivider =
         , description = "A standard divider"
         , contents =
             [ wireframeShortParagraph
-            , Divider.divider [] []
+            , divider [] []
             , wireframeShortParagraph
             ]
         }
@@ -833,8 +833,8 @@ examplesForIcon =
                     ]
                     :: attributes
 
-        icon =
-            Icon.icon
+        icon_ =
+            icon
                 [ css
                     [ -- #example .icon.example .column .icon
                       opacity (num 1)
@@ -852,29 +852,29 @@ examplesForIcon =
         , contents =
             [ fiveColumnsGrid []
                 [ -- row 1
-                  column [] [ icon "fab fa-accessible-icon", text "accessible icon" ]
-                , column [] [ icon "fas fa-american-sign-language-interpreting", text "american sign language interpreting" ]
-                , column [] [ icon "fas fa-assistive-listening-systems", text "assistive listening systems" ]
-                , column [] [ icon "fas fa-audio-description", text "audio description" ]
-                , column [] [ icon "fas fa-blind", text "blind" ]
+                  column [] [ icon_ "fab fa-accessible-icon", text "accessible icon" ]
+                , column [] [ icon_ "fas fa-american-sign-language-interpreting", text "american sign language interpreting" ]
+                , column [] [ icon_ "fas fa-assistive-listening-systems", text "assistive listening systems" ]
+                , column [] [ icon_ "fas fa-audio-description", text "audio description" ]
+                , column [] [ icon_ "fas fa-blind", text "blind" ]
 
                 -- row 2
-                , column [] [ icon "fas fa-braille", text "braille" ]
-                , column [] [ icon "fas fa-closed-captioning", text "closed captioning" ]
-                , column [] [ icon "far fa-closed-captioning", text "closed captioning" ]
-                , column [] [ icon "fas fa-deaf", text "deaf" ]
-                , column [] [ icon "fas fa-low-vision", text "low vision" ]
+                , column [] [ icon_ "fas fa-braille", text "braille" ]
+                , column [] [ icon_ "fas fa-closed-captioning", text "closed captioning" ]
+                , column [] [ icon_ "far fa-closed-captioning", text "closed captioning" ]
+                , column [] [ icon_ "fas fa-deaf", text "deaf" ]
+                , column [] [ icon_ "fas fa-low-vision", text "low vision" ]
 
                 -- row 3
-                , column [] [ icon "fas fa-phone-volume", text "phone volume" ]
-                , column [] [ icon "fas fa-question-circle", text "question circle" ]
-                , column [] [ icon "far fa-question-circle", text "question circle" ]
-                , column [] [ icon "fas fa-sign-language", text "sign language" ]
-                , column [] [ icon "fas fa-tty", text "tty" ]
+                , column [] [ icon_ "fas fa-phone-volume", text "phone volume" ]
+                , column [] [ icon_ "fas fa-question-circle", text "question circle" ]
+                , column [] [ icon_ "far fa-question-circle", text "question circle" ]
+                , column [] [ icon_ "fas fa-sign-language", text "sign language" ]
+                , column [] [ icon_ "fas fa-tty", text "tty" ]
 
                 -- row 4
-                , column [] [ icon "fas fa-universal-access", text "universal access" ]
-                , column [] [ icon "fas fa-wheelchair", text "wheelchair" ]
+                , column [] [ icon_ "fas fa-universal-access", text "universal access" ]
+                , column [] [ icon_ "fas fa-wheelchair", text "wheelchair" ]
                 ]
             ]
         }
@@ -1763,7 +1763,7 @@ examplesForAccordion options =
     [ example
         { title = "Accordion"
         , description = "A standard accordion"
-        , contents = [ Accordion.accordion options [] items ]
+        , contents = [ accordion options [] items ]
         }
     , example
         { title = "Inverted"
@@ -1771,7 +1771,7 @@ examplesForAccordion options =
         , contents =
             [ segment { inverted = True }
                 []
-                [ Accordion.accordion { inverted = True } [] items ]
+                [ accordion { inverted = True } [] items ]
             ]
         }
     ]

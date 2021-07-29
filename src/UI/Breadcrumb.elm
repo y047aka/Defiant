@@ -1,4 +1,4 @@
-module UI.Breadcrumb exposing (BreadcrumbItem, activeSection, breadcrumb, section)
+module UI.Breadcrumb exposing (BreadcrumbItem, breadcrumb)
 
 import Css exposing (..)
 import Html.Styled as Html exposing (Attribute, Html, text)

@@ -18,7 +18,6 @@ import Css.Media as Media exposing (only, screen, withMedia)
 import Css.Prefix as Prefix
 import Html.Styled as Html exposing (Attribute, Html, p, text)
 import Html.Styled.Attributes exposing (src)
-import UI.Card exposing (description)
 import UI.Header as Header
 
 

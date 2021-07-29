@@ -2,7 +2,7 @@ module UI.Item exposing
     ( items
     , item, dividedItems
     , content, middleAlignedContent
-    , header, meta, description, extra
+    , header
     )
 
 {-|
@@ -10,7 +10,7 @@ module UI.Item exposing
 @docs items
 @docs item, dividedItems
 @docs content, middleAlignedContent
-@docs header, meta, description, extra
+@docs header
 
 -}
 
