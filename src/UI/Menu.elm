@@ -122,7 +122,7 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
                   display block
                 , property "-webkit-box-orient" "vertical"
                 , property "-webkit-box-direction" "normal"
-                , Prefix.flexDirection "column"
+                , prefixed [] "flex-direction" "column"
 
                 -- .ui.vertical.menu
                 , width (rem 15)
@@ -173,7 +173,7 @@ itemBasis { tag, vertical, borderAndShadows, inverted } additionalStyles =
             }
         , property "-webkit-tap-highlight-color" "transparent"
         , Prefix.flex "0 0 auto"
-        , Prefix.userSelect "none"
+        , prefixed [] "user-select" "none"
         , property "background" "none"
         , padding2 (em 0.92857143) (em 1.14285714)
         , color (rgba 0 0 0 0.87)

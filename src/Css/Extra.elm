@@ -46,8 +46,35 @@ prefixed additionalPrefixes p v =
             batch <| prefixedStyles defaultPrefixes ++ [ originalStyle ]
     in
     case p of
+        "animation-delay" ->
+            default [ "-webkit-" ]
+
+        "animation-duration" ->
+            default [ "-webkit-" ]
+
+        "animation-fill-mode" ->
+            default [ "-webkit-" ]
+
+        "appearance" ->
+            prefixedStyles [ "-webkit-" ] |> batch
+
+        "backface-visibility" ->
+            default [ "-webkit-" ]
+
         "box-shadow" ->
             default [ "-webkit-" ]
+
+        "box-sizing" ->
+            default [ "-webkit-" ]
+
+        "flex-direction" ->
+            default [ "-ms-" ]
+
+        "flex-wrap" ->
+            default [ "-ms-" ]
+
+        "user-select" ->
+            default [ "-webkit-", "-moz-", "-ms-" ]
 
         _ ->
             originalStyle

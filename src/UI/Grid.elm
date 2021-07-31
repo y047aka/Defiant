@@ -11,6 +11,7 @@ module UI.Grid exposing
 -}
 
 import Css exposing (..)
+import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, everything)
 import Css.Prefix as Prefix
 import Html.Styled as Html exposing (Attribute, Html)
@@ -23,8 +24,8 @@ gridBasis additionalStyles =
           Prefix.displayFlex
         , property "-webkit-box-orient" "horizontal"
         , property "-webkit-box-direction" "normal"
-        , Prefix.flexDirection "row"
-        , Prefix.flexWrap "wrap"
+        , prefixed [] "flex-direction" "row"
+        , prefixed [] "flex-wrap" "wrap"
         , Prefix.alignItems "stretch"
         , padding zero
 

@@ -1,6 +1,7 @@
 module UI.Dimmer exposing (content, dimmer, pageDimmer)
 
 import Css exposing (..)
+import Css.Extra exposing (prefixed)
 import Css.Prefix as Prefix
 import Html.Styled as Html exposing (Attribute, Html)
 
@@ -35,18 +36,18 @@ basis isActive additionalStyles =
                 , opacity zero
                 ]
         , lineHeight (int 1)
-        , Prefix.animationFillMode "both"
-        , Prefix.animationDuration "0.5s"
+        , prefixed [] "animation-fill-mode" "both"
+        , prefixed [] "animation-duration" "0.5s"
         , property "-webkit-transition" "background-color 0.5s linear"
         , property "transition" "background-color 0.5s linear"
         , property "-webkit-box-orient" "vertical"
         , property "-webkit-box-direction" "normal"
-        , Prefix.flexDirection "column"
+        , prefixed [] "flex-direction" "column"
         , Prefix.alignItems "center"
         , property "-webkit-box-pack" "center"
         , property "-ms-flex-pack" "center"
         , justifyContent center
-        , Prefix.userSelect "none"
+        , prefixed [] "user-select" "none"
         , property "will-change" "opacity"
         , zIndex (int 1000)
 

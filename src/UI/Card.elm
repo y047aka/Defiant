@@ -25,7 +25,7 @@ cards =
         [ -- .ui.cards
           Prefix.displayFlex
         , margin2 (em -0.875) (em -0.5)
-        , Prefix.flexWrap "wrap"
+        , prefixed [] "flex-wrap" "wrap"
 
         -- .ui.cards > .card
         , children
@@ -96,7 +96,7 @@ cardBasis { border, shadow, inverted } additionalStyles =
         , Prefix.displayFlex
         , property "-webkit-box-orient" "vertical"
         , property "-webkit-box-direction" "normal"
-        , Prefix.flexDirection "column"
+        , prefixed [] "flex-direction" "column"
         , width (px 290)
         , minHeight zero
         , property "-webkit-transition" "-webkit-box-shadow 0.1s ease, -webkit-transform 0.1s ease"

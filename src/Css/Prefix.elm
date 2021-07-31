@@ -1,4 +1,4 @@
-module Css.Prefix exposing (alignItems, alignSelf, animationDelay, animationDuration, animationFillMode, appearance, backfaceVisibility, boxSizing, displayFlex, displayInlineFlex, flex, flexDirection, flexWrap, userSelect)
+module Css.Prefix exposing (alignItems, alignSelf, displayFlex, displayInlineFlex, flex)
 
 import Css exposing (Style, batch, display, inlineFlex, property)
 import Css.Extra
@@ -25,42 +25,6 @@ alignSelf value =
         [ Css.property "-ms-flex-item-align" value
         , Css.property "align-self" value
         ]
-
-
-animationDelay : String -> Style
-animationDelay value =
-    batch <|
-        prefixedProperties [ "-webkit-", "" ] "animation-delay" value
-
-
-animationDuration : String -> Style
-animationDuration value =
-    batch <|
-        prefixedProperties [ "-webkit-", "" ] "animation-duration" value
-
-
-animationFillMode : String -> Style
-animationFillMode value =
-    batch <|
-        prefixedProperties [ "-webkit-", "" ] "animation-fill-mode" value
-
-
-appearance : String -> Style
-appearance value =
-    batch <|
-        prefixedProperties [ "-webkit-", "-moz-" ] "appearance" value
-
-
-backfaceVisibility : String -> Style
-backfaceVisibility value =
-    batch <|
-        prefixedProperties [ "-webkit-", "" ] "backface-visibility" value
-
-
-boxSizing : String -> Style
-boxSizing value =
-    batch <|
-        prefixedProperties [ "-webkit-", "" ] "box-sizing" value
 
 
 displayFlex : Style
@@ -91,21 +55,3 @@ flex value =
             |> Maybe.withDefault Css.Extra.none
         )
             :: prefixedProperties [ "-webkit-", "-ms-", "" ] "flex" value
-
-
-flexDirection : String -> Style
-flexDirection value =
-    batch <|
-        prefixedProperties [ "-ms-", "" ] "flex-direction" value
-
-
-flexWrap : String -> Style
-flexWrap value =
-    batch <|
-        prefixedProperties [ "-ms-", "" ] "flex-wrap" value
-
-
-userSelect : String -> Style
-userSelect value =
-    batch <|
-        prefixedProperties [ "-webkit-", "-moz-", "-ms-", "" ] "user-select" value

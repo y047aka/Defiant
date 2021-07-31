@@ -47,7 +47,7 @@ modalBasis { shadow, inverted, additionalStyles } =
 
           else
             borderRadius zero
-        , Prefix.userSelect "text"
+        , prefixed [] "user-select" "text"
         , property "will-change" "top, left, margin, transform, opacity"
         , children
             [ -- .ui.modal > :first-child:not(.icon):not(.dimmer)

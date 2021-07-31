@@ -1,7 +1,7 @@
 module UI.Divider exposing (divider)
 
 import Css exposing (..)
-import Css.Prefix as Prefix
+import Css.Extra exposing (prefixed)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
@@ -16,7 +16,7 @@ basis additionalStyles =
         , textTransform uppercase
         , letterSpacing (em 0.05)
         , color (rgba 0 0 0 0.85)
-        , Prefix.userSelect "none"
+        , prefixed [] "user-select" "none"
         , property "-webkit-tap-highlight-color" "rgba(0, 0, 0, 0)"
         ]
             ++ additionalStyles

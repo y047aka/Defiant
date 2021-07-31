@@ -1,8 +1,8 @@
 module Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
 
 import Css exposing (..)
+import Css.Extra exposing (prefixed)
 import Css.Global exposing (Snippet, each, everything, selector)
-import Css.Prefix as Prefix
 import Css.Typography as Typography exposing (typography)
 
 
@@ -14,9 +14,9 @@ additionalReset =
         , selector "*:before"
         , selector "*:after"
         ]
-        [ Prefix.boxSizing "inherit" ]
+        [ prefixed [] "box-sizing" "inherit" ]
     , Css.Global.html
-        [ Prefix.boxSizing "border-box" ]
+        [ prefixed [] "box-sizing" "border-box" ]
 
     -- iPad Input Shadows
     , each
@@ -25,7 +25,7 @@ additionalReset =
         , selector "input[type=\"search\"]"
         , selector "input[type=\"password\"]"
         ]
-        [ Prefix.appearance "none" ]
+        [ prefixed [ "-moz-" ] "appearance" "none" ]
     ]
 
 
@@ -148,7 +148,7 @@ globalCustomize =
         ]
     , -- Force Simple Scrollbars
       selector "body ::-webkit-scrollbar"
-        [ property "-webkit-appearance" "none"
+        [ prefixed [] "appearance" "none"
         , width (px 10)
         , height (px 10)
         ]

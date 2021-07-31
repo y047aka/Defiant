@@ -12,8 +12,8 @@ module UI.Placeholder exposing
 
 import Css exposing (..)
 import Css.Animations as Animations exposing (keyframes)
+import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, selector)
-import Css.Prefix as Prefix
 import Html.Styled as Html exposing (Attribute, Html)
 
 
@@ -44,20 +44,20 @@ basis additionalStyles =
         -- .ui.placeholder + .ui.placeholder
         , nthChild "n+2"
             [ marginTop (rem 2)
-            , Prefix.animationDelay "0.15s"
+            , prefixed [] "animation-delay" "0.15s"
             ]
 
         -- .ui.placeholder + .ui.placeholder + .ui.placeholder
         , nthChild "n+3"
-            [ Prefix.animationDelay "0.3s" ]
+            [ prefixed [] "animation-delay" "0.3s" ]
 
         -- .ui.placeholder + .ui.placeholder + .ui.placeholder + .ui.placeholder
         , nthChild "n+4"
-            [ Prefix.animationDelay "0.45s" ]
+            [ prefixed [] "animation-delay" "0.45s" ]
 
         -- .ui.placeholder + .ui.placeholder + .ui.placeholder + .ui.placeholder + .ui.placeholder
         , nthChild "n+5"
-            [ Prefix.animationDelay "0.6s" ]
+            [ prefixed [] "animation-delay" "0.6s" ]
 
         -- .ui.placeholder
         -- .ui.placeholder > :before

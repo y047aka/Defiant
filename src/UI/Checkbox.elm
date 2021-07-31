@@ -1,8 +1,8 @@
 module UI.Checkbox exposing (checkbox, label)
 
 import Css exposing (..)
+import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, each, selector)
-import Css.Prefix as Prefix
 import Html.Styled as Html exposing (Attribute, Html)
 
 
@@ -12,7 +12,7 @@ checkbox =
         [ -- .ui.checkbox
           position relative
         , display inlineBlock
-        , Prefix.backfaceVisibility "hidden"
+        , prefixed [] "backface-visibility" "hidden"
         , outline none
         , verticalAlign baseline
         , fontStyle normal

@@ -19,7 +19,6 @@ import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, selector, typeSelector)
 import Css.Layout as Layout exposing (layout)
 import Css.Palette exposing (..)
-import Css.Prefix as Prefix
 import Css.Typography as Typography exposing (fomanticFont, init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes exposing (css)
@@ -57,7 +56,7 @@ basis { palettes, shadow } additionalStyles =
         , padding3 (em 0.78571429) (em 1.5) (em 0.78571429)
         , textShadow none
         , borderRadius (rem 0.28571429)
-        , Prefix.userSelect "none"
+        , prefixed [] "user-select" "none"
         , property "-webkit-transition" "opacity 0.1s ease, background-color 0.1s ease, color 0.1s ease, background 0.1s ease, -webkit-box-shadow 0.1s ease"
         , property "transition" "opacity 0.1s ease, background-color 0.1s ease, color 0.1s ease, background 0.1s ease, -webkit-box-shadow 0.1s ease"
         , property "transition" "opacity 0.1s ease, background-color 0.1s ease, color 0.1s ease, box-shadow 0.1s ease, background 0.1s ease"
@@ -184,7 +183,7 @@ labeledButton attributes =
             , margin4 zero (em 0.25) zero zero
             , textShadow none
             , borderRadius (rem 0.28571429)
-            , Prefix.userSelect "none"
+            , prefixed [] "user-select" "none"
             , property "-webkit-tap-highlight-color" "transparent"
 
             -- .ui.labeled.button:not(.icon)
@@ -193,7 +192,7 @@ labeledButton attributes =
             , display inlineFlex
             , property "-webkit-box-orient" "horizontal"
             , property "-webkit-box-direction" "normal"
-            , Prefix.flexDirection "row"
+            , prefixed [] "flex-direction" "row"
             , backgroundColor transparent
             , padding zero |> important
             , borderStyle none
