@@ -1,6 +1,7 @@
 module UI.Progress exposing (progress)
 
 import Css exposing (..)
+import Css.Extra exposing (prefixed)
 import Css.Prefix as Prefix
 import Html.Styled as Html exposing (Attribute, Html, text)
 
@@ -14,7 +15,7 @@ basis =
         , maxWidth (pct 100)
         , property "border" "none"
         , margin3 (em 1) zero (em 2.5)
-        , Prefix.boxShadow "none"
+        , prefixed [ "-webkit-" ] "box-shadow" "none"
         , property "background" "rgba(0, 0, 0, 0.1)"
         , padding zero
         , borderRadius (rem 0.28571429)
