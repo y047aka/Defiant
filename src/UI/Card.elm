@@ -11,6 +11,7 @@ module UI.Card exposing
 -}
 
 import Css exposing (..)
+import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, everything, selector)
 import Css.Prefix as Prefix
 import Css.Typography exposing (fomanticFont)
@@ -166,7 +167,7 @@ contentBasis { inverted, additionalStyles } =
         , property "background" "none"
         , margin zero
         , padding2 (em 1) (em 1)
-        , Prefix.boxShadow "none"
+        , prefixed [] "box-shadow" "none"
         , fontSize (em 1)
         , borderRadius zero
 
@@ -378,7 +379,7 @@ extraContent { inverted } =
                     [ color (rgba 0 0 0 0.4)
                     , borderTop3 (px 1) solid (rgba 0 0 0 0.05) |> important
                     ]
-            , Prefix.boxShadow "none"
+            , prefixed [] "box-shadow" "none"
             , property "-webkit-transition" "color 0.1s ease"
             , property "transition" "color 0.1s ease"
             ]

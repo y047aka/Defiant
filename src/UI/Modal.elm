@@ -11,6 +11,7 @@ module UI.Modal exposing
 -}
 
 import Css exposing (..)
+import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, each, selector)
 import Css.Prefix as Prefix
 import Css.Typography exposing (fomanticFont)
@@ -34,10 +35,10 @@ modalBasis { shadow, inverted, additionalStyles } =
             property "background" "rgba(0, 0, 0, 0.9)"
         , property "border" "none"
         , if shadow then
-            Prefix.boxShadow "1px 3px 3px 0 rgba(0, 0, 0, 0.2), 1px 3px 15px 2px rgba(0, 0, 0, 0.2)"
+            prefixed [] "box-shadow" "1px 3px 3px 0 rgba(0, 0, 0, 0.2), 1px 3px 15px 2px rgba(0, 0, 0, 0.2)"
 
           else
-            Prefix.boxShadow "none" |> important
+            prefixed [] "box-shadow" "none" |> important
         , property "-webkit-transform-origin" "50% 25%"
         , property "transform-origin" "50% 25%"
         , Prefix.flex "0 0 auto"
@@ -159,7 +160,7 @@ headerBasis { inverted, additionalStyles } =
                 ]
         , margin zero
         , padding2 (rem 1.25) (rem 1.5)
-        , Prefix.boxShadow "none"
+        , prefixed [] "box-shadow" "none"
         , borderBottom3 (px 1) solid (rgba 34 36 38 0.15)
 
         -- .ui.modal > .header:not(.ui)

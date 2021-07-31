@@ -15,7 +15,7 @@ basis =
         , maxWidth (pct 100)
         , property "border" "none"
         , margin3 (em 1) zero (em 2.5)
-        , prefixed [ "-webkit-" ] "box-shadow" "none"
+        , prefixed [] "box-shadow" "none"
         , property "background" "rgba(0, 0, 0, 0.1)"
         , padding zero
         , borderRadius (rem 0.28571429)

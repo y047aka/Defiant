@@ -1,4 +1,4 @@
-module Css.Prefix exposing (alignItems, alignSelf, animationDelay, animationDuration, animationFillMode, appearance, backfaceVisibility, boxShadow, boxSizing, displayFlex, displayInlineFlex, flex, flexDirection, flexWrap, userSelect)
+module Css.Prefix exposing (alignItems, alignSelf, animationDelay, animationDuration, animationFillMode, appearance, backfaceVisibility, boxSizing, displayFlex, displayInlineFlex, flex, flexDirection, flexWrap, userSelect)
 
 import Css exposing (Style, batch, display, inlineFlex, property)
 import Css.Extra
@@ -55,12 +55,6 @@ backfaceVisibility : String -> Style
 backfaceVisibility value =
     batch <|
         prefixedProperties [ "-webkit-", "" ] "backface-visibility" value
-
-
-boxShadow : String -> Style
-boxShadow value =
-    batch <|
-        prefixedProperties [ "-webkit-", "" ] "box-shadow" value
 
 
 boxSizing : String -> Style

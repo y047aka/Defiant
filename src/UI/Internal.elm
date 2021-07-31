@@ -1,7 +1,7 @@
 module UI.Internal exposing (styledBlock)
 
 import Css exposing (..)
-import Css.Prefix as Prefix
+import Css.Extra exposing (prefixed)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
@@ -43,7 +43,7 @@ styledBlock opts additionalStyles =
             |> Maybe.map (border3 (px 1) solid)
             |> Maybe.withDefault (batch [])
         , opts.boxShadow
-            |> Maybe.map Prefix.boxShadow
+            |> Maybe.map (prefixed [] "box-shadow")
             |> Maybe.withDefault (batch [])
         ]
             ++ additionalStyles

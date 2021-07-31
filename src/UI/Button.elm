@@ -15,6 +15,7 @@ module UI.Button exposing
 -}
 
 import Css exposing (..)
+import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, selector, typeSelector)
 import Css.Layout as Layout exposing (layout)
 import Css.Palette exposing (..)
@@ -66,18 +67,18 @@ basis { palettes, shadow } additionalStyles =
         , palettesByState palettes
         , batch <|
             if shadow then
-                [ Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.15) inset" -- .ui.basic.button
-                , hover [ Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset" ] -- .ui.basic.button:hover
-                , focus [ Prefix.boxShadow "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset" ] -- .ui.basic.button:focus
-                , active [ Prefix.boxShadow "0 0 0 1px rgba(0, 0, 0, 0.15) inset, 0 1px 4px 0 rgba(34, 36, 38, 0.15) inset" ] -- .ui.basic.button:active
+                [ prefixed [] "box-shadow" "0 0 0 1px rgba(34, 36, 38, 0.15) inset" -- .ui.basic.button
+                , hover [ prefixed [] "box-shadow" "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset" ] -- .ui.basic.button:hover
+                , focus [ prefixed [] "box-shadow" "0 0 0 1px rgba(34, 36, 38, 0.35) inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset" ] -- .ui.basic.button:focus
+                , active [ prefixed [] "box-shadow" "0 0 0 1px rgba(0, 0, 0, 0.15) inset, 0 1px 4px 0 rgba(34, 36, 38, 0.15) inset" ] -- .ui.basic.button:active
                 ]
 
             else
-                [ Prefix.boxShadow "0 0 0 1px transparent inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
-                , hover [ Prefix.boxShadow "0 0 0 1px transparent inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset" ] -- .ui.button:hover
-                , focus [ Prefix.boxShadow "" ] -- .ui.button:focus
-                , active [ Prefix.boxShadow "0 0 0 1px transparent inset, none" ] -- .ui.button:active
-                , disabled [ Prefix.boxShadow "none" ] -- .ui.button:disabled
+                [ prefixed [] "box-shadow" "0 0 0 1px transparent inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset"
+                , hover [ prefixed [] "box-shadow" "0 0 0 1px transparent inset, 0 0 0 0 rgba(34, 36, 38, 0.15) inset" ] -- .ui.button:hover
+                , focus [ prefixed [] "box-shadow" "" ] -- .ui.button:focus
+                , active [ prefixed [] "box-shadow" "0 0 0 1px transparent inset, none" ] -- .ui.button:active
+                , disabled [ prefixed [] "box-shadow" "none" ] -- .ui.button:disabled
                 ]
 
         -- .ui.button:hover
@@ -196,7 +197,7 @@ labeledButton attributes =
             , backgroundColor transparent
             , padding zero |> important
             , borderStyle none
-            , Prefix.boxShadow "none"
+            , prefixed [] "box-shadow" "none"
             , children
                 [ typeSelector "button"
                     [ -- .ui.labeled.button > .button
@@ -258,7 +259,7 @@ coloredButton palettes =
         , backgroundImage none
 
         -- .ui.xxx.button
-        , Prefix.boxShadow "0 0 0 0 rgba(34, 36, 38, 0.15) inset"
+        , prefixed [] "box-shadow" "0 0 0 0 rgba(34, 36, 38, 0.15) inset"
 
         -- .ui.xxx.button:hover
         , hover

@@ -15,10 +15,10 @@ module UI.Label exposing
 -}
 
 import Css exposing (..)
+import Css.Extra exposing (prefixed)
 import Css.Global exposing (children)
 import Css.Layout as Layout exposing (layout)
 import Css.Palette exposing (..)
-import Css.Prefix as Prefix
 import Css.Typography as Typography exposing (init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
 
@@ -88,7 +88,7 @@ basicLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 basicLabel =
     basis { border = True, palette = Just basic }
         [ -- .ui.basic.label
-          Prefix.boxShadow "none"
+          prefixed [] "box-shadow" "none"
         ]
 
 

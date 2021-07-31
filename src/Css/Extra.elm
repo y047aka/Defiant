@@ -33,21 +33,21 @@ orNone maybe f =
 
 
 prefixed : List String -> String -> String -> Style
-prefixed prefixes p v =
+prefixed additionalPrefixes p v =
     let
         originalStyle =
             Css.property p v
 
-        prefixedStyles =
-            List.map (\prefix -> Css.property (prefix ++ p) v) prefixes
+        prefixedStyles defaultPrefixes =
+            (defaultPrefixes ++ additionalPrefixes)
+                |> List.map (\prefix -> Css.property (prefix ++ p) v)
 
-        default =
-            List.append prefixedStyles [ originalStyle ]
-                |> batch
+        default defaultPrefixes =
+            batch <| prefixedStyles defaultPrefixes ++ [ originalStyle ]
     in
     case p of
         "box-shadow" ->
-            default
+            default [ "-webkit-" ]
 
         _ ->
             originalStyle

@@ -15,6 +15,7 @@ module UI.Item exposing
 -}
 
 import Css exposing (..)
+import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, everything)
 import Css.Prefix as Prefix
 import Css.Typography exposing (fomanticFont)
@@ -169,7 +170,7 @@ contentBasis additionalStyles =
         , color (rgba 0 0 0 0.87)
         , margin zero
         , padding zero
-        , Prefix.boxShadow "none"
+        , prefixed [] "box-shadow" "none"
         , fontSize (em 1)
         , property "border" "none"
         , borderRadius zero
@@ -296,7 +297,7 @@ extra =
         , top zero
         , left zero
         , color (rgba 0 0 0 0.4)
-        , Prefix.boxShadow "none"
+        , prefixed [] "box-shadow" "none"
         , property "-webkit-transition" "color 0.1s ease"
         , property "transition" "color 0.1s ease"
         , property "border-top" "none"

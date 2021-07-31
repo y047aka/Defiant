@@ -1,6 +1,7 @@
 module UI.Input exposing (input, label)
 
 import Css exposing (..)
+import Css.Extra exposing (prefixed)
 import Css.Global exposing (adjacentSiblings, children)
 import Css.Prefix as Prefix
 import Css.Typography exposing (fomanticFont)
@@ -38,7 +39,7 @@ input =
                 , property "transition" "border-color 0.1s ease, -webkit-box-shadow 0.1s ease"
                 , property "transition" "box-shadow 0.1s ease, border-color 0.1s ease"
                 , property "transition" "box-shadow 0.1s ease, border-color 0.1s ease, -webkit-box-shadow 0.1s ease"
-                , Prefix.boxShadow "none"
+                , prefixed [] "box-shadow" "none"
 
                 -- .ui.input > input::-webkit-input-placeholder
                 , pseudoElement "-webkit-input-placeholder"
@@ -58,7 +59,7 @@ input =
                     [ borderColor (rgba 0 0 0 0.3)
                     , property "background" "#FAFAFA"
                     , color (rgba 0 0 0 0.87)
-                    , Prefix.boxShadow "none"
+                    , prefixed [] "box-shadow" "none"
                     ]
 
                 -- .ui.input.focus > input
@@ -67,7 +68,7 @@ input =
                     [ borderColor (hex "#85B7D9")
                     , property "background" "#FFFFFF"
                     , color (rgba 0 0 0 0.8)
-                    , Prefix.boxShadow "none"
+                    , prefixed [] "box-shadow" "none"
 
                     -- .ui.input.focus > input::-webkit-input-placeholder
                     -- .ui.input > input:focus::-webkit-input-placeholder

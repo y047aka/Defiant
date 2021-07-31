@@ -11,9 +11,9 @@ module UI.Table exposing
 -}
 
 import Css exposing (..)
+import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, each)
 import Css.Layout as Layout exposing (layout)
-import Css.Prefix as Prefix
 import Css.Typography as Typography exposing (init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
 import UI.Internal exposing (styledBlock)
@@ -79,7 +79,7 @@ basis options additionalStyles =
 
             -- .ui.table > thead
             , Css.Global.thead
-                [ Prefix.boxShadow "none" ]
+                [ prefixed [] "box-shadow" "none" ]
             ]
         , descendants
             [ -- .ui.table th

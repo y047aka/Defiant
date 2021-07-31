@@ -15,7 +15,7 @@ module UI.Menu exposing
 -}
 
 import Css exposing (..)
-import Css.Extra exposing (when)
+import Css.Extra exposing (prefixed, when)
 import Css.Layout as Layout exposing (layout)
 import Css.Prefix as Prefix
 import Css.Typography as Typography exposing (init, typography)
@@ -283,7 +283,7 @@ itemBasis { tag, vertical, borderAndShadows, inverted } additionalStyles =
             else
                 [ -- .ui.secondary.menu .item
                   Prefix.alignSelf "center"
-                , Prefix.boxShadow "none"
+                , prefixed [] "box-shadow" "none"
                 , property "border" "none"
                 , padding2 (em 0.78571429) (em 0.92857143)
                 , margin2 zero (em 0.35714286)
@@ -326,7 +326,7 @@ activeItem =
           backgroundColor (rgba 0 0 0 0.05)
         , color (rgba 0 0 0 0.95)
         , fontWeight normal
-        , Prefix.boxShadow "none"
+        , prefixed [] "box-shadow" "none"
         ]
 
 
@@ -399,7 +399,7 @@ secondaryMenuActiveItem : List (Attribute msg) -> List (Html msg) -> Html msg
 secondaryMenuActiveItem =
     secondaryMenuItem
         [ -- .ui.secondary.menu .active.item
-          Prefix.boxShadow "none"
+          prefixed [] "box-shadow" "none"
         , backgroundColor (rgba 0 0 0 0.05)
         , color (rgba 0 0 0 0.95)
         , borderRadius (rem 0.28571429)
@@ -453,7 +453,7 @@ verticalMenuActiveItem { inverted } =
             [ -- .ui.vertical.menu .active.item
               backgroundColor (rgba 0 0 0 0.05)
             , borderRadius zero
-            , Prefix.boxShadow "none"
+            , prefixed [] "box-shadow" "none"
             ]
         }
 
