@@ -278,6 +278,15 @@ modal =
     }
 
 
+progress : PageSummary
+progress =
+    { title = "Progress"
+    , description = "A progress bar shows the progression of a task"
+    , category = Modules
+    , url = "/progress"
+    }
+
+
 sortableTable : PageSummary
 sortableTable =
     { title = "SortableTable"

@@ -11,6 +11,7 @@ import Html.Styled exposing (Attribute, Html, a, div, h1, h2, h3, h4, h5, input,
 import Html.Styled.Attributes as Attributes exposing (css, for, href, id, rel, src, type_)
 import Html.Styled.Events exposing (onClick, onInput)
 import PageSummary exposing (Category(..), PageSummary)
+import Random
 import UI.Accordion exposing (accordion)
 import UI.Breadcrumb exposing (BreadcrumbItem, breadcrumb)
 import UI.Button exposing (..)
@@ -31,6 +32,7 @@ import UI.Menu as Menu exposing (..)
 import UI.Message exposing (message)
 import UI.Modal as Modal exposing (..)
 import UI.Placeholder exposing (line, placeholder)
+import UI.Progress as Progress
 import UI.Rail exposing (leftRail, rightRail)
 import UI.Segment exposing (..)
 import UI.SortableTable as Table
@@ -66,6 +68,7 @@ type alias Model =
     , darkMode : Bool
     , count : Int
     , toggledItems : List String
+    , progress : Float
 
     -- for SortableTable
     , people : List Person
@@ -101,23 +104,26 @@ type Page
     | CheckboxPage
     | DimmerPage
     | ModalPage
+    | ProgressPage
     | SortableTablePage
 
 
 init : () -> Url -> Key -> ( Model, Cmd Msg )
 init _ url key =
-    routing url
-        { key = key
-        , page = TopPage
-        , darkMode = False
-        , count = 0
-        , toggledItems = []
+    { key = key
+    , page = TopPage
+    , darkMode = False
+    , count = 0
+    , toggledItems = []
+    , progress = 0
 
-        -- for SortableTable
-        , people = presidents
-        , tableState = Table.initialSort "Year"
-        , query = ""
-        }
+    -- for SortableTable
+    , people = presidents
+    , tableState = Table.initialSort "Year"
+    , query = ""
+    }
+        |> routing url
+        |> (\( model, cmd ) -> ( model, Cmd.batch [ cmd, Random.generate NewProgress (Random.int 10 50) ] ))
 
 
 
@@ -150,6 +156,7 @@ type Route
     | Checkbox
     | Dimmer
     | Modal
+    | Progress
     | SortableTable
 
 
@@ -181,6 +188,7 @@ parser =
         , Parser.map Checkbox (s "checkbox")
         , Parser.map Dimmer (s "dimmer")
         , Parser.map Modal (s "modal")
+        , Parser.map Progress (s "progress")
         , Parser.map SortableTable (s "sortable-table")
         ]
 
@@ -275,6 +283,9 @@ routing url model =
             Just Modal ->
                 ModalPage
 
+            Just Progress ->
+                ProgressPage
+
             Just SortableTable ->
                 SortableTablePage
 
@@ -290,6 +301,9 @@ type Msg
     | Increment
     | Decrement
     | Toggle String
+    | ProgressPlus
+    | ProgressMinus
+    | NewProgress Int
       -- for SortableTable
     | SetQuery String
     | SetTableState Table.State
@@ -329,6 +343,29 @@ update msg model =
               }
             , Cmd.none
             )
+
+        ProgressPlus ->
+            ( model, Random.generate NewProgress (Random.int 10 15) )
+
+        ProgressMinus ->
+            ( model, Random.generate NewProgress (Random.int -15 -10) )
+
+        NewProgress int ->
+            let
+                calculated =
+                    model.progress + toFloat int
+
+                newProgress =
+                    if calculated > 100 then
+                        100
+
+                    else if calculated < 0 then
+                        0
+
+                    else
+                        calculated
+            in
+            ( { model | progress = newProgress }, Cmd.none )
 
         SetQuery newQuery ->
             ( { model | query = newQuery }, Cmd.none )
@@ -517,6 +554,11 @@ view model =
                 , contents = examplesForModal model
                 }
 
+            ProgressPage ->
+                { summary = PageSummary.progress
+                , contents = examplesForProgress model
+                }
+
             SortableTablePage ->
                 { summary = PageSummary.sortableTable
                 , contents = examplesForSortableTable model
@@ -591,6 +633,7 @@ contents_ =
     , PageSummary.checkbox
     , PageSummary.dimmer
     , PageSummary.modal
+    , PageSummary.progress
     , PageSummary.sortableTable
     ]
 
@@ -1909,6 +1952,26 @@ examplesForModal { toggledItems, darkMode } =
                         ]
                     }
                     []
+                ]
+            ]
+        }
+    ]
+
+
+examplesForProgress : Model -> List (Html Msg)
+examplesForProgress model =
+    [ example
+        { title = "Standard"
+        , description = "A standard progress bar"
+        , contents =
+            [ Progress.progress
+                { value = model.progress
+                , label = "Uploading Files"
+                }
+            , labeledButton []
+                [ button [ onClick ProgressMinus ] [ text "-" ]
+                , basicLabel [] [ text (String.fromFloat model.progress ++ "%") ]
+                , button [ onClick ProgressPlus ] [ text "+" ]
                 ]
             ]
         }
