@@ -2,7 +2,6 @@ module UI.Progress exposing (progress)
 
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
-import Css.Prefix as Prefix
 import Html.Styled as Html exposing (Attribute, Html, text)
 
 
@@ -11,7 +10,7 @@ basis =
     Html.styled Html.div
         [ -- .ui.progress
           position relative
-        , Prefix.displayFlex
+        , prefixed [] "display" "flex"
         , maxWidth (pct 100)
         , property "border" "none"
         , margin3 (em 1) zero (em 2.5)

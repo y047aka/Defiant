@@ -13,7 +13,6 @@ module UI.Modal exposing
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, each, selector)
-import Css.Prefix as Prefix
 import Css.Typography exposing (fomanticFont)
 import Html.Styled as Html exposing (Attribute, Html, text)
 
@@ -41,7 +40,7 @@ modalBasis { shadow, inverted, additionalStyles } =
             prefixed [] "box-shadow" "none" |> important
         , property "-webkit-transform-origin" "50% 25%"
         , property "transform-origin" "50% 25%"
-        , Prefix.flex "0 0 auto"
+        , prefixed [] "flex" "0 0 auto"
         , if shadow then
             borderRadius (rem 0.28571429)
 
@@ -229,9 +228,9 @@ description =
     Html.styled Html.div
         [ -- .ui.modal > .content > .description
           display block
-        , Prefix.flex "1 0 auto"
+        , prefixed [] "flex" "1 0 auto"
         , minWidth zero
-        , Prefix.alignSelf "start"
+        , prefixed [] "align-self" "start"
         ]
 
 

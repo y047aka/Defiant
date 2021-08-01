@@ -2,7 +2,6 @@ module UI.Dimmer exposing (content, dimmer, pageDimmer)
 
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
-import Css.Prefix as Prefix
 import Html.Styled as Html exposing (Attribute, Html)
 
 
@@ -43,7 +42,7 @@ basis isActive additionalStyles =
         , property "-webkit-box-orient" "vertical"
         , property "-webkit-box-direction" "normal"
         , prefixed [] "flex-direction" "column"
-        , Prefix.alignItems "center"
+        , prefixed [] "align-items" "center"
         , property "-webkit-box-pack" "center"
         , property "-ms-flex-pack" "center"
         , justifyContent center

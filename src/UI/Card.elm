@@ -13,7 +13,6 @@ module UI.Card exposing
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, everything, selector)
-import Css.Prefix as Prefix
 import Css.Typography exposing (fomanticFont)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import UI.Internal exposing (styledBlock)
@@ -23,14 +22,14 @@ cards : List (Attribute msg) -> List (Html msg) -> Html msg
 cards =
     Html.styled Html.div <|
         [ -- .ui.cards
-          Prefix.displayFlex
+          prefixed [] "display" "flex"
         , margin2 (em -0.875) (em -0.5)
         , prefixed [] "flex-wrap" "wrap"
 
         -- .ui.cards > .card
         , children
             [ Css.Global.div
-                [ Prefix.displayFlex
+                [ prefixed [] "display" "flex"
                 , margin2 (em 0.875) (em 0.5)
                 , property "float" "none"
                 ]
@@ -93,7 +92,7 @@ cardBasis { border, shadow, inverted } additionalStyles =
         [ -- .ui.cards > .card
           -- .ui.card
           maxWidth (pct 100)
-        , Prefix.displayFlex
+        , prefixed [] "display" "flex"
         , property "-webkit-box-orient" "vertical"
         , property "-webkit-box-direction" "normal"
         , prefixed [] "flex-direction" "column"

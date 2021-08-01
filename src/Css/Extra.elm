@@ -46,6 +46,19 @@ prefixed additionalPrefixes p v =
             batch <| prefixedStyles defaultPrefixes ++ [ originalStyle ]
     in
     case p of
+        "align-items" ->
+            batch
+                [ Css.property "-webkit-box-align" v
+                , Css.property "-ms-flex-align" v
+                , originalStyle
+                ]
+
+        "align-self" ->
+            batch
+                [ Css.property "-ms-flex-item-align" v
+                , originalStyle
+                ]
+
         "animation-delay" ->
             default [ "-webkit-" ]
 
@@ -66,6 +79,36 @@ prefixed additionalPrefixes p v =
 
         "box-sizing" ->
             default [ "-webkit-" ]
+
+        "display" ->
+            case v of
+                "flex" ->
+                    batch
+                        [ property "display" "-webkit-box"
+                        , property "display" "-ms-flexbox"
+                        , originalStyle
+                        ]
+
+                "inline-flex" ->
+                    batch
+                        [ property "display" "-webkit-inline-box"
+                        , property "display" "-ms-inline-flexbox"
+                        , originalStyle
+                        ]
+
+                _ ->
+                    originalStyle
+
+        "flex" ->
+            case String.split " " v of
+                x :: _ ->
+                    batch
+                        [ Css.property "-webkit-box-flex" x
+                        , default [ "-webkit-", "-ms-" ]
+                        ]
+
+                [] ->
+                    default [ "-webkit-", "-ms-" ]
 
         "flex-direction" ->
             default [ "-ms-" ]

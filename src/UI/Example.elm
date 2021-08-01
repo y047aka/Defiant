@@ -13,9 +13,9 @@ module UI.Example exposing
 -}
 
 import Css exposing (..)
+import Css.Extra exposing (prefixed)
 import Css.Global exposing (children)
 import Css.Media as Media exposing (only, screen, withMedia)
-import Css.Prefix as Prefix
 import Html.Styled as Html exposing (Attribute, Html, p, text)
 import Html.Styled.Attributes exposing (src)
 import UI.Header as Header
@@ -25,7 +25,7 @@ article : List (Attribute msg) -> List (Html msg) -> Html msg
 article =
     Html.styled Html.div
         [ -- #example .article
-          Prefix.flex "1 1 auto"
+          prefixed [] "flex" "1 1 auto"
         , minWidth (px 0)
         , marginLeft (px 250)
         ]
@@ -39,7 +39,7 @@ toc =
         , zIndex (int 1)
         , backgroundColor (hex "#1b1c1d")
         , width (px 250)
-        , Prefix.flex "0 0 auto"
+        , prefixed [] "flex" "0 0 auto"
 
         -- #example .full.height > .toc
         , withMedia [ only screen [ Media.maxWidth (px 1272) ] ]

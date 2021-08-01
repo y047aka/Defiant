@@ -3,7 +3,6 @@ module UI.Input exposing (input, label)
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (adjacentSiblings, children)
-import Css.Prefix as Prefix
 import Css.Typography exposing (fomanticFont)
 import Html.Styled as Html exposing (Attribute, Html)
 import UI.Label as Label
@@ -16,7 +15,7 @@ input =
           position relative
         , fontWeight normal
         , fontStyle normal
-        , Prefix.displayInlineFlex
+        , prefixed [] "display" "inline-flex"
         , color (rgba 0 0 0 0.87)
 
         -- .ui.input > input
@@ -24,7 +23,7 @@ input =
             [ Css.Global.input
                 [ margin zero
                 , maxWidth (pct 100)
-                , Prefix.flex "1 0 auto"
+                , prefixed [] "flex" "1 0 auto"
                 , outline none
                 , property "-webkit-tap-highlight-color" "rgba(255, 255, 255, 0)"
                 , textAlign left
@@ -94,7 +93,7 @@ label : List (Attribute msg) -> List (Html msg) -> Html msg
 label =
     Html.styled Label.label
         [ -- .ui.labeled.input > .label
-          Prefix.flex "0 0 auto"
+          prefixed [] "flex" "0 0 auto"
         , margin zero
         , fontSize (em 1)
 

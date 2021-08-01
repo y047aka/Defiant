@@ -1,8 +1,8 @@
 module UI.Message exposing (message)
 
 import Css exposing (..)
+import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, selector)
-import Css.Prefix as Prefix
 import Html.Styled as Html exposing (Attribute, Html)
 import UI.Internal exposing (styledBlock)
 
@@ -65,9 +65,9 @@ basis additionalStyles =
             ]
 
         -- .ui.icon.message {
-        , Prefix.displayFlex
+        , prefixed [] "display" "flex"
         , width (pct 100)
-        , Prefix.alignItems "center"
+        , prefixed [] "align-items" "center"
 
         -- .ui.message > i.icon
         , children
@@ -76,7 +76,7 @@ basis additionalStyles =
 
                 -- .ui.icon.message > i.icon:not(.close)
                 , display block
-                , Prefix.flex "0 0 auto"
+                , prefixed [] "flex" "0 0 auto"
                 , width auto
                 , lineHeight (int 1)
                 , verticalAlign middle
@@ -86,7 +86,7 @@ basis additionalStyles =
             , Css.Global.div
                 [ -- .ui.icon.message > .content
                   display block
-                , Prefix.flex "1 1 auto"
+                , prefixed [] "flex" "1 1 auto"
                 , verticalAlign middle
                 ]
             ]

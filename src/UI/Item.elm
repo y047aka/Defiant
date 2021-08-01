@@ -17,7 +17,6 @@ module UI.Item exposing
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, everything)
-import Css.Prefix as Prefix
 import Css.Typography exposing (fomanticFont)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import UI.Internal exposing (styledBlock)
@@ -99,7 +98,7 @@ item =
         }
     <|
         [ -- .ui.items > .item
-          Prefix.displayFlex
+          prefixed [] "display" "flex"
         , width (pct 100)
         , minHeight zero
         , property "background" "transparent"
@@ -135,13 +134,13 @@ item =
         , children
             [ Css.Global.img
                 [ position relative
-                , Prefix.flex "0 0 auto"
+                , prefixed [] "flex" "0 0 auto"
                 , display block
                 , property "float" "none"
                 , margin zero
                 , padding zero
                 , property "max-height" "''"
-                , Prefix.alignSelf "start"
+                , prefixed [] "align-self" "start"
 
                 -- .ui.items > .item > .image > img
                 , display block
@@ -165,7 +164,7 @@ contentBasis additionalStyles =
     Html.styled Html.div <|
         [ -- .ui.items > .item > .content
           display block
-        , Prefix.flex "1 1 auto"
+        , prefixed [] "flex" "1 1 auto"
         , property "background" "none"
         , color (rgba 0 0 0 0.87)
         , margin zero
@@ -191,7 +190,7 @@ contentBasis additionalStyles =
             , width auto
             , display block
             , marginLeft zero
-            , Prefix.alignSelf "start"
+            , prefixed [] "align-self" "start"
             , paddingLeft (em 1.5)
             ]
         ]
@@ -231,7 +230,7 @@ middleAlignedContent =
     contentBasis
         [ -- .ui.items > .item > .image + [class*="middle aligned"].content
           nthChild "2"
-            [ Prefix.alignSelf "center" ]
+            [ prefixed [] "align-self" "center" ]
         ]
 
 

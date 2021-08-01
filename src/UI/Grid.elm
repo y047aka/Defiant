@@ -13,7 +13,6 @@ module UI.Grid exposing
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, everything)
-import Css.Prefix as Prefix
 import Html.Styled as Html exposing (Attribute, Html)
 
 
@@ -21,12 +20,12 @@ gridBasis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 gridBasis additionalStyles =
     Html.styled Html.div <|
         [ -- .ui.grid
-          Prefix.displayFlex
+          prefixed [] "display" "flex"
         , property "-webkit-box-orient" "horizontal"
         , property "-webkit-box-direction" "normal"
         , prefixed [] "flex-direction" "row"
         , prefixed [] "flex-wrap" "wrap"
-        , Prefix.alignItems "stretch"
+        , prefixed [] "align-items" "stretch"
         , padding zero
 
         -- .ui.grid

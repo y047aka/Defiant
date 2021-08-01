@@ -17,7 +17,6 @@ module UI.Menu exposing
 import Css exposing (..)
 import Css.Extra exposing (prefixed, when)
 import Css.Layout as Layout exposing (layout)
-import Css.Prefix as Prefix
 import Css.Typography as Typography exposing (init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
 import UI.Internal exposing (styledBlock)
@@ -79,7 +78,7 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
         }
     <|
         [ -- .ui.menu
-          Prefix.displayFlex
+          prefixed [] "display" "flex"
         , typography { defaultTypography | fontWeight = Typography.normal }
         , minHeight (em 2.85714286)
 
@@ -109,8 +108,8 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
         -- display: flex;
         --
         -- .ui.menu:not(.vertical) .item
-        -- Prefix.displayFlex
-        -- Prefix.alignItems "center"
+        -- prefixed [] "display" "flex"
+        -- prefixed [] "align-items" "center"
         --
         -- .ui.menu
         , fontSize (rem 1)
@@ -172,7 +171,7 @@ itemBasis { tag, vertical, borderAndShadows, inverted } additionalStyles =
                 , textDecoration = Typography.none
             }
         , property "-webkit-tap-highlight-color" "transparent"
-        , Prefix.flex "0 0 auto"
+        , prefixed [] "flex" "0 0 auto"
         , prefixed [] "user-select" "none"
         , property "background" "none"
         , padding2 (em 0.92857143) (em 1.14285714)
@@ -282,7 +281,7 @@ itemBasis { tag, vertical, borderAndShadows, inverted } additionalStyles =
 
             else
                 [ -- .ui.secondary.menu .item
-                  Prefix.alignSelf "center"
+                  prefixed [] "align-self" "center"
                 , prefixed [] "box-shadow" "none"
                 , property "border" "none"
                 , padding2 (em 0.78571429) (em 0.92857143)
@@ -340,7 +339,7 @@ leftMenu =
     Html.styled Html.div
         [ -- .ui.menu:not(.vertical) .right.item
           -- .ui.menu:not(.vertical) .right.menu
-          Prefix.displayFlex
+          prefixed [] "display" "flex"
         , marginRight auto |> important
 
         -- .ui.menu:not(.vertical) :not(.dropdown) > .left.menu
@@ -354,7 +353,7 @@ rightMenu =
     Html.styled Html.div
         [ -- .ui.menu:not(.vertical) .right.item
           -- .ui.menu:not(.vertical) .right.menu
-          Prefix.displayFlex
+          prefixed [] "display" "flex"
         , marginLeft auto |> important
 
         -- .ui.menu:not(.vertical) :not(.dropdown) > .left.menu,
@@ -373,7 +372,7 @@ centerMenu =
     Html.styled Html.div
         [ -- .ui.menu:not(.vertical) .center.item
           -- .ui.menu:not(.vertical) .center.menu
-          Prefix.displayFlex
+          prefixed [] "display" "flex"
         , marginLeft auto |> important
         , marginRight auto |> important
         ]
