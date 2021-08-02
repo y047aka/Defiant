@@ -32,48 +32,55 @@ basis =
         ]
 
 
-progress : { value : Float, label : String } -> Html msg
+progress : { value : Float, progress : String, label : String } -> Html msg
 progress options =
     basis []
-        [ bar options.value
-        , label [] [ text options.label ]
+        [ bar options
+        , case options.label of
+            "" ->
+                text ""
+
+            _ ->
+                label [] [ text options.label ]
         ]
 
 
-bar : Float -> Html msg
-bar value =
+barBasis : Float -> List (Attribute msg) -> List (Html msg) -> Html msg
+barBasis value =
+    Html.styled Html.div
+        [ -- .ui.progress .bar
+          display block
+        , lineHeight (int 1)
+        , position relative
+        , width (pct value)
+        , minWidth (em 2)
+        , if value == 0 then
+            -- .ui.ui.ui.progress:not([data-percent]):not(.indeterminate) .bar
+            -- .ui.ui.ui.progress[data-percent="0"]:not(.indeterminate) .bar
+            property "background" "transparent"
+
+          else if value == 100 then
+            -- .ui.ui.progress.success .bar
+            backgroundColor (hex "#21BA45")
+
+          else
+            property "background" "#888888"
+        , borderRadius (rem 0.28571429)
+        , property "-webkit-transition" "width 0.1s ease, background-color 0.1s ease"
+        , property "transition" "width 0.1s ease, background-color 0.1s ease"
+        , overflow hidden
+
+        -- .ui.progress .bar
+        , height (em 1.75)
+
+        -- progress.js
+        , property "transition-duration" "300ms"
+        ]
+
+
+bar : { a | value : Float, progress : String } -> Html msg
+bar options =
     let
-        bar_ =
-            Html.styled Html.div
-                [ -- .ui.progress .bar
-                  display block
-                , lineHeight (int 1)
-                , position relative
-                , width (pct value)
-                , minWidth (em 2)
-                , if value == 0 then
-                    -- .ui.ui.ui.progress:not([data-percent]):not(.indeterminate) .bar
-                    -- .ui.ui.ui.progress[data-percent="0"]:not(.indeterminate) .bar
-                    property "background" "transparent"
-
-                  else if value == 100 then
-                    -- .ui.ui.progress.success .bar
-                    backgroundColor (hex "#21BA45")
-
-                  else
-                    property "background" "#888888"
-                , borderRadius (rem 0.28571429)
-                , property "-webkit-transition" "width 0.1s ease, background-color 0.1s ease"
-                , property "transition" "width 0.1s ease, background-color 0.1s ease"
-                , overflow hidden
-
-                -- .ui.progress .bar
-                , height (em 1.75)
-
-                -- progress.js
-                , property "transition-duration" "300ms"
-                ]
-
         progress_ =
             Html.styled Html.div
                 [ -- .ui.progress .bar > .progress
@@ -86,7 +93,7 @@ bar value =
                 , left auto
                 , bottom auto
                 , color <|
-                    if value == 0 then
+                    if options.value == 0 then
                         -- .ui.progress[data-percent="0"] .bar .progress
                         rgba 0 0 0 0.87
 
@@ -98,8 +105,13 @@ bar value =
                 , textAlign left
                 ]
     in
-    bar_ []
-        [ progress_ [] [ text (String.fromFloat value ++ "%") ] ]
+    barBasis options.value [] <|
+        case options.progress of
+            "" ->
+                []
+
+            _ ->
+                [ progress_ [] [ text options.progress ] ]
 
 
 label : List (Attribute msg) -> List (Html msg) -> Html msg

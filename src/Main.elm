@@ -1966,6 +1966,7 @@ examplesForProgress model =
         , contents =
             [ Progress.progress
                 { value = model.progress
+                , progress = String.fromFloat model.progress ++ "%"
                 , label = "Uploading Files"
                 }
             , labeledButton []
@@ -1973,6 +1974,39 @@ examplesForProgress model =
                 , basicLabel [] [ text (String.fromFloat model.progress ++ "%") ]
                 , button [ onClick ProgressPlus ] [ text "+" ]
                 ]
+            ]
+        }
+    , example
+        { title = "Bar"
+        , description = "A progress element can contain a bar visually indicating progress"
+        , contents =
+            [ Progress.progress
+                { value = model.progress
+                , progress = ""
+                , label = ""
+                }
+            ]
+        }
+    , example
+        { title = "Progress"
+        , description = "A progress bar can contain a text value indicating current progress"
+        , contents =
+            [ Progress.progress
+                { value = model.progress
+                , progress = String.fromFloat model.progress ++ "%"
+                , label = ""
+                }
+            ]
+        }
+    , example
+        { title = "Label"
+        , description = "A progress element can contain a label"
+        , contents =
+            [ Progress.progress
+                { value = model.progress
+                , progress = String.fromFloat model.progress ++ "%"
+                , label = "Uploading Files"
+                }
             ]
         }
     ]
