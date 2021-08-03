@@ -101,20 +101,20 @@ barBasis { value, indicating, disabled, state } =
         , property "transition-duration" "300ms"
 
         -- States
-        , case ( state, indicating ) of
-            ( Success, _ ) ->
+        , case ( state, value > 0, indicating ) of
+            ( Success, True, _ ) ->
                 -- .ui.ui.progress.success .bar
                 backgroundColor (hex "#21BA45")
 
-            ( Warning, _ ) ->
+            ( Warning, True, _ ) ->
                 -- .ui.ui.progress.warning .bar
                 backgroundColor (hex "#F2C037")
 
-            ( Error, _ ) ->
+            ( Error, True, _ ) ->
                 -- .ui.ui.progress.error .bar
                 backgroundColor (hex "#DB2828")
 
-            ( _, True ) ->
+            ( _, _, True ) ->
                 if 0 < value && value < 30 then
                     -- .ui.indicating.progress[data-percent^="1"] .bar
                     -- .ui.indicating.progress[data-percent^="2"] .bar
@@ -149,7 +149,7 @@ barBasis { value, indicating, disabled, state } =
                 else
                     property "background" "transparent"
 
-            ( _, False ) ->
+            ( _, _, False ) ->
                 if value == 0 then
                     -- .ui.ui.ui.progress:not([data-percent]):not(.indeterminate) .bar
                     -- .ui.ui.ui.progress[data-percent="0"]:not(.indeterminate) .bar
