@@ -59,6 +59,9 @@ prefixed additionalPrefixes p v =
                 , originalStyle
                 ]
 
+        "animation" ->
+            default [ "-webkit-" ]
+
         "animation-delay" ->
             default [ "-webkit-" ]
 
@@ -115,6 +118,9 @@ prefixed additionalPrefixes p v =
 
         "flex-wrap" ->
             default [ "-ms-" ]
+
+        "transform-origin" ->
+            default [ "-webkit-" ]
 
         "user-select" ->
             default [ "-webkit-", "-moz-", "-ms-" ]

@@ -1,12 +1,13 @@
 module UI.Progress exposing (progress)
 
 import Css exposing (..)
+import Css.Animations as Animations exposing (keyframes)
 import Css.Extra exposing (prefixed)
 import Html.Styled as Html exposing (Attribute, Html, text)
 
 
-basis : List (Attribute msg) -> List (Html msg) -> Html msg
-basis =
+basis : { disabled : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+basis { disabled } =
     Html.styled Html.div
         [ -- .ui.progress
           position relative
@@ -29,12 +30,28 @@ basis =
 
         -- .ui.progress
         , fontSize (rem 1)
+
+        -- Disabled
+        , batch <|
+            if disabled then
+                [ opacity (num 0.35) ]
+
+            else
+                []
         ]
 
 
-progress : { value : Float, progress : String, label : String } -> Html msg
+progress :
+    { value : Float
+    , progress : String
+    , label : String
+    , active : Bool
+    , disabled : Bool
+    }
+    -> Html msg
 progress options =
-    basis []
+    basis { disabled = options.disabled }
+        []
         [ bar options
         , case options.label of
             "" ->
@@ -45,8 +62,16 @@ progress options =
         ]
 
 
-barBasis : Float -> List (Attribute msg) -> List (Html msg) -> Html msg
-barBasis value =
+barBasis :
+    { a
+        | value : Float
+        , active : Bool
+        , disabled : Bool
+    }
+    -> List (Attribute msg)
+    -> List (Html msg)
+    -> Html msg
+barBasis { value, active, disabled } =
     Html.styled Html.div
         [ -- .ui.progress .bar
           display block
@@ -75,10 +100,74 @@ barBasis value =
 
         -- progress.js
         , property "transition-duration" "300ms"
+
+        -- Active
+        , batch <|
+            if active then
+                let
+                    progress_active =
+                        keyframes
+                            [ ( 0
+                              , [ Animations.property "opacity" "0.3"
+                                , Animations.property "-webkit-transform" "scale(0, 1)"
+                                , Animations.transform [ scale2 0 1 ]
+                                ]
+                              )
+                            , ( 100
+                              , [ Animations.property "opacity" "0"
+                                , Animations.property "-webkit-transform" "scale(1)"
+                                , Animations.transform [ scale 1 ]
+                                ]
+                              )
+                            ]
+                in
+                [ -- .ui.active.progress .bar
+                  position relative
+                , minWidth (em 2)
+
+                -- .ui.active.progress .bar::after
+                , after
+                    [ property "content" (qt "")
+                    , opacity zero
+                    , position absolute
+                    , top zero
+                    , left zero
+                    , right zero
+                    , bottom zero
+                    , property "background" "#FFFFFF"
+                    , borderRadius (rem 0.28571429)
+                    , prefixed [] "animation" "progress-active 2s ease infinite;"
+                    , prefixed [] "transform-origin" "left"
+                    , animationName progress_active
+                    ]
+                ]
+
+            else
+                []
+
+        -- Disabled
+        , batch <|
+            if disabled then
+                [ -- .ui.ui.disabled.progress .bar
+                  -- .ui.ui.disabled.progress .bar::after
+                  prefixed [] "animation" "none"
+                , after
+                    [ prefixed [] "animation" "none" ]
+                ]
+
+            else
+                []
         ]
 
 
-bar : { a | value : Float, progress : String } -> Html msg
+bar :
+    { a
+        | value : Float
+        , progress : String
+        , active : Bool
+        , disabled : Bool
+    }
+    -> Html msg
 bar options =
     let
         progress_ =
@@ -105,7 +194,7 @@ bar options =
                 , textAlign left
                 ]
     in
-    barBasis options.value [] <|
+    barBasis options [] <|
         case options.progress of
             "" ->
                 []

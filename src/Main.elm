@@ -1968,6 +1968,8 @@ examplesForProgress model =
                 { value = model.progress
                 , progress = String.fromFloat model.progress ++ "%"
                 , label = "Uploading Files"
+                , active = False
+                , disabled = False
                 }
             , labeledButton []
                 [ button [ onClick ProgressMinus ] [ text "-" ]
@@ -1984,6 +1986,8 @@ examplesForProgress model =
                 { value = model.progress
                 , progress = ""
                 , label = ""
+                , active = False
+                , disabled = False
                 }
             ]
         }
@@ -1995,6 +1999,8 @@ examplesForProgress model =
                 { value = model.progress
                 , progress = String.fromFloat model.progress ++ "%"
                 , label = ""
+                , active = False
+                , disabled = False
                 }
             ]
         }
@@ -2006,6 +2012,34 @@ examplesForProgress model =
                 { value = model.progress
                 , progress = String.fromFloat model.progress ++ "%"
                 , label = "Uploading Files"
+                , active = False
+                , disabled = False
+                }
+            ]
+        }
+    , example
+        { title = "Active"
+        , description = "A progress bar can show activity"
+        , contents =
+            [ Progress.progress
+                { value = model.progress
+                , progress = String.fromFloat model.progress ++ "%"
+                , label = "Uploading Files"
+                , active = True
+                , disabled = False
+                }
+            ]
+        }
+    , example
+        { title = "Disabled"
+        , description = "A progress bar can be disabled"
+        , contents =
+            [ Progress.progress
+                { value = model.progress
+                , progress = ""
+                , label = ""
+                , active = True
+                , disabled = True
                 }
             ]
         }
