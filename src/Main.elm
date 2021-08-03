@@ -1960,6 +1960,14 @@ examplesForModal { toggledItems, darkMode } =
 
 examplesForProgress : Model -> List (Html Msg)
 examplesForProgress model =
+    let
+        controller =
+            labeledButton []
+                [ button [ onClick ProgressMinus ] [ text "-" ]
+                , basicLabel [] [ text (String.fromFloat model.progress ++ "%") ]
+                , button [ onClick ProgressPlus ] [ text "+" ]
+                ]
+    in
     [ example
         { title = "Standard"
         , description = "A standard progress bar"
@@ -1968,14 +1976,31 @@ examplesForProgress model =
                 { value = model.progress
                 , progress = String.fromFloat model.progress ++ "%"
                 , label = "Uploading Files"
-                , active = False
+                , indicating = False
                 , disabled = False
+                , state = Progress.Default
                 }
-            , labeledButton []
-                [ button [ onClick ProgressMinus ] [ text "-" ]
-                , basicLabel [] [ text (String.fromFloat model.progress ++ "%") ]
-                , button [ onClick ProgressPlus ] [ text "+" ]
-                ]
+            , controller
+            ]
+        }
+    , example
+        { title = "Indicating"
+        , description = "An indicating progress bar visually indicates the current level of progress of a task"
+        , contents =
+            [ Progress.progress
+                { value = model.progress
+                , progress = ""
+                , label =
+                    if model.progress == 100 then
+                        "Project Funded!"
+
+                    else
+                        String.fromFloat model.progress ++ "% Funded"
+                , indicating = True
+                , disabled = False
+                , state = Progress.Active
+                }
+            , controller
             ]
         }
     , example
@@ -1986,8 +2011,9 @@ examplesForProgress model =
                 { value = model.progress
                 , progress = ""
                 , label = ""
-                , active = False
+                , indicating = False
                 , disabled = False
+                , state = Progress.Default
                 }
             ]
         }
@@ -1999,8 +2025,9 @@ examplesForProgress model =
                 { value = model.progress
                 , progress = String.fromFloat model.progress ++ "%"
                 , label = ""
-                , active = False
+                , indicating = False
                 , disabled = False
+                , state = Progress.Default
                 }
             ]
         }
@@ -2012,8 +2039,9 @@ examplesForProgress model =
                 { value = model.progress
                 , progress = String.fromFloat model.progress ++ "%"
                 , label = "Uploading Files"
-                , active = False
+                , indicating = False
                 , disabled = False
+                , state = Progress.Default
                 }
             ]
         }
@@ -2025,8 +2053,51 @@ examplesForProgress model =
                 { value = model.progress
                 , progress = String.fromFloat model.progress ++ "%"
                 , label = "Uploading Files"
-                , active = True
+                , indicating = False
                 , disabled = False
+                , state = Progress.Active
+                }
+            ]
+        }
+    , example
+        { title = "Success"
+        , description = "A progress bar can show a success state"
+        , contents =
+            [ Progress.progress
+                { value = model.progress
+                , progress = String.fromFloat model.progress ++ "%"
+                , label = "Everything worked, your file is all ready."
+                , indicating = False
+                , disabled = False
+                , state = Progress.Success
+                }
+            ]
+        }
+    , example
+        { title = "Warning"
+        , description = "A progress bar can show a warning state"
+        , contents =
+            [ Progress.progress
+                { value = model.progress
+                , progress = String.fromFloat model.progress ++ "%"
+                , label = "Your file didn't meet the minimum resolution requirements."
+                , indicating = False
+                , disabled = False
+                , state = Progress.Warning
+                }
+            ]
+        }
+    , example
+        { title = "Error"
+        , description = "A progress bar can show an error state"
+        , contents =
+            [ Progress.progress
+                { value = model.progress
+                , progress = String.fromFloat model.progress ++ "%"
+                , label = "There was an error."
+                , indicating = False
+                , disabled = False
+                , state = Progress.Error
                 }
             ]
         }
@@ -2038,8 +2109,9 @@ examplesForProgress model =
                 { value = model.progress
                 , progress = ""
                 , label = ""
-                , active = True
+                , indicating = False
                 , disabled = True
+                , state = Progress.Default
                 }
             ]
         }
