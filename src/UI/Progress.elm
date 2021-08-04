@@ -278,23 +278,24 @@ label { value, indicating, state } =
         , property "transition" "color 0.4s ease"
 
         -- States
-        , case ( state, indicating, value == 100 ) of
-            ( Success, _, _ ) ->
+        , case state of
+            Success ->
                 -- .ui.progress.success > .label
                 color (hex "#1A531B")
 
-            ( Warning, _, _ ) ->
+            Warning ->
                 -- .ui.progress.warning > .label
                 color (hex "#794B02")
 
-            ( Error, _, _ ) ->
+            Error ->
                 -- .ui.progress.error > .label
                 color (hex "#912D2B")
 
-            ( _, True, True ) ->
-                -- .ui.ui.indicating.progress.success .label
-                color (hex "#1A531B")
-
             _ ->
-                color (rgba 0 0 0 0.87)
+                if indicating && value == 100 then
+                    -- .ui.ui.indicating.progress.success .label
+                    color (hex "#1A531B")
+
+                else
+                    color (rgba 0 0 0 0.87)
         ]
