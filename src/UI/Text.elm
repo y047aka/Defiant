@@ -20,6 +20,22 @@ import Css.Extra exposing (orNone)
 import Html.Styled as Html exposing (Html, text)
 
 
+type PresetColor
+    = Red
+    | Orange
+    | Yellow
+    | Olive
+    | Green
+    | Teal
+    | Blue
+    | Violet
+    | Purple
+    | Pink
+    | Brown
+    | Grey
+    | Black
+
+
 basis : { size : Maybe (FontSize a), color : Maybe Color } -> List Style -> String -> Html msg
 basis options additionalStyles str =
     Html.styled Html.span
@@ -49,71 +65,113 @@ secondaryText =
 
 redText : { inverted : Bool } -> String -> Html msg
 redText { inverted } =
-    coloredText <| colorSelector inverted ( red, hex "#FF695E" )
+    coloredText <| colorSelector Red inverted
 
 
 orangeText : { inverted : Bool } -> String -> Html msg
 orangeText { inverted } =
-    coloredText <| colorSelector inverted ( orange, hex "#FF851B" )
+    coloredText <| colorSelector Orange inverted
 
 
 yellowText : { inverted : Bool } -> String -> Html msg
 yellowText { inverted } =
-    coloredText <| colorSelector inverted ( yellow, hex "#FFE21F" )
+    coloredText <| colorSelector Yellow inverted
 
 
 oliveText : { inverted : Bool } -> String -> Html msg
 oliveText { inverted } =
-    coloredText <| colorSelector inverted ( olive, hex "#D9E778" )
+    coloredText <| colorSelector Olive inverted
 
 
 greenText : { inverted : Bool } -> String -> Html msg
 greenText { inverted } =
-    coloredText <| colorSelector inverted ( green, hex "#2ECC40" )
+    coloredText <| colorSelector Green inverted
 
 
 tealText : { inverted : Bool } -> String -> Html msg
 tealText { inverted } =
-    coloredText <| colorSelector inverted ( teal, hex "#6DFFFF" )
+    coloredText <| colorSelector Teal inverted
 
 
 blueText : { inverted : Bool } -> String -> Html msg
 blueText { inverted } =
-    coloredText <| colorSelector inverted ( blue, hex "#54C8FF" )
+    coloredText <| colorSelector Blue inverted
 
 
 violetText : { inverted : Bool } -> String -> Html msg
 violetText { inverted } =
-    coloredText <| colorSelector inverted ( violet, hex "#A291FB" )
+    coloredText <| colorSelector Violet inverted
 
 
 purpleText : { inverted : Bool } -> String -> Html msg
 purpleText { inverted } =
-    coloredText <| colorSelector inverted ( purple, hex "#DC73FF" )
+    coloredText <| colorSelector Purple inverted
 
 
 pinkText : { inverted : Bool } -> String -> Html msg
 pinkText { inverted } =
-    coloredText <| colorSelector inverted ( pink, hex "#FF8EDF" )
+    coloredText <| colorSelector Pink inverted
 
 
 brownText : { inverted : Bool } -> String -> Html msg
 brownText { inverted } =
-    coloredText <| colorSelector inverted ( brown, hex "#D67C1C" )
+    coloredText <| colorSelector Brown inverted
 
 
 greyText : { inverted : Bool } -> String -> Html msg
 greyText { inverted } =
-    coloredText <| colorSelector inverted ( grey, hex "#DCDDDE" )
+    coloredText <| colorSelector Grey inverted
 
 
 blackText : { inverted : Bool } -> String -> Html msg
 blackText { inverted } =
-    coloredText <| colorSelector inverted ( black, hex "#545454" )
+    coloredText <| colorSelector Black inverted
 
 
-colorSelector : Bool -> ( Color, Color ) -> Color
-colorSelector isInverted ( default, inverted ) =
+colorSelector : PresetColor -> Bool -> Color
+colorSelector presetColor isInverted =
+    let
+        ( default, inverted ) =
+            case presetColor of
+                Red ->
+                    ( red, hex "#FF695E" )
+
+                Orange ->
+                    ( orange, hex "#FF851B" )
+
+                Yellow ->
+                    ( yellow, hex "#FFE21F" )
+
+                Olive ->
+                    ( olive, hex "#D9E778" )
+
+                Green ->
+                    ( green, hex "#2ECC40" )
+
+                Teal ->
+                    ( teal, hex "#6DFFFF" )
+
+                Blue ->
+                    ( blue, hex "#54C8FF" )
+
+                Violet ->
+                    ( violet, hex "#A291FB" )
+
+                Purple ->
+                    ( purple, hex "#DC73FF" )
+
+                Pink ->
+                    ( pink, hex "#FF8EDF" )
+
+                Brown ->
+                    ( brown, hex "#D67C1C" )
+
+                Grey ->
+                    ( grey, hex "#DCDDDE" )
+
+                Black ->
+                    ( black, hex "#545454" )
+    in
     if isInverted then
         inverted
 
