@@ -643,38 +643,34 @@ examplesForSite =
     [ example
         { title = "Headers"
         , description = "A site can define styles for headers"
-        , contents =
-            [ h1 [] [ text "First Header" ]
-            , h2 [] [ text "Second Header" ]
-            , h3 [] [ text "Third Header" ]
-            , h4 [] [ text "Fourth Header" ]
-            , h5 [] [ text "Fifth Header" ]
-            ]
         }
+        [ h1 [] [ text "First Header" ]
+        , h2 [] [ text "Second Header" ]
+        , h3 [] [ text "Third Header" ]
+        , h4 [] [ text "Fourth Header" ]
+        , h5 [] [ text "Fifth Header" ]
+        ]
     , example
         { title = "Page Font"
         , description = "A site can specify styles for page content."
-        , contents =
-            [ p [] [ text "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vel tincidunt eros, nec venenatis ipsum. Nulla hendrerit urna ex, id sagittis mi scelerisque vitae. Vestibulum posuere rutrum interdum. Sed ut ullamcorper odio, non pharetra eros. Aenean sed lacus sed enim ornare vestibulum quis a felis. Sed cursus nunc sit amet mauris sodales tempus. Nullam mattis, dolor non posuere commodo, sapien ligula hendrerit orci, non placerat erat felis vel dui. Cras vulputate ligula ut ex tincidunt tincidunt. Maecenas eget gravida lorem. Nunc nec facilisis risus. Mauris congue elit sit amet elit varius mattis. Praesent convallis placerat magna, a bibendum nibh lacinia non." ]
-            , p [] [ text "Fusce mollis sagittis elit ut maximus. Nullam blandit lacus sit amet luctus euismod. Duis luctus leo vel consectetur consequat. Phasellus ex ligula, pellentesque et neque vitae, elementum placerat eros. Proin eleifend odio nec velit lacinia suscipit. Morbi mollis ante nec dapibus gravida. In tincidunt augue eu elit porta, vel condimentum purus posuere. Maecenas tincidunt, erat sed elementum sagittis, tortor erat faucibus tellus, nec molestie mi purus sit amet tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris a tincidunt metus. Fusce congue metus aliquam ex auctor eleifend." ]
-            , p [] [ text "Ut imperdiet dignissim feugiat. Phasellus tristique odio eu justo dapibus, nec rutrum ipsum luctus. Ut posuere nec tortor eu ullamcorper. Etiam pellentesque tincidunt tortor, non sagittis nibh pretium sit amet. Sed neque dolor, blandit eu ornare vel, lacinia porttitor nisi. Vestibulum sit amet diam rhoncus, consectetur enim sit amet, interdum mauris. Praesent feugiat finibus quam, porttitor varius est egestas id." ]
-            ]
         }
+        [ p [] [ text "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vel tincidunt eros, nec venenatis ipsum. Nulla hendrerit urna ex, id sagittis mi scelerisque vitae. Vestibulum posuere rutrum interdum. Sed ut ullamcorper odio, non pharetra eros. Aenean sed lacus sed enim ornare vestibulum quis a felis. Sed cursus nunc sit amet mauris sodales tempus. Nullam mattis, dolor non posuere commodo, sapien ligula hendrerit orci, non placerat erat felis vel dui. Cras vulputate ligula ut ex tincidunt tincidunt. Maecenas eget gravida lorem. Nunc nec facilisis risus. Mauris congue elit sit amet elit varius mattis. Praesent convallis placerat magna, a bibendum nibh lacinia non." ]
+        , p [] [ text "Fusce mollis sagittis elit ut maximus. Nullam blandit lacus sit amet luctus euismod. Duis luctus leo vel consectetur consequat. Phasellus ex ligula, pellentesque et neque vitae, elementum placerat eros. Proin eleifend odio nec velit lacinia suscipit. Morbi mollis ante nec dapibus gravida. In tincidunt augue eu elit porta, vel condimentum purus posuere. Maecenas tincidunt, erat sed elementum sagittis, tortor erat faucibus tellus, nec molestie mi purus sit amet tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris a tincidunt metus. Fusce congue metus aliquam ex auctor eleifend." ]
+        , p [] [ text "Ut imperdiet dignissim feugiat. Phasellus tristique odio eu justo dapibus, nec rutrum ipsum luctus. Ut posuere nec tortor eu ullamcorper. Etiam pellentesque tincidunt tortor, non sagittis nibh pretium sit amet. Sed neque dolor, blandit eu ornare vel, lacinia porttitor nisi. Vestibulum sit amet diam rhoncus, consectetur enim sit amet, interdum mauris. Praesent feugiat finibus quam, porttitor varius est egestas id." ]
+        ]
     , example
         { title = "Text Selection"
         , description = "A site can specify text selection styles."
-        , contents =
-            [ p [] [ text "Fusce mollis sagittis elit ut maximus. Nullam blandit lacus sit amet luctus euismod. Duis luctus leo vel consectetur consequat. Phasellus ex ligula, pellentesque et neque vitae, elementum placerat eros. Proin eleifend odio nec velit lacinia suscipit. Morbi mollis ante nec dapibus gravida. In tincidunt augue eu elit porta, vel condimentum purus posuere. Maecenas tincidunt, erat sed elementum sagittis, tortor erat faucibus tellus, nec molestie mi purus sit amet tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris a tincidunt metus. Fusce congue metus aliquam ex auctor eleifend." ] ]
         }
+        [ p [] [ text "Fusce mollis sagittis elit ut maximus. Nullam blandit lacus sit amet luctus euismod. Duis luctus leo vel consectetur consequat. Phasellus ex ligula, pellentesque et neque vitae, elementum placerat eros. Proin eleifend odio nec velit lacinia suscipit. Morbi mollis ante nec dapibus gravida. In tincidunt augue eu elit porta, vel condimentum purus posuere. Maecenas tincidunt, erat sed elementum sagittis, tortor erat faucibus tellus, nec molestie mi purus sit amet tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris a tincidunt metus. Fusce congue metus aliquam ex auctor eleifend." ] ]
     , example
         { title = "Spacing"
         , description = "A site can define default spacing for headers and paragraphs"
-        , contents =
-            [ p [] [ text "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vel tincidunt eros, nec venenatis ipsum. Nulla hendrerit urna ex, id sagittis mi scelerisque vitae. Vestibulum posuere rutrum interdum. Sed ut ullamcorper odio, non pharetra eros. Aenean sed lacus sed enim ornare vestibulum quis a felis. Sed cursus nunc sit amet mauris sodales tempus. Nullam mattis, dolor non posuere commodo, sapien ligula hendrerit orci, non placerat erat felis vel dui. Cras vulputate ligula ut ex tincidunt tincidunt. Maecenas eget gravida lorem. Nunc nec facilisis risus. Mauris congue elit sit amet elit varius mattis. Praesent convallis placerat magna, a bibendum nibh lacinia non." ]
-            , p [] [ text "Fusce mollis sagittis elit ut maximus. Nullam blandit lacus sit amet luctus euismod. Duis luctus leo vel consectetur consequat. Phasellus ex ligula, pellentesque et neque vitae, elementum placerat eros. Proin eleifend odio nec velit lacinia suscipit. Morbi mollis ante nec dapibus gravida. In tincidunt augue eu elit porta, vel condimentum purus posuere. Maecenas tincidunt, erat sed elementum sagittis, tortor erat faucibus tellus, nec molestie mi purus sit amet tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris a tincidunt metus. Fusce congue metus aliquam ex auctor eleifend." ]
-            , p [] [ text "Ut imperdiet dignissim feugiat. Phasellus tristique odio eu justo dapibus, nec rutrum ipsum luctus. Ut posuere nec tortor eu ullamcorper. Etiam pellentesque tincidunt tortor, non sagittis nibh pretium sit amet. Sed neque dolor, blandit eu ornare vel, lacinia porttitor nisi. Vestibulum sit amet diam rhoncus, consectetur enim sit amet, interdum mauris. Praesent feugiat finibus quam, porttitor varius est egestas id." ]
-            ]
         }
+        [ p [] [ text "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vel tincidunt eros, nec venenatis ipsum. Nulla hendrerit urna ex, id sagittis mi scelerisque vitae. Vestibulum posuere rutrum interdum. Sed ut ullamcorper odio, non pharetra eros. Aenean sed lacus sed enim ornare vestibulum quis a felis. Sed cursus nunc sit amet mauris sodales tempus. Nullam mattis, dolor non posuere commodo, sapien ligula hendrerit orci, non placerat erat felis vel dui. Cras vulputate ligula ut ex tincidunt tincidunt. Maecenas eget gravida lorem. Nunc nec facilisis risus. Mauris congue elit sit amet elit varius mattis. Praesent convallis placerat magna, a bibendum nibh lacinia non." ]
+        , p [] [ text "Fusce mollis sagittis elit ut maximus. Nullam blandit lacus sit amet luctus euismod. Duis luctus leo vel consectetur consequat. Phasellus ex ligula, pellentesque et neque vitae, elementum placerat eros. Proin eleifend odio nec velit lacinia suscipit. Morbi mollis ante nec dapibus gravida. In tincidunt augue eu elit porta, vel condimentum purus posuere. Maecenas tincidunt, erat sed elementum sagittis, tortor erat faucibus tellus, nec molestie mi purus sit amet tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris a tincidunt metus. Fusce congue metus aliquam ex auctor eleifend." ]
+        , p [] [ text "Ut imperdiet dignissim feugiat. Phasellus tristique odio eu justo dapibus, nec rutrum ipsum luctus. Ut posuere nec tortor eu ullamcorper. Etiam pellentesque tincidunt tortor, non sagittis nibh pretium sit amet. Sed neque dolor, blandit eu ornare vel, lacinia porttitor nisi. Vestibulum sit amet diam rhoncus, consectetur enim sit amet, interdum mauris. Praesent feugiat finibus quam, porttitor varius est egestas id." ]
+        ]
     ]
 
 
@@ -683,78 +679,73 @@ examplesForButton { count } =
     [ example
         { title = "Button"
         , description = "A standard button"
-        , contents = [ button [] [ text "Follow" ] ]
         }
+        [ button [] [ text "Follow" ] ]
     , example
         { title = ""
         , description = ""
-        , contents =
-            [ button [] [ text "Button" ]
-            , button [] [ text "Focusable" ]
-            ]
         }
+        [ button [] [ text "Button" ]
+        , button [] [ text "Focusable" ]
+        ]
     , example
         { title = "Emphasis"
         , description = "A button can be formatted to show different levels of emphasis"
-        , contents =
-            [ primaryButton [] [ text "Save" ]
-            , button [] [ text "Discard" ]
-            ]
         }
+        [ primaryButton [] [ text "Save" ]
+        , button [] [ text "Discard" ]
+        ]
     , example
         { title = ""
         , description = ""
-        , contents =
-            [ secondaryButton [] [ text "Okay" ]
-            , button [] [ text "Cancel" ]
-            ]
         }
+        [ secondaryButton [] [ text "Okay" ]
+        , button [] [ text "Cancel" ]
+        ]
     , example
         { title = "Labeled"
         , description = "A button can appear alongside a label"
-        , contents =
-            [ labeledButton []
-                [ button [] [ icon [] "fas fa-heart", text "Like" ]
-                , basicLabel [] [ text "2048" ]
-                ]
-            , labeledButton []
-                [ button [ onClick Decrement ] [ text "-" ]
-                , basicLabel [] [ text (String.fromInt count) ]
-                , button [ onClick Increment ] [ text "+" ]
-                ]
-            ]
         }
+        [ labeledButton []
+            [ button [] [ icon [] "fas fa-heart", text "Like" ]
+            , basicLabel [] [ text "2048" ]
+            ]
+        , labeledButton []
+            [ button [ onClick Decrement ] [ text "-" ]
+            , basicLabel [] [ text (String.fromInt count) ]
+            , button [ onClick Increment ] [ text "+" ]
+            ]
+        ]
     , example
         { title = "Icon"
         , description = "A button can have only an icon"
-        , contents = [ button [] [ icon [] "fas fa-cloud" ] ]
         }
+        [ button [] [ icon [] "fas fa-cloud" ] ]
     , example
         { title = "Basic"
         , description = "A basic button is less pronounced"
-        , contents = [ basicButton [] [ icon [] "fas fa-user", text "Add Friend" ] ]
         }
+        [ basicButton [] [ icon [] "fas fa-user", text "Add Friend" ] ]
     , example
         { title = "Colored"
         , description = "A button can have different colors"
-        , contents =
-            [ primaryButton [] [ text "Primary" ]
-            , secondaryButton [] [ text "Secondary" ]
-            , redButton [] [ text "Red" ]
-            , orangeButton [] [ text "Orange" ]
-            , yellowButton [] [ text "Yellow" ]
-            , oliveButton [] [ text "Olive" ]
-            , greenButton [] [ text "Green" ]
-            , tealButton [] [ text "Teal" ]
-            , blueButton [] [ text "Blue" ]
-            , violetButton [] [ text "Violet" ]
-            , purpleButton [] [ text "Purple" ]
-            , pinkButton [] [ text "Pink" ]
-            , brownButton [] [ text "Brown" ]
-            , greyButton [] [ text "Grey" ]
-            , blackButton [] [ text "Black" ]
-            ]
         }
+        [ primaryButton [] [ text "Primary" ]
+        , secondaryButton [] [ text "Secondary" ]
+        , redButton [] [ text "Red" ]
+        , orangeButton [] [ text "Orange" ]
+        , yellowButton [] [ text "Yellow" ]
+        , oliveButton [] [ text "Olive" ]
+        , greenButton [] [ text "Green" ]
+        , tealButton [] [ text "Teal" ]
+        , blueButton [] [ text "Blue" ]
+        , violetButton [] [ text "Violet" ]
+        , purpleButton [] [ text "Purple" ]
+        , pinkButton [] [ text "Pink" ]
+        , brownButton [] [ text "Brown" ]
+        , greyButton [] [ text "Grey" ]
+        , blackButton [] [ text "Black" ]
+        ]
     ]
 
 
@@ -773,19 +764,18 @@ examplesForContainer =
     [ example
         { title = "Container"
         , description = "A standard container"
-        , contents = [ container [] [ content ] ]
         }
+        [ container [] [ content ] ]
     , example
         { title = "Text Container"
         , description = "A container can reduce its maximum width to more naturally accomodate a single column of text"
-        , contents =
-            [ textContainer []
-                [ h2 [] [ text "Header" ]
-                , content
-                , content
-                ]
-            ]
         }
+        [ textContainer []
+            [ h2 [] [ text "Header" ]
+            , content
+            , content
+            ]
+        ]
     ]
 
 
@@ -794,12 +784,11 @@ examplesForDivider =
     [ example
         { title = "Divider"
         , description = "A standard divider"
-        , contents =
-            [ wireframeShortParagraph
-            , divider [] []
-            , wireframeShortParagraph
-            ]
         }
+        [ wireframeShortParagraph
+        , divider [] []
+        , wireframeShortParagraph
+        ]
     ]
 
 
@@ -808,51 +797,48 @@ examplesForHeader options =
     [ example
         { title = "Content Headers"
         , description = "Headers may be oriented to give the importance of a section in the context of the content that surrounds it"
-        , contents =
-            [ massiveHeader options [] [ text "Massive Header" ]
-            , wireframeShortParagraph
-            , hugeHeader options [] [ text "Huge Header" ]
-            , wireframeShortParagraph
-            , bigHeader options [] [ text "Big Header" ]
-            , wireframeShortParagraph
-            , largeHeader options [] [ text "Large Header" ]
-            , wireframeShortParagraph
-            , mediumHeader options [] [ text "Medium Header" ]
-            , wireframeShortParagraph
-            , smallHeader options [] [ text "Small Header" ]
-            , wireframeShortParagraph
-            , tinyHeader options [] [ text "Tiny Header" ]
-            , wireframeShortParagraph
-            , miniHeader options [] [ text "Mini Header" ]
-            , wireframeShortParagraph
-            ]
         }
+        [ massiveHeader options [] [ text "Massive Header" ]
+        , wireframeShortParagraph
+        , hugeHeader options [] [ text "Huge Header" ]
+        , wireframeShortParagraph
+        , bigHeader options [] [ text "Big Header" ]
+        , wireframeShortParagraph
+        , largeHeader options [] [ text "Large Header" ]
+        , wireframeShortParagraph
+        , mediumHeader options [] [ text "Medium Header" ]
+        , wireframeShortParagraph
+        , smallHeader options [] [ text "Small Header" ]
+        , wireframeShortParagraph
+        , tinyHeader options [] [ text "Tiny Header" ]
+        , wireframeShortParagraph
+        , miniHeader options [] [ text "Mini Header" ]
+        , wireframeShortParagraph
+        ]
     , example
         { title = "Icon Headers"
         , description = "A header can be formatted to emphasize an icon"
-        , contents =
-            [ iconHeader options
-                []
-                [ icon [] "fas fa-cogs"
-                , iconHeaderContent []
-                    [ text "Account Settings"
-                    , subHeader options [] [ text "Manage your account settings and set e-mail preferences." ]
-                    ]
+        }
+        [ iconHeader options
+            []
+            [ icon [] "fas fa-cogs"
+            , iconHeaderContent []
+                [ text "Account Settings"
+                , subHeader options [] [ text "Manage your account settings and set e-mail preferences." ]
                 ]
             ]
-        }
+        ]
     , example
         { title = "Subheader"
         , description = "Headers may contain subheaders"
-        , contents =
-            [ Header.header options
-                []
-                [ text "Account Settings"
-                , subHeader options [] [ text "Manage your account settings and set e-mail preferences." ]
-                , wireframeShortParagraph
-                ]
-            ]
         }
+        [ Header.header options
+            []
+            [ text "Account Settings"
+            , subHeader options [] [ text "Manage your account settings and set e-mail preferences." ]
+            , wireframeShortParagraph
+            ]
+        ]
     ]
 
 
@@ -892,35 +878,34 @@ examplesForIcon =
     [ example
         { title = "Accessibility"
         , description = "Icons can represent accessibility standards"
-        , contents =
-            [ fiveColumnsGrid []
-                [ -- row 1
-                  column [] [ icon_ "fab fa-accessible-icon", text "accessible icon" ]
-                , column [] [ icon_ "fas fa-american-sign-language-interpreting", text "american sign language interpreting" ]
-                , column [] [ icon_ "fas fa-assistive-listening-systems", text "assistive listening systems" ]
-                , column [] [ icon_ "fas fa-audio-description", text "audio description" ]
-                , column [] [ icon_ "fas fa-blind", text "blind" ]
-
-                -- row 2
-                , column [] [ icon_ "fas fa-braille", text "braille" ]
-                , column [] [ icon_ "fas fa-closed-captioning", text "closed captioning" ]
-                , column [] [ icon_ "far fa-closed-captioning", text "closed captioning" ]
-                , column [] [ icon_ "fas fa-deaf", text "deaf" ]
-                , column [] [ icon_ "fas fa-low-vision", text "low vision" ]
-
-                -- row 3
-                , column [] [ icon_ "fas fa-phone-volume", text "phone volume" ]
-                , column [] [ icon_ "fas fa-question-circle", text "question circle" ]
-                , column [] [ icon_ "far fa-question-circle", text "question circle" ]
-                , column [] [ icon_ "fas fa-sign-language", text "sign language" ]
-                , column [] [ icon_ "fas fa-tty", text "tty" ]
-
-                -- row 4
-                , column [] [ icon_ "fas fa-universal-access", text "universal access" ]
-                , column [] [ icon_ "fas fa-wheelchair", text "wheelchair" ]
-                ]
-            ]
         }
+        [ fiveColumnsGrid []
+            [ -- row 1
+              column [] [ icon_ "fab fa-accessible-icon", text "accessible icon" ]
+            , column [] [ icon_ "fas fa-american-sign-language-interpreting", text "american sign language interpreting" ]
+            , column [] [ icon_ "fas fa-assistive-listening-systems", text "assistive listening systems" ]
+            , column [] [ icon_ "fas fa-audio-description", text "audio description" ]
+            , column [] [ icon_ "fas fa-blind", text "blind" ]
+
+            -- row 2
+            , column [] [ icon_ "fas fa-braille", text "braille" ]
+            , column [] [ icon_ "fas fa-closed-captioning", text "closed captioning" ]
+            , column [] [ icon_ "far fa-closed-captioning", text "closed captioning" ]
+            , column [] [ icon_ "fas fa-deaf", text "deaf" ]
+            , column [] [ icon_ "fas fa-low-vision", text "low vision" ]
+
+            -- row 3
+            , column [] [ icon_ "fas fa-phone-volume", text "phone volume" ]
+            , column [] [ icon_ "fas fa-question-circle", text "question circle" ]
+            , column [] [ icon_ "far fa-question-circle", text "question circle" ]
+            , column [] [ icon_ "fas fa-sign-language", text "sign language" ]
+            , column [] [ icon_ "fas fa-tty", text "tty" ]
+
+            -- row 4
+            , column [] [ icon_ "fas fa-universal-access", text "universal access" ]
+            , column [] [ icon_ "fas fa-wheelchair", text "wheelchair" ]
+            ]
+        ]
     ]
 
 
@@ -929,8 +914,8 @@ examplesForImage =
     [ example
         { title = "Image"
         , description = "An image"
-        , contents = [ smallImage [ src "./static/images/wireframe/image.png" ] [] ]
         }
+        [ smallImage [ src "./static/images/wireframe/image.png" ] [] ]
     ]
 
 
@@ -939,31 +924,28 @@ examplesForInput =
     [ example
         { title = "Input"
         , description = "A standard input"
-        , contents =
-            [ Input.input []
-                [ input [ type_ "text", Attributes.placeholder "Search..." ] [] ]
-            ]
         }
+        [ Input.input []
+            [ input [ type_ "text", Attributes.placeholder "Search..." ] [] ]
+        ]
     , example
         { title = "Labeled"
         , description = "An input can be formatted with a label"
-        , contents =
-            [ Input.input []
-                [ Input.label [] [ text "http://" ]
-                , input [ type_ "text", Attributes.placeholder "mysite.com" ] []
-                ]
-            ]
         }
+        [ Input.input []
+            [ Input.label [] [ text "http://" ]
+            , input [ type_ "text", Attributes.placeholder "mysite.com" ] []
+            ]
+        ]
     , example
         { title = ""
         , description = ""
-        , contents =
-            [ Input.input []
-                [ input [ type_ "text", Attributes.placeholder "Enter weight.." ] []
-                , Input.label [] [ text "kg" ]
-                ]
-            ]
         }
+        [ Input.input []
+            [ input [ type_ "text", Attributes.placeholder "Enter weight.." ] []
+            , Input.label [] [ text "kg" ]
+            ]
+        ]
     ]
 
 
@@ -972,63 +954,59 @@ examplesForLabel =
     [ example
         { title = "Label"
         , description = "A label"
-        , contents = [ Label.label [] [ icon [] "fas fa-envelope", text "23" ] ]
         }
+        [ Label.label [] [ icon [] "fas fa-envelope", text "23" ] ]
     , example
         { title = "Icon"
         , description = "A label can include an icon"
-        , contents =
-            [ Label.label [] [ icon [] "fas fa-envelope", text "Mail" ]
-            , Label.label [] [ icon [] "fas fa-check", text "Test Passed" ]
-            , Label.label [] [ icon [] "fas fa-dog", text "Dog" ]
-            , Label.label [] [ icon [] "fas fa-cat", text "Cat" ]
-            ]
         }
+        [ Label.label [] [ icon [] "fas fa-envelope", text "Mail" ]
+        , Label.label [] [ icon [] "fas fa-check", text "Test Passed" ]
+        , Label.label [] [ icon [] "fas fa-dog", text "Dog" ]
+        , Label.label [] [ icon [] "fas fa-cat", text "Cat" ]
+        ]
     , example
         { title = ""
         , description = ""
-        , contents =
-            [ Label.label [] [ text "Mail", icon [] "fas fa-envelope" ]
-            , Label.label [] [ text "Test Passed", icon [] "fas fa-check" ]
-            , Label.label [] [ text "Dog", icon [] "fas fa-dog" ]
-            , Label.label [] [ text "Cat", icon [] "fas fa-cat" ]
-            ]
         }
+        [ Label.label [] [ text "Mail", icon [] "fas fa-envelope" ]
+        , Label.label [] [ text "Test Passed", icon [] "fas fa-check" ]
+        , Label.label [] [ text "Dog", icon [] "fas fa-dog" ]
+        , Label.label [] [ text "Cat", icon [] "fas fa-cat" ]
+        ]
     , example
         { title = ""
         , description = ""
-        , contents =
-            [ Label.label [] [ icon [] "fas fa-envelope" ]
-            , Label.label [] [ icon [] "fas fa-dog" ]
-            , Label.label [] [ icon [] "fas fa-cat" ]
-            ]
         }
+        [ Label.label [] [ icon [] "fas fa-envelope" ]
+        , Label.label [] [ icon [] "fas fa-dog" ]
+        , Label.label [] [ icon [] "fas fa-cat" ]
+        ]
     , example
         { title = "Basic"
         , description = "A label can reduce its complexity"
-        , contents = [ basicLabel [] [ text "Basic" ] ]
         }
+        [ basicLabel [] [ text "Basic" ] ]
     , example
         { title = "Colored"
         , description = "A label can have different colors"
-        , contents =
-            [ primaryLabel [] [ text "Primary" ]
-            , secondaryLabel [] [ text "Secondary" ]
-            , redLabel [] [ text "Red" ]
-            , orangeLabel [] [ text "Orange" ]
-            , yellowLabel [] [ text "Yellow" ]
-            , oliveLabel [] [ text "Olive" ]
-            , greenLabel [] [ text "Green" ]
-            , tealLabel [] [ text "Teal" ]
-            , blueLabel [] [ text "Blue" ]
-            , violetLabel [] [ text "Violet" ]
-            , purpleLabel [] [ text "Purple" ]
-            , pinkLabel [] [ text "Pink" ]
-            , brownLabel [] [ text "Brown" ]
-            , greyLabel [] [ text "Grey" ]
-            , blackLabel [] [ text "Black" ]
-            ]
         }
+        [ primaryLabel [] [ text "Primary" ]
+        , secondaryLabel [] [ text "Secondary" ]
+        , redLabel [] [ text "Red" ]
+        , orangeLabel [] [ text "Orange" ]
+        , yellowLabel [] [ text "Yellow" ]
+        , oliveLabel [] [ text "Olive" ]
+        , greenLabel [] [ text "Green" ]
+        , tealLabel [] [ text "Teal" ]
+        , blueLabel [] [ text "Blue" ]
+        , violetLabel [] [ text "Violet" ]
+        , purpleLabel [] [ text "Purple" ]
+        , pinkLabel [] [ text "Pink" ]
+        , brownLabel [] [ text "Brown" ]
+        , greyLabel [] [ text "Grey" ]
+        , blackLabel [] [ text "Black" ]
+        ]
     ]
 
 
@@ -1037,16 +1015,15 @@ examplesForPlaceholder =
     [ example
         { title = "Lines"
         , description = "A placeholder can contain have lines of text"
-        , contents =
-            [ placeholder []
-                [ line [] []
-                , line [] []
-                , line [] []
-                , line [] []
-                , line [] []
-                ]
-            ]
         }
+        [ placeholder []
+            [ line [] []
+            , line [] []
+            , line [] []
+            , line [] []
+            , line [] []
+            ]
+        ]
     ]
 
 
@@ -1055,18 +1032,17 @@ examplesForRail options =
     [ example
         { title = "Rail"
         , description = "A rail can be presented on the left or right side of a container"
-        , contents =
-            [ segment options
-                [ css [ width (pct 45), left (pct 27.5) ] ]
-                [ leftRail []
-                    [ segment options [] [ text "Left Rail Content" ] ]
-                , rightRail []
-                    [ segment options [] [ text "Right Rail Content" ] ]
-                , wireframeParagraph
-                , wireframeParagraph
-                ]
-            ]
         }
+        [ segment options
+            [ css [ width (pct 45), left (pct 27.5) ] ]
+            [ leftRail []
+                [ segment options [] [ text "Left Rail Content" ] ]
+            , rightRail []
+                [ segment options [] [ text "Right Rail Content" ] ]
+            , wireframeParagraph
+            , wireframeParagraph
+            ]
+        ]
     ]
 
 
@@ -1075,49 +1051,46 @@ examplesForSegment options =
     [ example
         { title = "Segment"
         , description = "A segment of content"
-        , contents = [ segment options [] [ wireframeShortParagraph ] ]
         }
+        [ segment options [] [ wireframeShortParagraph ] ]
     , example
         { title = "Vertical Segment"
         , description = "A vertical segment formats content to be aligned as part of a vertical group"
-        , contents =
-            [ verticalSegment options [] [ wireframeShortParagraph ]
-            , verticalSegment options [] [ wireframeShortParagraph ]
-            , verticalSegment options [] [ wireframeShortParagraph ]
-            ]
         }
+        [ verticalSegment options [] [ wireframeShortParagraph ]
+        , verticalSegment options [] [ wireframeShortParagraph ]
+        , verticalSegment options [] [ wireframeShortParagraph ]
+        ]
     , example
         { title = "Disabled"
         , description = "A segment may show its content is disabled"
-        , contents = [ disabledSegment options [] [ wireframeShortParagraph ] ]
         }
+        [ disabledSegment options [] [ wireframeShortParagraph ] ]
     , example
         { title = "Inverted"
         , description = "A segment can have its colors inverted for contrast"
-        , contents =
-            [ invertedSegment []
-                [ p [] [ text "I'm here to tell you something, and you will probably read me first." ] ]
-            ]
         }
+        [ invertedSegment []
+            [ p [] [ text "I'm here to tell you something, and you will probably read me first." ] ]
+        ]
     , example
         { title = "Padded"
         , description = "A segment can increase its padding"
-        , contents = [ paddedSegment options [] [ wireframeShortParagraph ] ]
         }
+        [ paddedSegment options [] [ wireframeShortParagraph ] ]
     , example
         { title = ""
         , description = ""
-        , contents = [ veryPaddedSegment options [] [ wireframeShortParagraph ] ]
         }
+        [ veryPaddedSegment options [] [ wireframeShortParagraph ] ]
     , example
         { title = "Basic"
         , description = "A basic segment has no special formatting"
-        , contents =
-            [ basicSegment options
-                []
-                [ p [] [ text "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo." ] ]
-            ]
         }
+        [ basicSegment options
+            []
+            [ p [] [ text "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo." ] ]
+        ]
     ]
 
 
@@ -1126,48 +1099,46 @@ examplesForText options =
     [ example
         { title = "Text"
         , description = "A text is always used inline and uses one color from the FUI color palette"
-        , contents =
-            [ segment options
-                []
-                [ text "This is "
-                , redText options "red"
-                , text " inline text and this is "
-                , blueText options "blue"
-                , text " inline text and this is "
-                , purpleText options "purple"
-                , text " inline text"
-                ]
-            , segment options
-                []
-                [ text "This is "
-                , infoText "info"
-                , text " inline text and this is "
-                , successText "success"
-                , text " inline text and this is "
-                , warningText "warning"
-                , text " inline text and this is "
-                , errorText "error"
-                , text " inline text"
-                ]
-            ]
         }
+        [ segment options
+            []
+            [ text "This is "
+            , redText options "red"
+            , text " inline text and this is "
+            , blueText options "blue"
+            , text " inline text and this is "
+            , purpleText options "purple"
+            , text " inline text"
+            ]
+        , segment options
+            []
+            [ text "This is "
+            , infoText "info"
+            , text " inline text and this is "
+            , successText "success"
+            , text " inline text and this is "
+            , warningText "warning"
+            , text " inline text and this is "
+            , errorText "error"
+            , text " inline text"
+            ]
+        ]
     , example
         { title = "Size"
         , description = "Text can vary in the same sizes as icons"
-        , contents =
-            [ segment options
-                []
-                [ p [] [ text "Starting with ", miniText "mini", text " text" ]
-                , p [] [ text "which turns into ", tinyText "tiny", text " text" ]
-                , p [] [ text "changing to ", smallText "small", text " text until it is" ]
-                , p [] [ text "the default ", mediumText "medium", text " text" ]
-                , p [] [ text "and could be ", largeText "large", text " text" ]
-                , p [] [ text "to turn into ", bigText "big", text " text" ]
-                , p [] [ text "then growing to ", hugeText "huge", text " text" ]
-                , p [] [ text "to finally become ", massiveText "massive", text " text" ]
-                ]
-            ]
         }
+        [ segment options
+            []
+            [ p [] [ text "Starting with ", miniText "mini", text " text" ]
+            , p [] [ text "which turns into ", tinyText "tiny", text " text" ]
+            , p [] [ text "changing to ", smallText "small", text " text until it is" ]
+            , p [] [ text "the default ", mediumText "medium", text " text" ]
+            , p [] [ text "and could be ", largeText "large", text " text" ]
+            , p [] [ text "to turn into ", bigText "big", text " text" ]
+            , p [] [ text "then growing to ", hugeText "huge", text " text" ]
+            , p [] [ text "to finally become ", massiveText "massive", text " text" ]
+            ]
+        ]
     ]
 
 
@@ -1176,60 +1147,55 @@ examplesForBreadcrumb { inverted } =
     [ example
         { title = "Breadcrumb"
         , description = "A standard breadcrumb"
-        , contents =
-            [ breadcrumb { divider = text "/", inverted = inverted }
-                [ { label = "Home", url = "/" }
-                , { label = "Store", url = "/" }
-                , { label = "T-Shirt", url = "" }
-                ]
-            ]
         }
+        [ breadcrumb { divider = text "/", inverted = inverted }
+            [ { label = "Home", url = "/" }
+            , { label = "Store", url = "/" }
+            , { label = "T-Shirt", url = "" }
+            ]
+        ]
     , example
         { title = ""
         , description = ""
-        , contents =
-            [ breadcrumb { divider = icon [] "fas fa-angle-right", inverted = inverted }
-                [ { label = "Home", url = "/" }
-                , { label = "Store", url = "/" }
-                , { label = "T-Shirt", url = "" }
-                ]
-            ]
         }
+        [ breadcrumb { divider = icon [] "fas fa-angle-right", inverted = inverted }
+            [ { label = "Home", url = "/" }
+            , { label = "Store", url = "/" }
+            , { label = "T-Shirt", url = "" }
+            ]
+        ]
     , example
         { title = "Divider"
         , description = "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text."
-        , contents =
-            [ breadcrumb { divider = text "/", inverted = inverted }
+        }
+        [ breadcrumb { divider = text "/", inverted = inverted }
+            [ { label = "Home", url = "/" }
+            , { label = "Registration", url = "/" }
+            , { label = "Personal Information", url = "" }
+            ]
+        ]
+    , example
+        { title = "Active"
+        , description = "A section can be active"
+        }
+        [ breadcrumb { divider = text "/", inverted = inverted }
+            [ { label = "Products", url = "/" }
+            , { label = "Paper Towels", url = "" }
+            ]
+        ]
+    , example
+        { title = "Inverted"
+        , description = "A breadcrumb can be inverted"
+        }
+        [ segment { inverted = True }
+            []
+            [ breadcrumb { divider = text "/", inverted = True }
                 [ { label = "Home", url = "/" }
                 , { label = "Registration", url = "/" }
                 , { label = "Personal Information", url = "" }
                 ]
             ]
-        }
-    , example
-        { title = "Active"
-        , description = "A section can be active"
-        , contents =
-            [ breadcrumb { divider = text "/", inverted = inverted }
-                [ { label = "Products", url = "/" }
-                , { label = "Paper Towels", url = "" }
-                ]
-            ]
-        }
-    , example
-        { title = "Inverted"
-        , description = "A breadcrumb can be inverted"
-        , contents =
-            [ segment { inverted = True }
-                []
-                [ breadcrumb { divider = text "/", inverted = True }
-                    [ { label = "Home", url = "/" }
-                    , { label = "Registration", url = "/" }
-                    , { label = "Personal Information", url = "" }
-                    ]
-                ]
-            ]
-        }
+        ]
     ]
 
 
@@ -1239,41 +1205,40 @@ examplesForGrid =
         { title = "Grids"
         , description = """A grid is a structure with a long history used to align negative space in designs.
 Using a grid makes content appear to flow more naturally on your page."""
-        , contents =
-            [ let
-                dummyContent =
-                    css
-                        [ after
-                            [ property "content" (qt "")
-                            , display block
-                            , minHeight (px 50)
-                            , backgroundColor (rgba 86 61 124 0.1)
-                            , property "box-shadow" "0px 0px 0px 1px rgba(86, 61, 124, 0.2) inset"
-                            ]
-                        ]
-              in
-              grid
-                [ css
-                    [ position relative
-                    , before
-                        [ position absolute
-                        , top (rem 1)
-                        , left (rem 1)
-                        , backgroundColor (hex "FAFAFA")
-                        , property "content" (qt "")
-                        , width (calc (pct 100) minus (rem 2))
-                        , height (calc (pct 100) minus (rem 2))
-                        , property "box-shadow" "0px 0px 0px 1px #DDDDDD inset"
+        }
+        [ let
+            dummyContent =
+                css
+                    [ after
+                        [ property "content" (qt "")
+                        , display block
+                        , minHeight (px 50)
+                        , backgroundColor (rgba 86 61 124 0.1)
+                        , property "box-shadow" "0px 0px 0px 1px rgba(86, 61, 124, 0.2) inset"
                         ]
                     ]
-                ]
-                [ fourWideColumn [ dummyContent ] []
-                , fourWideColumn [ dummyContent ] []
-                , fourWideColumn [ dummyContent ] []
-                , fourWideColumn [ dummyContent ] []
+          in
+          grid
+            [ css
+                [ position relative
+                , before
+                    [ position absolute
+                    , top (rem 1)
+                    , left (rem 1)
+                    , backgroundColor (hex "FAFAFA")
+                    , property "content" (qt "")
+                    , width (calc (pct 100) minus (rem 2))
+                    , height (calc (pct 100) minus (rem 2))
+                    , property "box-shadow" "0px 0px 0px 1px #DDDDDD inset"
+                    ]
                 ]
             ]
-        }
+            [ fourWideColumn [ dummyContent ] []
+            , fourWideColumn [ dummyContent ] []
+            , fourWideColumn [ dummyContent ] []
+            , fourWideColumn [ dummyContent ] []
+            ]
+        ]
     ]
 
 
@@ -1282,76 +1247,71 @@ examplesForMenu model =
     [ example
         { title = "Secondary Menu"
         , description = "A menu can adjust its appearance to de-emphasize its contents"
-        , contents =
-            [ secondaryMenu { inverted = False } [] <|
-                [ secondaryMenuActiveItem [] [ text "Home" ]
-                , secondaryMenuItem [] [] [ text "Messages" ]
-                , secondaryMenuItem [] [] [ text "Friends" ]
-                , rightMenu []
-                    [ secondaryMenuItem [] [] <|
-                        [ Input.input []
-                            [ input [ type_ "text", Attributes.placeholder "Search..." ] [] ]
-                        ]
-                    , secondaryMenuItem [] [] [ text "Logout" ]
+        }
+        [ secondaryMenu { inverted = False } [] <|
+            [ secondaryMenuActiveItem [] [ text "Home" ]
+            , secondaryMenuItem [] [] [ text "Messages" ]
+            , secondaryMenuItem [] [] [ text "Friends" ]
+            , rightMenu []
+                [ secondaryMenuItem [] [] <|
+                    [ Input.input []
+                        [ input [ type_ "text", Attributes.placeholder "Search..." ] [] ]
                     ]
+                , secondaryMenuItem [] [] [ text "Logout" ]
                 ]
             ]
-        }
+        ]
     , example
         { title = "Vertical Menu"
         , description = "A vertical menu displays elements vertically.."
-        , contents =
-            [ verticalMenu { inverted = model.darkMode, additionalStyles = [] } [] <|
-                [ verticalMenuActiveItem { inverted = model.darkMode } [] <|
-                    [ text "Inbox"
-                    , verticalMenuActiveItemLabel [] [ text "1" ]
-                    ]
-                , verticalMenuItem { inverted = model.darkMode, additionalStyles = [] } [] <|
-                    [ text "Spam"
-                    , verticalMenuActiveItemLabel [] [ text "51" ]
-                    ]
-                , verticalMenuItem { inverted = model.darkMode, additionalStyles = [] } [] <|
-                    [ text "Updates"
-                    , verticalMenuActiveItemLabel [] [ text "1" ]
-                    ]
-                , verticalMenuItem { inverted = model.darkMode, additionalStyles = [] } [] [ text "Search mail..." ]
-                ]
-            ]
         }
+        [ verticalMenu { inverted = model.darkMode, additionalStyles = [] } [] <|
+            [ verticalMenuActiveItem { inverted = model.darkMode } [] <|
+                [ text "Inbox"
+                , verticalMenuActiveItemLabel [] [ text "1" ]
+                ]
+            , verticalMenuItem { inverted = model.darkMode, additionalStyles = [] } [] <|
+                [ text "Spam"
+                , verticalMenuActiveItemLabel [] [ text "51" ]
+                ]
+            , verticalMenuItem { inverted = model.darkMode, additionalStyles = [] } [] <|
+                [ text "Updates"
+                , verticalMenuActiveItemLabel [] [ text "1" ]
+                ]
+            , verticalMenuItem { inverted = model.darkMode, additionalStyles = [] } [] [ text "Search mail..." ]
+            ]
+        ]
     , example
         { title = "Link Item"
         , description = "A menu may contain a link item, or an item formatted as if it is a link."
-        , contents =
-            [ verticalMenu { inverted = model.darkMode, additionalStyles = [] } [] <|
-                [ verticalMenuLinkItem { inverted = model.darkMode, additionalStyles = [] } [ href "http://www.google.com", Attributes.target "_blank", rel "noopener" ] [ text "Visit Google" ]
-                , verticalMenuLinkItem { inverted = model.darkMode, additionalStyles = [] } [] [ text "Javascript Link" ]
-                ]
-            ]
         }
+        [ verticalMenu { inverted = model.darkMode, additionalStyles = [] } [] <|
+            [ verticalMenuLinkItem { inverted = model.darkMode, additionalStyles = [] } [ href "http://www.google.com", Attributes.target "_blank", rel "noopener" ] [ text "Visit Google" ]
+            , verticalMenuLinkItem { inverted = model.darkMode, additionalStyles = [] } [] [ text "Javascript Link" ]
+            ]
+        ]
     , example
         { title = "Inverted"
         , description = "A menu may have its colors inverted to show greater contrast"
-        , contents =
-            [ Menu.menu { inverted = True } [] <|
+        }
+        [ Menu.menu { inverted = True } [] <|
+            [ linkItem { inverted = True } [] [ text "Home" ]
+            , linkItem { inverted = True } [] [ text "Messages" ]
+            , linkItem { inverted = True } [] [ text "Friends" ]
+            ]
+        ]
+    , example
+        { title = ""
+        , description = ""
+        }
+        [ invertedSegment []
+            [ secondaryMenu { inverted = False } [] <|
                 [ linkItem { inverted = True } [] [ text "Home" ]
                 , linkItem { inverted = True } [] [ text "Messages" ]
                 , linkItem { inverted = True } [] [ text "Friends" ]
                 ]
             ]
-        }
-    , example
-        { title = ""
-        , description = ""
-        , contents =
-            [ invertedSegment []
-                [ secondaryMenu { inverted = False } [] <|
-                    [ linkItem { inverted = True } [] [ text "Home" ]
-                    , linkItem { inverted = True } [] [ text "Messages" ]
-                    , linkItem { inverted = True } [] [ text "Friends" ]
-                    ]
-                ]
-            ]
-        }
+        ]
     ]
 
 
@@ -1360,28 +1320,26 @@ examplesForMessage options =
     [ example
         { title = "Message"
         , description = "A basic message"
-        , contents =
-            [ message []
-                [ div []
-                    [ Header.header options [] [ text "Changes in Service" ]
-                    , p [] [ text "We just updated our privacy policy here to better service our customers. We recommend reviewing the changes." ]
-                    ]
+        }
+        [ message []
+            [ div []
+                [ Header.header options [] [ text "Changes in Service" ]
+                , p [] [ text "We just updated our privacy policy here to better service our customers. We recommend reviewing the changes." ]
                 ]
             ]
-        }
+        ]
     , example
         { title = "Icon Message"
         , description = "A message can contain an icon."
-        , contents =
-            [ message []
-                [ icon [] "fas fa-inbox"
-                , div []
-                    [ Header.header options [] [ text "Have you heard about our mailing list?" ]
-                    , p [] [ text "Get the best news in your e-mail every day." ]
-                    ]
+        }
+        [ message []
+            [ icon [] "fas fa-inbox"
+            , div []
+                [ Header.header options [] [ text "Have you heard about our mailing list?" ]
+                , p [] [ text "Get the best news in your e-mail every day." ]
                 ]
             ]
-        }
+        ]
     ]
 
 
@@ -1390,84 +1348,80 @@ examplesForTable =
     [ example
         { title = "Table"
         , description = "A standard table"
-        , contents =
-            [ celledTable []
-                [ thead []
-                    [ tr [] <|
-                        List.map (\item -> th [] [ text item ])
-                            [ "Name", "Age", "Job" ]
-                    ]
-                , tbody [] <|
-                    List.map (\row -> tr [] <| List.map (\d -> td [] [ text d ]) row)
-                        [ [ "James", "24", "Engineer" ]
-                        , [ "Jill", "26", "Engineer" ]
-                        , [ "Elyse", "24", "Designer" ]
-                        ]
-                ]
-            ]
         }
+        [ celledTable []
+            [ thead []
+                [ tr [] <|
+                    List.map (\item -> th [] [ text item ])
+                        [ "Name", "Age", "Job" ]
+                ]
+            , tbody [] <|
+                List.map (\row -> tr [] <| List.map (\d -> td [] [ text d ]) row)
+                    [ [ "James", "24", "Engineer" ]
+                    , [ "Jill", "26", "Engineer" ]
+                    , [ "Elyse", "24", "Designer" ]
+                    ]
+            ]
+        ]
     , example
         { title = "Striped"
         , description = "A table can stripe alternate rows of content with a darker color to increase contrast"
-        , contents =
-            [ stripedTable []
-                [ thead []
-                    [ tr [] <|
-                        List.map (\item -> th [] [ text item ])
-                            [ "Name", "Date Joined", "E-mail", "Called" ]
-                    ]
-                , tbody [] <|
-                    List.map (\row -> tr [] <| List.map (\d -> td [] [ text d ]) row)
-                        [ [ "John Lilki", "September 14, 2013", "jhlilk22@yahoo.com", "No" ]
-                        , [ "Jamie Harington", "January 11, 2014", "jamieharingonton@yahoo.com", "Yes" ]
-                        , [ "Jill Lewis", "May 11, 2014", "jilsewris22@yahoo.com", "Yes" ]
-                        , [ "John Lilki", "September 14, 2013", "jhlilk22@yahoo.com", "No" ]
-                        , [ "John Lilki", "September 14, 2013", "jhlilk22@yahoo.com", "No" ]
-                        , [ "Jamie Harington", "January 11, 2014", "jamieharingonton@yahoo.com", "Yes" ]
-                        , [ "Jill Lewis", "May 11, 2014", "jilsewris22@yahoo.com", "Yes" ]
-                        , [ "John Lilki", "September 14, 2013", "jhlilk22@yahoo.com", "No" ]
-                        ]
-                ]
-            ]
         }
+        [ stripedTable []
+            [ thead []
+                [ tr [] <|
+                    List.map (\item -> th [] [ text item ])
+                        [ "Name", "Date Joined", "E-mail", "Called" ]
+                ]
+            , tbody [] <|
+                List.map (\row -> tr [] <| List.map (\d -> td [] [ text d ]) row)
+                    [ [ "John Lilki", "September 14, 2013", "jhlilk22@yahoo.com", "No" ]
+                    , [ "Jamie Harington", "January 11, 2014", "jamieharingonton@yahoo.com", "Yes" ]
+                    , [ "Jill Lewis", "May 11, 2014", "jilsewris22@yahoo.com", "Yes" ]
+                    , [ "John Lilki", "September 14, 2013", "jhlilk22@yahoo.com", "No" ]
+                    , [ "John Lilki", "September 14, 2013", "jhlilk22@yahoo.com", "No" ]
+                    , [ "Jamie Harington", "January 11, 2014", "jamieharingonton@yahoo.com", "Yes" ]
+                    , [ "Jill Lewis", "May 11, 2014", "jilsewris22@yahoo.com", "Yes" ]
+                    , [ "John Lilki", "September 14, 2013", "jhlilk22@yahoo.com", "No" ]
+                    ]
+            ]
+        ]
     , example
         { title = "Basic"
         , description = "A table can reduce its complexity to increase readability."
-        , contents =
-            [ basicTable []
-                [ thead []
-                    [ tr [] <|
-                        List.map (\item -> th [] [ text item ])
-                            [ "Name", "Status", "Notes" ]
-                    ]
-                , tbody [] <|
-                    List.map (\row -> tr [] <| List.map (\d -> td [] [ text d ]) row)
-                        [ [ "John", "Approved", "None" ]
-                        , [ "Jamie", "Approved", "Requires call" ]
-                        , [ "Jill", "Denied", "None" ]
-                        ]
-                ]
-            ]
         }
+        [ basicTable []
+            [ thead []
+                [ tr [] <|
+                    List.map (\item -> th [] [ text item ])
+                        [ "Name", "Status", "Notes" ]
+                ]
+            , tbody [] <|
+                List.map (\row -> tr [] <| List.map (\d -> td [] [ text d ]) row)
+                    [ [ "John", "Approved", "None" ]
+                    , [ "Jamie", "Approved", "Requires call" ]
+                    , [ "Jill", "Denied", "None" ]
+                    ]
+            ]
+        ]
     , example
         { title = ""
         , description = ""
-        , contents =
-            [ veryBasicTable []
-                [ thead []
-                    [ tr [] <|
-                        List.map (\item -> th [] [ text item ])
-                            [ "Name", "Status", "Notes" ]
-                    ]
-                , tbody [] <|
-                    List.map (\row -> tr [] <| List.map (\d -> td [] [ text d ]) row)
-                        [ [ "John", "Approved", "None" ]
-                        , [ "Jamie", "Approved", "Requires call" ]
-                        , [ "Jill", "Denied", "None" ]
-                        ]
-                ]
-            ]
         }
+        [ veryBasicTable []
+            [ thead []
+                [ tr [] <|
+                    List.map (\item -> th [] [ text item ])
+                        [ "Name", "Status", "Notes" ]
+                ]
+            , tbody [] <|
+                List.map (\row -> tr [] <| List.map (\d -> td [] [ text d ]) row)
+                    [ [ "John", "Approved", "None" ]
+                    , [ "Jamie", "Approved", "Requires call" ]
+                    , [ "Jill", "Denied", "None" ]
+                    ]
+            ]
+        ]
     ]
 
 
@@ -1476,159 +1430,153 @@ examplesForCard options =
     [ example
         { title = "Card"
         , description = "A single card."
-        , contents =
-            [ card options
+        }
+        [ card options
+            []
+            [ image [ src "./static/images/avatar/kristy.png" ] []
+            , Card.content options
                 []
-                [ image [ src "./static/images/avatar/kristy.png" ] []
-                , Card.content options
-                    []
-                    { header = [ text "Kristy" ]
-                    , meta = [ text "Joined in 2013" ]
-                    , description = [ text "Kristy is an art director living in New York." ]
-                    }
-                , extraContent options
-                    []
-                    [ icon [] "fas fa-user"
-                    , text "22 Friends"
-                    ]
+                { header = [ text "Kristy" ]
+                , meta = [ text "Joined in 2013" ]
+                , description = [ text "Kristy is an art director living in New York." ]
+                }
+            , extraContent options
+                []
+                [ icon [] "fas fa-user"
+                , text "22 Friends"
                 ]
             ]
-        }
+        ]
     , example
         { title = "Cards"
         , description = "A group of cards."
-        , contents =
-            [ cards [] <|
-                List.map
-                    (\{ name, type_, description_, friends, imageUrl } ->
-                        card options
-                            []
-                            [ image [ src imageUrl ] []
-                            , Card.content options
-                                []
-                                { header = [ text name ]
-                                , meta = [ text type_ ]
-                                , description = [ text description_ ]
-                                }
-                            , extraContent options
-                                []
-                                [ icon [] "fas fa-user"
-                                , text (String.fromInt friends ++ " Friends")
-                                ]
-                            ]
-                    )
-                    [ { name = "Matt Giampietro"
-                      , type_ = "Friends"
-                      , description_ = "Matthew is an interior designer living in New York."
-                      , friends = 75
-                      , imageUrl = "./static/images/avatar/matthew.png"
-                      }
-                    , { name = "Molly"
-                      , type_ = "Coworker"
-                      , description_ = "Molly is a personal assistant living in Paris."
-                      , friends = 35
-                      , imageUrl = "./static/images/avatar/molly.png"
-                      }
-                    , { name = "Elyse"
-                      , type_ = "Coworker"
-                      , description_ = "Elyse is a copywriter working in New York."
-                      , friends = 151
-                      , imageUrl = "./static/images/avatar/elyse.png"
-                      }
-                    ]
-            ]
         }
+        [ cards [] <|
+            List.map
+                (\{ name, type_, description_, friends, imageUrl } ->
+                    card options
+                        []
+                        [ image [ src imageUrl ] []
+                        , Card.content options
+                            []
+                            { header = [ text name ]
+                            , meta = [ text type_ ]
+                            , description = [ text description_ ]
+                            }
+                        , extraContent options
+                            []
+                            [ icon [] "fas fa-user"
+                            , text (String.fromInt friends ++ " Friends")
+                            ]
+                        ]
+                )
+                [ { name = "Matt Giampietro"
+                  , type_ = "Friends"
+                  , description_ = "Matthew is an interior designer living in New York."
+                  , friends = 75
+                  , imageUrl = "./static/images/avatar/matthew.png"
+                  }
+                , { name = "Molly"
+                  , type_ = "Coworker"
+                  , description_ = "Molly is a personal assistant living in Paris."
+                  , friends = 35
+                  , imageUrl = "./static/images/avatar/molly.png"
+                  }
+                , { name = "Elyse"
+                  , type_ = "Coworker"
+                  , description_ = "Elyse is a copywriter working in New York."
+                  , friends = 151
+                  , imageUrl = "./static/images/avatar/elyse.png"
+                  }
+                ]
+        ]
     , example
         { title = "Header"
         , description = "A card can contain a header"
-        , contents =
-            [ cards [] <|
-                List.map
-                    (\person ->
-                        card options
-                            []
-                            [ Card.content options
-                                []
-                                { header = [ text person.name ]
-                                , meta = [ text person.type_ ]
-                                , description = [ text person.description ]
-                                }
-                            ]
-                    )
-                    [ { name = "Elliot Fu"
-                      , type_ = "Friend"
-                      , description = "Elliot Fu is a film-maker from New York."
-                      }
-                    , { name = "Veronika Ossi"
-                      , type_ = "Friend"
-                      , description = "Veronika Ossi is a set designer living in New York who enjoys kittens, music, and partying."
-                      }
-                    , { name = "Jenny Hess"
-                      , type_ = "Friend"
-                      , description = "Jenny is a student studying Media Management at the New School"
-                      }
-                    ]
-            ]
         }
+        [ cards [] <|
+            List.map
+                (\person ->
+                    card options
+                        []
+                        [ Card.content options
+                            []
+                            { header = [ text person.name ]
+                            , meta = [ text person.type_ ]
+                            , description = [ text person.description ]
+                            }
+                        ]
+                )
+                [ { name = "Elliot Fu"
+                  , type_ = "Friend"
+                  , description = "Elliot Fu is a film-maker from New York."
+                  }
+                , { name = "Veronika Ossi"
+                  , type_ = "Friend"
+                  , description = "Veronika Ossi is a set designer living in New York who enjoys kittens, music, and partying."
+                  }
+                , { name = "Jenny Hess"
+                  , type_ = "Friend"
+                  , description = "Jenny is a student studying Media Management at the New School"
+                  }
+                ]
+        ]
     , example
         { title = "Metadata"
         , description = "A card can contain content metadata"
-        , contents =
-            [ card options
-                []
-                [ Card.content options
-                    []
-                    { header = [ text "Cute Dog" ]
-                    , meta =
-                        [ text "2 days ago "
-                        , a [] [ text "Animals" ]
-                        ]
-                    , description = [ wireframeParagraph ]
-                    }
-                ]
-            ]
         }
+        [ card options
+            []
+            [ Card.content options
+                []
+                { header = [ text "Cute Dog" ]
+                , meta =
+                    [ text "2 days ago "
+                    , a [] [ text "Animals" ]
+                    ]
+                , description = [ wireframeParagraph ]
+                }
+            ]
+        ]
     , example
         { title = "Description"
         , description = "A card can contain a description with one or more paragraphs"
-        , contents =
-            [ card options
-                []
-                [ Card.content options
-                    []
-                    { header = [ text "Cute Dog" ]
-                    , meta = [ text "2 days ago " ]
-                    , description =
-                        [ p [] [ text "Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size." ]
-                        , p [] [ text "Many people also have their own barometers for what makes a cute dog." ]
-                        ]
-                    }
-                ]
-            ]
         }
+        [ card options
+            []
+            [ Card.content options
+                []
+                { header = [ text "Cute Dog" ]
+                , meta = [ text "2 days ago " ]
+                , description =
+                    [ p [] [ text "Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size." ]
+                    , p [] [ text "Many people also have their own barometers for what makes a cute dog." ]
+                    ]
+                }
+            ]
+        ]
     , example
         { title = "Extra Content"
         , description = "A card can contain extra content meant to be formatted separately from the main content"
-        , contents =
-            [ card options
+        }
+        [ card options
+            []
+            [ Card.content options
                 []
-                [ Card.content options
-                    []
-                    { header = [ text "Cute Dog" ]
-                    , meta = [ text "2 days ago " ]
-                    , description =
-                        [ p [] [ text "Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size." ]
-                        , p [] [ text "Many people also have their own barometers for what makes a cute dog." ]
-                        ]
-                    }
-                , extraContent options
-                    []
-                    [ icon [] "fas fa-check"
-                    , text "121 Votes"
+                { header = [ text "Cute Dog" ]
+                , meta = [ text "2 days ago " ]
+                , description =
+                    [ p [] [ text "Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size." ]
+                    , p [] [ text "Many people also have their own barometers for what makes a cute dog." ]
                     ]
+                }
+            , extraContent options
+                []
+                [ icon [] "fas fa-check"
+                , text "121 Votes"
                 ]
             ]
-        }
+        ]
     ]
 
 
@@ -1637,145 +1585,138 @@ examplesForItem =
     [ example
         { title = "Metadata"
         , description = "An item can contain content metadata"
-        , contents =
-            [ items [] <|
-                List.repeat 2
-                    (Item.item []
-                        [ image [ src "./static/images/wireframe/image.png" ] []
-                        , Item.content []
-                            { header = [ text "Header" ]
-                            , meta = [ span [] [ text "Description" ] ]
-                            , description = [ wireframeShortParagraph ]
-                            , extra = [ text "Additional Details" ]
-                            }
-                        ]
-                    )
-            ]
         }
+        [ items [] <|
+            List.repeat 2
+                (Item.item []
+                    [ image [ src "./static/images/wireframe/image.png" ] []
+                    , Item.content []
+                        { header = [ text "Header" ]
+                        , meta = [ span [] [ text "Description" ] ]
+                        , description = [ wireframeShortParagraph ]
+                        , extra = [ text "Additional Details" ]
+                        }
+                    ]
+                )
+        ]
     , example
         { title = "Image"
         , description = "An item can contain an image"
-        , contents =
-            [ dividedItems [] <|
-                List.repeat 3
-                    (Item.item []
-                        [ image [ src "./static/images/wireframe/image.png" ] [] ]
-                    )
-            ]
         }
+        [ dividedItems [] <|
+            List.repeat 3
+                (Item.item []
+                    [ image [ src "./static/images/wireframe/image.png" ] [] ]
+                )
+        ]
     , example
         { title = "Content"
         , description = "An item can contain content"
-        , contents =
-            [ dividedItems [] <|
-                List.map
-                    (\{ content } ->
-                        Item.item []
-                            [ tinyImage [ src "./static/images/wireframe/image.png" ] []
-                            , middleAlignedContent [] [ text content ]
-                            ]
-                    )
-                    [ { content = "Content A" }
-                    , { content = "Content B" }
-                    , { content = "Content C" }
-                    ]
-            ]
         }
+        [ dividedItems [] <|
+            List.map
+                (\{ content } ->
+                    Item.item []
+                        [ tinyImage [ src "./static/images/wireframe/image.png" ] []
+                        , middleAlignedContent [] [ text content ]
+                        ]
+                )
+                [ { content = "Content A" }
+                , { content = "Content B" }
+                , { content = "Content C" }
+                ]
+        ]
     , example
         { title = "Header"
         , description = "An item can contain a header"
-        , contents =
-            [ items [] <|
-                List.map
-                    (\{ title } ->
-                        Item.item []
-                            [ tinyImage [ src "./static/images/wireframe/image.png" ] []
-                            , middleAlignedContent [] [ Item.header [] [ text title ] ]
-                            ]
-                    )
-                    [ { title = "12 Years a Slave" }
-                    , { title = "My Neighbor Totoro" }
-                    , { title = "Watchmen" }
-                    ]
-            ]
         }
+        [ items [] <|
+            List.map
+                (\{ title } ->
+                    Item.item []
+                        [ tinyImage [ src "./static/images/wireframe/image.png" ] []
+                        , middleAlignedContent [] [ Item.header [] [ text title ] ]
+                        ]
+                )
+                [ { title = "12 Years a Slave" }
+                , { title = "My Neighbor Totoro" }
+                , { title = "Watchmen" }
+                ]
+        ]
     , example
         { title = "Metadata"
         , description = "An item can contain content metadata"
-        , contents =
-            [ items [] <|
-                List.map
-                    (\plan ->
-                        Item.item []
-                            [ smallImage [ src "./static/images/wireframe/image.png" ] []
-                            , Item.content []
-                                { header = [ text plan.title ]
-                                , meta =
-                                    [ span [] [ text plan.price ]
-                                    , span [] [ text plan.stay ]
-                                    ]
-                                , description = [ wireframeShortParagraph ]
-                                , extra = []
-                                }
-                            ]
-                    )
-                    [ { title = "Arrowhead Valley Camp"
-                      , price = "$1200"
-                      , stay = "1 Month"
-                      }
-                    , { title = "Buck's Homebrew Stayaway"
-                      , price = "$1000"
-                      , stay = "2 Weeks"
-                      }
-                    , { title = "Astrology Camp"
-                      , price = "$1600"
-                      , stay = "6 Weeks"
-                      }
-                    ]
-            ]
         }
+        [ items [] <|
+            List.map
+                (\plan ->
+                    Item.item []
+                        [ smallImage [ src "./static/images/wireframe/image.png" ] []
+                        , Item.content []
+                            { header = [ text plan.title ]
+                            , meta =
+                                [ span [] [ text plan.price ]
+                                , span [] [ text plan.stay ]
+                                ]
+                            , description = [ wireframeShortParagraph ]
+                            , extra = []
+                            }
+                        ]
+                )
+                [ { title = "Arrowhead Valley Camp"
+                  , price = "$1200"
+                  , stay = "1 Month"
+                  }
+                , { title = "Buck's Homebrew Stayaway"
+                  , price = "$1000"
+                  , stay = "2 Weeks"
+                  }
+                , { title = "Astrology Camp"
+                  , price = "$1600"
+                  , stay = "6 Weeks"
+                  }
+                ]
+        ]
     , example
         { title = "Description"
         , description = "An item can contain a description with a single or multiple paragraphs"
-        , contents =
-            [ items []
-                [ Item.item []
-                    [ smallImage [ src "./static/images/wireframe/image.png" ] []
-                    , Item.content []
-                        { header = [ text "Cute Dog" ]
-                        , meta = []
-                        , description =
-                            [ p [] [ text "Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size." ]
-                            , p [] [ text "Many people also have their own barometers for what makes a cute dog." ]
-                            ]
-                        , extra = []
-                        }
-                    ]
+        }
+        [ items []
+            [ Item.item []
+                [ smallImage [ src "./static/images/wireframe/image.png" ] []
+                , Item.content []
+                    { header = [ text "Cute Dog" ]
+                    , meta = []
+                    , description =
+                        [ p [] [ text "Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size." ]
+                        , p [] [ text "Many people also have their own barometers for what makes a cute dog." ]
+                        ]
+                    , extra = []
+                    }
                 ]
             ]
-        }
+        ]
     , example
         { title = "Extra Content"
         , description = "An item can contain extra content meant to be formatted separately from the main content"
-        , contents =
-            [ items []
-                [ Item.item []
-                    [ Item.content []
-                        { header = [ text "Cute Dog" ]
-                        , meta = []
-                        , description =
-                            [ wireframeShortParagraph
-                            , wireframeShortParagraph
-                            ]
-                        , extra =
-                            [ icon [] "fas fa-check"
-                            , text "121 Votes"
-                            ]
-                        }
-                    ]
+        }
+        [ items []
+            [ Item.item []
+                [ Item.content []
+                    { header = [ text "Cute Dog" ]
+                    , meta = []
+                    , description =
+                        [ wireframeShortParagraph
+                        , wireframeShortParagraph
+                        ]
+                    , extra =
+                        [ icon [] "fas fa-check"
+                        , text "121 Votes"
+                        ]
+                    }
                 ]
             ]
-        }
+        ]
     ]
 
 
@@ -1806,17 +1747,16 @@ examplesForAccordion options =
     [ example
         { title = "Accordion"
         , description = "A standard accordion"
-        , contents = [ accordion options [] items ]
         }
+        [ accordion options [] items ]
     , example
         { title = "Inverted"
         , description = "An accordion can be formatted to appear on dark backgrounds"
-        , contents =
-            [ segment { inverted = True }
-                []
-                [ accordion { inverted = True } [] items ]
-            ]
         }
+        [ segment { inverted = True }
+            []
+            [ accordion { inverted = True } [] items ]
+        ]
     ]
 
 
@@ -1825,13 +1765,12 @@ examplesForCheckbox =
     [ example
         { title = "Checkbox"
         , description = "A checkbox allows a user to select a value from a small set of options, often binary"
-        , contents =
-            [ checkbox []
-                [ input [ id "checkbox_example", type_ "checkbox" ] []
-                , Checkbox.label [ for "checkbox_example" ] [ text "Make my profile visible" ]
-                ]
-            ]
         }
+        [ checkbox []
+            [ input [ id "checkbox_example", type_ "checkbox" ] []
+            , Checkbox.label [ for "checkbox_example" ] [ text "Make my profile visible" ]
+            ]
+        ]
     ]
 
 
@@ -1844,58 +1783,55 @@ examplesForDimmer { toggledItems, darkMode } =
     [ example
         { title = "Dimmer"
         , description = "A simple dimmer displays no content"
-        , contents =
-            [ segment options
-                []
-                [ Header.header options [] [ text "Overlayable Section" ]
-                , div [] <|
-                    List.repeat 1 (smallImage [ src "./static/images/wireframe/image.png" ] [])
-                , wireframeMediaParagraph
-                , dimmer (List.member "dimmer" toggledItems) [ onClick (Toggle "dimmer") ] []
-                ]
-            , button [ onClick (Toggle "dimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
-            ]
         }
+        [ segment options
+            []
+            [ Header.header options [] [ text "Overlayable Section" ]
+            , div [] <|
+                List.repeat 1 (smallImage [ src "./static/images/wireframe/image.png" ] [])
+            , wireframeMediaParagraph
+            , dimmer (List.member "dimmer" toggledItems) [ onClick (Toggle "dimmer") ] []
+            ]
+        , button [ onClick (Toggle "dimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
+        ]
     , example
         { title = "Content Dimmer"
         , description = "A dimmer can display content"
-        , contents =
-            [ segment options
-                []
-                [ Header.header options [] [ text "Overlayable Section" ]
-                , div [] <|
-                    List.repeat 1 (smallImage [ src "./static/images/wireframe/image.png" ] [])
-                , wireframeMediaParagraph
-                , dimmer (List.member "contentDimmer" toggledItems)
-                    [ onClick (Toggle "contentDimmer") ]
-                    [ Dimmer.content []
-                        [ iconHeader { inverted = True }
-                            []
-                            [ icon [] "fas fa-heart", text "Dimmed Message!" ]
-                        ]
+        }
+        [ segment options
+            []
+            [ Header.header options [] [ text "Overlayable Section" ]
+            , div [] <|
+                List.repeat 1 (smallImage [ src "./static/images/wireframe/image.png" ] [])
+            , wireframeMediaParagraph
+            , dimmer (List.member "contentDimmer" toggledItems)
+                [ onClick (Toggle "contentDimmer") ]
+                [ Dimmer.content []
+                    [ iconHeader { inverted = True }
+                        []
+                        [ icon [] "fas fa-heart", text "Dimmed Message!" ]
                     ]
                 ]
-            , button [ onClick (Toggle "contentDimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
             ]
-        }
+        , button [ onClick (Toggle "contentDimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
+        ]
     , example
         { title = "Page Dimmer"
         , description = "A dimmer can be formatted to be fixed to the page"
-        , contents =
-            [ button [ onClick (Toggle "pageDimmer") ] [ icon [] "fas fa-plus", text "Show" ]
-            , pageDimmer (List.member "pageDimmer" toggledItems)
-                [ onClick (Toggle "pageDimmer") ]
-                [ iconHeader { inverted = True }
+        }
+        [ button [ onClick (Toggle "pageDimmer") ] [ icon [] "fas fa-plus", text "Show" ]
+        , pageDimmer (List.member "pageDimmer" toggledItems)
+            [ onClick (Toggle "pageDimmer") ]
+            [ iconHeader { inverted = True }
+                []
+                [ icon [] "fas fa-envelope"
+                , text "Dimmer Message"
+                , subHeader { inverted = True }
                     []
-                    [ icon [] "fas fa-envelope"
-                    , text "Dimmer Message"
-                    , subHeader { inverted = True }
-                        []
-                        [ text "Dimmer sub-header" ]
-                    ]
+                    [ text "Dimmer sub-header" ]
                 ]
             ]
-        }
+        ]
     ]
 
 
@@ -1908,53 +1844,51 @@ examplesForModal { toggledItems, darkMode } =
     [ example
         { title = "Modal"
         , description = "A standard modal"
-        , contents =
-            [ button [ onClick (Toggle "modal") ] [ icon [] "fas fa-plus", text "Show" ]
-            , pageDimmer (List.member "modal" toggledItems)
-                [ onClick (Toggle "modal") ]
-                [ modal options
-                    []
-                    { header = [ text "Select a Photo" ]
-                    , content =
-                        [ Modal.description []
-                            [ p []
-                                [ text "We've found the following "
-                                , a [ href "https://www.gravatar.com", Attributes.target "_blank" ] [ text "gravatar" ]
-                                , text " image associated with your e-mail address."
-                                ]
-                            , p [] [ text "Is it okay to use this photo?" ]
-                            ]
-                        ]
-                    , actions =
-                        [ blackButton [] [ text "Nope" ]
-                        , greenButton [] [ text "Yep, that's me" ]
-                        ]
-                    }
-                ]
-            ]
         }
+        [ button [ onClick (Toggle "modal") ] [ icon [] "fas fa-plus", text "Show" ]
+        , pageDimmer (List.member "modal" toggledItems)
+            [ onClick (Toggle "modal") ]
+            [ modal options
+                []
+                { header = [ text "Select a Photo" ]
+                , content =
+                    [ Modal.description []
+                        [ p []
+                            [ text "We've found the following "
+                            , a [ href "https://www.gravatar.com", Attributes.target "_blank" ] [ text "gravatar" ]
+                            , text " image associated with your e-mail address."
+                            ]
+                        , p [] [ text "Is it okay to use this photo?" ]
+                        ]
+                    ]
+                , actions =
+                    [ blackButton [] [ text "Nope" ]
+                    , greenButton [] [ text "Yep, that's me" ]
+                    ]
+                }
+            ]
+        ]
     , example
         { title = "Basic"
         , description = "A modal can reduce its complexity"
-        , contents =
-            [ button [ onClick (Toggle "basicModal") ] [ icon [] "fas fa-plus", text "Show" ]
-            , pageDimmer (List.member "basicModal" toggledItems)
-                [ onClick (Toggle "basicModal") ]
-                [ basicModal []
-                    { header = [ text "Archive Old Messages" ]
-                    , content =
-                        [ Modal.description []
-                            [ p [] [ text "Your inbox is getting full, would you like us to enable automatic archiving of old messages?" ] ]
-                        ]
-                    , actions =
-                        [ redButton [] [ text "No" ]
-                        , greenButton [] [ text "Yes" ]
-                        ]
-                    }
-                    []
-                ]
-            ]
         }
+        [ button [ onClick (Toggle "basicModal") ] [ icon [] "fas fa-plus", text "Show" ]
+        , pageDimmer (List.member "basicModal" toggledItems)
+            [ onClick (Toggle "basicModal") ]
+            [ basicModal []
+                { header = [ text "Archive Old Messages" ]
+                , content =
+                    [ Modal.description []
+                        [ p [] [ text "Your inbox is getting full, would you like us to enable automatic archiving of old messages?" ] ]
+                    ]
+                , actions =
+                    [ redButton [] [ text "No" ]
+                    , greenButton [] [ text "Yes" ]
+                    ]
+                }
+                []
+            ]
+        ]
     ]
 
 
@@ -1971,182 +1905,171 @@ examplesForProgress model =
     [ example
         { title = "Standard"
         , description = "A standard progress bar"
-        , contents =
-            [ Progress.progress
-                { value = model.progress
-                , progress = String.fromFloat model.progress ++ "%"
-                , label = "Uploading Files"
-                , indicating = False
-                , disabled = False
-                , state = Progress.Default
-                }
-            , controller
-            ]
         }
+        [ Progress.progress
+            { value = model.progress
+            , progress = String.fromFloat model.progress ++ "%"
+            , label = "Uploading Files"
+            , indicating = False
+            , disabled = False
+            , state = Progress.Default
+            }
+        , controller
+        ]
     , example
         { title = "Indicating"
         , description = "An indicating progress bar visually indicates the current level of progress of a task"
-        , contents =
-            [ Progress.progress
-                { value = model.progress
-                , progress = ""
-                , label =
-                    if model.progress == 100 then
-                        "Project Funded!"
-
-                    else
-                        String.fromFloat model.progress ++ "% Funded"
-                , indicating = True
-                , disabled = False
-                , state = Progress.Active
-                }
-            , controller
-            ]
         }
+        [ Progress.progress
+            { value = model.progress
+            , progress = ""
+            , label =
+                if model.progress == 100 then
+                    "Project Funded!"
+
+                else
+                    String.fromFloat model.progress ++ "% Funded"
+            , indicating = True
+            , disabled = False
+            , state = Progress.Active
+            }
+        , controller
+        ]
     , example
         { title = "Bar"
         , description = "A progress element can contain a bar visually indicating progress"
-        , contents =
-            [ Progress.progress
-                { value = model.progress
-                , progress = ""
-                , label = ""
-                , indicating = False
-                , disabled = False
-                , state = Progress.Default
-                }
-            ]
         }
+        [ Progress.progress
+            { value = model.progress
+            , progress = ""
+            , label = ""
+            , indicating = False
+            , disabled = False
+            , state = Progress.Default
+            }
+        ]
     , example
         { title = "Progress"
         , description = "A progress bar can contain a text value indicating current progress"
-        , contents =
-            [ Progress.progress
-                { value = model.progress
-                , progress = String.fromFloat model.progress ++ "%"
-                , label = ""
-                , indicating = False
-                , disabled = False
-                , state = Progress.Default
-                }
-            ]
         }
+        [ Progress.progress
+            { value = model.progress
+            , progress = String.fromFloat model.progress ++ "%"
+            , label = ""
+            , indicating = False
+            , disabled = False
+            , state = Progress.Default
+            }
+        ]
     , example
         { title = "Label"
         , description = "A progress element can contain a label"
-        , contents =
-            [ Progress.progress
-                { value = model.progress
-                , progress = String.fromFloat model.progress ++ "%"
-                , label = "Uploading Files"
-                , indicating = False
-                , disabled = False
-                , state = Progress.Default
-                }
-            ]
         }
+        [ Progress.progress
+            { value = model.progress
+            , progress = String.fromFloat model.progress ++ "%"
+            , label = "Uploading Files"
+            , indicating = False
+            , disabled = False
+            , state = Progress.Default
+            }
+        ]
     , example
         { title = "Active"
         , description = "A progress bar can show activity"
-        , contents =
-            [ Progress.progress
-                { value = model.progress
-                , progress = String.fromFloat model.progress ++ "%"
-                , label = "Uploading Files"
-                , indicating = False
-                , disabled = False
-                , state = Progress.Active
-                }
-            ]
         }
+        [ Progress.progress
+            { value = model.progress
+            , progress = String.fromFloat model.progress ++ "%"
+            , label = "Uploading Files"
+            , indicating = False
+            , disabled = False
+            , state = Progress.Active
+            }
+        ]
     , example
         { title = "Success"
         , description = "A progress bar can show a success state"
-        , contents =
-            [ Progress.progress
-                { value = model.progress
-                , progress = String.fromFloat model.progress ++ "%"
-                , label = "Everything worked, your file is all ready."
-                , indicating = False
-                , disabled = False
-                , state = Progress.Success
-                }
-            ]
         }
+        [ Progress.progress
+            { value = model.progress
+            , progress = String.fromFloat model.progress ++ "%"
+            , label = "Everything worked, your file is all ready."
+            , indicating = False
+            , disabled = False
+            , state = Progress.Success
+            }
+        ]
     , example
         { title = "Warning"
         , description = "A progress bar can show a warning state"
-        , contents =
-            [ Progress.progress
-                { value = model.progress
-                , progress = String.fromFloat model.progress ++ "%"
-                , label = "Your file didn't meet the minimum resolution requirements."
-                , indicating = False
-                , disabled = False
-                , state = Progress.Warning
-                }
-            ]
         }
+        [ Progress.progress
+            { value = model.progress
+            , progress = String.fromFloat model.progress ++ "%"
+            , label = "Your file didn't meet the minimum resolution requirements."
+            , indicating = False
+            , disabled = False
+            , state = Progress.Warning
+            }
+        ]
     , example
         { title = "Error"
         , description = "A progress bar can show an error state"
-        , contents =
-            [ Progress.progress
-                { value = model.progress
-                , progress = String.fromFloat model.progress ++ "%"
-                , label = "There was an error."
-                , indicating = False
-                , disabled = False
-                , state = Progress.Error
-                }
-            ]
         }
+        [ Progress.progress
+            { value = model.progress
+            , progress = String.fromFloat model.progress ++ "%"
+            , label = "There was an error."
+            , indicating = False
+            , disabled = False
+            , state = Progress.Error
+            }
+        ]
     , example
         { title = "Disabled"
         , description = "A progress bar can be disabled"
-        , contents =
-            [ Progress.progress
-                { value = model.progress
-                , progress = ""
-                , label = ""
-                , indicating = False
-                , disabled = True
-                , state = Progress.Default
-                }
-            ]
         }
+        [ Progress.progress
+            { value = model.progress
+            , progress = ""
+            , label = ""
+            , indicating = False
+            , disabled = True
+            , state = Progress.Default
+            }
+        ]
     ]
 
 
 examplesForSortableTable : Model -> List (Html Msg)
 examplesForSortableTable { people, tableState, query } =
-    [ example
+    [ let
+        config =
+            Table.config
+                { toId = .name
+                , toMsg = SetTableState
+                , columns =
+                    [ Table.stringColumn "Name" .name
+                    , Table.intColumn "Year" .year
+                    , Table.stringColumn "City" .city
+                    , Table.stringColumn "State" .state
+                    ]
+                }
+
+        lowerQuery =
+            String.toLower query
+
+        acceptablePeople =
+            List.filter (String.contains lowerQuery << String.toLower << .name) people
+      in
+      example
         { title = "Sortable Table"
         , description = ""
-        , contents =
-            let
-                config =
-                    Table.config
-                        { toId = .name
-                        , toMsg = SetTableState
-                        , columns =
-                            [ Table.stringColumn "Name" .name
-                            , Table.intColumn "Year" .year
-                            , Table.stringColumn "City" .city
-                            , Table.stringColumn "State" .state
-                            ]
-                        }
-
-                lowerQuery =
-                    String.toLower query
-
-                acceptablePeople =
-                    List.filter (String.contains lowerQuery << String.toLower << .name) people
-            in
-            [ input [ Attributes.placeholder "Search by Name", onInput SetQuery ] []
-            , Table.view config tableState acceptablePeople
-            ]
         }
+        [ input [ Attributes.placeholder "Search by Name", onInput SetQuery ] []
+        , Table.view config tableState acceptablePeople
+        ]
     ]
 
 

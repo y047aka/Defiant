@@ -54,8 +54,8 @@ toc =
         ]
 
 
-example : { title : String, description : String, contents : List (Html msg) } -> Html msg
-example options =
+example : { title : String, description : String } -> List (Html msg) -> Html msg
+example options children =
     let
         title =
             if options.title == "" then
@@ -79,7 +79,7 @@ example options =
         , property "-webkit-tap-highlight-color" "transparent"
         ]
         []
-        (title :: description :: options.contents)
+        (title :: description :: children)
 
 
 exampleContainer : List (Attribute msg) -> List (Html msg) -> Html msg
