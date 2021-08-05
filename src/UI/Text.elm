@@ -49,8 +49,8 @@ basis options additionalStyles str =
 
 
 coloredText : Color -> String -> Html msg
-coloredText color_ str =
-    basis { size = Nothing, color = Just color_ } [] str
+coloredText color_ =
+    basis { size = Nothing, color = Just color_ } []
 
 
 primaryText : { inverted : Bool } -> String -> Html msg
@@ -65,67 +65,67 @@ secondaryText =
 
 redText : { inverted : Bool } -> String -> Html msg
 redText { inverted } =
-    coloredText <| colorSelector Red inverted
+    coloredText (colorSelector Red inverted)
 
 
 orangeText : { inverted : Bool } -> String -> Html msg
 orangeText { inverted } =
-    coloredText <| colorSelector Orange inverted
+    coloredText (colorSelector Orange inverted)
 
 
 yellowText : { inverted : Bool } -> String -> Html msg
 yellowText { inverted } =
-    coloredText <| colorSelector Yellow inverted
+    coloredText (colorSelector Yellow inverted)
 
 
 oliveText : { inverted : Bool } -> String -> Html msg
 oliveText { inverted } =
-    coloredText <| colorSelector Olive inverted
+    coloredText (colorSelector Olive inverted)
 
 
 greenText : { inverted : Bool } -> String -> Html msg
 greenText { inverted } =
-    coloredText <| colorSelector Green inverted
+    coloredText (colorSelector Green inverted)
 
 
 tealText : { inverted : Bool } -> String -> Html msg
 tealText { inverted } =
-    coloredText <| colorSelector Teal inverted
+    coloredText (colorSelector Teal inverted)
 
 
 blueText : { inverted : Bool } -> String -> Html msg
 blueText { inverted } =
-    coloredText <| colorSelector Blue inverted
+    coloredText (colorSelector Blue inverted)
 
 
 violetText : { inverted : Bool } -> String -> Html msg
 violetText { inverted } =
-    coloredText <| colorSelector Violet inverted
+    coloredText (colorSelector Violet inverted)
 
 
 purpleText : { inverted : Bool } -> String -> Html msg
 purpleText { inverted } =
-    coloredText <| colorSelector Purple inverted
+    coloredText (colorSelector Purple inverted)
 
 
 pinkText : { inverted : Bool } -> String -> Html msg
 pinkText { inverted } =
-    coloredText <| colorSelector Pink inverted
+    coloredText (colorSelector Pink inverted)
 
 
 brownText : { inverted : Bool } -> String -> Html msg
 brownText { inverted } =
-    coloredText <| colorSelector Brown inverted
+    coloredText (colorSelector Brown inverted)
 
 
 greyText : { inverted : Bool } -> String -> Html msg
 greyText { inverted } =
-    coloredText <| colorSelector Grey inverted
+    coloredText (colorSelector Grey inverted)
 
 
 blackText : { inverted : Bool } -> String -> Html msg
 blackText { inverted } =
-    coloredText <| colorSelector Black inverted
+    coloredText (colorSelector Black inverted)
 
 
 colorSelector : PresetColor -> Bool -> Color
