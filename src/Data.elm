@@ -1,4 +1,16 @@
-module Data exposing (PresetColor(..))
+module Data exposing (PresetColor(..), Size(..))
+
+
+type Size
+    = Massive
+    | Huge
+    | Big
+    | Large
+    | Medium
+    | Small
+    | Tiny
+    | Mini
+
 
 type PresetColor
     = Red
@@ -14,4 +26,3 @@ type PresetColor
     | Brown
     | Grey
     | Black
-

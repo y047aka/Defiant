@@ -17,7 +17,7 @@ module UI.Text exposing
 import Css exposing (..)
 import Css.Color as Color exposing (..)
 import Css.Extra exposing (orNone)
-import Data exposing (PresetColor(..))
+import Data exposing (PresetColor(..), Size(..))
 import Html.Styled as Html exposing (Html, text)
 
 
@@ -211,17 +211,6 @@ colorSelector presetColor isInverted =
 
     else
         default
-
-
-type Size
-    = Massive
-    | Huge
-    | Big
-    | Large
-    | Medium
-    | Small
-    | Tiny
-    | Mini
 
 
 sizedText : FontSize a -> String -> Html msg

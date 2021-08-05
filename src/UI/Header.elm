@@ -17,6 +17,7 @@ module UI.Header exposing
 import Css exposing (..)
 import Css.Global exposing (adjacentSiblings, children, typeSelector)
 import Css.Typography as Typography exposing (typography)
+import Data exposing (Size(..))
 import Html.Styled as Html exposing (Attribute, Html)
 
 
@@ -69,26 +70,17 @@ header { inverted } =
 
 miniHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
 miniHeader { inverted } =
-    basis { inverted = inverted }
-        [ -- .ui.mini.header
-          fontSize (em 0.85714286)
-        ]
+    basis { inverted = inverted } (sizeSelector Mini)
 
 
 tinyHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
 tinyHeader { inverted } =
-    basis { inverted = inverted }
-        [ -- .ui.tiny.header
-          fontSize (em 1)
-        ]
+    basis { inverted = inverted } (sizeSelector Tiny)
 
 
 smallHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
 smallHeader { inverted } =
-    basis { inverted = inverted }
-        [ -- .ui.small.header
-          fontSize (em 1.07142857)
-        ]
+    basis { inverted = inverted } (sizeSelector Small)
 
 
 mediumHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -98,36 +90,61 @@ mediumHeader { inverted } =
 
 largeHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
 largeHeader { inverted } =
-    basis { inverted = inverted }
-        [ -- .ui.large.header
-          fontSize (em 1.71428571)
-        ]
+    basis { inverted = inverted } (sizeSelector Large)
 
 
 bigHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
 bigHeader { inverted } =
-    basis { inverted = inverted }
-        [ -- .ui.big.header
-          fontSize (em 1.85714286)
-        ]
+    basis { inverted = inverted } (sizeSelector Big)
 
 
 hugeHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
 hugeHeader { inverted } =
-    basis { inverted = inverted }
-        [ -- .ui.huge.header
-          fontSize (em 2)
-        , minHeight (em 1)
-        ]
+    basis { inverted = inverted } (sizeSelector Huge)
 
 
 massiveHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
 massiveHeader { inverted } =
-    basis { inverted = inverted }
-        [ -- .ui.massive.header
-          fontSize (em 2.28571429)
-        , minHeight (em 1)
-        ]
+    basis { inverted = inverted } (sizeSelector Massive)
+
+
+sizeSelector : Size -> List Style
+sizeSelector size =
+    case size of
+        Massive ->
+            -- .ui.massive.header
+            [ fontSize (em 2.28571429)
+            , minHeight (em 1)
+            ]
+
+        Huge ->
+            -- .ui.huge.header
+            [ fontSize (em 2)
+            , minHeight (em 1)
+            ]
+
+        Big ->
+            -- .ui.big.header
+            [ fontSize (em 1.85714286) ]
+
+        Large ->
+            -- .ui.large.header
+            [ fontSize (em 1.71428571) ]
+
+        Medium ->
+            []
+
+        Small ->
+            -- .ui.small.header
+            [ fontSize (em 1.07142857) ]
+
+        Tiny ->
+            -- .ui.tiny.header
+            [ fontSize (em 1) ]
+
+        Mini ->
+            -- .ui.mini.header
+            [ fontSize (em 0.85714286) ]
 
 
 subHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
