@@ -101,12 +101,12 @@ coloredLabel palettes =
 
 primaryLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 primaryLabel =
-    coloredLabel { primary | color = rgba 255 255 255 0.9 }
+    coloredLabel { blue | color = rgba 255 255 255 0.9 }
 
 
 secondaryLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 secondaryLabel =
-    coloredLabel { secondary | color = rgba 255 255 255 0.9 }
+    coloredLabel { black | color = rgba 255 255 255 0.9 }
 
 
 redLabel : List (Attribute msg) -> List (Html msg) -> Html msg

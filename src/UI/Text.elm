@@ -17,6 +17,7 @@ module UI.Text exposing
 import Css exposing (..)
 import Css.Color as Color exposing (..)
 import Css.Extra exposing (orNone)
+import Data exposing (PresetColor(..))
 import Html.Styled as Html exposing (Html, text)
 
 
@@ -54,22 +55,6 @@ disabledText =
         , disabled = True
         , additionalStyles = []
         }
-
-
-type PresetColor
-    = Red
-    | Orange
-    | Yellow
-    | Olive
-    | Green
-    | Teal
-    | Blue
-    | Violet
-    | Purple
-    | Pink
-    | Brown
-    | Grey
-    | Black
 
 
 coloredText : Color -> String -> Html msg

@@ -20,6 +20,7 @@ import Css.Global exposing (children, descendants, selector, typeSelector)
 import Css.Layout as Layout exposing (layout)
 import Css.Palette exposing (..)
 import Css.Typography as Typography exposing (fomanticFont, init, typography)
+import Data exposing (PresetColor(..))
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes exposing (css)
 
@@ -274,77 +275,77 @@ coloredButton palettes =
 
 primaryButton : List (Attribute msg) -> List (Html msg) -> Html msg
 primaryButton =
-    coloredButton <| PalettesByState primary primaryOnHover primaryOnFocus primaryOnActive
+    blueButton
 
 
 secondaryButton : List (Attribute msg) -> List (Html msg) -> Html msg
 secondaryButton =
-    coloredButton <| PalettesByState secondary secondaryOnHover secondaryOnFocus secondaryOnActive
+    blackButton
 
 
 redButton : List (Attribute msg) -> List (Html msg) -> Html msg
 redButton =
-    coloredButton <| PalettesByState red redOnHover redOnFocus redOnActive
+    coloredButton (paletteSelector Red)
 
 
 orangeButton : List (Attribute msg) -> List (Html msg) -> Html msg
 orangeButton =
-    coloredButton <| PalettesByState orange orangeOnHover orangeOnFocus orangeOnActive
+    coloredButton (paletteSelector Orange)
 
 
 yellowButton : List (Attribute msg) -> List (Html msg) -> Html msg
 yellowButton =
-    coloredButton <| PalettesByState yellow yellowOnHover yellowOnFocus yellowOnActive
+    coloredButton (paletteSelector Yellow)
 
 
 oliveButton : List (Attribute msg) -> List (Html msg) -> Html msg
 oliveButton =
-    coloredButton <| PalettesByState olive oliveOnHover oliveOnFocus oliveOnActive
+    coloredButton (paletteSelector Olive)
 
 
 greenButton : List (Attribute msg) -> List (Html msg) -> Html msg
 greenButton =
-    coloredButton <| PalettesByState green greenOnHover greenOnFocus greenOnActive
+    coloredButton (paletteSelector Green)
 
 
 tealButton : List (Attribute msg) -> List (Html msg) -> Html msg
 tealButton =
-    coloredButton <| PalettesByState teal tealOnHover tealOnFocus tealOnActive
+    coloredButton (paletteSelector Teal)
 
 
 blueButton : List (Attribute msg) -> List (Html msg) -> Html msg
 blueButton =
-    coloredButton <| PalettesByState blue blueOnHover blueOnFocus blueOnActive
+    coloredButton (paletteSelector Blue)
 
 
 violetButton : List (Attribute msg) -> List (Html msg) -> Html msg
 violetButton =
-    coloredButton <| PalettesByState violet violetOnHover violetOnFocus violetOnActive
+    coloredButton (paletteSelector Violet)
 
 
 purpleButton : List (Attribute msg) -> List (Html msg) -> Html msg
 purpleButton =
-    coloredButton <| PalettesByState purple purpleOnHover purpleOnFocus purpleOnActive
+    coloredButton (paletteSelector Purple)
 
 
 pinkButton : List (Attribute msg) -> List (Html msg) -> Html msg
 pinkButton =
-    coloredButton <| PalettesByState purple purpleOnHover purpleOnFocus purpleOnActive
+    coloredButton (paletteSelector Purple)
 
 
 brownButton : List (Attribute msg) -> List (Html msg) -> Html msg
 brownButton =
-    coloredButton <| PalettesByState brown brownOnHover brownOnFocus brownOnActive
+    coloredButton (paletteSelector Brown)
 
 
 greyButton : List (Attribute msg) -> List (Html msg) -> Html msg
 greyButton =
-    coloredButton <| PalettesByState grey greyOnHover greyOnFocus greyOnActive
+    coloredButton (paletteSelector Grey)
 
 
 blackButton : List (Attribute msg) -> List (Html msg) -> Html msg
 blackButton =
-    coloredButton <| PalettesByState black blackOnHover blackOnFocus blackOnActive
+    coloredButton (paletteSelector Black)
 
 
 
@@ -377,6 +378,49 @@ defaultPalettes =
 basicPalettes : PalettesByState
 basicPalettes =
     PalettesByState basic basicOnHover basicOnFocus basicOnActive
+
+
+paletteSelector : PresetColor -> PalettesByState
+paletteSelector presetColor =
+    case presetColor of
+        Red ->
+            PalettesByState red redOnHover redOnFocus redOnActive
+
+        Orange ->
+            PalettesByState orange orangeOnHover orangeOnFocus orangeOnActive
+
+        Yellow ->
+            PalettesByState yellow yellowOnHover yellowOnFocus yellowOnActive
+
+        Olive ->
+            PalettesByState olive oliveOnHover oliveOnFocus oliveOnActive
+
+        Green ->
+            PalettesByState green greenOnHover greenOnFocus greenOnActive
+
+        Teal ->
+            PalettesByState teal tealOnHover tealOnFocus tealOnActive
+
+        Blue ->
+            PalettesByState blue blueOnHover blueOnFocus blueOnActive
+
+        Violet ->
+            PalettesByState violet violetOnHover violetOnFocus violetOnActive
+
+        Purple ->
+            PalettesByState purple purpleOnHover purpleOnFocus purpleOnActive
+
+        Pink ->
+            PalettesByState purple purpleOnHover purpleOnFocus purpleOnActive
+
+        Brown ->
+            PalettesByState brown brownOnHover brownOnFocus brownOnActive
+
+        Grey ->
+            PalettesByState grey greyOnHover greyOnFocus greyOnActive
+
+        Black ->
+            PalettesByState black blackOnHover blackOnFocus blackOnActive
 
 
 

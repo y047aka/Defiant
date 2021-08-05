@@ -1,8 +1,6 @@
 module Css.Palette exposing
     ( Palette
     , palette
-    , primary, primaryOnHover, primaryOnFocus, primaryOnActive
-    , secondary, secondaryOnHover, secondaryOnFocus, secondaryOnActive
     , red, redOnHover, redOnFocus, redOnActive
     , orange, orangeOnHover, orangeOnFocus, orangeOnActive
     , yellow, yellowOnHover, yellowOnFocus, yellowOnActive
@@ -23,8 +21,6 @@ module Css.Palette exposing
 
 @docs Palette
 @docs palette
-@docs primary, primaryOnHover, primaryOnFocus, primaryOnActive
-@docs secondary, secondaryOnHover, secondaryOnFocus, secondaryOnActive
 @docs red, redOnHover, redOnFocus, redOnActive
 @docs orange, orangeOnHover, orangeOnFocus, orangeOnActive
 @docs yellow, yellowOnHover, yellowOnFocus, yellowOnActive
@@ -77,46 +73,6 @@ empty =
 colored : Palette
 colored =
     { empty | color = hex "#FFFFFF" }
-
-
-primary : Palette
-primary =
-    blue
-
-
-primaryOnHover : Palette
-primaryOnHover =
-    blueOnHover
-
-
-primaryOnFocus : Palette
-primaryOnFocus =
-    blueOnFocus
-
-
-primaryOnActive : Palette
-primaryOnActive =
-    blueOnActive
-
-
-secondary : Palette
-secondary =
-    black
-
-
-secondaryOnHover : Palette
-secondaryOnHover =
-    blackOnHover
-
-
-secondaryOnFocus : Palette
-secondaryOnFocus =
-    blackOnFocus
-
-
-secondaryOnActive : Palette
-secondaryOnActive =
-    blackOnActive
 
 
 red : Palette
