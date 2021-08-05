@@ -20,6 +20,24 @@ import Css.Extra exposing (orNone)
 import Html.Styled as Html exposing (Html, text)
 
 
+basis : { size : Maybe (FontSize a), color : Maybe Color } -> List Style -> String -> Html msg
+basis options additionalStyles str =
+    Html.styled Html.span
+        ([ orNone options.size fontSize
+         , orNone options.color color
+         ]
+            ++ additionalStyles
+        )
+        []
+        [ text str ]
+
+
+disabledText : String -> Html msg
+disabledText str =
+    -- span.ui.disabled.text
+    basis { size = Nothing, color = Nothing } [ opacity (num 0.45) ] str
+
+
 type PresetColor
     = Red
     | Orange
@@ -34,18 +52,6 @@ type PresetColor
     | Brown
     | Grey
     | Black
-
-
-basis : { size : Maybe (FontSize a), color : Maybe Color } -> List Style -> String -> Html msg
-basis options additionalStyles str =
-    Html.styled Html.span
-        ([ orNone options.size fontSize
-         , orNone options.color color
-         ]
-            ++ additionalStyles
-        )
-        []
-        [ text str ]
 
 
 coloredText : Color -> String -> Html msg
@@ -128,6 +134,26 @@ blackText { inverted } =
     coloredText (colorSelector Black inverted)
 
 
+infoText : String -> Html msg
+infoText =
+    coloredText Color.info
+
+
+successText : String -> Html msg
+successText =
+    coloredText Color.success
+
+
+warningText : String -> Html msg
+warningText =
+    coloredText Color.warning
+
+
+errorText : String -> Html msg
+errorText =
+    coloredText Color.error
+
+
 colorSelector : PresetColor -> Bool -> Color
 colorSelector presetColor isInverted =
     let
@@ -177,32 +203,6 @@ colorSelector presetColor isInverted =
 
     else
         default
-
-
-infoText : String -> Html msg
-infoText =
-    coloredText Color.info
-
-
-successText : String -> Html msg
-successText =
-    coloredText Color.success
-
-
-warningText : String -> Html msg
-warningText =
-    coloredText Color.warning
-
-
-errorText : String -> Html msg
-errorText =
-    coloredText Color.error
-
-
-disabledText : String -> Html msg
-disabledText str =
-    -- span.ui.disabled.text
-    basis { size = Nothing, color = Nothing } [ opacity (num 0.45) ] str
 
 
 type Size
