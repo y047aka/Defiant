@@ -18,7 +18,7 @@ import Html.Styled as Html exposing (Attribute, Html)
 
 gridBasis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 gridBasis additionalStyles =
-    Html.styled Html.div <|
+    Html.styled Html.div
         [ -- .ui.grid
           prefixed [] "display" "flex"
         , property "-webkit-box-orient" "horizontal"
@@ -41,13 +41,15 @@ gridBasis additionalStyles =
                 , paddingRight (rem 1)
                 ]
             ]
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 columnBasis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 columnBasis additionalStyles =
-    Html.styled Html.div <|
+    Html.styled Html.div
         [ -- .ui.grid > .column:not(.row)
           -- .ui.grid > .row > .column
           position relative
@@ -60,8 +62,10 @@ columnBasis additionalStyles =
         -- .ui.grid > .column:not(.row)
         , paddingTop (rem 1)
         , paddingBottom (rem 1)
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 grid : List (Attribute msg) -> List (Html msg) -> Html msg

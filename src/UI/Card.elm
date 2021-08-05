@@ -88,7 +88,6 @@ cardBasis { border, shadow, inverted } additionalStyles =
                 ( False, _ ) ->
                     Nothing
         }
-    <|
         [ -- .ui.cards > .card
           -- .ui.card
           maxWidth (pct 100)
@@ -144,8 +143,10 @@ cardBasis { border, shadow, inverted } additionalStyles =
             [ selector ":only-child"
                 [ borderRadius (rem 0.28571429) |> important ]
             ]
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 card : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -155,7 +156,7 @@ card { inverted } =
 
 contentBasis : { inverted : Bool, additionalStyles : List Style } -> List (Attribute msg) -> List (Html msg) -> Html msg
 contentBasis { inverted, additionalStyles } =
-    Html.styled Html.div <|
+    Html.styled Html.div
         [ -- .ui.cards > .card > .content
           -- .ui.card > .content
           property "-webkit-box-flex" "1"
@@ -215,8 +216,10 @@ contentBasis { inverted, additionalStyles } =
                     [ property "color" "''" ]
                 ]
             ]
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 content :

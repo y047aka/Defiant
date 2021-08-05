@@ -6,7 +6,7 @@ import Html.Styled as Html exposing (Attribute, Html)
 
 basis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 basis additionalStyles =
-    Html.styled Html.img <|
+    Html.styled Html.img
         [ -- .ui.image
           position relative
         , display inlineBlock
@@ -16,8 +16,10 @@ basis additionalStyles =
 
         -- img.ui.image
         , display block
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 image : List (Attribute msg) -> List (Html msg) -> Html msg

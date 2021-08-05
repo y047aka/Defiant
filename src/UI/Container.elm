@@ -9,7 +9,7 @@ import Html.Styled as Html exposing (Attribute, Html)
 
 basis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 basis additionalStyles =
-    Html.styled Html.div <|
+    Html.styled Html.div
         [ -- .ui.container
           display block
         , maxWidth (pct 100)
@@ -45,8 +45,10 @@ basis additionalStyles =
             , marginLeft auto
             , marginRight auto
             ]
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 container : List (Attribute msg) -> List (Html msg) -> Html msg

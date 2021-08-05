@@ -19,7 +19,7 @@ import Html.Styled as Html exposing (Attribute, Html, text)
 
 modalBasis : { shadow : Bool, inverted : Bool, additionalStyles : List Style } -> List (Attribute msg) -> List (Html msg) -> Html msg
 modalBasis { shadow, inverted, additionalStyles } =
-    Html.styled Html.div <|
+    Html.styled Html.div
         [ -- .ui.modal
           position absolute
 
@@ -69,8 +69,10 @@ modalBasis { shadow, inverted, additionalStyles } =
                 , borderBottomRightRadius (rem 0.28571429)
                 ]
             ]
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 modal :
@@ -142,7 +144,7 @@ basicModal attributes hca children =
 
 headerBasis : { inverted : Bool, additionalStyles : List Style } -> List (Attribute msg) -> List (Html msg) -> Html msg
 headerBasis { inverted, additionalStyles } =
-    Html.styled Html.header <|
+    Html.styled Html.header
         [ -- .ui.modal > .header
           display block
         , fontFamilies fomanticFont
@@ -166,8 +168,10 @@ headerBasis { inverted, additionalStyles } =
         , fontSize (rem 1.42857143)
         , lineHeight (em 1.28571429)
         , fontWeight bold
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 header : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -191,7 +195,7 @@ basicHeader =
 
 contentBasis : { inverted : Bool, additionalStyles : List Style } -> List (Attribute msg) -> List (Html msg) -> Html msg
 contentBasis { inverted, additionalStyles } =
-    Html.styled Html.div <|
+    Html.styled Html.div
         [ -- .ui.modal > .content
           display block
         , width (pct 100)
@@ -206,8 +210,10 @@ contentBasis { inverted, additionalStyles } =
 
           else
             property "background" "#FFFFFF"
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 content : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -236,7 +242,7 @@ description =
 
 actionsBasis : { inverted : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 actionsBasis { inverted } additionalStyles =
-    Html.styled Html.div <|
+    Html.styled Html.div
         [ -- .ui.modal > .actions
           if inverted then
             batch
@@ -253,8 +259,10 @@ actionsBasis { inverted } additionalStyles =
                 ]
         , padding2 (rem 1) (rem 1)
         , textAlign right
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 actions : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg

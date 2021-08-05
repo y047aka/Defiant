@@ -37,7 +37,6 @@ itemsBasis additionalStyles =
             }
         , boxShadow = Nothing
         }
-    <|
         [ -- .ui.items:first-child
           firstChild
             [ marginTop zero |> important ]
@@ -45,8 +44,10 @@ itemsBasis additionalStyles =
         -- .ui.items:last-child
         , lastChild
             [ marginBottom zero |> important ]
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 items : List (Attribute msg) -> List (Html msg) -> Html msg
@@ -96,7 +97,6 @@ item =
             }
         , boxShadow = Nothing
         }
-    <|
         [ -- .ui.items > .item
           prefixed [] "display" "flex"
         , width (pct 100)
@@ -161,7 +161,7 @@ item =
 
 contentBasis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 contentBasis additionalStyles =
-    Html.styled Html.div <|
+    Html.styled Html.div
         [ -- .ui.items > .item > .content
           display block
         , prefixed [] "flex" "1 1 auto"
@@ -193,8 +193,10 @@ contentBasis additionalStyles =
             , prefixed [] "align-self" "start"
             , paddingLeft (em 1.5)
             ]
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 content :

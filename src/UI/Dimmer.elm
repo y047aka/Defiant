@@ -7,7 +7,7 @@ import Html.Styled as Html exposing (Attribute, Html)
 
 basis : Bool -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 basis isActive additionalStyles =
-    Html.styled Html.div <|
+    Html.styled Html.div
         [ -- .ui.dimmer
           position absolute
         , top zero |> important
@@ -52,8 +52,10 @@ basis isActive additionalStyles =
 
         -- .ui.segment > .ui.dimmer:not(.page)
         , borderRadius inherit
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 dimmer : Bool -> List (Attribute msg) -> List (Html msg) -> Html msg

@@ -30,16 +30,17 @@ basis :
     -> Html msg
 basis options str =
     Html.styled Html.span
-        ([ orNone options.size fontSize
-         , orNone options.color color
-         , if options.disabled then
+        [ orNone options.size fontSize
+        , orNone options.color color
+        , if options.disabled then
             opacity (num 0.45)
 
-           else
+          else
             batch []
-         ]
-            ++ options.additionalStyles
-        )
+
+        -- AdditionalStyles
+        , batch options.additionalStyles
+        ]
         []
         [ text str ]
 

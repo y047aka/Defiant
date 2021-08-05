@@ -6,14 +6,16 @@ import Html.Styled as Html exposing (Attribute, Html)
 
 basis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 basis additionalStyles =
-    Html.styled Html.div <|
+    Html.styled Html.div
         [ -- .ui.rail
           position absolute
         , top zero
         , width (px 300)
         , height (pct 100)
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 leftRail : List (Attribute msg) -> List (Html msg) -> Html msg

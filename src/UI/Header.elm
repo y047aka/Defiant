@@ -26,7 +26,7 @@ basis { inverted } additionalStyles =
         headingTypography =
             Typography.heading
     in
-    Html.styled Html.header <|
+    Html.styled Html.header
         [ -- .ui.header
           borderStyle none
         , margin3 (calc (rem 2) minus (em 0.1428571428571429)) zero (rem 1)
@@ -56,8 +56,10 @@ basis { inverted } additionalStyles =
             [ typeSelector "p"
                 [ marginTop zero ]
             ]
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 header : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg

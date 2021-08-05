@@ -23,7 +23,7 @@ styledBlock :
     -> List (Html msg)
     -> Html msg
 styledBlock opts additionalStyles =
-    Html.styled opts.tag <|
+    Html.styled opts.tag
         [ opts.position
             |> Maybe.withDefault (batch [])
         , opts.margin
@@ -45,5 +45,7 @@ styledBlock opts additionalStyles =
         , opts.boxShadow
             |> Maybe.map (prefixed [] "box-shadow")
             |> Maybe.withDefault (batch [])
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles

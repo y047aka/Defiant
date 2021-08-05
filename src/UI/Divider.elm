@@ -7,7 +7,7 @@ import Html.Styled as Html exposing (Attribute, Html)
 
 basis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 basis additionalStyles =
-    Html.styled Html.div <|
+    Html.styled Html.div
         [ -- .ui.divider
           margin2 (rem 1) zero
         , lineHeight (int 1)
@@ -18,8 +18,10 @@ basis additionalStyles =
         , color (rgba 0 0 0 0.85)
         , prefixed [] "user-select" "none"
         , property "-webkit-tap-highlight-color" "rgba(0, 0, 0, 0)"
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 divider : List (Attribute msg) -> List (Html msg) -> Html msg

@@ -26,7 +26,7 @@ basis additionalStyles =
                 , ( 100, [ Animations.property "background-position" "1200px 0" ] )
                 ]
     in
-    Html.styled Html.div <|
+    Html.styled Html.div
         [ -- .ui.placeholder
           position static
         , overflow hidden
@@ -69,8 +69,10 @@ basis additionalStyles =
             [ selector ":before"
                 [ backgroundColor (hex "#FFFFFF") ]
             ]
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 placeholder : List (Attribute msg) -> List (Html msg) -> Html msg
@@ -150,9 +152,12 @@ line =
 
 image : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 image additionalStyles =
-    Html.styled Html.div <|
+    Html.styled Html.div
         [ -- .ui.placeholder .image:not(.header):not(.ui):not(.icon)
           height (px 100)
+
+        -- AdditionalStyles
+        , batch additionalStyles
 
         -- .ui.placeholder .image:not(:first-child):before
         -- .ui.placeholder .paragraph:not(:first-child):before
@@ -163,7 +168,6 @@ image additionalStyles =
         --     , display block
         --     ]
         ]
-            ++ additionalStyles
 
 
 squareImage : List (Attribute msg) -> List (Html msg) -> Html msg

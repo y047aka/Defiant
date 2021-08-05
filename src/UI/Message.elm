@@ -22,7 +22,6 @@ basis additionalStyles =
             }
         , boxShadow = Nothing
         }
-    <|
         [ -- .ui.message
           minHeight (em 1)
         , lineHeight (em 1.4285)
@@ -90,8 +89,10 @@ basis additionalStyles =
                 , verticalAlign middle
                 ]
             ]
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 message : List (Attribute msg) -> List (Html msg) -> Html msg

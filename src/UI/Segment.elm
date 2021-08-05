@@ -71,7 +71,6 @@ basis { border, shadow, inverted } additionalStyles =
                 _ ->
                     Nothing
         }
-    <|
         [ -- .ui.segment:first-child
           pseudoClass "first-child"
             [ marginTop zero ]
@@ -79,8 +78,10 @@ basis { border, shadow, inverted } additionalStyles =
         -- .ui.segment:last-child
         , pseudoClass "last-child"
             [ marginBottom zero ]
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 segment : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg

@@ -35,7 +35,7 @@ basis { palettes, shadow } additionalStyles =
         defaultLayout =
             Layout.default
     in
-    Html.styled Html.button <|
+    Html.styled Html.button
         [ -- .ui.button
           cursor pointer
         , display inlineBlock
@@ -132,8 +132,10 @@ basis { palettes, shadow } additionalStyles =
                 , verticalAlign baseline
                 ]
             ]
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 button : List (Attribute msg) -> List (Html msg) -> Html msg

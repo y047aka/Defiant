@@ -48,7 +48,6 @@ basis options additionalStyles =
             }
         , boxShadow = Nothing
         }
-    <|
         [ -- .ui.table
           width (pct 100)
         , layout
@@ -148,8 +147,10 @@ basis options additionalStyles =
 
             else
                 []
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 table : List (Attribute msg) -> List (Html msg) -> Html msg

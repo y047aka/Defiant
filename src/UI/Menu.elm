@@ -76,7 +76,6 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
                 _ ->
                     Nothing
         }
-    <|
         [ -- .ui.menu
           prefixed [] "display" "flex"
         , typography { defaultTypography | fontWeight = Typography.normal }
@@ -140,8 +139,10 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
                   marginLeft (em -0.35714286)
                 , marginRight (em -0.35714286)
                 ]
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 itemBasis :
@@ -159,7 +160,7 @@ itemBasis { tag, vertical, borderAndShadows, inverted } additionalStyles =
         initialLayout =
             Layout.init
     in
-    Html.styled tag <|
+    Html.styled tag
         [ -- .ui.menu .item
           position relative
         , layout { initialLayout | verticalAlign = Layout.middle }
@@ -304,8 +305,10 @@ itemBasis { tag, vertical, borderAndShadows, inverted } additionalStyles =
                   property "background" "transparent"
                 , color (rgba 255 255 255 0.9)
                 ]
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 menu : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg

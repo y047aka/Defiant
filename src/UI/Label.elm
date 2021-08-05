@@ -25,7 +25,7 @@ import Html.Styled as Html exposing (Attribute, Html)
 
 basis : { border : Bool, palette : Maybe Palette } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 basis options additionalStyles =
-    Html.styled Html.div <|
+    Html.styled Html.div
         [ -- .ui.label
           display inlineBlock
         , layout Layout.default
@@ -75,8 +75,10 @@ basis options additionalStyles =
                 , margin4 zero (em 0.75) zero zero
                 ]
             ]
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
-            ++ additionalStyles
 
 
 label : List (Attribute msg) -> List (Html msg) -> Html msg
