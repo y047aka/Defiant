@@ -20,11 +20,16 @@ import Css.Extra exposing (orNone)
 import Html.Styled as Html exposing (Html, text)
 
 
-basis : { size : Maybe (FontSize a), color : Maybe Color } -> List Style -> String -> Html msg
+basis : { size : Maybe (FontSize a), color : Maybe Color, disabled : Bool } -> List Style -> String -> Html msg
 basis options additionalStyles str =
     Html.styled Html.span
         ([ orNone options.size fontSize
          , orNone options.color color
+         , if options.disabled then
+            opacity (num 0.45)
+
+           else
+            batch []
          ]
             ++ additionalStyles
         )
@@ -33,9 +38,9 @@ basis options additionalStyles str =
 
 
 disabledText : String -> Html msg
-disabledText str =
+disabledText =
     -- span.ui.disabled.text
-    basis { size = Nothing, color = Nothing } [ opacity (num 0.45) ] str
+    basis { size = Nothing, color = Nothing, disabled = True } []
 
 
 type PresetColor
@@ -56,7 +61,7 @@ type PresetColor
 
 coloredText : Color -> String -> Html msg
 coloredText color_ =
-    basis { size = Nothing, color = Just color_ } []
+    basis { size = Nothing, color = Just color_, disabled = False } []
 
 
 primaryText : { inverted : Bool } -> String -> Html msg
@@ -218,7 +223,7 @@ type Size
 
 sizedText : FontSize a -> String -> Html msg
 sizedText size =
-    basis { size = Just size, color = Nothing } []
+    basis { size = Just size, color = Nothing, disabled = False } []
 
 
 miniText : String -> Html msg
