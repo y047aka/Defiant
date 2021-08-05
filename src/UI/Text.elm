@@ -216,78 +216,82 @@ type Size
     | Mini
 
 
+sizedText : FontSize a -> String -> Html msg
+sizedText size =
+    basis { size = Just size, color = Nothing } []
+
+
 miniText : String -> Html msg
-miniText str =
+miniText =
     -- span.ui.mini.text
-    basis { size = sizeSelector Mini, color = Nothing } [] str
+    sizedText (sizeSelector Mini)
 
 
 tinyText : String -> Html msg
-tinyText str =
+tinyText =
     -- span.ui.tiny.text
-    basis { size = sizeSelector Tiny, color = Nothing } [] str
+    sizedText (sizeSelector Tiny)
 
 
 smallText : String -> Html msg
-smallText str =
+smallText =
     -- span.ui.small.text
-    basis { size = sizeSelector Small, color = Nothing } [] str
+    sizedText (sizeSelector Small)
 
 
 mediumText : String -> Html msg
-mediumText str =
+mediumText =
     -- span.ui.medium.text
-    basis { size = sizeSelector Medium, color = Nothing } [] str
+    sizedText (sizeSelector Medium)
 
 
 largeText : String -> Html msg
-largeText str =
+largeText =
     -- span.ui.large.text
-    basis { size = sizeSelector Large, color = Nothing } [] str
+    sizedText (sizeSelector Large)
 
 
 bigText : String -> Html msg
-bigText str =
+bigText =
     -- span.ui.big.text
-    basis { size = sizeSelector Big, color = Nothing } [] str
+    sizedText (sizeSelector Big)
 
 
 hugeText : String -> Html msg
-hugeText str =
+hugeText =
     -- span.ui.huge.text
-    basis { size = sizeSelector Huge, color = Nothing } [] str
+    sizedText (sizeSelector Huge)
 
 
 massiveText : String -> Html msg
-massiveText str =
+massiveText =
     -- span.ui.massive.text
-    basis { size = sizeSelector Massive, color = Nothing } [] str
+    sizedText (sizeSelector Massive)
 
 
-sizeSelector : Size -> Maybe Css.Em
+sizeSelector : Size -> Css.Em
 sizeSelector size =
-    Just <|
-        case size of
-            Massive ->
-                em 8
+    case size of
+        Massive ->
+            em 8
 
-            Huge ->
-                em 4
+        Huge ->
+            em 4
 
-            Big ->
-                em 2
+        Big ->
+            em 2
 
-            Large ->
-                em 1.5
+        Large ->
+            em 1.5
 
-            Medium ->
-                em 1
+        Medium ->
+            em 1
 
-            Small ->
-                em 0.75
+        Small ->
+            em 0.75
 
-            Tiny ->
-                em 0.5
+        Tiny ->
+            em 0.5
 
-            Mini ->
-                em 0.4
+        Mini ->
+            em 0.4
