@@ -108,25 +108,25 @@ accordionItem { toggleMethod, inverted } attributes item =
     case toggleMethod of
         Checkbox ->
             let
-                prefixedId =
+                suffixedId =
                     item.id ++ "_accordion-checkbox"
             in
             itemBasis Html.div
                 attributes
-                [ Html.input [ id prefixedId, type_ "checkbox", name "accordion-checkbox", css inputStyles ] []
-                , title { tag = Html.label, inverted = inverted } [ for prefixedId ] item.title
+                [ Html.input [ id suffixedId, type_ "checkbox", name "accordion-checkbox", css inputStyles ] []
+                , title { tag = Html.label, inverted = inverted } [ for suffixedId ] item.title
                 , content [] item.content
                 ]
 
         Radio ->
             let
-                prefixedId =
+                suffixedId =
                     item.id ++ "_accordion-radio"
             in
             itemBasis Html.div
                 attributes
-                [ Html.input [ id prefixedId, type_ "radio", name "accordion-radio", value item.id, css inputStyles ] []
-                , title { tag = Html.label, inverted = inverted } [ for prefixedId ] item.title
+                [ Html.input [ id suffixedId, type_ "radio", name "accordion-radio", value item.id, css inputStyles ] []
+                , title { tag = Html.label, inverted = inverted } [ for suffixedId ] item.title
                 , content [] item.content
                 ]
 
