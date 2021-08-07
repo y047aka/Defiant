@@ -12,7 +12,7 @@ import Html.Styled.Attributes as Attributes exposing (css, for, href, id, rel, s
 import Html.Styled.Events exposing (onClick, onInput)
 import PageSummary exposing (Category(..), PageSummary)
 import Random
-import UI.Accordion exposing (accordion)
+import UI.Accordion exposing (accordion_Checkbox, accordion_SummaryDetails)
 import UI.Breadcrumb exposing (BreadcrumbItem, breadcrumb)
 import UI.Button exposing (..)
 import UI.Card as Card exposing (card, cards, extraContent)
@@ -1724,13 +1724,16 @@ examplesForAccordion : { inverted : Bool } -> List (Html Msg)
 examplesForAccordion options =
     let
         items =
-            [ { title = "What is a dog?"
+            [ { id = "what_is_a_dog"
+              , title = "What is a dog?"
               , contents = [ "A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world." ]
               }
-            , { title = "What kinds of dogs are there?"
+            , { id = "what_kinds_of_dogs_are_there"
+              , title = "What kinds of dogs are there?"
               , contents = [ "There are many breeds of dogs. Each breed varies in size and temperament. Owners often select a breed of dog that they find to be compatible with their own lifestyle and desires from a companion." ]
               }
-            , { title = "How do you acquire a dog?"
+            , { id = "how_do_you_acquire_a_dog"
+              , title = "How do you acquire a dog?"
               , contents =
                     [ "Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters."
                     , "A pet shop may be the most convenient way to buy a dog. Buying a dog from a private owner allows you to assess the pedigree and upbringing of your dog before choosing to take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog who may not find one so readily."
@@ -1738,8 +1741,9 @@ examplesForAccordion options =
               }
             ]
                 |> List.map
-                    (\{ title, contents } ->
-                        { title = [ text title ]
+                    (\{ id, title, contents } ->
+                        { id = id
+                        , title = [ text title ]
                         , content = List.map (\c -> p [] [ text c ]) contents
                         }
                     )
@@ -1748,14 +1752,19 @@ examplesForAccordion options =
         { title = "Accordion"
         , description = "A standard accordion"
         }
-        [ accordion options [] items ]
+        [ accordion_SummaryDetails options [] items ]
+    , example
+        { title = "Accordion - checkbox"
+        , description = "A standard accordion with checkbox"
+        }
+        [ accordion_Checkbox options [] items ]
     , example
         { title = "Inverted"
         , description = "An accordion can be formatted to appear on dark backgrounds"
         }
         [ segment { inverted = True }
             []
-            [ accordion { inverted = True } [] items ]
+            [ accordion_SummaryDetails { inverted = True } [] items ]
         ]
     ]
 
