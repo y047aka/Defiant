@@ -1,15 +1,16 @@
-module UI.Accordion exposing (accordion_Checkbox, accordion_SummaryDetails)
+module UI.Accordion exposing (accordion_Checkbox, accordion_Radio, accordion_SummaryDetails)
 
 import Css exposing (..)
 import Css.Global exposing (children, generalSiblings)
 import Css.Typography exposing (fomanticFont)
 import Html.Styled as Html exposing (Attribute, Html)
-import Html.Styled.Attributes exposing (for, id, type_)
+import Html.Styled.Attributes exposing (css, for, id, name, type_, value)
 import UI.Internal exposing (styledBlock)
 
 
 type ToggleMethod
     = Checkbox
+    | Radio
     | SummaryDetails
 
 
@@ -52,6 +53,11 @@ accordion_Checkbox { inverted } =
     accordion { toggleMethod = Checkbox, inverted = inverted }
 
 
+accordion_Radio : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
+accordion_Radio { inverted } =
+    accordion { toggleMethod = Radio, inverted = inverted }
+
+
 accordion_SummaryDetails : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
 accordion_SummaryDetails { inverted } =
     accordion { toggleMethod = SummaryDetails, inverted = inverted }
@@ -59,11 +65,10 @@ accordion_SummaryDetails { inverted } =
 
 itemBasis :
     (List (Attribute msg) -> List (Html msg) -> Html msg)
-    -> List Style
     -> List (Attribute msg)
     -> List (Html msg)
     -> Html msg
-itemBasis tag additionalStyles =
+itemBasis tag =
     styledBlock
         { tag = tag
         , position = Nothing
@@ -84,38 +89,49 @@ itemBasis tag additionalStyles =
                     [ paddingBottom zero ]
                 ]
             ]
-
-        -- AdditionalStyles
-        , batch additionalStyles
         ]
 
 
 accordionItem : { toggleMethod : ToggleMethod, inverted : Bool } -> List (Attribute msg) -> AccordionItem msg -> Html msg
 accordionItem { toggleMethod, inverted } attributes item =
+    let
+        inputStyles =
+            [ display none
+            , generalSiblings
+                [ Css.Global.div [ display none ] ]
+            , checked
+                [ generalSiblings
+                    [ Css.Global.div [ display block ] ]
+                ]
+            ]
+    in
     case toggleMethod of
         Checkbox ->
+            let
+                prefixedId =
+                    item.id ++ "_accordion-checkbox"
+            in
             itemBasis Html.div
-                [ children
-                    [ Css.Global.input
-                        [ display none
-                        , generalSiblings
-                            [ Css.Global.div [ display none ] ]
-                        , checked
-                            [ generalSiblings
-                                [ Css.Global.div [ display block ] ]
-                            ]
-                        ]
-                    ]
-                ]
                 attributes
-                [ Html.input [ id item.id, type_ "checkbox" ] []
-                , title { tag = Html.label, inverted = inverted } [ for item.id ] item.title
+                [ Html.input [ id prefixedId, type_ "checkbox", name "accordion-checkbox", css inputStyles ] []
+                , title { tag = Html.label, inverted = inverted } [ for prefixedId ] item.title
+                , content [] item.content
+                ]
+
+        Radio ->
+            let
+                prefixedId =
+                    item.id ++ "_accordion-radio"
+            in
+            itemBasis Html.div
+                attributes
+                [ Html.input [ id prefixedId, type_ "radio", name "accordion-radio", value item.id, css inputStyles ] []
+                , title { tag = Html.label, inverted = inverted } [ for prefixedId ] item.title
                 , content [] item.content
                 ]
 
         SummaryDetails ->
             itemBasis Html.details
-                []
                 attributes
                 [ title { tag = Html.summary, inverted = inverted } [] item.title
                 , content [] item.content

@@ -12,7 +12,7 @@ import Html.Styled.Attributes as Attributes exposing (css, for, href, id, rel, s
 import Html.Styled.Events exposing (onClick, onInput)
 import PageSummary exposing (Category(..), PageSummary)
 import Random
-import UI.Accordion exposing (accordion_Checkbox, accordion_SummaryDetails)
+import UI.Accordion exposing (accordion_Checkbox, accordion_Radio, accordion_SummaryDetails)
 import UI.Breadcrumb exposing (BreadcrumbItem, breadcrumb)
 import UI.Button exposing (..)
 import UI.Card as Card exposing (card, cards, extraContent)
@@ -1758,6 +1758,11 @@ examplesForAccordion options =
         , description = "A standard accordion with checkbox"
         }
         [ accordion_Checkbox options [] items ]
+    , example
+        { title = "Accordion - radio button"
+        , description = "A standard accordion with radio button"
+        }
+        [ accordion_Radio options [] items ]
     , example
         { title = "Inverted"
         , description = "An accordion can be formatted to appear on dark backgrounds"
