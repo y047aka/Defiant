@@ -12,7 +12,7 @@ import Html.Styled.Attributes as Attributes exposing (css, for, href, id, rel, s
 import Html.Styled.Events exposing (onClick, onInput)
 import PageSummary exposing (Category(..), PageSummary)
 import Random
-import UI.Accordion exposing (accordion_Checkbox, accordion_Radio, accordion_SummaryDetails)
+import UI.Accordion exposing (accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl)
 import UI.Breadcrumb exposing (BreadcrumbItem, breadcrumb)
 import UI.Button exposing (..)
 import UI.Card as Card exposing (card, cards, extraContent)
@@ -315,7 +315,12 @@ update msg model =
         UrlRequested urlRequest ->
             case urlRequest of
                 Browser.Internal url ->
-                    ( model, Nav.pushUrl model.key (Url.toString url) )
+                    case url.fragment of
+                        Just id ->
+                            ( model, Nav.load ("#" ++ id) )
+
+                        Nothing ->
+                            ( model, Nav.pushUrl model.key (Url.toString url) )
 
                 Browser.External href ->
                     ( model, Nav.load href )
@@ -1763,6 +1768,11 @@ examplesForAccordion options =
         , description = "A standard accordion with radio button"
         }
         [ accordion_Radio options [] items ]
+    , example
+        { title = "Accordion - target URL"
+        , description = "A standard accordion with target URL"
+        }
+        [ accordion_TargetUrl options [] items ]
     , example
         { title = "Inverted"
         , description = "An accordion can be formatted to appear on dark backgrounds"
