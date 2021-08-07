@@ -1,10 +1,12 @@
 module UI.Accordion exposing (accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl)
 
 import Css exposing (..)
-import Css.Global exposing (children, generalSiblings)
+import Css.Extra exposing (prefixed)
+import Css.Global exposing (adjacentSiblings, children, generalSiblings)
 import Css.Typography exposing (fomanticFont)
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes exposing (css, for, href, id, name, type_, value)
+import UI.Icon as Icon
 import UI.Internal exposing (styledBlock)
 
 
@@ -110,10 +112,24 @@ accordionItem { toggleMethod, inverted } attributes item =
             , generalSiblings
                 [ Css.Global.div [ display none ] ]
             , checked
-                [ generalSiblings
+                [ adjacentSiblings
+                    [ Css.Global.label
+                        [ children
+                            [ Css.Global.i [ iconTransitionStyle ] ]
+                        ]
+                    ]
+                , generalSiblings
                     [ Css.Global.div [ display block ] ]
                 ]
             ]
+
+        iconTransitionStyle =
+            -- .ui.accordion .active.title .dropdown.icon
+            -- .ui.accordion .accordion .active.title .dropdown.icon
+            prefixed [] "transform" "rotate(90deg)"
+
+        iconAndTitle =
+            dropdownIcon :: item.title
     in
     case toggleMethod of
         Checkbox ->
@@ -125,7 +141,7 @@ accordionItem { toggleMethod, inverted } attributes item =
                 []
                 attributes
                 [ Html.input [ id suffixedId, type_ "checkbox", name "accordion-checkbox", css inputStyles ] []
-                , title { tag = Html.label, inverted = inverted } [ for suffixedId ] item.title
+                , title { tag = Html.label, inverted = inverted } [ for suffixedId ] iconAndTitle
                 , content [] item.content
                 ]
 
@@ -138,7 +154,7 @@ accordionItem { toggleMethod, inverted } attributes item =
                 []
                 attributes
                 [ Html.input [ id suffixedId, type_ "radio", name "accordion-radio", value item.id, css inputStyles ] []
-                , title { tag = Html.label, inverted = inverted } [ for suffixedId ] item.title
+                , title { tag = Html.label, inverted = inverted } [ for suffixedId ] iconAndTitle
                 , content [] item.content
                 ]
 
@@ -148,11 +164,16 @@ accordionItem { toggleMethod, inverted } attributes item =
                     [ Css.Global.div [ display none ] ]
                 , target
                     [ children
-                        [ Css.Global.div [ display block ] ]
+                        [ Css.Global.div [ display block ]
+                        , Css.Global.a
+                            [ children
+                                [ Css.Global.i [ iconTransitionStyle ] ]
+                            ]
+                        ]
                     ]
                 ]
                 (id item.id :: attributes)
-                [ title { tag = Html.a, inverted = inverted } [ href ("#" ++ item.id) ] item.title
+                [ title { tag = Html.a, inverted = inverted } [ href ("#" ++ item.id) ] iconAndTitle
                 , content [] item.content
                 ]
 
@@ -190,6 +211,9 @@ title { tag, inverted } =
 
           else
             color (rgba 0 0 0 0.87)
+
+        -- Override
+        , display block
         ]
 
 
@@ -201,3 +225,24 @@ content =
           property "margin" "''"
         , padding3 (em 0.5) zero (em 1)
         ]
+
+
+dropdownIcon : Html msg
+dropdownIcon =
+    Icon.icon
+        [ css
+            [ -- .ui.accordion .title .dropdown.icon
+              -- .ui.accordion .accordion .title .dropdown.icon
+              property "float" "none"
+            , width (em 1.25)
+            , padding zero
+            , fontSize (em 1)
+            , property "-webkit-transition" "opacity 0.1s ease, -webkit-transform 0.1s ease"
+            , property "transition" "opacity 0.1s ease, -webkit-transform 0.1s ease"
+            , property "transition" "transform 0.1s ease, opacity 0.1s ease"
+            , property "transition" "transform 0.1s ease, opacity 0.1s ease, -webkit-transform 0.1s ease"
+            , verticalAlign baseline
+            , prefixed [] "transform" "none"
+            ]
+        ]
+        "fas fa-caret-right"

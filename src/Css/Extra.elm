@@ -119,6 +119,9 @@ prefixed additionalPrefixes p v =
         "flex-wrap" ->
             default [ "-ms-" ]
 
+        "transform" ->
+            default [ "-webkit-" ]
+
         "transform-origin" ->
             default [ "-webkit-" ]
 
