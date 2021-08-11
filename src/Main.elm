@@ -8,7 +8,7 @@ import Css.Global exposing (global)
 import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
 import Html.Styled exposing (Attribute, Html, a, div, h1, h2, h3, h4, h5, input, p, span, strong, text, toUnstyled)
-import Html.Styled.Attributes as Attributes exposing (css, for, href, id, rel, src, type_)
+import Html.Styled.Attributes as Attributes exposing (css, for, href, id, name, rel, rows, src, tabindex, type_)
 import Html.Styled.Events exposing (onClick, onInput)
 import PageSummary exposing (Category(..), PageSummary)
 import Random
@@ -21,6 +21,7 @@ import UI.Container exposing (container, textContainer)
 import UI.Dimmer as Dimmer exposing (dimmer, pageDimmer)
 import UI.Divider exposing (divider)
 import UI.Example exposing (..)
+import UI.Form exposing (field, form)
 import UI.Grid as Grid exposing (..)
 import UI.Header as Header exposing (..)
 import UI.Icon exposing (icon)
@@ -94,6 +95,7 @@ type Page
     | SegmentPage
     | TextPage
     | BreadcrumbPage
+    | FormPage
     | GridPage
     | MenuPage
     | MessagePage
@@ -146,6 +148,7 @@ type Route
     | Segment
     | Text
     | Breadcrumb
+    | Form
     | Grid
     | Menu
     | Message
@@ -178,6 +181,7 @@ parser =
         , Parser.map Segment (s "segment")
         , Parser.map Text (s "text")
         , Parser.map Breadcrumb (s "breadcrumb")
+        , Parser.map Form (s "form")
         , Parser.map Grid (s "grid")
         , Parser.map Menu (s "menu")
         , Parser.map Message (s "message")
@@ -252,6 +256,9 @@ routing url model =
 
             Just Breadcrumb ->
                 BreadcrumbPage
+
+            Just Form ->
+                FormPage
 
             Just Grid ->
                 GridPage
@@ -509,6 +516,11 @@ view model =
                 , contents = examplesForBreadcrumb { inverted = model.darkMode }
                 }
 
+            FormPage ->
+                { summary = PageSummary.form
+                , contents = examplesForForm
+                }
+
             GridPage ->
                 { summary = PageSummary.grid
                 , contents = examplesForGrid
@@ -628,6 +640,7 @@ contents_ =
     , PageSummary.segment
     , PageSummary.text
     , PageSummary.breadcrumb
+    , PageSummary.form
     , PageSummary.grid
     , PageSummary.menu
     , PageSummary.message
@@ -1198,6 +1211,90 @@ examplesForBreadcrumb { inverted } =
                 [ { label = "Home", url = "/" }
                 , { label = "Registration", url = "/" }
                 , { label = "Personal Information", url = "" }
+                ]
+            ]
+        ]
+    ]
+
+
+examplesForForm : List (Html msg)
+examplesForForm =
+    [ example
+        { title = "Form"
+        , description = "A form"
+        }
+        [ form []
+            [ field
+                { type_ = "text"
+                , label = "First Name"
+                }
+                []
+                [ input [ type_ "text", name "first-name", Attributes.placeholder "First Name" ] [] ]
+            , field
+                { type_ = "text"
+                , label = "Last Name"
+                }
+                []
+                [ input [ type_ "text", name "last-name", Attributes.placeholder "Last Name" ] [] ]
+            , field
+                { type_ = "checkbox"
+                , label = ""
+                }
+                []
+                [ checkbox []
+                    [ input [ id "checkbox_example_1", type_ "checkbox", tabindex 0 ] []
+                    , Checkbox.label [ for "checkbox_example_1" ] [ text "I agree to the Terms and Conditions" ]
+                    ]
+                ]
+            , button [ type_ "submit" ] [ text "Submit" ]
+            ]
+        ]
+    , example
+        { title = "Field"
+        , description = "A field is a form element containing a label and an input"
+        }
+        [ form []
+            [ field
+                { type_ = "text"
+                , label = "User Input"
+                }
+                []
+                [ input [ type_ "text" ] [] ]
+            ]
+        ]
+    , example
+        { title = "Text Area"
+        , description = "A textarea can be used to allow for extended user input."
+        }
+        [ form []
+            [ field
+                { type_ = "textarea"
+                , label = "Text"
+                }
+                []
+                [ Html.Styled.textarea [] [] ]
+            , field
+                { type_ = "textarea"
+                , label = "Short Text"
+                }
+                []
+                [ Html.Styled.textarea [ rows 2 ] [] ]
+            ]
+        ]
+    , example
+        { title = "Checkbox"
+        , description = "A form can contain a checkbox"
+        }
+        [ form []
+            [ field
+                { type_ = "checkbox"
+                , label = ""
+                }
+                []
+                [ checkbox []
+                    [ input [ id "checkbox_example_2", type_ "checkbox", tabindex 0 ] []
+                    , Checkbox.label [ for "checkbox_example_2" ] [ text "Checkbox" ]
+                    ]
                 ]
             ]
         ]
