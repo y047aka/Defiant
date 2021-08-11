@@ -1,8 +1,23 @@
-module UI.Form exposing (field, form, label)
+module UI.Form exposing
+    ( form
+    , fields, threeFields
+    , field
+    , label
+    )
+
+{-|
+
+@docs form
+@docs fields, threeFields
+@docs field
+@docs label
+
+-}
 
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
-import Css.Global exposing (descendants, each, selector)
+import Css.Global exposing (children, descendants, each, selector)
+import Css.Media as Media exposing (only, screen, withMedia)
 import Css.Typography exposing (fomanticFontFamilies)
 import Html.Styled as Html exposing (Attribute, Html, text)
 
@@ -19,6 +34,69 @@ form =
         [ -- .ui.form
           position relative
         , maxWidth (pct 100)
+        ]
+
+
+fieldsBasis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+fieldsBasis additionalStyles =
+    Html.styled Html.div
+        [ -- .ui.form .fields
+          prefixed [] "display" "flex"
+        , property "-webkit-box-orient" "horizontal"
+        , property "-webkit-box-direction" "normal"
+        , prefixed [] "flex-direction" "row"
+        , margin3 zero (em -0.5) (em 1)
+
+        -- .ui.form .fields > .field
+        , children
+            [ Css.Global.div
+                [ prefixed [] "flex" "0 1 auto"
+                , paddingLeft (em 0.5)
+                , paddingRight (em 0.5)
+
+                -- .ui.form .fields > .field:first-child
+                , firstChild
+                    [ property "border-left" "none"
+                    , prefixed [] "box-shadow" "none"
+                    ]
+                ]
+            ]
+
+        -- @media only screen and (max-width: 767.98px)
+        , withMedia [ only screen [ Media.maxWidth (px 767.98) ] ]
+            [ -- .ui.form .fields
+              prefixed [] "flex-wrap" "wrap"
+            , marginBottom zero
+
+            -- .ui.form:not(.unstackable) .fields:not(.unstackable) > .fields
+            -- .ui.form:not(.unstackable) .fields:not(.unstackable) > .field
+            , children
+                [ Css.Global.div
+                    [ width (pct 100)
+                    , margin3 zero zero (em 1)
+                    ]
+                ]
+            ]
+
+        -- AdditionalStyles
+        , batch additionalStyles
+        ]
+
+
+fields : List (Attribute msg) -> List (Html msg) -> Html msg
+fields =
+    fieldsBasis []
+
+
+threeFields : List (Attribute msg) -> List (Html msg) -> Html msg
+threeFields =
+    fieldsBasis
+        [ -- .ui.form .three.fields > .fields
+          -- .ui.form .three.fields > .field
+          children
+            [ Css.Global.div
+                [ width (pct 33.33333333) ]
+            ]
         ]
 
 

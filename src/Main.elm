@@ -21,7 +21,7 @@ import UI.Container exposing (container, textContainer)
 import UI.Dimmer as Dimmer exposing (dimmer, pageDimmer)
 import UI.Divider exposing (divider)
 import UI.Example exposing (..)
-import UI.Form exposing (field, form)
+import UI.Form exposing (field, fields, form, threeFields)
 import UI.Grid as Grid exposing (..)
 import UI.Header as Header exposing (..)
 import UI.Icon exposing (icon)
@@ -1260,6 +1260,58 @@ examplesForForm =
                 }
                 []
                 [ input [ type_ "text" ] [] ]
+            ]
+        ]
+    , example
+        { title = "Fields"
+        , description = "A set of fields can appear grouped together"
+        }
+        [ form []
+            [ fields []
+                [ field
+                    { type_ = "text"
+                    , label = "First Name"
+                    }
+                    []
+                    [ input [ type_ "text", placeholder "First Name" ] [] ]
+                , field
+                    { type_ = "text"
+                    , label = "Middle name"
+                    }
+                    []
+                    [ input [ type_ "text", placeholder "Middle name" ] [] ]
+                , field
+                    { type_ = "text"
+                    , label = "Last Name"
+                    }
+                    []
+                    [ input [ type_ "text", placeholder "Last Name" ] [] ]
+                ]
+            ]
+        ]
+    , example
+        { title = "", description = "" }
+        [ form []
+            [ threeFields []
+                [ field
+                    { type_ = "text"
+                    , label = "First Name"
+                    }
+                    []
+                    [ input [ type_ "text", placeholder "First Name" ] [] ]
+                , field
+                    { type_ = "text"
+                    , label = "Middle name"
+                    }
+                    []
+                    [ input [ type_ "text", placeholder "Middle name" ] [] ]
+                , field
+                    { type_ = "text"
+                    , label = "Last Name"
+                    }
+                    []
+                    [ input [ type_ "text", placeholder "Last Name" ] [] ]
+                ]
             ]
         ]
     , example
