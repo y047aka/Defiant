@@ -8,7 +8,7 @@ import Css.Global exposing (global)
 import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
 import Html.Styled exposing (Attribute, Html, a, div, h1, h2, h3, h4, h5, input, p, span, strong, text, toUnstyled)
-import Html.Styled.Attributes as Attributes exposing (css, for, href, id, name, rel, rows, src, tabindex, type_)
+import Html.Styled.Attributes as Attributes exposing (css, for, href, id, name, placeholder, rel, rows, src, tabindex, type_)
 import Html.Styled.Events exposing (onClick, onInput)
 import PageSummary exposing (Category(..), PageSummary)
 import Random
@@ -32,7 +32,7 @@ import UI.Label as Label exposing (..)
 import UI.Menu as Menu exposing (..)
 import UI.Message exposing (message)
 import UI.Modal as Modal exposing (..)
-import UI.Placeholder exposing (line, placeholder)
+import UI.Placeholder as Placeholder exposing (line)
 import UI.Progress as Progress
 import UI.Rail exposing (leftRail, rightRail)
 import UI.Segment exposing (..)
@@ -944,7 +944,7 @@ examplesForInput =
         , description = "A standard input"
         }
         [ Input.input []
-            [ input [ type_ "text", Attributes.placeholder "Search..." ] [] ]
+            [ input [ type_ "text", placeholder "Search..." ] [] ]
         ]
     , example
         { title = "Labeled"
@@ -952,7 +952,7 @@ examplesForInput =
         }
         [ Input.input []
             [ Input.label [] [ text "http://" ]
-            , input [ type_ "text", Attributes.placeholder "mysite.com" ] []
+            , input [ type_ "text", placeholder "mysite.com" ] []
             ]
         ]
     , example
@@ -960,7 +960,7 @@ examplesForInput =
         , description = ""
         }
         [ Input.input []
-            [ input [ type_ "text", Attributes.placeholder "Enter weight.." ] []
+            [ input [ type_ "text", placeholder "Enter weight.." ] []
             , Input.label [] [ text "kg" ]
             ]
         ]
@@ -1034,7 +1034,7 @@ examplesForPlaceholder =
         { title = "Lines"
         , description = "A placeholder can contain have lines of text"
         }
-        [ placeholder []
+        [ Placeholder.placeholder []
             [ line [] []
             , line [] []
             , line [] []
@@ -1229,13 +1229,13 @@ examplesForForm =
                 , label = "First Name"
                 }
                 []
-                [ input [ type_ "text", name "first-name", Attributes.placeholder "First Name" ] [] ]
+                [ input [ type_ "text", name "first-name", placeholder "First Name" ] [] ]
             , field
                 { type_ = "text"
                 , label = "Last Name"
                 }
                 []
-                [ input [ type_ "text", name "last-name", Attributes.placeholder "Last Name" ] [] ]
+                [ input [ type_ "text", name "last-name", placeholder "Last Name" ] [] ]
             , field
                 { type_ = "checkbox"
                 , label = ""
@@ -1357,7 +1357,7 @@ examplesForMenu model =
             , rightMenu []
                 [ secondaryMenuItem [] [] <|
                     [ Input.input []
-                        [ input [ type_ "text", Attributes.placeholder "Search..." ] [] ]
+                        [ input [ type_ "text", placeholder "Search..." ] [] ]
                     ]
                 , secondaryMenuItem [] [] [ text "Logout" ]
                 ]
@@ -2188,7 +2188,7 @@ examplesForSortableTable { people, tableState, query } =
         { title = "Sortable Table"
         , description = ""
         }
-        [ input [ Attributes.placeholder "Search by Name", onInput SetQuery ] []
+        [ input [ placeholder "Search by Name", onInput SetQuery ] []
         , Table.view config tableState acceptablePeople
         ]
     ]
