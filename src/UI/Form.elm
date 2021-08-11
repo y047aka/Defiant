@@ -3,7 +3,7 @@ module UI.Form exposing (field, form, label)
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (descendants, each, selector)
-import Css.Typography exposing (fomanticFont)
+import Css.Typography exposing (fomanticFontFamilies)
 import Html.Styled as Html exposing (Attribute, Html, text)
 
 
@@ -97,7 +97,7 @@ fieldBasis =
                 , selector """input[type="file"]"""
                 , selector """input[type="url"]"""
                 ]
-                [ fontFamilies fomanticFont
+                [ fontFamilies fomanticFontFamilies
                 , margin zero
                 , outline none
                 , property "-webkit-appearance" "none"
@@ -133,7 +133,7 @@ fieldBasis =
                 , property "-webkit-transition" "color 0.1s ease, border-color 0.1s ease"
                 , property "transition" "color 0.1s ease, border-color 0.1s ease"
                 , fontSize (em 1)
-                , fontFamilies fomanticFont
+                , fontFamilies fomanticFontFamilies
                 , lineHeight (num 1.2857)
                 , resize vertical
 

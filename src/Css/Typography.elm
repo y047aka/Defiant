@@ -3,7 +3,7 @@ module Css.Typography exposing
     , typography
     , init
     , default, heading
-    , fomanticFont
+    , fomanticFontFamilies
     , int, num, px, rem, em
     , inherit, none
     , normal, italic, oblique
@@ -17,7 +17,7 @@ module Css.Typography exposing
 @docs typography
 @docs init
 @docs default, heading
-@docs fomanticFont
+@docs fomanticFontFamilies
 @docs int, num, px, rem, em
 @docs inherit, none
 @docs normal, italic, oblique
@@ -73,7 +73,7 @@ init =
 default : Typography
 default =
     { init
-        | fontFamilies = fomanticFont
+        | fontFamilies = fomanticFontFamilies
         , fontSize = px 14
         , lineHeight = em 1.4285
     }
@@ -87,8 +87,8 @@ heading =
     }
 
 
-fomanticFont : List String
-fomanticFont =
+fomanticFontFamilies : List String
+fomanticFontFamilies =
     [ qt "Lato", qt "Helvetica Neue", "Arial", "Helvetica", "sans-serif" ]
 
 

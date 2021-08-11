@@ -13,7 +13,7 @@ module UI.Card exposing
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, everything, selector)
-import Css.Typography exposing (fomanticFont)
+import Css.Typography exposing (fomanticFontFamilies)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import UI.Internal exposing (styledBlock)
 
@@ -259,7 +259,7 @@ header { inverted } =
           -- .ui.card > .content > .header
           display block
         , property "margin" "''"
-        , fontFamilies fomanticFont
+        , fontFamilies fomanticFontFamilies
 
         -- .ui.cards > .card > .content > .header:not(.ui)
         -- .ui.card > .content > .header:not(.ui)

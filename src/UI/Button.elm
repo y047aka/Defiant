@@ -19,7 +19,7 @@ import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, selector, typeSelector)
 import Css.Layout as Layout exposing (layout)
 import Css.Palette exposing (..)
-import Css.Typography as Typography exposing (fomanticFont, init, typography)
+import Css.Typography as Typography exposing (fomanticFontFamilies, init, typography)
 import Data exposing (PresetColor(..))
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes exposing (css)
@@ -46,7 +46,7 @@ basis { palettes, shadow } additionalStyles =
         , layout { defaultLayout | textAlign = Layout.center }
         , typography
             { init
-                | fontFamilies = fomanticFont
+                | fontFamilies = fomanticFontFamilies
                 , textTransform = Typography.none
                 , fontStyle = Typography.normal
                 , fontWeight = Typography.bold
@@ -175,7 +175,7 @@ labeledButton attributes =
             , layout { defaultLayout | textAlign = Layout.center }
             , typography
                 { init
-                    | fontFamilies = fomanticFont
+                    | fontFamilies = fomanticFontFamilies
                     , textTransform = Typography.none
                     , fontStyle = Typography.normal
                     , fontWeight = Typography.bold

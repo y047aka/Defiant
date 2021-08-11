@@ -3,7 +3,7 @@ module UI.Input exposing (input, label)
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (adjacentSiblings, children)
-import Css.Typography exposing (fomanticFont)
+import Css.Typography exposing (fomanticFontFamilies)
 import Html.Styled as Html exposing (Attribute, Html)
 import UI.Label as Label
 
@@ -28,7 +28,7 @@ input =
                 , property "-webkit-tap-highlight-color" "rgba(255, 255, 255, 0)"
                 , textAlign left
                 , lineHeight (em 1.21428571)
-                , fontFamilies fomanticFont
+                , fontFamilies fomanticFontFamilies
                 , padding2 (em 0.67857143) (em 1)
                 , property "background" "#FFFFFF"
                 , border3 (px 1) solid (rgba 34 36 38 0.15)

@@ -3,7 +3,7 @@ module UI.Accordion exposing (accordion_Checkbox, accordion_Radio, accordion_Sum
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (adjacentSiblings, children, generalSiblings)
-import Css.Typography exposing (fomanticFont)
+import Css.Typography exposing (fomanticFontFamilies)
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes exposing (css, for, href, id, name, type_, value)
 import UI.Icon as Icon
@@ -201,7 +201,7 @@ title { tag, inverted } =
 
         -- .ui.accordion .title:not(.ui)
         , padding2 (em 0.5) zero
-        , fontFamilies fomanticFont
+        , fontFamilies fomanticFontFamilies
         , fontSize (em 1)
 
         -- Inverted

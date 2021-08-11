@@ -13,7 +13,7 @@ module UI.Modal exposing
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, each, selector)
-import Css.Typography exposing (fomanticFont)
+import Css.Typography exposing (fomanticFontFamilies)
 import Html.Styled as Html exposing (Attribute, Html, text)
 
 
@@ -147,7 +147,7 @@ headerBasis { inverted, additionalStyles } =
     Html.styled Html.header
         [ -- .ui.modal > .header
           display block
-        , fontFamilies fomanticFont
+        , fontFamilies fomanticFontFamilies
         , if inverted then
             batch
                 [ property "background" "rgba(0, 0, 0, 0.9)"
