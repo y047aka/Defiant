@@ -1,6 +1,6 @@
 module UI.Form exposing
     ( form
-    , fields, threeFields
+    , fields, twoFields, threeFields
     , field
     , label
     )
@@ -8,7 +8,7 @@ module UI.Form exposing
 {-|
 
 @docs form
-@docs fields, threeFields
+@docs fields, twoFields, threeFields
 @docs field
 @docs label
 
@@ -88,16 +88,36 @@ fields =
     fieldsBasis []
 
 
-threeFields : List (Attribute msg) -> List (Html msg) -> Html msg
-threeFields =
+equallyDivideFields : Int -> List (Attribute msg) -> List (Html msg) -> Html msg
+equallyDivideFields count =
     fieldsBasis
-        [ -- .ui.form .three.fields > .fields
-          -- .ui.form .three.fields > .field
-          children
-            [ Css.Global.div
-                [ width (pct 33.33333333) ]
+        [ children
+            [ Css.Global.div <|
+                case count of
+                    2 ->
+                        -- .ui.form .two.fields > .fields
+                        -- .ui.form .two.fields > .field
+                        [ width (pct 50) ]
+
+                    3 ->
+                        -- .ui.form .three.fields > .fields
+                        -- .ui.form .three.fields > .field
+                        [ width (pct 33.33333333) ]
+
+                    _ ->
+                        []
             ]
         ]
+
+
+twoFields : List (Attribute msg) -> List (Html msg) -> Html msg
+twoFields =
+    equallyDivideFields 2
+
+
+threeFields : List (Attribute msg) -> List (Html msg) -> Html msg
+threeFields =
+    equallyDivideFields 3
 
 
 fieldBasis : List (Attribute msg) -> List (Html msg) -> Html msg
