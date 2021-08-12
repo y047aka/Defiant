@@ -21,7 +21,7 @@ import UI.Container exposing (container, textContainer)
 import UI.Dimmer as Dimmer exposing (dimmer, pageDimmer)
 import UI.Divider exposing (divider)
 import UI.Example exposing (..)
-import UI.Form exposing (field, fields, form, threeFields)
+import UI.Form exposing (State(..), field, fields, form, threeFields, twoFields)
 import UI.Grid as Grid exposing (..)
 import UI.Header as Header exposing (..)
 import UI.Icon exposing (icon)
@@ -1219,6 +1219,37 @@ examplesForBreadcrumb { inverted } =
 
 examplesForForm : List (Html msg)
 examplesForForm =
+    let
+        fieldsWithState options =
+            [ twoFields []
+                [ field
+                    { type_ = "text"
+                    , label = "First Name"
+                    , state = options.state
+                    }
+                    []
+                    [ input [ type_ "text", placeholder "First Name" ] [] ]
+                , field
+                    { type_ = "text"
+                    , label = "Last Name"
+                    , state = Default
+                    }
+                    []
+                    [ input [ type_ "text", placeholder "Last Name" ] [] ]
+                ]
+            , field
+                { type_ = "checkbox"
+                , label = ""
+                , state = options.state
+                }
+                []
+                [ checkbox []
+                    [ input [ id options.id, type_ "checkbox", tabindex 0 ] []
+                    , Checkbox.label [ for options.id ] [ text "I agree to the Terms and Conditions" ]
+                    ]
+                ]
+            ]
+    in
     [ example
         { title = "Form"
         , description = "A form"
@@ -1227,18 +1258,21 @@ examplesForForm =
             [ field
                 { type_ = "text"
                 , label = "First Name"
+                , state = Default
                 }
                 []
                 [ input [ type_ "text", name "first-name", placeholder "First Name" ] [] ]
             , field
                 { type_ = "text"
                 , label = "Last Name"
+                , state = Default
                 }
                 []
                 [ input [ type_ "text", name "last-name", placeholder "Last Name" ] [] ]
             , field
                 { type_ = "checkbox"
                 , label = ""
+                , state = Default
                 }
                 []
                 [ checkbox []
@@ -1257,6 +1291,7 @@ examplesForForm =
             [ field
                 { type_ = "text"
                 , label = "User Input"
+                , state = Default
                 }
                 []
                 [ input [ type_ "text" ] [] ]
@@ -1271,18 +1306,21 @@ examplesForForm =
                 [ field
                     { type_ = "text"
                     , label = "First Name"
+                    , state = Default
                     }
                     []
                     [ input [ type_ "text", placeholder "First Name" ] [] ]
                 , field
                     { type_ = "text"
                     , label = "Middle name"
+                    , state = Default
                     }
                     []
                     [ input [ type_ "text", placeholder "Middle name" ] [] ]
                 , field
                     { type_ = "text"
                     , label = "Last Name"
+                    , state = Default
                     }
                     []
                     [ input [ type_ "text", placeholder "Last Name" ] [] ]
@@ -1296,18 +1334,21 @@ examplesForForm =
                 [ field
                     { type_ = "text"
                     , label = "First Name"
+                    , state = Default
                     }
                     []
                     [ input [ type_ "text", placeholder "First Name" ] [] ]
                 , field
                     { type_ = "text"
                     , label = "Middle name"
+                    , state = Default
                     }
                     []
                     [ input [ type_ "text", placeholder "Middle name" ] [] ]
                 , field
                     { type_ = "text"
                     , label = "Last Name"
+                    , state = Default
                     }
                     []
                     [ input [ type_ "text", placeholder "Last Name" ] [] ]
@@ -1322,12 +1363,14 @@ examplesForForm =
             [ field
                 { type_ = "textarea"
                 , label = "Text"
+                , state = Default
                 }
                 []
                 [ Html.Styled.textarea [] [] ]
             , field
                 { type_ = "textarea"
                 , label = "Short Text"
+                , state = Default
                 }
                 []
                 [ Html.Styled.textarea [ rows 2 ] [] ]
@@ -1341,6 +1384,7 @@ examplesForForm =
             [ field
                 { type_ = "checkbox"
                 , label = ""
+                , state = Default
                 }
                 []
                 [ checkbox []
@@ -1350,6 +1394,26 @@ examplesForForm =
                 ]
             ]
         ]
+    , example
+        { title = "Field Error"
+        , description = "Individual fields may display an error state"
+        }
+        [ form [] (fieldsWithState { id = "state_example_1", state = Error }) ]
+    , example
+        { title = "Field Warning"
+        , description = "Individual fields may display a warning state"
+        }
+        [ form [] (fieldsWithState { id = "state_example_2", state = Warning }) ]
+    , example
+        { title = "Field Success"
+        , description = "Individual fields may display a Success state"
+        }
+        [ form [] (fieldsWithState { id = "state_example_3", state = Success }) ]
+    , example
+        { title = "Field Info"
+        , description = "Individual fields may display an informational state"
+        }
+        [ form [] (fieldsWithState { id = "state_example_4", state = Info }) ]
     ]
 
 
