@@ -363,262 +363,52 @@ fieldBasis state =
                 , selector "input[type='file']"
                 , selector "input[type='url']"
                 ]
-                (case state of
+                (stylesByState state)
+            ]
+        ]
+
+
+stylesByState : State -> List Style
+stylesByState state =
+    let
+        paletteByState =
+            batch <|
+                case state of
                     Success ->
-                        -- .ui.form .fields.success .field textarea
-                        -- .ui.form .fields.success .field select
-                        -- .ui.form .fields.success .field input:not([type])
-                        -- .ui.form .fields.success .field input[type='date']
-                        -- .ui.form .fields.success .field input[type='datetime-local']
-                        -- .ui.form .fields.success .field input[type='email']
-                        -- .ui.form .fields.success .field input[type='number']
-                        -- .ui.form .fields.success .field input[type='password']
-                        -- .ui.form .fields.success .field input[type='search']
-                        -- .ui.form .fields.success .field input[type='tel']
-                        -- .ui.form .fields.success .field input[type='time']
-                        -- .ui.form .fields.success .field input[type='text']
-                        -- .ui.form .fields.success .field input[type='file']
-                        -- .ui.form .fields.success .field input[type='url']
-                        -- .ui.form .field.success textarea
-                        -- .ui.form .field.success select
-                        -- .ui.form .field.success input:not([type])
-                        -- .ui.form .field.success input[type='date']
-                        -- .ui.form .field.success input[type='datetime-local']
-                        -- .ui.form .field.success input[type='email']
-                        -- .ui.form .field.success input[type='number']
-                        -- .ui.form .field.success input[type='password']
-                        -- .ui.form .field.success input[type='search']
-                        -- .ui.form .field.success input[type='tel']
-                        -- .ui.form .field.success input[type='time']
-                        -- .ui.form .field.success input[type='text']
-                        -- .ui.form .field.success input[type='file']
-                        -- .ui.form .field.success input[type='url']
-                        [ color (hex "#2c662d")
-                        , property "background" "#fcfff5"
+                        [ property "background" "#fcfff5"
+                        , color (hex "#2c662d")
                         , borderColor (hex "#a3c293")
-                        , property "border-radius" "''"
-                        , prefixed [] "box-shadow" "none"
                         ]
 
                     Info ->
-                        -- .ui.form .fields.info .field textarea
-                        -- .ui.form .fields.info .field select
-                        -- .ui.form .fields.info .field input:not([type])
-                        -- .ui.form .fields.info .field input[type='date']
-                        -- .ui.form .fields.info .field input[type='datetime-local']
-                        -- .ui.form .fields.info .field input[type='email']
-                        -- .ui.form .fields.info .field input[type='number']
-                        -- .ui.form .fields.info .field input[type='password']
-                        -- .ui.form .fields.info .field input[type='search']
-                        -- .ui.form .fields.info .field input[type='tel']
-                        -- .ui.form .fields.info .field input[type='time']
-                        -- .ui.form .fields.info .field input[type='text']
-                        -- .ui.form .fields.info .field input[type='file']
-                        -- .ui.form .fields.info .field input[type='url']
-                        -- .ui.form .field.info textarea
-                        -- .ui.form .field.info select
-                        -- .ui.form .field.info input:not([type])
-                        -- .ui.form .field.info input[type='date']
-                        -- .ui.form .field.info input[type='datetime-local']
-                        -- .ui.form .field.info input[type='email']
-                        -- .ui.form .field.info input[type='number']
-                        -- .ui.form .field.info input[type='password']
-                        -- .ui.form .field.info input[type='search']
-                        -- .ui.form .field.info input[type='tel']
-                        -- .ui.form .field.info input[type='time']
-                        -- .ui.form .field.info input[type='text']
-                        -- .ui.form .field.info input[type='file']
-                        -- .ui.form .field.info input[type='url']
-                        [ color (hex "#276f86")
-                        , property "background" "#f8ffff"
+                        [ property "background" "#f8ffff"
+                        , color (hex "#276f86")
                         , borderColor (hex "#a9d5de")
-                        , property "border-radius" "''"
-                        , prefixed [] "box-shadow" "none"
                         ]
 
                     Warning ->
-                        -- .ui.form .fields.warning .field textarea
-                        -- .ui.form .fields.warning .field select
-                        -- .ui.form .fields.warning .field input:not([type])
-                        -- .ui.form .fields.warning .field input[type='date']
-                        -- .ui.form .fields.warning .field input[type='datetime-local']
-                        -- .ui.form .fields.warning .field input[type='email']
-                        -- .ui.form .fields.warning .field input[type='number']
-                        -- .ui.form .fields.warning .field input[type='password']
-                        -- .ui.form .fields.warning .field input[type='search']
-                        -- .ui.form .fields.warning .field input[type='tel']
-                        -- .ui.form .fields.warning .field input[type='time']
-                        -- .ui.form .fields.warning .field input[type='text']
-                        -- .ui.form .fields.warning .field input[type='file']
-                        -- .ui.form .fields.warning .field input[type='url']
-                        -- .ui.form .field.warning textarea
-                        -- .ui.form .field.warning select
-                        -- .ui.form .field.warning input:not([type])
-                        -- .ui.form .field.warning input[type='date']
-                        -- .ui.form .field.warning input[type='datetime-local']
-                        -- .ui.form .field.warning input[type='email']
-                        -- .ui.form .field.warning input[type='number']
-                        -- .ui.form .field.warning input[type='password']
-                        -- .ui.form .field.warning input[type='search']
-                        -- .ui.form .field.warning input[type='tel']
-                        -- .ui.form .field.warning input[type='time']
-                        -- .ui.form .field.warning input[type='text']
-                        -- .ui.form .field.warning input[type='file']
-                        -- .ui.form .field.warning input[type='url']
-                        [ color (hex "#573a08")
-                        , property "background" "#fffaf3"
+                        [ property "background" "#fffaf3"
+                        , color (hex "#573a08")
                         , borderColor (hex "#c9ba9b")
-                        , property "border-radius" "''"
-                        , prefixed [] "box-shadow" "none"
                         ]
 
                     Error ->
-                        -- .ui.form .fields.error .field textarea
-                        -- .ui.form .fields.error .field select
-                        -- .ui.form .fields.error .field input:not([type])
-                        -- .ui.form .fields.error .field input[type='date']
-                        -- .ui.form .fields.error .field input[type='datetime-local']
-                        -- .ui.form .fields.error .field input[type='email']
-                        -- .ui.form .fields.error .field input[type='number']
-                        -- .ui.form .fields.error .field input[type='password']
-                        -- .ui.form .fields.error .field input[type='search']
-                        -- .ui.form .fields.error .field input[type='tel']
-                        -- .ui.form .fields.error .field input[type='time']
-                        -- .ui.form .fields.error .field input[type='text']
-                        -- .ui.form .fields.error .field input[type='file']
-                        -- .ui.form .fields.error .field input[type='url']
-                        -- .ui.form .field.error textarea
-                        -- .ui.form .field.error select
-                        -- .ui.form .field.error input:not([type])
-                        -- .ui.form .field.error input[type='date']
-                        -- .ui.form .field.error input[type='datetime-local']
-                        -- .ui.form .field.error input[type='email']
-                        -- .ui.form .field.error input[type='number']
-                        -- .ui.form .field.error input[type='password']
-                        -- .ui.form .field.error input[type='search']
-                        -- .ui.form .field.error input[type='tel']
-                        -- .ui.form .field.error input[type='time']
-                        -- .ui.form .field.error input[type='text']
-                        -- .ui.form .field.error input[type='file']
-                        -- .ui.form .field.error input[type='url']
-                        [ color (hex "#9f3a38")
-                        , property "background" "#fff6f6"
+                        [ property "background" "#fff6f6"
+                        , color (hex "#9f3a38")
                         , borderColor (hex "#e0b4b4")
-                        , property "border-radius" "''"
-                        , prefixed [] "box-shadow" "none"
                         ]
 
                     Default ->
                         []
-                )
-            , each
-                [ Css.Global.textarea
-                , Css.Global.select
-                , selector "input:not([type])"
-                , selector "input[type='date']"
-                , selector "input[type='datetime-local']"
-                , selector "input[type='email']"
-                , selector "input[type='number']"
-                , selector "input[type='password']"
-                , selector "input[type='search']"
-                , selector "input[type='tel']"
-                , selector "input[type='time']"
-                , selector "input[type='text']"
-                , selector "input[type='file']"
-                , selector "input[type='url']"
-                ]
-                [ focus
-                    (case state of
-                        Success ->
-                            -- .ui.form .field.success textarea:focus
-                            -- .ui.form .field.success select:focus
-                            -- .ui.form .field.success input:not([type]):focus
-                            -- .ui.form .field.success input[type='date']:focus
-                            -- .ui.form .field.success input[type='datetime-local']:focus
-                            -- .ui.form .field.success input[type='email']:focus
-                            -- .ui.form .field.success input[type='number']:focus
-                            -- .ui.form .field.success input[type='password']:focus
-                            -- .ui.form .field.success input[type='search']:focus
-                            -- .ui.form .field.success input[type='tel']:focus
-                            -- .ui.form .field.success input[type='time']:focus
-                            -- .ui.form .field.success input[type='text']:focus
-                            -- .ui.form .field.success input[type='file']:focus
-                            -- .ui.form .field.success input[type='url']:focus
-                            [ property "background" "#fcfff5"
-                            , borderColor (hex "#a3c293")
-                            , color (hex "#2c662d")
-                            , prefixed [] "box-shadow" "none"
-                            ]
-
-                        Info ->
-                            -- .ui.form .field.info textarea:focus
-                            -- .ui.form .field.info select:focus
-                            -- .ui.form .field.info input:not([type]):focus
-                            -- .ui.form .field.info input[type='date']:focus
-                            -- .ui.form .field.info input[type='datetime-local']:focus
-                            -- .ui.form .field.info input[type='email']:focus
-                            -- .ui.form .field.info input[type='number']:focus
-                            -- .ui.form .field.info input[type='password']:focus
-                            -- .ui.form .field.info input[type='search']:focus
-                            -- .ui.form .field.info input[type='tel']:focus
-                            -- .ui.form .field.info input[type='time']:focus
-                            -- .ui.form .field.info input[type='text']:focus
-                            -- .ui.form .field.info input[type='file']:focus
-                            -- .ui.form .field.info input[type='url']:focus
-                            [ property "background" "#f8ffff"
-                            , borderColor (hex "#a9d5de")
-                            , color (hex "#276f86")
-                            , prefixed [] "box-shadow" "none"
-                            ]
-
-                        Warning ->
-                            -- .ui.form .field.warning textarea:focus
-                            -- .ui.form .field.warning select:focus
-                            -- .ui.form .field.warning input:not([type]):focus
-                            -- .ui.form .field.warning input[type='date']:focus
-                            -- .ui.form .field.warning input[type='datetime-local']:focus
-                            -- .ui.form .field.warning input[type='email']:focus
-                            -- .ui.form .field.warning input[type='number']:focus
-                            -- .ui.form .field.warning input[type='password']:focus
-                            -- .ui.form .field.warning input[type='search']:focus
-                            -- .ui.form .field.warning input[type='tel']:focus
-                            -- .ui.form .field.warning input[type='time']:focus
-                            -- .ui.form .field.warning input[type='text']:focus
-                            -- .ui.form .field.warning input[type='file']:focus
-                            -- .ui.form .field.warning input[type='url']:focus
-                            [ property "background" "#fffaf3"
-                            , borderColor (hex "#c9ba9b")
-                            , color (hex "#573a08")
-                            , prefixed [] "box-shadow" "none"
-                            ]
-
-                        Error ->
-                            -- .ui.form .field.error textarea:focus
-                            -- .ui.form .field.error select:focus
-                            -- .ui.form .field.error input:not([type]):focus
-                            -- .ui.form .field.error input[type='date']:focus
-                            -- .ui.form .field.error input[type='datetime-local']:focus
-                            -- .ui.form .field.error input[type='email']:focus
-                            -- .ui.form .field.error input[type='number']:focus
-                            -- .ui.form .field.error input[type='password']:focus
-                            -- .ui.form .field.error input[type='search']:focus
-                            -- .ui.form .field.error input[type='tel']:focus
-                            -- .ui.form .field.error input[type='time']:focus
-                            -- .ui.form .field.error input[type='text']:focus
-                            -- .ui.form .field.error input[type='file']:focus
-                            -- .ui.form .field.error input[type='url']:focus
-                            [ property "background" "#fff6f6"
-                            , borderColor (hex "#e0b4b4")
-                            , color (hex "#9f3a38")
-                            , prefixed [] "box-shadow" "none"
-                            ]
-
-                        Default ->
-                            []
-                    )
-                ]
-            ]
+    in
+    [ paletteByState
+    , property "border-radius" "''"
+    , prefixed [] "box-shadow" "none"
+    , focus
+        [ paletteByState
+        , prefixed [] "box-shadow" "none"
         ]
+    ]
 
 
 field : { type_ : String, label : String, state : State } -> List (Attribute msg) -> List (Html msg) -> Html msg
