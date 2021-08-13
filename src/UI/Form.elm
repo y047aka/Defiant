@@ -4,7 +4,7 @@ module UI.Form exposing
     , fields, twoFields, threeFields
     , field
     , label
-    , textarea
+    , input, textarea
     )
 
 {-|
@@ -14,7 +14,7 @@ module UI.Form exposing
 @docs fields, twoFields, threeFields
 @docs field
 @docs label
-@docs textarea
+@docs input, textarea
 
 -}
 
@@ -141,140 +141,16 @@ fieldBasis state =
 
         --
         , descendants
-            [ -- Standard Inputs
-              -- .ui.form input:not([type])
-              -- .ui.form input[type="date"]
-              -- .ui.form input[type="datetime-local"]
-              -- .ui.form input[type="email"]
-              -- .ui.form input[type="number"]
-              -- .ui.form input[type="password"]
-              -- .ui.form input[type="search"]
-              -- .ui.form input[type="tel"]
-              -- .ui.form input[type="time"]
-              -- .ui.form input[type="text"]
-              -- .ui.form input[type="file"]
-              -- .ui.form input[type="url"]
+            [ -- .ui.form ::-webkit-datetime-edit
+              -- .ui.form ::-webkit-inner-spin-button
               each
-                [ selector """input:not([type])"""
-                , selector """input[type="date"]"""
-                , selector """input[type="datetime-local"]"""
-                , selector """input[type="email"]"""
-                , selector """input[type="number"]"""
-                , selector """input[type="password"]"""
-                , selector """input[type="search"]"""
-                , selector """input[type="tel"]"""
-                , selector """input[type="time"]"""
-                , selector """input[type="text"]"""
-                , selector """input[type="file"]"""
-                , selector """input[type="url"]"""
-                ]
-                [ width (pct 100)
-                , verticalAlign top
-                ]
-
-            -- .ui.form ::-webkit-datetime-edit
-            -- .ui.form ::-webkit-inner-spin-button
-            , each
                 [ selector "::-webkit-datetime-edit"
                 , selector "::-webkit-inner-spin-button"
                 ]
                 [ height (em 1.21428571) ]
 
-            -- .ui.form input:not([type])
-            -- .ui.form input[type="date"]
-            -- .ui.form input[type="datetime-local"]
-            -- .ui.form input[type="email"]
-            -- .ui.form input[type="number"]
-            -- .ui.form input[type="password"]
-            -- .ui.form input[type="search"]
-            -- .ui.form input[type="tel"]
-            -- .ui.form input[type="time"]
-            -- .ui.form input[type="text"]
-            -- .ui.form input[type="file"]
-            -- .ui.form input[type="url"]
-            , each
-                [ selector """input:not([type])"""
-                , selector """input[type="date"]"""
-                , selector """input[type="datetime-local"]"""
-                , selector """input[type="email"]"""
-                , selector """input[type="number"]"""
-                , selector """input[type="password"]"""
-                , selector """input[type="search"]"""
-                , selector """input[type="tel"]"""
-                , selector """input[type="time"]"""
-                , selector """input[type="text"]"""
-                , selector """input[type="file"]"""
-                , selector """input[type="url"]"""
-                ]
-                [ fontFamilies fomanticFontFamilies
-                , margin zero
-                , outline none
-                , property "-webkit-appearance" "none"
-                , property "-webkit-tap-highlight-color" "rgba(255, 255, 255, 0)"
-                , lineHeight (em 1.21428571)
-                , padding2 (em 0.67857143) (em 1)
-                , fontSize (em 1)
-                , property "background" "#FFFFFF"
-                , border3 (px 1) solid (rgba 34 36 38 0.15)
-                , color (rgba 0 0 0 0.87)
-                , borderRadius (rem 0.28571429)
-                , prefixed [] "box-shadow" "0 0 0 0 transparent inset"
-                , property "-webkit-transition" "color 0.1s ease, border-color 0.1s ease"
-                , property "transition" "color 0.1s ease, border-color 0.1s ease"
-                ]
-
-            -- Focus
-            -- .ui.form input:not([type]):focus
-            -- .ui.form input[type='date']:focus
-            -- .ui.form input[type='datetime-local']:focus
-            -- .ui.form input[type='email']:focus
-            -- .ui.form input[type='number']:focus
-            -- .ui.form input[type='password']:focus
-            -- .ui.form input[type='search']:focus
-            -- .ui.form input[type='tel']:focus
-            -- .ui.form input[type='time']:focus
-            -- .ui.form input[type='text']:focus
-            -- .ui.form input[type='file']:focus
-            -- .ui.form input[type='url']:focus
-            , each
-                [ selector "input:not([type]):focus"
-                , selector "input[type='date']:focus"
-                , selector "input[type='datetime-local']:focus"
-                , selector "input[type='email']:focus"
-                , selector "input[type='number']:focus"
-                , selector "input[type='password']:focus"
-                , selector "input[type='search']:focus"
-                , selector "input[type='tel']:focus"
-                , selector "input[type='time']:focus"
-                , selector "input[type='text']:focus"
-                , selector "input[type='file']:focus"
-                , selector "input[type='url']:focus"
-                ]
-                [ color (rgba 0 0 0 0.95)
-                , borderColor (hex "#85b7d9")
-                , borderRadius (rem 0.28571429)
-                , property "background" "#ffffff"
-                , prefixed [] "box-shadow" "0 0 0 0 rgba(34, 36, 38, 0.35) inset"
-                ]
-
             -- States
-            , Css.Global.input
-                [ colorByState state ]
-            , each
-                [ Css.Global.select
-                , selector "input:not([type])"
-                , selector "input[type='date']"
-                , selector "input[type='datetime-local']"
-                , selector "input[type='email']"
-                , selector "input[type='number']"
-                , selector "input[type='password']"
-                , selector "input[type='search']"
-                , selector "input[type='tel']"
-                , selector "input[type='time']"
-                , selector "input[type='text']"
-                , selector "input[type='file']"
-                , selector "input[type='url']"
-                ]
+            , Css.Global.select
                 (stylesByState state)
             ]
         ]
@@ -312,6 +188,56 @@ label { state } =
 
         -- State
         , colorByState state
+        ]
+
+
+input : { state : State } -> List (Attribute msg) -> List (Html msg) -> Html msg
+input { state } =
+    -- .ui.form input:not([type])
+    -- .ui.form input[type="date"]
+    -- .ui.form input[type="datetime-local"]
+    -- .ui.form input[type="email"]
+    -- .ui.form input[type="number"]
+    -- .ui.form input[type="password"]
+    -- .ui.form input[type="search"]
+    -- .ui.form input[type="tel"]
+    -- .ui.form input[type="time"]
+    -- .ui.form input[type="text"]
+    -- .ui.form input[type="file"]
+    -- .ui.form input[type="url"]
+    Html.styled Html.input
+        [ width (pct 100)
+        , verticalAlign top
+
+        --
+        , fontFamilies fomanticFontFamilies
+        , margin zero
+        , outline none
+        , property "-webkit-appearance" "none"
+        , property "-webkit-tap-highlight-color" "rgba(255, 255, 255, 0)"
+        , lineHeight (em 1.21428571)
+        , padding2 (em 0.67857143) (em 1)
+        , fontSize (em 1)
+        , property "background" "#FFFFFF"
+        , border3 (px 1) solid (rgba 34 36 38 0.15)
+        , color (rgba 0 0 0 0.87)
+        , borderRadius (rem 0.28571429)
+        , prefixed [] "box-shadow" "0 0 0 0 transparent inset"
+        , property "-webkit-transition" "color 0.1s ease, border-color 0.1s ease"
+        , property "transition" "color 0.1s ease, border-color 0.1s ease"
+
+        --
+        , focus
+            [ color (rgba 0 0 0 0.95)
+            , borderColor (hex "#85b7d9")
+            , borderRadius (rem 0.28571429)
+            , property "background" "#ffffff"
+            , prefixed [] "box-shadow" "0 0 0 0 rgba(34, 36, 38, 0.35) inset"
+            ]
+
+        -- States
+        , colorByState state
+        , batch (stylesByState state)
         ]
 
 

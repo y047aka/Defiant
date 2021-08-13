@@ -21,7 +21,7 @@ import UI.Container exposing (container, textContainer)
 import UI.Dimmer as Dimmer exposing (dimmer, pageDimmer)
 import UI.Divider exposing (divider)
 import UI.Example exposing (..)
-import UI.Form exposing (State(..), field, fields, form, textarea, threeFields, twoFields)
+import UI.Form as Form exposing (State(..), field, fields, form, textarea, threeFields, twoFields)
 import UI.Grid as Grid exposing (..)
 import UI.Header as Header exposing (..)
 import UI.Icon exposing (icon)
@@ -1228,14 +1228,14 @@ examplesForForm =
                     , state = options.state
                     }
                     []
-                    [ input [ type_ "text", placeholder "First Name" ] [] ]
+                    [ Form.input { state = options.state } [ type_ "text", placeholder "First Name" ] [] ]
                 , field
                     { type_ = "text"
                     , label = "Last Name"
                     , state = Default
                     }
                     []
-                    [ input [ type_ "text", placeholder "Last Name" ] [] ]
+                    [ Form.input { state = Default } [ type_ "text", placeholder "Last Name" ] [] ]
                 ]
             , field
                 { type_ = "checkbox"
@@ -1244,7 +1244,7 @@ examplesForForm =
                 }
                 []
                 [ checkbox []
-                    [ input [ id options.id, type_ "checkbox", tabindex 0 ] []
+                    [ Form.input { state = options.state }  [ id options.id, type_ "checkbox", tabindex 0 ] []
                     , Checkbox.label [ for options.id ] [ text "I agree to the Terms and Conditions" ]
                     ]
                 ]
@@ -1261,14 +1261,14 @@ examplesForForm =
                 , state = Default
                 }
                 []
-                [ input [ type_ "text", name "first-name", placeholder "First Name" ] [] ]
+                [ Form.input { state = Default } [ type_ "text", name "first-name", placeholder "First Name" ] [] ]
             , field
                 { type_ = "text"
                 , label = "Last Name"
                 , state = Default
                 }
                 []
-                [ input [ type_ "text", name "last-name", placeholder "Last Name" ] [] ]
+                [ Form.input { state = Default } [ type_ "text", name "last-name", placeholder "Last Name" ] [] ]
             , field
                 { type_ = "checkbox"
                 , label = ""
@@ -1276,7 +1276,7 @@ examplesForForm =
                 }
                 []
                 [ checkbox []
-                    [ input [ id "checkbox_example_1", type_ "checkbox", tabindex 0 ] []
+                    [ Form.input { state = Default } [ id "checkbox_example_1", type_ "checkbox", tabindex 0 ] []
                     , Checkbox.label [ for "checkbox_example_1" ] [ text "I agree to the Terms and Conditions" ]
                     ]
                 ]
@@ -1294,7 +1294,7 @@ examplesForForm =
                 , state = Default
                 }
                 []
-                [ input [ type_ "text" ] [] ]
+                [ Form.input { state = Default } [ type_ "text" ] [] ]
             ]
         ]
     , example
@@ -1309,21 +1309,21 @@ examplesForForm =
                     , state = Default
                     }
                     []
-                    [ input [ type_ "text", placeholder "First Name" ] [] ]
+                    [ Form.input { state = Default } [ type_ "text", placeholder "First Name" ] [] ]
                 , field
                     { type_ = "text"
                     , label = "Middle name"
                     , state = Default
                     }
                     []
-                    [ input [ type_ "text", placeholder "Middle name" ] [] ]
+                    [ Form.input { state = Default } [ type_ "text", placeholder "Middle name" ] [] ]
                 , field
                     { type_ = "text"
                     , label = "Last Name"
                     , state = Default
                     }
                     []
-                    [ input [ type_ "text", placeholder "Last Name" ] [] ]
+                    [ Form.input { state = Default } [ type_ "text", placeholder "Last Name" ] [] ]
                 ]
             ]
         ]
@@ -1337,21 +1337,21 @@ examplesForForm =
                     , state = Default
                     }
                     []
-                    [ input [ type_ "text", placeholder "First Name" ] [] ]
+                    [ Form.input { state = Default } [ type_ "text", placeholder "First Name" ] [] ]
                 , field
                     { type_ = "text"
                     , label = "Middle name"
                     , state = Default
                     }
                     []
-                    [ input [ type_ "text", placeholder "Middle name" ] [] ]
+                    [ Form.input { state = Default } [ type_ "text", placeholder "Middle name" ] [] ]
                 , field
                     { type_ = "text"
                     , label = "Last Name"
                     , state = Default
                     }
                     []
-                    [ input [ type_ "text", placeholder "Last Name" ] [] ]
+                    [ Form.input { state = Default } [ type_ "text", placeholder "Last Name" ] [] ]
                 ]
             ]
         ]
@@ -1388,7 +1388,7 @@ examplesForForm =
                 }
                 []
                 [ checkbox []
-                    [ input [ id "checkbox_example_2", type_ "checkbox", tabindex 0 ] []
+                    [ Form.input { state = Default } [ id "checkbox_example_2", type_ "checkbox", tabindex 0 ] []
                     , Checkbox.label [ for "checkbox_example_2" ] [ text "Checkbox" ]
                     ]
                 ]
