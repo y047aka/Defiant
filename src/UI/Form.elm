@@ -46,6 +46,16 @@ form =
         [ -- .ui.form
           position relative
         , maxWidth (pct 100)
+
+        -- .ui.form ::-webkit-datetime-edit
+        -- .ui.form ::-webkit-inner-spin-button
+        , descendants
+            [ each
+                [ selector "::-webkit-datetime-edit"
+                , selector "::-webkit-inner-spin-button"
+                ]
+                [ height (em 1.21428571) ]
+            ]
         ]
 
 
@@ -139,18 +149,9 @@ fieldBasis state =
           property "clear" "both"
         , margin3 zero zero (em 1)
 
-        --
+        -- States
         , descendants
-            [ -- .ui.form ::-webkit-datetime-edit
-              -- .ui.form ::-webkit-inner-spin-button
-              each
-                [ selector "::-webkit-datetime-edit"
-                , selector "::-webkit-inner-spin-button"
-                ]
-                [ height (em 1.21428571) ]
-
-            -- States
-            , Css.Global.select
+            [ Css.Global.select
                 (stylesByState state)
             ]
         ]
