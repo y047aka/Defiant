@@ -258,10 +258,7 @@ fieldBasis state =
                 ]
 
             -- States
-            , each
-                [ Css.Global.label
-                , Css.Global.input
-                ]
+            , Css.Global.input
                 [ colorByState state ]
             , each
                 [ Css.Global.select
@@ -381,15 +378,15 @@ field options attributes children =
                     text ""
 
                 _ ->
-                    label [] [ text options.label ]
+                    label { state = options.state } [] [ text options.label ]
     in
     fieldBasis options.state
         attributes
         (label_ :: children)
 
 
-label : List (Attribute msg) -> List (Html msg) -> Html msg
-label =
+label : { state : State } -> List (Attribute msg) -> List (Html msg) -> Html msg
+label { state } =
     Html.styled Html.label
         [ -- .ui.form .field > label
           display block
@@ -398,6 +395,9 @@ label =
         , fontSize (em 0.92857143)
         , fontWeight bold
         , textTransform none
+
+        -- State
+        , colorByState state
         ]
 
 
