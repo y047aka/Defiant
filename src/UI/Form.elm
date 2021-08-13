@@ -262,46 +262,7 @@ fieldBasis state =
                 [ Css.Global.label
                 , Css.Global.input
                 ]
-                (case state of
-                    Success ->
-                        -- .ui.ui.form .fields.success .field label
-                        -- .ui.ui.form .fields.success .field .ui.label:not(.corner)
-                        -- .ui.ui.form .field.success label
-                        -- .ui.ui.form .field.success .ui.label:not(.corner)
-                        -- .ui.ui.form .fields.success .field .input
-                        -- .ui.ui.form .field.success .input
-                        [ color (hex "#2c662d") ]
-
-                    Info ->
-                        -- .ui.ui.form .fields.info .field label
-                        -- .ui.ui.form .fields.info .field .ui.label:not(.corner)
-                        -- .ui.ui.form .field.info label
-                        -- .ui.ui.form .field.info .ui.label:not(.corner)
-                        -- .ui.ui.form .fields.info .field .input
-                        -- .ui.ui.form .field.info .input
-                        [ color (hex "#276f86") ]
-
-                    Warning ->
-                        -- .ui.ui.form .fields.warning .field label
-                        -- .ui.ui.form .fields.warning .field .ui.label:not(.corner)
-                        -- .ui.ui.form .field.warning label
-                        -- .ui.ui.form .field.warning .ui.label:not(.corner)
-                        -- .ui.ui.form .fields.warning .field .input
-                        -- .ui.ui.form .field.warning .input
-                        [ color (hex "#573a08") ]
-
-                    Error ->
-                        -- .ui.ui.form .fields.error .field label
-                        -- .ui.ui.form .fields.error .field .ui.label:not(.corner)
-                        -- .ui.ui.form .field.error label
-                        -- .ui.ui.form .field.error .ui.label:not(.corner)
-                        -- .ui.ui.form .fields.error .field .input
-                        -- .ui.ui.form .field.error .input
-                        [ color (hex "#9f3a38") ]
-
-                    Default ->
-                        []
-                )
+                [ colorByState state ]
             , each
                 [ Css.Global.select
                 , selector "input:not([type])"
@@ -320,6 +281,49 @@ fieldBasis state =
                 (stylesByState state)
             ]
         ]
+
+
+colorByState : State -> Style
+colorByState state =
+    case state of
+        Success ->
+            -- .ui.ui.form .fields.success .field label
+            -- .ui.ui.form .fields.success .field .ui.label:not(.corner)
+            -- .ui.ui.form .field.success label
+            -- .ui.ui.form .field.success .ui.label:not(.corner)
+            -- .ui.ui.form .fields.success .field .input
+            -- .ui.ui.form .field.success .input
+            color (hex "#2c662d")
+
+        Info ->
+            -- .ui.ui.form .fields.info .field label
+            -- .ui.ui.form .fields.info .field .ui.label:not(.corner)
+            -- .ui.ui.form .field.info label
+            -- .ui.ui.form .field.info .ui.label:not(.corner)
+            -- .ui.ui.form .fields.info .field .input
+            -- .ui.ui.form .field.info .input
+            color (hex "#276f86")
+
+        Warning ->
+            -- .ui.ui.form .fields.warning .field label
+            -- .ui.ui.form .fields.warning .field .ui.label:not(.corner)
+            -- .ui.ui.form .field.warning label
+            -- .ui.ui.form .field.warning .ui.label:not(.corner)
+            -- .ui.ui.form .fields.warning .field .input
+            -- .ui.ui.form .field.warning .input
+            color (hex "#573a08")
+
+        Error ->
+            -- .ui.ui.form .fields.error .field label
+            -- .ui.ui.form .fields.error .field .ui.label:not(.corner)
+            -- .ui.ui.form .field.error label
+            -- .ui.ui.form .field.error .ui.label:not(.corner)
+            -- .ui.ui.form .fields.error .field .input
+            -- .ui.ui.form .field.error .input
+            color (hex "#9f3a38")
+
+        Default ->
+            batch []
 
 
 stylesByState : State -> List Style
