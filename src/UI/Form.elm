@@ -236,7 +236,6 @@ input { state } =
             ]
 
         -- States
-        , colorByState state
         , batch (stylesByState state)
         ]
 
@@ -312,8 +311,6 @@ colorByState state =
             -- .ui.ui.form .fields.success .field .ui.label:not(.corner)
             -- .ui.ui.form .field.success label
             -- .ui.ui.form .field.success .ui.label:not(.corner)
-            -- .ui.ui.form .fields.success .field .input
-            -- .ui.ui.form .field.success .input
             color (hex "#2c662d")
 
         Info ->
@@ -321,8 +318,6 @@ colorByState state =
             -- .ui.ui.form .fields.info .field .ui.label:not(.corner)
             -- .ui.ui.form .field.info label
             -- .ui.ui.form .field.info .ui.label:not(.corner)
-            -- .ui.ui.form .fields.info .field .input
-            -- .ui.ui.form .field.info .input
             color (hex "#276f86")
 
         Warning ->
@@ -330,8 +325,6 @@ colorByState state =
             -- .ui.ui.form .fields.warning .field .ui.label:not(.corner)
             -- .ui.ui.form .field.warning label
             -- .ui.ui.form .field.warning .ui.label:not(.corner)
-            -- .ui.ui.form .fields.warning .field .input
-            -- .ui.ui.form .field.warning .input
             color (hex "#573a08")
 
         Error ->
@@ -339,8 +332,6 @@ colorByState state =
             -- .ui.ui.form .fields.error .field .ui.label:not(.corner)
             -- .ui.ui.form .field.error label
             -- .ui.ui.form .field.error .ui.label:not(.corner)
-            -- .ui.ui.form .fields.error .field .input
-            -- .ui.ui.form .field.error .input
             color (hex "#9f3a38")
 
         Default ->
