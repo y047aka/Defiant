@@ -280,92 +280,6 @@ fieldBasis state =
         ]
 
 
-colorByState : State -> Style
-colorByState state =
-    case state of
-        Success ->
-            -- .ui.ui.form .fields.success .field label
-            -- .ui.ui.form .fields.success .field .ui.label:not(.corner)
-            -- .ui.ui.form .field.success label
-            -- .ui.ui.form .field.success .ui.label:not(.corner)
-            -- .ui.ui.form .fields.success .field .input
-            -- .ui.ui.form .field.success .input
-            color (hex "#2c662d")
-
-        Info ->
-            -- .ui.ui.form .fields.info .field label
-            -- .ui.ui.form .fields.info .field .ui.label:not(.corner)
-            -- .ui.ui.form .field.info label
-            -- .ui.ui.form .field.info .ui.label:not(.corner)
-            -- .ui.ui.form .fields.info .field .input
-            -- .ui.ui.form .field.info .input
-            color (hex "#276f86")
-
-        Warning ->
-            -- .ui.ui.form .fields.warning .field label
-            -- .ui.ui.form .fields.warning .field .ui.label:not(.corner)
-            -- .ui.ui.form .field.warning label
-            -- .ui.ui.form .field.warning .ui.label:not(.corner)
-            -- .ui.ui.form .fields.warning .field .input
-            -- .ui.ui.form .field.warning .input
-            color (hex "#573a08")
-
-        Error ->
-            -- .ui.ui.form .fields.error .field label
-            -- .ui.ui.form .fields.error .field .ui.label:not(.corner)
-            -- .ui.ui.form .field.error label
-            -- .ui.ui.form .field.error .ui.label:not(.corner)
-            -- .ui.ui.form .fields.error .field .input
-            -- .ui.ui.form .field.error .input
-            color (hex "#9f3a38")
-
-        Default ->
-            batch []
-
-
-stylesByState : State -> List Style
-stylesByState state =
-    let
-        paletteByState =
-            batch <|
-                case state of
-                    Success ->
-                        [ property "background" "#fcfff5"
-                        , color (hex "#2c662d")
-                        , borderColor (hex "#a3c293")
-                        ]
-
-                    Info ->
-                        [ property "background" "#f8ffff"
-                        , color (hex "#276f86")
-                        , borderColor (hex "#a9d5de")
-                        ]
-
-                    Warning ->
-                        [ property "background" "#fffaf3"
-                        , color (hex "#573a08")
-                        , borderColor (hex "#c9ba9b")
-                        ]
-
-                    Error ->
-                        [ property "background" "#fff6f6"
-                        , color (hex "#9f3a38")
-                        , borderColor (hex "#e0b4b4")
-                        ]
-
-                    Default ->
-                        []
-    in
-    [ paletteByState
-    , property "border-radius" "''"
-    , prefixed [] "box-shadow" "none"
-    , focus
-        [ paletteByState
-        , prefixed [] "box-shadow" "none"
-        ]
-    ]
-
-
 field : { type_ : String, label : String, state : State } -> List (Attribute msg) -> List (Html msg) -> Html msg
 field options attributes children =
     let
@@ -462,3 +376,89 @@ fromString type_ =
 
         _ ->
             Text type_
+
+
+colorByState : State -> Style
+colorByState state =
+    case state of
+        Success ->
+            -- .ui.ui.form .fields.success .field label
+            -- .ui.ui.form .fields.success .field .ui.label:not(.corner)
+            -- .ui.ui.form .field.success label
+            -- .ui.ui.form .field.success .ui.label:not(.corner)
+            -- .ui.ui.form .fields.success .field .input
+            -- .ui.ui.form .field.success .input
+            color (hex "#2c662d")
+
+        Info ->
+            -- .ui.ui.form .fields.info .field label
+            -- .ui.ui.form .fields.info .field .ui.label:not(.corner)
+            -- .ui.ui.form .field.info label
+            -- .ui.ui.form .field.info .ui.label:not(.corner)
+            -- .ui.ui.form .fields.info .field .input
+            -- .ui.ui.form .field.info .input
+            color (hex "#276f86")
+
+        Warning ->
+            -- .ui.ui.form .fields.warning .field label
+            -- .ui.ui.form .fields.warning .field .ui.label:not(.corner)
+            -- .ui.ui.form .field.warning label
+            -- .ui.ui.form .field.warning .ui.label:not(.corner)
+            -- .ui.ui.form .fields.warning .field .input
+            -- .ui.ui.form .field.warning .input
+            color (hex "#573a08")
+
+        Error ->
+            -- .ui.ui.form .fields.error .field label
+            -- .ui.ui.form .fields.error .field .ui.label:not(.corner)
+            -- .ui.ui.form .field.error label
+            -- .ui.ui.form .field.error .ui.label:not(.corner)
+            -- .ui.ui.form .fields.error .field .input
+            -- .ui.ui.form .field.error .input
+            color (hex "#9f3a38")
+
+        Default ->
+            batch []
+
+
+stylesByState : State -> List Style
+stylesByState state =
+    let
+        paletteByState =
+            batch <|
+                case state of
+                    Success ->
+                        [ property "background" "#fcfff5"
+                        , color (hex "#2c662d")
+                        , borderColor (hex "#a3c293")
+                        ]
+
+                    Info ->
+                        [ property "background" "#f8ffff"
+                        , color (hex "#276f86")
+                        , borderColor (hex "#a9d5de")
+                        ]
+
+                    Warning ->
+                        [ property "background" "#fffaf3"
+                        , color (hex "#573a08")
+                        , borderColor (hex "#c9ba9b")
+                        ]
+
+                    Error ->
+                        [ property "background" "#fff6f6"
+                        , color (hex "#9f3a38")
+                        , borderColor (hex "#e0b4b4")
+                        ]
+
+                    Default ->
+                        []
+    in
+    [ paletteByState
+    , property "border-radius" "''"
+    , prefixed [] "box-shadow" "none"
+    , focus
+        [ paletteByState
+        , prefixed [] "box-shadow" "none"
+        ]
+    ]
