@@ -21,7 +21,7 @@ import UI.Container exposing (container, textContainer)
 import UI.Dimmer as Dimmer exposing (dimmer, pageDimmer)
 import UI.Divider exposing (divider)
 import UI.Example exposing (..)
-import UI.Form exposing (State(..), field, fields, form, threeFields, twoFields)
+import UI.Form exposing (State(..), field, fields, form, textarea, threeFields, twoFields)
 import UI.Grid as Grid exposing (..)
 import UI.Header as Header exposing (..)
 import UI.Icon exposing (icon)
@@ -1366,14 +1366,14 @@ examplesForForm =
                 , state = Default
                 }
                 []
-                [ Html.Styled.textarea [] [] ]
+                [ textarea { state = Default } [] [] ]
             , field
                 { type_ = "textarea"
                 , label = "Short Text"
                 , state = Default
                 }
                 []
-                [ Html.Styled.textarea [ rows 2 ] [] ]
+                [ textarea { state = Default } [ rows 2 ] [] ]
             ]
         ]
     , example

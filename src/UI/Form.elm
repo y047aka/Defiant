@@ -4,6 +4,7 @@ module UI.Form exposing
     , fields, twoFields, threeFields
     , field
     , label
+    , textarea
     )
 
 {-|
@@ -13,6 +14,7 @@ module UI.Form exposing
 @docs fields, twoFields, threeFields
 @docs field
 @docs label
+@docs textarea
 
 -}
 
@@ -140,7 +142,6 @@ fieldBasis state =
         --
         , descendants
             [ -- Standard Inputs
-              -- .ui.form textarea
               -- .ui.form input:not([type])
               -- .ui.form input[type="date"]
               -- .ui.form input[type="datetime-local"]
@@ -154,8 +155,7 @@ fieldBasis state =
               -- .ui.form input[type="file"]
               -- .ui.form input[type="url"]
               each
-                [ Css.Global.textarea
-                , selector """input:not([type])"""
+                [ selector """input:not([type])"""
                 , selector """input[type="date"]"""
                 , selector """input[type="datetime-local"]"""
                 , selector """input[type="email"]"""
@@ -223,39 +223,6 @@ fieldBasis state =
                 , property "transition" "color 0.1s ease, border-color 0.1s ease"
                 ]
 
-            -- Text Area
-            -- .ui.input textarea
-            -- .ui.form textarea
-            , Css.Global.textarea
-                [ margin zero
-                , property "-webkit-appearance" "none"
-                , property "-webkit-tap-highlight-color" "rgba(255, 255, 255, 0)"
-                , padding2 (em 0.78571429) (em 1)
-                , property "background" "#FFFFFF"
-                , border3 (px 1) solid (rgba 34 36 38 0.15)
-                , outline none
-                , color (rgba 0 0 0 0.87)
-                , borderRadius (rem 0.28571429)
-                , prefixed [] "box-shadow" "0 0 0 0 transparent inset"
-                , property "-webkit-transition" "color 0.1s ease, border-color 0.1s ease"
-                , property "transition" "color 0.1s ease, border-color 0.1s ease"
-                , fontSize (em 1)
-                , fontFamilies fomanticFontFamilies
-                , lineHeight (num 1.2857)
-                , resize vertical
-
-                -- .ui.form textarea:not([rows])
-                , pseudoClass "not([rows])"
-                    [ height (em 12)
-                    , minHeight (em 8)
-                    , maxHeight (em 24)
-                    ]
-
-                -- .ui.form textarea
-                -- .ui.form input[type="checkbox"]
-                , verticalAlign top
-                ]
-
             -- Focus
             -- .ui.form input:not([type]):focus
             -- .ui.form input[type='date']:focus
@@ -288,18 +255,6 @@ fieldBasis state =
                 , borderRadius (rem 0.28571429)
                 , property "background" "#ffffff"
                 , prefixed [] "box-shadow" "0 0 0 0 rgba(34, 36, 38, 0.35) inset"
-                ]
-
-            -- .ui.form textarea:focus
-            , each [ selector "textarea:focus" ]
-                [ color (rgba 0 0 0 0.95)
-                , borderColor (hex "#85b7d9")
-                , borderRadius (rem 0.28571429)
-                , property "background" "#ffffff"
-
-                -- -webkit-box-shadow: 0 0 0 0 rgba(34, 36, 38, 0.35) inset;
-                , prefixed [] "box-shadow" "0 0 0 0 rgba(34, 36, 38, 0.35) inset"
-                , property "-webkit-appearance" "none"
                 ]
 
             -- States
@@ -348,8 +303,7 @@ fieldBasis state =
                         []
                 )
             , each
-                [ Css.Global.textarea
-                , Css.Global.select
+                [ Css.Global.select
                 , selector "input:not([type])"
                 , selector "input[type='date']"
                 , selector "input[type='datetime-local']"
@@ -440,6 +394,56 @@ label =
         , fontSize (em 0.92857143)
         , fontWeight bold
         , textTransform none
+        ]
+
+
+textarea : { state : State } -> List (Attribute msg) -> List (Html msg) -> Html msg
+textarea { state } =
+    Html.styled Html.textarea
+        [ -- .ui.form textarea
+          width (pct 100)
+        , verticalAlign top
+
+        -- .ui.input textarea
+        -- .ui.form textarea
+        , margin zero
+        , property "-webkit-appearance" "none"
+        , property "-webkit-tap-highlight-color" "rgba(255, 255, 255, 0)"
+        , padding2 (em 0.78571429) (em 1)
+        , property "background" "#FFFFFF"
+        , border3 (px 1) solid (rgba 34 36 38 0.15)
+        , outline none
+        , color (rgba 0 0 0 0.87)
+        , borderRadius (rem 0.28571429)
+        , prefixed [] "box-shadow" "0 0 0 0 transparent inset"
+        , property "-webkit-transition" "color 0.1s ease, border-color 0.1s ease"
+        , property "transition" "color 0.1s ease, border-color 0.1s ease"
+        , fontSize (em 1)
+        , fontFamilies fomanticFontFamilies
+        , lineHeight (num 1.2857)
+        , resize vertical
+
+        -- .ui.form textarea:not([rows])
+        , pseudoClass "not([rows])"
+            [ height (em 12)
+            , minHeight (em 8)
+            , maxHeight (em 24)
+            ]
+
+        -- .ui.form textarea:focus
+        , focus
+            [ color (rgba 0 0 0 0.95)
+            , borderColor (hex "#85b7d9")
+            , borderRadius (rem 0.28571429)
+            , property "background" "#ffffff"
+
+            -- -webkit-box-shadow: 0 0 0 0 rgba(34, 36, 38, 0.35) inset;
+            , prefixed [] "box-shadow" "0 0 0 0 rgba(34, 36, 38, 0.35) inset"
+            , property "-webkit-appearance" "none"
+            ]
+
+        -- State
+        , batch (stylesByState state)
         ]
 
 
