@@ -1,4 +1,4 @@
-module UI.Checkbox exposing (checkbox, input, label)
+module UI.Checkbox exposing (checkbox, input, label, labelBasis)
 
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
@@ -88,8 +88,8 @@ input =
         ]
 
 
-label : List (Attribute msg) -> List (Html msg) -> Html msg
-label =
+labelBasis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+labelBasis additionalStyles =
     Html.styled Html.label
         [ -- .ui.checkbox label
           cursor auto
@@ -158,4 +158,12 @@ label =
             , after
                 [ color (rgba 0 0 0 0.95) ]
             ]
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
+
+
+label : List (Attribute msg) -> List (Html msg) -> Html msg
+label =
+    labelBasis []

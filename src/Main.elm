@@ -21,7 +21,7 @@ import UI.Container exposing (container, textContainer)
 import UI.Dimmer as Dimmer exposing (dimmer, pageDimmer)
 import UI.Divider exposing (divider)
 import UI.Example exposing (..)
-import UI.Form as Form exposing (State(..), field, fields, form, textarea, threeFields, twoFields)
+import UI.Form as Form exposing (State(..), checkboxLabel, field, fields, form, textarea, threeFields, twoFields)
 import UI.Grid as Grid exposing (..)
 import UI.Header as Header exposing (..)
 import UI.Icon exposing (icon)
@@ -1245,7 +1245,7 @@ examplesForForm =
                 []
                 [ checkbox []
                     [ Checkbox.input [ id options.id, type_ "checkbox", tabindex 0 ] []
-                    , Checkbox.label [ for options.id ] [ text "I agree to the Terms and Conditions" ]
+                    , checkboxLabel { state = options.state } [ for options.id ] [ text "I agree to the Terms and Conditions" ]
                     ]
                 ]
             ]
@@ -1277,7 +1277,7 @@ examplesForForm =
                 []
                 [ checkbox []
                     [ Checkbox.input [ id "checkbox_example_1", type_ "checkbox", tabindex 0 ] []
-                    , Checkbox.label [ for "checkbox_example_1" ] [ text "I agree to the Terms and Conditions" ]
+                    , checkboxLabel { state = Default } [ for "checkbox_example_1" ] [ text "I agree to the Terms and Conditions" ]
                     ]
                 ]
             , button [ type_ "submit" ] [ text "Submit" ]
@@ -1389,7 +1389,7 @@ examplesForForm =
                 []
                 [ checkbox []
                     [ Checkbox.input [ id "checkbox_example_2", type_ "checkbox", tabindex 0 ] []
-                    , Checkbox.label [ for "checkbox_example_2" ] [ text "Checkbox" ]
+                    , checkboxLabel { state = Default } [ for "checkbox_example_2" ] [ text "Checkbox" ]
                     ]
                 ]
             ]
