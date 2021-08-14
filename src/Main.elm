@@ -416,7 +416,7 @@ view model =
                             []
                             [ container []
                                 [ checkbox []
-                                    [ input
+                                    [ Checkbox.input
                                         [ id "darkmode"
                                         , type_ "checkbox"
                                         , Attributes.checked model.darkMode
@@ -1244,7 +1244,7 @@ examplesForForm =
                 }
                 []
                 [ checkbox []
-                    [ Form.input { state = options.state }  [ id options.id, type_ "checkbox", tabindex 0 ] []
+                    [ Checkbox.input [ id options.id, type_ "checkbox", tabindex 0 ] []
                     , Checkbox.label [ for options.id ] [ text "I agree to the Terms and Conditions" ]
                     ]
                 ]
@@ -1276,7 +1276,7 @@ examplesForForm =
                 }
                 []
                 [ checkbox []
-                    [ Form.input { state = Default } [ id "checkbox_example_1", type_ "checkbox", tabindex 0 ] []
+                    [ Checkbox.input [ id "checkbox_example_1", type_ "checkbox", tabindex 0 ] []
                     , Checkbox.label [ for "checkbox_example_1" ] [ text "I agree to the Terms and Conditions" ]
                     ]
                 ]
@@ -1388,7 +1388,7 @@ examplesForForm =
                 }
                 []
                 [ checkbox []
-                    [ Form.input { state = Default } [ id "checkbox_example_2", type_ "checkbox", tabindex 0 ] []
+                    [ Checkbox.input [ id "checkbox_example_2", type_ "checkbox", tabindex 0 ] []
                     , Checkbox.label [ for "checkbox_example_2" ] [ text "Checkbox" ]
                     ]
                 ]
@@ -2004,7 +2004,7 @@ examplesForCheckbox =
         , description = "A checkbox allows a user to select a value from a small set of options, often binary"
         }
         [ checkbox []
-            [ input [ id "checkbox_example", type_ "checkbox" ] []
+            [ Checkbox.input [ id "checkbox_example", type_ "checkbox" ] []
             , Checkbox.label [ for "checkbox_example" ] [ text "Make my profile visible" ]
             ]
         ]

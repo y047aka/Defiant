@@ -1,8 +1,8 @@
-module UI.Checkbox exposing (checkbox, label)
+module UI.Checkbox exposing (checkbox, input, label)
 
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
-import Css.Global exposing (children, descendants, each, selector)
+import Css.Global exposing (generalSiblings)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
@@ -20,75 +20,70 @@ checkbox =
         , fontSize (em 1)
         , lineHeight (px 17)
         , minWidth (px 17)
+        ]
 
-        -- HTML Checkbox
-        , children
-            [ -- .ui.checkbox input[type="checkbox"]
-              -- .ui.checkbox input[type="radio"]
-              each
-                [ selector "input[type=\"checkbox\"]"
-                , selector "input[type=\"radio\"]"
-                ]
-                [ cursor pointer
-                , position absolute
-                , top zero
-                , left zero
-                , opacity zero |> important
-                , outline none
-                , zIndex (int 3)
-                , width (px 17)
-                , height (px 17)
-                ]
-            ]
 
-        -- Down
-        , descendants
-            [ -- .ui.checkbox input:active ~ label
-              selector "input:active ~ label"
-                [ color (rgba 0 0 0 0.95) ]
-            ]
-
-        -- Focus
-        , descendants
-            [ -- .ui.checkbox input:focus ~ label:before
-              selector "input:focus ~ label:before"
-                [ property "background" "#FFFFFF"
-                , borderColor (hex "#96C8DA")
-                ]
-
-            -- .ui.checkbox input:focus ~ label:after
-            , selector "input:focus ~ label:after"
-                [ color (rgba 0 0 0 0.95) ]
-
-            -- .ui.checkbox input:focus ~ label
-            , selector "input:focus ~ label"
-                [ color (rgba 0 0 0 0.95) ]
-            ]
-
-        -- Active
-        , descendants
-            [ -- .ui.checkbox input:checked ~ label:before
-              selector "input:checked ~ label:before"
-                [ property "background" "#FFFFFF"
-                , borderColor (rgba 34 36 38 0.35)
-                ]
-
-            -- .ui.checkbox input:checked ~ label:after
-            , selector "input:checked ~ label:after"
-                [ opacity (int 1)
-                , color (rgba 0 0 0 0.95)
+input : List (Attribute msg) -> List (Html msg) -> Html msg
+input =
+    Html.styled Html.input
+        [ -- .ui.checkbox input[type="checkbox"]
+          -- .ui.checkbox input[type="radio"]
+          cursor pointer
+        , position absolute
+        , top zero
+        , left zero
+        , opacity zero |> important
+        , outline none
+        , zIndex (int 3)
+        , width (px 17)
+        , height (px 17)
+        , active
+            [ generalSiblings
+                [ Css.Global.label
+                    [ -- .ui.checkbox input:active ~ label
+                      color (rgba 0 0 0 0.95)
+                    ]
                 ]
             ]
+        , focus
+            [ generalSiblings
+                [ Css.Global.label
+                    [ -- .ui.checkbox input:focus ~ label
+                      color (rgba 0 0 0 0.95)
 
-        -- Checked
-        , descendants
-            [ -- .ui.checkbox input:checked ~ .box:after,
-              -- .ui.checkbox input:checked ~ label:after
-              each
-                [ selector "input:checked ~ .box:after"
-                , selector "input:checked ~ label:after"
+                    -- .ui.checkbox input:focus ~ label:before
+                    , before
+                        [ property "background" "#FFFFFF"
+                        , borderColor (hex "#96C8DA")
+                        ]
+
+                    -- .ui.checkbox input:focus ~ label:after
+                    , after
+                        [ color (rgba 0 0 0 0.95) ]
+                    ]
                 ]
-                [ property "content" "url(\"data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='black' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e\")" ]
+            ]
+        , checked
+            [ generalSiblings
+                [ Css.Global.label
+                    [ -- .ui.checkbox input:checked ~ label:before
+                      before
+                        [ property "background" "#FFFFFF"
+                        , borderColor (rgba 34 36 38 0.35)
+                        ]
+
+                    -- .ui.checkbox input:checked ~ label:after
+                    , after
+                        [ opacity (int 1)
+                        , color (rgba 0 0 0 0.95)
+                        ]
+
+                    -- .ui.checkbox input:checked ~ .box:after
+                    -- .ui.checkbox input:checked ~ label:after
+                    , after
+                        [ property "content" "url(\"data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='black' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e\")" ]
+                    ]
+                ]
             ]
         ]
 
