@@ -22,7 +22,7 @@ import UI.Dimmer as Dimmer exposing (dimmer, pageDimmer)
 import UI.Divider exposing (divider)
 import UI.Example exposing (..)
 import UI.Form as Form exposing (State(..), checkboxLabel, field, fields, form, textarea, threeFields, twoFields)
-import UI.Grid as Grid exposing (..)
+import UI.Grid as Grid exposing (eightWideColumn, fiveColumnsGrid, fourWideColumn, grid, sixWideColumn, threeColumnsGrid, twoWideColumn)
 import UI.Header as Header exposing (..)
 import UI.Icon exposing (icon)
 import UI.Image exposing (image, smallImage, tinyImage)
@@ -523,7 +523,7 @@ view model =
 
             GridPage ->
                 { summary = PageSummary.grid
-                , contents = examplesForGrid
+                , contents = examplesForGrid { inverted = model.darkMode }
                 }
 
             MenuPage ->
@@ -1417,44 +1417,92 @@ examplesForForm =
     ]
 
 
-examplesForGrid : List (Html msg)
-examplesForGrid =
+examplesForGrid : { inverted : Bool } -> List (Html msg)
+examplesForGrid { inverted } =
+    let
+        additionalStyles =
+            [ position relative
+            , before
+                [ position absolute
+                , top (rem 1)
+                , left (rem 1)
+                , backgroundColor (hex "FAFAFA")
+                , property "content" (qt "")
+                , width (calc (pct 100) minus (rem 2))
+                , height (calc (pct 100) minus (rem 2))
+                , property "box-shadow" "0px 0px 0px 1px #DDDDDD inset"
+                ]
+            ]
+
+        dummyContent =
+            css
+                [ after
+                    [ property "content" (qt "")
+                    , display block
+                    , minHeight (px 50)
+                    , backgroundColor (rgba 86 61 124 0.1)
+                    , property "box-shadow" "0px 0px 0px 1px rgba(86, 61, 124, 0.2) inset"
+                    ]
+                ]
+    in
     [ example
         { title = "Grids"
         , description = """A grid is a structure with a long history used to align negative space in designs.
 Using a grid makes content appear to flow more naturally on your page."""
         }
-        [ let
-            dummyContent =
-                css
-                    [ after
-                        [ property "content" (qt "")
-                        , display block
-                        , minHeight (px 50)
-                        , backgroundColor (rgba 86 61 124 0.1)
-                        , property "box-shadow" "0px 0px 0px 1px rgba(86, 61, 124, 0.2) inset"
-                        ]
-                    ]
-          in
-          grid
-            [ css
-                [ position relative
-                , before
-                    [ position absolute
-                    , top (rem 1)
-                    , left (rem 1)
-                    , backgroundColor (hex "FAFAFA")
-                    , property "content" (qt "")
-                    , width (calc (pct 100) minus (rem 2))
-                    , height (calc (pct 100) minus (rem 2))
-                    , property "box-shadow" "0px 0px 0px 1px #DDDDDD inset"
-                    ]
-                ]
-            ]
+        [ grid [ css additionalStyles ]
             [ fourWideColumn [ dummyContent ] []
             , fourWideColumn [ dummyContent ] []
             , fourWideColumn [ dummyContent ] []
             , fourWideColumn [ dummyContent ] []
+            ]
+        ]
+    , example
+        { title = "Columns"
+        , description = """Grids divide horizontal space into indivisible units called "columns". All columns in a grid must specify their width as proportion of the total available row width.
+All grid systems choose an arbitrary column count to allow per row. Fomantic's default theme uses 16 columns.
+The example below shows four four wide columns will fit in the first row, 16 / 4 = 4, and three various sized columns in the second row. 2 + 8 + 6 = 16
+The default column count, and other arbitrary features of grids can be changed by adjusting Fomantic UI's underlying theming variables."""
+        }
+        [ grid [ css additionalStyles ]
+            [ fourWideColumn [ dummyContent ] []
+            , fourWideColumn [ dummyContent ] []
+            , fourWideColumn [ dummyContent ] []
+            , fourWideColumn [ dummyContent ] []
+            , twoWideColumn [ dummyContent ] []
+            , eightWideColumn [ dummyContent ] []
+            , sixWideColumn [ dummyContent ] []
+            ]
+        ]
+    , example
+        { title = "Automatic Flow"
+        , description = "Most grids do not need to specify rows. Content will automatically flow to the next row when all the grid columns are taken in the current row."
+        }
+        [ grid [ css additionalStyles ]
+            [ fourWideColumn [ dummyContent ] []
+            , fourWideColumn [ dummyContent ] []
+            , fourWideColumn [ dummyContent ] []
+            , fourWideColumn [ dummyContent ] []
+            , fourWideColumn [ dummyContent ] []
+            , fourWideColumn [ dummyContent ] []
+            , fourWideColumn [ dummyContent ] []
+            , fourWideColumn [ dummyContent ] []
+            ]
+        ]
+    , example
+        { title = "Column Content"
+        , description = "Since columns use padding to create gutters, content stylings should not be applied directly to columns, but to elements inside of columns."
+        }
+        [ let
+            imageSegment =
+                segment { inverted = inverted }
+                    []
+                    [ smallImage [ src "./static/images/wireframe/image.png" ] [] ]
+          in
+          threeColumnsGrid []
+            [ Grid.column [] [ imageSegment ]
+            , Grid.column [] [ imageSegment ]
+            , Grid.column [] [ imageSegment ]
             ]
         ]
     ]

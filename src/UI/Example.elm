@@ -77,6 +77,9 @@ example options children =
         , padding2 (em 2) zero
         , position relative
         , property "-webkit-tap-highlight-color" "transparent"
+
+        -- Override
+        , whiteSpace preWrap
         ]
         []
         (title :: description :: children)
