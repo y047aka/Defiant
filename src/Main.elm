@@ -37,6 +37,7 @@ import UI.Progress as Progress
 import UI.Rail exposing (leftRail, rightRail)
 import UI.Segment exposing (..)
 import UI.SortableTable as Table
+import UI.Step exposing (step, steps)
 import UI.Table exposing (..)
 import UI.Text exposing (..)
 import Url exposing (Url)
@@ -93,6 +94,7 @@ type Page
     | PlaceholderPage
     | RailPage
     | SegmentPage
+    | StepPage
     | TextPage
     | BreadcrumbPage
     | FormPage
@@ -146,6 +148,7 @@ type Route
     | Placeholder
     | Rail
     | Segment
+    | Step
     | Text
     | Breadcrumb
     | Form
@@ -179,6 +182,7 @@ parser =
         , Parser.map Placeholder (s "placeholder")
         , Parser.map Rail (s "rail")
         , Parser.map Segment (s "segment")
+        , Parser.map Step (s "step")
         , Parser.map Text (s "text")
         , Parser.map Breadcrumb (s "breadcrumb")
         , Parser.map Form (s "form")
@@ -250,6 +254,9 @@ routing url model =
 
             Just Segment ->
                 SegmentPage
+
+            Just Step ->
+                StepPage
 
             Just Text ->
                 TextPage
@@ -506,6 +513,11 @@ view model =
                 , contents = examplesForSegment { inverted = model.darkMode }
                 }
 
+            StepPage ->
+                { summary = PageSummary.step
+                , contents = examplesForStep
+                }
+
             TextPage ->
                 { summary = PageSummary.text
                 , contents = examplesForText { inverted = model.darkMode }
@@ -638,6 +650,7 @@ contents_ =
     , PageSummary.placeholder
     , PageSummary.rail
     , PageSummary.segment
+    , PageSummary.step
     , PageSummary.text
     , PageSummary.breadcrumb
     , PageSummary.form
@@ -1108,6 +1121,69 @@ examplesForSegment options =
         [ basicSegment options
             []
             [ p [] [ text "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo." ] ]
+        ]
+    ]
+
+
+examplesForStep : List (Html msg)
+examplesForStep =
+    [ example
+        { title = "Step"
+        , description = "A single step"
+        }
+        [ steps []
+            [ step []
+                { icon = ""
+                , title = ""
+                , description = "Shipping"
+                }
+            ]
+        ]
+    , example
+        { title = "Steps"
+        , description = "A set of steps"
+        }
+        [ steps []
+            [ step []
+                { icon = "fas fa-truck"
+                , title = "Shipping"
+                , description = "Choose your shipping options"
+                }
+            , step []
+                { icon = "fas fa-credit-card"
+                , title = "Billing"
+                , description = "Enter billing information"
+                }
+            , step []
+                { icon = "fas fa-info"
+                , title = "Confirm Order"
+                , description = ""
+                }
+            ]
+        ]
+    , example
+        { title = "Description"
+        , description = "A step can contain a description"
+        }
+        [ steps []
+            [ step []
+                { icon = ""
+                , title = "Shipping"
+                , description = "Choose your shipping options"
+                }
+            ]
+        ]
+    , example
+        { title = "Icon"
+        , description = "A step can contain an icon"
+        }
+        [ steps []
+            [ step []
+                { icon = "fas fa-truck"
+                , title = "Shipping"
+                , description = "Choose your shipping options"
+                }
+            ]
         ]
     ]
 

@@ -169,6 +169,14 @@ segment =
     , url = "/segment"
     }
 
+step : PageSummary
+step =
+    { title = "Step"
+    , description = "A step shows the completion status of an activity in a series of activities"
+    , category = Elements
+    , url = "/step"
+    }
+
 
 text : PageSummary
 text =

@@ -48,8 +48,8 @@ prefixed additionalPrefixes p v =
     case p of
         "align-items" ->
             batch
-                [ Css.property "-webkit-box-align" v
-                , Css.property "-ms-flex-align" v
+                [ property "-webkit-box-align" v
+                , property "-ms-flex-align" v
                 , originalStyle
                 ]
 
@@ -118,6 +118,13 @@ prefixed additionalPrefixes p v =
 
         "flex-wrap" ->
             default [ "-ms-" ]
+
+        "justify-content" ->
+            batch
+                [ property "-webkit-box-pack" v
+                , property "-ms-flex-pack" v
+                , originalStyle
+                ]
 
         "transform" ->
             default [ "-webkit-" ]
