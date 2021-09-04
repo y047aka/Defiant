@@ -102,6 +102,16 @@ stepBasis =
         -- .ui.steps .step:only-child
         , onlyChild
             [ borderRadius (rem 0.28571429) ]
+
+        -- .ui.steps .step:after
+        , after
+            [ display block ]
+
+        -- .ui.steps .step:last-child:after
+        , lastChild
+            [ after
+                [ display none ]
+            ]
         ]
 
 
