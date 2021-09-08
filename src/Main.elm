@@ -37,7 +37,7 @@ import UI.Progress as Progress
 import UI.Rail exposing (leftRail, rightRail)
 import UI.Segment exposing (..)
 import UI.SortableTable as Table
-import UI.Step exposing (step, steps)
+import UI.Step exposing (activeStep, completedStep, disabledStep, step, steps)
 import UI.Table exposing (..)
 import UI.Text exposing (..)
 import Url exposing (Url)
@@ -1149,12 +1149,12 @@ examplesForStep =
                 , title = "Shipping"
                 , description = "Choose your shipping options"
                 }
-            , step []
+            , activeStep []
                 { icon = "fas fa-credit-card"
                 , title = "Billing"
                 , description = "Enter billing information"
                 }
-            , step []
+            , disabledStep []
                 { icon = "fas fa-info"
                 , title = "Confirm Order"
                 , description = ""
@@ -1182,6 +1182,42 @@ examplesForStep =
                 { icon = "fas fa-truck"
                 , title = "Shipping"
                 , description = "Choose your shipping options"
+                }
+            ]
+        ]
+    , example
+        { title = "Active"
+        , description = "A step can be highlighted as active"
+        }
+        [ steps []
+            [ activeStep []
+                { icon = "fas fa-credit-card"
+                , title = "Billing"
+                , description = "Enter billing information"
+                }
+            ]
+        ]
+    , example
+        { title = "Completed"
+        , description = "A step can show that a user has completed it"
+        }
+        [ steps []
+            [ completedStep []
+                { icon = "fas fa-credit-card"
+                , title = "Billing"
+                , description = "Enter billing information"
+                }
+            ]
+        ]
+    , example
+        { title = "Disabled"
+        , description = "A step can show that it cannot be selected"
+        }
+        [ steps []
+            [ disabledStep []
+                { icon = ""
+                , title = ""
+                , description = "Billing"
                 }
             ]
         ]

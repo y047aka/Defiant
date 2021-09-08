@@ -1,4 +1,14 @@
-module UI.Step exposing (step, steps)
+module UI.Step exposing
+    ( steps
+    , step, activeStep, completedStep, disabledStep
+    )
+
+{-|
+
+@docs steps
+@docs step, activeStep, completedStep, disabledStep
+
+-}
 
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
@@ -6,6 +16,13 @@ import Css.Typography exposing (fomanticFontFamilies)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import Html.Styled.Attributes exposing (css)
 import UI.Icon as Icon
+
+
+type State
+    = Default
+    | Active
+    | Completed
+    | Disabled
 
 
 steps : List (Attribute msg) -> List (Html msg) -> Html msg
@@ -37,8 +54,8 @@ steps =
         ]
 
 
-stepBasis : List (Attribute msg) -> List (Html msg) -> Html msg
-stepBasis =
+stepBasis : { state : State } -> List (Attribute msg) -> List (Html msg) -> Html msg
+stepBasis { state } =
     Html.styled Html.div
         [ -- .ui.steps .step
           position relative
@@ -112,25 +129,79 @@ stepBasis =
             [ after
                 [ display none ]
             ]
+
+        -- State
+        , batch <|
+            case state of
+                Active ->
+                    [ -- .ui.steps .step.active
+                      cursor auto
+                    , property "background" "#F3F4F5"
+
+                    -- .ui.steps .step.active:after
+                    , after
+                        [ property "background" "#F3F4F5" ]
+                    ]
+
+                Disabled ->
+                    [ -- .ui.steps .disabled.step
+                      cursor auto
+                    , property "background" "#FFFFFF"
+                    , pointerEvents none
+
+                    -- .ui.steps .disabled.step
+                    -- .ui.steps .disabled.step .title
+                    -- .ui.steps .disabled.step .description
+                    , color (rgba 40 40 40 0.3)
+
+                    -- .ui.steps .disabled.step:after
+                    , property "background" "#FFFFFF"
+                    ]
+
+                _ ->
+                    []
+        ]
+
+
+step_ : { state : State } -> List (Attribute msg) -> { icon : String, title : String, description : String } -> Html msg
+step_ options attributes content_ =
+    stepBasis options
+        attributes
+        [ case ( content_.icon, options.state ) of
+            ( "", _ ) ->
+                text ""
+
+            ( _, Completed ) ->
+                icon options "fas fa-check"
+
+            ( icon_, _ ) ->
+                icon options icon_
+        , content options [] content_
         ]
 
 
 step : List (Attribute msg) -> { icon : String, title : String, description : String } -> Html msg
-step attributes content_ =
-    stepBasis
-        attributes
-        [ case content_.icon of
-            "" ->
-                text ""
-
-            icon_ ->
-                icon icon_
-        , content [] content_
-        ]
+step =
+    step_ { state = Default }
 
 
-icon : String -> Html msg
-icon =
+activeStep : List (Attribute msg) -> { icon : String, title : String, description : String } -> Html msg
+activeStep =
+    step_ { state = Active }
+
+
+completedStep : List (Attribute msg) -> { icon : String, title : String, description : String } -> Html msg
+completedStep =
+    step_ { state = Completed }
+
+
+disabledStep : List (Attribute msg) -> { icon : String, title : String, description : String } -> Html msg
+disabledStep =
+    step_ { state = Disabled }
+
+
+icon : { state : State } -> String -> Html msg
+icon { state } =
     Icon.icon
         [ css
             [ -- .ui.steps .step > i.icon
@@ -146,32 +217,44 @@ icon =
 
             -- .ui.steps:not(.vertical) .step > i.icon
             , width auto
+
+            -- State
+            , batch <|
+                case state of
+                    Completed ->
+                        [ -- .ui.steps .step.completed > i.icon:before
+                          -- .ui.ordered.steps .step.completed:before
+                          color (hex "#21BA45")
+                        ]
+
+                    _ ->
+                        []
             ]
         ]
 
 
-content : List (Attribute msg) -> { a | title : String, description : String } -> Html msg
-content attributes options =
+content : { state : State } -> List (Attribute msg) -> { a | title : String, description : String } -> Html msg
+content options attributes content_ =
     Html.styled Html.div
         []
         attributes
-        [ case options.title of
+        [ case content_.title of
             "" ->
                 text ""
 
             title_ ->
-                title [] [ text title_ ]
-        , case options.description of
+                title options [] [ text title_ ]
+        , case content_.description of
             "" ->
                 text ""
 
             description_ ->
-                description [] [ text description_ ]
+                description options [] [ text description_ ]
         ]
 
 
-title : List (Attribute msg) -> List (Html msg) -> Html msg
-title =
+title : { state : State } -> List (Attribute msg) -> List (Html msg) -> Html msg
+title { state } =
     Html.styled Html.div
         [ -- .ui.steps .step .title
           fontFamilies fomanticFontFamilies
@@ -180,11 +263,29 @@ title =
 
         -- .ui.steps .step > .title
         , width (pct 100)
+
+        -- State
+        , batch <|
+            case state of
+                Active ->
+                    [ -- .ui.steps .step.active .title
+                      color (hex "#4183C4")
+                    ]
+
+                Disabled ->
+                    [ -- .ui.steps .disabled.step
+                      -- .ui.steps .disabled.step .title
+                      -- .ui.steps .disabled.step .description
+                      color (rgba 40 40 40 0.3)
+                    ]
+
+                _ ->
+                    []
         ]
 
 
-description : List (Attribute msg) -> List (Html msg) -> Html msg
-description =
+description : { state : State } -> List (Attribute msg) -> List (Html msg) -> Html msg
+description { state } =
     Html.styled Html.div
         [ -- .ui.steps .step .description
           fontWeight normal
@@ -196,4 +297,17 @@ description =
 
         -- .ui.steps .step .title ~ .description
         , marginTop (em 0.25)
+
+        -- State
+        , batch <|
+            case state of
+                Disabled ->
+                    [ -- .ui.steps .disabled.step
+                      -- .ui.steps .disabled.step .title
+                      -- .ui.steps .disabled.step .description
+                      color (rgba 40 40 40 0.3)
+                    ]
+
+                _ ->
+                    []
         ]
