@@ -169,12 +169,22 @@ segment =
     , url = "/segment"
     }
 
+
 step : PageSummary
 step =
     { title = "Step"
     , description = "A step shows the completion status of an activity in a series of activities"
     , category = Elements
     , url = "/step"
+    }
+
+
+circleStep : PageSummary
+circleStep =
+    { title = "Circle Step"
+    , description = "A step shows the completion status of an activity in a series of activities"
+    , category = Elements
+    , url = "/circle-step"
     }
 
 
@@ -194,6 +204,7 @@ breadcrumb =
     , category = Collections
     , url = "/breadcrumb"
     }
+
 
 form : PageSummary
 form =

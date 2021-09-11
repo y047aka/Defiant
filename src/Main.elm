@@ -17,6 +17,7 @@ import UI.Breadcrumb exposing (BreadcrumbItem, breadcrumb)
 import UI.Button exposing (..)
 import UI.Card as Card exposing (card, cards, extraContent)
 import UI.Checkbox as Checkbox exposing (checkbox)
+import UI.CircleStep as CircleStep
 import UI.Container exposing (container, textContainer)
 import UI.Dimmer as Dimmer exposing (dimmer, pageDimmer)
 import UI.Divider exposing (divider)
@@ -95,6 +96,7 @@ type Page
     | RailPage
     | SegmentPage
     | StepPage
+    | CircleStepPage
     | TextPage
     | BreadcrumbPage
     | FormPage
@@ -149,6 +151,7 @@ type Route
     | Rail
     | Segment
     | Step
+    | CircleStep
     | Text
     | Breadcrumb
     | Form
@@ -183,6 +186,7 @@ parser =
         , Parser.map Rail (s "rail")
         , Parser.map Segment (s "segment")
         , Parser.map Step (s "step")
+        , Parser.map CircleStep (s "circle-step")
         , Parser.map Text (s "text")
         , Parser.map Breadcrumb (s "breadcrumb")
         , Parser.map Form (s "form")
@@ -257,6 +261,9 @@ routing url model =
 
             Just Step ->
                 StepPage
+
+            Just CircleStep ->
+                CircleStepPage
 
             Just Text ->
                 TextPage
@@ -518,6 +525,11 @@ view model =
                 , contents = examplesForStep
                 }
 
+            CircleStepPage ->
+                { summary = PageSummary.circleStep
+                , contents = examplesForCircleStep
+                }
+
             TextPage ->
                 { summary = PageSummary.text
                 , contents = examplesForText { inverted = model.darkMode }
@@ -651,6 +663,7 @@ contents_ =
     , PageSummary.rail
     , PageSummary.segment
     , PageSummary.step
+    , PageSummary.circleStep
     , PageSummary.text
     , PageSummary.breadcrumb
     , PageSummary.form
@@ -1215,6 +1228,105 @@ examplesForStep =
         }
         [ steps []
             [ disabledStep []
+                { icon = ""
+                , title = ""
+                , description = "Billing"
+                }
+            ]
+        ]
+    ]
+
+
+examplesForCircleStep : List (Html msg)
+examplesForCircleStep =
+    [ example
+        { title = "Step"
+        , description = "A single step"
+        }
+        [ CircleStep.steps []
+            [ CircleStep.step []
+                { icon = ""
+                , title = ""
+                , description = "Shipping"
+                }
+            ]
+        ]
+    , example
+        { title = "Steps"
+        , description = "A set of steps"
+        }
+        [ CircleStep.steps []
+            [ CircleStep.completedStep []
+                { icon = "fas fa-truck"
+                , title = "Shipping"
+                , description = "Choose your shipping options"
+                }
+            , CircleStep.activeStep []
+                { icon = "fas fa-credit-card"
+                , title = "Billing"
+                , description = "Enter billing information"
+                }
+            , CircleStep.disabledStep []
+                { icon = "fas fa-info"
+                , title = "Confirm Order"
+                , description = ""
+                }
+            ]
+        ]
+    , example
+        { title = "Description"
+        , description = "A step can contain a description"
+        }
+        [ CircleStep.steps []
+            [ CircleStep.step []
+                { icon = ""
+                , title = "Shipping"
+                , description = "Choose your shipping options"
+                }
+            ]
+        ]
+    , example
+        { title = "Icon"
+        , description = "A step can contain an icon"
+        }
+        [ CircleStep.steps []
+            [ CircleStep.step []
+                { icon = "fas fa-truck"
+                , title = "Shipping"
+                , description = "Choose your shipping options"
+                }
+            ]
+        ]
+    , example
+        { title = "Active"
+        , description = "A step can be highlighted as active"
+        }
+        [ CircleStep.steps []
+            [ CircleStep.activeStep []
+                { icon = "fas fa-credit-card"
+                , title = "Billing"
+                , description = "Enter billing information"
+                }
+            ]
+        ]
+    , example
+        { title = "Completed"
+        , description = "A step can show that a user has completed it"
+        }
+        [ CircleStep.steps []
+            [ CircleStep.completedStep []
+                { icon = "fas fa-credit-card"
+                , title = "Billing"
+                , description = "Enter billing information"
+                }
+            ]
+        ]
+    , example
+        { title = "Disabled"
+        , description = "A step can show that it cannot be selected"
+        }
+        [ CircleStep.steps []
+            [ CircleStep.disabledStep []
                 { icon = ""
                 , title = ""
                 , description = "Billing"
