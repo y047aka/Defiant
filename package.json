@@ -6,10 +6,9 @@
   "devDependencies": {
     "elm": "^0.19.1-5",
     "elm-format": "^0.8.5",
-    "elm-json": "^0.2.10",
     "elm-live": "^4.0.2",
-    "elm-review": "^2.5.3",
-    "esbuild": "^0.12.14",
-    "esbuild-plugin-elm": "0.0.4"
+    "elm-review": "^2.6.1",
+    "esbuild": "^0.13.10",
+    "esbuild-plugin-elm": "0.0.5"
   }
 }
