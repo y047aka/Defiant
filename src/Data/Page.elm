@@ -1,4 +1,4 @@
-module Data.Page exposing (Page(..), all)
+module Data.Page exposing (Page(..))
 
 
 type Page
@@ -33,50 +33,3 @@ type Page
     | Modal
     | Progress
     | SortableTable
-
-
-all : List Page
-all =
-    [ Top
-
-    -- Globals
-    , Site
-
-    -- Elements
-    , Button
-    , Container
-    , Divider
-    , Header
-    , Icon
-    , Image
-    , Input
-    , Label
-    , Placeholder
-    , Rail
-    , Segment
-    , Step
-    , CircleStep
-    , Text
-
-    -- Collections
-    , Breadcrumb
-    , Form
-    , Grid
-    , Menu
-    , Message
-    , Table
-
-    -- Views
-    , Card
-    , Item
-
-    -- Modules
-    , Accordion
-    , Checkbox
-    , Dimmer
-    , Modal
-    , Progress
-
-    -- Defiant
-    , SortableTable
-    ]

@@ -1,4 +1,4 @@
-module Data.PageSummary exposing (..)
+module Data.PageSummary exposing (Category(..), PageSummary, all, categoryToString, notFound, top)
 
 import Data.Page exposing (Page(..))
 
@@ -359,8 +359,11 @@ sortableTable =
 
 all : List PageSummary
 all =
-    [ -- Globals
-      site
+    [ notFound
+    , top
+
+    -- Globals
+    , site
 
     -- Elements
     , button
@@ -400,100 +403,3 @@ all =
     -- Defiant
     , sortableTable
     ]
-
-
-fromPage : Page -> PageSummary
-fromPage page =
-    case page of
-        NotFound ->
-            notFound
-
-        Top ->
-            top
-
-        Site ->
-            site
-
-        Button ->
-            button
-
-        Container ->
-            container
-
-        Divider ->
-            divider
-
-        Header ->
-            header
-
-        Icon ->
-            icon
-
-        Image ->
-            image
-
-        Input ->
-            input
-
-        Label ->
-            label
-
-        Placeholder ->
-            placeholder
-
-        Rail ->
-            rail
-
-        Segment ->
-            segment
-
-        Step ->
-            step
-
-        CircleStep ->
-            circleStep
-
-        Text ->
-            text
-
-        Breadcrumb ->
-            breadcrumb
-
-        Form ->
-            form
-
-        Grid ->
-            grid
-
-        Menu ->
-            menu
-
-        Message ->
-            message
-
-        Table ->
-            table
-
-        Card ->
-            card
-
-        Item ->
-            item
-
-        Accordion ->
-            accordion
-
-        Checkbox ->
-            checkbox
-
-        Dimmer ->
-            dimmer
-
-        Modal ->
-            modal
-
-        Progress ->
-            progress
-
-        SortableTable ->
-            sortableTable

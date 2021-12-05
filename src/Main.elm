@@ -7,7 +7,7 @@ import Css.FontAwesome exposing (fontAwesome)
 import Css.Global exposing (global)
 import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
-import Data.Page as Page exposing (Page(..))
+import Data.Page exposing (Page(..))
 import Data.PageSummary as PageSummary exposing (Category(..), PageSummary)
 import Html.Styled exposing (Attribute, Html, a, div, h1, h2, h3, h4, h5, input, p, span, strong, text, toUnstyled)
 import Html.Styled.Attributes as Attributes exposing (css, for, href, id, name, placeholder, rel, rows, src, tabindex, type_)
@@ -128,9 +128,8 @@ parser =
                 _ ->
                     Parser.top
     in
-    Page.all
-        |> List.map (PageSummary.fromPage >> (\summary -> Parser.map summary (pageParser summary.route)))
-        |> Parser.oneOf
+    Parser.oneOf <|
+        List.map (\summary -> Parser.map summary (pageParser summary.route)) PageSummary.all
 
 
 routing : Url -> Model -> ( Model, Cmd Msg )
