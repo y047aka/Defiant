@@ -10,7 +10,7 @@ import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
 import Html.Styled exposing (Attribute, Html, a, div, h1, h2, h3, h4, h5, input, p, span, strong, text, toUnstyled)
 import Html.Styled.Attributes as Attributes exposing (css, for, href, id, name, placeholder, rel, rows, src, tabindex, type_)
 import Html.Styled.Events exposing (onClick, onInput)
-import Page exposing (Page(..))
+import Page exposing (Page(..), toPageSummary)
 import PageSummary exposing (Category(..), PageSummary)
 import Random
 import UI.Accordion exposing (accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl)
@@ -43,6 +43,7 @@ import UI.Step exposing (activeStep, completedStep, disabledStep, step, steps)
 import UI.Table exposing (..)
 import UI.Text exposing (..)
 import Url exposing (Url)
+import Url.Builder as Builder
 import Url.Parser as Parser exposing (Parser, s)
 
 
@@ -105,38 +106,20 @@ init _ url key =
 
 parser : Parser (Page -> a) a
 parser =
-    Parser.oneOf
-        [ Parser.map Top Parser.top
-        , Parser.map Site (s "site")
-        , Parser.map Button (s "button")
-        , Parser.map Container (s "container")
-        , Parser.map Divider (s "divider")
-        , Parser.map Header (s "header")
-        , Parser.map Icon (s "icon")
-        , Parser.map Image (s "image")
-        , Parser.map Input (s "input")
-        , Parser.map Label (s "label")
-        , Parser.map Placeholder (s "placeholder")
-        , Parser.map Rail (s "rail")
-        , Parser.map Segment (s "segment")
-        , Parser.map Step (s "step")
-        , Parser.map CircleStep (s "circle-step")
-        , Parser.map Text (s "text")
-        , Parser.map Breadcrumb (s "breadcrumb")
-        , Parser.map Form (s "form")
-        , Parser.map Grid (s "grid")
-        , Parser.map Menu (s "menu")
-        , Parser.map Message (s "message")
-        , Parser.map Table (s "table")
-        , Parser.map Card (s "card")
-        , Parser.map Item (s "item")
-        , Parser.map Accordion (s "accordion")
-        , Parser.map Checkbox (s "checkbox")
-        , Parser.map Dimmer (s "dimmer")
-        , Parser.map Modal (s "modal")
-        , Parser.map Progress (s "progress")
-        , Parser.map SortableTable (s "sortable-table")
-        ]
+    let
+        pageParser page =
+            case toPageSummary page |> .route of
+                [] ->
+                    Parser.top
+
+                [ string ] ->
+                    s string
+
+                _ ->
+                    Parser.top
+    in
+    Parser.oneOf <|
+        List.map (\page -> Parser.map page (pageParser page)) Page.all
 
 
 routing : Url -> Model -> ( Model, Cmd Msg )
@@ -291,7 +274,7 @@ view model =
                 }
 
             Top ->
-                { summary = PageSummary.root
+                { summary = PageSummary.top
                 , contents = tableOfContents { inverted = model.darkMode }
                 }
 
@@ -442,24 +425,24 @@ view model =
 
 
 breadcrumbItems : PageSummary -> List BreadcrumbItem
-breadcrumbItems { title, url } =
-    case url of
-        "/" ->
+breadcrumbItems { title, route } =
+    case route of
+        [] ->
             [ { label = "Top", url = "/" } ]
 
         _ ->
             [ { label = "Top", url = "/" }
-            , { label = title, url = url }
+            , { label = title, url = Builder.absolute route [] }
             ]
 
 
 tableOfContents : { inverted : Bool } -> List (Html msg)
 tableOfContents options =
     let
-        item { title, description, url } =
+        item { title, description, route } =
             card options
                 []
-                [ a [ href url ]
+                [ a [ href (Builder.absolute route []) ]
                     [ Card.content options
                         []
                         { header = [ text title ]

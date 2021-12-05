@@ -5,7 +5,7 @@ type alias PageSummary =
     { title : String
     , description : String
     , category : Category
-    , url : String
+    , route : List String
     }
 
 
@@ -44,12 +44,12 @@ categoryToString category =
             "Defiant"
 
 
-root : PageSummary
-root =
+top : PageSummary
+top =
     { title = "Top"
     , description = ""
     , category = None
-    , url = "/"
+    , route = []
     }
 
 
@@ -58,7 +58,7 @@ notFound =
     { title = "Not Found"
     , description = ""
     , category = None
-    , url = "/404"
+    , route = [ "404" ]
     }
 
 
@@ -67,7 +67,7 @@ site =
     { title = "Site"
     , description = "A site is a set of global constraints that define the basic parameters of all UI elements"
     , category = Globals
-    , url = "/site"
+    , route = [ "site" ]
     }
 
 
@@ -76,7 +76,7 @@ button =
     { title = "Button"
     , description = "A button indicates a possible user action"
     , category = Elements
-    , url = "/button"
+    , route = [ "button" ]
     }
 
 
@@ -85,7 +85,7 @@ container =
     { title = "Container"
     , description = "A container limits content to a maximum width"
     , category = Elements
-    , url = "/container"
+    , route = [ "container" ]
     }
 
 
@@ -94,7 +94,7 @@ divider =
     { title = "Divider"
     , description = "A divider visually segments content into groups"
     , category = Elements
-    , url = "/divider"
+    , route = [ "divider" ]
     }
 
 
@@ -103,7 +103,7 @@ header =
     { title = "Header"
     , description = "A header provides a short summary of content"
     , category = Elements
-    , url = "/header"
+    , route = [ "header" ]
     }
 
 
@@ -112,7 +112,7 @@ icon =
     { title = "Icon"
     , description = "An icon is a glyph used to represent something else"
     , category = Elements
-    , url = "/icon"
+    , route = [ "icon" ]
     }
 
 
@@ -121,7 +121,7 @@ image =
     { title = "Image"
     , description = "An image is a graphic representation of something"
     , category = Elements
-    , url = "/image"
+    , route = [ "image" ]
     }
 
 
@@ -130,7 +130,7 @@ input =
     { title = "Input"
     , description = "An input is a field used to elicit a response from a user"
     , category = Elements
-    , url = "/input"
+    , route = [ "input" ]
     }
 
 
@@ -139,7 +139,7 @@ label =
     { title = "Label"
     , description = "A label displays content classification"
     , category = Elements
-    , url = "/label"
+    , route = [ "label" ]
     }
 
 
@@ -148,7 +148,7 @@ placeholder =
     { title = "Placeholder"
     , description = "A placeholder is used to reserve splace for content that soon will appear in a layout"
     , category = Elements
-    , url = "/placeholder"
+    , route = [ "placeholder" ]
     }
 
 
@@ -157,7 +157,7 @@ rail =
     { title = "Rail"
     , description = "A rail is used to show accompanying content outside the boundaries of the main view of a site"
     , category = Elements
-    , url = "/rail"
+    , route = [ "rail" ]
     }
 
 
@@ -166,7 +166,7 @@ segment =
     { title = "Segment"
     , description = "A segment is used to create a grouping of related content"
     , category = Elements
-    , url = "/segment"
+    , route = [ "segment" ]
     }
 
 
@@ -175,7 +175,7 @@ step =
     { title = "Step"
     , description = "A step shows the completion status of an activity in a series of activities"
     , category = Elements
-    , url = "/step"
+    , route = [ "step" ]
     }
 
 
@@ -184,7 +184,7 @@ circleStep =
     { title = "Circle Step"
     , description = "A step shows the completion status of an activity in a series of activities"
     , category = Elements
-    , url = "/circle-step"
+    , route = [ "circle-step" ]
     }
 
 
@@ -193,7 +193,7 @@ text =
     { title = "Text"
     , description = "A text is used to style some inline text with a simple color"
     , category = Elements
-    , url = "/text"
+    , route = [ "text" ]
     }
 
 
@@ -202,7 +202,7 @@ breadcrumb =
     { title = "Breadcrumb"
     , description = "A breadcrumb is used to show hierarchy between content"
     , category = Collections
-    , url = "/breadcrumb"
+    , route = [ "breadcrumb" ]
     }
 
 
@@ -211,7 +211,7 @@ form =
     { title = "Form"
     , description = "A form displays a set of related user input fields in a structured way"
     , category = Collections
-    , url = "/form"
+    , route = [ "form" ]
     }
 
 
@@ -220,7 +220,7 @@ grid =
     { title = "Grid"
     , description = "A grid is used to harmonize negative space in a layout"
     , category = Collections
-    , url = "/grid"
+    , route = [ "grid" ]
     }
 
 
@@ -229,7 +229,7 @@ menu =
     { title = "Menu"
     , description = "A menu displays grouped navigation actions"
     , category = Collections
-    , url = "/menu"
+    , route = [ "menu" ]
     }
 
 
@@ -238,7 +238,7 @@ message =
     { title = "Message"
     , description = "A message displays information that explains nearby content"
     , category = Collections
-    , url = "/message"
+    , route = [ "message" ]
     }
 
 
@@ -247,7 +247,7 @@ table =
     { title = "Table"
     , description = "A table displays a collections of data grouped into rows"
     , category = Collections
-    , url = "/table"
+    , route = [ "table" ]
     }
 
 
@@ -256,7 +256,7 @@ card =
     { title = "Card"
     , description = "A card displays site content in a manner similar to a playing card"
     , category = Views
-    , url = "/card"
+    , route = [ "card" ]
     }
 
 
@@ -265,7 +265,7 @@ item =
     { title = "Item"
     , description = "An item view presents large collections of site content for display"
     , category = Views
-    , url = "/item"
+    , route = [ "item" ]
     }
 
 
@@ -274,7 +274,7 @@ accordion =
     { title = "Accordion"
     , description = "An accordion allows users to toggle the display of sections of content"
     , category = Modules
-    , url = "/accordion"
+    , route = [ "accordion" ]
     }
 
 
@@ -283,7 +283,7 @@ checkbox =
     { title = "Checkbox"
     , description = "A checkbox allows a user to select a value from a small set of options, often binary"
     , category = Modules
-    , url = "/checkbox"
+    , route = [ "checkbox" ]
     }
 
 
@@ -292,7 +292,7 @@ dimmer =
     { title = "Dimmer"
     , description = "A dimmer hides distractions to focus attention on particular content"
     , category = Modules
-    , url = "/dimmer"
+    , route = [ "dimmer" ]
     }
 
 
@@ -301,7 +301,7 @@ modal =
     { title = "Modal"
     , description = "A modal displays content that temporarily blocks interactions with the main view of a site"
     , category = Modules
-    , url = "/modal"
+    , route = [ "modal" ]
     }
 
 
@@ -310,7 +310,7 @@ progress =
     { title = "Progress"
     , description = "A progress bar shows the progression of a task"
     , category = Modules
-    , url = "/progress"
+    , route = [ "progress" ]
     }
 
 
@@ -319,7 +319,7 @@ sortableTable =
     { title = "SortableTable"
     , description = "Sortable table"
     , category = Defiant
-    , url = "/sortable-table"
+    , route = [ "sortable-table" ]
     }
 
 
