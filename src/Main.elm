@@ -10,6 +10,7 @@ import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
 import Html.Styled exposing (Attribute, Html, a, div, h1, h2, h3, h4, h5, input, p, span, strong, text, toUnstyled)
 import Html.Styled.Attributes as Attributes exposing (css, for, href, id, name, placeholder, rel, rows, src, tabindex, type_)
 import Html.Styled.Events exposing (onClick, onInput)
+import Page exposing (Page(..))
 import PageSummary exposing (Category(..), PageSummary)
 import Random
 import UI.Accordion exposing (accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl)
@@ -78,40 +79,6 @@ type alias Model =
     , tableState : Table.State
     , query : String
     }
-
-
-type Page
-    = NotFound
-    | Top
-    | Site
-    | Button
-    | Container
-    | Divider
-    | Header
-    | Icon
-    | Image
-    | Input
-    | Label
-    | Placeholder
-    | Rail
-    | Segment
-    | Step
-    | CircleStep
-    | Text
-    | Breadcrumb
-    | Form
-    | Grid
-    | Menu
-    | Message
-    | Table
-    | Card
-    | Item
-    | Accordion
-    | Checkbox
-    | Dimmer
-    | Modal
-    | Progress
-    | SortableTable
 
 
 init : () -> Url -> Key -> ( Model, Cmd Msg )
