@@ -7,7 +7,7 @@ import Css.FontAwesome exposing (fontAwesome)
 import Css.Global exposing (global)
 import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
-import Data.Page as Page exposing (Page(..), toPageSummary)
+import Data.Page as Page exposing (Page(..))
 import Data.PageSummary as PageSummary exposing (Category(..), PageSummary)
 import Html.Styled exposing (Attribute, Html, a, div, h1, h2, h3, h4, h5, input, p, span, strong, text, toUnstyled)
 import Html.Styled.Attributes as Attributes exposing (css, for, href, id, name, placeholder, rel, rows, src, tabindex, type_)
@@ -69,7 +69,7 @@ main =
 
 type alias Model =
     { key : Key
-    , page : Page
+    , pageSummary : PageSummary
     , darkMode : Bool
     , count : Int
     , toggledItems : List String
@@ -85,7 +85,7 @@ type alias Model =
 init : () -> Url -> Key -> ( Model, Cmd Msg )
 init _ url key =
     { key = key
-    , page = Top
+    , pageSummary = PageSummary.top
     , darkMode = False
     , count = 0
     , toggledItems = []
@@ -104,11 +104,11 @@ init _ url key =
 -- ROUTER
 
 
-parser : Parser (Page -> a) a
+parser : Parser (PageSummary -> a) a
 parser =
     let
-        pageParser page =
-            case toPageSummary page |> .route of
+        pageParser route =
+            case route of
                 [] ->
                     Parser.top
 
@@ -118,15 +118,16 @@ parser =
                 _ ->
                     Parser.top
     in
-    Parser.oneOf <|
-        List.map (\page -> Parser.map page (pageParser page)) Page.all
+    Page.all
+        |> List.map (PageSummary.fromPage >> (\summary -> Parser.map summary (pageParser summary.route)))
+        |> Parser.oneOf
 
 
 routing : Url -> Model -> ( Model, Cmd Msg )
 routing url model =
     Parser.parse parser url
-        |> Maybe.withDefault NotFound
-        |> (\page -> ( { model | page = page }, Cmd.none ))
+        |> Maybe.withDefault PageSummary.notFound
+        |> (\pageSummary -> ( { model | pageSummary = pageSummary }, Cmd.none ))
 
 
 
@@ -224,204 +225,143 @@ update msg model =
 
 view : Model -> Document Msg
 view model =
-    let
-        document { summary, contents } =
-            { title =
-                case model.page of
-                    Top ->
-                        "Defiant"
-
-                    _ ->
-                        summary.title ++ " | Defiant"
-            , body =
-                [ toUnstyled <|
-                    div []
-                        [ global (normalize ++ additionalReset ++ globalCustomize ++ fontAwesome)
-                        , basicSegment { inverted = False }
-                            []
-                            [ container []
-                                [ breadcrumb { divider = text "/", inverted = model.darkMode }
-                                    (breadcrumbItems summary)
-                                ]
-                            ]
-                        , basicSegment { inverted = False }
-                            []
-                            [ container []
-                                [ checkbox []
-                                    [ Checkbox.input
-                                        [ id "darkmode"
-                                        , type_ "checkbox"
-                                        , Attributes.checked model.darkMode
-                                        , onClick ToggleDarkMode
-                                        ]
-                                        []
-                                    , Checkbox.label [ for "darkmode" ] [ text "Dark mode" ]
-                                    ]
-                                ]
-                            ]
-                        , basicSegment { inverted = False }
-                            []
-                            [ container [] contents ]
-                        ]
-                ]
-            }
-    in
-    document <|
-        case model.page of
-            NotFound ->
-                { summary = PageSummary.notFound
-                , contents = []
-                }
-
+    { title =
+        case model.pageSummary.page of
             Top ->
-                { summary = PageSummary.top
-                , contents = tableOfContents { inverted = model.darkMode }
-                }
+                "Defiant"
 
-            Site ->
-                { summary = PageSummary.site
-                , contents = examplesForSite
-                }
+            _ ->
+                model.pageSummary.title ++ " | Defiant"
+    , body =
+        [ toUnstyled <|
+            div [] <|
+                layout model <|
+                    case model.pageSummary.page of
+                        NotFound ->
+                            []
 
-            Button ->
-                { summary = PageSummary.button
-                , contents = examplesForButton model
-                }
+                        Top ->
+                            tableOfContents { inverted = model.darkMode }
 
-            Container ->
-                { summary = PageSummary.container
-                , contents = examplesForContainer
-                }
+                        Site ->
+                            examplesForSite
 
-            Divider ->
-                { summary = PageSummary.divider
-                , contents = examplesForDivider
-                }
+                        Button ->
+                            examplesForButton model
 
-            Header ->
-                { summary = PageSummary.header
-                , contents = examplesForHeader { inverted = model.darkMode }
-                }
+                        Container ->
+                            examplesForContainer
 
-            Icon ->
-                { summary = PageSummary.icon
-                , contents = examplesForIcon
-                }
+                        Divider ->
+                            examplesForDivider
 
-            Image ->
-                { summary = PageSummary.image
-                , contents = examplesForImage
-                }
+                        Header ->
+                            examplesForHeader { inverted = model.darkMode }
 
-            Input ->
-                { summary = PageSummary.input
-                , contents = examplesForInput
-                }
+                        Icon ->
+                            examplesForIcon
 
-            Label ->
-                { summary = PageSummary.label
-                , contents = examplesForLabel
-                }
+                        Image ->
+                            examplesForImage
 
-            Placeholder ->
-                { summary = PageSummary.placeholder
-                , contents = examplesForPlaceholder
-                }
+                        Input ->
+                            examplesForInput
 
-            Rail ->
-                { summary = PageSummary.rail
-                , contents = examplesForRail { inverted = model.darkMode }
-                }
+                        Label ->
+                            examplesForLabel
 
-            Segment ->
-                { summary = PageSummary.segment
-                , contents = examplesForSegment { inverted = model.darkMode }
-                }
+                        Placeholder ->
+                            examplesForPlaceholder
 
-            Step ->
-                { summary = PageSummary.step
-                , contents = examplesForStep
-                }
+                        Rail ->
+                            examplesForRail { inverted = model.darkMode }
 
-            CircleStep ->
-                { summary = PageSummary.circleStep
-                , contents = examplesForCircleStep
-                }
+                        Segment ->
+                            examplesForSegment { inverted = model.darkMode }
 
-            Text ->
-                { summary = PageSummary.text
-                , contents = examplesForText { inverted = model.darkMode }
-                }
+                        Step ->
+                            examplesForStep
 
-            Breadcrumb ->
-                { summary = PageSummary.breadcrumb
-                , contents = examplesForBreadcrumb { inverted = model.darkMode }
-                }
+                        CircleStep ->
+                            examplesForCircleStep
 
-            Form ->
-                { summary = PageSummary.form
-                , contents = examplesForForm
-                }
+                        Text ->
+                            examplesForText { inverted = model.darkMode }
 
-            Grid ->
-                { summary = PageSummary.grid
-                , contents = examplesForGrid { inverted = model.darkMode }
-                }
+                        Breadcrumb ->
+                            examplesForBreadcrumb { inverted = model.darkMode }
 
-            Menu ->
-                { summary = PageSummary.menu
-                , contents = examplesForMenu model
-                }
+                        Form ->
+                            examplesForForm
 
-            Message ->
-                { summary = PageSummary.message
-                , contents = examplesForMessage { inverted = model.darkMode }
-                }
+                        Grid ->
+                            examplesForGrid { inverted = model.darkMode }
 
-            Table ->
-                { summary = PageSummary.table
-                , contents = examplesForTable
-                }
+                        Menu ->
+                            examplesForMenu model
 
-            Card ->
-                { summary = PageSummary.card
-                , contents = examplesForCard { inverted = model.darkMode }
-                }
+                        Message ->
+                            examplesForMessage { inverted = model.darkMode }
 
-            Item ->
-                { summary = PageSummary.item
-                , contents = examplesForItem
-                }
+                        Table ->
+                            examplesForTable
 
-            Accordion ->
-                { summary = PageSummary.accordion
-                , contents = examplesForAccordion { inverted = model.darkMode }
-                }
+                        Card ->
+                            examplesForCard { inverted = model.darkMode }
 
-            Checkbox ->
-                { summary = PageSummary.checkbox
-                , contents = examplesForCheckbox
-                }
+                        Item ->
+                            examplesForItem
 
-            Dimmer ->
-                { summary = PageSummary.dimmer
-                , contents = examplesForDimmer model
-                }
+                        Accordion ->
+                            examplesForAccordion { inverted = model.darkMode }
 
-            Modal ->
-                { summary = PageSummary.modal
-                , contents = examplesForModal model
-                }
+                        Checkbox ->
+                            examplesForCheckbox
 
-            Progress ->
-                { summary = PageSummary.progress
-                , contents = examplesForProgress model
-                }
+                        Dimmer ->
+                            examplesForDimmer model
 
-            SortableTable ->
-                { summary = PageSummary.sortableTable
-                , contents = examplesForSortableTable model
-                }
+                        Modal ->
+                            examplesForModal model
+
+                        Progress ->
+                            examplesForProgress model
+
+                        SortableTable ->
+                            examplesForSortableTable model
+        ]
+    }
+
+
+layout : Model -> List (Html Msg) -> List (Html Msg)
+layout { pageSummary, darkMode } contents =
+    [ global (normalize ++ additionalReset ++ globalCustomize ++ fontAwesome)
+    , basicSegment { inverted = False }
+        []
+        [ container []
+            [ breadcrumb { divider = text "/", inverted = darkMode }
+                (breadcrumbItems pageSummary)
+            ]
+        ]
+    , basicSegment { inverted = False }
+        []
+        [ container []
+            [ checkbox []
+                [ Checkbox.input
+                    [ id "darkmode"
+                    , type_ "checkbox"
+                    , Attributes.checked darkMode
+                    , onClick ToggleDarkMode
+                    ]
+                    []
+                , Checkbox.label [ for "darkmode" ] [ text "Dark mode" ]
+                ]
+            ]
+        ]
+    , basicSegment { inverted = False }
+        []
+        [ container [] contents ]
+    ]
 
 
 breadcrumbItems : PageSummary -> List BreadcrumbItem

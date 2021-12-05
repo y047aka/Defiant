@@ -1,8 +1,11 @@
 module Data.PageSummary exposing (..)
 
+import Data.Page exposing (Page(..))
+
 
 type alias PageSummary =
-    { title : String
+    { page : Page
+    , title : String
     , description : String
     , category : Category
     , route : List String
@@ -46,7 +49,8 @@ categoryToString category =
 
 top : PageSummary
 top =
-    { title = "Top"
+    { page = Top
+    , title = "Top"
     , description = ""
     , category = None
     , route = []
@@ -55,7 +59,8 @@ top =
 
 notFound : PageSummary
 notFound =
-    { title = "Not Found"
+    { page = NotFound
+    , title = "Not Found"
     , description = ""
     , category = None
     , route = [ "404" ]
@@ -64,7 +69,8 @@ notFound =
 
 site : PageSummary
 site =
-    { title = "Site"
+    { page = Site
+    , title = "Site"
     , description = "A site is a set of global constraints that define the basic parameters of all UI elements"
     , category = Globals
     , route = [ "site" ]
@@ -73,7 +79,8 @@ site =
 
 button : PageSummary
 button =
-    { title = "Button"
+    { page = Button
+    , title = "Button"
     , description = "A button indicates a possible user action"
     , category = Elements
     , route = [ "button" ]
@@ -82,7 +89,8 @@ button =
 
 container : PageSummary
 container =
-    { title = "Container"
+    { page = Container
+    , title = "Container"
     , description = "A container limits content to a maximum width"
     , category = Elements
     , route = [ "container" ]
@@ -91,7 +99,8 @@ container =
 
 divider : PageSummary
 divider =
-    { title = "Divider"
+    { page = Divider
+    , title = "Divider"
     , description = "A divider visually segments content into groups"
     , category = Elements
     , route = [ "divider" ]
@@ -100,7 +109,8 @@ divider =
 
 header : PageSummary
 header =
-    { title = "Header"
+    { page = Header
+    , title = "Header"
     , description = "A header provides a short summary of content"
     , category = Elements
     , route = [ "header" ]
@@ -109,7 +119,8 @@ header =
 
 icon : PageSummary
 icon =
-    { title = "Icon"
+    { page = Icon
+    , title = "Icon"
     , description = "An icon is a glyph used to represent something else"
     , category = Elements
     , route = [ "icon" ]
@@ -118,7 +129,8 @@ icon =
 
 image : PageSummary
 image =
-    { title = "Image"
+    { page = Image
+    , title = "Image"
     , description = "An image is a graphic representation of something"
     , category = Elements
     , route = [ "image" ]
@@ -127,7 +139,8 @@ image =
 
 input : PageSummary
 input =
-    { title = "Input"
+    { page = Input
+    , title = "Input"
     , description = "An input is a field used to elicit a response from a user"
     , category = Elements
     , route = [ "input" ]
@@ -136,7 +149,8 @@ input =
 
 label : PageSummary
 label =
-    { title = "Label"
+    { page = Label
+    , title = "Label"
     , description = "A label displays content classification"
     , category = Elements
     , route = [ "label" ]
@@ -145,7 +159,8 @@ label =
 
 placeholder : PageSummary
 placeholder =
-    { title = "Placeholder"
+    { page = Placeholder
+    , title = "Placeholder"
     , description = "A placeholder is used to reserve splace for content that soon will appear in a layout"
     , category = Elements
     , route = [ "placeholder" ]
@@ -154,7 +169,8 @@ placeholder =
 
 rail : PageSummary
 rail =
-    { title = "Rail"
+    { page = Rail
+    , title = "Rail"
     , description = "A rail is used to show accompanying content outside the boundaries of the main view of a site"
     , category = Elements
     , route = [ "rail" ]
@@ -163,7 +179,8 @@ rail =
 
 segment : PageSummary
 segment =
-    { title = "Segment"
+    { page = Segment
+    , title = "Segment"
     , description = "A segment is used to create a grouping of related content"
     , category = Elements
     , route = [ "segment" ]
@@ -172,7 +189,8 @@ segment =
 
 step : PageSummary
 step =
-    { title = "Step"
+    { page = Step
+    , title = "Step"
     , description = "A step shows the completion status of an activity in a series of activities"
     , category = Elements
     , route = [ "step" ]
@@ -181,7 +199,8 @@ step =
 
 circleStep : PageSummary
 circleStep =
-    { title = "Circle Step"
+    { page = CircleStep
+    , title = "Circle Step"
     , description = "A step shows the completion status of an activity in a series of activities"
     , category = Elements
     , route = [ "circle-step" ]
@@ -190,7 +209,8 @@ circleStep =
 
 text : PageSummary
 text =
-    { title = "Text"
+    { page = Text
+    , title = "Text"
     , description = "A text is used to style some inline text with a simple color"
     , category = Elements
     , route = [ "text" ]
@@ -199,7 +219,8 @@ text =
 
 breadcrumb : PageSummary
 breadcrumb =
-    { title = "Breadcrumb"
+    { page = Breadcrumb
+    , title = "Breadcrumb"
     , description = "A breadcrumb is used to show hierarchy between content"
     , category = Collections
     , route = [ "breadcrumb" ]
@@ -208,7 +229,8 @@ breadcrumb =
 
 form : PageSummary
 form =
-    { title = "Form"
+    { page = Form
+    , title = "Form"
     , description = "A form displays a set of related user input fields in a structured way"
     , category = Collections
     , route = [ "form" ]
@@ -217,7 +239,8 @@ form =
 
 grid : PageSummary
 grid =
-    { title = "Grid"
+    { page = Grid
+    , title = "Grid"
     , description = "A grid is used to harmonize negative space in a layout"
     , category = Collections
     , route = [ "grid" ]
@@ -226,7 +249,8 @@ grid =
 
 menu : PageSummary
 menu =
-    { title = "Menu"
+    { page = Menu
+    , title = "Menu"
     , description = "A menu displays grouped navigation actions"
     , category = Collections
     , route = [ "menu" ]
@@ -235,7 +259,8 @@ menu =
 
 message : PageSummary
 message =
-    { title = "Message"
+    { page = Message
+    , title = "Message"
     , description = "A message displays information that explains nearby content"
     , category = Collections
     , route = [ "message" ]
@@ -244,7 +269,8 @@ message =
 
 table : PageSummary
 table =
-    { title = "Table"
+    { page = Table
+    , title = "Table"
     , description = "A table displays a collections of data grouped into rows"
     , category = Collections
     , route = [ "table" ]
@@ -253,7 +279,8 @@ table =
 
 card : PageSummary
 card =
-    { title = "Card"
+    { page = Card
+    , title = "Card"
     , description = "A card displays site content in a manner similar to a playing card"
     , category = Views
     , route = [ "card" ]
@@ -262,7 +289,8 @@ card =
 
 item : PageSummary
 item =
-    { title = "Item"
+    { page = Item
+    , title = "Item"
     , description = "An item view presents large collections of site content for display"
     , category = Views
     , route = [ "item" ]
@@ -271,7 +299,8 @@ item =
 
 accordion : PageSummary
 accordion =
-    { title = "Accordion"
+    { page = Accordion
+    , title = "Accordion"
     , description = "An accordion allows users to toggle the display of sections of content"
     , category = Modules
     , route = [ "accordion" ]
@@ -280,7 +309,8 @@ accordion =
 
 checkbox : PageSummary
 checkbox =
-    { title = "Checkbox"
+    { page = Checkbox
+    , title = "Checkbox"
     , description = "A checkbox allows a user to select a value from a small set of options, often binary"
     , category = Modules
     , route = [ "checkbox" ]
@@ -289,7 +319,8 @@ checkbox =
 
 dimmer : PageSummary
 dimmer =
-    { title = "Dimmer"
+    { page = Dimmer
+    , title = "Dimmer"
     , description = "A dimmer hides distractions to focus attention on particular content"
     , category = Modules
     , route = [ "dimmer" ]
@@ -298,7 +329,8 @@ dimmer =
 
 modal : PageSummary
 modal =
-    { title = "Modal"
+    { page = Modal
+    , title = "Modal"
     , description = "A modal displays content that temporarily blocks interactions with the main view of a site"
     , category = Modules
     , route = [ "modal" ]
@@ -307,7 +339,8 @@ modal =
 
 progress : PageSummary
 progress =
-    { title = "Progress"
+    { page = Progress
+    , title = "Progress"
     , description = "A progress bar shows the progression of a task"
     , category = Modules
     , route = [ "progress" ]
@@ -316,7 +349,8 @@ progress =
 
 sortableTable : PageSummary
 sortableTable =
-    { title = "SortableTable"
+    { page = SortableTable
+    , title = "SortableTable"
     , description = "Sortable table"
     , category = Defiant
     , route = [ "sortable-table" ]
@@ -366,3 +400,100 @@ all =
     -- Defiant
     , sortableTable
     ]
+
+
+fromPage : Page -> PageSummary
+fromPage page =
+    case page of
+        NotFound ->
+            notFound
+
+        Top ->
+            top
+
+        Site ->
+            site
+
+        Button ->
+            button
+
+        Container ->
+            container
+
+        Divider ->
+            divider
+
+        Header ->
+            header
+
+        Icon ->
+            icon
+
+        Image ->
+            image
+
+        Input ->
+            input
+
+        Label ->
+            label
+
+        Placeholder ->
+            placeholder
+
+        Rail ->
+            rail
+
+        Segment ->
+            segment
+
+        Step ->
+            step
+
+        CircleStep ->
+            circleStep
+
+        Text ->
+            text
+
+        Breadcrumb ->
+            breadcrumb
+
+        Form ->
+            form
+
+        Grid ->
+            grid
+
+        Menu ->
+            menu
+
+        Message ->
+            message
+
+        Table ->
+            table
+
+        Card ->
+            card
+
+        Item ->
+            item
+
+        Accordion ->
+            accordion
+
+        Checkbox ->
+            checkbox
+
+        Dimmer ->
+            dimmer
+
+        Modal ->
+            modal
+
+        Progress ->
+            progress
+
+        SortableTable ->
+            sortableTable
