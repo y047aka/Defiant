@@ -1,6 +1,6 @@
-module Page exposing (Page(..), all, toPageSummary)
+module Data.Page exposing (Page(..), all, toPageSummary)
 
-import PageSummary exposing (PageSummary)
+import Data.PageSummary exposing (PageSummary)
 
 
 type Page
@@ -88,94 +88,94 @@ toPageSummary : Page -> PageSummary
 toPageSummary page =
     case page of
         NotFound ->
-            PageSummary.notFound
+            Data.PageSummary.notFound
 
         Top ->
-            PageSummary.top
+            Data.PageSummary.top
 
         Site ->
-            PageSummary.site
+            Data.PageSummary.site
 
         Button ->
-            PageSummary.button
+            Data.PageSummary.button
 
         Container ->
-            PageSummary.container
+            Data.PageSummary.container
 
         Divider ->
-            PageSummary.divider
+            Data.PageSummary.divider
 
         Header ->
-            PageSummary.header
+            Data.PageSummary.header
 
         Icon ->
-            PageSummary.icon
+            Data.PageSummary.icon
 
         Image ->
-            PageSummary.image
+            Data.PageSummary.image
 
         Input ->
-            PageSummary.input
+            Data.PageSummary.input
 
         Label ->
-            PageSummary.label
+            Data.PageSummary.label
 
         Placeholder ->
-            PageSummary.placeholder
+            Data.PageSummary.placeholder
 
         Rail ->
-            PageSummary.rail
+            Data.PageSummary.rail
 
         Segment ->
-            PageSummary.segment
+            Data.PageSummary.segment
 
         Step ->
-            PageSummary.step
+            Data.PageSummary.step
 
         CircleStep ->
-            PageSummary.circleStep
+            Data.PageSummary.circleStep
 
         Text ->
-            PageSummary.text
+            Data.PageSummary.text
 
         Breadcrumb ->
-            PageSummary.breadcrumb
+            Data.PageSummary.breadcrumb
 
         Form ->
-            PageSummary.form
+            Data.PageSummary.form
 
         Grid ->
-            PageSummary.grid
+            Data.PageSummary.grid
 
         Menu ->
-            PageSummary.menu
+            Data.PageSummary.menu
 
         Message ->
-            PageSummary.message
+            Data.PageSummary.message
 
         Table ->
-            PageSummary.table
+            Data.PageSummary.table
 
         Card ->
-            PageSummary.card
+            Data.PageSummary.card
 
         Item ->
-            PageSummary.item
+            Data.PageSummary.item
 
         Accordion ->
-            PageSummary.accordion
+            Data.PageSummary.accordion
 
         Checkbox ->
-            PageSummary.checkbox
+            Data.PageSummary.checkbox
 
         Dimmer ->
-            PageSummary.dimmer
+            Data.PageSummary.dimmer
 
         Modal ->
-            PageSummary.modal
+            Data.PageSummary.modal
 
         Progress ->
-            PageSummary.progress
+            Data.PageSummary.progress
 
         SortableTable ->
-            PageSummary.sortableTable
+            Data.PageSummary.sortableTable

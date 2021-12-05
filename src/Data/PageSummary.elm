@@ -1,4 +1,4 @@
-module PageSummary exposing (..)
+module Data.PageSummary exposing (..)
 
 
 type alias PageSummary =
