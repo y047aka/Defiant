@@ -1,6 +1,6 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
-import Browser exposing (Document)
+import Browser
 import Browser.Navigation as Nav exposing (Key)
 import Css exposing (..)
 import Css.FontAwesome exposing (fontAwesome)
@@ -56,7 +56,17 @@ main =
     Browser.application
         { init = init
         , update = update
-        , view = view
+        , view =
+            view
+                >> (\{ title, body } ->
+                        { title = title
+                        , body =
+                            [ (global (normalize ++ additionalReset ++ globalCustomize ++ fontAwesome) :: body)
+                                |> div []
+                                |> toUnstyled
+                            ]
+                        }
+                   )
         , subscriptions = \_ -> Sub.none
         , onUrlChange = UrlChanged
         , onUrlRequest = UrlRequested
@@ -223,7 +233,7 @@ update msg model =
 -- VIEW
 
 
-view : Model -> Document Msg
+view : Model -> { title : String, body : List (Html Msg) }
 view model =
     { title =
         case model.pageSummary.page of
@@ -233,110 +243,106 @@ view model =
             _ ->
                 model.pageSummary.title ++ " | Defiant"
     , body =
-        [ toUnstyled <|
-            div [] <|
-                layout model <|
-                    case model.pageSummary.page of
-                        NotFound ->
-                            []
+        layout model <|
+            case model.pageSummary.page of
+                NotFound ->
+                    []
 
-                        Top ->
-                            tableOfContents { inverted = model.darkMode }
+                Top ->
+                    tableOfContents { inverted = model.darkMode }
 
-                        Site ->
-                            examplesForSite
+                Site ->
+                    examplesForSite
 
-                        Button ->
-                            examplesForButton model
+                Button ->
+                    examplesForButton model
 
-                        Container ->
-                            examplesForContainer
+                Container ->
+                    examplesForContainer
 
-                        Divider ->
-                            examplesForDivider
+                Divider ->
+                    examplesForDivider
 
-                        Header ->
-                            examplesForHeader { inverted = model.darkMode }
+                Header ->
+                    examplesForHeader { inverted = model.darkMode }
 
-                        Icon ->
-                            examplesForIcon
+                Icon ->
+                    examplesForIcon
 
-                        Image ->
-                            examplesForImage
+                Image ->
+                    examplesForImage
 
-                        Input ->
-                            examplesForInput
+                Input ->
+                    examplesForInput
 
-                        Label ->
-                            examplesForLabel
+                Label ->
+                    examplesForLabel
 
-                        Placeholder ->
-                            examplesForPlaceholder
+                Placeholder ->
+                    examplesForPlaceholder
 
-                        Rail ->
-                            examplesForRail { inverted = model.darkMode }
+                Rail ->
+                    examplesForRail { inverted = model.darkMode }
 
-                        Segment ->
-                            examplesForSegment { inverted = model.darkMode }
+                Segment ->
+                    examplesForSegment { inverted = model.darkMode }
 
-                        Step ->
-                            examplesForStep
+                Step ->
+                    examplesForStep
 
-                        CircleStep ->
-                            examplesForCircleStep
+                CircleStep ->
+                    examplesForCircleStep
 
-                        Text ->
-                            examplesForText { inverted = model.darkMode }
+                Text ->
+                    examplesForText { inverted = model.darkMode }
 
-                        Breadcrumb ->
-                            examplesForBreadcrumb { inverted = model.darkMode }
+                Breadcrumb ->
+                    examplesForBreadcrumb { inverted = model.darkMode }
 
-                        Form ->
-                            examplesForForm
+                Form ->
+                    examplesForForm
 
-                        Grid ->
-                            examplesForGrid { inverted = model.darkMode }
+                Grid ->
+                    examplesForGrid { inverted = model.darkMode }
 
-                        Menu ->
-                            examplesForMenu model
+                Menu ->
+                    examplesForMenu model
 
-                        Message ->
-                            examplesForMessage { inverted = model.darkMode }
+                Message ->
+                    examplesForMessage { inverted = model.darkMode }
 
-                        Table ->
-                            examplesForTable
+                Table ->
+                    examplesForTable
 
-                        Card ->
-                            examplesForCard { inverted = model.darkMode }
+                Card ->
+                    examplesForCard { inverted = model.darkMode }
 
-                        Item ->
-                            examplesForItem
+                Item ->
+                    examplesForItem
 
-                        Accordion ->
-                            examplesForAccordion { inverted = model.darkMode }
+                Accordion ->
+                    examplesForAccordion { inverted = model.darkMode }
 
-                        Checkbox ->
-                            examplesForCheckbox
+                Checkbox ->
+                    examplesForCheckbox
 
-                        Dimmer ->
-                            examplesForDimmer model
+                Dimmer ->
+                    examplesForDimmer model
 
-                        Modal ->
-                            examplesForModal model
+                Modal ->
+                    examplesForModal model
 
-                        Progress ->
-                            examplesForProgress model
+                Progress ->
+                    examplesForProgress model
 
-                        SortableTable ->
-                            examplesForSortableTable model
-        ]
+                SortableTable ->
+                    examplesForSortableTable model
     }
 
 
 layout : Model -> List (Html Msg) -> List (Html Msg)
 layout { pageSummary, darkMode } contents =
-    [ global (normalize ++ additionalReset ++ globalCustomize ++ fontAwesome)
-    , basicSegment { inverted = False }
+    [ basicSegment { inverted = False }
         []
         [ container []
             [ breadcrumb { divider = text "/", inverted = darkMode }
