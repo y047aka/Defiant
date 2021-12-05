@@ -82,62 +82,7 @@ type alias Model =
 
 type Page
     = NotFound
-    | TopPage
-    | SitePage
-    | ButtonPage
-    | ContainerPage
-    | DividerPage
-    | HeaderPage
-    | IconPage
-    | ImagePage
-    | InputPage
-    | LabelPage
-    | PlaceholderPage
-    | RailPage
-    | SegmentPage
-    | StepPage
-    | CircleStepPage
-    | TextPage
-    | BreadcrumbPage
-    | FormPage
-    | GridPage
-    | MenuPage
-    | MessagePage
-    | TablePage
-    | CardPage
-    | ItemPage
-    | AccordionPage
-    | CheckboxPage
-    | DimmerPage
-    | ModalPage
-    | ProgressPage
-    | SortableTablePage
-
-
-init : () -> Url -> Key -> ( Model, Cmd Msg )
-init _ url key =
-    { key = key
-    , page = TopPage
-    , darkMode = False
-    , count = 0
-    , toggledItems = []
-    , progress = 0
-
-    -- for SortableTable
-    , people = presidents
-    , tableState = Table.initialSort "Year"
-    , query = ""
-    }
-        |> routing url
-        |> (\( model, cmd ) -> ( model, Cmd.batch [ cmd, Random.generate NewProgress (Random.int 10 50) ] ))
-
-
-
--- ROUTER
-
-
-type Route
-    = Top
+    | Top
     | Site
     | Button
     | Container
@@ -169,7 +114,29 @@ type Route
     | SortableTable
 
 
-parser : Parser (Route -> a) a
+init : () -> Url -> Key -> ( Model, Cmd Msg )
+init _ url key =
+    { key = key
+    , page = Top
+    , darkMode = False
+    , count = 0
+    , toggledItems = []
+    , progress = 0
+
+    -- for SortableTable
+    , people = presidents
+    , tableState = Table.initialSort "Year"
+    , query = ""
+    }
+        |> routing url
+        |> (\( model, cmd ) -> ( model, Cmd.batch [ cmd, Random.generate NewProgress (Random.int 10 50) ] ))
+
+
+
+-- ROUTER
+
+
+parser : Parser (Page -> a) a
 parser =
     Parser.oneOf
         [ Parser.map Top Parser.top
@@ -207,108 +174,9 @@ parser =
 
 routing : Url -> Model -> ( Model, Cmd Msg )
 routing url model =
-    let
-        maybeRoute : Maybe Route
-        maybeRoute =
-            Parser.parse parser url
-
-        switchTo page =
-            ( { model | page = page }, Cmd.none )
-    in
-    switchTo <|
-        case maybeRoute of
-            Nothing ->
-                NotFound
-
-            Just Top ->
-                TopPage
-
-            Just Site ->
-                SitePage
-
-            Just Button ->
-                ButtonPage
-
-            Just Container ->
-                ContainerPage
-
-            Just Divider ->
-                DividerPage
-
-            Just Header ->
-                HeaderPage
-
-            Just Icon ->
-                IconPage
-
-            Just Image ->
-                ImagePage
-
-            Just Input ->
-                InputPage
-
-            Just Label ->
-                LabelPage
-
-            Just Placeholder ->
-                PlaceholderPage
-
-            Just Rail ->
-                RailPage
-
-            Just Segment ->
-                SegmentPage
-
-            Just Step ->
-                StepPage
-
-            Just CircleStep ->
-                CircleStepPage
-
-            Just Text ->
-                TextPage
-
-            Just Breadcrumb ->
-                BreadcrumbPage
-
-            Just Form ->
-                FormPage
-
-            Just Grid ->
-                GridPage
-
-            Just Menu ->
-                MenuPage
-
-            Just Message ->
-                MessagePage
-
-            Just Table ->
-                TablePage
-
-            Just Card ->
-                CardPage
-
-            Just Item ->
-                ItemPage
-
-            Just Accordion ->
-                AccordionPage
-
-            Just Checkbox ->
-                CheckboxPage
-
-            Just Dimmer ->
-                DimmerPage
-
-            Just Modal ->
-                ModalPage
-
-            Just Progress ->
-                ProgressPage
-
-            Just SortableTable ->
-                SortableTablePage
+    Parser.parse parser url
+        |> Maybe.withDefault NotFound
+        |> (\page -> ( { model | page = page }, Cmd.none ))
 
 
 
@@ -410,7 +278,7 @@ view model =
         document { summary, contents } =
             { title =
                 case model.page of
-                    TopPage ->
+                    Top ->
                         "Defiant"
 
                     _ ->
@@ -455,152 +323,152 @@ view model =
                 , contents = []
                 }
 
-            TopPage ->
+            Top ->
                 { summary = PageSummary.root
                 , contents = tableOfContents { inverted = model.darkMode }
                 }
 
-            SitePage ->
+            Site ->
                 { summary = PageSummary.site
                 , contents = examplesForSite
                 }
 
-            ButtonPage ->
+            Button ->
                 { summary = PageSummary.button
                 , contents = examplesForButton model
                 }
 
-            ContainerPage ->
+            Container ->
                 { summary = PageSummary.container
                 , contents = examplesForContainer
                 }
 
-            DividerPage ->
+            Divider ->
                 { summary = PageSummary.divider
                 , contents = examplesForDivider
                 }
 
-            HeaderPage ->
+            Header ->
                 { summary = PageSummary.header
                 , contents = examplesForHeader { inverted = model.darkMode }
                 }
 
-            IconPage ->
+            Icon ->
                 { summary = PageSummary.icon
                 , contents = examplesForIcon
                 }
 
-            ImagePage ->
+            Image ->
                 { summary = PageSummary.image
                 , contents = examplesForImage
                 }
 
-            InputPage ->
+            Input ->
                 { summary = PageSummary.input
                 , contents = examplesForInput
                 }
 
-            LabelPage ->
+            Label ->
                 { summary = PageSummary.label
                 , contents = examplesForLabel
                 }
 
-            PlaceholderPage ->
+            Placeholder ->
                 { summary = PageSummary.placeholder
                 , contents = examplesForPlaceholder
                 }
 
-            RailPage ->
+            Rail ->
                 { summary = PageSummary.rail
                 , contents = examplesForRail { inverted = model.darkMode }
                 }
 
-            SegmentPage ->
+            Segment ->
                 { summary = PageSummary.segment
                 , contents = examplesForSegment { inverted = model.darkMode }
                 }
 
-            StepPage ->
+            Step ->
                 { summary = PageSummary.step
                 , contents = examplesForStep
                 }
 
-            CircleStepPage ->
+            CircleStep ->
                 { summary = PageSummary.circleStep
                 , contents = examplesForCircleStep
                 }
 
-            TextPage ->
+            Text ->
                 { summary = PageSummary.text
                 , contents = examplesForText { inverted = model.darkMode }
                 }
 
-            BreadcrumbPage ->
+            Breadcrumb ->
                 { summary = PageSummary.breadcrumb
                 , contents = examplesForBreadcrumb { inverted = model.darkMode }
                 }
 
-            FormPage ->
+            Form ->
                 { summary = PageSummary.form
                 , contents = examplesForForm
                 }
 
-            GridPage ->
+            Grid ->
                 { summary = PageSummary.grid
                 , contents = examplesForGrid { inverted = model.darkMode }
                 }
 
-            MenuPage ->
+            Menu ->
                 { summary = PageSummary.menu
                 , contents = examplesForMenu model
                 }
 
-            MessagePage ->
+            Message ->
                 { summary = PageSummary.message
                 , contents = examplesForMessage { inverted = model.darkMode }
                 }
 
-            TablePage ->
+            Table ->
                 { summary = PageSummary.table
                 , contents = examplesForTable
                 }
 
-            CardPage ->
+            Card ->
                 { summary = PageSummary.card
                 , contents = examplesForCard { inverted = model.darkMode }
                 }
 
-            ItemPage ->
+            Item ->
                 { summary = PageSummary.item
                 , contents = examplesForItem
                 }
 
-            AccordionPage ->
+            Accordion ->
                 { summary = PageSummary.accordion
                 , contents = examplesForAccordion { inverted = model.darkMode }
                 }
 
-            CheckboxPage ->
+            Checkbox ->
                 { summary = PageSummary.checkbox
                 , contents = examplesForCheckbox
                 }
 
-            DimmerPage ->
+            Dimmer ->
                 { summary = PageSummary.dimmer
                 , contents = examplesForDimmer model
                 }
 
-            ModalPage ->
+            Modal ->
                 { summary = PageSummary.modal
                 , contents = examplesForModal model
                 }
 
-            ProgressPage ->
+            Progress ->
                 { summary = PageSummary.progress
                 , contents = examplesForProgress model
                 }
 
-            SortableTablePage ->
+            SortableTable ->
                 { summary = PageSummary.sortableTable
                 , contents = examplesForSortableTable model
                 }
