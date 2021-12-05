@@ -4,11 +4,13 @@
     "start": "elm-live src/Main.elm --pushstate --hot --open -- --debug --output=elm.js"
   },
   "devDependencies": {
-    "elm": "^0.19.1-5",
     "elm-format": "^0.8.5",
     "elm-live": "^4.0.2",
-    "elm-review": "^2.6.1",
-    "esbuild": "^0.13.10",
-    "esbuild-plugin-elm": "0.0.5"
+    "elm-review": "^2.7.0"
+  },
+  "dependencies": {
+    "elm": "^0.19.1-5",
+    "esbuild": "^0.14.2",
+    "esbuild-plugin-elm": "^0.0.7"
   }
 }
