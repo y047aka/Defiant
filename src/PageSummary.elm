@@ -321,3 +321,48 @@ sortableTable =
     , category = Defiant
     , url = "/sortable-table"
     }
+
+
+all : List PageSummary
+all =
+    [ -- Globals
+      site
+
+    -- Elements
+    , button
+    , container
+    , divider
+    , header
+    , icon
+    , image
+    , input
+    , label
+    , placeholder
+    , rail
+    , segment
+    , step
+    , circleStep
+    , text
+
+    -- Collections
+    , breadcrumb
+    , form
+    , grid
+    , menu
+    , message
+    , table
+
+    -- Views
+    , card
+    , item
+
+    -- Modules
+    , accordion
+    , checkbox
+    , dimmer
+    , modal
+    , progress
+
+    -- Defiant
+    , sortableTable
+    ]

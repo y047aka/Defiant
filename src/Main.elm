@@ -475,46 +475,12 @@ tableOfContents options =
                 []
                 [ Header.header options [] [ text (PageSummary.categoryToString category) ]
                 , cards []
-                    (List.filter (.category >> (==) category) contents_
+                    (List.filter (.category >> (==) category) PageSummary.all
                         |> List.map item
                     )
                 ]
         )
         [ Globals, Elements, Collections, Views, Modules, Defiant ]
-
-
-contents_ : List PageSummary
-contents_ =
-    [ PageSummary.site
-    , PageSummary.button
-    , PageSummary.container
-    , PageSummary.divider
-    , PageSummary.header
-    , PageSummary.icon
-    , PageSummary.image
-    , PageSummary.input
-    , PageSummary.label
-    , PageSummary.placeholder
-    , PageSummary.rail
-    , PageSummary.segment
-    , PageSummary.step
-    , PageSummary.circleStep
-    , PageSummary.text
-    , PageSummary.breadcrumb
-    , PageSummary.form
-    , PageSummary.grid
-    , PageSummary.menu
-    , PageSummary.message
-    , PageSummary.table
-    , PageSummary.card
-    , PageSummary.item
-    , PageSummary.accordion
-    , PageSummary.checkbox
-    , PageSummary.dimmer
-    , PageSummary.modal
-    , PageSummary.progress
-    , PageSummary.sortableTable
-    ]
 
 
 examplesForSite : List (Html msg)
