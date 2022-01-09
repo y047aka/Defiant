@@ -12,14 +12,15 @@
             "elm/random": "1.0.0",
             "elm/url": "1.0.0",
             "lattyware/elm-fontawesome": "5.0.0",
-            "rtfeldman/elm-css": "17.0.1",
-            "y047aka/elm-reset-css": "2.5.0"
+            "rtfeldman/elm-css": "17.0.2",
+            "y047aka/elm-reset-css": "2.6.0"
         },
         "indirect": {
             "elm/html": "1.0.0",
             "elm/svg": "1.0.1",
             "elm/time": "1.0.0",
             "elm/virtual-dom": "1.0.2",
+            "robinheghan/murmur3": "1.0.0",
             "rtfeldman/elm-hex": "1.0.0"
         }
     },

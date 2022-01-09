@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "elm": "^0.19.1-5",
-    "esbuild": "^0.14.2",
-    "esbuild-plugin-elm": "^0.0.7"
+    "esbuild": "^0.14.11",
+    "esbuild-plugin-elm": "^0.0.8"
   }
 }
