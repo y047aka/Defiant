@@ -157,6 +157,16 @@ label =
     }
 
 
+loader : PageSummary
+loader =
+    { page = Loader
+    , title = "Loader"
+    , description = "A loader alerts a user to wait for an activity to complete"
+    , category = Elements
+    , route = [ "loader" ]
+    }
+
+
 placeholder : PageSummary
 placeholder =
     { page = Placeholder
@@ -374,6 +384,7 @@ all =
     , image
     , input
     , label
+    , loader
     , placeholder
     , rail
     , segment

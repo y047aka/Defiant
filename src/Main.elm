@@ -31,6 +31,7 @@ import UI.Image exposing (image, smallImage, tinyImage)
 import UI.Input as Input
 import UI.Item as Item exposing (..)
 import UI.Label as Label exposing (..)
+import UI.Loader exposing (loader, textLoader)
 import UI.Menu as Menu exposing (..)
 import UI.Message exposing (message)
 import UI.Modal as Modal exposing (..)
@@ -276,6 +277,9 @@ view model =
 
                 Label ->
                     examplesForLabel
+
+                Loader ->
+                    examplesForLoader { inverted = model.darkMode }
 
                 Placeholder ->
                     examplesForPlaceholder
@@ -779,6 +783,42 @@ examplesForLabel =
         , brownLabel [] [ text "Brown" ]
         , greyLabel [] [ text "Grey" ]
         , blackLabel [] [ text "Black" ]
+        ]
+    ]
+
+
+examplesForLoader : { inverted : Bool } -> List (Html msg)
+examplesForLoader { inverted } =
+    [ example
+        { title = "Loader"
+        , description = "A loader"
+        }
+        [ segment { inverted = inverted }
+            []
+            [ wireframeShortParagraph
+            , dimmer { isActive = True, inverted = False }
+                []
+                [ loader { inverted = False } [] [] ]
+            ]
+        ]
+    , example
+        { title = "Text Loader"
+        , description = "A loader can contain text"
+        }
+        [ segment { inverted = inverted }
+            []
+            [ wireframeShortParagraph
+            , dimmer { isActive = True, inverted = False }
+                []
+                [ textLoader { inverted = False } [] [ text "Loading" ] ]
+            ]
+        , segment { inverted = inverted }
+            []
+            [ wireframeShortParagraph
+            , dimmer { isActive = True, inverted = True }
+                []
+                [ textLoader { inverted = True } [] [ text "Loading" ] ]
+            ]
         ]
     ]
 

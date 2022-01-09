@@ -13,6 +13,7 @@ type Page
     | Image
     | Input
     | Label
+    | Loader
     | Placeholder
     | Rail
     | Segment
