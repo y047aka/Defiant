@@ -2028,7 +2028,7 @@ examplesForDimmer { toggledItems, darkMode } =
             , div [] <|
                 List.repeat 1 (smallImage [ src "./static/images/wireframe/image.png" ] [])
             , wireframeMediaParagraph
-            , dimmer (List.member "dimmer" toggledItems) [ onClick (Toggle "dimmer") ] []
+            , dimmer { isActive = List.member "dimmer" toggledItems, inverted = False } [ onClick (Toggle "dimmer") ] []
             ]
         , button [ onClick (Toggle "dimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
         ]
@@ -2042,7 +2042,7 @@ examplesForDimmer { toggledItems, darkMode } =
             , div [] <|
                 List.repeat 1 (smallImage [ src "./static/images/wireframe/image.png" ] [])
             , wireframeMediaParagraph
-            , dimmer (List.member "contentDimmer" toggledItems)
+            , dimmer { isActive = List.member "contentDimmer" toggledItems, inverted = False }
                 [ onClick (Toggle "contentDimmer") ]
                 [ Dimmer.content []
                     [ iconHeader { inverted = True }
@@ -2069,6 +2069,20 @@ examplesForDimmer { toggledItems, darkMode } =
                     [ text "Dimmer sub-header" ]
                 ]
             ]
+        ]
+    , example
+        { title = "Inverted Dimmer"
+        , description = "A dimmer can be formatted to have its colors inverted"
+        }
+        [ segment options
+            []
+            [ wireframeShortParagraph
+            , wireframeShortParagraph
+            , dimmer { isActive = List.member "invertedDimmer" toggledItems, inverted = True }
+                [ onClick (Toggle "invertedDimmer") ]
+                []
+            ]
+        , button [ onClick (Toggle "invertedDimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
         ]
     ]
 

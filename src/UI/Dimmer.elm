@@ -5,8 +5,8 @@ import Css.Extra exposing (prefixed)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
-basis : Bool -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-basis isActive additionalStyles =
+basis : { isActive : Bool, inverted : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+basis { isActive, inverted } additionalStyles =
     Html.styled Html.div
         [ -- .ui.dimmer
           position absolute
@@ -17,7 +17,11 @@ basis isActive additionalStyles =
         , textAlign center
         , verticalAlign middle
         , padding (em 1)
-        , property "background" "rgba(0, 0, 0, 0.85)"
+        , if inverted then
+            property "background" "rgba(255, 255, 255, 0.85)"
+
+          else
+            property "background" "rgba(0, 0, 0, 0.85)"
         , if isActive then
             batch
                 [ -- .dimmed.dimmable > .ui.animating.dimmer,
@@ -58,15 +62,14 @@ basis isActive additionalStyles =
         ]
 
 
-dimmer : Bool -> List (Attribute msg) -> List (Html msg) -> Html msg
-dimmer isActive =
-    basis isActive
-        []
+dimmer : { isActive : Bool, inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+dimmer options =
+    basis options []
 
 
 pageDimmer : Bool -> List (Attribute msg) -> List (Html msg) -> Html msg
 pageDimmer isActive =
-    basis isActive
+    basis { isActive = isActive, inverted = False }
         [ -- .ui.page.dimmer
           position fixed
         , property "-webkit-transform-style" "''"
