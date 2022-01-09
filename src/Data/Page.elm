@@ -33,4 +33,5 @@ type Page
     | Dimmer
     | Modal
     | Progress
+    | Tab
     | SortableTable

@@ -41,6 +41,7 @@ import UI.Rail exposing (leftRail, rightRail)
 import UI.Segment exposing (..)
 import UI.SortableTable as Table
 import UI.Step exposing (activeStep, completedStep, disabledStep, step, steps)
+import UI.Tab exposing (State(..), tab)
 import UI.Table exposing (..)
 import UI.Text exposing (..)
 import Url exposing (Url)
@@ -337,6 +338,9 @@ view model =
 
                 Progress ->
                     examplesForProgress model
+
+                Tab ->
+                    examplesForTab
 
                 SortableTable ->
                     examplesForSortableTable model
@@ -2330,6 +2334,41 @@ examplesForProgress model =
             , disabled = True
             , state = Progress.Default
             }
+        ]
+    ]
+
+
+examplesForTab : List (Html Msg)
+examplesForTab =
+    [ example
+        { title = "Tab"
+        , description = "A basic tab"
+        }
+        [ tab { state = Inactive }
+            []
+            [ wireframeParagraph
+            , wireframeParagraph
+            ]
+        ]
+    , example
+        { title = "Active"
+        , description = "A tab can be activated, and visible on the page"
+        }
+        [ tab { state = Active }
+            []
+            [ wireframeParagraph
+            , wireframeParagraph
+            ]
+        ]
+    , example
+        { title = "Loading"
+        , description = "A tab can display a loading indicator"
+        }
+        [ tab { state = Loading }
+            []
+            [ wireframeParagraph
+            , wireframeParagraph
+            ]
         ]
     ]
 

@@ -357,6 +357,16 @@ progress =
     }
 
 
+tab : PageSummary
+tab =
+    { page = Tab
+    , title = "Tab"
+    , description = "A tab is a hidden section of content activated by a menu"
+    , category = Modules
+    , route = [ "tab" ]
+    }
+
+
 sortableTable : PageSummary
 sortableTable =
     { page = SortableTable
@@ -410,6 +420,7 @@ all =
     , dimmer
     , modal
     , progress
+    , tab
 
     -- Defiant
     , sortableTable
