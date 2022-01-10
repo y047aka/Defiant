@@ -377,6 +377,16 @@ sortableTable =
     }
 
 
+holyGrail : PageSummary
+holyGrail =
+    { page = HolyGrail
+    , title = "HolyGrail"
+    , description = "Holy grail layout."
+    , category = Defiant
+    , route = [ "holy-grail" ]
+    }
+
+
 all : List PageSummary
 all =
     [ notFound
@@ -424,4 +434,5 @@ all =
 
     -- Defiant
     , sortableTable
+    , holyGrail
     ]

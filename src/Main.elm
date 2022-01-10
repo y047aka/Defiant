@@ -9,7 +9,7 @@ import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
 import Data.Page exposing (Page(..))
 import Data.PageSummary as PageSummary exposing (Category(..), PageSummary)
-import Html.Styled exposing (Attribute, Html, a, div, h1, h2, h3, h4, h5, input, p, span, strong, text, toUnstyled)
+import Html.Styled as Html exposing (Attribute, Html, a, div, h1, h2, h3, h4, h5, input, p, span, strong, text, toUnstyled)
 import Html.Styled.Attributes as Attributes exposing (css, for, href, id, name, placeholder, rel, rows, src, tabindex, type_)
 import Html.Styled.Events exposing (onClick, onInput)
 import Random
@@ -26,6 +26,7 @@ import UI.Example exposing (..)
 import UI.Form as Form exposing (State(..), checkboxLabel, field, fields, form, textarea, threeFields, twoFields)
 import UI.Grid as Grid exposing (eightWideColumn, fiveColumnsGrid, fourWideColumn, grid, sixWideColumn, threeColumnsGrid, twoWideColumn)
 import UI.Header as Header exposing (..)
+import UI.HolyGrail exposing (holyGrail)
 import UI.Icon exposing (icon)
 import UI.Image exposing (image, smallImage, tinyImage)
 import UI.Input as Input
@@ -344,6 +345,9 @@ view model =
 
                 SortableTable ->
                     examplesForSortableTable model
+
+                HolyGrail ->
+                    examplesForHolyGrail
     }
 
 
@@ -2458,4 +2462,21 @@ presidents =
     , Person "Bill Clinton" 1946 "Hope" "Arkansas"
     , Person "Barack Obama" 1961 "Honolulu" "Hawaii"
     , Person "Donald Trump" 1946 "New York City" "New York"
+    ]
+
+
+examplesForHolyGrail : List (Html Msg)
+examplesForHolyGrail =
+    [ example
+        { title = "Holy grail"
+        , description = "Holy grail layout"
+        }
+        [ holyGrail
+            { header = [ text "header" ]
+            , main = [ wireframeParagraph ]
+            , aside_left = [ text "aside" ]
+            , aside_right = [ text "aside" ]
+            , footer = [ text "footer" ]
+            }
+        ]
     ]

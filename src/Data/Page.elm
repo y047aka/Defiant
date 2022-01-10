@@ -35,3 +35,4 @@ type Page
     | Progress
     | Tab
     | SortableTable
+    | HolyGrail
