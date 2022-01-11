@@ -83,7 +83,7 @@ init _ key =
       , progress = 0
 
       -- for SortableTable
-      , people = []
+      , people = presidents
       , tableState = Table.initialSort "Year"
       , query = ""
       }
