@@ -1,6 +1,8 @@
 module Data.PageSummary exposing (Category(..), PageSummary, all, categoryToString, notFound, top)
 
 import Data.Page exposing (Page(..))
+import Html.Styled exposing (Html)
+import Page exposing (..)
 
 
 type alias PageSummary =
@@ -9,6 +11,7 @@ type alias PageSummary =
     , description : String
     , category : Category
     , route : List String
+    , view : Page.Model -> List (Html Page.Msg)
     }
 
 
@@ -47,16 +50,6 @@ categoryToString category =
             "Defiant"
 
 
-top : PageSummary
-top =
-    { page = Top
-    , title = "Top"
-    , description = ""
-    , category = None
-    , route = []
-    }
-
-
 notFound : PageSummary
 notFound =
     { page = NotFound
@@ -64,6 +57,18 @@ notFound =
     , description = ""
     , category = None
     , route = [ "404" ]
+    , view = \_ -> []
+    }
+
+
+top : PageSummary
+top =
+    { page = Top
+    , title = "Top"
+    , description = ""
+    , category = None
+    , route = []
+    , view = \_ -> []
     }
 
 
@@ -74,6 +79,7 @@ site =
     , description = "A site is a set of global constraints that define the basic parameters of all UI elements"
     , category = Globals
     , route = [ "site" ]
+    , view = \_ -> examplesForSite
     }
 
 
@@ -84,6 +90,7 @@ button =
     , description = "A button indicates a possible user action"
     , category = Elements
     , route = [ "button" ]
+    , view = examplesForButton
     }
 
 
@@ -94,6 +101,7 @@ container =
     , description = "A container limits content to a maximum width"
     , category = Elements
     , route = [ "container" ]
+    , view = \_ -> examplesForContainer
     }
 
 
@@ -104,6 +112,7 @@ divider =
     , description = "A divider visually segments content into groups"
     , category = Elements
     , route = [ "divider" ]
+    , view = \_ -> examplesForDivider
     }
 
 
@@ -114,6 +123,7 @@ header =
     , description = "A header provides a short summary of content"
     , category = Elements
     , route = [ "header" ]
+    , view = \model -> examplesForHeader { inverted = model.darkMode }
     }
 
 
@@ -124,6 +134,7 @@ icon =
     , description = "An icon is a glyph used to represent something else"
     , category = Elements
     , route = [ "icon" ]
+    , view = \_ -> examplesForIcon
     }
 
 
@@ -134,6 +145,7 @@ image =
     , description = "An image is a graphic representation of something"
     , category = Elements
     , route = [ "image" ]
+    , view = \_ -> examplesForImage
     }
 
 
@@ -144,6 +156,7 @@ input =
     , description = "An input is a field used to elicit a response from a user"
     , category = Elements
     , route = [ "input" ]
+    , view = \_ -> examplesForInput
     }
 
 
@@ -154,6 +167,7 @@ label =
     , description = "A label displays content classification"
     , category = Elements
     , route = [ "label" ]
+    , view = \_ -> examplesForLabel
     }
 
 
@@ -164,6 +178,7 @@ loader =
     , description = "A loader alerts a user to wait for an activity to complete"
     , category = Elements
     , route = [ "loader" ]
+    , view = \model -> examplesForLoader { inverted = model.darkMode }
     }
 
 
@@ -174,6 +189,7 @@ placeholder =
     , description = "A placeholder is used to reserve splace for content that soon will appear in a layout"
     , category = Elements
     , route = [ "placeholder" ]
+    , view = \_ -> examplesForPlaceholder
     }
 
 
@@ -184,6 +200,7 @@ rail =
     , description = "A rail is used to show accompanying content outside the boundaries of the main view of a site"
     , category = Elements
     , route = [ "rail" ]
+    , view = \model -> examplesForRail { inverted = model.darkMode }
     }
 
 
@@ -194,6 +211,7 @@ segment =
     , description = "A segment is used to create a grouping of related content"
     , category = Elements
     , route = [ "segment" ]
+    , view = \model -> examplesForSegment { inverted = model.darkMode }
     }
 
 
@@ -204,6 +222,7 @@ step =
     , description = "A step shows the completion status of an activity in a series of activities"
     , category = Elements
     , route = [ "step" ]
+    , view = \_ -> examplesForStep
     }
 
 
@@ -214,6 +233,7 @@ circleStep =
     , description = "A step shows the completion status of an activity in a series of activities"
     , category = Elements
     , route = [ "circle-step" ]
+    , view = \_ -> examplesForCircleStep
     }
 
 
@@ -224,6 +244,7 @@ text =
     , description = "A text is used to style some inline text with a simple color"
     , category = Elements
     , route = [ "text" ]
+    , view = \model -> examplesForText { inverted = model.darkMode }
     }
 
 
@@ -234,6 +255,7 @@ breadcrumb =
     , description = "A breadcrumb is used to show hierarchy between content"
     , category = Collections
     , route = [ "breadcrumb" ]
+    , view = \model -> examplesForBreadcrumb { inverted = model.darkMode }
     }
 
 
@@ -244,6 +266,7 @@ form =
     , description = "A form displays a set of related user input fields in a structured way"
     , category = Collections
     , route = [ "form" ]
+    , view = \_ -> examplesForForm
     }
 
 
@@ -254,6 +277,7 @@ grid =
     , description = "A grid is used to harmonize negative space in a layout"
     , category = Collections
     , route = [ "grid" ]
+    , view = \model -> examplesForGrid { inverted = model.darkMode }
     }
 
 
@@ -264,6 +288,7 @@ menu =
     , description = "A menu displays grouped navigation actions"
     , category = Collections
     , route = [ "menu" ]
+    , view = examplesForMenu
     }
 
 
@@ -274,6 +299,7 @@ message =
     , description = "A message displays information that explains nearby content"
     , category = Collections
     , route = [ "message" ]
+    , view = \model -> examplesForMessage { inverted = model.darkMode }
     }
 
 
@@ -284,6 +310,7 @@ table =
     , description = "A table displays a collections of data grouped into rows"
     , category = Collections
     , route = [ "table" ]
+    , view = \_ -> examplesForTable
     }
 
 
@@ -294,6 +321,7 @@ card =
     , description = "A card displays site content in a manner similar to a playing card"
     , category = Views
     , route = [ "card" ]
+    , view = \model -> examplesForCard { inverted = model.darkMode }
     }
 
 
@@ -304,6 +332,7 @@ item =
     , description = "An item view presents large collections of site content for display"
     , category = Views
     , route = [ "item" ]
+    , view = \_ -> examplesForItem
     }
 
 
@@ -314,6 +343,7 @@ accordion =
     , description = "An accordion allows users to toggle the display of sections of content"
     , category = Modules
     , route = [ "accordion" ]
+    , view = \model -> examplesForAccordion { inverted = model.darkMode }
     }
 
 
@@ -324,6 +354,7 @@ checkbox =
     , description = "A checkbox allows a user to select a value from a small set of options, often binary"
     , category = Modules
     , route = [ "checkbox" ]
+    , view = \_ -> examplesForCheckbox
     }
 
 
@@ -334,6 +365,7 @@ dimmer =
     , description = "A dimmer hides distractions to focus attention on particular content"
     , category = Modules
     , route = [ "dimmer" ]
+    , view = examplesForDimmer
     }
 
 
@@ -344,6 +376,7 @@ modal =
     , description = "A modal displays content that temporarily blocks interactions with the main view of a site"
     , category = Modules
     , route = [ "modal" ]
+    , view = examplesForModal
     }
 
 
@@ -354,6 +387,7 @@ progress =
     , description = "A progress bar shows the progression of a task"
     , category = Modules
     , route = [ "progress" ]
+    , view = examplesForProgress
     }
 
 
@@ -364,6 +398,7 @@ tab =
     , description = "A tab is a hidden section of content activated by a menu"
     , category = Modules
     , route = [ "tab" ]
+    , view = \_ -> examplesForTab
     }
 
 
@@ -374,6 +409,7 @@ sortableTable =
     , description = "Sortable table"
     , category = Defiant
     , route = [ "sortable-table" ]
+    , view = examplesForSortableTable
     }
 
 
@@ -384,6 +420,7 @@ holyGrail =
     , description = "Holy grail layout."
     , category = Defiant
     , route = [ "holy-grail" ]
+    , view = \_ -> examplesForHolyGrail
     }
 
 
