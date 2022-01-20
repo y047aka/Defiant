@@ -1,10 +1,12 @@
 module Category.Collections exposing
-    ( Model, init, Msg, update
+    ( Architecture
+    , Model, init, Msg, update
     , examplesForBreadcrumb, examplesForForm, examplesForGrid, examplesForMenu, examplesForMessage, examplesForTable
     )
 
 {-|
 
+@docs Architecture
 @docs Model, init, Msg, update
 @docs examplesForBreadcrumb, examplesForForm, examplesForGrid, examplesForMenu, examplesForMessage, examplesForTable
 
@@ -13,6 +15,7 @@ module Category.Collections exposing
 import Css exposing (..)
 import Html.Styled as Html exposing (Html, div, input, p, text)
 import Html.Styled.Attributes as Attributes exposing (css, for, href, id, name, placeholder, rel, rows, src, tabindex, type_)
+import Shared exposing (Shared)
 import UI.Breadcrumb exposing (breadcrumb)
 import UI.Button exposing (..)
 import UI.Checkbox as Checkbox exposing (checkbox)
@@ -29,13 +32,20 @@ import UI.Segment exposing (..)
 import UI.Table exposing (..)
 
 
+type alias Architecture =
+    { init : Shared -> ( Model, Cmd Msg )
+    , update : Msg -> Model -> ( Model, Cmd Msg )
+    , view : Model -> List (Html Msg)
+    }
+
+
 type alias Model =
-    { darkMode : Bool }
+    { shared : Shared }
 
 
-init : Bool -> ( Model, Cmd Msg )
-init darkMode =
-    ( { darkMode = darkMode }, Cmd.none )
+init : Shared -> ( Model, Cmd Msg )
+init shared =
+    ( { shared = shared }, Cmd.none )
 
 
 type Msg
@@ -397,8 +407,8 @@ The default column count, and other arbitrary features of grids can be changed b
     ]
 
 
-examplesForMenu : Model -> List (Html msg)
-examplesForMenu model =
+examplesForMenu : { inverted : Bool } -> List (Html msg)
+examplesForMenu { inverted } =
     [ example
         { title = "Secondary Menu"
         , description = "A menu can adjust its appearance to de-emphasize its contents"
@@ -420,29 +430,29 @@ examplesForMenu model =
         { title = "Vertical Menu"
         , description = "A vertical menu displays elements vertically.."
         }
-        [ verticalMenu { inverted = model.darkMode, additionalStyles = [] } [] <|
-            [ verticalMenuActiveItem { inverted = model.darkMode } [] <|
+        [ verticalMenu { inverted = inverted, additionalStyles = [] } [] <|
+            [ verticalMenuActiveItem { inverted = inverted } [] <|
                 [ text "Inbox"
                 , verticalMenuActiveItemLabel [] [ text "1" ]
                 ]
-            , verticalMenuItem { inverted = model.darkMode, additionalStyles = [] } [] <|
+            , verticalMenuItem { inverted = inverted, additionalStyles = [] } [] <|
                 [ text "Spam"
                 , verticalMenuActiveItemLabel [] [ text "51" ]
                 ]
-            , verticalMenuItem { inverted = model.darkMode, additionalStyles = [] } [] <|
+            , verticalMenuItem { inverted = inverted, additionalStyles = [] } [] <|
                 [ text "Updates"
                 , verticalMenuActiveItemLabel [] [ text "1" ]
                 ]
-            , verticalMenuItem { inverted = model.darkMode, additionalStyles = [] } [] [ text "Search mail..." ]
+            , verticalMenuItem { inverted = inverted, additionalStyles = [] } [] [ text "Search mail..." ]
             ]
         ]
     , example
         { title = "Link Item"
         , description = "A menu may contain a link item, or an item formatted as if it is a link."
         }
-        [ verticalMenu { inverted = model.darkMode, additionalStyles = [] } [] <|
-            [ verticalMenuLinkItem { inverted = model.darkMode, additionalStyles = [] } [ href "http://www.google.com", Attributes.target "_blank", rel "noopener" ] [ text "Visit Google" ]
-            , verticalMenuLinkItem { inverted = model.darkMode, additionalStyles = [] } [] [ text "Javascript Link" ]
+        [ verticalMenu { inverted = inverted, additionalStyles = [] } [] <|
+            [ verticalMenuLinkItem { inverted = inverted, additionalStyles = [] } [ href "http://www.google.com", Attributes.target "_blank", rel "noopener" ] [ text "Visit Google" ]
+            , verticalMenuLinkItem { inverted = inverted, additionalStyles = [] } [] [ text "Javascript Link" ]
             ]
         ]
     , example

@@ -1,10 +1,12 @@
 module Category.Elements exposing
-    ( Model, init, Msg, update
+    ( Architecture
+    , Model, init, Msg, update
     , examplesForButton, examplesForContainer, examplesForDivider, examplesForHeader, examplesForIcon, examplesForImage, examplesForInput, examplesForLabel, examplesForLoader, examplesForPlaceholder, examplesForRail, examplesForSegment, examplesForStep, examplesForCircleStep, examplesForText
     )
 
 {-|
 
+@docs Architecture
 @docs Model, init, Msg, update
 @docs examplesForButton, examplesForContainer, examplesForDivider, examplesForHeader, examplesForIcon, examplesForImage, examplesForInput, examplesForLabel, examplesForLoader, examplesForPlaceholder, examplesForRail, examplesForSegment, examplesForStep, examplesForCircleStep, examplesForText
 
@@ -14,6 +16,7 @@ import Css exposing (..)
 import Html.Styled as Html exposing (Attribute, Html, a, h2, input, p, strong, text)
 import Html.Styled.Attributes exposing (css, href, placeholder, src, type_)
 import Html.Styled.Events exposing (onClick)
+import Shared exposing (Shared)
 import UI.Button exposing (..)
 import UI.CircleStep as CircleStep
 import UI.Container exposing (container, textContainer)
@@ -35,15 +38,22 @@ import UI.Table exposing (..)
 import UI.Text exposing (..)
 
 
+type alias Architecture =
+    { init : Shared -> ( Model, Cmd Msg )
+    , update : Msg -> Model -> ( Model, Cmd Msg )
+    , view : Model -> List (Html Msg)
+    }
+
+
 type alias Model =
-    { darkMode : Bool
+    { shared : Shared
     , count : Int
     }
 
 
-init : Bool -> ( Model, Cmd Msg )
-init darkMode =
-    ( { darkMode = darkMode
+init : Shared -> ( Model, Cmd Msg )
+init shared =
+    ( { shared = shared
       , count = 0
       }
     , Cmd.none

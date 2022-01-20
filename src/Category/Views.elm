@@ -1,10 +1,12 @@
 module Category.Views exposing
-    ( Model, init, Msg, update
+    ( Architecture
+    , Model, init, Msg, update
     , examplesForCard, examplesForItem
     )
 
 {-|
 
+@docs Architecture
 @docs Model, init, Msg, update
 @docs examplesForCard, examplesForItem
 
@@ -12,6 +14,7 @@ module Category.Views exposing
 
 import Html.Styled as Html exposing (Html, a, p, span, text)
 import Html.Styled.Attributes exposing (name, src, type_)
+import Shared exposing (Shared)
 import UI.Card as Card exposing (card, cards, extraContent)
 import UI.Example exposing (..)
 import UI.Icon exposing (icon)
@@ -19,14 +22,20 @@ import UI.Image exposing (image, smallImage, tinyImage)
 import UI.Item as Item exposing (..)
 
 
-type alias Model =
-    { darkMode : Bool
+type alias Architecture =
+    { init : Shared -> ( Model, Cmd Msg )
+    , update : Msg -> Model -> ( Model, Cmd Msg )
+    , view : Model -> List (Html Msg)
     }
 
 
-init : Bool -> ( Model, Cmd Msg )
-init darkMode =
-    ( { darkMode = darkMode }, Cmd.none )
+type alias Model =
+    { shared : Shared }
+
+
+init : Shared -> ( Model, Cmd Msg )
+init shared =
+    ( { shared = shared }, Cmd.none )
 
 
 type Msg

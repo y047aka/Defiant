@@ -1,23 +1,37 @@
 module Category.Globals exposing
-    ( Msg, update
+    ( Architecture
+    , Model, init, Msg, update
     , examplesForSite
     )
 
 {-|
 
-@docs Msg, update
+@docs Architecture
+@docs Model, init, Msg, update
 @docs examplesForSite
 
 -}
 
-import Browser.Navigation exposing (Key)
 import Css exposing (..)
 import Html.Styled as Html exposing (Html, h1, h2, h3, h4, h5, p, text)
+import Shared exposing (Shared)
 import UI.Example exposing (..)
 
 
+type alias Architecture =
+    { init : Shared -> ( Model, Cmd Msg )
+    , update : Msg -> Model -> ( Model, Cmd Msg )
+    , view : Model -> List (Html Msg)
+    }
+
+
 type alias Model =
-    { key : Key }
+    { shared : Shared }
+
+
+init : Shared -> ( Model, Cmd Msg )
+init shared =
+    ( { shared = shared }, Cmd.none )
 
 
 type Msg

@@ -1,11 +1,13 @@
 module Category.Defiant exposing
-    ( Model, init, Msg, update
+    ( Architecture
+    , Model, init, Msg, update
     , examplesForSortableTable, examplesForHolyGrail
     , presidents
     )
 
 {-|
 
+@docs Architecture
 @docs Model, init, Msg, update
 @docs examplesForSortableTable, examplesForHolyGrail
 @docs presidents
@@ -15,21 +17,31 @@ module Category.Defiant exposing
 import Html.Styled as Html exposing (Html, input, text)
 import Html.Styled.Attributes exposing (placeholder)
 import Html.Styled.Events exposing (onInput)
+import Shared exposing (Shared)
 import UI.Example exposing (example, wireframeParagraph)
 import UI.HolyGrail exposing (holyGrail)
 import UI.SortableTable as Table
 
 
+type alias Architecture =
+    { init : Shared -> ( Model, Cmd Msg )
+    , update : Msg -> Model -> ( Model, Cmd Msg )
+    , view : Model -> List (Html Msg)
+    }
+
+
 type alias Model =
-    { people : List Person
+    { shared : Shared
+    , people : List Person
     , tableState : Table.State
     , query : String
     }
 
 
-init : ( Model, Cmd Msg )
-init =
-    ( { people = presidents
+init : Shared -> ( Model, Cmd Msg )
+init shared =
+    ( { shared = shared
+      , people = presidents
       , tableState = Table.initialSort "Year"
       , query = ""
       }

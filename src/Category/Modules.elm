@@ -1,10 +1,12 @@
 module Category.Modules exposing
-    ( Model, init, Msg, update
+    ( Architecture
+    , Model, init, Msg, update
     , examplesForAccordion, examplesForCheckbox, examplesForDimmer, examplesForModal, examplesForProgress, examplesForTab
     )
 
 {-|
 
+@docs Architecture
 @docs Model, init, Msg, update
 @docs examplesForAccordion, examplesForCheckbox, examplesForDimmer, examplesForModal, examplesForProgress, examplesForTab
 
@@ -14,6 +16,7 @@ import Html.Styled as Html exposing (Html, a, div, p, text)
 import Html.Styled.Attributes as Attributes exposing (for, href, id, src, type_)
 import Html.Styled.Events exposing (onClick)
 import Random
+import Shared exposing (Shared)
 import UI.Accordion exposing (accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl)
 import UI.Button exposing (..)
 import UI.Checkbox as Checkbox exposing (checkbox)
@@ -29,16 +32,23 @@ import UI.Segment exposing (..)
 import UI.Tab exposing (State(..), tab)
 
 
+type alias Architecture =
+    { init : Shared -> ( Model, Cmd Msg )
+    , update : Msg -> Model -> ( Model, Cmd Msg )
+    , view : Model -> List (Html Msg)
+    }
+
+
 type alias Model =
-    { darkMode : Bool
+    { shared : Shared
     , toggledItems : List String
     , progress : Float
     }
 
 
-init : Bool -> ( Model, Cmd Msg )
-init darkMode =
-    ( { darkMode = darkMode
+init : Shared -> ( Model, Cmd Msg )
+init shared =
+    ( { shared = shared
       , toggledItems = []
       , progress = 0
       }
