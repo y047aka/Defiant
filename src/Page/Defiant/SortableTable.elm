@@ -1,4 +1,4 @@
-module Category.Defiant exposing
+module Page.Defiant.SortableTable exposing
     ( Architecture, architecture
     , Model, Msg
     , presidents
@@ -12,13 +12,11 @@ module Category.Defiant exposing
 
 -}
 
-import Data.Page exposing (Page(..))
-import Html.Styled as Html exposing (Html, input, text)
+import Html.Styled as Html exposing (Html, input)
 import Html.Styled.Attributes exposing (placeholder)
 import Html.Styled.Events exposing (onInput)
 import Shared exposing (Shared)
-import UI.Example exposing (example, wireframeParagraph)
-import UI.HolyGrail exposing (holyGrail)
+import UI.Example exposing (example)
 import UI.SortableTable as Table
 
 
@@ -29,11 +27,11 @@ type alias Architecture =
     }
 
 
-architecture : Page -> Architecture
-architecture page =
+architecture : Architecture
+architecture =
     { init = init
     , update = update
-    , view = view page
+    , view = view
     }
 
 
@@ -71,21 +69,8 @@ update msg model =
             ( { model | tableState = newState }, Cmd.none )
 
 
-view : Page -> Model -> List (Html Msg)
-view page =
-    case page of
-        SortableTable ->
-            examplesForSortableTable
-
-        HolyGrail ->
-            \_ -> examplesForHolyGrail
-
-        _ ->
-            \_ -> []
-
-
-examplesForSortableTable : Model -> List (Html Msg)
-examplesForSortableTable { people, tableState, query } =
+view : Model -> List (Html Msg)
+view { people, tableState, query } =
     [ let
         config =
             Table.config
@@ -169,21 +154,4 @@ presidents =
     , Person "Bill Clinton" 1946 "Hope" "Arkansas"
     , Person "Barack Obama" 1961 "Honolulu" "Hawaii"
     , Person "Donald Trump" 1946 "New York City" "New York"
-    ]
-
-
-examplesForHolyGrail : List (Html msg)
-examplesForHolyGrail =
-    [ example
-        { title = "Holy grail"
-        , description = "Holy grail layout"
-        }
-        [ holyGrail
-            { header = [ text "header" ]
-            , main = [ wireframeParagraph ]
-            , aside_left = [ text "aside" ]
-            , aside_right = [ text "aside" ]
-            , footer = [ text "footer" ]
-            }
-        ]
     ]

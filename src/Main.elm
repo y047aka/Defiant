@@ -3,7 +3,6 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 import Browser
 import Browser.Navigation as Nav exposing (Key)
 import Category.Collections as Collections
-import Category.Defiant as Defiant
 import Category.Elements as Elements
 import Category.Modules as Modules
 import Category.Views as Views
@@ -16,6 +15,8 @@ import Data.Page exposing (Page(..), PageSummary)
 import Html.Styled as Html exposing (Html, a, div, text, toUnstyled)
 import Html.Styled.Attributes as Attributes exposing (for, href, id, type_)
 import Html.Styled.Events exposing (onClick)
+import Page.Defiant.HolyGrail as HolyGrail
+import Page.Defiant.SortableTable as SortableTable
 import Page.Globals.Site as Site
 import Shared exposing (Shared, setDarkMode, setPageSummary)
 import UI.Breadcrumb exposing (BreadcrumbItem, breadcrumb)
@@ -73,7 +74,9 @@ type SubModel
     | CollectionsModel Collections.Model
     | ViewsModel Views.Model
     | ModulesModel Modules.Model
-    | DefiantModel Defiant.Model
+      -- Defiant
+    | SortableTableModel SortableTable.Model
+    | HolyGrailModel HolyGrail.Model
 
 
 type Architecture
@@ -155,7 +158,9 @@ type Msg
     | CollectionsMsg Collections.Msg
     | ViewsMsg Views.Msg
     | ModulesMsg Modules.Msg
-    | DefiantMsg Defiant.Msg
+      -- Defiant
+    | SortableTableMsg SortableTable.Msg
+    | HolyGrailMsg HolyGrail.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -223,7 +228,11 @@ getShared model =
         ModulesModel { shared } ->
             shared
 
-        DefiantModel { shared } ->
+        -- Defiant
+        SortableTableModel { shared } ->
+            shared
+
+        HolyGrailModel { shared } ->
             shared
 
 
@@ -249,8 +258,12 @@ setShared shared subModel =
         ModulesModel model ->
             ModulesModel { model | shared = shared }
 
-        DefiantModel model ->
-            DefiantModel { model | shared = shared }
+        -- Defiant
+        SortableTableModel model ->
+            SortableTableModel { model | shared = shared }
+
+        HolyGrailModel model ->
+            HolyGrailModel { model | shared = shared }
 
 
 
@@ -822,10 +835,10 @@ allPages =
 
     -- Defiant
     , { pageSummary = sortableTablePage
-      , architecture = SortableTable |> Defiant.architecture |> toArchitecture_Defiant
+      , architecture = SortableTable.architecture |> toArchitecture_SortableTable
       }
     , { pageSummary = holyGrailPage
-      , architecture = HolyGrail |> Defiant.architecture |> toArchitecture_Defiant
+      , architecture = HolyGrail.architecture |> toArchitecture_HolyGrail
       }
     ]
 
@@ -970,27 +983,55 @@ toArchitecture_Modules architecture =
         |> Default
 
 
-toArchitecture_Defiant : Defiant.Architecture -> Architecture
-toArchitecture_Defiant architecture =
+toArchitecture_SortableTable : SortableTable.Architecture -> Architecture
+toArchitecture_SortableTable architecture =
     { init =
         \model ->
             architecture.init (getShared model)
-                |> updateWith DefiantModel DefiantMsg model
+                |> updateWith SortableTableModel SortableTableMsg model
     , update =
         \msg model ->
             case ( model.subModel, msg ) of
-                ( DefiantModel subModel, DefiantMsg subMsg ) ->
+                ( SortableTableModel subModel, SortableTableMsg subMsg ) ->
                     architecture.update subMsg subModel
-                        |> updateWith DefiantModel DefiantMsg model
+                        |> updateWith SortableTableModel SortableTableMsg model
 
                 _ ->
                     ( model, Cmd.none )
     , view =
         \{ subModel } ->
             case subModel of
-                DefiantModel model ->
+                SortableTableModel model ->
                     architecture.view model
-                        |> List.map (Html.map DefiantMsg)
+                        |> List.map (Html.map SortableTableMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+toArchitecture_HolyGrail : HolyGrail.Architecture -> Architecture
+toArchitecture_HolyGrail architecture =
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith HolyGrailModel HolyGrailMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( HolyGrailModel subModel, HolyGrailMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith HolyGrailModel HolyGrailMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                HolyGrailModel model ->
+                    architecture.view model
+                        |> List.map (Html.map HolyGrailMsg)
 
                 _ ->
                     []
