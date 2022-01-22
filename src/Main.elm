@@ -734,9 +734,7 @@ allPages =
     , topPage
 
     -- Globals
-    , { pageSummary = sitePage
-      , architecture = Site.architecture |> toArchitecture_Site
-      }
+    , { pageSummary = sitePage, architecture = siteArchitecture }
 
     -- Elements
     , { pageSummary = buttonPage
@@ -834,17 +832,17 @@ allPages =
       }
 
     -- Defiant
-    , { pageSummary = sortableTablePage
-      , architecture = SortableTable.architecture |> toArchitecture_SortableTable
-      }
-    , { pageSummary = holyGrailPage
-      , architecture = HolyGrail.architecture |> toArchitecture_HolyGrail
-      }
+    , { pageSummary = sortableTablePage, architecture = sortableTableArchitecture }
+    , { pageSummary = holyGrailPage, architecture = holyGrailArchitecture }
     ]
 
 
-toArchitecture_Site : Site.Architecture -> Architecture
-toArchitecture_Site architecture =
+siteArchitecture : Architecture
+siteArchitecture =
+    let
+        architecture =
+            Site.architecture
+    in
     { init =
         \model ->
             architecture.init (getShared model)
@@ -983,8 +981,12 @@ toArchitecture_Modules architecture =
         |> Default
 
 
-toArchitecture_SortableTable : SortableTable.Architecture -> Architecture
-toArchitecture_SortableTable architecture =
+sortableTableArchitecture : Architecture
+sortableTableArchitecture =
+    let
+        architecture =
+            SortableTable.architecture
+    in
     { init =
         \model ->
             architecture.init (getShared model)
@@ -1011,8 +1013,12 @@ toArchitecture_SortableTable architecture =
         |> Default
 
 
-toArchitecture_HolyGrail : HolyGrail.Architecture -> Architecture
-toArchitecture_HolyGrail architecture =
+holyGrailArchitecture : Architecture
+holyGrailArchitecture =
+    let
+        architecture =
+            HolyGrail.architecture
+    in
     { init =
         \model ->
             architecture.init (getShared model)

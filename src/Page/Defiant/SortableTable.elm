@@ -1,16 +1,4 @@
-module Page.Defiant.SortableTable exposing
-    ( Architecture, architecture
-    , Model, Msg
-    , presidents
-    )
-
-{-|
-
-@docs Architecture, architecture
-@docs Model, Msg
-@docs presidents
-
--}
+module Page.Defiant.SortableTable exposing (Model, Msg, architecture, presidents)
 
 import Html.Styled as Html exposing (Html, input)
 import Html.Styled.Attributes exposing (placeholder)
@@ -20,14 +8,11 @@ import UI.Example exposing (example)
 import UI.SortableTable as Table
 
 
-type alias Architecture =
+architecture :
     { init : Shared -> ( Model, Cmd Msg )
     , update : Msg -> Model -> ( Model, Cmd Msg )
     , view : Model -> List (Html Msg)
     }
-
-
-architecture : Architecture
 architecture =
     { init = init
     , update = update

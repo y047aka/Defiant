@@ -1,14 +1,4 @@
-module Page.Defiant.HolyGrail exposing
-    ( Architecture, architecture
-    , Model, Msg
-    )
-
-{-|
-
-@docs Architecture, architecture
-@docs Model, Msg
-
--}
+module Page.Defiant.HolyGrail exposing (Model, Msg, architecture)
 
 import Html.Styled as Html exposing (Html, text)
 import Shared exposing (Shared)
@@ -16,14 +6,11 @@ import UI.Example exposing (example, wireframeParagraph)
 import UI.HolyGrail exposing (holyGrail)
 
 
-type alias Architecture =
+architecture :
     { init : Shared -> ( Model, Cmd Msg )
     , update : Msg -> Model -> ( Model, Cmd Msg )
     , view : Model -> List (Html Msg)
     }
-
-
-architecture : Architecture
 architecture =
     { init = init
     , update = update
