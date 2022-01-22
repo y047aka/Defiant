@@ -830,17 +830,8 @@ toArchitecture_Globals : Globals.Architecture -> Architecture
 toArchitecture_Globals architecture =
     { init =
         \model ->
-            let
-                shared =
-                    getShared model
-            in
-            case shared.pageSummary.category of
-                Globals ->
-                    architecture.init shared
-                        |> updateWith GlobalsModel GlobalsMsg model
-
-                _ ->
-                    ( model, Cmd.none )
+            architecture.init (getShared model)
+                |> updateWith GlobalsModel GlobalsMsg model
     , update =
         \msg model ->
             case ( model.subModel, msg ) of
@@ -867,17 +858,8 @@ toArchitecture_Elements : Elements.Architecture -> Architecture
 toArchitecture_Elements architecture =
     { init =
         \model ->
-            let
-                shared =
-                    getShared model
-            in
-            case shared.pageSummary.category of
-                Elements ->
-                    architecture.init shared
-                        |> updateWith ElementsModel ElementsMsg model
-
-                _ ->
-                    ( model, Cmd.none )
+            architecture.init (getShared model)
+                |> updateWith ElementsModel ElementsMsg model
     , update =
         \msg model ->
             case ( model.subModel, msg ) of
@@ -904,17 +886,8 @@ toArchitecture_Collections : Collections.Architecture -> Architecture
 toArchitecture_Collections architecture =
     { init =
         \model ->
-            let
-                shared =
-                    getShared model
-            in
-            case shared.pageSummary.category of
-                Collections ->
-                    architecture.init shared
-                        |> updateWith CollectionsModel CollectionsMsg model
-
-                _ ->
-                    ( model, Cmd.none )
+            architecture.init (getShared model)
+                |> updateWith CollectionsModel CollectionsMsg model
     , update =
         \msg model ->
             case ( model.subModel, msg ) of
@@ -941,17 +914,8 @@ toArchitecture_Views : Views.Architecture -> Architecture
 toArchitecture_Views architecture =
     { init =
         \model ->
-            let
-                shared =
-                    getShared model
-            in
-            case shared.pageSummary.category of
-                Views ->
-                    architecture.init shared
-                        |> updateWith ViewsModel ViewsMsg model
-
-                _ ->
-                    ( model, Cmd.none )
+            architecture.init (getShared model)
+                |> updateWith ViewsModel ViewsMsg model
     , update =
         \msg model ->
             case ( model.subModel, msg ) of
@@ -978,17 +942,8 @@ toArchitecture_Modules : Modules.Architecture -> Architecture
 toArchitecture_Modules architecture =
     { init =
         \model ->
-            let
-                shared =
-                    getShared model
-            in
-            case shared.pageSummary.category of
-                Modules ->
-                    architecture.init shared
-                        |> updateWith ModulesModel ModulesMsg model
-
-                _ ->
-                    ( model, Cmd.none )
+            architecture.init (getShared model)
+                |> updateWith ModulesModel ModulesMsg model
     , update =
         \msg model ->
             case ( model.subModel, msg ) of
@@ -1015,17 +970,8 @@ toArchitecture_Defiant : Defiant.Architecture -> Architecture
 toArchitecture_Defiant architecture =
     { init =
         \model ->
-            let
-                shared =
-                    getShared model
-            in
-            case shared.pageSummary.category of
-                Defiant ->
-                    architecture.init shared
-                        |> updateWith DefiantModel DefiantMsg model
-
-                _ ->
-                    ( model, Cmd.none )
+            architecture.init (getShared model)
+                |> updateWith DefiantModel DefiantMsg model
     , update =
         \msg model ->
             case ( model.subModel, msg ) of
