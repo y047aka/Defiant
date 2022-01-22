@@ -60,8 +60,8 @@ main =
 
 
 type alias Model =
-    { architecture : Architecture
-    , subModel : SubModel
+    { subModel : SubModel
+    , architecture : Architecture
     }
 
 
@@ -75,6 +75,14 @@ type SubModel
     | DefiantModel Defiant.Model
 
 
+type Architecture
+    = Default
+        { init : Model -> ( Model, Cmd Msg )
+        , update : Msg -> Model -> ( Model, Cmd Msg )
+        , view : Model -> List (Html Msg)
+        }
+
+
 init : () -> Url -> Key -> ( Model, Cmd Msg )
 init _ url key =
     { architecture =
@@ -83,7 +91,7 @@ init _ url key =
             , update = \msg model -> update msg model
             , view = \_ -> []
             }
-    , subModel = NoneModel (Shared.init key (Tuple.first notFoundPage))
+    , subModel = NoneModel (Shared.init key notFoundPage.pageSummary)
     }
         |> routing url
 
@@ -92,7 +100,7 @@ init _ url key =
 -- ROUTER
 
 
-parser : Parser (( PageSummary, Architecture ) -> a) a
+parser : Parser ({ pageSummary : PageSummary, architecture : Architecture } -> a) a
 parser =
     let
         pageParser route =
@@ -107,7 +115,7 @@ parser =
                     Parser.top
     in
     Parser.oneOf <|
-        List.map (\page -> Parser.map page (pageParser (Tuple.first page).route)) allPages
+        List.map (\page -> Parser.map page (pageParser page.pageSummary.route)) allPages
 
 
 routing : Url -> Model -> ( Model, Cmd Msg )
@@ -118,7 +126,7 @@ routing url prevModel =
     in
     Parser.parse parser url
         |> Maybe.withDefault notFoundPage
-        |> (\( pageSummary, architecture ) ->
+        |> (\{ pageSummary, architecture } ->
                 let
                     model =
                         { prevModel
@@ -128,7 +136,7 @@ routing url prevModel =
                                     |> setShared (setPageSummary pageSummary shared)
                         }
                 in
-                getInit architecture model
+                (\(Default architecture_) -> architecture_.init model) architecture
            )
 
 
@@ -181,7 +189,7 @@ update msg model =
             )
 
         _ ->
-            getUpdate model.architecture msg model
+            (\(Default architecture_) -> architecture_.update msg model) model.architecture
 
 
 updateWith : (subModel -> SubModel) -> (subMsg -> Msg) -> Model -> ( subModel, Cmd subMsg ) -> ( Model, Cmd Msg )
@@ -260,7 +268,7 @@ view model =
                 title ++ " | Defiant"
     , body =
         layout model <|
-            getView model.architecture model
+            (\(Default architecture_) -> architecture_.view model) model.architecture
     }
 
 
@@ -333,9 +341,9 @@ tableOfContents options =
                 [ Header.header options [] [ text (Category.toString category) ]
                 , cards []
                     (List.filterMap
-                        (\( ps, _ ) ->
-                            if ps.category == category then
-                                Just (item ps)
+                        (\{ pageSummary } ->
+                            if pageSummary.category == category then
+                                Just (item pageSummary)
 
                             else
                                 Nothing
@@ -347,12 +355,475 @@ tableOfContents options =
         [ Globals, Elements, Collections, Views, Modules, Defiant ]
 
 
-type Architecture
-    = Default
-        { init : Model -> ( Model, Cmd Msg )
-        , update : Msg -> Model -> ( Model, Cmd Msg )
-        , view : Model -> List (Html Msg)
+notFoundPage : { pageSummary : PageSummary, architecture : Architecture }
+notFoundPage =
+    { pageSummary =
+        { page = NotFound
+        , title = "Not Found"
+        , description = ""
+        , category = None
+        , route = [ "404" ]
         }
+    , architecture =
+        Default
+            { init = \model -> ( { model | subModel = NoneModel (getShared model) }, Cmd.none )
+            , update = \msg model -> update msg model
+            , view = \_ -> []
+            }
+    }
+
+
+topPage : { pageSummary : PageSummary, architecture : Architecture }
+topPage =
+    { pageSummary =
+        { page = Top
+        , title = "Top"
+        , description = ""
+        , category = None
+        , route = []
+        }
+    , architecture =
+        Default
+            { init = \model -> ( { model | subModel = NoneModel (getShared model) }, Cmd.none )
+            , update = \msg model -> update msg model
+            , view = \model -> tableOfContents { inverted = getShared model |> .darkMode }
+            }
+    }
+
+
+sitePage : PageSummary
+sitePage =
+    { page = Site
+    , title = "Site"
+    , description = "A site is a set of global constraints that define the basic parameters of all UI elements"
+    , category = Globals
+    , route = [ "site" ]
+    }
+
+
+buttonPage : PageSummary
+buttonPage =
+    { page = Button
+    , title = "Button"
+    , description = "A button indicates a possible user action"
+    , category = Elements
+    , route = [ "button" ]
+    }
+
+
+containerPage : PageSummary
+containerPage =
+    { page = Container
+    , title = "Container"
+    , description = "A container limits content to a maximum width"
+    , category = Elements
+    , route = [ "container" ]
+    }
+
+
+dividerPage : PageSummary
+dividerPage =
+    { page = Divider
+    , title = "Divider"
+    , description = "A divider visually segments content into groups"
+    , category = Elements
+    , route = [ "divider" ]
+    }
+
+
+headerPage : PageSummary
+headerPage =
+    { page = Header
+    , title = "Header"
+    , description = "A header provides a short summary of content"
+    , category = Elements
+    , route = [ "header" ]
+    }
+
+
+iconPage : PageSummary
+iconPage =
+    { page = Icon
+    , title = "Icon"
+    , description = "An icon is a glyph used to represent something else"
+    , category = Elements
+    , route = [ "icon" ]
+    }
+
+
+imagePage : PageSummary
+imagePage =
+    { page = Image
+    , title = "Image"
+    , description = "An image is a graphic representation of something"
+    , category = Elements
+    , route = [ "image" ]
+    }
+
+
+inputPage : PageSummary
+inputPage =
+    { page = Input
+    , title = "Input"
+    , description = "An input is a field used to elicit a response from a user"
+    , category = Elements
+    , route = [ "input" ]
+    }
+
+
+labelPage : PageSummary
+labelPage =
+    { page = Label
+    , title = "Label"
+    , description = "A label displays content classification"
+    , category = Elements
+    , route = [ "label" ]
+    }
+
+
+loaderPage : PageSummary
+loaderPage =
+    { page = Loader
+    , title = "Loader"
+    , description = "A loader alerts a user to wait for an activity to complete"
+    , category = Elements
+    , route = [ "loader" ]
+    }
+
+
+placeholderPage : PageSummary
+placeholderPage =
+    { page = Placeholder
+    , title = "Placeholder"
+    , description = "A placeholder is used to reserve splace for content that soon will appear in a layout"
+    , category = Elements
+    , route = [ "placeholder" ]
+    }
+
+
+railPage : PageSummary
+railPage =
+    { page = Rail
+    , title = "Rail"
+    , description = "A rail is used to show accompanying content outside the boundaries of the main view of a site"
+    , category = Elements
+    , route = [ "rail" ]
+    }
+
+
+segmentPage : PageSummary
+segmentPage =
+    { page = Segment
+    , title = "Segment"
+    , description = "A segment is used to create a grouping of related content"
+    , category = Elements
+    , route = [ "segment" ]
+    }
+
+
+stepPage : PageSummary
+stepPage =
+    { page = Step
+    , title = "Step"
+    , description = "A step shows the completion status of an activity in a series of activities"
+    , category = Elements
+    , route = [ "step" ]
+    }
+
+
+circleStepPage : PageSummary
+circleStepPage =
+    { page = CircleStep
+    , title = "Circle Step"
+    , description = "A step shows the completion status of an activity in a series of activities"
+    , category = Elements
+    , route = [ "circle-step" ]
+    }
+
+
+textPage : PageSummary
+textPage =
+    { page = Text
+    , title = "Text"
+    , description = "A text is used to style some inline text with a simple color"
+    , category = Elements
+    , route = [ "text" ]
+    }
+
+
+breadcrumbPage : PageSummary
+breadcrumbPage =
+    { page = Breadcrumb
+    , title = "Breadcrumb"
+    , description = "A breadcrumb is used to show hierarchy between content"
+    , category = Collections
+    , route = [ "breadcrumb" ]
+    }
+
+
+formPage : PageSummary
+formPage =
+    { page = Form
+    , title = "Form"
+    , description = "A form displays a set of related user input fields in a structured way"
+    , category = Collections
+    , route = [ "form" ]
+    }
+
+
+gridPage : PageSummary
+gridPage =
+    { page = Grid
+    , title = "Grid"
+    , description = "A grid is used to harmonize negative space in a layout"
+    , category = Collections
+    , route = [ "grid" ]
+    }
+
+
+menuPage : PageSummary
+menuPage =
+    { page = Menu
+    , title = "Menu"
+    , description = "A menu displays grouped navigation actions"
+    , category = Collections
+    , route = [ "menu" ]
+    }
+
+
+messagePage : PageSummary
+messagePage =
+    { page = Message
+    , title = "Message"
+    , description = "A message displays information that explains nearby content"
+    , category = Collections
+    , route = [ "message" ]
+    }
+
+
+tablePage : PageSummary
+tablePage =
+    { page = Table
+    , title = "Table"
+    , description = "A table displays a collections of data grouped into rows"
+    , category = Collections
+    , route = [ "table" ]
+    }
+
+
+cardPage : PageSummary
+cardPage =
+    { page = Card
+    , title = "Card"
+    , description = "A card displays site content in a manner similar to a playing card"
+    , category = Views
+    , route = [ "card" ]
+    }
+
+
+itemPage : PageSummary
+itemPage =
+    { page = Item
+    , title = "Item"
+    , description = "An item view presents large collections of site content for display"
+    , category = Views
+    , route = [ "item" ]
+    }
+
+
+accordionPage : PageSummary
+accordionPage =
+    { page = Accordion
+    , title = "Accordion"
+    , description = "An accordion allows users to toggle the display of sections of content"
+    , category = Modules
+    , route = [ "accordion" ]
+    }
+
+
+checkboxPage : PageSummary
+checkboxPage =
+    { page = Checkbox
+    , title = "Checkbox"
+    , description = "A checkbox allows a user to select a value from a small set of options, often binary"
+    , category = Modules
+    , route = [ "checkbox" ]
+    }
+
+
+dimmerPage : PageSummary
+dimmerPage =
+    { page = Dimmer
+    , title = "Dimmer"
+    , description = "A dimmer hides distractions to focus attention on particular content"
+    , category = Modules
+    , route = [ "dimmer" ]
+    }
+
+
+modalPage : PageSummary
+modalPage =
+    { page = Modal
+    , title = "Modal"
+    , description = "A modal displays content that temporarily blocks interactions with the main view of a site"
+    , category = Modules
+    , route = [ "modal" ]
+    }
+
+
+progressPage : PageSummary
+progressPage =
+    { page = Progress
+    , title = "Progress"
+    , description = "A progress bar shows the progression of a task"
+    , category = Modules
+    , route = [ "progress" ]
+    }
+
+
+tabPage : PageSummary
+tabPage =
+    { page = Tab
+    , title = "Tab"
+    , description = "A tab is a hidden section of content activated by a menu"
+    , category = Modules
+    , route = [ "tab" ]
+    }
+
+
+sortableTablePage : PageSummary
+sortableTablePage =
+    { page = SortableTable
+    , title = "SortableTable"
+    , description = "Sortable table"
+    , category = Defiant
+    , route = [ "sortable-table" ]
+    }
+
+
+holyGrailPage : PageSummary
+holyGrailPage =
+    { page = HolyGrail
+    , title = "HolyGrail"
+    , description = "Holy grail layout."
+    , category = Defiant
+    , route = [ "holy-grail" ]
+    }
+
+
+allPages : List { pageSummary : PageSummary, architecture : Architecture }
+allPages =
+    [ notFoundPage
+    , topPage
+
+    -- Globals
+    , { pageSummary = sitePage
+      , architecture = Globals.architecture |> toArchitecture_Globals
+      }
+
+    -- Elements
+    , { pageSummary = buttonPage
+      , architecture = Button |> Elements.architecture |> toArchitecture_Elements
+      }
+    , { pageSummary = containerPage
+      , architecture = Container |> Elements.architecture |> toArchitecture_Elements
+      }
+    , { pageSummary = dividerPage
+      , architecture = Divider |> Elements.architecture |> toArchitecture_Elements
+      }
+    , { pageSummary = headerPage
+      , architecture = Header |> Elements.architecture |> toArchitecture_Elements
+      }
+    , { pageSummary = iconPage
+      , architecture = Icon |> Elements.architecture |> toArchitecture_Elements
+      }
+    , { pageSummary = imagePage
+      , architecture = Image |> Elements.architecture |> toArchitecture_Elements
+      }
+    , { pageSummary = inputPage
+      , architecture = Input |> Elements.architecture |> toArchitecture_Elements
+      }
+    , { pageSummary = labelPage
+      , architecture = Label |> Elements.architecture |> toArchitecture_Elements
+      }
+    , { pageSummary = loaderPage
+      , architecture = Loader |> Elements.architecture |> toArchitecture_Elements
+      }
+    , { pageSummary = placeholderPage
+      , architecture = Placeholder |> Elements.architecture |> toArchitecture_Elements
+      }
+    , { pageSummary = railPage
+      , architecture = Rail |> Elements.architecture |> toArchitecture_Elements
+      }
+    , { pageSummary = segmentPage
+      , architecture = Segment |> Elements.architecture |> toArchitecture_Elements
+      }
+    , { pageSummary = stepPage
+      , architecture = Step |> Elements.architecture |> toArchitecture_Elements
+      }
+    , { pageSummary = circleStepPage
+      , architecture = CircleStep |> Elements.architecture |> toArchitecture_Elements
+      }
+    , { pageSummary = textPage
+      , architecture = Text |> Elements.architecture |> toArchitecture_Elements
+      }
+
+    -- Collections
+    , { pageSummary = breadcrumbPage
+      , architecture = Breadcrumb |> Collections.architecture |> toArchitecture_Collections
+      }
+    , { pageSummary = formPage
+      , architecture = Form |> Collections.architecture |> toArchitecture_Collections
+      }
+    , { pageSummary = gridPage
+      , architecture = Grid |> Collections.architecture |> toArchitecture_Collections
+      }
+    , { pageSummary = menuPage
+      , architecture = Menu |> Collections.architecture |> toArchitecture_Collections
+      }
+    , { pageSummary = messagePage
+      , architecture = Message |> Collections.architecture |> toArchitecture_Collections
+      }
+    , { pageSummary = tablePage
+      , architecture = Table |> Collections.architecture |> toArchitecture_Collections
+      }
+
+    -- Views
+    , { pageSummary = cardPage
+      , architecture = Card |> Views.architecture |> toArchitecture_Views
+      }
+    , { pageSummary = itemPage
+      , architecture = Item |> Views.architecture |> toArchitecture_Views
+      }
+
+    -- Modules
+    , { pageSummary = accordionPage
+      , architecture = Accordion |> Modules.architecture |> toArchitecture_Modules
+      }
+    , { pageSummary = checkboxPage
+      , architecture = Checkbox |> Modules.architecture |> toArchitecture_Modules
+      }
+    , { pageSummary = dimmerPage
+      , architecture = Dimmer |> Modules.architecture |> toArchitecture_Modules
+      }
+    , { pageSummary = modalPage
+      , architecture = Modal |> Modules.architecture |> toArchitecture_Modules
+      }
+    , { pageSummary = progressPage
+      , architecture = Progress |> Modules.architecture |> toArchitecture_Modules
+      }
+    , { pageSummary = tabPage
+      , architecture = Tab |> Modules.architecture |> toArchitecture_Modules
+      }
+
+    -- Defiant
+    , { pageSummary = sortableTablePage
+      , architecture = SortableTable |> Defiant.architecture |> toArchitecture_Defiant
+      }
+    , { pageSummary = holyGrailPage
+      , architecture = HolyGrail |> Defiant.architecture |> toArchitecture_Defiant
+      }
+    ]
 
 
 toArchitecture_Globals : Globals.Architecture -> Architecture
@@ -575,485 +1046,3 @@ toArchitecture_Defiant architecture =
                     []
     }
         |> Default
-
-
-getInit : Architecture -> (Model -> ( Model, Cmd Msg ))
-getInit (Default architecture) =
-    architecture.init
-
-
-getUpdate : Architecture -> (Msg -> Model -> ( Model, Cmd Msg ))
-getUpdate (Default architecture) =
-    architecture.update
-
-
-getView : Architecture -> (Model -> List (Html Msg))
-getView (Default architecture) =
-    architecture.view
-
-
-notFoundPage : ( PageSummary, Architecture )
-notFoundPage =
-    ( { page = NotFound
-      , title = "Not Found"
-      , description = ""
-      , category = None
-      , route = [ "404" ]
-      }
-    , Default
-        { init = \model -> ( { model | subModel = NoneModel (getShared model) }, Cmd.none )
-        , update = \msg model -> update msg model
-        , view = \_ -> []
-        }
-    )
-
-
-topPage : ( PageSummary, Architecture )
-topPage =
-    ( { page = Top
-      , title = "Top"
-      , description = ""
-      , category = None
-      , route = []
-      }
-    , Default
-        { init = \model -> ( { model | subModel = NoneModel (getShared model) }, Cmd.none )
-        , update = \msg model -> update msg model
-        , view = \model -> tableOfContents { inverted = getShared model |> .darkMode }
-        }
-    )
-
-
-sitePage : ( PageSummary, Architecture )
-sitePage =
-    ( { page = Site
-      , title = "Site"
-      , description = "A site is a set of global constraints that define the basic parameters of all UI elements"
-      , category = Globals
-      , route = [ "site" ]
-      }
-    , Globals.architecture |> toArchitecture_Globals
-    )
-
-
-buttonPage : ( PageSummary, Architecture )
-buttonPage =
-    ( { page = Button
-      , title = "Button"
-      , description = "A button indicates a possible user action"
-      , category = Elements
-      , route = [ "button" ]
-      }
-    , Elements.architecture Button |> toArchitecture_Elements
-    )
-
-
-containerPage : ( PageSummary, Architecture )
-containerPage =
-    ( { page = Container
-      , title = "Container"
-      , description = "A container limits content to a maximum width"
-      , category = Elements
-      , route = [ "container" ]
-      }
-    , Elements.architecture Container |> toArchitecture_Elements
-    )
-
-
-dividerPage : ( PageSummary, Architecture )
-dividerPage =
-    ( { page = Divider
-      , title = "Divider"
-      , description = "A divider visually segments content into groups"
-      , category = Elements
-      , route = [ "divider" ]
-      }
-    , Elements.architecture Divider |> toArchitecture_Elements
-    )
-
-
-headerPage : ( PageSummary, Architecture )
-headerPage =
-    ( { page = Header
-      , title = "Header"
-      , description = "A header provides a short summary of content"
-      , category = Elements
-      , route = [ "header" ]
-      }
-    , Elements.architecture Header |> toArchitecture_Elements
-    )
-
-
-iconPage : ( PageSummary, Architecture )
-iconPage =
-    ( { page = Icon
-      , title = "Icon"
-      , description = "An icon is a glyph used to represent something else"
-      , category = Elements
-      , route = [ "icon" ]
-      }
-    , Elements.architecture Icon |> toArchitecture_Elements
-    )
-
-
-imagePage : ( PageSummary, Architecture )
-imagePage =
-    ( { page = Image
-      , title = "Image"
-      , description = "An image is a graphic representation of something"
-      , category = Elements
-      , route = [ "image" ]
-      }
-    , Elements.architecture Image |> toArchitecture_Elements
-    )
-
-
-inputPage : ( PageSummary, Architecture )
-inputPage =
-    ( { page = Input
-      , title = "Input"
-      , description = "An input is a field used to elicit a response from a user"
-      , category = Elements
-      , route = [ "input" ]
-      }
-    , Elements.architecture Input |> toArchitecture_Elements
-    )
-
-
-labelPage : ( PageSummary, Architecture )
-labelPage =
-    ( { page = Label
-      , title = "Label"
-      , description = "A label displays content classification"
-      , category = Elements
-      , route = [ "label" ]
-      }
-    , Elements.architecture Label |> toArchitecture_Elements
-    )
-
-
-loaderPage : ( PageSummary, Architecture )
-loaderPage =
-    ( { page = Loader
-      , title = "Loader"
-      , description = "A loader alerts a user to wait for an activity to complete"
-      , category = Elements
-      , route = [ "loader" ]
-      }
-    , Elements.architecture Loader |> toArchitecture_Elements
-    )
-
-
-placeholderPage : ( PageSummary, Architecture )
-placeholderPage =
-    ( { page = Placeholder
-      , title = "Placeholder"
-      , description = "A placeholder is used to reserve splace for content that soon will appear in a layout"
-      , category = Elements
-      , route = [ "placeholder" ]
-      }
-    , Elements.architecture Placeholder |> toArchitecture_Elements
-    )
-
-
-railPage : ( PageSummary, Architecture )
-railPage =
-    ( { page = Rail
-      , title = "Rail"
-      , description = "A rail is used to show accompanying content outside the boundaries of the main view of a site"
-      , category = Elements
-      , route = [ "rail" ]
-      }
-    , Elements.architecture Rail |> toArchitecture_Elements
-    )
-
-
-segmentPage : ( PageSummary, Architecture )
-segmentPage =
-    ( { page = Segment
-      , title = "Segment"
-      , description = "A segment is used to create a grouping of related content"
-      , category = Elements
-      , route = [ "segment" ]
-      }
-    , Elements.architecture Segment |> toArchitecture_Elements
-    )
-
-
-stepPage : ( PageSummary, Architecture )
-stepPage =
-    ( { page = Step
-      , title = "Step"
-      , description = "A step shows the completion status of an activity in a series of activities"
-      , category = Elements
-      , route = [ "step" ]
-      }
-    , Elements.architecture Step |> toArchitecture_Elements
-    )
-
-
-circleStepPage : ( PageSummary, Architecture )
-circleStepPage =
-    ( { page = CircleStep
-      , title = "Circle Step"
-      , description = "A step shows the completion status of an activity in a series of activities"
-      , category = Elements
-      , route = [ "circle-step" ]
-      }
-    , Elements.architecture CircleStep |> toArchitecture_Elements
-    )
-
-
-textPage : ( PageSummary, Architecture )
-textPage =
-    ( { page = Text
-      , title = "Text"
-      , description = "A text is used to style some inline text with a simple color"
-      , category = Elements
-      , route = [ "text" ]
-      }
-    , Elements.architecture Text |> toArchitecture_Elements
-    )
-
-
-breadcrumbPage : ( PageSummary, Architecture )
-breadcrumbPage =
-    ( { page = Breadcrumb
-      , title = "Breadcrumb"
-      , description = "A breadcrumb is used to show hierarchy between content"
-      , category = Collections
-      , route = [ "breadcrumb" ]
-      }
-    , Collections.architecture Breadcrumb |> toArchitecture_Collections
-    )
-
-
-formPage : ( PageSummary, Architecture )
-formPage =
-    ( { page = Form
-      , title = "Form"
-      , description = "A form displays a set of related user input fields in a structured way"
-      , category = Collections
-      , route = [ "form" ]
-      }
-    , Collections.architecture Form |> toArchitecture_Collections
-    )
-
-
-gridPage : ( PageSummary, Architecture )
-gridPage =
-    ( { page = Grid
-      , title = "Grid"
-      , description = "A grid is used to harmonize negative space in a layout"
-      , category = Collections
-      , route = [ "grid" ]
-      }
-    , Collections.architecture Grid |> toArchitecture_Collections
-    )
-
-
-menuPage : ( PageSummary, Architecture )
-menuPage =
-    ( { page = Menu
-      , title = "Menu"
-      , description = "A menu displays grouped navigation actions"
-      , category = Collections
-      , route = [ "menu" ]
-      }
-    , Collections.architecture Menu |> toArchitecture_Collections
-    )
-
-
-messagePage : ( PageSummary, Architecture )
-messagePage =
-    ( { page = Message
-      , title = "Message"
-      , description = "A message displays information that explains nearby content"
-      , category = Collections
-      , route = [ "message" ]
-      }
-    , Collections.architecture Message |> toArchitecture_Collections
-    )
-
-
-tablePage : ( PageSummary, Architecture )
-tablePage =
-    ( { page = Table
-      , title = "Table"
-      , description = "A table displays a collections of data grouped into rows"
-      , category = Collections
-      , route = [ "table" ]
-      }
-    , Collections.architecture Table |> toArchitecture_Collections
-    )
-
-
-cardPage : ( PageSummary, Architecture )
-cardPage =
-    ( { page = Card
-      , title = "Card"
-      , description = "A card displays site content in a manner similar to a playing card"
-      , category = Views
-      , route = [ "card" ]
-      }
-    , Views.architecture Card |> toArchitecture_Views
-    )
-
-
-itemPage : ( PageSummary, Architecture )
-itemPage =
-    ( { page = Item
-      , title = "Item"
-      , description = "An item view presents large collections of site content for display"
-      , category = Views
-      , route = [ "item" ]
-      }
-    , Views.architecture Item |> toArchitecture_Views
-    )
-
-
-accordionPage : ( PageSummary, Architecture )
-accordionPage =
-    ( { page = Accordion
-      , title = "Accordion"
-      , description = "An accordion allows users to toggle the display of sections of content"
-      , category = Modules
-      , route = [ "accordion" ]
-      }
-    , Modules.architecture Accordion |> toArchitecture_Modules
-    )
-
-
-checkboxPage : ( PageSummary, Architecture )
-checkboxPage =
-    ( { page = Checkbox
-      , title = "Checkbox"
-      , description = "A checkbox allows a user to select a value from a small set of options, often binary"
-      , category = Modules
-      , route = [ "checkbox" ]
-      }
-    , Modules.architecture Checkbox |> toArchitecture_Modules
-    )
-
-
-dimmerPage : ( PageSummary, Architecture )
-dimmerPage =
-    ( { page = Dimmer
-      , title = "Dimmer"
-      , description = "A dimmer hides distractions to focus attention on particular content"
-      , category = Modules
-      , route = [ "dimmer" ]
-      }
-    , Modules.architecture Dimmer |> toArchitecture_Modules
-    )
-
-
-modalPage : ( PageSummary, Architecture )
-modalPage =
-    ( { page = Modal
-      , title = "Modal"
-      , description = "A modal displays content that temporarily blocks interactions with the main view of a site"
-      , category = Modules
-      , route = [ "modal" ]
-      }
-    , Modules.architecture Modal |> toArchitecture_Modules
-    )
-
-
-progressPage : ( PageSummary, Architecture )
-progressPage =
-    ( { page = Progress
-      , title = "Progress"
-      , description = "A progress bar shows the progression of a task"
-      , category = Modules
-      , route = [ "progress" ]
-      }
-    , Modules.architecture Progress |> toArchitecture_Modules
-    )
-
-
-tabPage : ( PageSummary, Architecture )
-tabPage =
-    ( { page = Tab
-      , title = "Tab"
-      , description = "A tab is a hidden section of content activated by a menu"
-      , category = Modules
-      , route = [ "tab" ]
-      }
-    , Modules.architecture Tab |> toArchitecture_Modules
-    )
-
-
-sortableTablePage : ( PageSummary, Architecture )
-sortableTablePage =
-    ( { page = SortableTable
-      , title = "SortableTable"
-      , description = "Sortable table"
-      , category = Defiant
-      , route = [ "sortable-table" ]
-      }
-    , Defiant.architecture SortableTable |> toArchitecture_Defiant
-    )
-
-
-holyGrailPage : ( PageSummary, Architecture )
-holyGrailPage =
-    ( { page = HolyGrail
-      , title = "HolyGrail"
-      , description = "Holy grail layout."
-      , category = Defiant
-      , route = [ "holy-grail" ]
-      }
-    , Defiant.architecture HolyGrail |> toArchitecture_Defiant
-    )
-
-
-allPages : List ( PageSummary, Architecture )
-allPages =
-    [ notFoundPage
-    , topPage
-
-    -- Globals
-    , sitePage
-
-    -- Elements
-    , buttonPage
-    , containerPage
-    , dividerPage
-    , headerPage
-    , iconPage
-    , imagePage
-    , inputPage
-    , labelPage
-    , loaderPage
-    , placeholderPage
-    , railPage
-    , segmentPage
-    , stepPage
-    , circleStepPage
-    , textPage
-
-    -- Collections
-    , breadcrumbPage
-    , formPage
-    , gridPage
-    , menuPage
-    , messagePage
-    , tablePage
-
-    -- Views
-    , cardPage
-    , itemPage
-
-    -- Modules
-    , accordionPage
-    , checkboxPage
-    , dimmerPage
-    , modalPage
-    , progressPage
-    , tabPage
-
-    -- Defiant
-    , sortableTablePage
-    , holyGrailPage
-    ]
