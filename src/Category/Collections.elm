@@ -1,18 +1,17 @@
 module Category.Collections exposing
-    ( Architecture
-    , Model, init, Msg, update
-    , examplesForBreadcrumb, examplesForForm, examplesForGrid, examplesForMenu, examplesForMessage, examplesForTable
+    ( Architecture, architecture
+    , Model, Msg
     )
 
 {-|
 
-@docs Architecture
-@docs Model, init, Msg, update
-@docs examplesForBreadcrumb, examplesForForm, examplesForGrid, examplesForMenu, examplesForMessage, examplesForTable
+@docs Architecture, architecture
+@docs Model, Msg
 
 -}
 
 import Css exposing (..)
+import Data.Page exposing (Page(..))
 import Html.Styled as Html exposing (Html, div, input, p, text)
 import Html.Styled.Attributes as Attributes exposing (css, for, href, id, name, placeholder, rel, rows, src, tabindex, type_)
 import Shared exposing (Shared)
@@ -39,6 +38,14 @@ type alias Architecture =
     }
 
 
+architecture : Page -> Architecture
+architecture page =
+    { init = init
+    , update = update
+    , view = view page
+    }
+
+
 type alias Model =
     { shared : Shared }
 
@@ -57,6 +64,31 @@ update msg model =
     case msg of
         NoOp ->
             ( model, Cmd.none )
+
+
+view : Page -> Model -> List (Html Msg)
+view page =
+    case page of
+        Breadcrumb ->
+            \{ shared } -> examplesForBreadcrumb { inverted = shared.darkMode }
+
+        Form ->
+            \_ -> examplesForForm
+
+        Grid ->
+            \{ shared } -> examplesForGrid { inverted = shared.darkMode }
+
+        Menu ->
+            \{ shared } -> examplesForMenu { inverted = shared.darkMode }
+
+        Message ->
+            \{ shared } -> examplesForMessage { inverted = shared.darkMode }
+
+        Table ->
+            \_ -> examplesForTable
+
+        _ ->
+            \_ -> []
 
 
 examplesForBreadcrumb : { inverted : Bool } -> List (Html msg)

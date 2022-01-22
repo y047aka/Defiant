@@ -1,19 +1,18 @@
 module Category.Defiant exposing
-    ( Architecture
-    , Model, init, Msg, update
-    , examplesForSortableTable, examplesForHolyGrail
+    ( Architecture, architecture
+    , Model, Msg
     , presidents
     )
 
 {-|
 
-@docs Architecture
-@docs Model, init, Msg, update
-@docs examplesForSortableTable, examplesForHolyGrail
+@docs Architecture, architecture
+@docs Model, Msg
 @docs presidents
 
 -}
 
+import Data.Page exposing (Page(..))
 import Html.Styled as Html exposing (Html, input, text)
 import Html.Styled.Attributes exposing (placeholder)
 import Html.Styled.Events exposing (onInput)
@@ -27,6 +26,14 @@ type alias Architecture =
     { init : Shared -> ( Model, Cmd Msg )
     , update : Msg -> Model -> ( Model, Cmd Msg )
     , view : Model -> List (Html Msg)
+    }
+
+
+architecture : Page -> Architecture
+architecture page =
+    { init = init
+    , update = update
+    , view = view page
     }
 
 
@@ -62,6 +69,19 @@ update msg model =
 
         SetTableState newState ->
             ( { model | tableState = newState }, Cmd.none )
+
+
+view : Page -> Model -> List (Html Msg)
+view page =
+    case page of
+        SortableTable ->
+            examplesForSortableTable
+
+        HolyGrail ->
+            \_ -> examplesForHolyGrail
+
+        _ ->
+            \_ -> []
 
 
 examplesForSortableTable : Model -> List (Html Msg)

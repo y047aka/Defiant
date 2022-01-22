@@ -1,18 +1,17 @@
 module Category.Elements exposing
-    ( Architecture
-    , Model, init, Msg, update
-    , examplesForButton, examplesForContainer, examplesForDivider, examplesForHeader, examplesForIcon, examplesForImage, examplesForInput, examplesForLabel, examplesForLoader, examplesForPlaceholder, examplesForRail, examplesForSegment, examplesForStep, examplesForCircleStep, examplesForText
+    ( Architecture, architecture
+    , Model, Msg
     )
 
 {-|
 
-@docs Architecture
-@docs Model, init, Msg, update
-@docs examplesForButton, examplesForContainer, examplesForDivider, examplesForHeader, examplesForIcon, examplesForImage, examplesForInput, examplesForLabel, examplesForLoader, examplesForPlaceholder, examplesForRail, examplesForSegment, examplesForStep, examplesForCircleStep, examplesForText
+@docs Architecture, architecture
+@docs Model, Msg
 
 -}
 
 import Css exposing (..)
+import Data.Page exposing (Page(..))
 import Html.Styled as Html exposing (Attribute, Html, a, h2, input, p, strong, text)
 import Html.Styled.Attributes exposing (css, href, placeholder, src, type_)
 import Html.Styled.Events exposing (onClick)
@@ -45,6 +44,14 @@ type alias Architecture =
     }
 
 
+architecture : Page -> Architecture
+architecture page =
+    { init = init
+    , update = update
+    , view = view page
+    }
+
+
 type alias Model =
     { shared : Shared
     , count : Int
@@ -73,6 +80,58 @@ update msg model =
 
         Decrement ->
             ( { model | count = model.count - 1 }, Cmd.none )
+
+
+view : Page -> Model -> List (Html Msg)
+view page =
+    case page of
+        Button ->
+            examplesForButton
+
+        Container ->
+            \_ -> examplesForContainer
+
+        Divider ->
+            \_ -> examplesForDivider
+
+        Header ->
+            \{ shared } -> examplesForHeader { inverted = shared.darkMode }
+
+        Icon ->
+            \_ -> examplesForIcon
+
+        Image ->
+            \_ -> examplesForImage
+
+        Input ->
+            \_ -> examplesForInput
+
+        Label ->
+            \_ -> examplesForLabel
+
+        Loader ->
+            \{ shared } -> examplesForLoader { inverted = shared.darkMode }
+
+        Placeholder ->
+            \_ -> examplesForPlaceholder
+
+        Rail ->
+            \{ shared } -> examplesForRail { inverted = shared.darkMode }
+
+        Segment ->
+            \{ shared } -> examplesForSegment { inverted = shared.darkMode }
+
+        Step ->
+            \_ -> examplesForStep
+
+        CircleStep ->
+            \_ -> examplesForCircleStep
+
+        Text ->
+            \{ shared } -> examplesForText { inverted = shared.darkMode }
+
+        _ ->
+            \_ -> []
 
 
 examplesForButton : Model -> List (Html Msg)

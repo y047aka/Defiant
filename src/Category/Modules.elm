@@ -1,17 +1,16 @@
 module Category.Modules exposing
-    ( Architecture
-    , Model, init, Msg, update
-    , examplesForAccordion, examplesForCheckbox, examplesForDimmer, examplesForModal, examplesForProgress, examplesForTab
+    ( Architecture, architecture
+    , Model, Msg
     )
 
 {-|
 
-@docs Architecture
-@docs Model, init, Msg, update
-@docs examplesForAccordion, examplesForCheckbox, examplesForDimmer, examplesForModal, examplesForProgress, examplesForTab
+@docs Architecture, architecture
+@docs Model, Msg
 
 -}
 
+import Data.Page exposing (Page(..))
 import Html.Styled as Html exposing (Html, a, div, p, text)
 import Html.Styled.Attributes as Attributes exposing (for, href, id, src, type_)
 import Html.Styled.Events exposing (onClick)
@@ -36,6 +35,14 @@ type alias Architecture =
     { init : Shared -> ( Model, Cmd Msg )
     , update : Msg -> Model -> ( Model, Cmd Msg )
     , view : Model -> List (Html Msg)
+    }
+
+
+architecture : Page -> Architecture
+architecture page =
+    { init = init
+    , update = update
+    , view = view page
     }
 
 
@@ -100,6 +107,31 @@ update msg model =
                         calculated
             in
             ( { model | progress = newProgress }, Cmd.none )
+
+
+view : Page -> Model -> List (Html Msg)
+view page =
+    case page of
+        Accordion ->
+            \{ shared } -> examplesForAccordion { inverted = shared.darkMode }
+
+        Checkbox ->
+            \_ -> examplesForCheckbox
+
+        Dimmer ->
+            \{ shared, toggledItems } -> examplesForDimmer { toggledItems = toggledItems, darkMode = shared.darkMode }
+
+        Modal ->
+            \{ shared, toggledItems } -> examplesForModal { toggledItems = toggledItems, darkMode = shared.darkMode }
+
+        Progress ->
+            examplesForProgress
+
+        Tab ->
+            \_ -> examplesForTab
+
+        _ ->
+            \_ -> []
 
 
 examplesForAccordion : { inverted : Bool } -> List (Html msg)

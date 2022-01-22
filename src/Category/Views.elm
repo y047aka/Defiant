@@ -1,17 +1,16 @@
 module Category.Views exposing
-    ( Architecture
-    , Model, init, Msg, update
-    , examplesForCard, examplesForItem
+    ( Architecture, architecture
+    , Model, Msg
     )
 
 {-|
 
-@docs Architecture
-@docs Model, init, Msg, update
-@docs examplesForCard, examplesForItem
+@docs Architecture, architecture
+@docs Model, Msg
 
 -}
 
+import Data.Page exposing (Page(..))
 import Html.Styled as Html exposing (Html, a, p, span, text)
 import Html.Styled.Attributes exposing (name, src, type_)
 import Shared exposing (Shared)
@@ -26,6 +25,14 @@ type alias Architecture =
     { init : Shared -> ( Model, Cmd Msg )
     , update : Msg -> Model -> ( Model, Cmd Msg )
     , view : Model -> List (Html Msg)
+    }
+
+
+architecture : Page -> Architecture
+architecture page =
+    { init = init
+    , update = update
+    , view = view page
     }
 
 
@@ -47,6 +54,19 @@ update msg model =
     case msg of
         NoOp ->
             ( model, Cmd.none )
+
+
+view : Page -> Model -> List (Html Msg)
+view page =
+    case page of
+        Card ->
+            \{ shared } -> examplesForCard { inverted = shared.darkMode }
+
+        Item ->
+            \_ -> examplesForItem
+
+        _ ->
+            \_ -> []
 
 
 examplesForCard : { inverted : Bool } -> List (Html msg)

@@ -1,14 +1,12 @@
 module Category.Globals exposing
-    ( Architecture
-    , Model, init, Msg, update
-    , examplesForSite
+    ( Architecture, architecture
+    , Model, Msg
     )
 
 {-|
 
-@docs Architecture
-@docs Model, init, Msg, update
-@docs examplesForSite
+@docs Architecture, architecture
+@docs Model, Msg
 
 -}
 
@@ -22,6 +20,14 @@ type alias Architecture =
     { init : Shared -> ( Model, Cmd Msg )
     , update : Msg -> Model -> ( Model, Cmd Msg )
     , view : Model -> List (Html Msg)
+    }
+
+
+architecture : Architecture
+architecture =
+    { init = init
+    , update = update
+    , view = \_ -> examplesForSite
     }
 
 
