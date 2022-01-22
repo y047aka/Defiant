@@ -12,11 +12,12 @@ import Css.FontAwesome exposing (fontAwesome)
 import Css.Global exposing (global)
 import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
+import Data.Category as Category exposing (Category(..))
 import Data.Page exposing (Page(..))
 import Html.Styled as Html exposing (Html, a, div, text, toUnstyled)
 import Html.Styled.Attributes as Attributes exposing (for, href, id, type_)
 import Html.Styled.Events exposing (onClick)
-import Shared exposing (Shared)
+import Shared exposing (PageSummary, Shared, setDarkMode, setPageSummary)
 import UI.Breadcrumb exposing (BreadcrumbItem, breadcrumb)
 import UI.Card as Card exposing (card, cards)
 import UI.Checkbox as Checkbox exposing (checkbox)
@@ -59,7 +60,7 @@ main =
 
 
 type alias Model =
-    { pageSummary : PageSummary
+    { architecture : Architecture_
     , subModel : SubModel
     }
 
@@ -76,8 +77,13 @@ type SubModel
 
 init : () -> Url -> Key -> ( Model, Cmd Msg )
 init _ url key =
-    { pageSummary = notFoundPage
-    , subModel = NoneModel (Shared.init key)
+    { architecture =
+        Default
+            { init = \model -> ( { model | subModel = NoneModel (getShared model) }, Cmd.none )
+            , update = \msg model -> update msg model
+            , view = \_ -> []
+            }
+    , subModel = NoneModel (Shared.init key (Tuple.first notFoundPage))
     }
         |> routing url
 
@@ -86,7 +92,7 @@ init _ url key =
 -- ROUTER
 
 
-parser : Parser (PageSummary -> a) a
+parser : Parser (( PageSummary, Architecture_ ) -> a) a
 parser =
     let
         pageParser route =
@@ -101,25 +107,28 @@ parser =
                     Parser.top
     in
     Parser.oneOf <|
-        List.map (\summary -> Parser.map summary (pageParser summary.route)) allPages
+        List.map (\page -> Parser.map page (pageParser (Tuple.first page).route)) allPages
 
 
 routing : Url -> Model -> ( Model, Cmd Msg )
 routing url prevModel =
+    let
+        shared =
+            getShared prevModel
+    in
     Parser.parse parser url
         |> Maybe.withDefault notFoundPage
-        |> (\pageSummary ->
+        |> (\( pageSummary, architecture ) ->
                 let
-                    shared =
-                        getShared prevModel
-
                     model =
                         { prevModel
-                            | pageSummary = pageSummary
-                            , subModel = setShared shared prevModel.subModel
+                            | architecture = architecture
+                            , subModel =
+                                prevModel.subModel
+                                    |> setShared (setPageSummary pageSummary shared)
                         }
                 in
-                getInit pageSummary.architecture model
+                getInit architecture model
            )
 
 
@@ -163,16 +172,16 @@ update msg model =
             routing url model
 
         ToggleDarkMode ->
-            let
-                shared_ =
-                    Shared.setDarkMode (not shared.darkMode) shared
-            in
-            ( { model | subModel = setShared shared_ model.subModel }
+            ( { model
+                | subModel =
+                    model.subModel
+                        |> setShared (setDarkMode (not shared.darkMode) shared)
+              }
             , Cmd.none
             )
 
         _ ->
-            getUpdate model.pageSummary.architecture msg model
+            getUpdate model.architecture msg model
 
 
 updateWith : (subModel -> SubModel) -> (subMsg -> Msg) -> Model -> ( subModel, Cmd subMsg ) -> ( Model, Cmd Msg )
@@ -238,30 +247,34 @@ setShared shared subModel =
 
 view : Model -> { title : String, body : List (Html Msg) }
 view model =
+    let
+        { title, route } =
+            getShared model |> .pageSummary
+    in
     { title =
-        case model.pageSummary.route of
+        case route of
             [] ->
                 "Defiant"
 
             _ ->
-                model.pageSummary.title ++ " | Defiant"
+                title ++ " | Defiant"
     , body =
         layout model <|
-            getView model.pageSummary.architecture model
+            getView model.architecture model
     }
 
 
 layout : Model -> List (Html Msg) -> List (Html Msg)
 layout model contents =
     let
-        darkMode =
-            getShared model |> .darkMode
+        { pageSummary, darkMode } =
+            getShared model
     in
     [ basicSegment { inverted = False }
         []
         [ container []
             [ breadcrumb { divider = text "/", inverted = darkMode }
-                (breadcrumbItems model.pageSummary)
+                (breadcrumbItems pageSummary)
             ]
         ]
     , basicSegment { inverted = False }
@@ -317,24 +330,21 @@ tableOfContents options =
         (\category ->
             basicSegment options
                 []
-                [ Header.header options [] [ text (categoryToString category) ]
+                [ Header.header options [] [ text (Category.toString category) ]
                 , cards []
-                    (List.filter (.category >> (==) category) allPages
-                        |> List.map item
+                    (List.filterMap
+                        (\( ps, _ ) ->
+                            if ps.category == category then
+                                Just (item ps)
+
+                            else
+                                Nothing
+                        )
+                        allPages
                     )
                 ]
         )
         [ Globals, Elements, Collections, Views, Modules, Defiant ]
-
-
-type alias PageSummary =
-    { page : Page
-    , title : String
-    , description : String
-    , category : Category
-    , route : List String
-    , architecture : Architecture_
-    }
 
 
 type Architecture_
@@ -357,9 +367,13 @@ toArchitecture_Globals : Globals.Architecture -> Architecture
 toArchitecture_Globals architecture =
     { init =
         \model ->
-            case model.pageSummary.category of
+            let
+                shared =
+                    getShared model
+            in
+            case shared.pageSummary.category of
                 Globals ->
-                    architecture.init (getShared model)
+                    architecture.init shared
                         |> updateWith GlobalsModel GlobalsMsg model
 
                 _ ->
@@ -389,9 +403,13 @@ toArchitecture_Elements : Elements.Architecture -> Architecture
 toArchitecture_Elements architecture =
     { init =
         \model ->
-            case model.pageSummary.category of
+            let
+                shared =
+                    getShared model
+            in
+            case shared.pageSummary.category of
                 Elements ->
-                    architecture.init (getShared model)
+                    architecture.init shared
                         |> updateWith ElementsModel ElementsMsg model
 
                 _ ->
@@ -421,9 +439,13 @@ toArchitecture_Collections : Collections.Architecture -> Architecture
 toArchitecture_Collections architecture =
     { init =
         \model ->
-            case model.pageSummary.category of
+            let
+                shared =
+                    getShared model
+            in
+            case shared.pageSummary.category of
                 Collections ->
-                    architecture.init (getShared model)
+                    architecture.init shared
                         |> updateWith CollectionsModel CollectionsMsg model
 
                 _ ->
@@ -453,9 +475,13 @@ toArchitecture_Views : Views.Architecture -> Architecture
 toArchitecture_Views architecture =
     { init =
         \model ->
-            case model.pageSummary.category of
+            let
+                shared =
+                    getShared model
+            in
+            case shared.pageSummary.category of
                 Views ->
-                    architecture.init (getShared model)
+                    architecture.init shared
                         |> updateWith ViewsModel ViewsMsg model
 
                 _ ->
@@ -485,9 +511,13 @@ toArchitecture_Modules : Modules.Architecture -> Architecture
 toArchitecture_Modules architecture =
     { init =
         \model ->
-            case model.pageSummary.category of
+            let
+                shared =
+                    getShared model
+            in
+            case shared.pageSummary.category of
                 Modules ->
-                    architecture.init (getShared model)
+                    architecture.init shared
                         |> updateWith ModulesModel ModulesMsg model
 
                 _ ->
@@ -517,9 +547,13 @@ toArchitecture_Defiant : Defiant.Architecture -> Architecture
 toArchitecture_Defiant architecture =
     { init =
         \model ->
-            case model.pageSummary.category of
+            let
+                shared =
+                    getShared model
+            in
+            case shared.pageSummary.category of
                 Defiant ->
-                    architecture.init (getShared model)
+                    architecture.init shared
                         |> updateWith DefiantModel DefiantMsg model
 
                 _ ->
@@ -560,426 +594,423 @@ getView =
     getArchitecture >> .view
 
 
-type Category
-    = None
-    | Globals
-    | Elements
-    | Collections
-    | Views
-    | Modules
-    | Defiant
-
-
-categoryToString : Category -> String
-categoryToString category =
-    case category of
-        None ->
-            "None"
-
-        Globals ->
-            "Globals"
-
-        Elements ->
-            "Elements"
-
-        Collections ->
-            "Collections"
-
-        Views ->
-            "Views"
-
-        Modules ->
-            "Modules"
-
-        Defiant ->
-            "Defiant"
-
-
-notFoundPage : PageSummary
+notFoundPage : ( PageSummary, Architecture_ )
 notFoundPage =
-    { page = NotFound
-    , title = "Not Found"
-    , description = ""
-    , category = None
-    , route = [ "404" ]
-    , architecture =
-        Default
-            { init = \model -> ( { model | subModel = NoneModel (getShared model) }, Cmd.none )
-            , update = \msg model -> update msg model
-            , view = \_ -> []
-            }
-    }
+    ( { page = NotFound
+      , title = "Not Found"
+      , description = ""
+      , category = None
+      , route = [ "404" ]
+      }
+    , Default
+        { init = \model -> ( { model | subModel = NoneModel (getShared model) }, Cmd.none )
+        , update = \msg model -> update msg model
+        , view = \_ -> []
+        }
+    )
 
 
-topPage : PageSummary
+topPage : ( PageSummary, Architecture_ )
 topPage =
-    { page = Top
-    , title = "Top"
-    , description = ""
-    , category = None
-    , route = []
-    , architecture =
-        Default
-            { init = \model -> ( { model | subModel = NoneModel (getShared model) }, Cmd.none )
-            , update = \msg model -> update msg model
-            , view = \model -> tableOfContents { inverted = getShared model |> .darkMode }
-            }
-    }
+    ( { page = Top
+      , title = "Top"
+      , description = ""
+      , category = None
+      , route = []
+      }
+    , Default
+        { init = \model -> ( { model | subModel = NoneModel (getShared model) }, Cmd.none )
+        , update = \msg model -> update msg model
+        , view = \model -> tableOfContents { inverted = getShared model |> .darkMode }
+        }
+    )
 
 
-sitePage : PageSummary
+sitePage : ( PageSummary, Architecture_ )
 sitePage =
-    { page = Site
-    , title = "Site"
-    , description = "A site is a set of global constraints that define the basic parameters of all UI elements"
-    , category = Globals
-    , route = [ "site" ]
-    , architecture = Globals.architecture |> toArchitecture_Globals |> Default
-    }
+    ( { page = Site
+      , title = "Site"
+      , description = "A site is a set of global constraints that define the basic parameters of all UI elements"
+      , category = Globals
+      , route = [ "site" ]
+      }
+    , Globals.architecture |> toArchitecture_Globals |> Default
+    )
 
 
-buttonPage : PageSummary
+buttonPage : ( PageSummary, Architecture_ )
 buttonPage =
-    { page = Button
-    , title = "Button"
-    , description = "A button indicates a possible user action"
-    , category = Elements
-    , route = [ "button" ]
-    , architecture = Elements.architecture Button |> toArchitecture_Elements |> Default
-    }
+    ( { page = Button
+      , title = "Button"
+      , description = "A button indicates a possible user action"
+      , category = Elements
+      , route = [ "button" ]
+      }
+    , Elements.architecture Button |> toArchitecture_Elements |> Default
+    )
 
 
-containerPage : PageSummary
+containerPage : ( PageSummary, Architecture_ )
 containerPage =
-    { page = Container
-    , title = "Container"
-    , description = "A container limits content to a maximum width"
-    , category = Elements
-    , route = [ "container" ]
-    , architecture = Elements.architecture Container |> toArchitecture_Elements |> Default
-    }
+    ( { page = Container
+      , title = "Container"
+      , description = "A container limits content to a maximum width"
+      , category = Elements
+      , route = [ "container" ]
+      }
+    , Elements.architecture Container |> toArchitecture_Elements |> Default
+    )
 
 
-dividerPage : PageSummary
+dividerPage : ( PageSummary, Architecture_ )
 dividerPage =
-    { page = Divider
-    , title = "Divider"
-    , description = "A divider visually segments content into groups"
-    , category = Elements
-    , route = [ "divider" ]
-    , architecture = Elements.architecture Divider |> toArchitecture_Elements |> Default
-    }
+    ( { page = Divider
+      , title = "Divider"
+      , description = "A divider visually segments content into groups"
+      , category = Elements
+      , route = [ "divider" ]
+      }
+    , Elements.architecture Divider |> toArchitecture_Elements |> Default
+    )
 
 
-headerPage : PageSummary
+headerPage : ( PageSummary, Architecture_ )
 headerPage =
-    { page = Header
-    , title = "Header"
-    , description = "A header provides a short summary of content"
-    , category = Elements
-    , route = [ "header" ]
-    , architecture = Elements.architecture Header |> toArchitecture_Elements |> Default
-    }
+    ( { page = Header
+      , title = "Header"
+      , description = "A header provides a short summary of content"
+      , category = Elements
+      , route = [ "header" ]
+      }
+    , Elements.architecture Header |> toArchitecture_Elements |> Default
+    )
 
 
-iconPage : PageSummary
+iconPage : ( PageSummary, Architecture_ )
 iconPage =
-    { page = Icon
-    , title = "Icon"
-    , description = "An icon is a glyph used to represent something else"
-    , category = Elements
-    , route = [ "icon" ]
-    , architecture = Elements.architecture Icon |> toArchitecture_Elements |> Default
-    }
+    ( { page = Icon
+      , title = "Icon"
+      , description = "An icon is a glyph used to represent something else"
+      , category = Elements
+      , route = [ "icon" ]
+      }
+    , Elements.architecture Icon |> toArchitecture_Elements |> Default
+    )
 
 
-imagePage : PageSummary
+imagePage : ( PageSummary, Architecture_ )
 imagePage =
-    { page = Image
-    , title = "Image"
-    , description = "An image is a graphic representation of something"
-    , category = Elements
-    , route = [ "image" ]
-    , architecture = Elements.architecture Image |> toArchitecture_Elements |> Default
-    }
+    ( { page = Image
+      , title = "Image"
+      , description = "An image is a graphic representation of something"
+      , category = Elements
+      , route = [ "image" ]
+      }
+    , Elements.architecture Image |> toArchitecture_Elements |> Default
+    )
 
 
-inputPage : PageSummary
+inputPage : ( PageSummary, Architecture_ )
 inputPage =
-    { page = Input
-    , title = "Input"
-    , description = "An input is a field used to elicit a response from a user"
-    , category = Elements
-    , route = [ "input" ]
-    , architecture = Elements.architecture Input |> toArchitecture_Elements |> Default
-    }
+    ( { page = Input
+      , title = "Input"
+      , description = "An input is a field used to elicit a response from a user"
+      , category = Elements
+      , route = [ "input" ]
+      }
+    , Elements.architecture Input |> toArchitecture_Elements |> Default
+    )
 
 
-labelPage : PageSummary
+labelPage : ( PageSummary, Architecture_ )
 labelPage =
-    { page = Label
-    , title = "Label"
-    , description = "A label displays content classification"
-    , category = Elements
-    , route = [ "label" ]
-    , architecture = Elements.architecture Label |> toArchitecture_Elements |> Default
-    }
+    ( { page = Label
+      , title = "Label"
+      , description = "A label displays content classification"
+      , category = Elements
+      , route = [ "label" ]
+      }
+    , Elements.architecture Label |> toArchitecture_Elements |> Default
+    )
 
 
-loaderPage : PageSummary
+loaderPage : ( PageSummary, Architecture_ )
 loaderPage =
-    { page = Loader
-    , title = "Loader"
-    , description = "A loader alerts a user to wait for an activity to complete"
-    , category = Elements
-    , route = [ "loader" ]
-    , architecture = Elements.architecture Loader |> toArchitecture_Elements |> Default
-    }
+    ( { page = Loader
+      , title = "Loader"
+      , description = "A loader alerts a user to wait for an activity to complete"
+      , category = Elements
+      , route = [ "loader" ]
+      }
+    , Elements.architecture Loader |> toArchitecture_Elements |> Default
+    )
 
 
-placeholderPage : PageSummary
+placeholderPage : ( PageSummary, Architecture_ )
 placeholderPage =
-    { page = Placeholder
-    , title = "Placeholder"
-    , description = "A placeholder is used to reserve splace for content that soon will appear in a layout"
-    , category = Elements
-    , route = [ "placeholder" ]
-    , architecture = Elements.architecture Placeholder |> toArchitecture_Elements |> Default
-    }
+    ( { page = Placeholder
+      , title = "Placeholder"
+      , description = "A placeholder is used to reserve splace for content that soon will appear in a layout"
+      , category = Elements
+      , route = [ "placeholder" ]
+      }
+    , Elements.architecture Placeholder |> toArchitecture_Elements |> Default
+    )
 
 
-railPage : PageSummary
+railPage : ( PageSummary, Architecture_ )
 railPage =
-    { page = Rail
-    , title = "Rail"
-    , description = "A rail is used to show accompanying content outside the boundaries of the main view of a site"
-    , category = Elements
-    , route = [ "rail" ]
-    , architecture = Elements.architecture Rail |> toArchitecture_Elements |> Default
-    }
+    ( { page = Rail
+      , title = "Rail"
+      , description = "A rail is used to show accompanying content outside the boundaries of the main view of a site"
+      , category = Elements
+      , route = [ "rail" ]
+      }
+    , Elements.architecture Rail |> toArchitecture_Elements |> Default
+    )
 
 
-segmentPage : PageSummary
+segmentPage : ( PageSummary, Architecture_ )
 segmentPage =
-    { page = Segment
-    , title = "Segment"
-    , description = "A segment is used to create a grouping of related content"
-    , category = Elements
-    , route = [ "segment" ]
-    , architecture = Elements.architecture Segment |> toArchitecture_Elements |> Default
-    }
+    ( { page = Segment
+      , title = "Segment"
+      , description = "A segment is used to create a grouping of related content"
+      , category = Elements
+      , route = [ "segment" ]
+      }
+    , Elements.architecture Segment |> toArchitecture_Elements |> Default
+    )
 
 
-stepPage : PageSummary
+stepPage : ( PageSummary, Architecture_ )
 stepPage =
-    { page = Step
-    , title = "Step"
-    , description = "A step shows the completion status of an activity in a series of activities"
-    , category = Elements
-    , route = [ "step" ]
-    , architecture = Elements.architecture Step |> toArchitecture_Elements |> Default
-    }
+    ( { page = Step
+      , title = "Step"
+      , description = "A step shows the completion status of an activity in a series of activities"
+      , category = Elements
+      , route = [ "step" ]
+      }
+    , Elements.architecture Step |> toArchitecture_Elements |> Default
+    )
 
 
-circleStepPage : PageSummary
+circleStepPage : ( PageSummary, Architecture_ )
 circleStepPage =
-    { page = CircleStep
-    , title = "Circle Step"
-    , description = "A step shows the completion status of an activity in a series of activities"
-    , category = Elements
-    , route = [ "circle-step" ]
-    , architecture = Elements.architecture CircleStep |> toArchitecture_Elements |> Default
-    }
+    ( { page = CircleStep
+      , title = "Circle Step"
+      , description = "A step shows the completion status of an activity in a series of activities"
+      , category = Elements
+      , route = [ "circle-step" ]
+      }
+    , Elements.architecture CircleStep |> toArchitecture_Elements |> Default
+    )
 
 
-textPage : PageSummary
+textPage : ( PageSummary, Architecture_ )
 textPage =
-    { page = Text
-    , title = "Text"
-    , description = "A text is used to style some inline text with a simple color"
-    , category = Elements
-    , route = [ "text" ]
-    , architecture = Elements.architecture Text |> toArchitecture_Elements |> Default
-    }
+    ( { page = Text
+      , title = "Text"
+      , description = "A text is used to style some inline text with a simple color"
+      , category = Elements
+      , route = [ "text" ]
+      }
+    , Elements.architecture Text |> toArchitecture_Elements |> Default
+    )
 
 
-breadcrumbPage : PageSummary
+breadcrumbPage : ( PageSummary, Architecture_ )
 breadcrumbPage =
-    { page = Breadcrumb
-    , title = "Breadcrumb"
-    , description = "A breadcrumb is used to show hierarchy between content"
-    , category = Collections
-    , route = [ "breadcrumb" ]
-    , architecture = Collections.architecture Breadcrumb |> toArchitecture_Collections |> Default
-    }
+    ( { page = Breadcrumb
+      , title = "Breadcrumb"
+      , description = "A breadcrumb is used to show hierarchy between content"
+      , category = Collections
+      , route = [ "breadcrumb" ]
+      }
+    , Collections.architecture Breadcrumb |> toArchitecture_Collections |> Default
+    )
 
 
-formPage : PageSummary
+formPage : ( PageSummary, Architecture_ )
 formPage =
-    { page = Form
-    , title = "Form"
-    , description = "A form displays a set of related user input fields in a structured way"
-    , category = Collections
-    , route = [ "form" ]
-    , architecture = Collections.architecture Form |> toArchitecture_Collections |> Default
-    }
+    ( { page = Form
+      , title = "Form"
+      , description = "A form displays a set of related user input fields in a structured way"
+      , category = Collections
+      , route = [ "form" ]
+      }
+    , Collections.architecture Form |> toArchitecture_Collections |> Default
+    )
 
 
-gridPage : PageSummary
+gridPage : ( PageSummary, Architecture_ )
 gridPage =
-    { page = Grid
-    , title = "Grid"
-    , description = "A grid is used to harmonize negative space in a layout"
-    , category = Collections
-    , route = [ "grid" ]
-    , architecture = Collections.architecture Grid |> toArchitecture_Collections |> Default
-    }
+    ( { page = Grid
+      , title = "Grid"
+      , description = "A grid is used to harmonize negative space in a layout"
+      , category = Collections
+      , route = [ "grid" ]
+      }
+    , Collections.architecture Grid |> toArchitecture_Collections |> Default
+    )
 
 
-menuPage : PageSummary
+menuPage : ( PageSummary, Architecture_ )
 menuPage =
-    { page = Menu
-    , title = "Menu"
-    , description = "A menu displays grouped navigation actions"
-    , category = Collections
-    , route = [ "menu" ]
-    , architecture = Collections.architecture Menu |> toArchitecture_Collections |> Default
-    }
+    ( { page = Menu
+      , title = "Menu"
+      , description = "A menu displays grouped navigation actions"
+      , category = Collections
+      , route = [ "menu" ]
+      }
+    , Collections.architecture Menu |> toArchitecture_Collections |> Default
+    )
 
 
-messagePage : PageSummary
+messagePage : ( PageSummary, Architecture_ )
 messagePage =
-    { page = Message
-    , title = "Message"
-    , description = "A message displays information that explains nearby content"
-    , category = Collections
-    , route = [ "message" ]
-    , architecture = Collections.architecture Message |> toArchitecture_Collections |> Default
-    }
+    ( { page = Message
+      , title = "Message"
+      , description = "A message displays information that explains nearby content"
+      , category = Collections
+      , route = [ "message" ]
+      }
+    , Collections.architecture Message |> toArchitecture_Collections |> Default
+    )
 
 
-tablePage : PageSummary
+tablePage : ( PageSummary, Architecture_ )
 tablePage =
-    { page = Table
-    , title = "Table"
-    , description = "A table displays a collections of data grouped into rows"
-    , category = Collections
-    , route = [ "table" ]
-    , architecture = Collections.architecture Table |> toArchitecture_Collections |> Default
-    }
+    ( { page = Table
+      , title = "Table"
+      , description = "A table displays a collections of data grouped into rows"
+      , category = Collections
+      , route = [ "table" ]
+      }
+    , Collections.architecture Table |> toArchitecture_Collections |> Default
+    )
 
 
-cardPage : PageSummary
+cardPage : ( PageSummary, Architecture_ )
 cardPage =
-    { page = Card
-    , title = "Card"
-    , description = "A card displays site content in a manner similar to a playing card"
-    , category = Views
-    , route = [ "card" ]
-    , architecture = Views.architecture Card |> toArchitecture_Views |> Default
-    }
+    ( { page = Card
+      , title = "Card"
+      , description = "A card displays site content in a manner similar to a playing card"
+      , category = Views
+      , route = [ "card" ]
+      }
+    , Views.architecture Card |> toArchitecture_Views |> Default
+    )
 
 
-itemPage : PageSummary
+itemPage : ( PageSummary, Architecture_ )
 itemPage =
-    { page = Item
-    , title = "Item"
-    , description = "An item view presents large collections of site content for display"
-    , category = Views
-    , route = [ "item" ]
-    , architecture = Views.architecture Item |> toArchitecture_Views |> Default
-    }
+    ( { page = Item
+      , title = "Item"
+      , description = "An item view presents large collections of site content for display"
+      , category = Views
+      , route = [ "item" ]
+      }
+    , Views.architecture Item |> toArchitecture_Views |> Default
+    )
 
 
-accordionPage : PageSummary
+accordionPage : ( PageSummary, Architecture_ )
 accordionPage =
-    { page = Accordion
-    , title = "Accordion"
-    , description = "An accordion allows users to toggle the display of sections of content"
-    , category = Modules
-    , route = [ "accordion" ]
-    , architecture = Modules.architecture Accordion |> toArchitecture_Modules |> Default
-    }
+    ( { page = Accordion
+      , title = "Accordion"
+      , description = "An accordion allows users to toggle the display of sections of content"
+      , category = Modules
+      , route = [ "accordion" ]
+      }
+    , Modules.architecture Accordion |> toArchitecture_Modules |> Default
+    )
 
 
-checkboxPage : PageSummary
+checkboxPage : ( PageSummary, Architecture_ )
 checkboxPage =
-    { page = Checkbox
-    , title = "Checkbox"
-    , description = "A checkbox allows a user to select a value from a small set of options, often binary"
-    , category = Modules
-    , route = [ "checkbox" ]
-    , architecture = Modules.architecture Checkbox |> toArchitecture_Modules |> Default
-    }
+    ( { page = Checkbox
+      , title = "Checkbox"
+      , description = "A checkbox allows a user to select a value from a small set of options, often binary"
+      , category = Modules
+      , route = [ "checkbox" ]
+      }
+    , Modules.architecture Checkbox |> toArchitecture_Modules |> Default
+    )
 
 
-dimmerPage : PageSummary
+dimmerPage : ( PageSummary, Architecture_ )
 dimmerPage =
-    { page = Dimmer
-    , title = "Dimmer"
-    , description = "A dimmer hides distractions to focus attention on particular content"
-    , category = Modules
-    , route = [ "dimmer" ]
-    , architecture = Modules.architecture Dimmer |> toArchitecture_Modules |> Default
-    }
+    ( { page = Dimmer
+      , title = "Dimmer"
+      , description = "A dimmer hides distractions to focus attention on particular content"
+      , category = Modules
+      , route = [ "dimmer" ]
+      }
+    , Modules.architecture Dimmer |> toArchitecture_Modules |> Default
+    )
 
 
-modalPage : PageSummary
+modalPage : ( PageSummary, Architecture_ )
 modalPage =
-    { page = Modal
-    , title = "Modal"
-    , description = "A modal displays content that temporarily blocks interactions with the main view of a site"
-    , category = Modules
-    , route = [ "modal" ]
-    , architecture = Modules.architecture Modal |> toArchitecture_Modules |> Default
-    }
+    ( { page = Modal
+      , title = "Modal"
+      , description = "A modal displays content that temporarily blocks interactions with the main view of a site"
+      , category = Modules
+      , route = [ "modal" ]
+      }
+    , Modules.architecture Modal |> toArchitecture_Modules |> Default
+    )
 
 
-progressPage : PageSummary
+progressPage : ( PageSummary, Architecture_ )
 progressPage =
-    { page = Progress
-    , title = "Progress"
-    , description = "A progress bar shows the progression of a task"
-    , category = Modules
-    , route = [ "progress" ]
-    , architecture = Modules.architecture Progress |> toArchitecture_Modules |> Default
-    }
+    ( { page = Progress
+      , title = "Progress"
+      , description = "A progress bar shows the progression of a task"
+      , category = Modules
+      , route = [ "progress" ]
+      }
+    , Modules.architecture Progress |> toArchitecture_Modules |> Default
+    )
 
 
-tabPage : PageSummary
+tabPage : ( PageSummary, Architecture_ )
 tabPage =
-    { page = Tab
-    , title = "Tab"
-    , description = "A tab is a hidden section of content activated by a menu"
-    , category = Modules
-    , route = [ "tab" ]
-    , architecture = Modules.architecture Tab |> toArchitecture_Modules |> Default
-    }
+    ( { page = Tab
+      , title = "Tab"
+      , description = "A tab is a hidden section of content activated by a menu"
+      , category = Modules
+      , route = [ "tab" ]
+      }
+    , Modules.architecture Tab |> toArchitecture_Modules |> Default
+    )
 
 
-sortableTablePage : PageSummary
+sortableTablePage : ( PageSummary, Architecture_ )
 sortableTablePage =
-    { page = SortableTable
-    , title = "SortableTable"
-    , description = "Sortable table"
-    , category = Defiant
-    , route = [ "sortable-table" ]
-    , architecture = Defiant.architecture SortableTable |> toArchitecture_Defiant |> Default
-    }
+    ( { page = SortableTable
+      , title = "SortableTable"
+      , description = "Sortable table"
+      , category = Defiant
+      , route = [ "sortable-table" ]
+      }
+    , Defiant.architecture SortableTable |> toArchitecture_Defiant |> Default
+    )
 
 
-holyGrailPage : PageSummary
+holyGrailPage : ( PageSummary, Architecture_ )
 holyGrailPage =
-    { page = HolyGrail
-    , title = "HolyGrail"
-    , description = "Holy grail layout."
-    , category = Defiant
-    , route = [ "holy-grail" ]
-    , architecture = Defiant.architecture HolyGrail |> toArchitecture_Defiant |> Default
-    }
+    ( { page = HolyGrail
+      , title = "HolyGrail"
+      , description = "Holy grail layout."
+      , category = Defiant
+      , route = [ "holy-grail" ]
+      }
+    , Defiant.architecture HolyGrail |> toArchitecture_Defiant |> Default
+    )
 
 
-allPages : List PageSummary
+allPages : List ( PageSummary, Architecture_ )
 allPages =
     [ notFoundPage
     , topPage
