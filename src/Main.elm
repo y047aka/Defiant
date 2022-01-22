@@ -5,7 +5,6 @@ import Browser.Navigation as Nav exposing (Key)
 import Category.Collections as Collections
 import Category.Defiant as Defiant
 import Category.Elements as Elements
-import Category.Globals as Globals
 import Category.Modules as Modules
 import Category.Views as Views
 import Css.FontAwesome exposing (fontAwesome)
@@ -17,6 +16,7 @@ import Data.Page exposing (Page(..), PageSummary)
 import Html.Styled as Html exposing (Html, a, div, text, toUnstyled)
 import Html.Styled.Attributes as Attributes exposing (for, href, id, type_)
 import Html.Styled.Events exposing (onClick)
+import Page.Globals.Site as Site
 import Shared exposing (Shared, setDarkMode, setPageSummary)
 import UI.Breadcrumb exposing (BreadcrumbItem, breadcrumb)
 import UI.Card as Card exposing (card, cards)
@@ -67,7 +67,8 @@ type alias Model =
 
 type SubModel
     = NoneModel Shared
-    | GlobalsModel Globals.Model
+      -- Globals
+    | SiteModel Site.Model
     | ElementsModel Elements.Model
     | CollectionsModel Collections.Model
     | ViewsModel Views.Model
@@ -148,7 +149,8 @@ type Msg
     = UrlRequested Browser.UrlRequest
     | UrlChanged Url
     | ToggleDarkMode
-    | GlobalsMsg Globals.Msg
+      -- Globals
+    | SiteMsg Site.Msg
     | ElementsMsg Elements.Msg
     | CollectionsMsg Collections.Msg
     | ViewsMsg Views.Msg
@@ -205,7 +207,8 @@ getShared model =
         NoneModel shared ->
             shared
 
-        GlobalsModel { shared } ->
+        -- Globals
+        SiteModel { shared } ->
             shared
 
         ElementsModel { shared } ->
@@ -230,8 +233,9 @@ setShared shared subModel =
         NoneModel _ ->
             NoneModel shared
 
-        GlobalsModel model ->
-            GlobalsModel { model | shared = shared }
+        -- Globals
+        SiteModel model ->
+            SiteModel { model | shared = shared }
 
         ElementsModel model ->
             ElementsModel { model | shared = shared }
@@ -718,7 +722,7 @@ allPages =
 
     -- Globals
     , { pageSummary = sitePage
-      , architecture = Globals.architecture |> toArchitecture_Globals
+      , architecture = Site.architecture |> toArchitecture_Site
       }
 
     -- Elements
@@ -826,27 +830,27 @@ allPages =
     ]
 
 
-toArchitecture_Globals : Globals.Architecture -> Architecture
-toArchitecture_Globals architecture =
+toArchitecture_Site : Site.Architecture -> Architecture
+toArchitecture_Site architecture =
     { init =
         \model ->
             architecture.init (getShared model)
-                |> updateWith GlobalsModel GlobalsMsg model
+                |> updateWith SiteModel SiteMsg model
     , update =
         \msg model ->
             case ( model.subModel, msg ) of
-                ( GlobalsModel subModel, GlobalsMsg subMsg ) ->
+                ( SiteModel subModel, SiteMsg subMsg ) ->
                     architecture.update subMsg subModel
-                        |> updateWith GlobalsModel GlobalsMsg model
+                        |> updateWith SiteModel SiteMsg model
 
                 _ ->
                     ( model, Cmd.none )
     , view =
         \{ subModel } ->
             case subModel of
-                GlobalsModel model ->
+                SiteModel model ->
                     architecture.view model
-                        |> List.map (Html.map GlobalsMsg)
+                        |> List.map (Html.map SiteMsg)
 
                 _ ->
                     []
