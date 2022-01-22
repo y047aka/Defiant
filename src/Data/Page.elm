@@ -1,4 +1,6 @@
-module Data.Page exposing (Page(..))
+module Data.Page exposing (Page(..), PageSummary)
+
+import Data.Category exposing (Category(..))
 
 
 type Page
@@ -36,3 +38,12 @@ type Page
     | Tab
     | SortableTable
     | HolyGrail
+
+
+type alias PageSummary =
+    { page : Page
+    , title : String
+    , description : String
+    , category : Category
+    , route : List String
+    }
