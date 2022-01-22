@@ -60,7 +60,7 @@ main =
 
 
 type alias Model =
-    { architecture : Architecture_
+    { architecture : Architecture
     , subModel : SubModel
     }
 
@@ -92,7 +92,7 @@ init _ url key =
 -- ROUTER
 
 
-parser : Parser (( PageSummary, Architecture_ ) -> a) a
+parser : Parser (( PageSummary, Architecture ) -> a) a
 parser =
     let
         pageParser route =
@@ -347,20 +347,12 @@ tableOfContents options =
         [ Globals, Elements, Collections, Views, Modules, Defiant ]
 
 
-type Architecture_
-    = Default Architecture
-
-
-type alias Architecture =
-    { init : Model -> ( Model, Cmd Msg )
-    , update : Msg -> Model -> ( Model, Cmd Msg )
-    , view : Model -> List (Html Msg)
-    }
-
-
-getArchitecture : Architecture_ -> Architecture
-getArchitecture (Default architecture) =
-    architecture
+type Architecture
+    = Default
+        { init : Model -> ( Model, Cmd Msg )
+        , update : Msg -> Model -> ( Model, Cmd Msg )
+        , view : Model -> List (Html Msg)
+        }
 
 
 toArchitecture_Globals : Globals.Architecture -> Architecture
@@ -397,6 +389,7 @@ toArchitecture_Globals architecture =
                 _ ->
                     []
     }
+        |> Default
 
 
 toArchitecture_Elements : Elements.Architecture -> Architecture
@@ -433,6 +426,7 @@ toArchitecture_Elements architecture =
                 _ ->
                     []
     }
+        |> Default
 
 
 toArchitecture_Collections : Collections.Architecture -> Architecture
@@ -469,6 +463,7 @@ toArchitecture_Collections architecture =
                 _ ->
                     []
     }
+        |> Default
 
 
 toArchitecture_Views : Views.Architecture -> Architecture
@@ -505,6 +500,7 @@ toArchitecture_Views architecture =
                 _ ->
                     []
     }
+        |> Default
 
 
 toArchitecture_Modules : Modules.Architecture -> Architecture
@@ -541,6 +537,7 @@ toArchitecture_Modules architecture =
                 _ ->
                     []
     }
+        |> Default
 
 
 toArchitecture_Defiant : Defiant.Architecture -> Architecture
@@ -577,24 +574,25 @@ toArchitecture_Defiant architecture =
                 _ ->
                     []
     }
+        |> Default
 
 
-getInit : Architecture_ -> (Model -> ( Model, Cmd Msg ))
-getInit =
-    getArchitecture >> .init
+getInit : Architecture -> (Model -> ( Model, Cmd Msg ))
+getInit (Default architecture) =
+    architecture.init
 
 
-getUpdate : Architecture_ -> (Msg -> Model -> ( Model, Cmd Msg ))
-getUpdate =
-    getArchitecture >> .update
+getUpdate : Architecture -> (Msg -> Model -> ( Model, Cmd Msg ))
+getUpdate (Default architecture) =
+    architecture.update
 
 
-getView : Architecture_ -> (Model -> List (Html Msg))
-getView =
-    getArchitecture >> .view
+getView : Architecture -> (Model -> List (Html Msg))
+getView (Default architecture) =
+    architecture.view
 
 
-notFoundPage : ( PageSummary, Architecture_ )
+notFoundPage : ( PageSummary, Architecture )
 notFoundPage =
     ( { page = NotFound
       , title = "Not Found"
@@ -610,7 +608,7 @@ notFoundPage =
     )
 
 
-topPage : ( PageSummary, Architecture_ )
+topPage : ( PageSummary, Architecture )
 topPage =
     ( { page = Top
       , title = "Top"
@@ -626,7 +624,7 @@ topPage =
     )
 
 
-sitePage : ( PageSummary, Architecture_ )
+sitePage : ( PageSummary, Architecture )
 sitePage =
     ( { page = Site
       , title = "Site"
@@ -634,11 +632,11 @@ sitePage =
       , category = Globals
       , route = [ "site" ]
       }
-    , Globals.architecture |> toArchitecture_Globals |> Default
+    , Globals.architecture |> toArchitecture_Globals
     )
 
 
-buttonPage : ( PageSummary, Architecture_ )
+buttonPage : ( PageSummary, Architecture )
 buttonPage =
     ( { page = Button
       , title = "Button"
@@ -646,11 +644,11 @@ buttonPage =
       , category = Elements
       , route = [ "button" ]
       }
-    , Elements.architecture Button |> toArchitecture_Elements |> Default
+    , Elements.architecture Button |> toArchitecture_Elements
     )
 
 
-containerPage : ( PageSummary, Architecture_ )
+containerPage : ( PageSummary, Architecture )
 containerPage =
     ( { page = Container
       , title = "Container"
@@ -658,11 +656,11 @@ containerPage =
       , category = Elements
       , route = [ "container" ]
       }
-    , Elements.architecture Container |> toArchitecture_Elements |> Default
+    , Elements.architecture Container |> toArchitecture_Elements
     )
 
 
-dividerPage : ( PageSummary, Architecture_ )
+dividerPage : ( PageSummary, Architecture )
 dividerPage =
     ( { page = Divider
       , title = "Divider"
@@ -670,11 +668,11 @@ dividerPage =
       , category = Elements
       , route = [ "divider" ]
       }
-    , Elements.architecture Divider |> toArchitecture_Elements |> Default
+    , Elements.architecture Divider |> toArchitecture_Elements
     )
 
 
-headerPage : ( PageSummary, Architecture_ )
+headerPage : ( PageSummary, Architecture )
 headerPage =
     ( { page = Header
       , title = "Header"
@@ -682,11 +680,11 @@ headerPage =
       , category = Elements
       , route = [ "header" ]
       }
-    , Elements.architecture Header |> toArchitecture_Elements |> Default
+    , Elements.architecture Header |> toArchitecture_Elements
     )
 
 
-iconPage : ( PageSummary, Architecture_ )
+iconPage : ( PageSummary, Architecture )
 iconPage =
     ( { page = Icon
       , title = "Icon"
@@ -694,11 +692,11 @@ iconPage =
       , category = Elements
       , route = [ "icon" ]
       }
-    , Elements.architecture Icon |> toArchitecture_Elements |> Default
+    , Elements.architecture Icon |> toArchitecture_Elements
     )
 
 
-imagePage : ( PageSummary, Architecture_ )
+imagePage : ( PageSummary, Architecture )
 imagePage =
     ( { page = Image
       , title = "Image"
@@ -706,11 +704,11 @@ imagePage =
       , category = Elements
       , route = [ "image" ]
       }
-    , Elements.architecture Image |> toArchitecture_Elements |> Default
+    , Elements.architecture Image |> toArchitecture_Elements
     )
 
 
-inputPage : ( PageSummary, Architecture_ )
+inputPage : ( PageSummary, Architecture )
 inputPage =
     ( { page = Input
       , title = "Input"
@@ -718,11 +716,11 @@ inputPage =
       , category = Elements
       , route = [ "input" ]
       }
-    , Elements.architecture Input |> toArchitecture_Elements |> Default
+    , Elements.architecture Input |> toArchitecture_Elements
     )
 
 
-labelPage : ( PageSummary, Architecture_ )
+labelPage : ( PageSummary, Architecture )
 labelPage =
     ( { page = Label
       , title = "Label"
@@ -730,11 +728,11 @@ labelPage =
       , category = Elements
       , route = [ "label" ]
       }
-    , Elements.architecture Label |> toArchitecture_Elements |> Default
+    , Elements.architecture Label |> toArchitecture_Elements
     )
 
 
-loaderPage : ( PageSummary, Architecture_ )
+loaderPage : ( PageSummary, Architecture )
 loaderPage =
     ( { page = Loader
       , title = "Loader"
@@ -742,11 +740,11 @@ loaderPage =
       , category = Elements
       , route = [ "loader" ]
       }
-    , Elements.architecture Loader |> toArchitecture_Elements |> Default
+    , Elements.architecture Loader |> toArchitecture_Elements
     )
 
 
-placeholderPage : ( PageSummary, Architecture_ )
+placeholderPage : ( PageSummary, Architecture )
 placeholderPage =
     ( { page = Placeholder
       , title = "Placeholder"
@@ -754,11 +752,11 @@ placeholderPage =
       , category = Elements
       , route = [ "placeholder" ]
       }
-    , Elements.architecture Placeholder |> toArchitecture_Elements |> Default
+    , Elements.architecture Placeholder |> toArchitecture_Elements
     )
 
 
-railPage : ( PageSummary, Architecture_ )
+railPage : ( PageSummary, Architecture )
 railPage =
     ( { page = Rail
       , title = "Rail"
@@ -766,11 +764,11 @@ railPage =
       , category = Elements
       , route = [ "rail" ]
       }
-    , Elements.architecture Rail |> toArchitecture_Elements |> Default
+    , Elements.architecture Rail |> toArchitecture_Elements
     )
 
 
-segmentPage : ( PageSummary, Architecture_ )
+segmentPage : ( PageSummary, Architecture )
 segmentPage =
     ( { page = Segment
       , title = "Segment"
@@ -778,11 +776,11 @@ segmentPage =
       , category = Elements
       , route = [ "segment" ]
       }
-    , Elements.architecture Segment |> toArchitecture_Elements |> Default
+    , Elements.architecture Segment |> toArchitecture_Elements
     )
 
 
-stepPage : ( PageSummary, Architecture_ )
+stepPage : ( PageSummary, Architecture )
 stepPage =
     ( { page = Step
       , title = "Step"
@@ -790,11 +788,11 @@ stepPage =
       , category = Elements
       , route = [ "step" ]
       }
-    , Elements.architecture Step |> toArchitecture_Elements |> Default
+    , Elements.architecture Step |> toArchitecture_Elements
     )
 
 
-circleStepPage : ( PageSummary, Architecture_ )
+circleStepPage : ( PageSummary, Architecture )
 circleStepPage =
     ( { page = CircleStep
       , title = "Circle Step"
@@ -802,11 +800,11 @@ circleStepPage =
       , category = Elements
       , route = [ "circle-step" ]
       }
-    , Elements.architecture CircleStep |> toArchitecture_Elements |> Default
+    , Elements.architecture CircleStep |> toArchitecture_Elements
     )
 
 
-textPage : ( PageSummary, Architecture_ )
+textPage : ( PageSummary, Architecture )
 textPage =
     ( { page = Text
       , title = "Text"
@@ -814,11 +812,11 @@ textPage =
       , category = Elements
       , route = [ "text" ]
       }
-    , Elements.architecture Text |> toArchitecture_Elements |> Default
+    , Elements.architecture Text |> toArchitecture_Elements
     )
 
 
-breadcrumbPage : ( PageSummary, Architecture_ )
+breadcrumbPage : ( PageSummary, Architecture )
 breadcrumbPage =
     ( { page = Breadcrumb
       , title = "Breadcrumb"
@@ -826,11 +824,11 @@ breadcrumbPage =
       , category = Collections
       , route = [ "breadcrumb" ]
       }
-    , Collections.architecture Breadcrumb |> toArchitecture_Collections |> Default
+    , Collections.architecture Breadcrumb |> toArchitecture_Collections
     )
 
 
-formPage : ( PageSummary, Architecture_ )
+formPage : ( PageSummary, Architecture )
 formPage =
     ( { page = Form
       , title = "Form"
@@ -838,11 +836,11 @@ formPage =
       , category = Collections
       , route = [ "form" ]
       }
-    , Collections.architecture Form |> toArchitecture_Collections |> Default
+    , Collections.architecture Form |> toArchitecture_Collections
     )
 
 
-gridPage : ( PageSummary, Architecture_ )
+gridPage : ( PageSummary, Architecture )
 gridPage =
     ( { page = Grid
       , title = "Grid"
@@ -850,11 +848,11 @@ gridPage =
       , category = Collections
       , route = [ "grid" ]
       }
-    , Collections.architecture Grid |> toArchitecture_Collections |> Default
+    , Collections.architecture Grid |> toArchitecture_Collections
     )
 
 
-menuPage : ( PageSummary, Architecture_ )
+menuPage : ( PageSummary, Architecture )
 menuPage =
     ( { page = Menu
       , title = "Menu"
@@ -862,11 +860,11 @@ menuPage =
       , category = Collections
       , route = [ "menu" ]
       }
-    , Collections.architecture Menu |> toArchitecture_Collections |> Default
+    , Collections.architecture Menu |> toArchitecture_Collections
     )
 
 
-messagePage : ( PageSummary, Architecture_ )
+messagePage : ( PageSummary, Architecture )
 messagePage =
     ( { page = Message
       , title = "Message"
@@ -874,11 +872,11 @@ messagePage =
       , category = Collections
       , route = [ "message" ]
       }
-    , Collections.architecture Message |> toArchitecture_Collections |> Default
+    , Collections.architecture Message |> toArchitecture_Collections
     )
 
 
-tablePage : ( PageSummary, Architecture_ )
+tablePage : ( PageSummary, Architecture )
 tablePage =
     ( { page = Table
       , title = "Table"
@@ -886,11 +884,11 @@ tablePage =
       , category = Collections
       , route = [ "table" ]
       }
-    , Collections.architecture Table |> toArchitecture_Collections |> Default
+    , Collections.architecture Table |> toArchitecture_Collections
     )
 
 
-cardPage : ( PageSummary, Architecture_ )
+cardPage : ( PageSummary, Architecture )
 cardPage =
     ( { page = Card
       , title = "Card"
@@ -898,11 +896,11 @@ cardPage =
       , category = Views
       , route = [ "card" ]
       }
-    , Views.architecture Card |> toArchitecture_Views |> Default
+    , Views.architecture Card |> toArchitecture_Views
     )
 
 
-itemPage : ( PageSummary, Architecture_ )
+itemPage : ( PageSummary, Architecture )
 itemPage =
     ( { page = Item
       , title = "Item"
@@ -910,11 +908,11 @@ itemPage =
       , category = Views
       , route = [ "item" ]
       }
-    , Views.architecture Item |> toArchitecture_Views |> Default
+    , Views.architecture Item |> toArchitecture_Views
     )
 
 
-accordionPage : ( PageSummary, Architecture_ )
+accordionPage : ( PageSummary, Architecture )
 accordionPage =
     ( { page = Accordion
       , title = "Accordion"
@@ -922,11 +920,11 @@ accordionPage =
       , category = Modules
       , route = [ "accordion" ]
       }
-    , Modules.architecture Accordion |> toArchitecture_Modules |> Default
+    , Modules.architecture Accordion |> toArchitecture_Modules
     )
 
 
-checkboxPage : ( PageSummary, Architecture_ )
+checkboxPage : ( PageSummary, Architecture )
 checkboxPage =
     ( { page = Checkbox
       , title = "Checkbox"
@@ -934,11 +932,11 @@ checkboxPage =
       , category = Modules
       , route = [ "checkbox" ]
       }
-    , Modules.architecture Checkbox |> toArchitecture_Modules |> Default
+    , Modules.architecture Checkbox |> toArchitecture_Modules
     )
 
 
-dimmerPage : ( PageSummary, Architecture_ )
+dimmerPage : ( PageSummary, Architecture )
 dimmerPage =
     ( { page = Dimmer
       , title = "Dimmer"
@@ -946,11 +944,11 @@ dimmerPage =
       , category = Modules
       , route = [ "dimmer" ]
       }
-    , Modules.architecture Dimmer |> toArchitecture_Modules |> Default
+    , Modules.architecture Dimmer |> toArchitecture_Modules
     )
 
 
-modalPage : ( PageSummary, Architecture_ )
+modalPage : ( PageSummary, Architecture )
 modalPage =
     ( { page = Modal
       , title = "Modal"
@@ -958,11 +956,11 @@ modalPage =
       , category = Modules
       , route = [ "modal" ]
       }
-    , Modules.architecture Modal |> toArchitecture_Modules |> Default
+    , Modules.architecture Modal |> toArchitecture_Modules
     )
 
 
-progressPage : ( PageSummary, Architecture_ )
+progressPage : ( PageSummary, Architecture )
 progressPage =
     ( { page = Progress
       , title = "Progress"
@@ -970,11 +968,11 @@ progressPage =
       , category = Modules
       , route = [ "progress" ]
       }
-    , Modules.architecture Progress |> toArchitecture_Modules |> Default
+    , Modules.architecture Progress |> toArchitecture_Modules
     )
 
 
-tabPage : ( PageSummary, Architecture_ )
+tabPage : ( PageSummary, Architecture )
 tabPage =
     ( { page = Tab
       , title = "Tab"
@@ -982,11 +980,11 @@ tabPage =
       , category = Modules
       , route = [ "tab" ]
       }
-    , Modules.architecture Tab |> toArchitecture_Modules |> Default
+    , Modules.architecture Tab |> toArchitecture_Modules
     )
 
 
-sortableTablePage : ( PageSummary, Architecture_ )
+sortableTablePage : ( PageSummary, Architecture )
 sortableTablePage =
     ( { page = SortableTable
       , title = "SortableTable"
@@ -994,11 +992,11 @@ sortableTablePage =
       , category = Defiant
       , route = [ "sortable-table" ]
       }
-    , Defiant.architecture SortableTable |> toArchitecture_Defiant |> Default
+    , Defiant.architecture SortableTable |> toArchitecture_Defiant
     )
 
 
-holyGrailPage : ( PageSummary, Architecture_ )
+holyGrailPage : ( PageSummary, Architecture )
 holyGrailPage =
     ( { page = HolyGrail
       , title = "HolyGrail"
@@ -1006,11 +1004,11 @@ holyGrailPage =
       , category = Defiant
       , route = [ "holy-grail" ]
       }
-    , Defiant.architecture HolyGrail |> toArchitecture_Defiant |> Default
+    , Defiant.architecture HolyGrail |> toArchitecture_Defiant
     )
 
 
-allPages : List ( PageSummary, Architecture_ )
+allPages : List ( PageSummary, Architecture )
 allPages =
     [ notFoundPage
     , topPage
