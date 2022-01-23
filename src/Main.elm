@@ -4,7 +4,6 @@ import Browser
 import Browser.Navigation as Nav exposing (Key)
 import Category.Collections as Collections
 import Category.Elements as Elements
-import Category.Modules as Modules
 import Category.Views as Views
 import Css.FontAwesome exposing (fontAwesome)
 import Css.Global exposing (global)
@@ -18,6 +17,12 @@ import Html.Styled.Events exposing (onClick)
 import Page.Defiant.HolyGrail as HolyGrail
 import Page.Defiant.SortableTable as SortableTable
 import Page.Globals.Site as Site
+import Page.Modules.Accordion as Accordion
+import Page.Modules.Checkbox as Checkbox
+import Page.Modules.Dimmer as Dimmer
+import Page.Modules.Modal as Modal
+import Page.Modules.Progress as Progress
+import Page.Modules.Tab as Tab
 import Shared exposing (Shared, setDarkMode, setPageSummary)
 import UI.Breadcrumb exposing (BreadcrumbItem, breadcrumb)
 import UI.Card as Card exposing (card, cards)
@@ -73,7 +78,13 @@ type SubModel
     | ElementsModel Elements.Model
     | CollectionsModel Collections.Model
     | ViewsModel Views.Model
-    | ModulesModel Modules.Model
+      -- Modules
+    | AccordionModel Accordion.Model
+    | CheckboxModel Checkbox.Model
+    | DimmerModel Dimmer.Model
+    | ModalModel Modal.Model
+    | ProgressModel Progress.Model
+    | TabModel Tab.Model
       -- Defiant
     | SortableTableModel SortableTable.Model
     | HolyGrailModel HolyGrail.Model
@@ -157,7 +168,13 @@ type Msg
     | ElementsMsg Elements.Msg
     | CollectionsMsg Collections.Msg
     | ViewsMsg Views.Msg
-    | ModulesMsg Modules.Msg
+      -- Modules
+    | AccordionMsg Accordion.Msg
+    | CheckboxMsg Checkbox.Msg
+    | DimmerMsg Dimmer.Msg
+    | ModalMsg Modal.Msg
+    | ProgressMsg Progress.Msg
+    | TabMsg Tab.Msg
       -- Defiant
     | SortableTableMsg SortableTable.Msg
     | HolyGrailMsg HolyGrail.Msg
@@ -225,7 +242,23 @@ getShared model =
         ViewsModel { shared } ->
             shared
 
-        ModulesModel { shared } ->
+        -- Modules
+        AccordionModel { shared } ->
+            shared
+
+        CheckboxModel { shared } ->
+            shared
+
+        DimmerModel { shared } ->
+            shared
+
+        ModalModel { shared } ->
+            shared
+
+        ProgressModel { shared } ->
+            shared
+
+        TabModel { shared } ->
             shared
 
         -- Defiant
@@ -255,8 +288,24 @@ setShared shared subModel =
         ViewsModel model ->
             ViewsModel { model | shared = shared }
 
-        ModulesModel model ->
-            ModulesModel { model | shared = shared }
+        -- Modules
+        AccordionModel model ->
+            AccordionModel { model | shared = shared }
+
+        CheckboxModel model ->
+            CheckboxModel { model | shared = shared }
+
+        DimmerModel model ->
+            DimmerModel { model | shared = shared }
+
+        ModalModel model ->
+            ModalModel { model | shared = shared }
+
+        ProgressModel model ->
+            ProgressModel { model | shared = shared }
+
+        TabModel model ->
+            TabModel { model | shared = shared }
 
         -- Defiant
         SortableTableModel model ->
@@ -812,24 +861,12 @@ allPages =
       }
 
     -- Modules
-    , { pageSummary = accordionPage
-      , architecture = Accordion |> Modules.architecture |> toArchitecture_Modules
-      }
-    , { pageSummary = checkboxPage
-      , architecture = Checkbox |> Modules.architecture |> toArchitecture_Modules
-      }
-    , { pageSummary = dimmerPage
-      , architecture = Dimmer |> Modules.architecture |> toArchitecture_Modules
-      }
-    , { pageSummary = modalPage
-      , architecture = Modal |> Modules.architecture |> toArchitecture_Modules
-      }
-    , { pageSummary = progressPage
-      , architecture = Progress |> Modules.architecture |> toArchitecture_Modules
-      }
-    , { pageSummary = tabPage
-      , architecture = Tab |> Modules.architecture |> toArchitecture_Modules
-      }
+    , { pageSummary = accordionPage, architecture = accordionArchitecture }
+    , { pageSummary = checkboxPage, architecture = checkboxArchitecture }
+    , { pageSummary = dimmerPage, architecture = dimmerArchitecture }
+    , { pageSummary = modalPage, architecture = modalArchitecture }
+    , { pageSummary = progressPage, architecture = progressArchitecture }
+    , { pageSummary = tabPage, architecture = tabArchitecture }
 
     -- Defiant
     , { pageSummary = sortableTablePage, architecture = sortableTableArchitecture }
@@ -953,27 +990,191 @@ toArchitecture_Views architecture =
         |> Default
 
 
-toArchitecture_Modules : Modules.Architecture -> Architecture
-toArchitecture_Modules architecture =
+accordionArchitecture : Architecture
+accordionArchitecture =
+    let
+        architecture =
+            Accordion.architecture
+    in
     { init =
         \model ->
             architecture.init (getShared model)
-                |> updateWith ModulesModel ModulesMsg model
+                |> updateWith AccordionModel AccordionMsg model
     , update =
         \msg model ->
             case ( model.subModel, msg ) of
-                ( ModulesModel subModel, ModulesMsg subMsg ) ->
+                ( AccordionModel subModel, AccordionMsg subMsg ) ->
                     architecture.update subMsg subModel
-                        |> updateWith ModulesModel ModulesMsg model
+                        |> updateWith AccordionModel AccordionMsg model
 
                 _ ->
                     ( model, Cmd.none )
     , view =
         \{ subModel } ->
             case subModel of
-                ModulesModel model ->
+                AccordionModel model ->
                     architecture.view model
-                        |> List.map (Html.map ModulesMsg)
+                        |> List.map (Html.map AccordionMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+checkboxArchitecture : Architecture
+checkboxArchitecture =
+    let
+        architecture =
+            Checkbox.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith CheckboxModel CheckboxMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( CheckboxModel subModel, CheckboxMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith CheckboxModel CheckboxMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                CheckboxModel model ->
+                    architecture.view model
+                        |> List.map (Html.map CheckboxMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+dimmerArchitecture : Architecture
+dimmerArchitecture =
+    let
+        architecture =
+            Dimmer.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith DimmerModel DimmerMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( DimmerModel subModel, DimmerMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith DimmerModel DimmerMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                DimmerModel model ->
+                    architecture.view model
+                        |> List.map (Html.map DimmerMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+modalArchitecture : Architecture
+modalArchitecture =
+    let
+        architecture =
+            Modal.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith ModalModel ModalMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( ModalModel subModel, ModalMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith ModalModel ModalMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                ModalModel model ->
+                    architecture.view model
+                        |> List.map (Html.map ModalMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+progressArchitecture : Architecture
+progressArchitecture =
+    let
+        architecture =
+            Progress.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith ProgressModel ProgressMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( ProgressModel subModel, ProgressMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith ProgressModel ProgressMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                ProgressModel model ->
+                    architecture.view model
+                        |> List.map (Html.map ProgressMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+tabArchitecture : Architecture
+tabArchitecture =
+    let
+        architecture =
+            Tab.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith TabModel TabMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( TabModel subModel, TabMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith TabModel TabMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                TabModel model ->
+                    architecture.view model
+                        |> List.map (Html.map TabMsg)
 
                 _ ->
                     []
