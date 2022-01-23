@@ -59,58 +59,57 @@ update msg model =
 
 
 view : Model -> List (Html Msg)
-view =
-    \{ shared, toggledItems } ->
-        let
-            options =
-                { inverted = shared.darkMode }
-        in
-        [ example
-            { title = "Modal"
-            , description = "A standard modal"
-            }
-            [ button [ onClick (Toggle "modal") ] [ icon [] "fas fa-plus", text "Show" ]
-            , pageDimmer (List.member "modal" toggledItems)
-                [ onClick (Toggle "modal") ]
-                [ modal options
-                    []
-                    { header = [ text "Select a Photo" ]
-                    , content =
-                        [ Modal.description []
-                            [ p []
-                                [ text "We've found the following "
-                                , a [ href "https://www.gravatar.com", Attributes.target "_blank" ] [ text "gravatar" ]
-                                , text " image associated with your e-mail address."
-                                ]
-                            , p [] [ text "Is it okay to use this photo?" ]
+view { shared, toggledItems } =
+    let
+        options =
+            { inverted = shared.darkMode }
+    in
+    [ example
+        { title = "Modal"
+        , description = "A standard modal"
+        }
+        [ button [ onClick (Toggle "modal") ] [ icon [] "fas fa-plus", text "Show" ]
+        , pageDimmer (List.member "modal" toggledItems)
+            [ onClick (Toggle "modal") ]
+            [ modal options
+                []
+                { header = [ text "Select a Photo" ]
+                , content =
+                    [ Modal.description []
+                        [ p []
+                            [ text "We've found the following "
+                            , a [ href "https://www.gravatar.com", Attributes.target "_blank" ] [ text "gravatar" ]
+                            , text " image associated with your e-mail address."
                             ]
+                        , p [] [ text "Is it okay to use this photo?" ]
                         ]
-                    , actions =
-                        [ blackButton [] [ text "Nope" ]
-                        , greenButton [] [ text "Yep, that's me" ]
-                        ]
-                    }
-                ]
-            ]
-        , example
-            { title = "Basic"
-            , description = "A modal can reduce its complexity"
-            }
-            [ button [ onClick (Toggle "basicModal") ] [ icon [] "fas fa-plus", text "Show" ]
-            , pageDimmer (List.member "basicModal" toggledItems)
-                [ onClick (Toggle "basicModal") ]
-                [ basicModal []
-                    { header = [ text "Archive Old Messages" ]
-                    , content =
-                        [ Modal.description []
-                            [ p [] [ text "Your inbox is getting full, would you like us to enable automatic archiving of old messages?" ] ]
-                        ]
-                    , actions =
-                        [ redButton [] [ text "No" ]
-                        , greenButton [] [ text "Yes" ]
-                        ]
-                    }
-                    []
-                ]
+                    ]
+                , actions =
+                    [ blackButton [] [ text "Nope" ]
+                    , greenButton [] [ text "Yep, that's me" ]
+                    ]
+                }
             ]
         ]
+    , example
+        { title = "Basic"
+        , description = "A modal can reduce its complexity"
+        }
+        [ button [ onClick (Toggle "basicModal") ] [ icon [] "fas fa-plus", text "Show" ]
+        , pageDimmer (List.member "basicModal" toggledItems)
+            [ onClick (Toggle "basicModal") ]
+            [ basicModal []
+                { header = [ text "Archive Old Messages" ]
+                , content =
+                    [ Modal.description []
+                        [ p [] [ text "Your inbox is getting full, would you like us to enable automatic archiving of old messages?" ] ]
+                    ]
+                , actions =
+                    [ redButton [] [ text "No" ]
+                    , greenButton [] [ text "Yes" ]
+                    ]
+                }
+                []
+            ]
+        ]
+    ]

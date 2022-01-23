@@ -40,15 +40,14 @@ update msg model =
 
 
 view : Model -> List (Html msg)
-view =
-    \_ ->
-        [ example
-            { title = "Checkbox"
-            , description = "A checkbox allows a user to select a value from a small set of options, often binary"
-            }
-            [ checkbox []
-                [ Checkbox.input [ id "checkbox_example", type_ "checkbox" ] []
-                , Checkbox.label [ for "checkbox_example" ] [ text "Make my profile visible" ]
-                ]
+view _ =
+    [ example
+        { title = "Checkbox"
+        , description = "A checkbox allows a user to select a value from a small set of options, often binary"
+        }
+        [ checkbox []
+            [ Checkbox.input [ id "checkbox_example", type_ "checkbox" ] []
+            , Checkbox.label [ for "checkbox_example" ] [ text "Make my profile visible" ]
             ]
         ]
+    ]

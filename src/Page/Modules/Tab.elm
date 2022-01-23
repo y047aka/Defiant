@@ -52,36 +52,35 @@ update msg model =
 
 
 view : Model -> List (Html msg)
-view =
-    \_ ->
-        [ example
-            { title = "Tab"
-            , description = "A basic tab"
-            }
-            [ tab { state = Inactive }
-                []
-                [ wireframeParagraph
-                , wireframeParagraph
-                ]
-            ]
-        , example
-            { title = "Active"
-            , description = "A tab can be activated, and visible on the page"
-            }
-            [ tab { state = Active }
-                []
-                [ wireframeParagraph
-                , wireframeParagraph
-                ]
-            ]
-        , example
-            { title = "Loading"
-            , description = "A tab can display a loading indicator"
-            }
-            [ tab { state = Loading }
-                []
-                [ wireframeParagraph
-                , wireframeParagraph
-                ]
+view _ =
+    [ example
+        { title = "Tab"
+        , description = "A basic tab"
+        }
+        [ tab { state = Inactive }
+            []
+            [ wireframeParagraph
+            , wireframeParagraph
             ]
         ]
+    , example
+        { title = "Active"
+        , description = "A tab can be activated, and visible on the page"
+        }
+        [ tab { state = Active }
+            []
+            [ wireframeParagraph
+            , wireframeParagraph
+            ]
+        ]
+    , example
+        { title = "Loading"
+        , description = "A tab can display a loading indicator"
+        }
+        [ tab { state = Loading }
+            []
+            [ wireframeParagraph
+            , wireframeParagraph
+            ]
+        ]
+    ]

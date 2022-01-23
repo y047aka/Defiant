@@ -61,76 +61,75 @@ update msg model =
 
 
 view : Model -> List (Html Msg)
-view =
-    \{ shared, toggledItems } ->
-        let
-            options =
-                { inverted = shared.darkMode }
-        in
-        [ example
-            { title = "Dimmer"
-            , description = "A simple dimmer displays no content"
-            }
-            [ segment options
-                []
-                [ Header.header options [] [ text "Overlayable Section" ]
-                , div [] <|
-                    List.repeat 1 (smallImage [ src "./static/images/wireframe/image.png" ] [])
-                , wireframeMediaParagraph
-                , dimmer { isActive = List.member "dimmer" toggledItems, inverted = False } [ onClick (Toggle "dimmer") ] []
-                ]
-            , button [ onClick (Toggle "dimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
+view { shared, toggledItems } =
+    let
+        options =
+            { inverted = shared.darkMode }
+    in
+    [ example
+        { title = "Dimmer"
+        , description = "A simple dimmer displays no content"
+        }
+        [ segment options
+            []
+            [ Header.header options [] [ text "Overlayable Section" ]
+            , div [] <|
+                List.repeat 1 (smallImage [ src "./static/images/wireframe/image.png" ] [])
+            , wireframeMediaParagraph
+            , dimmer { isActive = List.member "dimmer" toggledItems, inverted = False } [ onClick (Toggle "dimmer") ] []
             ]
-        , example
-            { title = "Content Dimmer"
-            , description = "A dimmer can display content"
-            }
-            [ segment options
-                []
-                [ Header.header options [] [ text "Overlayable Section" ]
-                , div [] <|
-                    List.repeat 1 (smallImage [ src "./static/images/wireframe/image.png" ] [])
-                , wireframeMediaParagraph
-                , dimmer { isActive = List.member "contentDimmer" toggledItems, inverted = False }
-                    [ onClick (Toggle "contentDimmer") ]
-                    [ Dimmer.content []
-                        [ iconHeader { inverted = True }
-                            []
-                            [ icon [] "fas fa-heart", text "Dimmed Message!" ]
-                        ]
-                    ]
-                ]
-            , button [ onClick (Toggle "contentDimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
-            ]
-        , example
-            { title = "Page Dimmer"
-            , description = "A dimmer can be formatted to be fixed to the page"
-            }
-            [ button [ onClick (Toggle "pageDimmer") ] [ icon [] "fas fa-plus", text "Show" ]
-            , pageDimmer (List.member "pageDimmer" toggledItems)
-                [ onClick (Toggle "pageDimmer") ]
-                [ iconHeader { inverted = True }
-                    []
-                    [ icon [] "fas fa-envelope"
-                    , text "Dimmer Message"
-                    , subHeader { inverted = True }
+        , button [ onClick (Toggle "dimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
+        ]
+    , example
+        { title = "Content Dimmer"
+        , description = "A dimmer can display content"
+        }
+        [ segment options
+            []
+            [ Header.header options [] [ text "Overlayable Section" ]
+            , div [] <|
+                List.repeat 1 (smallImage [ src "./static/images/wireframe/image.png" ] [])
+            , wireframeMediaParagraph
+            , dimmer { isActive = List.member "contentDimmer" toggledItems, inverted = False }
+                [ onClick (Toggle "contentDimmer") ]
+                [ Dimmer.content []
+                    [ iconHeader { inverted = True }
                         []
-                        [ text "Dimmer sub-header" ]
+                        [ icon [] "fas fa-heart", text "Dimmed Message!" ]
                     ]
                 ]
             ]
-        , example
-            { title = "Inverted Dimmer"
-            , description = "A dimmer can be formatted to have its colors inverted"
-            }
-            [ segment options
+        , button [ onClick (Toggle "contentDimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
+        ]
+    , example
+        { title = "Page Dimmer"
+        , description = "A dimmer can be formatted to be fixed to the page"
+        }
+        [ button [ onClick (Toggle "pageDimmer") ] [ icon [] "fas fa-plus", text "Show" ]
+        , pageDimmer (List.member "pageDimmer" toggledItems)
+            [ onClick (Toggle "pageDimmer") ]
+            [ iconHeader { inverted = True }
                 []
-                [ wireframeShortParagraph
-                , wireframeShortParagraph
-                , dimmer { isActive = List.member "invertedDimmer" toggledItems, inverted = True }
-                    [ onClick (Toggle "invertedDimmer") ]
+                [ icon [] "fas fa-envelope"
+                , text "Dimmer Message"
+                , subHeader { inverted = True }
                     []
+                    [ text "Dimmer sub-header" ]
                 ]
-            , button [ onClick (Toggle "invertedDimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
             ]
         ]
+    , example
+        { title = "Inverted Dimmer"
+        , description = "A dimmer can be formatted to have its colors inverted"
+        }
+        [ segment options
+            []
+            [ wireframeShortParagraph
+            , wireframeShortParagraph
+            , dimmer { isActive = List.member "invertedDimmer" toggledItems, inverted = True }
+                [ onClick (Toggle "invertedDimmer") ]
+                []
+            ]
+        , button [ onClick (Toggle "invertedDimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
+        ]
+    ]

@@ -39,18 +39,17 @@ update msg model =
 
 
 view : Model -> List (Html msg)
-view =
-    \_ ->
-        [ example
-            { title = "Holy grail"
-            , description = "Holy grail layout"
+view _ =
+    [ example
+        { title = "Holy grail"
+        , description = "Holy grail layout"
+        }
+        [ holyGrail
+            { header = [ text "header" ]
+            , main = [ wireframeParagraph ]
+            , aside_left = [ text "aside" ]
+            , aside_right = [ text "aside" ]
+            , footer = [ text "footer" ]
             }
-            [ holyGrail
-                { header = [ text "header" ]
-                , main = [ wireframeParagraph ]
-                , aside_left = [ text "aside" ]
-                , aside_right = [ text "aside" ]
-                , footer = [ text "footer" ]
-                }
-            ]
         ]
+    ]
