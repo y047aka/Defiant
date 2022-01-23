@@ -38,7 +38,7 @@ update msg model =
             ( model, Cmd.none )
 
 
-view : Model -> List (Html Msg)
+view : Model -> List (Html msg)
 view =
     \_ ->
         [ example
