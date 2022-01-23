@@ -2,7 +2,6 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
 import Browser.Navigation as Nav exposing (Key)
-import Category.Collections as Collections
 import Category.Elements as Elements
 import Css.FontAwesome exposing (fontAwesome)
 import Css.Global exposing (global)
@@ -13,6 +12,12 @@ import Data.Page exposing (Page(..), PageSummary)
 import Html.Styled as Html exposing (Html, a, div, text, toUnstyled)
 import Html.Styled.Attributes as Attributes exposing (for, href, id, type_)
 import Html.Styled.Events exposing (onClick)
+import Page.Collections.Breadcrumb as Breadcrumb
+import Page.Collections.Form as Form
+import Page.Collections.Grid as Grid
+import Page.Collections.Menu as Menu
+import Page.Collections.Message as Message
+import Page.Collections.Table as Table
 import Page.Defiant.HolyGrail as HolyGrail
 import Page.Defiant.SortableTable as SortableTable
 import Page.Globals.Site as Site
@@ -77,7 +82,13 @@ type SubModel
       -- Globals
     | SiteModel Site.Model
     | ElementsModel Elements.Model
-    | CollectionsModel Collections.Model
+      -- Collections
+    | BreadcrumbModel Breadcrumb.Model
+    | FormModel Form.Model
+    | GridModel Grid.Model
+    | MenuModel Menu.Model
+    | MessageModel Message.Model
+    | TableModel Table.Model
       -- Views
     | CardModel Card.Model
     | ItemModel Item.Model
@@ -169,7 +180,13 @@ type Msg
       -- Globals
     | SiteMsg Site.Msg
     | ElementsMsg Elements.Msg
-    | CollectionsMsg Collections.Msg
+      -- Collections
+    | BreadcrumbMsg Breadcrumb.Msg
+    | FormMsg Form.Msg
+    | GridMsg Grid.Msg
+    | MenuMsg Menu.Msg
+    | MessageMsg Message.Msg
+    | TableMsg Table.Msg
       -- Views
     | CardMsg Card.Msg
     | ItemMsg Item.Msg
@@ -241,7 +258,23 @@ getShared model =
         ElementsModel { shared } ->
             shared
 
-        CollectionsModel { shared } ->
+        -- Collections
+        BreadcrumbModel { shared } ->
+            shared
+
+        FormModel { shared } ->
+            shared
+
+        GridModel { shared } ->
+            shared
+
+        MenuModel { shared } ->
+            shared
+
+        MessageModel { shared } ->
+            shared
+
+        TableModel { shared } ->
             shared
 
         -- Views
@@ -291,8 +324,24 @@ setShared shared subModel =
         ElementsModel model ->
             ElementsModel { model | shared = shared }
 
-        CollectionsModel model ->
-            CollectionsModel { model | shared = shared }
+        -- Collections
+        BreadcrumbModel model ->
+            BreadcrumbModel { model | shared = shared }
+
+        FormModel model ->
+            FormModel { model | shared = shared }
+
+        GridModel model ->
+            GridModel { model | shared = shared }
+
+        MenuModel model ->
+            MenuModel { model | shared = shared }
+
+        MessageModel model ->
+            MessageModel { model | shared = shared }
+
+        TableModel model ->
+            TableModel { model | shared = shared }
 
         -- Views
         CardModel model ->
@@ -846,24 +895,12 @@ allPages =
       }
 
     -- Collections
-    , { pageSummary = breadcrumbPage
-      , architecture = Breadcrumb |> Collections.architecture |> toArchitecture_Collections
-      }
-    , { pageSummary = formPage
-      , architecture = Form |> Collections.architecture |> toArchitecture_Collections
-      }
-    , { pageSummary = gridPage
-      , architecture = Grid |> Collections.architecture |> toArchitecture_Collections
-      }
-    , { pageSummary = menuPage
-      , architecture = Menu |> Collections.architecture |> toArchitecture_Collections
-      }
-    , { pageSummary = messagePage
-      , architecture = Message |> Collections.architecture |> toArchitecture_Collections
-      }
-    , { pageSummary = tablePage
-      , architecture = Table |> Collections.architecture |> toArchitecture_Collections
-      }
+    , { pageSummary = breadcrumbPage, architecture = breadcrumbArchitecture }
+    , { pageSummary = formPage, architecture = formArchitecture }
+    , { pageSummary = gridPage, architecture = gridArchitecture }
+    , { pageSummary = menuPage, architecture = menuArchitecture }
+    , { pageSummary = messagePage, architecture = messageArchitecture }
+    , { pageSummary = tablePage, architecture = tableArchitecture }
 
     -- Views
     , { pageSummary = cardPage, architecture = cardArchitecture }
@@ -943,27 +980,191 @@ toArchitecture_Elements architecture =
         |> Default
 
 
-toArchitecture_Collections : Collections.Architecture -> Architecture
-toArchitecture_Collections architecture =
+breadcrumbArchitecture : Architecture
+breadcrumbArchitecture =
+    let
+        architecture =
+            Breadcrumb.architecture
+    in
     { init =
         \model ->
             architecture.init (getShared model)
-                |> updateWith CollectionsModel CollectionsMsg model
+                |> updateWith BreadcrumbModel BreadcrumbMsg model
     , update =
         \msg model ->
             case ( model.subModel, msg ) of
-                ( CollectionsModel subModel, CollectionsMsg subMsg ) ->
+                ( BreadcrumbModel subModel, BreadcrumbMsg subMsg ) ->
                     architecture.update subMsg subModel
-                        |> updateWith CollectionsModel CollectionsMsg model
+                        |> updateWith BreadcrumbModel BreadcrumbMsg model
 
                 _ ->
                     ( model, Cmd.none )
     , view =
         \{ subModel } ->
             case subModel of
-                CollectionsModel model ->
+                BreadcrumbModel model ->
                     architecture.view model
-                        |> List.map (Html.map CollectionsMsg)
+                        |> List.map (Html.map BreadcrumbMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+formArchitecture : Architecture
+formArchitecture =
+    let
+        architecture =
+            Form.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith FormModel FormMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( FormModel subModel, FormMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith FormModel FormMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                FormModel model ->
+                    architecture.view model
+                        |> List.map (Html.map FormMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+gridArchitecture : Architecture
+gridArchitecture =
+    let
+        architecture =
+            Grid.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith GridModel GridMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( GridModel subModel, GridMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith GridModel GridMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                GridModel model ->
+                    architecture.view model
+                        |> List.map (Html.map GridMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+menuArchitecture : Architecture
+menuArchitecture =
+    let
+        architecture =
+            Menu.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith MenuModel MenuMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( MenuModel subModel, MenuMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith MenuModel MenuMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                MenuModel model ->
+                    architecture.view model
+                        |> List.map (Html.map MenuMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+messageArchitecture : Architecture
+messageArchitecture =
+    let
+        architecture =
+            Message.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith MessageModel MessageMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( MessageModel subModel, MessageMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith MessageModel MessageMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                MessageModel model ->
+                    architecture.view model
+                        |> List.map (Html.map MessageMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+tableArchitecture : Architecture
+tableArchitecture =
+    let
+        architecture =
+            Table.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith TableModel TableMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( TableModel subModel, TableMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith TableModel TableMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                TableModel model ->
+                    architecture.view model
+                        |> List.map (Html.map TableMsg)
 
                 _ ->
                     []
