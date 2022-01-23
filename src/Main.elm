@@ -4,7 +4,6 @@ import Browser
 import Browser.Navigation as Nav exposing (Key)
 import Category.Collections as Collections
 import Category.Elements as Elements
-import Category.Views as Views
 import Css.FontAwesome exposing (fontAwesome)
 import Css.Global exposing (global)
 import Css.Reset exposing (normalize)
@@ -23,6 +22,8 @@ import Page.Modules.Dimmer as Dimmer
 import Page.Modules.Modal as Modal
 import Page.Modules.Progress as Progress
 import Page.Modules.Tab as Tab
+import Page.Views.Card as Card
+import Page.Views.Item as Item
 import Shared exposing (Shared, setDarkMode, setPageSummary)
 import UI.Breadcrumb exposing (BreadcrumbItem, breadcrumb)
 import UI.Card as Card exposing (card, cards)
@@ -77,7 +78,9 @@ type SubModel
     | SiteModel Site.Model
     | ElementsModel Elements.Model
     | CollectionsModel Collections.Model
-    | ViewsModel Views.Model
+      -- Views
+    | CardModel Card.Model
+    | ItemModel Item.Model
       -- Modules
     | AccordionModel Accordion.Model
     | CheckboxModel Checkbox.Model
@@ -167,7 +170,9 @@ type Msg
     | SiteMsg Site.Msg
     | ElementsMsg Elements.Msg
     | CollectionsMsg Collections.Msg
-    | ViewsMsg Views.Msg
+      -- Views
+    | CardMsg Card.Msg
+    | ItemMsg Item.Msg
       -- Modules
     | AccordionMsg Accordion.Msg
     | CheckboxMsg Checkbox.Msg
@@ -239,7 +244,11 @@ getShared model =
         CollectionsModel { shared } ->
             shared
 
-        ViewsModel { shared } ->
+        -- Views
+        CardModel { shared } ->
+            shared
+
+        ItemModel { shared } ->
             shared
 
         -- Modules
@@ -285,8 +294,12 @@ setShared shared subModel =
         CollectionsModel model ->
             CollectionsModel { model | shared = shared }
 
-        ViewsModel model ->
-            ViewsModel { model | shared = shared }
+        -- Views
+        CardModel model ->
+            CardModel { model | shared = shared }
+
+        ItemModel model ->
+            ItemModel { model | shared = shared }
 
         -- Modules
         AccordionModel model ->
@@ -853,12 +866,8 @@ allPages =
       }
 
     -- Views
-    , { pageSummary = cardPage
-      , architecture = Card |> Views.architecture |> toArchitecture_Views
-      }
-    , { pageSummary = itemPage
-      , architecture = Item |> Views.architecture |> toArchitecture_Views
-      }
+    , { pageSummary = cardPage, architecture = cardArchitecture }
+    , { pageSummary = itemPage, architecture = itemArchitecture }
 
     -- Modules
     , { pageSummary = accordionPage, architecture = accordionArchitecture }
@@ -962,27 +971,63 @@ toArchitecture_Collections architecture =
         |> Default
 
 
-toArchitecture_Views : Views.Architecture -> Architecture
-toArchitecture_Views architecture =
+cardArchitecture : Architecture
+cardArchitecture =
+    let
+        architecture =
+            Card.architecture
+    in
     { init =
         \model ->
             architecture.init (getShared model)
-                |> updateWith ViewsModel ViewsMsg model
+                |> updateWith CardModel CardMsg model
     , update =
         \msg model ->
             case ( model.subModel, msg ) of
-                ( ViewsModel subModel, ViewsMsg subMsg ) ->
+                ( CardModel subModel, CardMsg subMsg ) ->
                     architecture.update subMsg subModel
-                        |> updateWith ViewsModel ViewsMsg model
+                        |> updateWith CardModel CardMsg model
 
                 _ ->
                     ( model, Cmd.none )
     , view =
         \{ subModel } ->
             case subModel of
-                ViewsModel model ->
+                CardModel model ->
                     architecture.view model
-                        |> List.map (Html.map ViewsMsg)
+                        |> List.map (Html.map CardMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+itemArchitecture : Architecture
+itemArchitecture =
+    let
+        architecture =
+            Item.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith ItemModel ItemMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( ItemModel subModel, ItemMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith ItemModel ItemMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                ItemModel model ->
+                    architecture.view model
+                        |> List.map (Html.map ItemMsg)
 
                 _ ->
                     []
