@@ -2,7 +2,6 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
 import Browser.Navigation as Nav exposing (Key)
-import Category.Elements as Elements
 import Css.FontAwesome exposing (fontAwesome)
 import Css.Global exposing (global)
 import Css.Reset exposing (normalize)
@@ -20,6 +19,21 @@ import Page.Collections.Message as Message
 import Page.Collections.Table as Table
 import Page.Defiant.HolyGrail as HolyGrail
 import Page.Defiant.SortableTable as SortableTable
+import Page.Elements.Button as Button
+import Page.Elements.CircleStep as CircleStep
+import Page.Elements.Container as Container
+import Page.Elements.Divider as Divider
+import Page.Elements.Header as Header
+import Page.Elements.Icon as Icon
+import Page.Elements.Image as Image
+import Page.Elements.Input as Input
+import Page.Elements.Label as Label
+import Page.Elements.Loader as Loader
+import Page.Elements.Placeholder as Placeholder
+import Page.Elements.Rail as Rail
+import Page.Elements.Segment as Segment
+import Page.Elements.Step as Step
+import Page.Elements.Text as Text
 import Page.Globals.Site as Site
 import Page.Modules.Accordion as Accordion
 import Page.Modules.Checkbox as Checkbox
@@ -81,7 +95,22 @@ type SubModel
     = NoneModel Shared
       -- Globals
     | SiteModel Site.Model
-    | ElementsModel Elements.Model
+      -- Elements
+    | ButtonModel Button.Model
+    | ContainerModel Container.Model
+    | DividerModel Divider.Model
+    | HeaderModel Header.Model
+    | IconModel Icon.Model
+    | ImageModel Image.Model
+    | InputModel Input.Model
+    | LabelModel Label.Model
+    | LoaderModel Loader.Model
+    | PlaceholderModel Placeholder.Model
+    | RailModel Rail.Model
+    | SegmentModel Segment.Model
+    | StepModel Step.Model
+    | CircleStepModel CircleStep.Model
+    | TextModel Text.Model
       -- Collections
     | BreadcrumbModel Breadcrumb.Model
     | FormModel Form.Model
@@ -179,7 +208,22 @@ type Msg
     | ToggleDarkMode
       -- Globals
     | SiteMsg Site.Msg
-    | ElementsMsg Elements.Msg
+      -- Elements
+    | ButtonMsg Button.Msg
+    | ContainerMsg Container.Msg
+    | DividerMsg Divider.Msg
+    | HeaderMsg Header.Msg
+    | IconMsg Icon.Msg
+    | ImageMsg Image.Msg
+    | InputMsg Input.Msg
+    | LabelMsg Label.Msg
+    | LoaderMsg Loader.Msg
+    | PlaceholderMsg Placeholder.Msg
+    | RailMsg Rail.Msg
+    | SegmentMsg Segment.Msg
+    | StepMsg Step.Msg
+    | CircleStepMsg CircleStep.Msg
+    | TextMsg Text.Msg
       -- Collections
     | BreadcrumbMsg Breadcrumb.Msg
     | FormMsg Form.Msg
@@ -255,7 +299,50 @@ getShared model =
         SiteModel { shared } ->
             shared
 
-        ElementsModel { shared } ->
+        -- Elements
+        ButtonModel { shared } ->
+            shared
+
+        ContainerModel { shared } ->
+            shared
+
+        DividerModel { shared } ->
+            shared
+
+        HeaderModel { shared } ->
+            shared
+
+        IconModel { shared } ->
+            shared
+
+        ImageModel { shared } ->
+            shared
+
+        InputModel { shared } ->
+            shared
+
+        LabelModel { shared } ->
+            shared
+
+        LoaderModel { shared } ->
+            shared
+
+        PlaceholderModel { shared } ->
+            shared
+
+        RailModel { shared } ->
+            shared
+
+        SegmentModel { shared } ->
+            shared
+
+        StepModel { shared } ->
+            shared
+
+        CircleStepModel { shared } ->
+            shared
+
+        TextModel { shared } ->
             shared
 
         -- Collections
@@ -321,8 +408,51 @@ setShared shared subModel =
         SiteModel model ->
             SiteModel { model | shared = shared }
 
-        ElementsModel model ->
-            ElementsModel { model | shared = shared }
+        -- Elements
+        ButtonModel model ->
+            ButtonModel { model | shared = shared }
+
+        ContainerModel model ->
+            ContainerModel { model | shared = shared }
+
+        DividerModel model ->
+            DividerModel { model | shared = shared }
+
+        HeaderModel model ->
+            HeaderModel { model | shared = shared }
+
+        IconModel model ->
+            IconModel { model | shared = shared }
+
+        ImageModel model ->
+            ImageModel { model | shared = shared }
+
+        InputModel model ->
+            InputModel { model | shared = shared }
+
+        LabelModel model ->
+            LabelModel { model | shared = shared }
+
+        LoaderModel model ->
+            LoaderModel { model | shared = shared }
+
+        PlaceholderModel model ->
+            PlaceholderModel { model | shared = shared }
+
+        RailModel model ->
+            RailModel { model | shared = shared }
+
+        SegmentModel model ->
+            SegmentModel { model | shared = shared }
+
+        StepModel model ->
+            StepModel { model | shared = shared }
+
+        CircleStepModel model ->
+            CircleStepModel { model | shared = shared }
+
+        TextModel model ->
+            TextModel { model | shared = shared }
 
         -- Collections
         BreadcrumbModel model ->
@@ -848,51 +978,21 @@ allPages =
     , { pageSummary = sitePage, architecture = siteArchitecture }
 
     -- Elements
-    , { pageSummary = buttonPage
-      , architecture = Button |> Elements.architecture |> toArchitecture_Elements
-      }
-    , { pageSummary = containerPage
-      , architecture = Container |> Elements.architecture |> toArchitecture_Elements
-      }
-    , { pageSummary = dividerPage
-      , architecture = Divider |> Elements.architecture |> toArchitecture_Elements
-      }
-    , { pageSummary = headerPage
-      , architecture = Header |> Elements.architecture |> toArchitecture_Elements
-      }
-    , { pageSummary = iconPage
-      , architecture = Icon |> Elements.architecture |> toArchitecture_Elements
-      }
-    , { pageSummary = imagePage
-      , architecture = Image |> Elements.architecture |> toArchitecture_Elements
-      }
-    , { pageSummary = inputPage
-      , architecture = Input |> Elements.architecture |> toArchitecture_Elements
-      }
-    , { pageSummary = labelPage
-      , architecture = Label |> Elements.architecture |> toArchitecture_Elements
-      }
-    , { pageSummary = loaderPage
-      , architecture = Loader |> Elements.architecture |> toArchitecture_Elements
-      }
-    , { pageSummary = placeholderPage
-      , architecture = Placeholder |> Elements.architecture |> toArchitecture_Elements
-      }
-    , { pageSummary = railPage
-      , architecture = Rail |> Elements.architecture |> toArchitecture_Elements
-      }
-    , { pageSummary = segmentPage
-      , architecture = Segment |> Elements.architecture |> toArchitecture_Elements
-      }
-    , { pageSummary = stepPage
-      , architecture = Step |> Elements.architecture |> toArchitecture_Elements
-      }
-    , { pageSummary = circleStepPage
-      , architecture = CircleStep |> Elements.architecture |> toArchitecture_Elements
-      }
-    , { pageSummary = textPage
-      , architecture = Text |> Elements.architecture |> toArchitecture_Elements
-      }
+    , { pageSummary = buttonPage, architecture = buttonArchitecture }
+    , { pageSummary = containerPage, architecture = containerArchitecture }
+    , { pageSummary = dividerPage, architecture = dividerArchitecture }
+    , { pageSummary = headerPage, architecture = headerArchitecture }
+    , { pageSummary = iconPage, architecture = iconArchitecture }
+    , { pageSummary = imagePage, architecture = imageArchitecture }
+    , { pageSummary = inputPage, architecture = inputArchitecture }
+    , { pageSummary = labelPage, architecture = labelArchitecture }
+    , { pageSummary = loaderPage, architecture = loaderArchitecture }
+    , { pageSummary = placeholderPage, architecture = placeholderArchitecture }
+    , { pageSummary = railPage, architecture = railArchitecture }
+    , { pageSummary = segmentPage, architecture = segmentArchitecture }
+    , { pageSummary = stepPage, architecture = stepArchitecture }
+    , { pageSummary = circleStepPage, architecture = circleStepArchitecture }
+    , { pageSummary = textPage, architecture = textArchitecture }
 
     -- Collections
     , { pageSummary = breadcrumbPage, architecture = breadcrumbArchitecture }
@@ -952,27 +1052,479 @@ siteArchitecture =
         |> Default
 
 
-toArchitecture_Elements : Elements.Architecture -> Architecture
-toArchitecture_Elements architecture =
+buttonArchitecture : Architecture
+buttonArchitecture =
+    let
+        architecture =
+            Button.architecture
+    in
     { init =
         \model ->
             architecture.init (getShared model)
-                |> updateWith ElementsModel ElementsMsg model
+                |> updateWith ButtonModel ButtonMsg model
     , update =
         \msg model ->
             case ( model.subModel, msg ) of
-                ( ElementsModel subModel, ElementsMsg subMsg ) ->
+                ( ButtonModel subModel, ButtonMsg subMsg ) ->
                     architecture.update subMsg subModel
-                        |> updateWith ElementsModel ElementsMsg model
+                        |> updateWith ButtonModel ButtonMsg model
 
                 _ ->
                     ( model, Cmd.none )
     , view =
         \{ subModel } ->
             case subModel of
-                ElementsModel model ->
+                ButtonModel model ->
                     architecture.view model
-                        |> List.map (Html.map ElementsMsg)
+                        |> List.map (Html.map ButtonMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+containerArchitecture : Architecture
+containerArchitecture =
+    let
+        architecture =
+            Container.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith ContainerModel ContainerMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( ContainerModel subModel, ContainerMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith ContainerModel ContainerMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                ContainerModel model ->
+                    architecture.view model
+                        |> List.map (Html.map ContainerMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+dividerArchitecture : Architecture
+dividerArchitecture =
+    let
+        architecture =
+            Divider.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith DividerModel DividerMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( DividerModel subModel, DividerMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith DividerModel DividerMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                DividerModel model ->
+                    architecture.view model
+                        |> List.map (Html.map DividerMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+headerArchitecture : Architecture
+headerArchitecture =
+    let
+        architecture =
+            Header.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith HeaderModel HeaderMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( HeaderModel subModel, HeaderMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith HeaderModel HeaderMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                HeaderModel model ->
+                    architecture.view model
+                        |> List.map (Html.map HeaderMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+iconArchitecture : Architecture
+iconArchitecture =
+    let
+        architecture =
+            Icon.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith IconModel IconMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( IconModel subModel, IconMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith IconModel IconMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                IconModel model ->
+                    architecture.view model
+                        |> List.map (Html.map IconMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+imageArchitecture : Architecture
+imageArchitecture =
+    let
+        architecture =
+            Image.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith ImageModel ImageMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( ImageModel subModel, ImageMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith ImageModel ImageMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                ImageModel model ->
+                    architecture.view model
+                        |> List.map (Html.map ImageMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+inputArchitecture : Architecture
+inputArchitecture =
+    let
+        architecture =
+            Input.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith InputModel InputMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( InputModel subModel, InputMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith InputModel InputMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                InputModel model ->
+                    architecture.view model
+                        |> List.map (Html.map InputMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+labelArchitecture : Architecture
+labelArchitecture =
+    let
+        architecture =
+            Label.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith LabelModel LabelMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( LabelModel subModel, LabelMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith LabelModel LabelMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                LabelModel model ->
+                    architecture.view model
+                        |> List.map (Html.map LabelMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+loaderArchitecture : Architecture
+loaderArchitecture =
+    let
+        architecture =
+            Loader.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith LoaderModel LoaderMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( LoaderModel subModel, LoaderMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith LoaderModel LoaderMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                LoaderModel model ->
+                    architecture.view model
+                        |> List.map (Html.map LoaderMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+placeholderArchitecture : Architecture
+placeholderArchitecture =
+    let
+        architecture =
+            Placeholder.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith PlaceholderModel PlaceholderMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( PlaceholderModel subModel, PlaceholderMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith PlaceholderModel PlaceholderMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                PlaceholderModel model ->
+                    architecture.view model
+                        |> List.map (Html.map PlaceholderMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+railArchitecture : Architecture
+railArchitecture =
+    let
+        architecture =
+            Rail.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith RailModel RailMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( RailModel subModel, RailMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith RailModel RailMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                RailModel model ->
+                    architecture.view model
+                        |> List.map (Html.map RailMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+segmentArchitecture : Architecture
+segmentArchitecture =
+    let
+        architecture =
+            Segment.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith SegmentModel SegmentMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( SegmentModel subModel, SegmentMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith SegmentModel SegmentMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                SegmentModel model ->
+                    architecture.view model
+                        |> List.map (Html.map SegmentMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+stepArchitecture : Architecture
+stepArchitecture =
+    let
+        architecture =
+            Step.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith StepModel StepMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( StepModel subModel, StepMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith StepModel StepMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                StepModel model ->
+                    architecture.view model
+                        |> List.map (Html.map StepMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+circleStepArchitecture : Architecture
+circleStepArchitecture =
+    let
+        architecture =
+            CircleStep.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith CircleStepModel CircleStepMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( CircleStepModel subModel, CircleStepMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith CircleStepModel CircleStepMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                CircleStepModel model ->
+                    architecture.view model
+                        |> List.map (Html.map CircleStepMsg)
+
+                _ ->
+                    []
+    }
+        |> Default
+
+
+textArchitecture : Architecture
+textArchitecture =
+    let
+        architecture =
+            Text.architecture
+    in
+    { init =
+        \model ->
+            architecture.init (getShared model)
+                |> updateWith TextModel TextMsg model
+    , update =
+        \msg model ->
+            case ( model.subModel, msg ) of
+                ( TextModel subModel, TextMsg subMsg ) ->
+                    architecture.update subMsg subModel
+                        |> updateWith TextModel TextMsg model
+
+                _ ->
+                    ( model, Cmd.none )
+    , view =
+        \{ subModel } ->
+            case subModel of
+                TextModel model ->
+                    architecture.view model
+                        |> List.map (Html.map TextMsg)
 
                 _ ->
                     []
