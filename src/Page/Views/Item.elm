@@ -1,5 +1,6 @@
 module Page.Views.Item exposing (Model, Msg, architecture)
 
+import Data.Architecture exposing (Architecture)
 import Html.Styled as Html exposing (Html, p, span, text)
 import Html.Styled.Attributes exposing (src)
 import Shared exposing (Shared)
@@ -9,11 +10,7 @@ import UI.Image exposing (image, smallImage, tinyImage)
 import UI.Item as Item exposing (..)
 
 
-architecture :
-    { init : Shared -> ( Model, Cmd Msg )
-    , update : Msg -> Model -> ( Model, Cmd Msg )
-    , view : Model -> List (Html Msg)
-    }
+architecture : Architecture Model Msg
 architecture =
     { init = init
     , update = update

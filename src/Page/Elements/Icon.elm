@@ -1,6 +1,7 @@
 module Page.Elements.Icon exposing (Model, Msg, architecture)
 
 import Css exposing (..)
+import Data.Architecture exposing (Architecture)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import Html.Styled.Attributes exposing (css)
 import Shared exposing (Shared)
@@ -9,11 +10,7 @@ import UI.Grid as Grid exposing (fiveColumnsGrid)
 import UI.Icon exposing (icon)
 
 
-architecture :
-    { init : Shared -> ( Model, Cmd Msg )
-    , update : Msg -> Model -> ( Model, Cmd Msg )
-    , view : Model -> List (Html Msg)
-    }
+architecture : Architecture Model Msg
 architecture =
     { init = init
     , update = update

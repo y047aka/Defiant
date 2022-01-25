@@ -1,5 +1,6 @@
 module Page.Elements.Container exposing (Model, Msg, architecture)
 
+import Data.Architecture exposing (Architecture)
 import Html.Styled as Html exposing (Html, a, h2, p, strong, text)
 import Html.Styled.Attributes exposing (href)
 import Shared exposing (Shared)
@@ -7,11 +8,7 @@ import UI.Container exposing (container, textContainer)
 import UI.Example exposing (example)
 
 
-architecture :
-    { init : Shared -> ( Model, Cmd Msg )
-    , update : Msg -> Model -> ( Model, Cmd Msg )
-    , view : Model -> List (Html Msg)
-    }
+architecture : Architecture Model Msg
 architecture =
     { init = init
     , update = update

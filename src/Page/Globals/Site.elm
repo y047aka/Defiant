@@ -1,16 +1,13 @@
 module Page.Globals.Site exposing (Model, Msg, architecture)
 
 import Css exposing (..)
+import Data.Architecture exposing (Architecture)
 import Html.Styled as Html exposing (Html, h1, h2, h3, h4, h5, p, text)
 import Shared exposing (Shared)
 import UI.Example exposing (..)
 
 
-architecture :
-    { init : Shared -> ( Model, Cmd Msg )
-    , update : Msg -> Model -> ( Model, Cmd Msg )
-    , view : Model -> List (Html Msg)
-    }
+architecture : Architecture Model Msg
 architecture =
     { init = init
     , update = update

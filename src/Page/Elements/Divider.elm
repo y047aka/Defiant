@@ -1,16 +1,13 @@
 module Page.Elements.Divider exposing (Model, Msg, architecture)
 
+import Data.Architecture exposing (Architecture)
 import Html.Styled as Html exposing (Html)
 import Shared exposing (Shared)
 import UI.Divider exposing (divider)
 import UI.Example exposing (example, wireframeShortParagraph)
 
 
-architecture :
-    { init : Shared -> ( Model, Cmd Msg )
-    , update : Msg -> Model -> ( Model, Cmd Msg )
-    , view : Model -> List (Html Msg)
-    }
+architecture : Architecture Model Msg
 architecture =
     { init = init
     , update = update

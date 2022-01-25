@@ -1,5 +1,6 @@
 module Page.Defiant.SortableTable exposing (Model, Msg, architecture, presidents)
 
+import Data.Architecture exposing (Architecture)
 import Html.Styled as Html exposing (Html, input)
 import Html.Styled.Attributes exposing (placeholder)
 import Html.Styled.Events exposing (onInput)
@@ -8,11 +9,7 @@ import UI.Example exposing (example)
 import UI.SortableTable as Table
 
 
-architecture :
-    { init : Shared -> ( Model, Cmd Msg )
-    , update : Msg -> Model -> ( Model, Cmd Msg )
-    , view : Model -> List (Html Msg)
-    }
+architecture : Architecture Model Msg
 architecture =
     { init = init
     , update = update

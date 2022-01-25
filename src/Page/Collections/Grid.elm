@@ -1,6 +1,7 @@
 module Page.Collections.Grid exposing (Model, Msg, architecture)
 
 import Css exposing (..)
+import Data.Architecture exposing (Architecture)
 import Html.Styled as Html exposing (Html)
 import Html.Styled.Attributes exposing (css, src)
 import Shared exposing (Shared)
@@ -10,11 +11,7 @@ import UI.Image exposing (smallImage)
 import UI.Segment exposing (segment)
 
 
-architecture :
-    { init : Shared -> ( Model, Cmd Msg )
-    , update : Msg -> Model -> ( Model, Cmd Msg )
-    , view : Model -> List (Html Msg)
-    }
+architecture : Architecture Model Msg
 architecture =
     { init = init
     , update = update

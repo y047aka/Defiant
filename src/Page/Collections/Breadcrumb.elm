@@ -1,5 +1,6 @@
 module Page.Collections.Breadcrumb exposing (Model, Msg, architecture)
 
+import Data.Architecture exposing (Architecture)
 import Html.Styled as Html exposing (Html, text)
 import Shared exposing (Shared)
 import UI.Breadcrumb exposing (breadcrumb)
@@ -8,11 +9,7 @@ import UI.Icon exposing (icon)
 import UI.Segment exposing (segment)
 
 
-architecture :
-    { init : Shared -> ( Model, Cmd Msg )
-    , update : Msg -> Model -> ( Model, Cmd Msg )
-    , view : Model -> List (Html Msg)
-    }
+architecture : Architecture Model Msg
 architecture =
     { init = init
     , update = update

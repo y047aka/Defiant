@@ -1,5 +1,6 @@
 module Page.Modules.Dimmer exposing (Model, Msg, architecture)
 
+import Data.Architecture exposing (Architecture)
 import Html.Styled as Html exposing (Html, div, text)
 import Html.Styled.Attributes exposing (src)
 import Html.Styled.Events exposing (onClick)
@@ -13,11 +14,7 @@ import UI.Image exposing (smallImage)
 import UI.Segment exposing (segment)
 
 
-architecture :
-    { init : Shared -> ( Model, Cmd Msg )
-    , update : Msg -> Model -> ( Model, Cmd Msg )
-    , view : Model -> List (Html Msg)
-    }
+architecture : Architecture Model Msg
 architecture =
     { init = init
     , update = update

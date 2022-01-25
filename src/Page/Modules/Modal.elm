@@ -1,5 +1,6 @@
 module Page.Modules.Modal exposing (Model, Msg, architecture)
 
+import Data.Architecture exposing (Architecture)
 import Html.Styled as Html exposing (Html, a, p, text)
 import Html.Styled.Attributes as Attributes exposing (href)
 import Html.Styled.Events exposing (onClick)
@@ -11,11 +12,7 @@ import UI.Icon exposing (icon)
 import UI.Modal as Modal exposing (basicModal, modal)
 
 
-architecture :
-    { init : Shared -> ( Model, Cmd Msg )
-    , update : Msg -> Model -> ( Model, Cmd Msg )
-    , view : Model -> List (Html Msg)
-    }
+architecture : Architecture Model Msg
 architecture =
     { init = init
     , update = update

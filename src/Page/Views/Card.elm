@@ -1,5 +1,6 @@
 module Page.Views.Card exposing (Model, Msg, architecture)
 
+import Data.Architecture exposing (Architecture)
 import Html.Styled as Html exposing (Html, a, p, text)
 import Html.Styled.Attributes exposing (name, src, type_)
 import Shared exposing (Shared)
@@ -9,11 +10,7 @@ import UI.Icon exposing (icon)
 import UI.Image exposing (image)
 
 
-architecture :
-    { init : Shared -> ( Model, Cmd Msg )
-    , update : Msg -> Model -> ( Model, Cmd Msg )
-    , view : Model -> List (Html Msg)
-    }
+architecture : Architecture Model Msg
 architecture =
     { init = init
     , update = update

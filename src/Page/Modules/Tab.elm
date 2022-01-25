@@ -1,29 +1,13 @@
-module Page.Modules.Tab exposing
-    ( Architecture, architecture
-    , Model, Msg
-    )
+module Page.Modules.Tab exposing (Model, Msg, architecture)
 
-{-|
-
-@docs Architecture, architecture
-@docs Model, Msg
-
--}
-
+import Data.Architecture exposing (Architecture)
 import Html.Styled as Html exposing (Html)
 import Shared exposing (Shared)
 import UI.Example exposing (example, wireframeParagraph)
 import UI.Tab exposing (State(..), tab)
 
 
-type alias Architecture =
-    { init : Shared -> ( Model, Cmd Msg )
-    , update : Msg -> Model -> ( Model, Cmd Msg )
-    , view : Model -> List (Html Msg)
-    }
-
-
-architecture : Architecture
+architecture : Architecture Model Msg
 architecture =
     { init = init
     , update = update

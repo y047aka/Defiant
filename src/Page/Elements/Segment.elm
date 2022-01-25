@@ -1,16 +1,13 @@
 module Page.Elements.Segment exposing (Model, Msg, architecture)
 
+import Data.Architecture exposing (Architecture)
 import Html.Styled as Html exposing (Html, p, text)
 import Shared exposing (Shared)
 import UI.Example exposing (example, wireframeShortParagraph)
 import UI.Segment exposing (basicSegment, disabledSegment, invertedSegment, paddedSegment, segment, verticalSegment, veryPaddedSegment)
 
 
-architecture :
-    { init : Shared -> ( Model, Cmd Msg )
-    , update : Msg -> Model -> ( Model, Cmd Msg )
-    , view : Model -> List (Html Msg)
-    }
+architecture : Architecture Model Msg
 architecture =
     { init = init
     , update = update
