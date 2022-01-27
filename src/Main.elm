@@ -7,7 +7,6 @@ import Css.Global exposing (global)
 import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
 import Data.Category as Category exposing (Category(..))
-import Data.Page exposing (Page(..), PageSummary)
 import Html.Styled as Html exposing (Html, a, div, text, toUnstyled)
 import Html.Styled.Attributes as Attributes exposing (for, href, id, type_)
 import Html.Styled.Events exposing (onClick)
@@ -43,7 +42,7 @@ import Page.Modules.Progress as Progress
 import Page.Modules.Tab as Tab
 import Page.Views.Card as Card
 import Page.Views.Item as Item
-import Shared exposing (Shared, setDarkMode, setPageSummary)
+import Shared exposing (PageSummary, Shared, setDarkMode, setPageSummary)
 import UI.Breadcrumb exposing (BreadcrumbItem, breadcrumb)
 import UI.Card as Card exposing (card, cards)
 import UI.Checkbox as Checkbox exposing (checkbox)
@@ -616,8 +615,7 @@ tableOfContents options =
 notFoundPage : { pageSummary : PageSummary, architecture : Architecture }
 notFoundPage =
     { pageSummary =
-        { page = NotFound
-        , title = "Not Found"
+        { title = "Not Found"
         , description = ""
         , category = None
         , route = [ "404" ]
@@ -634,8 +632,7 @@ notFoundPage =
 topPage : { pageSummary : PageSummary, architecture : Architecture }
 topPage =
     { pageSummary =
-        { page = Top
-        , title = "Top"
+        { title = "Top"
         , description = ""
         , category = None
         , route = []
@@ -651,8 +648,7 @@ topPage =
 
 sitePage : PageSummary
 sitePage =
-    { page = Site
-    , title = "Site"
+    { title = "Site"
     , description = "A site is a set of global constraints that define the basic parameters of all UI elements"
     , category = Globals
     , route = [ "site" ]
@@ -661,8 +657,7 @@ sitePage =
 
 buttonPage : PageSummary
 buttonPage =
-    { page = Button
-    , title = "Button"
+    { title = "Button"
     , description = "A button indicates a possible user action"
     , category = Elements
     , route = [ "button" ]
@@ -671,8 +666,7 @@ buttonPage =
 
 containerPage : PageSummary
 containerPage =
-    { page = Container
-    , title = "Container"
+    { title = "Container"
     , description = "A container limits content to a maximum width"
     , category = Elements
     , route = [ "container" ]
@@ -681,8 +675,7 @@ containerPage =
 
 dividerPage : PageSummary
 dividerPage =
-    { page = Divider
-    , title = "Divider"
+    { title = "Divider"
     , description = "A divider visually segments content into groups"
     , category = Elements
     , route = [ "divider" ]
@@ -691,8 +684,7 @@ dividerPage =
 
 headerPage : PageSummary
 headerPage =
-    { page = Header
-    , title = "Header"
+    { title = "Header"
     , description = "A header provides a short summary of content"
     , category = Elements
     , route = [ "header" ]
@@ -701,8 +693,7 @@ headerPage =
 
 iconPage : PageSummary
 iconPage =
-    { page = Icon
-    , title = "Icon"
+    { title = "Icon"
     , description = "An icon is a glyph used to represent something else"
     , category = Elements
     , route = [ "icon" ]
@@ -711,8 +702,7 @@ iconPage =
 
 imagePage : PageSummary
 imagePage =
-    { page = Image
-    , title = "Image"
+    { title = "Image"
     , description = "An image is a graphic representation of something"
     , category = Elements
     , route = [ "image" ]
@@ -721,8 +711,7 @@ imagePage =
 
 inputPage : PageSummary
 inputPage =
-    { page = Input
-    , title = "Input"
+    { title = "Input"
     , description = "An input is a field used to elicit a response from a user"
     , category = Elements
     , route = [ "input" ]
@@ -731,8 +720,7 @@ inputPage =
 
 labelPage : PageSummary
 labelPage =
-    { page = Label
-    , title = "Label"
+    { title = "Label"
     , description = "A label displays content classification"
     , category = Elements
     , route = [ "label" ]
@@ -741,8 +729,7 @@ labelPage =
 
 loaderPage : PageSummary
 loaderPage =
-    { page = Loader
-    , title = "Loader"
+    { title = "Loader"
     , description = "A loader alerts a user to wait for an activity to complete"
     , category = Elements
     , route = [ "loader" ]
@@ -751,8 +738,7 @@ loaderPage =
 
 placeholderPage : PageSummary
 placeholderPage =
-    { page = Placeholder
-    , title = "Placeholder"
+    { title = "Placeholder"
     , description = "A placeholder is used to reserve splace for content that soon will appear in a layout"
     , category = Elements
     , route = [ "placeholder" ]
@@ -761,8 +747,7 @@ placeholderPage =
 
 railPage : PageSummary
 railPage =
-    { page = Rail
-    , title = "Rail"
+    { title = "Rail"
     , description = "A rail is used to show accompanying content outside the boundaries of the main view of a site"
     , category = Elements
     , route = [ "rail" ]
@@ -771,8 +756,7 @@ railPage =
 
 segmentPage : PageSummary
 segmentPage =
-    { page = Segment
-    , title = "Segment"
+    { title = "Segment"
     , description = "A segment is used to create a grouping of related content"
     , category = Elements
     , route = [ "segment" ]
@@ -781,8 +765,7 @@ segmentPage =
 
 stepPage : PageSummary
 stepPage =
-    { page = Step
-    , title = "Step"
+    { title = "Step"
     , description = "A step shows the completion status of an activity in a series of activities"
     , category = Elements
     , route = [ "step" ]
@@ -791,8 +774,7 @@ stepPage =
 
 circleStepPage : PageSummary
 circleStepPage =
-    { page = CircleStep
-    , title = "Circle Step"
+    { title = "Circle Step"
     , description = "A step shows the completion status of an activity in a series of activities"
     , category = Elements
     , route = [ "circle-step" ]
@@ -801,8 +783,7 @@ circleStepPage =
 
 textPage : PageSummary
 textPage =
-    { page = Text
-    , title = "Text"
+    { title = "Text"
     , description = "A text is used to style some inline text with a simple color"
     , category = Elements
     , route = [ "text" ]
@@ -811,8 +792,7 @@ textPage =
 
 breadcrumbPage : PageSummary
 breadcrumbPage =
-    { page = Breadcrumb
-    , title = "Breadcrumb"
+    { title = "Breadcrumb"
     , description = "A breadcrumb is used to show hierarchy between content"
     , category = Collections
     , route = [ "breadcrumb" ]
@@ -821,8 +801,7 @@ breadcrumbPage =
 
 formPage : PageSummary
 formPage =
-    { page = Form
-    , title = "Form"
+    { title = "Form"
     , description = "A form displays a set of related user input fields in a structured way"
     , category = Collections
     , route = [ "form" ]
@@ -831,8 +810,7 @@ formPage =
 
 gridPage : PageSummary
 gridPage =
-    { page = Grid
-    , title = "Grid"
+    { title = "Grid"
     , description = "A grid is used to harmonize negative space in a layout"
     , category = Collections
     , route = [ "grid" ]
@@ -841,8 +819,7 @@ gridPage =
 
 menuPage : PageSummary
 menuPage =
-    { page = Menu
-    , title = "Menu"
+    { title = "Menu"
     , description = "A menu displays grouped navigation actions"
     , category = Collections
     , route = [ "menu" ]
@@ -851,8 +828,7 @@ menuPage =
 
 messagePage : PageSummary
 messagePage =
-    { page = Message
-    , title = "Message"
+    { title = "Message"
     , description = "A message displays information that explains nearby content"
     , category = Collections
     , route = [ "message" ]
@@ -861,8 +837,7 @@ messagePage =
 
 tablePage : PageSummary
 tablePage =
-    { page = Table
-    , title = "Table"
+    { title = "Table"
     , description = "A table displays a collections of data grouped into rows"
     , category = Collections
     , route = [ "table" ]
@@ -871,8 +846,7 @@ tablePage =
 
 cardPage : PageSummary
 cardPage =
-    { page = Card
-    , title = "Card"
+    { title = "Card"
     , description = "A card displays site content in a manner similar to a playing card"
     , category = Views
     , route = [ "card" ]
@@ -881,8 +855,7 @@ cardPage =
 
 itemPage : PageSummary
 itemPage =
-    { page = Item
-    , title = "Item"
+    { title = "Item"
     , description = "An item view presents large collections of site content for display"
     , category = Views
     , route = [ "item" ]
@@ -891,8 +864,7 @@ itemPage =
 
 accordionPage : PageSummary
 accordionPage =
-    { page = Accordion
-    , title = "Accordion"
+    { title = "Accordion"
     , description = "An accordion allows users to toggle the display of sections of content"
     , category = Modules
     , route = [ "accordion" ]
@@ -901,8 +873,7 @@ accordionPage =
 
 checkboxPage : PageSummary
 checkboxPage =
-    { page = Checkbox
-    , title = "Checkbox"
+    { title = "Checkbox"
     , description = "A checkbox allows a user to select a value from a small set of options, often binary"
     , category = Modules
     , route = [ "checkbox" ]
@@ -911,8 +882,7 @@ checkboxPage =
 
 dimmerPage : PageSummary
 dimmerPage =
-    { page = Dimmer
-    , title = "Dimmer"
+    { title = "Dimmer"
     , description = "A dimmer hides distractions to focus attention on particular content"
     , category = Modules
     , route = [ "dimmer" ]
@@ -921,8 +891,7 @@ dimmerPage =
 
 modalPage : PageSummary
 modalPage =
-    { page = Modal
-    , title = "Modal"
+    { title = "Modal"
     , description = "A modal displays content that temporarily blocks interactions with the main view of a site"
     , category = Modules
     , route = [ "modal" ]
@@ -931,8 +900,7 @@ modalPage =
 
 progressPage : PageSummary
 progressPage =
-    { page = Progress
-    , title = "Progress"
+    { title = "Progress"
     , description = "A progress bar shows the progression of a task"
     , category = Modules
     , route = [ "progress" ]
@@ -941,8 +909,7 @@ progressPage =
 
 tabPage : PageSummary
 tabPage =
-    { page = Tab
-    , title = "Tab"
+    { title = "Tab"
     , description = "A tab is a hidden section of content activated by a menu"
     , category = Modules
     , route = [ "tab" ]
@@ -951,8 +918,7 @@ tabPage =
 
 sortableTablePage : PageSummary
 sortableTablePage =
-    { page = SortableTable
-    , title = "SortableTable"
+    { title = "SortableTable"
     , description = "Sortable table"
     , category = Defiant
     , route = [ "sortable-table" ]
@@ -961,8 +927,7 @@ sortableTablePage =
 
 holyGrailPage : PageSummary
 holyGrailPage =
-    { page = HolyGrail
-    , title = "HolyGrail"
+    { title = "HolyGrail"
     , description = "Holy grail layout."
     , category = Defiant
     , route = [ "holy-grail" ]

@@ -1,13 +1,21 @@
-module Shared exposing (Shared, init, setDarkMode, setPageSummary)
+module Shared exposing (PageSummary, Shared, init, setDarkMode, setPageSummary)
 
 import Browser.Navigation exposing (Key)
-import Data.Page exposing (PageSummary)
+import Data.Category exposing (Category(..))
 
 
 type alias Shared =
     { key : Key
     , pageSummary : PageSummary
     , darkMode : Bool
+    }
+
+
+type alias PageSummary =
+    { title : String
+    , description : String
+    , category : Category
+    , route : List String
     }
 
 
