@@ -1,42 +1,29 @@
-module Pages.Collections.Grid exposing (Model, Msg, architecture)
+module Pages.Collections.Grid exposing (page)
 
 import Css exposing (..)
-import Data.Architecture exposing (Architecture)
 import Html.Styled as Html exposing (Html)
 import Html.Styled.Attributes exposing (css, src)
-import Shared exposing (Shared)
+import Page exposing (Page)
+import Request exposing (Request)
+import Shared
 import UI.Example exposing (example)
 import UI.Grid as Grid exposing (eightWideColumn, fourWideColumn, grid, sixWideColumn, threeColumnsGrid, twoWideColumn)
 import UI.Image exposing (smallImage)
 import UI.Segment exposing (segment)
 
 
-architecture : Architecture Model Msg
-architecture =
-    { init = init
-    , update = update
-    , view = view
-    }
+page : Shared.Model -> Request -> Page
+page shared _ =
+    Page.static
+        { view =
+            { title = "Grid"
+            , body = view { shared = shared }
+            }
+        }
 
 
 type alias Model =
-    { shared : Shared }
-
-
-init : Shared -> ( Model, Cmd Msg )
-init shared =
-    ( { shared = shared }, Cmd.none )
-
-
-type Msg
-    = NoOp
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        NoOp ->
-            ( model, Cmd.none )
+    { shared : Shared.Model }
 
 
 view : Model -> List (Html msg)
@@ -119,7 +106,7 @@ The default column count, and other arbitrary features of grids can be changed b
             imageSegment =
                 segment { inverted = shared.darkMode }
                     []
-                    [ smallImage [ src "./static/images/wireframe/image.png" ] [] ]
+                    [ smallImage [ src "/static/images/wireframe/image.png" ] [] ]
           in
           threeColumnsGrid []
             [ Grid.column [] [ imageSegment ]

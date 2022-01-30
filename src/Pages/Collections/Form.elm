@@ -1,45 +1,28 @@
-module Pages.Collections.Form exposing (Model, Msg, architecture)
+module Pages.Collections.Form exposing (page)
 
-import Data.Architecture exposing (Architecture)
 import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Attributes exposing (for, id, name, placeholder, rows, tabindex, type_)
-import Shared exposing (Shared)
+import Page exposing (Page)
+import Request exposing (Request)
+import Shared
 import UI.Button exposing (button)
 import UI.Checkbox as Checkbox exposing (checkbox)
 import UI.Example exposing (example)
 import UI.Form as Form exposing (State(..), checkboxLabel, field, fields, form, textarea, threeFields, twoFields)
 
 
-architecture : Architecture Model Msg
-architecture =
-    { init = init
-    , update = update
-    , view = view
-    }
+page : Shared.Model -> Request -> Page
+page _ _ =
+    Page.static
+        { view =
+            { title = "Form"
+            , body = view
+            }
+        }
 
 
-type alias Model =
-    { shared : Shared }
-
-
-init : Shared -> ( Model, Cmd Msg )
-init shared =
-    ( { shared = shared }, Cmd.none )
-
-
-type Msg
-    = NoOp
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        NoOp ->
-            ( model, Cmd.none )
-
-
-view : Model -> List (Html msg)
-view _ =
+view : List (Html msg)
+view =
     let
         fieldsWithState options =
             [ twoFields []

@@ -1,10 +1,12 @@
-module Pages.Modules.Dimmer exposing (Model, Msg, architecture)
+module Pages.Modules.Dimmer exposing (Model, Msg, page)
 
-import Data.Architecture exposing (Architecture)
+import Gen.Params.Modules.Dimmer exposing (Params)
 import Html.Styled as Html exposing (Html, div, text)
 import Html.Styled.Attributes exposing (src)
 import Html.Styled.Events exposing (onClick)
-import Shared exposing (Shared)
+import Page
+import Request
+import Shared
 import UI.Button exposing (button)
 import UI.Dimmer as Dimmer exposing (dimmer, pageDimmer)
 import UI.Example exposing (example, wireframeMediaParagraph, wireframeShortParagraph)
@@ -14,27 +16,41 @@ import UI.Image exposing (smallImage)
 import UI.Segment exposing (segment)
 
 
-architecture : Architecture Model Msg
-architecture =
-    { init = init
-    , update = update
-    , view = view
-    }
+page : Shared.Model -> Request.With Params -> Page.With Model Msg
+page shared _ =
+    Page.element
+        { init = init shared
+        , update = update
+        , view =
+            \model ->
+                { title = "Dimmer"
+                , body = view model
+                }
+        , subscriptions = \_ -> Sub.none
+        }
+
+
+
+-- INIT
 
 
 type alias Model =
-    { shared : Shared
+    { shared : Shared.Model
     , toggledItems : List String
     }
 
 
-init : Shared -> ( Model, Cmd Msg )
+init : Shared.Model -> ( Model, Cmd Msg )
 init shared =
     ( { shared = shared
       , toggledItems = []
       }
     , Cmd.none
     )
+
+
+
+-- UPDATE
 
 
 type Msg
@@ -57,6 +73,10 @@ update msg model =
             )
 
 
+
+-- VIEW
+
+
 view : Model -> List (Html Msg)
 view { shared, toggledItems } =
     let
@@ -71,7 +91,7 @@ view { shared, toggledItems } =
             []
             [ Header.header options [] [ text "Overlayable Section" ]
             , div [] <|
-                List.repeat 1 (smallImage [ src "./static/images/wireframe/image.png" ] [])
+                List.repeat 1 (smallImage [ src "/static/images/wireframe/image.png" ] [])
             , wireframeMediaParagraph
             , dimmer { isActive = List.member "dimmer" toggledItems, inverted = False } [ onClick (Toggle "dimmer") ] []
             ]
@@ -85,7 +105,7 @@ view { shared, toggledItems } =
             []
             [ Header.header options [] [ text "Overlayable Section" ]
             , div [] <|
-                List.repeat 1 (smallImage [ src "./static/images/wireframe/image.png" ] [])
+                List.repeat 1 (smallImage [ src "/static/images/wireframe/image.png" ] [])
             , wireframeMediaParagraph
             , dimmer { isActive = List.member "contentDimmer" toggledItems, inverted = False }
                 [ onClick (Toggle "contentDimmer") ]

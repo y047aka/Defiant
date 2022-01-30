@@ -1,45 +1,28 @@
-module Pages.Views.Item exposing (Model, Msg, architecture)
+module Pages.Views.Item exposing (page)
 
-import Data.Architecture exposing (Architecture)
 import Html.Styled as Html exposing (Html, p, span, text)
 import Html.Styled.Attributes exposing (src)
-import Shared exposing (Shared)
+import Page exposing (Page)
+import Request exposing (Request)
+import Shared
 import UI.Example exposing (example, wireframeShortParagraph)
 import UI.Icon exposing (icon)
 import UI.Image exposing (image, smallImage, tinyImage)
 import UI.Item as Item exposing (..)
 
 
-architecture : Architecture Model Msg
-architecture =
-    { init = init
-    , update = update
-    , view = view
-    }
+page : Shared.Model -> Request -> Page
+page _ _ =
+    Page.static
+        { view =
+            { title = "Item"
+            , body = view
+            }
+        }
 
 
-type alias Model =
-    { shared : Shared }
-
-
-init : Shared -> ( Model, Cmd Msg )
-init shared =
-    ( { shared = shared }, Cmd.none )
-
-
-type Msg
-    = NoOp
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        NoOp ->
-            ( model, Cmd.none )
-
-
-view : Model -> List (Html msg)
-view _ =
+view : List (Html msg)
+view =
     [ example
         { title = "Metadata"
         , description = "An item can contain content metadata"
@@ -47,7 +30,7 @@ view _ =
         [ items [] <|
             List.repeat 2
                 (Item.item []
-                    [ image [ src "./static/images/wireframe/image.png" ] []
+                    [ image [ src "/static/images/wireframe/image.png" ] []
                     , Item.content []
                         { header = [ text "Header" ]
                         , meta = [ span [] [ text "Description" ] ]
@@ -64,7 +47,7 @@ view _ =
         [ dividedItems [] <|
             List.repeat 3
                 (Item.item []
-                    [ image [ src "./static/images/wireframe/image.png" ] [] ]
+                    [ image [ src "/static/images/wireframe/image.png" ] [] ]
                 )
         ]
     , example
@@ -75,7 +58,7 @@ view _ =
             List.map
                 (\{ content } ->
                     Item.item []
-                        [ tinyImage [ src "./static/images/wireframe/image.png" ] []
+                        [ tinyImage [ src "/static/images/wireframe/image.png" ] []
                         , middleAlignedContent [] [ text content ]
                         ]
                 )
@@ -92,7 +75,7 @@ view _ =
             List.map
                 (\{ title } ->
                     Item.item []
-                        [ tinyImage [ src "./static/images/wireframe/image.png" ] []
+                        [ tinyImage [ src "/static/images/wireframe/image.png" ] []
                         , middleAlignedContent [] [ Item.header [] [ text title ] ]
                         ]
                 )
@@ -109,7 +92,7 @@ view _ =
             List.map
                 (\plan ->
                     Item.item []
-                        [ smallImage [ src "./static/images/wireframe/image.png" ] []
+                        [ smallImage [ src "/static/images/wireframe/image.png" ] []
                         , Item.content []
                             { header = [ text plan.title ]
                             , meta =
@@ -141,7 +124,7 @@ view _ =
         }
         [ items []
             [ Item.item []
-                [ smallImage [ src "./static/images/wireframe/image.png" ] []
+                [ smallImage [ src "/static/images/wireframe/image.png" ] []
                 , Item.content []
                     { header = [ text "Cute Dog" ]
                     , meta = []

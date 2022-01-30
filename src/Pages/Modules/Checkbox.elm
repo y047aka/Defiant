@@ -1,43 +1,26 @@
-module Pages.Modules.Checkbox exposing (Model, Msg, architecture)
+module Pages.Modules.Checkbox exposing (page)
 
-import Data.Architecture exposing (Architecture)
 import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Attributes exposing (for, id, type_)
-import Shared exposing (Shared)
+import Page exposing (Page)
+import Request exposing (Request)
+import Shared
 import UI.Checkbox as Checkbox exposing (checkbox)
 import UI.Example exposing (example)
 
 
-architecture : Architecture Model Msg
-architecture =
-    { init = init
-    , update = update
-    , view = view
-    }
+page : Shared.Model -> Request -> Page
+page _ _ =
+    Page.static
+        { view =
+            { title = "Checkbox"
+            , body = view
+            }
+        }
 
 
-type alias Model =
-    { shared : Shared }
-
-
-init : Shared -> ( Model, Cmd Msg )
-init shared =
-    ( { shared = shared }, Cmd.none )
-
-
-type Msg
-    = NoOp
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        NoOp ->
-            ( model, Cmd.none )
-
-
-view : Model -> List (Html msg)
-view _ =
+view : List (Html msg)
+view =
     [ example
         { title = "Checkbox"
         , description = "A checkbox allows a user to select a value from a small set of options, often binary"

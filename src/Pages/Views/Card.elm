@@ -1,41 +1,28 @@
-module Pages.Views.Card exposing (Model, Msg, architecture)
+module Pages.Views.Card exposing (page)
 
-import Data.Architecture exposing (Architecture)
 import Html.Styled as Html exposing (Html, a, p, text)
 import Html.Styled.Attributes exposing (name, src, type_)
-import Shared exposing (Shared)
+import Page exposing (Page)
+import Request exposing (Request)
+import Shared
 import UI.Card as Card exposing (card, cards, extraContent)
 import UI.Example exposing (example, wireframeParagraph)
 import UI.Icon exposing (icon)
 import UI.Image exposing (image)
 
 
-architecture : Architecture Model Msg
-architecture =
-    { init = init
-    , update = update
-    , view = view
-    }
+page : Shared.Model -> Request -> Page
+page shared _ =
+    Page.static
+        { view =
+            { title = "Card"
+            , body = view { shared = shared }
+            }
+        }
 
 
 type alias Model =
-    { shared : Shared }
-
-
-init : Shared -> ( Model, Cmd Msg )
-init shared =
-    ( { shared = shared }, Cmd.none )
-
-
-type Msg
-    = NoOp
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        NoOp ->
-            ( model, Cmd.none )
+    { shared : Shared.Model }
 
 
 view : Model -> List (Html msg)
@@ -50,7 +37,7 @@ view { shared } =
         }
         [ card options
             []
-            [ image [ src "./static/images/avatar/kristy.png" ] []
+            [ image [ src "/static/images/avatar/kristy.png" ] []
             , Card.content options
                 []
                 { header = [ text "Kristy" ]
@@ -91,19 +78,19 @@ view { shared } =
                   , type_ = "Friends"
                   , description_ = "Matthew is an interior designer living in New York."
                   , friends = 75
-                  , imageUrl = "./static/images/avatar/matthew.png"
+                  , imageUrl = "/static/images/avatar/matthew.png"
                   }
                 , { name = "Molly"
                   , type_ = "Coworker"
                   , description_ = "Molly is a personal assistant living in Paris."
                   , friends = 35
-                  , imageUrl = "./static/images/avatar/molly.png"
+                  , imageUrl = "/static/images/avatar/molly.png"
                   }
                 , { name = "Elyse"
                   , type_ = "Coworker"
                   , description_ = "Elyse is a copywriter working in New York."
                   , friends = 151
-                  , imageUrl = "./static/images/avatar/elyse.png"
+                  , imageUrl = "/static/images/avatar/elyse.png"
                   }
                 ]
         ]

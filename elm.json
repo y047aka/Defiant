@@ -1,7 +1,9 @@
 {
     "type": "application",
     "source-directories": [
-        "src"
+        "src",
+        ".elm-spa/defaults",
+        ".elm-spa/generated"
     ],
     "elm-version": "0.19.1",
     "dependencies": {
@@ -13,6 +15,7 @@
             "elm/url": "1.0.0",
             "lattyware/elm-fontawesome": "5.0.0",
             "rtfeldman/elm-css": "17.0.2",
+            "ryannhg/elm-spa": "6.0.0",
             "y047aka/elm-reset-css": "2.6.0"
         },
         "indirect": {

@@ -1,16 +1,14 @@
 {
   "scripts": {
-    "build": "node ./build.js",
-    "start": "elm-live src/Main.elm --pushstate --hot --open -- --debug --output=elm.js"
+    "build": "elm-spa build",
+    "start": "elm-spa server"
   },
   "devDependencies": {
     "elm-format": "^0.8.5",
-    "elm-live": "^4.0.2",
     "elm-review": "^2.7.0"
   },
   "dependencies": {
     "elm": "^0.19.1-5",
-    "esbuild": "^0.14.11",
-    "esbuild-plugin-elm": "^0.0.8"
+    "elm-spa": "^6.0.4"
   }
 }

@@ -1,40 +1,27 @@
-module Pages.Collections.Breadcrumb exposing (Model, Msg, architecture)
+module Pages.Collections.Breadcrumb exposing (page)
 
-import Data.Architecture exposing (Architecture)
 import Html.Styled as Html exposing (Html, text)
-import Shared exposing (Shared)
+import Page exposing (Page)
+import Request exposing (Request)
+import Shared
 import UI.Breadcrumb exposing (breadcrumb)
 import UI.Example exposing (example)
 import UI.Icon exposing (icon)
 import UI.Segment exposing (segment)
 
 
-architecture : Architecture Model Msg
-architecture =
-    { init = init
-    , update = update
-    , view = view
-    }
+page : Shared.Model -> Request -> Page
+page shared _ =
+    Page.static
+        { view =
+            { title = "Breadcrumb"
+            , body = view { shared = shared }
+            }
+        }
 
 
 type alias Model =
-    { shared : Shared }
-
-
-init : Shared -> ( Model, Cmd Msg )
-init shared =
-    ( { shared = shared }, Cmd.none )
-
-
-type Msg
-    = NoOp
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        NoOp ->
-            ( model, Cmd.none )
+    { shared : Shared.Model }
 
 
 view : Model -> List (Html msg)

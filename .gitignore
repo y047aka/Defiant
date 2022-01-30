@@ -4,5 +4,6 @@ node_modules
 # Elm Dependency directory
 elm-stuff
 
-# elm-live generates index.html
-/elm.js
+# elm-spa directory
+.elm-spa
+/public/dist

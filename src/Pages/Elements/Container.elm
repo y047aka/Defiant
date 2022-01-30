@@ -1,43 +1,26 @@
-module Pages.Elements.Container exposing (Model, Msg, architecture)
+module Pages.Elements.Container exposing (page)
 
-import Data.Architecture exposing (Architecture)
 import Html.Styled as Html exposing (Html, a, h2, p, strong, text)
 import Html.Styled.Attributes exposing (href)
-import Shared exposing (Shared)
+import Page exposing (Page)
+import Request exposing (Request)
+import Shared
 import UI.Container exposing (container, textContainer)
 import UI.Example exposing (example)
 
 
-architecture : Architecture Model Msg
-architecture =
-    { init = init
-    , update = update
-    , view = view
-    }
+page : Shared.Model -> Request -> Page
+page _ _ =
+    Page.static
+        { view =
+            { title = "Container"
+            , body = view
+            }
+        }
 
 
-type alias Model =
-    { shared : Shared }
-
-
-init : Shared -> ( Model, Cmd Msg )
-init shared =
-    ( { shared = shared }, Cmd.none )
-
-
-type Msg
-    = NoOp
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        NoOp ->
-            ( model, Cmd.none )
-
-
-view : Model -> List (Html msg)
-view _ =
+view : List (Html msg)
+view =
     let
         content =
             p []

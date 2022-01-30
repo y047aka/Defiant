@@ -1,37 +1,49 @@
-module Pages.Modules.Progress exposing (Model, Msg, architecture)
+module Pages.Modules.Progress exposing (Model, Msg, page)
 
-import Data.Architecture exposing (Architecture)
+import Gen.Params.Modules.Progress exposing (Params)
 import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Events exposing (onClick)
+import Page
 import Random
-import Shared exposing (Shared)
+import Request
+import Shared
 import UI.Button exposing (button, labeledButton)
 import UI.Example exposing (example)
 import UI.Label exposing (basicLabel)
 import UI.Progress as Progress
 
 
-architecture : Architecture Model Msg
-architecture =
-    { init = init
-    , update = update
-    , view = view
-    }
+page : Shared.Model -> Request.With Params -> Page.With Model Msg
+page _ _ =
+    Page.element
+        { init = init
+        , update = update
+        , view =
+            \model ->
+                { title = "Progress"
+                , body = view model
+                }
+        , subscriptions = \_ -> Sub.none
+        }
+
+
+
+-- INIT
 
 
 type alias Model =
-    { shared : Shared
-    , progress : Float
-    }
+    { progress : Float }
 
 
-init : Shared -> ( Model, Cmd Msg )
-init shared =
-    ( { shared = shared
-      , progress = 0
-      }
+init : ( Model, Cmd Msg )
+init =
+    ( { progress = 0 }
     , Random.generate NewProgress (Random.int 10 50)
     )
+
+
+
+-- UPDATE
 
 
 type Msg
@@ -65,6 +77,10 @@ update msg model =
                         calculated
             in
             ( { model | progress = newProgress }, Cmd.none )
+
+
+
+-- VIEW
 
 
 view : Model -> List (Html Msg)

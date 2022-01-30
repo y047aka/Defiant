@@ -165,14 +165,14 @@ imageBasis =
 
 wireframeParagraph : Html msg
 wireframeParagraph =
-    imageBasis [ src "./static/images/wireframe/paragraph.png" ] []
+    imageBasis [ src "/static/images/wireframe/paragraph.png" ] []
 
 
 wireframeShortParagraph : Html msg
 wireframeShortParagraph =
-    imageBasis [ src "./static/images/wireframe/short-paragraph.png" ] []
+    imageBasis [ src "/static/images/wireframe/short-paragraph.png" ] []
 
 
 wireframeMediaParagraph : Html msg
 wireframeMediaParagraph =
-    imageBasis [ src "./static/images/wireframe/media-paragraph.png" ] []
+    imageBasis [ src "/static/images/wireframe/media-paragraph.png" ] []

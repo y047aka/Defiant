@@ -1,39 +1,53 @@
-module Pages.Defiant.SortableTable exposing (Model, Msg, architecture, presidents)
+module Pages.Defiant.SortableTable exposing (Model, Msg, page)
 
-import Data.Architecture exposing (Architecture)
+import Gen.Params.Defiant.SortableTable exposing (Params)
 import Html.Styled as Html exposing (Html, input)
 import Html.Styled.Attributes exposing (placeholder)
 import Html.Styled.Events exposing (onInput)
-import Shared exposing (Shared)
+import Page
+import Request
+import Shared
 import UI.Example exposing (example)
 import UI.SortableTable as Table
 
 
-architecture : Architecture Model Msg
-architecture =
-    { init = init
-    , update = update
-    , view = view
-    }
+page : Shared.Model -> Request.With Params -> Page.With Model Msg
+page _ _ =
+    Page.element
+        { init = init
+        , update = update
+        , view =
+            \model ->
+                { title = "Sortable Table"
+                , body = view model
+                }
+        , subscriptions = \_ -> Sub.none
+        }
+
+
+
+-- INIT
 
 
 type alias Model =
-    { shared : Shared
-    , people : List Person
+    { people : List Person
     , tableState : Table.State
     , query : String
     }
 
 
-init : Shared -> ( Model, Cmd Msg )
-init shared =
-    ( { shared = shared
-      , people = presidents
+init : ( Model, Cmd Msg )
+init =
+    ( { people = presidents
       , tableState = Table.initialSort "Year"
       , query = ""
       }
     , Cmd.none
     )
+
+
+
+-- UPDATE
 
 
 type Msg
@@ -49,6 +63,10 @@ update msg model =
 
         SetTableState newState ->
             ( { model | tableState = newState }, Cmd.none )
+
+
+
+-- VIEW
 
 
 view : Model -> List (Html Msg)

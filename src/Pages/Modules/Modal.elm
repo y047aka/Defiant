@@ -1,10 +1,12 @@
-module Pages.Modules.Modal exposing (Model, Msg, architecture)
+module Pages.Modules.Modal exposing (Model, Msg, page)
 
-import Data.Architecture exposing (Architecture)
+import Gen.Params.Modules.Modal exposing (Params)
 import Html.Styled as Html exposing (Html, a, p, text)
 import Html.Styled.Attributes as Attributes exposing (href)
 import Html.Styled.Events exposing (onClick)
-import Shared exposing (Shared)
+import Page
+import Request
+import Shared
 import UI.Button exposing (blackButton, button, greenButton, redButton)
 import UI.Dimmer exposing (pageDimmer)
 import UI.Example exposing (example)
@@ -12,27 +14,41 @@ import UI.Icon exposing (icon)
 import UI.Modal as Modal exposing (basicModal, modal)
 
 
-architecture : Architecture Model Msg
-architecture =
-    { init = init
-    , update = update
-    , view = view
-    }
+page : Shared.Model -> Request.With Params -> Page.With Model Msg
+page shared _ =
+    Page.element
+        { init = init shared
+        , update = update
+        , view =
+            \model ->
+                { title = "Modal"
+                , body = view model
+                }
+        , subscriptions = \_ -> Sub.none
+        }
+
+
+
+-- INIT
 
 
 type alias Model =
-    { shared : Shared
+    { shared : Shared.Model
     , toggledItems : List String
     }
 
 
-init : Shared -> ( Model, Cmd Msg )
+init : Shared.Model -> ( Model, Cmd Msg )
 init shared =
     ( { shared = shared
       , toggledItems = []
       }
     , Cmd.none
     )
+
+
+
+-- UPDATE
 
 
 type Msg
@@ -53,6 +69,10 @@ update msg model =
               }
             , Cmd.none
             )
+
+
+
+-- VIEW
 
 
 view : Model -> List (Html Msg)

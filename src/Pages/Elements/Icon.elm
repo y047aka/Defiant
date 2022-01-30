@@ -1,45 +1,28 @@
-module Pages.Elements.Icon exposing (Model, Msg, architecture)
+module Pages.Elements.Icon exposing (page)
 
 import Css exposing (..)
-import Data.Architecture exposing (Architecture)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import Html.Styled.Attributes exposing (css)
-import Shared exposing (Shared)
+import Page exposing (Page)
+import Request exposing (Request)
+import Shared
 import UI.Example exposing (example)
 import UI.Grid as Grid exposing (fiveColumnsGrid)
 import UI.Icon exposing (icon)
 
 
-architecture : Architecture Model Msg
-architecture =
-    { init = init
-    , update = update
-    , view = view
-    }
+page : Shared.Model -> Request -> Page
+page _ _ =
+    Page.static
+        { view =
+            { title = "Icon"
+            , body = view
+            }
+        }
 
 
-type alias Model =
-    { shared : Shared }
-
-
-init : Shared -> ( Model, Cmd Msg )
-init shared =
-    ( { shared = shared }, Cmd.none )
-
-
-type Msg
-    = NoOp
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        NoOp ->
-            ( model, Cmd.none )
-
-
-view : Model -> List (Html msg)
-view _ =
+view : List (Html msg)
+view =
     let
         column : List (Attribute msg) -> List (Html msg) -> Html msg
         column attributes =

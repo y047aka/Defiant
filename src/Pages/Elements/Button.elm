@@ -1,36 +1,45 @@
-module Pages.Elements.Button exposing (Model, Msg, architecture)
+module Pages.Elements.Button exposing (Model, Msg, page)
 
-import Data.Architecture exposing (Architecture)
+import Gen.Params.Elements.Button exposing (Params)
 import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Events exposing (onClick)
-import Shared exposing (Shared)
+import Page
+import Request
+import Shared
 import UI.Button exposing (..)
 import UI.Example exposing (example)
 import UI.Icon exposing (icon)
 import UI.Label exposing (basicLabel)
 
 
-architecture : Architecture Model Msg
-architecture =
-    { init = init
-    , update = update
-    , view = view
-    }
+page : Shared.Model -> Request.With Params -> Page.With Model Msg
+page _ _ =
+    Page.sandbox
+        { init = init
+        , update = update
+        , view =
+            \model ->
+                { title = "Button"
+                , body = view model
+                }
+        }
+
+
+
+-- INIT
 
 
 type alias Model =
-    { shared : Shared
-    , count : Int
-    }
+    { counter : Int }
 
 
-init : Shared -> ( Model, Cmd Msg )
-init shared =
-    ( { shared = shared
-      , count = 0
-      }
-    , Cmd.none
-    )
+init : Model
+init =
+    { counter = 0 }
+
+
+
+-- UPDATE
 
 
 type Msg
@@ -38,18 +47,22 @@ type Msg
     | Decrement
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> Model
 update msg model =
     case msg of
         Increment ->
-            ( { model | count = model.count + 1 }, Cmd.none )
+            { model | counter = model.counter + 1 }
 
         Decrement ->
-            ( { model | count = model.count - 1 }, Cmd.none )
+            { model | counter = model.counter - 1 }
+
+
+
+-- VIEW
 
 
 view : Model -> List (Html Msg)
-view { count } =
+view { counter } =
     [ example
         { title = "Button"
         , description = "A standard button"
@@ -86,7 +99,7 @@ view { count } =
             ]
         , labeledButton []
             [ button [ onClick Decrement ] [ text "-" ]
-            , basicLabel [] [ text (String.fromInt count) ]
+            , basicLabel [] [ text (String.fromInt counter) ]
             , button [ onClick Increment ] [ text "+" ]
             ]
         ]

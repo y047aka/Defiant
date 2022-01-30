@@ -1,41 +1,35 @@
-module Shared exposing (PageSummary, Shared, init, setDarkMode, setPageSummary)
+module Shared exposing (Flags, Model, Msg(..), init, subscriptions, update)
 
-import Browser.Navigation exposing (Key)
-import Data.Category exposing (Category(..))
-
-
-type alias Shared =
-    { key : Key
-    , pageSummary : PageSummary
-    , darkMode : Bool
-    }
+import Json.Decode as Json
+import Request exposing (Request)
 
 
-type alias PageSummary =
-    { title : String
-    , description : String
-    , category : Category
-    , route : List String
-    }
+type alias Flags =
+    Json.Value
 
 
-init : Key -> PageSummary -> Shared
-init key pageSummary =
-    { key = key
-    , pageSummary = pageSummary
-    , darkMode = False
-    }
+type alias Model =
+    { darkMode : Bool }
 
 
-
--- SETTERS
-
-
-setDarkMode : Bool -> Shared -> Shared
-setDarkMode darkMode shared =
-    { shared | darkMode = darkMode }
+type Msg
+    = ToggleDarkMode
 
 
-setPageSummary : PageSummary -> Shared -> Shared
-setPageSummary pageSummary shared =
-    { shared | pageSummary = pageSummary }
+init : Request -> Flags -> ( Model, Cmd Msg )
+init _ _ =
+    ( { darkMode = False }, Cmd.none )
+
+
+update : Request -> Msg -> Model -> ( Model, Cmd Msg )
+update _ msg model =
+    case msg of
+        ToggleDarkMode ->
+            ( { model | darkMode = not model.darkMode }
+            , Cmd.none
+            )
+
+
+subscriptions : Request -> Model -> Sub Msg
+subscriptions _ _ =
+    Sub.none

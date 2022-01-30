@@ -1,41 +1,28 @@
-module Pages.Elements.Rail exposing (Model, Msg, architecture)
+module Pages.Elements.Rail exposing (page)
 
 import Css exposing (..)
-import Data.Architecture exposing (Architecture)
 import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Attributes exposing (css)
-import Shared exposing (Shared)
+import Page exposing (Page)
+import Request exposing (Request)
+import Shared
 import UI.Example exposing (example, wireframeParagraph)
 import UI.Rail exposing (leftRail, rightRail)
 import UI.Segment exposing (segment)
 
 
-architecture : Architecture Model Msg
-architecture =
-    { init = init
-    , update = update
-    , view = view
-    }
+page : Shared.Model -> Request -> Page
+page shared _ =
+    Page.static
+        { view =
+            { title = "Rail"
+            , body = view { shared = shared }
+            }
+        }
 
 
 type alias Model =
-    { shared : Shared }
-
-
-init : Shared -> ( Model, Cmd Msg )
-init shared =
-    ( { shared = shared }, Cmd.none )
-
-
-type Msg
-    = NoOp
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        NoOp ->
-            ( model, Cmd.none )
+    { shared : Shared.Model }
 
 
 view : Model -> List (Html msg)

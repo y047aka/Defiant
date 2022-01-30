@@ -1,42 +1,24 @@
-module Pages.Globals.Site exposing (Model, Msg, architecture)
+module Pages.Globals.Site exposing (page)
 
-import Css exposing (..)
-import Data.Architecture exposing (Architecture)
 import Html.Styled as Html exposing (Html, h1, h2, h3, h4, h5, p, text)
-import Shared exposing (Shared)
+import Page exposing (Page)
+import Request exposing (Request)
+import Shared
 import UI.Example exposing (..)
 
 
-architecture : Architecture Model Msg
-architecture =
-    { init = init
-    , update = update
-    , view = view
-    }
+page : Shared.Model -> Request -> Page
+page _ _ =
+    Page.static
+        { view =
+            { title = "Site"
+            , body = view
+            }
+        }
 
 
-type alias Model =
-    { shared : Shared }
-
-
-init : Shared -> ( Model, Cmd Msg )
-init shared =
-    ( { shared = shared }, Cmd.none )
-
-
-type Msg
-    = NoOp
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        NoOp ->
-            ( model, Cmd.none )
-
-
-view : Model -> List (Html msg)
-view _ =
+view : List (Html msg)
+view =
     [ example
         { title = "Headers"
         , description = "A site can define styles for headers"
