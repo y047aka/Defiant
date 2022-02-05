@@ -39,22 +39,21 @@ view options =
                 ]
     in
     List.map
-        (\category ->
+        (\( category, pages ) ->
             basicSegment options
                 []
                 [ Header.header options [] [ text (Category.toString category) ]
-                , cards []
-                    (List.filterMap
-                        (\pageSummary ->
-                            if pageSummary.category == category then
-                                Just (item pageSummary)
-
-                            else
-                                Nothing
-                        )
-                        allPages
-                    )
+                , cards [] (List.map item pages)
                 ]
+        )
+        pagesByCagetgory
+
+
+pagesByCagetgory : List ( Category, List PageSummary )
+pagesByCagetgory =
+    List.map
+        (\category ->
+            ( category, List.filter (.category >> (==) category) allPages )
         )
         [ Globals, Elements, Collections, Views, Modules, Defiant ]
 
