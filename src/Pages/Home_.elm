@@ -109,6 +109,7 @@ allPages =
     , tabPage
 
     -- Defiant
+    , itemsPage
     , sortableTablePage
     , holyGrailPage
     ]
@@ -381,6 +382,15 @@ tabPage =
     , description = "A tab is a hidden section of content activated by a menu"
     , category = Modules
     , route = Route.Modules__Tab
+    }
+
+
+itemsPage : PageSummary
+itemsPage =
+    { title = "Items"
+    , description = "Items"
+    , category = Defiant
+    , route = Route.Defiant__Items
     }
 
 
