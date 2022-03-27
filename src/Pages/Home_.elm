@@ -109,7 +109,7 @@ allPages =
     , tabPage
 
     -- Defiant
-    , itemsPage
+    , sortableDataPage
     , sortableTablePage
     , holyGrailPage
     ]
@@ -385,12 +385,12 @@ tabPage =
     }
 
 
-itemsPage : PageSummary
-itemsPage =
-    { title = "Items"
-    , description = "Items"
+sortableDataPage : PageSummary
+sortableDataPage =
+    { title = "SortableData"
+    , description = "Sortable data"
     , category = Defiant
-    , route = Route.Defiant__Items
+    , route = Route.Defiant__SortableData
     }
 
 

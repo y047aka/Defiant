@@ -1,4 +1,4 @@
-module Pages.Defiant.Items exposing (Model, Msg, page)
+module Pages.Defiant.SortableData exposing (Model, Msg, page)
 
 import Html.Styled as Html exposing (Html, input)
 import Html.Styled.Attributes exposing (placeholder, value)
@@ -7,7 +7,7 @@ import Page
 import Request exposing (Request)
 import Shared
 import UI.Example exposing (example)
-import UI.Items exposing (State, initialSort, intColumn, itemsToList, itemsToTable, stringColumn)
+import UI.SortableData exposing (State, initialSort, intColumn, itemsToList, itemsToTable, stringColumn)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
@@ -17,7 +17,7 @@ page _ _ =
         , update = update
         , view =
             \model ->
-                { title = "Items"
+                { title = "Sortable Data"
                 , body = view model
                 }
         , subscriptions = \_ -> Sub.none

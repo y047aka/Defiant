@@ -1,4 +1,4 @@
-module UI.Items exposing
+module UI.SortableData exposing
     ( itemsToList, itemsToTable
     , stringColumn, intColumn
     , State, initialSort
