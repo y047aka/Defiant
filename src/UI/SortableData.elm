@@ -1,16 +1,24 @@
 module UI.SortableData exposing
-    ( itemsToList, itemsToTable
+    ( itemsToList, itemsToTable, floatColumn
     , stringColumn, intColumn
     , State, initialSort
     , Config
     )
 
-{-| <https://github.com/evancz/elm-sortable-table/tree/master/examples>
+{-| This library helps you create sortable tables. The crucial feature is that it
+lets you own your data separately and keep it in whatever format is best for
+you. This way you are free to change your data without worrying about the table
+&ldquo;getting out of sync&rdquo; with the data. Having a single source of
+truth is pretty great!
+
+I recommend checking out the [examples] to get a feel for how it works.
+
+[examples]: https://github.com/evancz/elm-sortable-table/tree/master/examples
 
 
 # View
 
-@docs itemsToList, itemsToTable
+@docs itemsToList, itemsToTable, floatColumn
 
 
 # Configuration
@@ -130,6 +138,15 @@ intColumn : { label : String, getter : data -> Int } -> Column data msg
 intColumn { label, getter } =
     { name = label
     , view = getter >> String.fromInt >> text
+    , sorter = increasingOrDecreasingBy getter
+    }
+
+
+{-| -}
+floatColumn : { label : String, getter : data -> Float } -> Column data msg
+floatColumn { label, getter } =
+    { name = label
+    , view = getter >> String.fromFloat >> text
     , sorter = increasingOrDecreasingBy getter
     }
 
