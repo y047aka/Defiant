@@ -1,6 +1,6 @@
 module UI.SortableData exposing
-    ( itemsToList, itemsToTable, floatColumn
-    , stringColumn, intColumn
+    ( list, table
+    , stringColumn, intColumn, floatColumn
     , State, initialSort
     , Config
     )
@@ -18,12 +18,12 @@ I recommend checking out the [examples] to get a feel for how it works.
 
 # View
 
-@docs itemsToList, itemsToTable, floatColumn
+@docs list, table
 
 
 # Configuration
 
-@docs stringColumn, intColumn
+@docs stringColumn, intColumn, floatColumn
 
 
 # State
@@ -38,14 +38,13 @@ I recommend checking out the [examples] to get a feel for how it works.
 -}
 
 import Css exposing (color, hex)
-import Html.Styled as Html exposing (Attribute, Html, div, li, span, strong, text, ul)
+import Html.Styled as Html exposing (Attribute, Html, li, span, text, ul)
 import Html.Styled.Attributes exposing (css)
 import Html.Styled.Events as Events
 import Html.Styled.Keyed as Keyed
 import Html.Styled.Lazy exposing (lazy2)
 import Json.Decode as Json
-import UI.Segment exposing (segment)
-import UI.Table exposing (table, td, th, thead, tr)
+import UI.Table as Table exposing (td, th, thead, tr)
 
 
 
@@ -152,49 +151,28 @@ floatColumn { label, getter } =
 
 
 
--- LIST
+-- VIEW
 
 
-itemsToList : Config data msg -> State -> List data -> Html msg
-itemsToList { columns } state data =
+list : Config data msg -> State -> (data -> List (Html msg)) -> List data -> Html msg
+list { columns } state toListItem data =
+    let
+        sortedData =
+            sort state columns data
+
+        listItem d =
+            li [] (toListItem d)
+    in
+    ul [] <| List.map listItem sortedData
+
+
+table : Config data msg -> State -> List data -> Html msg
+table { toId, toMsg, columns } state data =
     let
         sortedData =
             sort state columns data
     in
-    ul [] <|
-        List.map (listItem [] columns) sortedData
-
-
-listItem :
-    List (Attribute msg)
-    -> List (Column data msg)
-    -> data
-    -> Html msg
-listItem attributes columns data =
-    li attributes
-        [ segment { inverted = False } [] <|
-            List.map
-                (\{ name, view } ->
-                    div []
-                        [ strong [] [ text (name ++ " : ") ]
-                        , view data
-                        ]
-                )
-                columns
-        ]
-
-
-
--- TABLE
-
-
-itemsToTable : Config data msg -> State -> List data -> Html msg
-itemsToTable { toId, toMsg, columns } state data =
-    let
-        sortedData =
-            sort state columns data
-    in
-    table []
+    Table.table []
         [ thead []
             [ tr [] <|
                 List.map (toHeaderInfo state toMsg >> simpleTheadHelp) columns

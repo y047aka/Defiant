@@ -1,13 +1,14 @@
 module Pages.Defiant.SortableData exposing (Model, Msg, page)
 
-import Html.Styled as Html exposing (Html, input)
+import Html.Styled as Html exposing (Html, div, input, strong, text)
 import Html.Styled.Attributes exposing (placeholder, value)
 import Html.Styled.Events exposing (onInput)
 import Page
 import Request exposing (Request)
 import Shared
 import UI.Example exposing (example)
-import UI.SortableData exposing (State, initialSort, intColumn, itemsToList, itemsToTable, stringColumn)
+import UI.Segment exposing (segment)
+import UI.SortableData exposing (State, initialSort, intColumn, list, stringColumn, table)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
@@ -82,6 +83,16 @@ view { people, tableState, query } =
                 ]
             }
 
+        toListItem =
+            \{ name, year, city, state } ->
+                [ segment { inverted = False } [] <|
+                    [ div [] [ strong [] [ text "Name : " ], text name ]
+                    , div [] [ strong [] [ text "Year : " ], text (String.fromInt year) ]
+                    , div [] [ strong [] [ text "City : " ], text city ]
+                    , div [] [ strong [] [ text "State : " ], text state ]
+                    ]
+                ]
+
         lowerQuery =
             String.toLower query
 
@@ -93,14 +104,14 @@ view { people, tableState, query } =
         , description = ""
         }
         [ input [ value query, placeholder "Search by Name", onInput SetQuery ] []
-        , itemsToList config tableState acceptablePeople
+        , list config tableState toListItem acceptablePeople
         ]
     , example
         { title = "Table"
         , description = ""
         }
         [ input [ value query, placeholder "Search by Name", onInput SetQuery ] []
-        , itemsToTable config tableState acceptablePeople
+        , table config tableState acceptablePeople
         ]
     ]
 
