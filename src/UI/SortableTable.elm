@@ -449,7 +449,7 @@ view (Config { toId, toMsg, columns, customizations }) state data =
             customizations.thead (List.map (toHeaderInfo state toMsg) columns)
 
         thead_ =
-            thead theadDetails.attributes theadDetails.children
+            thead theadDetails.attributes [ tr [] theadDetails.children ]
 
         tbody =
             Keyed.node "tbody" customizations.tbodyAttrs <|
