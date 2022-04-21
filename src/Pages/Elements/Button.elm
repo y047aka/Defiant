@@ -1,10 +1,9 @@
 module Pages.Elements.Button exposing (Model, Msg, page)
 
-import Gen.Params.Elements.Button exposing (Params)
 import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Events exposing (onClick)
 import Page
-import Request
+import Request exposing (Request)
 import Shared
 import UI.Button exposing (..)
 import UI.Example exposing (example)
@@ -12,7 +11,7 @@ import UI.Icon exposing (icon)
 import UI.Label exposing (basicLabel)
 
 
-page : Shared.Model -> Request.With Params -> Page.With Model Msg
+page : Shared.Model -> Request -> Page.With Model Msg
 page _ _ =
     Page.sandbox
         { init = init

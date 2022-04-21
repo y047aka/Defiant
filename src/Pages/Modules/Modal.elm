@@ -1,11 +1,10 @@
 module Pages.Modules.Modal exposing (Model, Msg, page)
 
-import Gen.Params.Modules.Modal exposing (Params)
 import Html.Styled as Html exposing (Html, a, p, text)
 import Html.Styled.Attributes as Attributes exposing (href)
 import Html.Styled.Events exposing (onClick)
 import Page
-import Request
+import Request exposing (Request)
 import Shared
 import UI.Button exposing (blackButton, button, greenButton, redButton)
 import UI.Dimmer exposing (pageDimmer)
@@ -14,7 +13,7 @@ import UI.Icon exposing (icon)
 import UI.Modal as Modal exposing (basicModal, modal)
 
 
-page : Shared.Model -> Request.With Params -> Page.With Model Msg
+page : Shared.Model -> Request -> Page.With Model Msg
 page shared _ =
     Page.element
         { init = init shared

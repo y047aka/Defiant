@@ -1,11 +1,10 @@
 module Pages.Modules.Dimmer exposing (Model, Msg, page)
 
-import Gen.Params.Modules.Dimmer exposing (Params)
 import Html.Styled as Html exposing (Html, div, text)
 import Html.Styled.Attributes exposing (src)
 import Html.Styled.Events exposing (onClick)
 import Page
-import Request
+import Request exposing (Request)
 import Shared
 import UI.Button exposing (button)
 import UI.Dimmer as Dimmer exposing (dimmer, pageDimmer)
@@ -16,7 +15,7 @@ import UI.Image exposing (smallImage)
 import UI.Segment exposing (segment)
 
 
-page : Shared.Model -> Request.With Params -> Page.With Model Msg
+page : Shared.Model -> Request -> Page.With Model Msg
 page shared _ =
     Page.element
         { init = init shared

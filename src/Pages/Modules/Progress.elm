@@ -1,11 +1,10 @@
 module Pages.Modules.Progress exposing (Model, Msg, page)
 
-import Gen.Params.Modules.Progress exposing (Params)
 import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Events exposing (onClick)
 import Page
 import Random
-import Request
+import Request exposing (Request)
 import Shared
 import UI.Button exposing (button, labeledButton)
 import UI.Example exposing (example)
@@ -13,7 +12,7 @@ import UI.Label exposing (basicLabel)
 import UI.Progress as Progress
 
 
-page : Shared.Model -> Request.With Params -> Page.With Model Msg
+page : Shared.Model -> Request -> Page.With Model Msg
 page _ _ =
     Page.element
         { init = init
