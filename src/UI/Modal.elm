@@ -15,68 +15,78 @@ import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, each, selector)
 import Css.Typography exposing (fomanticFontFamilies)
 import Html.Styled as Html exposing (Attribute, Html, text)
+import UI.Dimmer exposing (pageDimmer)
 
 
-modalBasis : { shadow : Bool, inverted : Bool, additionalStyles : List Style } -> List (Attribute msg) -> List (Html msg) -> Html msg
-modalBasis { shadow, inverted, additionalStyles } =
-    Html.styled Html.div
-        [ -- .ui.modal
-          position absolute
+modalBasis :
+    { toggle : msg, shadow : Bool, inverted : Bool, additionalStyles : List Style }
+    -> List (Attribute msg)
+    -> List (Html msg)
+    -> Html msg
+modalBasis { toggle, shadow, inverted, additionalStyles } attributes children_ =
+    pageDimmer { isActive = True, toggle = toggle }
+        []
+        [ Html.styled Html.div
+            [ -- .ui.modal
+              position absolute
 
-        -- display: none;
-        , zIndex (int 1001)
-        , textAlign left
-        , if inverted then
-            property "background" "#FFFFFF"
+            -- display: none;
+            , zIndex (int 1001)
+            , textAlign left
+            , if inverted then
+                property "background" "#FFFFFF"
 
-          else
-            -- .ui.inverted.modal
-            property "background" "rgba(0, 0, 0, 0.9)"
-        , property "border" "none"
-        , if shadow then
-            prefixed [] "box-shadow" "1px 3px 3px 0 rgba(0, 0, 0, 0.2), 1px 3px 15px 2px rgba(0, 0, 0, 0.2)"
+              else
+                -- .ui.inverted.modal
+                property "background" "rgba(0, 0, 0, 0.9)"
+            , property "border" "none"
+            , if shadow then
+                prefixed [] "box-shadow" "1px 3px 3px 0 rgba(0, 0, 0, 0.2), 1px 3px 15px 2px rgba(0, 0, 0, 0.2)"
 
-          else
-            prefixed [] "box-shadow" "none" |> important
-        , property "-webkit-transform-origin" "50% 25%"
-        , property "transform-origin" "50% 25%"
-        , prefixed [] "flex" "0 0 auto"
-        , if shadow then
-            borderRadius (rem 0.28571429)
+              else
+                prefixed [] "box-shadow" "none" |> important
+            , property "-webkit-transform-origin" "50% 25%"
+            , property "transform-origin" "50% 25%"
+            , prefixed [] "flex" "0 0 auto"
+            , if shadow then
+                borderRadius (rem 0.28571429)
 
-          else
-            borderRadius zero
-        , prefixed [] "user-select" "text"
-        , property "will-change" "top, left, margin, transform, opacity"
-        , children
-            [ -- .ui.modal > :first-child:not(.icon):not(.dimmer)
-              -- .ui.modal > i.icon:first-child + *
-              -- .ui.modal > .dimmer:first-child + *:not(.icon)
-              -- .ui.modal > .dimmer:first-child + i.icon + *
-              each
-                [ selector ":first-child:not(.icon):not(.dimmer)"
-                , selector "i.icon:first-child + *"
-                , selector ".dimmer:first-child + *:not(.icon)"
-                , selector ".dimmer:first-child + i.icon + *"
+              else
+                borderRadius zero
+            , prefixed [] "user-select" "text"
+            , property "will-change" "top, left, margin, transform, opacity"
+            , children
+                [ -- .ui.modal > :first-child:not(.icon):not(.dimmer)
+                  -- .ui.modal > i.icon:first-child + *
+                  -- .ui.modal > .dimmer:first-child + *:not(.icon)
+                  -- .ui.modal > .dimmer:first-child + i.icon + *
+                  each
+                    [ selector ":first-child:not(.icon):not(.dimmer)"
+                    , selector "i.icon:first-child + *"
+                    , selector ".dimmer:first-child + *:not(.icon)"
+                    , selector ".dimmer:first-child + i.icon + *"
+                    ]
+                    [ borderTopLeftRadius (rem 0.28571429)
+                    , borderTopRightRadius (rem 0.28571429)
+                    ]
+
+                -- .ui.modal > :last-child
+                , selector ":last-child"
+                    [ borderBottomLeftRadius (rem 0.28571429)
+                    , borderBottomRightRadius (rem 0.28571429)
+                    ]
                 ]
-                [ borderTopLeftRadius (rem 0.28571429)
-                , borderTopRightRadius (rem 0.28571429)
-                ]
 
-            -- .ui.modal > :last-child
-            , selector ":last-child"
-                [ borderBottomLeftRadius (rem 0.28571429)
-                , borderBottomRightRadius (rem 0.28571429)
-                ]
+            -- AdditionalStyles
+            , batch additionalStyles
             ]
-
-        -- AdditionalStyles
-        , batch additionalStyles
+            attributes
+            children_
         ]
 
 
 modal :
-    { inverted : Bool }
+    { open : Bool, toggle : msg, inverted : Bool }
     -> List (Attribute msg)
     ->
         { header : List (Html msg)
@@ -84,7 +94,7 @@ modal :
         , actions : List (Html msg)
         }
     -> Html msg
-modal { inverted } attributes hca =
+modal { open, toggle, inverted } attributes hca =
     let
         has list f =
             case list of
@@ -97,16 +107,26 @@ modal { inverted } attributes hca =
         options =
             { inverted = inverted }
     in
-    modalBasis { shadow = True, inverted = inverted, additionalStyles = [] }
-        attributes
-        [ has hca.header (header options [])
-        , has hca.content (content options [])
-        , has hca.actions (actions options [])
-        ]
+    if open then
+        modalBasis
+            { toggle = toggle
+            , shadow = True
+            , inverted = inverted
+            , additionalStyles = []
+            }
+            attributes
+            [ has hca.header (header options [])
+            , has hca.content (content options [])
+            , has hca.actions (actions options [])
+            ]
+
+    else
+        text ""
 
 
 basicModal :
-    List (Attribute msg)
+    { open : Bool, toggle : msg }
+    -> List (Attribute msg)
     ->
         { header : List (Html msg)
         , content : List (Html msg)
@@ -114,7 +134,7 @@ basicModal :
         }
     -> List (Html msg)
     -> Html msg
-basicModal attributes hca children =
+basicModal { open, toggle } attributes hca children =
     let
         has list f =
             case list of
@@ -124,22 +144,27 @@ basicModal attributes hca children =
                 nonEmpty ->
                     f nonEmpty
     in
-    modalBasis
-        { shadow = False
-        , inverted = False
-        , additionalStyles =
-            [ -- .ui.basic.modal
-              backgroundColor transparent
-            , color (hex "#FFFFFF")
-            ]
-        }
-        attributes
-        ([ has hca.header (basicHeader [])
-         , has hca.content (basicContent [])
-         , has hca.actions (basicActions [])
-         ]
-            ++ children
-        )
+    if open then
+        modalBasis
+            { toggle = toggle
+            , shadow = False
+            , inverted = False
+            , additionalStyles =
+                [ -- .ui.basic.modal
+                  backgroundColor transparent
+                , color (hex "#FFFFFF")
+                ]
+            }
+            attributes
+            ([ has hca.header (basicHeader [])
+             , has hca.content (basicContent [])
+             , has hca.actions (basicActions [])
+             ]
+                ++ children
+            )
+
+    else
+        text ""
 
 
 headerBasis : { inverted : Bool, additionalStyles : List Style } -> List (Attribute msg) -> List (Html msg) -> Html msg

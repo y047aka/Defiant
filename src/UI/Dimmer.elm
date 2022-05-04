@@ -3,6 +3,8 @@ module UI.Dimmer exposing (content, dimmer, pageDimmer)
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Html.Styled as Html exposing (Attribute, Html)
+import Html.Styled.Attributes exposing (css)
+import Html.Styled.Events exposing (onClick)
 
 
 basis : { isActive : Bool, inverted : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -67,8 +69,8 @@ dimmer options =
     basis options []
 
 
-pageDimmer : Bool -> List (Attribute msg) -> List (Html msg) -> Html msg
-pageDimmer isActive =
+pageDimmer : { isActive : Bool, toggle : msg } -> List (Attribute msg) -> List (Html msg) -> Html msg
+pageDimmer { isActive, toggle } attributes children =
     basis { isActive = isActive, inverted = False }
         [ -- .ui.page.dimmer
           position fixed
@@ -79,6 +81,14 @@ pageDimmer isActive =
         , property "-webkit-transform-origin" "center center"
         , property "transform-origin" "center center"
         ]
+        attributes
+        (Html.div
+            [ css [ width (pct 100), height (pct 100) ]
+            , onClick toggle
+            ]
+            []
+            :: children
+        )
 
 
 content : List (Attribute msg) -> List (Html msg) -> Html msg

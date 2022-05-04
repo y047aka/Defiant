@@ -122,8 +122,8 @@ view { shared, toggledItems } =
         , description = "A dimmer can be formatted to be fixed to the page"
         }
         [ button [ onClick (Toggle "pageDimmer") ] [ icon [] "fas fa-plus", text "Show" ]
-        , pageDimmer (List.member "pageDimmer" toggledItems)
-            [ onClick (Toggle "pageDimmer") ]
+        , pageDimmer { isActive = List.member "pageDimmer" toggledItems, toggle = Toggle "pageDimmer" }
+            []
             [ iconHeader { inverted = True }
                 []
                 [ icon [] "fas fa-envelope"

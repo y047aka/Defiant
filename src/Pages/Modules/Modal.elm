@@ -7,10 +7,9 @@ import Page
 import Request exposing (Request)
 import Shared
 import UI.Button exposing (blackButton, button, greenButton, redButton)
-import UI.Dimmer exposing (pageDimmer)
 import UI.Example exposing (example)
 import UI.Icon exposing (icon)
-import UI.Modal as Modal exposing (basicModal, modal)
+import UI.Modal as Modal exposing (basicModal, dialog, modal)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
@@ -76,56 +75,54 @@ update msg model =
 
 view : Model -> List (Html Msg)
 view { shared, toggledItems } =
-    let
-        options =
-            { inverted = shared.darkMode }
-    in
     [ example
         { title = "Modal"
         , description = "A standard modal"
         }
         [ button [ onClick (Toggle "modal") ] [ icon [] "fas fa-plus", text "Show" ]
-        , pageDimmer (List.member "modal" toggledItems)
-            [ onClick (Toggle "modal") ]
-            [ modal options
-                []
-                { header = [ text "Select a Photo" ]
-                , content =
-                    [ Modal.description []
-                        [ p []
-                            [ text "We've found the following "
-                            , a [ href "https://www.gravatar.com", Attributes.target "_blank" ] [ text "gravatar" ]
-                            , text " image associated with your e-mail address."
-                            ]
-                        , p [] [ text "Is it okay to use this photo?" ]
+        , modal
+            { open = List.member "modal" toggledItems
+            , toggle = Toggle "modal"
+            , inverted = shared.darkMode
+            }
+            []
+            { header = [ text "Select a Photo" ]
+            , content =
+                [ Modal.description []
+                    [ p []
+                        [ text "We've found the following "
+                        , a [ href "https://www.gravatar.com", Attributes.target "_blank" ] [ text "gravatar" ]
+                        , text " image associated with your e-mail address."
                         ]
+                    , p [] [ text "Is it okay to use this photo?" ]
                     ]
-                , actions =
-                    [ blackButton [] [ text "Nope" ]
-                    , greenButton [] [ text "Yep, that's me" ]
-                    ]
-                }
-            ]
+                ]
+            , actions =
+                [ blackButton [ onClick (Toggle "modal") ] [ text "Nope" ]
+                , greenButton [ onClick (Toggle "modal") ] [ text "Yep, that's me" ]
+                ]
+            }
         ]
     , example
         { title = "Basic"
         , description = "A modal can reduce its complexity"
         }
         [ button [ onClick (Toggle "basicModal") ] [ icon [] "fas fa-plus", text "Show" ]
-        , pageDimmer (List.member "basicModal" toggledItems)
-            [ onClick (Toggle "basicModal") ]
-            [ basicModal []
-                { header = [ text "Archive Old Messages" ]
-                , content =
-                    [ Modal.description []
-                        [ p [] [ text "Your inbox is getting full, would you like us to enable automatic archiving of old messages?" ] ]
-                    ]
-                , actions =
-                    [ redButton [] [ text "No" ]
-                    , greenButton [] [ text "Yes" ]
-                    ]
-                }
-                []
-            ]
+        , basicModal
+            { open = List.member "basicModal" toggledItems
+            , toggle = Toggle "basicModal"
+            }
+            []
+            { header = [ text "Archive Old Messages" ]
+            , content =
+                [ Modal.description []
+                    [ p [] [ text "Your inbox is getting full, would you like us to enable automatic archiving of old messages?" ] ]
+                ]
+            , actions =
+                [ redButton [ onClick (Toggle "basicModal") ] [ text "No" ]
+                , greenButton [ onClick (Toggle "basicModal") ] [ text "Yes" ]
+                ]
+            }
+            []
         ]
     ]
