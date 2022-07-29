@@ -1,11 +1,11 @@
 module UI.Accordion exposing
-    ( accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl
+    ( headless_Checkbox, headless_Radio, headless_SummaryDetails, headless_TargetUrl
     , styled_Checkbox, styled_Radio, styled_SummaryDetails, styled_TargetUrl
     )
 
 {-|
 
-@docs accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl
+@docs headless_Checkbox, headless_Radio, headless_SummaryDetails, headless_TargetUrl
 @docs styled_Checkbox, styled_Radio, styled_SummaryDetails, styled_TargetUrl
 
 -}
@@ -45,8 +45,8 @@ basis additionalStyles =
         ]
 
 
-accordion : { toggleMethod : ToggleMethod, inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
-accordion { toggleMethod, inverted } attributes items =
+headless : { toggleMethod : ToggleMethod, inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
+headless { toggleMethod, inverted } attributes items =
     let
         itemOptions =
             { toggleMethod = toggleMethod
@@ -68,24 +68,24 @@ accordion { toggleMethod, inverted } attributes items =
         List.map (accordionItem itemOptions []) items
 
 
-accordion_Checkbox : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
-accordion_Checkbox { inverted } =
-    accordion { toggleMethod = Checkbox, inverted = inverted }
+headless_Checkbox : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
+headless_Checkbox { inverted } =
+    headless { toggleMethod = Checkbox, inverted = inverted }
 
 
-accordion_Radio : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
-accordion_Radio { inverted } =
-    accordion { toggleMethod = Radio, inverted = inverted }
+headless_Radio : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
+headless_Radio { inverted } =
+    headless { toggleMethod = Radio, inverted = inverted }
 
 
-accordion_TargetUrl : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
-accordion_TargetUrl { inverted } =
-    accordion { toggleMethod = TargetUrl, inverted = inverted }
+headless_TargetUrl : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
+headless_TargetUrl { inverted } =
+    headless { toggleMethod = TargetUrl, inverted = inverted }
 
 
-accordion_SummaryDetails : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
-accordion_SummaryDetails { inverted } =
-    accordion { toggleMethod = SummaryDetails, inverted = inverted }
+headless_SummaryDetails : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
+headless_SummaryDetails { inverted } =
+    headless { toggleMethod = SummaryDetails, inverted = inverted }
 
 
 styled : { toggleMethod : ToggleMethod, inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
