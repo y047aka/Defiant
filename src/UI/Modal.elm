@@ -1,12 +1,15 @@
 module UI.Modal exposing
     ( modal, header, content, description, actions
     , basicModal, basicHeader, basicContent, basicActions
+    , dialog
     )
 
 {-|
 
 @docs modal, header, content, description, actions
 @docs basicModal, basicHeader, basicContent, basicActions
+
+@docs dialog
 
 -}
 
@@ -15,6 +18,7 @@ import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, each, selector)
 import Css.Typography exposing (fomanticFontFamilies)
 import Html.Styled as Html exposing (Attribute, Html, text)
+import Html.Styled.Attributes as Attributes
 import UI.Dimmer exposing (pageDimmer)
 
 
@@ -298,3 +302,96 @@ actions { inverted } =
 basicActions : List (Attribute msg) -> List (Html msg) -> Html msg
 basicActions =
     actionsBasis { inverted = False } [ backgroundColor transparent ]
+
+
+dialogBasis : { shadow : Bool, inverted : Bool, additionalStyles : List Style } -> List (Attribute msg) -> List (Html msg) -> Html msg
+dialogBasis { shadow, inverted, additionalStyles } =
+    Html.styled (Html.node "dialog")
+        [ -- .ui.modal
+          position absolute
+
+        -- display: none;
+        , zIndex (int 1001)
+        , textAlign left
+        , if inverted then
+            property "background" "#FFFFFF"
+
+          else
+            -- .ui.inverted.modal
+            property "background" "rgba(0, 0, 0, 0.9)"
+        , property "border" "none"
+        , if shadow then
+            prefixed [] "box-shadow" "1px 3px 3px 0 rgba(0, 0, 0, 0.2), 1px 3px 15px 2px rgba(0, 0, 0, 0.2)"
+
+          else
+            prefixed [] "box-shadow" "none" |> important
+        , property "-webkit-transform-origin" "50% 25%"
+        , property "transform-origin" "50% 25%"
+        , prefixed [] "flex" "0 0 auto"
+        , if shadow then
+            borderRadius (rem 0.28571429)
+
+          else
+            borderRadius zero
+        , prefixed [] "user-select" "text"
+        , property "will-change" "top, left, margin, transform, opacity"
+        , children
+            [ -- .ui.modal > :first-child:not(.icon):not(.dimmer)
+              -- .ui.modal > i.icon:first-child + *
+              -- .ui.modal > .dimmer:first-child + *:not(.icon)
+              -- .ui.modal > .dimmer:first-child + i.icon + *
+              each
+                [ selector ":first-child:not(.icon):not(.dimmer)"
+                , selector "i.icon:first-child + *"
+                , selector ".dimmer:first-child + *:not(.icon)"
+                , selector ".dimmer:first-child + i.icon + *"
+                ]
+                [ borderTopLeftRadius (rem 0.28571429)
+                , borderTopRightRadius (rem 0.28571429)
+                ]
+
+            -- .ui.modal > :last-child
+            , selector ":last-child"
+                [ borderBottomLeftRadius (rem 0.28571429)
+                , borderBottomRightRadius (rem 0.28571429)
+                ]
+            ]
+
+        -- AdditionalStyles
+        , batch additionalStyles
+        ]
+
+
+dialog :
+    { open : Bool, inverted : Bool }
+    -> List (Attribute msg)
+    ->
+        { header : List (Html msg)
+        , content : List (Html msg)
+        , actions : List (Html msg)
+        }
+    -> Html msg
+dialog options attributes hca =
+    let
+        has list f =
+            case list of
+                [] ->
+                    text ""
+
+                nonEmpty ->
+                    f nonEmpty
+
+        options_ =
+            { inverted = options.inverted }
+    in
+    dialogBasis { shadow = True, inverted = options.inverted, additionalStyles = [] }
+        (if options.open then
+            Attributes.attribute "open" "" :: attributes
+
+         else
+            attributes
+        )
+        [ has hca.header (header options_ [])
+        , has hca.content (content options_ [])
+        , has hca.actions (actions options_ [])
+        ]

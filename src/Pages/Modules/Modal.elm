@@ -125,4 +125,31 @@ view { shared, toggledItems } =
             }
             []
         ]
+    , example
+        { title = "Dialog"
+        , description = ""
+        }
+        [ button [ onClick (Toggle "dialog") ] [ icon [] "fas fa-plus", text "Show" ]
+        , dialog
+            { open = List.member "dialog" toggledItems
+            , inverted = shared.darkMode
+            }
+            []
+            { header = [ text "Select a Photo" ]
+            , content =
+                [ Modal.description []
+                    [ p []
+                        [ text "We've found the following "
+                        , a [ href "https://www.gravatar.com", Attributes.target "_blank" ] [ text "gravatar" ]
+                        , text " image associated with your e-mail address."
+                        ]
+                    , p [] [ text "Is it okay to use this photo?" ]
+                    ]
+                ]
+            , actions =
+                [ blackButton [ onClick (Toggle "dialog") ] [ text "Nope" ]
+                , greenButton [ onClick (Toggle "dialog") ] [ text "Yep, that's me" ]
+                ]
+            }
+        ]
     ]
