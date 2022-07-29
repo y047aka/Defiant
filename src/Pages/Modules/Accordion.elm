@@ -5,7 +5,7 @@ import Html.Styled.Attributes exposing (id)
 import Page exposing (Page)
 import Request exposing (Request)
 import Shared
-import UI.Accordion exposing (accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl)
+import UI.Accordion exposing (styled_Checkbox, styled_Radio, styled_SummaryDetails, styled_TargetUrl)
 import UI.Example exposing (example)
 import UI.Segment exposing (segment)
 
@@ -56,28 +56,28 @@ view { shared } =
         { title = "Accordion"
         , description = "A standard accordion"
         }
-        [ accordion_SummaryDetails { inverted = shared.darkMode } [] items ]
+        [ styled_SummaryDetails { inverted = shared.darkMode } [] items ]
     , example
         { title = "Accordion - checkbox"
         , description = "A standard accordion with checkbox"
         }
-        [ accordion_Checkbox { inverted = shared.darkMode } [] items ]
+        [ styled_Checkbox { inverted = shared.darkMode } [] items ]
     , example
         { title = "Accordion - radio button"
         , description = "A standard accordion with radio button"
         }
-        [ accordion_Radio { inverted = shared.darkMode } [] items ]
+        [ styled_Radio { inverted = shared.darkMode } [] items ]
     , example
         { title = "Accordion - target URL"
         , description = "A standard accordion with target URL"
         }
-        [ accordion_TargetUrl { inverted = shared.darkMode } [] items ]
+        [ styled_TargetUrl { inverted = shared.darkMode } [] items ]
     , example
         { title = "Inverted"
         , description = "An accordion can be formatted to appear on dark backgrounds"
         }
         [ segment { inverted = True }
             []
-            [ accordion_SummaryDetails { inverted = True } [] items ]
+            [ styled_SummaryDetails { inverted = True } [] items ]
         ]
     ]
