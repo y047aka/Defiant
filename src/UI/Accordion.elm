@@ -7,7 +7,6 @@ import Css.Typography exposing (fomanticFontFamilies)
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes exposing (css, for, href, id, name, type_, value)
 import UI.Icon as Icon
-import UI.Internal exposing (styledBlock)
 
 
 type ToggleMethod
@@ -26,19 +25,7 @@ type alias AccordionItem msg =
 
 basis : List (Attribute msg) -> List (Html msg) -> Html msg
 basis =
-    styledBlock
-        { tag = Html.div
-        , position = Nothing
-        , margin = Nothing
-        , padding = Nothing
-        , borderRadius = Nothing
-        , palette =
-            { background = Nothing
-            , color = Nothing
-            , border = Nothing
-            }
-        , boxShadow = Nothing
-        }
+    Html.styled Html.div
         [ -- .ui.accordion,
           -- .ui.accordion .accordion
           maxWidth (pct 100)
@@ -78,19 +65,7 @@ itemBasis :
     -> List (Html msg)
     -> Html msg
 itemBasis tag additionalStyles =
-    styledBlock
-        { tag = tag
-        , position = Nothing
-        , margin = Nothing
-        , padding = Nothing
-        , borderRadius = Nothing
-        , palette =
-            { background = Nothing
-            , color = Nothing
-            , border = Nothing
-            }
-        , boxShadow = Nothing
-        }
+    Html.styled tag
         [ -- .ui.accordion:not(.styled) .title ~ .content:not(.ui):last-child
           lastChild
             [ children
