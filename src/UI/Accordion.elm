@@ -1,6 +1,7 @@
 module UI.Accordion exposing
     ( headless
     , accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl
+    , ToggleMethod(..)
     )
 
 {-|
