@@ -78,6 +78,6 @@ view { shared } =
         }
         [ segment { inverted = True }
             []
-            [ headless { toggleMethod = SummaryDetails, inverted = True } [] items ]
+            [ headless { toggleMethod = SummaryDetails } [] items ]
         ]
     ]
