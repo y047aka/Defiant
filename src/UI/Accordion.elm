@@ -1,11 +1,11 @@
 module UI.Accordion exposing
-    ( headless_Checkbox, headless_Radio, headless_SummaryDetails, headless_TargetUrl
+    ( headless
     , accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl
     )
 
 {-|
 
-@docs headless_Checkbox, headless_Radio, headless_SummaryDetails, headless_TargetUrl
+@docs headless
 @docs accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl
 
 -}
@@ -33,72 +33,19 @@ type alias AccordionItem msg =
     }
 
 
-basis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-basis additionalStyles =
-    Html.styled Html.div
-        [ -- .ui.accordion,
-          -- .ui.accordion .accordion
-          maxWidth (pct 100)
-
-        -- AdditionalStyles
-        , batch additionalStyles
-        ]
-
-
 headless : { toggleMethod : ToggleMethod, inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
 headless { toggleMethod, inverted } attributes items =
     let
         itemOptions =
             { toggleMethod = toggleMethod
             , inverted = inverted
-            , wrapperStyles =
-                [ -- .ui.accordion:not(.styled) .title ~ .content:not(.ui):last-child
-                  lastChild
-                    [ children
-                        [ Css.Global.div
-                            [ paddingBottom zero ]
-                        ]
-                    ]
-                ]
+            , wrapperStyles = []
             , labelStyles = []
             , contentStyles = []
             }
     in
-    basis [] attributes <|
+    Html.styled Html.div [] attributes <|
         List.map (accordionItem itemOptions []) items
-
-
-headless_Checkbox : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
-headless_Checkbox { inverted } =
-    headless { toggleMethod = Checkbox, inverted = inverted }
-
-
-headless_Radio : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
-headless_Radio { inverted } =
-    headless { toggleMethod = Radio, inverted = inverted }
-
-
-headless_TargetUrl : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
-headless_TargetUrl { inverted } =
-    headless { toggleMethod = TargetUrl, inverted = inverted }
-
-
-headless_SummaryDetails : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
-headless_SummaryDetails { inverted } =
-    headless { toggleMethod = SummaryDetails, inverted = inverted }
-
-
-itemBasis :
-    (List (Attribute msg) -> List (Html msg) -> Html msg)
-    -> List Style
-    -> List (Attribute msg)
-    -> List (Html msg)
-    -> Html msg
-itemBasis tag additionalStyles =
-    Html.styled tag
-        [ -- AdditionalStyles
-          batch additionalStyles
-        ]
 
 
 accordionItem :
@@ -143,9 +90,7 @@ accordionItem { toggleMethod, inverted, wrapperStyles, labelStyles, contentStyle
                 suffixedId =
                     item.id ++ "_accordion-checkbox"
             in
-            itemBasis Html.div
-                wrapperStyles
-                attributes
+            Html.div (css wrapperStyles :: attributes)
                 [ Html.input [ id suffixedId, type_ "checkbox", name "accordion-checkbox", css inputStyles ] []
                 , title { tag = Html.label, inverted = inverted } labelStyles [ for suffixedId ] iconAndTitle
                 , content contentStyles [] item.content
@@ -156,16 +101,14 @@ accordionItem { toggleMethod, inverted, wrapperStyles, labelStyles, contentStyle
                 suffixedId =
                     item.id ++ "_accordion-radio"
             in
-            itemBasis Html.div
-                wrapperStyles
-                attributes
+            Html.div (css wrapperStyles :: attributes)
                 [ Html.input [ id suffixedId, type_ "radio", name "accordion-radio", value item.id, css inputStyles ] []
                 , title { tag = Html.label, inverted = inverted } labelStyles [ for suffixedId ] iconAndTitle
                 , content contentStyles [] item.content
                 ]
 
         TargetUrl ->
-            itemBasis Html.div
+            Html.styled Html.div
                 [ children
                     [ Css.Global.div [ display none ] ]
                 , target
@@ -185,9 +128,7 @@ accordionItem { toggleMethod, inverted, wrapperStyles, labelStyles, contentStyle
                 ]
 
         SummaryDetails ->
-            itemBasis Html.details
-                wrapperStyles
-                attributes
+            Html.details (css wrapperStyles :: attributes)
                 [ title { tag = Html.summary, inverted = inverted } labelStyles [] item.title
                 , content contentStyles [] item.content
                 ]
@@ -311,10 +252,14 @@ accordion { toggleMethod, inverted } attributes items =
                 ]
             }
     in
-    basis
-        [ -- .ui.styled.accordion,
-          -- .ui.styled.accordion .accordion
-          borderRadius (rem 0.28571429)
+    Html.styled Html.div
+        [ -- .ui.accordion,
+          -- .ui.accordion .accordion
+          maxWidth (pct 100)
+
+        -- .ui.styled.accordion,
+        -- .ui.styled.accordion .accordion
+        , borderRadius (rem 0.28571429)
         , property "background" "#FFFFFF"
         , prefixed [] "box-shadow" "0 1px 2px 0 rgba(34, 36, 38, 0.15), 0 0 0 1px rgba(34, 36, 38, 0.15)"
         ]
