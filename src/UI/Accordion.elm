@@ -176,7 +176,11 @@ accordion { toggleMethod, inverted } attributes items =
         label tag =
             Html.styled tag
                 [ cursor pointer
-                , display block
+                , if toggleMethod == SummaryDetails then
+                    display listItem
+
+                  else
+                    display block
                 , margin zero
                 , padding2 (em 0.75) (em 1)
                 , fontFamilies fomanticFontFamilies
