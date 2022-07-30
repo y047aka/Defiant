@@ -47,7 +47,7 @@ view { shared } =
                 |> List.map
                     (\{ id, title, contents } ->
                         { id = id
-                        , title = [ text title ]
+                        , title = text title
                         , content = List.map (\c -> p [] [ text c ]) contents
                         }
                     )

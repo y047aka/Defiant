@@ -16,7 +16,7 @@ import Css.Extra exposing (prefixed)
 import Css.Global exposing (adjacentSiblings, children, generalSiblings)
 import Css.Typography exposing (fomanticFontFamilies)
 import Html.Styled as Html exposing (Attribute, Html)
-import Html.Styled.Attributes exposing (css, for, href, id, name, type_, value)
+import Html.Styled.Attributes as Attributes exposing (css, for, href, name, type_, value)
 import UI.Icon as Icon
 
 
@@ -29,7 +29,7 @@ type ToggleMethod
 
 type alias AccordionItem msg =
     { id : String
-    , title : List (Html msg)
+    , title : Html msg
     , content : List (Html msg)
     }
 
@@ -37,27 +37,29 @@ type alias AccordionItem msg =
 headless : { toggleMethod : ToggleMethod } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
 headless { toggleMethod } attributes items =
     let
-        itemOptions =
-            { toggleMethod = toggleMethod
+        itemOptions { id, title } =
+            { id = id
+            , title = title
+            , toggleMethod = toggleMethod
             , wrapper = \tag -> tag
             , label = \tag -> tag
-            , content = Html.div
             }
     in
     Html.styled Html.div [] attributes <|
-        List.map (accordionItem itemOptions []) items
+        List.map (\item -> accordionItem (itemOptions item) [] item.content) items
 
 
 accordionItem :
-    { toggleMethod : ToggleMethod
+    { id : String
+    , title : Html msg
+    , toggleMethod : ToggleMethod
     , wrapper : (List (Attribute msg) -> List (Html msg) -> Html msg) -> List (Attribute msg) -> List (Html msg) -> Html msg
     , label : (List (Attribute msg) -> List (Html msg) -> Html msg) -> List (Attribute msg) -> List (Html msg) -> Html msg
-    , content : List (Attribute msg) -> List (Html msg) -> Html msg
     }
     -> List (Attribute msg)
-    -> AccordionItem msg
+    -> List (Html msg)
     -> Html msg
-accordionItem { toggleMethod, wrapper, label, content } attributes item =
+accordionItem { id, title, toggleMethod, wrapper, label } attributes content =
     let
         inputStyles =
             [ display none
@@ -95,42 +97,40 @@ accordionItem { toggleMethod, wrapper, label, content } attributes item =
             prefixed [] "transform" "rotate(90deg)"
 
         iconAndTitle =
-            dropdownIcon :: item.title
+            [ dropdownIcon, title ]
     in
     case toggleMethod of
         Checkbox ->
             let
                 suffixedId =
-                    item.id ++ "_accordion-checkbox"
+                    id ++ "_accordion-checkbox"
             in
             wrapper Html.div attributes <|
-                [ Html.input [ id suffixedId, type_ "checkbox", name "accordion-checkbox", css inputStyles ] []
+                [ Html.input [ Attributes.id suffixedId, type_ "checkbox", name "accordion-checkbox", css inputStyles ] []
                 , label Html.label [ for suffixedId ] iconAndTitle
-                , content [] item.content
                 ]
+                    ++ content
 
         Radio ->
             let
                 suffixedId =
-                    item.id ++ "_accordion-radio"
+                    id ++ "_accordion-radio"
             in
             wrapper Html.div attributes <|
-                [ Html.input [ id suffixedId, type_ "radio", name "accordion-radio", value item.id, css inputStyles ] []
+                [ Html.input [ Attributes.id suffixedId, type_ "radio", name "accordion-radio", value id, css inputStyles ] []
                 , label Html.label [ for suffixedId ] iconAndTitle
-                , content [] item.content
                 ]
+                    ++ content
 
         TargetUrl ->
-            Html.styled (wrapper Html.div) targetStyles (id item.id :: attributes) <|
-                [ label Html.a [ href ("#" ++ item.id) ] iconAndTitle
-                , content [] item.content
-                ]
+            Html.styled (wrapper Html.div) targetStyles (Attributes.id id :: attributes) <|
+                label Html.a [ href ("#" ++ id) ] iconAndTitle
+                    :: content
 
         SummaryDetails ->
             wrapper Html.details attributes <|
-                [ label Html.summary [] item.title
-                , content [] item.content
-                ]
+                label Html.summary [] [ title ]
+                    :: content
 
 
 dropdownIcon : Html msg
@@ -161,11 +161,12 @@ dropdownIcon =
 accordion : { toggleMethod : ToggleMethod, inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
 accordion { toggleMethod, inverted } attributes items =
     let
-        itemOptions =
-            { toggleMethod = toggleMethod
+        itemOptions { id, title } =
+            { id = id
+            , title = title
+            , toggleMethod = toggleMethod
             , wrapper = wrapper
             , label = label
-            , content = content
             }
 
         wrapper tag =
@@ -222,14 +223,6 @@ accordion { toggleMethod, inverted } attributes items =
                     , color (rgba 0 0 0 0.87)
                     ]
                 ]
-
-        content =
-            Html.styled Html.div
-                [ -- .ui.styled.accordion .content,
-                  -- .ui.styled.accordion .accordion .content
-                  margin zero
-                , padding3 (em 0.5) (em 1) (em 1.5)
-                ]
     in
     Html.styled Html.div
         [ -- .ui.accordion,
@@ -243,7 +236,22 @@ accordion { toggleMethod, inverted } attributes items =
         , prefixed [] "box-shadow" "0 1px 2px 0 rgba(34, 36, 38, 0.15), 0 0 0 1px rgba(34, 36, 38, 0.15)"
         ]
         attributes
-        (List.map (accordionItem itemOptions []) items)
+        (List.map
+            (\item ->
+                accordionItem (itemOptions item) [] <|
+                    [ Html.div
+                        [ css
+                            [ -- .ui.styled.accordion .content,
+                              -- .ui.styled.accordion .accordion .content
+                              margin zero
+                            , padding3 (em 0.5) (em 1) (em 1.5)
+                            ]
+                        ]
+                        item.content
+                    ]
+            )
+            items
+        )
 
 
 accordion_Checkbox : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
