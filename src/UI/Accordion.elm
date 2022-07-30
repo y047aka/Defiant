@@ -1,12 +1,13 @@
 module UI.Accordion exposing
-    ( headless
+    ( ToggleMethod(..)
+    , accordionUnstyled
     , accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl
-    , ToggleMethod(..)
     )
 
 {-|
 
-@docs headless
+@docs ToggleMethod
+@docs accordionUnstyled
 @docs accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl
 
 -}
@@ -33,33 +34,29 @@ type alias AccordionItem msg =
     , content : List (Html msg)
     }
 
-
-headless : { toggleMethod : ToggleMethod } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
-headless { toggleMethod } attributes items =
-    let
-        itemOptions { id, title } =
-            { id = id
-            , title = title
-            , toggleMethod = toggleMethod
-            , wrapper = \tag -> tag
-            , label = \tag -> tag
-            }
-    in
-    Html.styled Html.div [] attributes <|
-        List.map (\item -> accordionItem (itemOptions item) [] item.content) items
+accordionBasis :
+    { toggleMethod : ToggleMethod
+    , wrapper : (List (Attribute msg) -> List (Html msg) -> Html msg) -> List (Attribute msg) -> List (Html msg) -> Html msg
+    , label : (List (Attribute msg) -> List (Html msg) -> Html msg) -> List (Attribute msg) -> List (Html msg) -> Html msg
+    }
+    -> List Style
+    -> List (Attribute msg)
+    -> List (AccordionItem msg)
+    -> Html msg
+accordionBasis itemProps styles attributes items =
+    Html.div (css styles :: attributes) <|
+        List.map (\item -> accordionItem itemProps [] item) items
 
 
 accordionItem :
-    { id : String
-    , title : Html msg
-    , toggleMethod : ToggleMethod
+    { toggleMethod : ToggleMethod
     , wrapper : (List (Attribute msg) -> List (Html msg) -> Html msg) -> List (Attribute msg) -> List (Html msg) -> Html msg
     , label : (List (Attribute msg) -> List (Html msg) -> Html msg) -> List (Attribute msg) -> List (Html msg) -> Html msg
     }
     -> List (Attribute msg)
-    -> List (Html msg)
+    -> AccordionItem msg
     -> Html msg
-accordionItem { id, title, toggleMethod, wrapper, label } attributes content =
+accordionItem { toggleMethod, wrapper, label } attributes { id, title, content } =
     let
         inputStyles =
             [ display none
@@ -155,19 +152,21 @@ dropdownIcon =
 
 
 
--- Styled
+
+accordionUnstyled : { toggleMethod : ToggleMethod } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
+accordionUnstyled { toggleMethod } attributes items =
+    let
+        itemProps =
+            { toggleMethod = toggleMethod, wrapper = \tag -> tag, label = \tag -> tag }
+    in
+    accordionBasis itemProps [] attributes items
 
 
 accordion : { toggleMethod : ToggleMethod, inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
 accordion { toggleMethod, inverted } attributes items =
     let
-        itemOptions { id, title } =
-            { id = id
-            , title = title
-            , toggleMethod = toggleMethod
-            , wrapper = wrapper
-            , label = label
-            }
+        itemProps =
+            { toggleMethod = toggleMethod, wrapper = wrapper, label = label }
 
         wrapper tag =
             Html.styled tag
@@ -224,7 +223,7 @@ accordion { toggleMethod, inverted } attributes items =
                     ]
                 ]
     in
-    Html.styled Html.div
+    accordionBasis itemProps
         [ -- .ui.accordion,
           -- .ui.accordion .accordion
           maxWidth (pct 100)
@@ -237,8 +236,10 @@ accordion { toggleMethod, inverted } attributes items =
         ]
         attributes
         (List.map
-            (\item ->
-                accordionItem (itemOptions item) [] <|
+            (\{ id, title, content } ->
+                { id = id
+                , title = title
+                , content =
                     [ Html.div
                         [ css
                             [ -- .ui.styled.accordion .content,
@@ -247,8 +248,9 @@ accordion { toggleMethod, inverted } attributes items =
                             , padding3 (em 0.5) (em 1) (em 1.5)
                             ]
                         ]
-                        item.content
+                        content
                     ]
+                }
             )
             items
         )

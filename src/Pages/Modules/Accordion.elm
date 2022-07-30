@@ -5,7 +5,7 @@ import Html.Styled.Attributes exposing (id)
 import Page exposing (Page)
 import Request exposing (Request)
 import Shared
-import UI.Accordion exposing (ToggleMethod(..), accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl, headless)
+import UI.Accordion exposing (ToggleMethod(..), accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl, accordionUnstyled)
 import UI.Example exposing (example)
 import UI.Segment exposing (segment)
 
@@ -78,6 +78,6 @@ view { shared } =
         }
         [ segment { inverted = True }
             []
-            [ headless { toggleMethod = SummaryDetails } [] items ]
+            [ accordionUnstyled { toggleMethod = SummaryDetails } [] items ]
         ]
     ]
