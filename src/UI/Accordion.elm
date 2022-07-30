@@ -88,82 +88,6 @@ headless_SummaryDetails { inverted } =
     headless { toggleMethod = SummaryDetails, inverted = inverted }
 
 
-accordion : { toggleMethod : ToggleMethod, inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
-accordion { toggleMethod, inverted } attributes items =
-    let
-        itemOptions =
-            { toggleMethod = toggleMethod
-            , inverted = inverted
-            , wrapperStyles =
-                [ -- .ui.styled.accordion .title,
-                  -- .ui.styled.accordion .accordion .title
-                  borderTop3 (px 1) solid (rgba 34 36 38 0.15)
-
-                -- .ui.styled.accordion > .title:first-child,
-                -- .ui.styled.accordion .accordion .title:first-child
-                , firstChild
-                    [ property "border-top" "none"
-                    ]
-                ]
-            , labelStyles =
-                [ -- .ui.styled.accordion .title,
-                  -- .ui.styled.accordion .accordion .title
-                  margin zero
-                , padding2 (em 0.75) (em 1)
-                , color (rgba 0 0 0 0.4)
-                , fontWeight bold
-                , property "-webkit-transition" "background 0.1s ease, color 0.1s ease"
-                , property "transition" "background 0.1s ease, color 0.1s ease"
-
-                -- Hover
-                , hover
-                    [ -- .ui.styled.accordion .title:hover,
-                      -- .ui.styled.accordion .active.title,
-                      -- .ui.styled.accordion .accordion .title:hover,
-                      -- .ui.styled.accordion .accordion .active.title
-                      property "background" "transparent"
-                    , color (rgba 0 0 0 0.87)
-                    ]
-                ]
-            , contentStyles =
-                [ -- .ui.styled.accordion .content,
-                  -- .ui.styled.accordion .accordion .content
-                  margin zero
-                , padding3 (em 0.5) (em 1) (em 1.5)
-                ]
-            }
-    in
-    basis
-        [ -- .ui.styled.accordion,
-          -- .ui.styled.accordion .accordion
-          borderRadius (rem 0.28571429)
-        , property "background" "#FFFFFF"
-        , prefixed [] "box-shadow" "0 1px 2px 0 rgba(34, 36, 38, 0.15), 0 0 0 1px rgba(34, 36, 38, 0.15)"
-        ]
-        attributes
-        (List.map (accordionItem itemOptions []) items)
-
-
-accordion_Checkbox : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
-accordion_Checkbox { inverted } =
-    accordion { toggleMethod = Checkbox, inverted = inverted }
-
-
-accordion_Radio : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
-accordion_Radio { inverted } =
-    accordion { toggleMethod = Radio, inverted = inverted }
-
-
-accordion_TargetUrl : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
-accordion_TargetUrl { inverted } =
-    accordion { toggleMethod = TargetUrl, inverted = inverted }
-
-
-accordion_SummaryDetails : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
-accordion_SummaryDetails { inverted } =
-    accordion { toggleMethod = SummaryDetails, inverted = inverted }
-
-
 itemBasis :
     (List (Attribute msg) -> List (Html msg) -> Html msg)
     -> List Style
@@ -336,3 +260,83 @@ dropdownIcon =
             ]
         ]
         "fas fa-caret-right"
+
+
+
+-- Styled
+
+
+accordion : { toggleMethod : ToggleMethod, inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
+accordion { toggleMethod, inverted } attributes items =
+    let
+        itemOptions =
+            { toggleMethod = toggleMethod
+            , inverted = inverted
+            , wrapperStyles =
+                [ -- .ui.styled.accordion .title,
+                  -- .ui.styled.accordion .accordion .title
+                  borderTop3 (px 1) solid (rgba 34 36 38 0.15)
+
+                -- .ui.styled.accordion > .title:first-child,
+                -- .ui.styled.accordion .accordion .title:first-child
+                , firstChild
+                    [ property "border-top" "none"
+                    ]
+                ]
+            , labelStyles =
+                [ -- .ui.styled.accordion .title,
+                  -- .ui.styled.accordion .accordion .title
+                  margin zero
+                , padding2 (em 0.75) (em 1)
+                , color (rgba 0 0 0 0.4)
+                , fontWeight bold
+                , property "-webkit-transition" "background 0.1s ease, color 0.1s ease"
+                , property "transition" "background 0.1s ease, color 0.1s ease"
+
+                -- Hover
+                , hover
+                    [ -- .ui.styled.accordion .title:hover,
+                      -- .ui.styled.accordion .active.title,
+                      -- .ui.styled.accordion .accordion .title:hover,
+                      -- .ui.styled.accordion .accordion .active.title
+                      property "background" "transparent"
+                    , color (rgba 0 0 0 0.87)
+                    ]
+                ]
+            , contentStyles =
+                [ -- .ui.styled.accordion .content,
+                  -- .ui.styled.accordion .accordion .content
+                  margin zero
+                , padding3 (em 0.5) (em 1) (em 1.5)
+                ]
+            }
+    in
+    basis
+        [ -- .ui.styled.accordion,
+          -- .ui.styled.accordion .accordion
+          borderRadius (rem 0.28571429)
+        , property "background" "#FFFFFF"
+        , prefixed [] "box-shadow" "0 1px 2px 0 rgba(34, 36, 38, 0.15), 0 0 0 1px rgba(34, 36, 38, 0.15)"
+        ]
+        attributes
+        (List.map (accordionItem itemOptions []) items)
+
+
+accordion_Checkbox : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
+accordion_Checkbox { inverted } =
+    accordion { toggleMethod = Checkbox, inverted = inverted }
+
+
+accordion_Radio : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
+accordion_Radio { inverted } =
+    accordion { toggleMethod = Radio, inverted = inverted }
+
+
+accordion_TargetUrl : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
+accordion_TargetUrl { inverted } =
+    accordion { toggleMethod = TargetUrl, inverted = inverted }
+
+
+accordion_SummaryDetails : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
+accordion_SummaryDetails { inverted } =
+    accordion { toggleMethod = SummaryDetails, inverted = inverted }
