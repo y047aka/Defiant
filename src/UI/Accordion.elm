@@ -34,6 +34,7 @@ type alias AccordionItem msg =
     , content : List (Html msg)
     }
 
+
 accordionBasis :
     { toggleMethod : ToggleMethod
     , wrapper : (List (Attribute msg) -> List (Html msg) -> Html msg) -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -151,8 +152,6 @@ dropdownIcon =
         "fas fa-caret-right"
 
 
-
-
 accordionUnstyled : { toggleMethod : ToggleMethod } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
 accordionUnstyled { toggleMethod } attributes items =
     let
@@ -170,69 +169,37 @@ accordion { toggleMethod, inverted } attributes items =
 
         wrapper tag =
             Html.styled tag
-                [ -- .ui.styled.accordion .title,
-                  -- .ui.styled.accordion .accordion .title
-                  borderTop3 (px 1) solid (rgba 34 36 38 0.15)
-
-                -- .ui.styled.accordion > .title:first-child,
-                -- .ui.styled.accordion .accordion .title:first-child
-                , firstChild
-                    [ property "border-top" "none"
-                    ]
+                [ nthChild "n+2"
+                    [ borderTop3 (px 1) solid (rgba 34 36 38 0.15) ]
                 ]
 
         label tag =
             Html.styled tag
-                [ -- .ui.accordion .title,
-                  -- .ui.accordion .accordion .title
-                  cursor pointer
-
-                -- .ui.accordion .title:not(.ui)
-                , padding2 (em 0.5) zero
+                [ cursor pointer
+                , display block
+                , margin zero
+                , padding2 (em 0.75) (em 1)
                 , fontFamilies fomanticFontFamilies
                 , fontSize (em 1)
-
-                -- Inverted
+                , fontWeight bold
                 , if inverted then
                     -- .ui.inverted.accordion .title:not(.ui)
                     color (rgba 255 255 255 0.9)
 
                   else
-                    color (rgba 0 0 0 0.87)
-
-                -- Override
-                , display block
-
-                -- .ui.styled.accordion .title,
-                -- .ui.styled.accordion .accordion .title
-                , margin zero
-                , padding2 (em 0.75) (em 1)
-                , color (rgba 0 0 0 0.4)
-                , fontWeight bold
+                    color (rgba 0 0 0 0.4)
                 , property "-webkit-transition" "background 0.1s ease, color 0.1s ease"
                 , property "transition" "background 0.1s ease, color 0.1s ease"
-
-                -- Hover
                 , hover
-                    [ -- .ui.styled.accordion .title:hover,
-                      -- .ui.styled.accordion .active.title,
-                      -- .ui.styled.accordion .accordion .title:hover,
-                      -- .ui.styled.accordion .accordion .active.title
-                      property "background" "transparent"
+                    [ backgroundColor transparent
                     , color (rgba 0 0 0 0.87)
                     ]
                 ]
     in
     accordionBasis itemProps
-        [ -- .ui.accordion,
-          -- .ui.accordion .accordion
-          maxWidth (pct 100)
-
-        -- .ui.styled.accordion,
-        -- .ui.styled.accordion .accordion
-        , borderRadius (rem 0.28571429)
-        , property "background" "#FFFFFF"
-        , prefixed [] "box-shadow" "0 1px 2px 0 rgba(34, 36, 38, 0.15), 0 0 0 1px rgba(34, 36, 38, 0.15)"
+        [ borderRadius (rem 0.28571429)
+        , backgroundColor (hex "#FFFFFF")
+        , border3 (px 1) solid (rgba 34 36 38 0.15)
         ]
         attributes
         (List.map
@@ -242,9 +209,7 @@ accordion { toggleMethod, inverted } attributes items =
                 , content =
                     [ Html.div
                         [ css
-                            [ -- .ui.styled.accordion .content,
-                              -- .ui.styled.accordion .accordion .content
-                              margin zero
+                            [ margin zero
                             , padding3 (em 0.5) (em 1) (em 1.5)
                             ]
                         ]
