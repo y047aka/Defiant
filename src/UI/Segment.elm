@@ -17,8 +17,8 @@ module UI.Segment exposing
 -}
 
 import Css exposing (..)
+import Css.Extra exposing (prefixed)
 import Html.Styled as Html exposing (Attribute, Html)
-import UI.Internal exposing (styledBlock)
 
 
 basis : { border : Bool, shadow : Bool, inverted : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -46,33 +46,43 @@ basis { border, shadow, inverted } additionalStyles =
             , border = Nothing
             }
     in
-    styledBlock
-        { tag = Html.section
-        , position = Just <| position relative
-        , margin = Just <| margin2 (rem 1) zero
-        , padding = Just <| padding2 (em 1) (em 1)
-        , borderRadius =
-            if shadow then
-                Just (rem 0.28571429)
+    Html.styled Html.section
+        [ position relative
+        , margin2 (rem 1) zero
+        , padding2 (em 1) (em 1)
+        , if shadow then
+            borderRadius (rem 0.28571429)
 
-            else
-                Nothing
-        , palette =
+          else
+            batch []
+        , (\palette ->
+            batch
+                [ palette.background
+                    |> Maybe.map backgroundColor
+                    |> Maybe.withDefault (property "background" "none")
+                , palette.color
+                    |> Maybe.map color
+                    |> Maybe.withDefault (batch [])
+                , palette.border
+                    |> Maybe.map (border3 (px 1) solid)
+                    |> Maybe.withDefault (batch [])
+                ]
+          )
+          <|
             if inverted then
                 invertedPalette
 
             else
                 defaultPalette
-        , boxShadow =
-            case ( shadow, inverted ) of
-                ( True, False ) ->
-                    Just "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
+        , case ( shadow, inverted ) of
+            ( True, False ) ->
+                prefixed [] "box-shadow" "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
 
-                _ ->
-                    Nothing
-        }
-        [ -- .ui.segment:first-child
-          pseudoClass "first-child"
+            _ ->
+                batch []
+
+        -- .ui.segment:first-child
+        , pseudoClass "first-child"
             [ marginTop zero ]
 
         -- .ui.segment:last-child
