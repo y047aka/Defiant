@@ -3,27 +3,25 @@ module UI.Message exposing (message)
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, selector)
+import Css.Palette exposing (paletteWith)
 import Html.Styled as Html exposing (Attribute, Html)
-import UI.Internal exposing (styledBlock)
 
 
 basis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 basis additionalStyles =
-    styledBlock
-        { tag = Html.section
-        , position = Just <| position relative
-        , margin = Just <| margin2 (em 1) zero
-        , padding = Just <| padding2 (em 1) (em 1.5)
-        , borderRadius = Just (rem 0.28571429)
-        , palette =
+    Html.styled Html.section
+        [ position relative
+        , margin2 (em 1) zero
+        , padding2 (em 1) (em 1.5)
+        , paletteWith { border = border3 (px 1) solid }
             { background = Just (hex "#F8F8F9")
             , color = Just (rgba 0 0 0 0.87)
             , border = Just (rgba 34 36 38 0.22)
             }
-        , boxShadow = Nothing
-        }
-        [ -- .ui.message
-          minHeight (em 1)
+        , borderRadius (rem 0.28571429)
+
+        -- .ui.message
+        , minHeight (em 1)
         , lineHeight (em 1.4285)
         , property "-webkit-transition" "opacity 0.1s ease, color 0.1s ease, background 0.1s ease, -webkit-box-shadow 0.1s ease"
         , property "transition" "opacity 0.1s ease, color 0.1s ease, background 0.1s ease, -webkit-box-shadow 0.1s ease"

@@ -19,26 +19,15 @@ import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, everything)
 import Css.Typography exposing (fomanticFontFamilies)
 import Html.Styled as Html exposing (Attribute, Html, text)
-import UI.Internal exposing (styledBlock)
 
 
 itemsBasis : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 itemsBasis additionalStyles =
-    styledBlock
-        { tag = Html.div
-        , position = Nothing
-        , margin = Just <| margin2 (em 1.5) zero
-        , padding = Nothing
-        , borderRadius = Nothing
-        , palette =
-            { background = Nothing
-            , color = Nothing
-            , border = Nothing
-            }
-        , boxShadow = Nothing
-        }
-        [ -- .ui.items:first-child
-          firstChild
+    Html.styled Html.div
+        [ margin2 (em 1.5) zero
+
+        -- .ui.items:first-child
+        , firstChild
             [ marginTop zero |> important ]
 
         -- .ui.items:last-child
@@ -84,21 +73,12 @@ dividedItems =
 
 item : List (Attribute msg) -> List (Html msg) -> Html msg
 item =
-    styledBlock
-        { tag = Html.div
-        , position = Nothing
-        , margin = Just <| margin2 (em 1) zero
-        , padding = Just <| padding zero
-        , borderRadius = Nothing
-        , palette =
-            { background = Nothing
-            , color = Nothing
-            , border = Nothing
-            }
-        , boxShadow = Nothing
-        }
-        [ -- .ui.items > .item
-          prefixed [] "display" "flex"
+    Html.styled Html.div
+        [ margin2 (em 1) zero
+        , padding zero
+
+        -- .ui.items > .item
+        , prefixed [] "display" "flex"
         , width (pct 100)
         , minHeight zero
         , property "background" "transparent"

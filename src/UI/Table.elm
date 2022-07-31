@@ -14,9 +14,9 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, each)
 import Css.Layout as Layout exposing (layout)
+import Css.Palette exposing (paletteWith)
 import Css.Typography as Typography exposing (init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
-import UI.Internal exposing (styledBlock)
 
 
 basis :
@@ -30,13 +30,9 @@ basis options additionalStyles =
         initialLayout =
             Layout.init
     in
-    styledBlock
-        { tag = Html.table
-        , position = Nothing
-        , margin = Just <| margin2 (em 1) zero
-        , padding = Nothing
-        , borderRadius = Just (rem 0.28571429)
-        , palette =
+    Html.styled Html.table
+        [ margin2 (em 1) zero
+        , paletteWith { border = border3 (px 1) solid }
             { background = Just (hex "#FFF")
             , color = Just (rgba 0 0 0 0.87)
             , border =
@@ -46,10 +42,10 @@ basis options additionalStyles =
                 else
                     Nothing
             }
-        , boxShadow = Nothing
-        }
-        [ -- .ui.table
-          width (pct 100)
+        , borderRadius (rem 0.28571429)
+
+        -- .ui.table
+        , width (pct 100)
         , layout
             { initialLayout
                 | textAlign = Layout.left

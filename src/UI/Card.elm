@@ -13,9 +13,9 @@ module UI.Card exposing
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, everything, selector)
+import Css.Palette exposing (paletteWith)
 import Css.Typography exposing (fomanticFontFamilies)
 import Html.Styled as Html exposing (Attribute, Html, text)
-import UI.Internal exposing (styledBlock)
 
 
 cards : List (Attribute msg) -> List (Html msg) -> Html msg
@@ -56,13 +56,12 @@ cardBasis { border, shadow, inverted } additionalStyles =
             , border = Nothing
             }
     in
-    styledBlock
-        { tag = Html.div
-        , position = Just <| position relative
-        , margin = Just <| margin2 (em 1) zero
-        , padding = Just <| padding zero
-        , borderRadius = Just (rem 0.28571429)
-        , palette =
+    Html.styled Html.div
+        [ position relative
+        , margin2 (em 1) zero
+        , padding zero
+        , borderRadius (rem 0.28571429)
+        , paletteWith { border = border3 (px 1) solid } <|
             case ( border, inverted ) of
                 ( False, False ) ->
                     paletteBasis
@@ -75,22 +74,21 @@ cardBasis { border, shadow, inverted } additionalStyles =
 
                 ( True, True ) ->
                     { paletteBasis | background = Just (hex "#1B1C1D"), border = Just (hex "#D4D4D5") }
-        , boxShadow =
-            case ( shadow, inverted ) of
-                ( True, False ) ->
-                    Just "0 1px 2px 0 #D4D4D5"
+        , case ( shadow, inverted ) of
+            ( True, False ) ->
+                prefixed [] "box-shadow" "0 1px 2px 0 #D4D4D5"
 
-                ( True, True ) ->
-                    -- .ui.inverted.cards > .card
-                    -- .ui.inverted.card
-                    Just "0 1px 3px 0 #555555, 0 0 0 1px #555555"
+            ( True, True ) ->
+                -- .ui.inverted.cards > .card
+                -- .ui.inverted.card
+                prefixed [] "box-shadow" "0 1px 3px 0 #555555, 0 0 0 1px #555555"
 
-                ( False, _ ) ->
-                    Nothing
-        }
-        [ -- .ui.cards > .card
-          -- .ui.card
-          maxWidth (pct 100)
+            ( False, _ ) ->
+                batch []
+
+        -- .ui.cards > .card
+        -- .ui.card
+        , maxWidth (pct 100)
         , prefixed [] "display" "flex"
         , property "-webkit-box-orient" "vertical"
         , property "-webkit-box-direction" "normal"

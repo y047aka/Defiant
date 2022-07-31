@@ -17,9 +17,9 @@ module UI.Menu exposing
 import Css exposing (..)
 import Css.Extra exposing (prefixed, when)
 import Css.Layout as Layout exposing (layout)
+import Css.Palette exposing (paletteWith)
 import Css.Typography as Typography exposing (init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
-import UI.Internal exposing (styledBlock)
 import UI.Label
 
 
@@ -51,33 +51,28 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
                 , border = Nothing
             }
     in
-    styledBlock
-        { tag = Html.div
-        , position = Nothing
-        , margin = Just <| margin2 (rem 1) zero
-        , padding = Nothing
-        , borderRadius =
-            if shadow then
-                Just (rem 0.28571429)
+    Html.styled Html.div
+        [ margin2 (rem 1) zero
+        , if shadow then
+            borderRadius (rem 0.28571429)
 
-            else
-                Nothing
-        , palette =
+          else
+            batch []
+        , paletteWith { border = border3 (px 1) solid } <|
             if inverted then
                 invertedPalette
 
             else
                 defaultPalette
-        , boxShadow =
-            case ( shadow, inverted ) of
-                ( True, False ) ->
-                    Just "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
+        , case ( shadow, inverted ) of
+            ( True, False ) ->
+                prefixed [] "box-shadow" "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
 
-                _ ->
-                    Nothing
-        }
-        [ -- .ui.menu
-          prefixed [] "display" "flex"
+            _ ->
+                batch []
+
+        -- .ui.menu
+        , prefixed [] "display" "flex"
         , typography { defaultTypography | fontWeight = Typography.normal }
         , minHeight (em 2.85714286)
 
