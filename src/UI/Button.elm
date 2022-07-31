@@ -19,7 +19,7 @@ import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, selector, typeSelector)
 import Css.Layout as Layout exposing (layout)
 import Css.Palette exposing (..)
-import Css.Typography as Typography exposing (fomanticFontFamilies, init, typography)
+import Css.Typography as Typography exposing (fomanticFontFamilies, typography)
 import Data exposing (PresetColor(..))
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes exposing (css)
@@ -35,6 +35,9 @@ basis { palettes, shadow } additionalStyles =
     let
         defaultLayout =
             Layout.default
+
+        initialTypography =
+            Typography.init
     in
     Html.styled Html.button
         [ -- .ui.button
@@ -45,7 +48,7 @@ basis { palettes, shadow } additionalStyles =
         , borderStyle none
         , layout { defaultLayout | textAlign = Layout.center }
         , typography
-            { init
+            { initialTypography
                 | fontFamilies = fomanticFontFamilies
                 , textTransform = Typography.none
                 , fontStyle = Typography.normal
@@ -146,11 +149,15 @@ button =
 
 basicButton : List (Attribute msg) -> List (Html msg) -> Html msg
 basicButton =
+    let
+        initialTypography =
+            Typography.init
+    in
     basis { palettes = basicPalettes, shadow = True }
         [ -- .ui.basic.button
           property "background" "transparent none"
         , typography
-            { init
+            { initialTypography
                 | fontWeight = Typography.normal
                 , textTransform = Typography.none
             }
@@ -164,6 +171,9 @@ labeledButton attributes =
     let
         defaultLayout =
             Layout.default
+
+        initialTypography =
+            Typography.init
     in
     Html.div <|
         css
@@ -174,7 +184,7 @@ labeledButton attributes =
             , borderStyle none
             , layout { defaultLayout | textAlign = Layout.center }
             , typography
-                { init
+                { initialTypography
                     | fontFamilies = fomanticFontFamilies
                     , textTransform = Typography.none
                     , fontStyle = Typography.normal
@@ -429,17 +439,17 @@ paletteSelector presetColor =
 
 basisDefault : Palette
 basisDefault =
-    { background = hex "#E0E1E2"
-    , color = textColor
-    , border = transparent_
+    { background = Just (hex "#E0E1E2")
+    , color = Just textColor
+    , border = Just transparent_
     }
 
 
 basisOnHover : Palette
 basisOnHover =
     { basisDefault
-        | background = hex "#CACBCD"
-        , color = hoverColor
+        | background = Just (hex "#CACBCD")
+        , color = Just hoverColor
     }
 
 
@@ -451,24 +461,24 @@ basisOnFocus =
 basisOnActive : Palette
 basisOnActive =
     { basisDefault
-        | background = hex "#BABBBC"
-        , color = rgba 0 0 0 0.9
+        | background = Just (hex "#BABBBC")
+        , color = Just (rgba 0 0 0 0.9)
     }
 
 
 basic : Palette
 basic =
-    { background = rgba 0 0 0 0
-    , color = textColor
-    , border = transparent_
+    { background = Just (rgba 0 0 0 0)
+    , color = Just textColor
+    , border = Just transparent_
     }
 
 
 basicOnHover : Palette
 basicOnHover =
     { basic
-        | background = hex "#FFFFFF"
-        , color = hoverColor
+        | background = Just (hex "#FFFFFF")
+        , color = Just hoverColor
     }
 
 
@@ -480,6 +490,6 @@ basicOnFocus =
 basicOnActive : Palette
 basicOnActive =
     { basic
-        | background = hex "#F8F8F8"
-        , color = rgba 0 0 0 0.9
+        | background = Just (hex "#F8F8F8")
+        , color = Just (rgba 0 0 0 0.9)
     }

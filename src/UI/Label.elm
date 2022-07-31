@@ -19,18 +19,22 @@ import Css.Extra exposing (prefixed)
 import Css.Global exposing (children)
 import Css.Layout as Layout exposing (layout)
 import Css.Palette exposing (..)
-import Css.Typography as Typography exposing (init, typography)
+import Css.Typography as Typography exposing (typography)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
 basis : { border : Bool, palette : Maybe Palette } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 basis options additionalStyles =
+    let
+        initialTypography =
+            Typography.init
+    in
     Html.styled Html.div
         [ -- .ui.label
           display inlineBlock
         , layout Layout.default
         , typography
-            { init
+            { initialTypography
                 | lineHeight = Typography.int 1
                 , fontSize = Typography.rem 0.85714286
                 , fontWeight = Typography.bold
@@ -101,12 +105,12 @@ coloredLabel palettes =
 
 primaryLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 primaryLabel =
-    coloredLabel { blue | color = rgba 255 255 255 0.9 }
+    coloredLabel { blue | color = Just (rgba 255 255 255 0.9) }
 
 
 secondaryLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 secondaryLabel =
-    coloredLabel { black | color = rgba 255 255 255 0.9 }
+    coloredLabel { black | color = Just (rgba 255 255 255 0.9) }
 
 
 redLabel : List (Attribute msg) -> List (Html msg) -> Html msg
@@ -180,15 +184,15 @@ blackLabel =
 
 basis_ : Palette
 basis_ =
-    { background = hex "#E8E8E8"
-    , color = textColor
-    , border = transparent_
+    { background = Just (hex "#E8E8E8")
+    , color = Just textColor
+    , border = Just transparent_
     }
 
 
 basic : Palette
 basic =
-    { background = hex "#FFFFFF"
-    , color = rgba 0 0 0 0.87
-    , border = transparent_
+    { background = Just (hex "#FFFFFF")
+    , color = Just (rgba 0 0 0 0.87)
+    , border = Just transparent_
     }

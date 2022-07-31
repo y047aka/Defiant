@@ -18,6 +18,7 @@ module UI.Segment exposing
 
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
+import Css.Palette as Palette exposing (paletteWith, setBackground, setBackgroundIf, setBorderIf, setColor)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
@@ -25,26 +26,14 @@ basis : { border : Bool, shadow : Bool, inverted : Bool } -> List Style -> List 
 basis { border, shadow, inverted } additionalStyles =
     let
         defaultPalette =
-            { background =
-                if shadow then
-                    Just (hex "#FFF")
-
-                else
-                    Nothing
-            , color = Nothing
-            , border =
-                if border then
-                    Just (rgba 34 36 38 0.15)
-
-                else
-                    Nothing
-            }
+            Palette.init
+                |> setBackgroundIf shadow (hex "#FFF")
+                |> setBorderIf border (rgba 34 36 38 0.15)
 
         invertedPalette =
-            { background = Just (hex "#1B1C1D")
-            , color = Just (rgba 255 255 255 0.9)
-            , border = Nothing
-            }
+            Palette.init
+                |> setBackground (hex "#1B1C1D")
+                |> setColor (rgba 255 255 255 0.9)
     in
     Html.styled Html.section
         [ position relative
@@ -55,20 +44,7 @@ basis { border, shadow, inverted } additionalStyles =
 
           else
             batch []
-        , (\palette ->
-            batch
-                [ palette.background
-                    |> Maybe.map backgroundColor
-                    |> Maybe.withDefault (property "background" "none")
-                , palette.color
-                    |> Maybe.map color
-                    |> Maybe.withDefault (batch [])
-                , palette.border
-                    |> Maybe.map (border3 (px 1) solid)
-                    |> Maybe.withDefault (batch [])
-                ]
-          )
-          <|
+        , paletteWith { border = border3 (px 1) solid } <|
             if inverted then
                 invertedPalette
 
