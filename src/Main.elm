@@ -6,13 +6,14 @@ import Css.FontAwesome exposing (fontAwesome)
 import Css.Global exposing (global)
 import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
+import Data.Theme as Theme exposing (Theme(..))
 import Effect
 import Gen.Model
 import Gen.Pages as Pages
 import Gen.Route as Route
-import Html.Styled exposing (Html, text)
-import Html.Styled.Attributes exposing (checked, for, id, type_)
-import Html.Styled.Events exposing (onClick)
+import Html.Styled exposing (Html, option, select, text)
+import Html.Styled.Attributes exposing (checked, for, id, selected, type_, value)
+import Html.Styled.Events exposing (onClick, onInput)
 import Request
 import Shared
 import UI.Breadcrumb exposing (BreadcrumbItem, breadcrumb)
@@ -180,6 +181,10 @@ layout { url, shared } { title, body } =
                     []
                 , Checkbox.label [ for "darkmode" ] [ text "Dark mode" ]
                 ]
+            , text "Theme "
+            , select [ onInput (Theme.fromString >> Maybe.withDefault shared.theme >> (\theme -> Shared (Shared.ChangeTheme theme))) ] <|
+                List.map (\theme -> option [ value (Theme.toString theme), selected (shared.theme == theme) ] [ text (Theme.toString theme) ])
+                    [ System, Light, Dark ]
             ]
         ]
     , basicSegment { inverted = False }
