@@ -17,6 +17,7 @@ module UI.Menu exposing
 import Css exposing (..)
 import Css.Extra exposing (prefixed, when)
 import Css.Layout as Layout exposing (layout)
+import Css.Media exposing (withMediaQuery)
 import Css.Palette exposing (paletteWith)
 import Css.Typography as Typography exposing (init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
@@ -64,6 +65,8 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
 
             else
                 defaultPalette
+        , withMediaQuery [ "(prefers-color-scheme: dark)" ]
+            [ paletteWith { border = border3 (px 1) solid } invertedPalette ]
         , case ( shadow, inverted ) of
             ( True, False ) ->
                 prefixed [] "box-shadow" "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
