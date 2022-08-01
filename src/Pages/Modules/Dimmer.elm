@@ -1,5 +1,6 @@
 module Pages.Modules.Dimmer exposing (Model, Msg, page)
 
+import Data.Theme exposing (isDark)
 import Html.Styled as Html exposing (Html, div, text)
 import Html.Styled.Attributes exposing (src)
 import Html.Styled.Events exposing (onClick)
@@ -80,7 +81,7 @@ view : Model -> List (Html Msg)
 view { shared, toggledItems } =
     let
         options =
-            { inverted = shared.darkMode }
+            { inverted = isDark shared.theme }
     in
     [ example
         { title = "Dimmer"

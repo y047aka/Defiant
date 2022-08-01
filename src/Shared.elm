@@ -10,27 +10,21 @@ type alias Flags =
 
 
 type alias Model =
-    { darkMode : Bool
-    , theme : Theme
-    }
+    { theme : Theme }
 
 
 type Msg
-    = ToggleDarkMode
-    | ChangeTheme Theme
+    = ChangeTheme Theme
 
 
 init : Request -> Flags -> ( Model, Cmd Msg )
 init _ _ =
-    ( { darkMode = False, theme = System }, Cmd.none )
+    ( { theme = System }, Cmd.none )
 
 
 update : Request -> Msg -> Model -> ( Model, Cmd Msg )
 update _ msg model =
     case msg of
-        ToggleDarkMode ->
-            ( { model | darkMode = not model.darkMode }, Cmd.none )
-
         ChangeTheme theme ->
             ( { model | theme = theme }, Cmd.none )
 

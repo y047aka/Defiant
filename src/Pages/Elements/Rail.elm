@@ -1,6 +1,7 @@
 module Pages.Elements.Rail exposing (page)
 
 import Css exposing (..)
+import Data.Theme exposing (isDark)
 import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Attributes exposing (css)
 import Page exposing (Page)
@@ -29,7 +30,7 @@ view : Model -> List (Html msg)
 view { shared } =
     let
         options =
-            { inverted = shared.darkMode }
+            { inverted = isDark shared.theme }
     in
     [ example
         { title = "Rail"

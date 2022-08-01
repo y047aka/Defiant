@@ -1,6 +1,7 @@
 module Pages.Home_ exposing (page)
 
 import Data.Category as Category exposing (Category(..))
+import Data.Theme exposing (isDark)
 import Gen.Route as Route exposing (Route)
 import Html.Styled as Html exposing (Html, a, text)
 import Html.Styled.Attributes exposing (href)
@@ -13,11 +14,11 @@ import UI.Segment exposing (basicSegment)
 
 
 page : Shared.Model -> Request -> Page
-page { darkMode } _ =
+page shared _ =
     Page.static
         { view =
             { title = "Homepage"
-            , body = view { inverted = darkMode }
+            , body = view { inverted = isDark shared.theme }
             }
         }
 

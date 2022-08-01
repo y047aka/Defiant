@@ -1,5 +1,6 @@
 module Pages.Collections.Breadcrumb exposing (page)
 
+import Data.Theme exposing (isDark)
 import Html.Styled as Html exposing (Html, text)
 import Page exposing (Page)
 import Request exposing (Request)
@@ -28,7 +29,7 @@ view : Model -> List (Html msg)
 view { shared } =
     let
         inverted =
-            shared.darkMode
+            isDark shared.theme
     in
     [ example
         { title = "Breadcrumb"

@@ -1,5 +1,6 @@
 module Pages.Collections.Menu exposing (page)
 
+import Data.Theme exposing (isDark)
 import Html.Styled as Html exposing (Html, input, text)
 import Html.Styled.Attributes as Attributes exposing (href, placeholder, rel, type_)
 import Page exposing (Page)
@@ -29,7 +30,7 @@ view : Model -> List (Html msg)
 view { shared } =
     let
         inverted =
-            shared.darkMode
+            isDark shared.theme
     in
     [ example
         { title = "Secondary Menu"

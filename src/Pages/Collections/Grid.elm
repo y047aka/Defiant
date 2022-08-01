@@ -1,6 +1,7 @@
 module Pages.Collections.Grid exposing (page)
 
 import Css exposing (..)
+import Data.Theme exposing (isDark)
 import Html.Styled as Html exposing (Html)
 import Html.Styled.Attributes exposing (css, src)
 import Page exposing (Page)
@@ -104,7 +105,7 @@ The default column count, and other arbitrary features of grids can be changed b
         }
         [ let
             imageSegment =
-                segment { inverted = shared.darkMode }
+                segment { inverted = isDark shared.theme }
                     []
                     [ smallImage [ src "/static/images/wireframe/image.png" ] [] ]
           in

@@ -6,7 +6,7 @@ import Css.FontAwesome exposing (fontAwesome)
 import Css.Global exposing (global)
 import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
-import Data.Theme as Theme exposing (Theme(..))
+import Data.Theme as Theme exposing (Theme(..), isDark)
 import Effect
 import Gen.Model
 import Gen.Pages as Pages
@@ -17,7 +17,6 @@ import Html.Styled.Events exposing (onClick, onInput)
 import Request
 import Shared
 import UI.Breadcrumb exposing (BreadcrumbItem, breadcrumb)
-import UI.Checkbox as Checkbox exposing (checkbox)
 import UI.Container exposing (container)
 import UI.Segment exposing (basicSegment)
 import Url exposing (Url)
@@ -164,24 +163,14 @@ layout { url, shared } { title, body } =
     , basicSegment { inverted = False }
         []
         [ container []
-            [ breadcrumb { divider = text "/", inverted = shared.darkMode }
+            [ breadcrumb { divider = text "/", inverted = isDark shared.theme }
                 (breadcrumbItems { title = title, url = url })
             ]
         ]
     , basicSegment { inverted = False }
         []
         [ container []
-            [ checkbox []
-                [ Checkbox.input
-                    [ id "darkmode"
-                    , type_ "checkbox"
-                    , checked shared.darkMode
-                    , onClick (Shared Shared.ToggleDarkMode)
-                    ]
-                    []
-                , Checkbox.label [ for "darkmode" ] [ text "Dark mode" ]
-                ]
-            , text "Theme "
+            [ text "Theme "
             , select [ onInput (Theme.fromString >> Maybe.withDefault shared.theme >> (\theme -> Shared (Shared.ChangeTheme theme))) ] <|
                 List.map (\theme -> option [ value (Theme.toString theme), selected (shared.theme == theme) ] [ text (Theme.toString theme) ])
                     [ System, Light, Dark ]
