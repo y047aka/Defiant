@@ -20,12 +20,13 @@ import Css.Layout as Layout exposing (layout)
 import Css.Media exposing (withMediaQuery)
 import Css.Palette exposing (paletteWith)
 import Css.Typography as Typography exposing (init, typography)
+import Data.Theme exposing (Theme(..), isDark)
 import Html.Styled as Html exposing (Attribute, Html)
 import UI.Label
 
 
-menuBasis : { vertical : Bool, border : Bool, shadow : Bool, inverted : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-menuBasis { vertical, border, shadow, inverted } additionalStyles =
+menuBasis : { vertical : Bool, border : Bool, shadow : Bool, theme : Theme } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+menuBasis { vertical, border, shadow, theme } additionalStyles =
     let
         defaultTypography =
             Typography.default
@@ -60,14 +61,14 @@ menuBasis { vertical, border, shadow, inverted } additionalStyles =
           else
             batch []
         , paletteWith { border = border3 (px 1) solid } <|
-            if inverted then
+            if isDark theme then
                 invertedPalette
 
             else
                 defaultPalette
         , withMediaQuery [ "(prefers-color-scheme: dark)" ]
             [ paletteWith { border = border3 (px 1) solid } invertedPalette ]
-        , case ( shadow, inverted ) of
+        , case ( shadow, isDark theme ) of
             ( True, False ) ->
                 prefixed [] "box-shadow" "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
 
@@ -147,13 +148,13 @@ itemBasis :
     { tag : List (Attribute msg) -> List (Html msg) -> Html msg
     , vertical : Bool
     , borderAndShadows : Bool
-    , inverted : Bool
+    , theme : Theme
     }
     -> List Style
     -> List (Attribute msg)
     -> List (Html msg)
     -> Html msg
-itemBasis { tag, vertical, borderAndShadows, inverted } additionalStyles =
+itemBasis { tag, vertical, borderAndShadows, theme } additionalStyles =
     let
         initialLayout =
             Layout.init
@@ -212,7 +213,7 @@ itemBasis { tag, vertical, borderAndShadows, inverted } additionalStyles =
                 -- .ui.inverted.menu .dropdown.item:hover
                 -- .ui.inverted.menu .link.item:hover
                 -- .ui.inverted.menu a.item:hover
-                , when inverted <|
+                , when (isDark theme) <|
                     hover
                         [ property "background" "rgba(255, 255, 255, 0.08)"
                         , color (hex "#ffffff")
@@ -259,7 +260,7 @@ itemBasis { tag, vertical, borderAndShadows, inverted } additionalStyles =
                     ]
 
                 -- .ui.vertical.inverted.menu .item:before
-                , when inverted <|
+                , when (isDark theme) <|
                     before
                         [ backgroundColor (rgba 255 255 255 0.08) ]
 
@@ -296,7 +297,7 @@ itemBasis { tag, vertical, borderAndShadows, inverted } additionalStyles =
                 ]
 
         -- Inverted
-        , when inverted <|
+        , when (isDark theme) <|
             batch
                 [ -- .ui.inverted.menu .item
                   -- .ui.inverted.menu .item > a:not(.ui)
@@ -309,19 +310,19 @@ itemBasis { tag, vertical, borderAndShadows, inverted } additionalStyles =
         ]
 
 
-menu : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-menu { inverted } =
-    menuBasis { vertical = False, border = True, shadow = True, inverted = inverted } []
+menu : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+menu { theme } =
+    menuBasis { vertical = False, border = True, shadow = True, theme = theme } []
 
 
 item : List (Attribute msg) -> List (Html msg) -> Html msg
 item =
-    itemBasis { tag = Html.div, vertical = False, borderAndShadows = True, inverted = False } []
+    itemBasis { tag = Html.div, vertical = False, borderAndShadows = True, theme = Light } []
 
 
 activeItem : List (Attribute msg) -> List (Html msg) -> Html msg
 activeItem =
-    itemBasis { tag = Html.div, vertical = False, borderAndShadows = True, inverted = False }
+    itemBasis { tag = Html.div, vertical = False, borderAndShadows = True, theme = Light }
         [ -- .ui.menu .active.item
           backgroundColor (rgba 0 0 0 0.05)
         , color (rgba 0 0 0 0.95)
@@ -330,9 +331,9 @@ activeItem =
         ]
 
 
-linkItem : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-linkItem { inverted } =
-    itemBasis { tag = Html.a, vertical = False, borderAndShadows = True, inverted = inverted } []
+linkItem : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+linkItem { theme } =
+    itemBasis { tag = Html.a, vertical = False, borderAndShadows = True, theme = theme } []
 
 
 leftMenu : List (Attribute msg) -> List (Html msg) -> Html msg
@@ -379,9 +380,9 @@ centerMenu =
         ]
 
 
-secondaryMenu : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-secondaryMenu { inverted } =
-    menuBasis { vertical = False, border = False, shadow = False, inverted = inverted } []
+secondaryMenu : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+secondaryMenu { theme } =
+    menuBasis { vertical = False, border = False, shadow = False, theme = theme } []
 
 
 secondaryMenuItem : List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -390,7 +391,7 @@ secondaryMenuItem additionalStyles =
         { tag = Html.div
         , vertical = False
         , borderAndShadows = False
-        , inverted = False
+        , theme = Light
         }
         additionalStyles
 
@@ -407,48 +408,48 @@ secondaryMenuActiveItem =
 
 
 verticalMenu :
-    { inverted : Bool, additionalStyles : List Style }
+    { theme : Theme, additionalStyles : List Style }
     -> List (Attribute msg)
     -> List (Html msg)
     -> Html msg
-verticalMenu { inverted, additionalStyles } =
-    menuBasis { vertical = True, border = True, shadow = True, inverted = inverted } additionalStyles
+verticalMenu { theme, additionalStyles } =
+    menuBasis { vertical = True, border = True, shadow = True, theme = theme } additionalStyles
 
 
 verticalMenuItem :
-    { inverted : Bool, additionalStyles : List Style }
+    { theme : Theme, additionalStyles : List Style }
     -> List (Attribute msg)
     -> List (Html msg)
     -> Html msg
-verticalMenuItem { inverted, additionalStyles } =
+verticalMenuItem { theme, additionalStyles } =
     itemBasis
         { tag = Html.div
         , vertical = True
         , borderAndShadows = True
-        , inverted = inverted
+        , theme = theme
         }
         additionalStyles
 
 
 verticalMenuLinkItem :
-    { inverted : Bool, additionalStyles : List Style }
+    { theme : Theme, additionalStyles : List Style }
     -> List (Attribute msg)
     -> List (Html msg)
     -> Html msg
-verticalMenuLinkItem { inverted, additionalStyles } =
+verticalMenuLinkItem { theme, additionalStyles } =
     itemBasis
         { tag = Html.a
         , vertical = True
         , borderAndShadows = True
-        , inverted = inverted
+        , theme = theme
         }
         additionalStyles
 
 
-verticalMenuActiveItem : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-verticalMenuActiveItem { inverted } =
+verticalMenuActiveItem : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+verticalMenuActiveItem { theme } =
     verticalMenuItem
-        { inverted = inverted
+        { theme = theme
         , additionalStyles =
             [ -- .ui.vertical.menu .active.item
               backgroundColor (rgba 0 0 0 0.05)

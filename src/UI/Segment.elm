@@ -20,11 +20,12 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Media exposing (withMediaQuery)
 import Css.Palette as Palette exposing (paletteWith, setBackground, setBackgroundIf, setBorderIf, setColor)
+import Data.Theme exposing (Theme(..), isDark)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
-basis : { border : Bool, shadow : Bool, inverted : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-basis { border, shadow, inverted } additionalStyles =
+basis : { border : Bool, shadow : Bool, theme : Theme } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+basis { border, shadow, theme } additionalStyles =
     let
         defaultPalette =
             Palette.init
@@ -46,14 +47,14 @@ basis { border, shadow, inverted } additionalStyles =
           else
             batch []
         , paletteWith { border = border3 (px 1) solid } <|
-            if inverted then
+            if isDark theme then
                 invertedPalette
 
             else
                 defaultPalette
         , withMediaQuery [ "(prefers-color-scheme: dark)" ]
             [ paletteWith { border = border3 (px 1) solid } invertedPalette ]
-        , case ( shadow, inverted ) of
+        , case ( shadow, isDark theme ) of
             ( True, False ) ->
                 prefixed [] "box-shadow" "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
 
@@ -73,14 +74,14 @@ basis { border, shadow, inverted } additionalStyles =
         ]
 
 
-segment : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-segment { inverted } =
-    basis { border = True, shadow = True, inverted = inverted } []
+segment : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+segment { theme } =
+    basis { border = True, shadow = True, theme = theme } []
 
 
-verticalSegment : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-verticalSegment { inverted } =
-    basis { border = False, shadow = False, inverted = inverted }
+verticalSegment : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+verticalSegment { theme } =
+    basis { border = False, shadow = False, theme = theme }
         [ -- .ui.vertical.segment
           margin zero
         , paddingLeft zero
@@ -93,39 +94,39 @@ verticalSegment { inverted } =
         ]
 
 
-disabledSegment : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-disabledSegment { inverted } =
-    basis { border = True, shadow = True, inverted = inverted }
+disabledSegment : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+disabledSegment { theme } =
+    basis { border = True, shadow = True, theme = theme }
         [ -- .ui.disabled.segment
           opacity (num 0.45)
         , color (rgba 40 40 40 0.3)
         ]
 
 
-paddedSegment : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-paddedSegment { inverted } =
-    basis { border = True, shadow = True, inverted = inverted }
+paddedSegment : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+paddedSegment { theme } =
+    basis { border = True, shadow = True, theme = theme }
         [ -- .ui.padded.segment
           padding (em 1.5)
         ]
 
 
-veryPaddedSegment : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-veryPaddedSegment { inverted } =
-    basis { border = True, shadow = True, inverted = inverted }
+veryPaddedSegment : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+veryPaddedSegment { theme } =
+    basis { border = True, shadow = True, theme = theme }
         [ -- .ui[class*="very padded"].segment
           padding (em 3)
         ]
 
 
-basicSegment : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-basicSegment { inverted } =
+basicSegment : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+basicSegment { theme } =
     -- .ui.basic.segment
     -- .ui.segments .ui.basic.segment
     -- .ui.basic.segments
-    basis { border = False, shadow = False, inverted = inverted } []
+    basis { border = False, shadow = False, theme = theme } []
 
 
 invertedSegment : List (Attribute msg) -> List (Html msg) -> Html msg
 invertedSegment =
-    basis { border = True, shadow = True, inverted = True } []
+    basis { border = True, shadow = True, theme = Dark } []

@@ -1,6 +1,6 @@
 module Pages.Collections.Breadcrumb exposing (page)
 
-import Data.Theme exposing (isDark)
+import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Html, text)
 import Page exposing (Page)
 import Request exposing (Request)
@@ -27,15 +27,11 @@ type alias Model =
 
 view : Model -> List (Html msg)
 view { shared } =
-    let
-        inverted =
-            isDark shared.theme
-    in
     [ example
         { title = "Breadcrumb"
         , description = "A standard breadcrumb"
         }
-        [ breadcrumb { divider = text "/", inverted = inverted }
+        [ breadcrumb { divider = text "/", theme = shared.theme }
             [ { label = "Home", url = "/" }
             , { label = "Store", url = "/" }
             , { label = "T-Shirt", url = "" }
@@ -45,7 +41,7 @@ view { shared } =
         { title = ""
         , description = ""
         }
-        [ breadcrumb { divider = icon [] "fas fa-angle-right", inverted = inverted }
+        [ breadcrumb { divider = icon [] "fas fa-angle-right", theme = shared.theme }
             [ { label = "Home", url = "/" }
             , { label = "Store", url = "/" }
             , { label = "T-Shirt", url = "" }
@@ -55,7 +51,7 @@ view { shared } =
         { title = "Divider"
         , description = "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text."
         }
-        [ breadcrumb { divider = text "/", inverted = inverted }
+        [ breadcrumb { divider = text "/", theme = shared.theme }
             [ { label = "Home", url = "/" }
             , { label = "Registration", url = "/" }
             , { label = "Personal Information", url = "" }
@@ -65,7 +61,7 @@ view { shared } =
         { title = "Active"
         , description = "A section can be active"
         }
-        [ breadcrumb { divider = text "/", inverted = inverted }
+        [ breadcrumb { divider = text "/", theme = shared.theme }
             [ { label = "Products", url = "/" }
             , { label = "Paper Towels", url = "" }
             ]
@@ -74,9 +70,9 @@ view { shared } =
         { title = "Inverted"
         , description = "A breadcrumb can be inverted"
         }
-        [ segment { inverted = True }
+        [ segment { theme = Dark }
             []
-            [ breadcrumb { divider = text "/", inverted = True }
+            [ breadcrumb { divider = text "/", theme = Dark }
                 [ { label = "Home", url = "/" }
                 , { label = "Registration", url = "/" }
                 , { label = "Personal Information", url = "" }

@@ -1,6 +1,6 @@
 module Pages.Collections.Menu exposing (page)
 
-import Data.Theme exposing (isDark)
+import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Html, input, text)
 import Html.Styled.Attributes as Attributes exposing (href, placeholder, rel, type_)
 import Page exposing (Page)
@@ -28,15 +28,11 @@ type alias Model =
 
 view : Model -> List (Html msg)
 view { shared } =
-    let
-        inverted =
-            isDark shared.theme
-    in
     [ example
         { title = "Secondary Menu"
         , description = "A menu can adjust its appearance to de-emphasize its contents"
         }
-        [ secondaryMenu { inverted = False } [] <|
+        [ secondaryMenu { theme = Light } [] <|
             [ secondaryMenuActiveItem [] [ text "Home" ]
             , secondaryMenuItem [] [] [ text "Messages" ]
             , secondaryMenuItem [] [] [ text "Friends" ]
@@ -53,39 +49,39 @@ view { shared } =
         { title = "Vertical Menu"
         , description = "A vertical menu displays elements vertically.."
         }
-        [ verticalMenu { inverted = inverted, additionalStyles = [] } [] <|
-            [ verticalMenuActiveItem { inverted = inverted } [] <|
+        [ verticalMenu { theme = shared.theme, additionalStyles = [] } [] <|
+            [ verticalMenuActiveItem { theme = shared.theme } [] <|
                 [ text "Inbox"
                 , verticalMenuActiveItemLabel [] [ text "1" ]
                 ]
-            , verticalMenuItem { inverted = inverted, additionalStyles = [] } [] <|
+            , verticalMenuItem { theme = shared.theme, additionalStyles = [] } [] <|
                 [ text "Spam"
                 , verticalMenuActiveItemLabel [] [ text "51" ]
                 ]
-            , verticalMenuItem { inverted = inverted, additionalStyles = [] } [] <|
+            , verticalMenuItem { theme = shared.theme, additionalStyles = [] } [] <|
                 [ text "Updates"
                 , verticalMenuActiveItemLabel [] [ text "1" ]
                 ]
-            , verticalMenuItem { inverted = inverted, additionalStyles = [] } [] [ text "Search mail..." ]
+            , verticalMenuItem { theme = shared.theme, additionalStyles = [] } [] [ text "Search mail..." ]
             ]
         ]
     , example
         { title = "Link Item"
         , description = "A menu may contain a link item, or an item formatted as if it is a link."
         }
-        [ verticalMenu { inverted = inverted, additionalStyles = [] } [] <|
-            [ verticalMenuLinkItem { inverted = inverted, additionalStyles = [] } [ href "http://www.google.com", Attributes.target "_blank", rel "noopener" ] [ text "Visit Google" ]
-            , verticalMenuLinkItem { inverted = inverted, additionalStyles = [] } [] [ text "Javascript Link" ]
+        [ verticalMenu { theme = shared.theme, additionalStyles = [] } [] <|
+            [ verticalMenuLinkItem { theme = shared.theme, additionalStyles = [] } [ href "http://www.google.com", Attributes.target "_blank", rel "noopener" ] [ text "Visit Google" ]
+            , verticalMenuLinkItem { theme = shared.theme, additionalStyles = [] } [] [ text "Javascript Link" ]
             ]
         ]
     , example
         { title = "Inverted"
         , description = "A menu may have its colors inverted to show greater contrast"
         }
-        [ Menu.menu { inverted = True } [] <|
-            [ linkItem { inverted = True } [] [ text "Home" ]
-            , linkItem { inverted = True } [] [ text "Messages" ]
-            , linkItem { inverted = True } [] [ text "Friends" ]
+        [ Menu.menu { theme = Dark } [] <|
+            [ linkItem { theme = Dark } [] [ text "Home" ]
+            , linkItem { theme = Dark } [] [ text "Messages" ]
+            , linkItem { theme = Dark } [] [ text "Friends" ]
             ]
         ]
     , example
@@ -93,10 +89,10 @@ view { shared } =
         , description = ""
         }
         [ invertedSegment []
-            [ secondaryMenu { inverted = False } [] <|
-                [ linkItem { inverted = True } [] [ text "Home" ]
-                , linkItem { inverted = True } [] [ text "Messages" ]
-                , linkItem { inverted = True } [] [ text "Friends" ]
+            [ secondaryMenu { theme = Light } [] <|
+                [ linkItem { theme = Dark } [] [ text "Home" ]
+                , linkItem { theme = Dark } [] [ text "Messages" ]
+                , linkItem { theme = Dark } [] [ text "Friends" ]
                 ]
             ]
         ]

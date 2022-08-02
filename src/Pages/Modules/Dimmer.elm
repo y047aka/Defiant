@@ -1,6 +1,6 @@
 module Pages.Modules.Dimmer exposing (Model, Msg, page)
 
-import Data.Theme exposing (isDark)
+import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Html, div, text)
 import Html.Styled.Attributes exposing (src)
 import Html.Styled.Events exposing (onClick)
@@ -81,7 +81,7 @@ view : Model -> List (Html Msg)
 view { shared, toggledItems } =
     let
         options =
-            { inverted = isDark shared.theme }
+            { theme = shared.theme }
     in
     [ example
         { title = "Dimmer"
@@ -93,7 +93,7 @@ view { shared, toggledItems } =
             , div [] <|
                 List.repeat 1 (smallImage [ src "/static/images/wireframe/image.png" ] [])
             , wireframeMediaParagraph
-            , dimmer { isActive = List.member "dimmer" toggledItems, inverted = False } [ onClick (Toggle "dimmer") ] []
+            , dimmer { isActive = List.member "dimmer" toggledItems, theme = Light } [ onClick (Toggle "dimmer") ] []
             ]
         , button [ onClick (Toggle "dimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
         ]
@@ -107,10 +107,10 @@ view { shared, toggledItems } =
             , div [] <|
                 List.repeat 1 (smallImage [ src "/static/images/wireframe/image.png" ] [])
             , wireframeMediaParagraph
-            , dimmer { isActive = List.member "contentDimmer" toggledItems, inverted = False }
+            , dimmer { isActive = List.member "contentDimmer" toggledItems, theme = Light }
                 [ onClick (Toggle "contentDimmer") ]
                 [ Dimmer.content []
-                    [ iconHeader { inverted = True }
+                    [ iconHeader { theme = Dark }
                         []
                         [ icon [] "fas fa-heart", text "Dimmed Message!" ]
                     ]
@@ -125,11 +125,11 @@ view { shared, toggledItems } =
         [ button [ onClick (Toggle "pageDimmer") ] [ icon [] "fas fa-plus", text "Show" ]
         , pageDimmer { isActive = List.member "pageDimmer" toggledItems, toggle = Toggle "pageDimmer" }
             []
-            [ iconHeader { inverted = True }
+            [ iconHeader { theme = Dark }
                 []
                 [ icon [] "fas fa-envelope"
                 , text "Dimmer Message"
-                , subHeader { inverted = True }
+                , subHeader { theme = Dark }
                     []
                     [ text "Dimmer sub-header" ]
                 ]
@@ -143,7 +143,7 @@ view { shared, toggledItems } =
             []
             [ wireframeShortParagraph
             , wireframeShortParagraph
-            , dimmer { isActive = List.member "invertedDimmer" toggledItems, inverted = True }
+            , dimmer { isActive = List.member "invertedDimmer" toggledItems, theme = Dark }
                 [ onClick (Toggle "invertedDimmer") ]
                 []
             ]

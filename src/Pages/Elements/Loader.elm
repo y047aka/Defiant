@@ -1,6 +1,6 @@
 module Pages.Elements.Loader exposing (page)
 
-import Data.Theme exposing (isDark)
+import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Html, text)
 import Page exposing (Page)
 import Request exposing (Request)
@@ -27,39 +27,35 @@ type alias Model =
 
 view : Model -> List (Html msg)
 view { shared } =
-    let
-        inverted =
-            isDark shared.theme
-    in
     [ example
         { title = "Loader"
         , description = "A loader"
         }
-        [ segment { inverted = inverted }
+        [ segment { theme = shared.theme }
             []
             [ wireframeShortParagraph
-            , dimmer { isActive = True, inverted = False }
+            , dimmer { isActive = True, theme = Light }
                 []
-                [ loader { inverted = False } [] [] ]
+                [ loader { theme = Light } [] [] ]
             ]
         ]
     , example
         { title = "Text Loader"
         , description = "A loader can contain text"
         }
-        [ segment { inverted = inverted }
+        [ segment { theme = shared.theme }
             []
             [ wireframeShortParagraph
-            , dimmer { isActive = True, inverted = False }
+            , dimmer { isActive = True, theme = Light }
                 []
-                [ textLoader { inverted = False } [] [ text "Loading" ] ]
+                [ textLoader { theme = Light } [] [ text "Loading" ] ]
             ]
-        , segment { inverted = inverted }
+        , segment { theme = shared.theme }
             []
             [ wireframeShortParagraph
-            , dimmer { isActive = True, inverted = True }
+            , dimmer { isActive = True, theme = Dark }
                 []
-                [ textLoader { inverted = True } [] [ text "Loading" ] ]
+                [ textLoader { theme = Dark } [] [ text "Loading" ] ]
             ]
         ]
     ]

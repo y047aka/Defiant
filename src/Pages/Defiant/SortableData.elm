@@ -1,5 +1,6 @@
 module Pages.Defiant.SortableData exposing (Model, Msg, page)
 
+import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Html, div, input, strong, text)
 import Html.Styled.Attributes exposing (placeholder, value)
 import Html.Styled.Events exposing (onInput)
@@ -85,7 +86,7 @@ view { people, tableState, query } =
 
         toListItem =
             \{ name, year, city, state } ->
-                [ segment { inverted = False } [] <|
+                [ segment { theme = Light } [] <|
                     [ div [] [ strong [] [ text "Name : " ], text name ]
                     , div [] [ strong [] [ text "Year : " ], text (String.fromInt year) ]
                     , div [] [ strong [] [ text "City : " ], text city ]

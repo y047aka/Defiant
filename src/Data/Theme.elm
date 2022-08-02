@@ -1,4 +1,4 @@
-module Data.Theme exposing (Theme(..), fromString, isDark, toString)
+module Data.Theme exposing (Theme(..), fromString, isDark, isSystem, toString)
 
 
 type Theme
@@ -34,6 +34,16 @@ toString theme =
 
         Dark ->
             "Dark"
+
+
+isSystem : Theme -> Bool
+isSystem theme =
+    case theme of
+        System ->
+            True
+
+        _ ->
+            False
 
 
 isDark : Theme -> Bool

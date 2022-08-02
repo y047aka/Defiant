@@ -1,6 +1,5 @@
 module Pages.Collections.Message exposing (page)
 
-import Data.Theme exposing (isDark)
 import Html.Styled as Html exposing (Html, div, p, text)
 import Page exposing (Page)
 import Request exposing (Request)
@@ -29,7 +28,7 @@ view : Model -> List (Html msg)
 view { shared } =
     let
         options =
-            { inverted = isDark shared.theme }
+            { theme = shared.theme }
     in
     [ example
         { title = "Message"

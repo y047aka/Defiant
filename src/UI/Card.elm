@@ -15,6 +15,7 @@ import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, everything, selector)
 import Css.Palette exposing (paletteWith)
 import Css.Typography exposing (fomanticFontFamilies)
+import Data.Theme exposing (Theme, isDark)
 import Html.Styled as Html exposing (Attribute, Html, text)
 
 
@@ -47,8 +48,8 @@ cards =
         ]
 
 
-cardBasis : { border : Bool, shadow : Bool, inverted : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-cardBasis { border, shadow, inverted } additionalStyles =
+cardBasis : { border : Bool, shadow : Bool, theme : Theme } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+cardBasis { border, shadow, theme } additionalStyles =
     let
         paletteBasis =
             { background = Just (hex "#FFF")
@@ -62,7 +63,7 @@ cardBasis { border, shadow, inverted } additionalStyles =
         , padding zero
         , borderRadius (rem 0.28571429)
         , paletteWith { border = border3 (px 1) solid } <|
-            case ( border, inverted ) of
+            case ( border, isDark theme ) of
                 ( False, False ) ->
                     paletteBasis
 
@@ -74,7 +75,7 @@ cardBasis { border, shadow, inverted } additionalStyles =
 
                 ( True, True ) ->
                     { paletteBasis | background = Just (hex "#1B1C1D"), border = Just (hex "#D4D4D5") }
-        , case ( shadow, inverted ) of
+        , case ( shadow, isDark theme ) of
             ( True, False ) ->
                 prefixed [] "box-shadow" "0 1px 2px 0 #D4D4D5"
 
@@ -147,13 +148,13 @@ cardBasis { border, shadow, inverted } additionalStyles =
         ]
 
 
-card : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-card { inverted } =
-    cardBasis { border = True, shadow = True, inverted = inverted } []
+card : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+card { theme } =
+    cardBasis { border = True, shadow = True, theme = theme } []
 
 
-contentBasis : { inverted : Bool, additionalStyles : List Style } -> List (Attribute msg) -> List (Html msg) -> Html msg
-contentBasis { inverted, additionalStyles } =
+contentBasis : { theme : Theme, additionalStyles : List Style } -> List (Attribute msg) -> List (Html msg) -> Html msg
+contentBasis { theme, additionalStyles } =
     Html.styled Html.div
         [ -- .ui.cards > .card > .content
           -- .ui.card > .content
@@ -170,7 +171,7 @@ contentBasis { inverted, additionalStyles } =
         , borderRadius zero
 
         -- Inverted
-        , if inverted then
+        , if isDark theme then
             -- .ui.inverted.cards > .card > .content
             -- .ui.inverted.card > .content
             borderTop3 (px 1) solid (rgba 255 255 255 0.15)
@@ -221,7 +222,7 @@ contentBasis { inverted, additionalStyles } =
 
 
 content :
-    { inverted : Bool }
+    { theme : Theme }
     -> List (Attribute msg)
     ->
         { header : List (Html msg)
@@ -229,7 +230,7 @@ content :
         , description : List (Html msg)
         }
     -> Html msg
-content { inverted } attributes hmd =
+content { theme } attributes hmd =
     let
         has list f =
             case list of
@@ -240,9 +241,9 @@ content { inverted } attributes hmd =
                     f nonEmpty
 
         options =
-            { inverted = inverted }
+            { theme = theme }
     in
-    contentBasis { inverted = inverted, additionalStyles = [] }
+    contentBasis { theme = theme, additionalStyles = [] }
         attributes
         [ has hmd.header (header options [])
         , has hmd.meta (meta options [])
@@ -250,8 +251,8 @@ content { inverted } attributes hmd =
         ]
 
 
-header : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-header { inverted } =
+header : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+header { theme } =
     Html.styled Html.header
         [ -- .ui.cards > .card > .content > .header
           -- .ui.card > .content > .header
@@ -267,7 +268,7 @@ header { inverted } =
         , lineHeight (em 1.28571429)
 
         -- Inverted
-        , if inverted then
+        , if isDark theme then
             -- .ui.inverted.cards > .card > .content > .header
             -- .ui.inverted.card > .content > .header
             color (rgba 255 255 255 0.9)
@@ -277,8 +278,8 @@ header { inverted } =
         ]
 
 
-description : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-description { inverted } =
+description : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+description { theme } =
     Html.styled Html.div <|
         [ -- .ui.cards > .card > .content > .meta + .description
           -- .ui.cards > .card > .content > .header + .description
@@ -291,7 +292,7 @@ description { inverted } =
         , property "clear" "both"
 
         -- Inverted
-        , if inverted then
+        , if isDark theme then
             -- .ui.inverted.cards > .card > .content > .description,
             -- .ui.inverted.card > .content > .description {
             color (rgba 255 255 255 0.8)
@@ -301,15 +302,15 @@ description { inverted } =
         ]
 
 
-meta : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-meta { inverted } =
+meta : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+meta { theme } =
     Html.styled Html.div <|
         [ -- .ui.cards > .card .meta
           -- .ui.card .meta
           fontSize (em 1)
 
         -- Inverted
-        , if inverted then
+        , if isDark theme then
             -- .ui.inverted.cards > .card .meta
             -- .ui.inverted.card .meta
             color (rgba 255 255 255 0.7)
@@ -345,10 +346,10 @@ meta { inverted } =
         ]
 
 
-extraContent : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-extraContent { inverted } =
+extraContent : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+extraContent { theme } =
     contentBasis
-        { inverted = inverted
+        { theme = theme
         , additionalStyles =
             [ -- .ui.cards > .card > .extra
               -- .ui.card > .extra
@@ -366,7 +367,7 @@ extraContent { inverted } =
             , left zero
 
             -- Inverted
-            , if inverted then
+            , if isDark theme then
                 -- .ui.inverted.cards > .card > .extra
                 -- .ui.inverted.card > .extra
                 batch

@@ -3,11 +3,12 @@ module UI.Loader exposing (loader, textLoader)
 import Css exposing (..)
 import Css.Animations as Animations exposing (keyframes)
 import Css.Extra exposing (prefixed)
+import Data.Theme exposing (Theme, isDark)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
-basis : { inverted : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-basis { inverted } additionalStyles =
+basis : { theme : Theme } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+basis { theme } additionalStyles =
     Html.styled Html.div <|
         [ -- Standard Size
           -- .ui.loader
@@ -87,7 +88,7 @@ basis { inverted } additionalStyles =
             ]
 
         -- Coupling
-        , if inverted then
+        , if isDark theme then
             -- White Dimmer (Inverted)
             batch
                 [ -- .ui.inverted.dimmer > .ui.loader
@@ -133,12 +134,12 @@ basis { inverted } additionalStyles =
         ]
 
 
-loader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+loader : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
 loader options =
     basis options []
 
 
-textLoader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+textLoader : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
 textLoader options =
     basis options
         [ -- .ui.ui.ui.ui.text.loader

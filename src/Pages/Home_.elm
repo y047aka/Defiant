@@ -1,7 +1,7 @@
 module Pages.Home_ exposing (page)
 
 import Data.Category as Category exposing (Category(..))
-import Data.Theme exposing (isDark)
+import Data.Theme exposing (Theme)
 import Gen.Route as Route exposing (Route)
 import Html.Styled as Html exposing (Html, a, text)
 import Html.Styled.Attributes exposing (href)
@@ -18,12 +18,12 @@ page shared _ =
     Page.static
         { view =
             { title = "Homepage"
-            , body = view { inverted = isDark shared.theme }
+            , body = view { theme = shared.theme }
             }
         }
 
 
-view : { inverted : Bool } -> List (Html msg)
+view : { theme : Theme } -> List (Html msg)
 view options =
     let
         item { title, description, route } =

@@ -1,6 +1,6 @@
 module Pages.Modules.Accordion exposing (page)
 
-import Data.Theme exposing (isDark)
+import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Html, p, text)
 import Html.Styled.Attributes exposing (id)
 import Page exposing (Page)
@@ -57,27 +57,27 @@ view { shared } =
         { title = "Accordion"
         , description = "A standard accordion"
         }
-        [ accordion_SummaryDetails { inverted = isDark shared.theme } [] items ]
+        [ accordion_SummaryDetails { theme = shared.theme } [] items ]
     , example
         { title = "Accordion - checkbox"
         , description = "A standard accordion with checkbox"
         }
-        [ accordion_Checkbox { inverted = isDark shared.theme } [] items ]
+        [ accordion_Checkbox { theme = shared.theme } [] items ]
     , example
         { title = "Accordion - radio button"
         , description = "A standard accordion with radio button"
         }
-        [ accordion_Radio { inverted = isDark shared.theme } [] items ]
+        [ accordion_Radio { theme = shared.theme } [] items ]
     , example
         { title = "Accordion - target URL"
         , description = "A standard accordion with target URL"
         }
-        [ accordion_TargetUrl { inverted = isDark shared.theme } [] items ]
+        [ accordion_TargetUrl { theme = shared.theme } [] items ]
     , example
         { title = "Inverted"
         , description = "An accordion can be formatted to appear on dark backgrounds"
         }
-        [ segment { inverted = True }
+        [ segment { theme = Dark }
             []
             [ accordionUnstyled { toggleMethod = SummaryDetails } [] items ]
         ]

@@ -2,13 +2,14 @@ module UI.Dimmer exposing (content, dimmer, pageDimmer)
 
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
+import Data.Theme exposing (Theme(..), isDark)
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes exposing (css)
 import Html.Styled.Events exposing (onClick)
 
 
-basis : { isActive : Bool, inverted : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-basis { isActive, inverted } additionalStyles =
+basis : { isActive : Bool, theme : Theme } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+basis { isActive, theme } additionalStyles =
     Html.styled Html.div
         [ -- .ui.dimmer
           position absolute
@@ -19,7 +20,7 @@ basis { isActive, inverted } additionalStyles =
         , textAlign center
         , verticalAlign middle
         , padding (em 1)
-        , if inverted then
+        , if isDark theme then
             property "background" "rgba(255, 255, 255, 0.85)"
 
           else
@@ -64,14 +65,14 @@ basis { isActive, inverted } additionalStyles =
         ]
 
 
-dimmer : { isActive : Bool, inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+dimmer : { isActive : Bool, theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
 dimmer options =
     basis options []
 
 
 pageDimmer : { isActive : Bool, toggle : msg } -> List (Attribute msg) -> List (Html msg) -> Html msg
 pageDimmer { isActive, toggle } attributes children =
-    basis { isActive = isActive, inverted = False }
+    basis { isActive = isActive, theme = Light }
         [ -- .ui.page.dimmer
           position fixed
         , property "-webkit-transform-style" "''"

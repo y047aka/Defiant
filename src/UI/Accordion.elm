@@ -16,6 +16,7 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (adjacentSiblings, children, generalSiblings)
 import Css.Typography exposing (fomanticFontFamilies)
+import Data.Theme exposing (Theme, isDark)
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes as Attributes exposing (css, for, href, name, type_, value)
 import UI.Icon as Icon
@@ -161,8 +162,8 @@ accordionUnstyled { toggleMethod } attributes items =
     accordionBasis itemProps [] attributes items
 
 
-accordion : { toggleMethod : ToggleMethod, inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
-accordion { toggleMethod, inverted } attributes items =
+accordion : { toggleMethod : ToggleMethod, theme : Theme } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
+accordion { toggleMethod, theme } attributes items =
     let
         itemProps =
             { toggleMethod = toggleMethod, wrapper = wrapper, label = label }
@@ -186,7 +187,7 @@ accordion { toggleMethod, inverted } attributes items =
                 , fontFamilies fomanticFontFamilies
                 , fontSize (em 1)
                 , fontWeight bold
-                , if inverted then
+                , if isDark theme then
                     -- .ui.inverted.accordion .title:not(.ui)
                     color (rgba 255 255 255 0.9)
 
@@ -225,21 +226,21 @@ accordion { toggleMethod, inverted } attributes items =
         )
 
 
-accordion_Checkbox : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
-accordion_Checkbox { inverted } =
-    accordion { toggleMethod = Checkbox, inverted = inverted }
+accordion_Checkbox : { theme : Theme } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
+accordion_Checkbox { theme } =
+    accordion { toggleMethod = Checkbox, theme = theme }
 
 
-accordion_Radio : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
-accordion_Radio { inverted } =
-    accordion { toggleMethod = Radio, inverted = inverted }
+accordion_Radio : { theme : Theme } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
+accordion_Radio { theme } =
+    accordion { toggleMethod = Radio, theme = theme }
 
 
-accordion_TargetUrl : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
-accordion_TargetUrl { inverted } =
-    accordion { toggleMethod = TargetUrl, inverted = inverted }
+accordion_TargetUrl : { theme : Theme } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
+accordion_TargetUrl { theme } =
+    accordion { toggleMethod = TargetUrl, theme = theme }
 
 
-accordion_SummaryDetails : { inverted : Bool } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
-accordion_SummaryDetails { inverted } =
-    accordion { toggleMethod = SummaryDetails, inverted = inverted }
+accordion_SummaryDetails : { theme : Theme } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
+accordion_SummaryDetails { theme } =
+    accordion { toggleMethod = SummaryDetails, theme = theme }

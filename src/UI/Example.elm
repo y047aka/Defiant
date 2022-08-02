@@ -16,6 +16,7 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children)
 import Css.Media as Media exposing (only, screen, withMedia)
+import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Attribute, Html, p, text)
 import Html.Styled.Attributes exposing (src)
 import UI.Header as Header
@@ -62,7 +63,7 @@ example options children =
                 text ""
 
             else
-                Header.header { inverted = False } [] [ text options.title ]
+                Header.header { theme = Light } [] [ text options.title ]
 
         description =
             if options.description == "" then

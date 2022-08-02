@@ -1,6 +1,7 @@
 module UI.Breadcrumb exposing (BreadcrumbItem, breadcrumb)
 
 import Css exposing (..)
+import Data.Theme exposing (Theme, isDark)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import Html.Styled.Attributes exposing (href)
 import Svg.Styled exposing (Attribute)
@@ -12,8 +13,8 @@ type alias BreadcrumbItem =
     }
 
 
-basis : { inverted : Bool } -> List (Html msg) -> Html msg
-basis { inverted } =
+basis : { theme : Theme } -> List (Html msg) -> Html msg
+basis { theme } =
     Html.styled Html.div
         [ -- .ui.breadcrumb
           lineHeight (em 1.4285)
@@ -30,7 +31,7 @@ basis { inverted } =
             [ marginBottom zero ]
 
         -- Inverted
-        , if inverted then
+        , if isDark theme then
             -- .ui.inverted.breadcrumb
             color (hex "#DCDDDE")
 
@@ -40,7 +41,7 @@ basis { inverted } =
         []
 
 
-breadcrumb : { divider : Html msg, inverted : Bool } -> List BreadcrumbItem -> Html msg
+breadcrumb : { divider : Html msg, theme : Theme } -> List BreadcrumbItem -> Html msg
 breadcrumb options children =
     let
         length =
@@ -54,17 +55,17 @@ breadcrumb options children =
                 section [ href url ] [ text label ]
 
         divider_ =
-            divider { inverted = options.inverted } [] [ options.divider ]
+            divider { theme = options.theme } [] [ options.divider ]
     in
-    basis { inverted = options.inverted }
+    basis { theme = options.theme }
         (children
             |> List.indexedMap section_
             |> List.intersperse divider_
         )
 
 
-divider : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-divider { inverted } =
+divider : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+divider { theme } =
     Html.styled Html.div
         [ -- .ui.breadcrumb .divider
           display inlineBlock
@@ -78,7 +79,7 @@ divider { inverted } =
         , verticalAlign baseline
 
         -- Inverted
-        , if inverted then
+        , if isDark theme then
             -- .ui.inverted.breadcrumb > .divider
             color (rgba 255 255 255 0.7)
 

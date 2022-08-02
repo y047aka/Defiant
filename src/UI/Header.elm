@@ -18,11 +18,12 @@ import Css exposing (..)
 import Css.Global exposing (adjacentSiblings, children, typeSelector)
 import Css.Typography as Typography exposing (typography)
 import Data exposing (Size(..))
+import Data.Theme exposing (Theme, isDark)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
-basis : { inverted : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-basis { inverted } additionalStyles =
+basis : { theme : Theme } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+basis { theme } additionalStyles =
     let
         headingTypography =
             Typography.heading
@@ -37,7 +38,7 @@ basis { inverted } additionalStyles =
                 | fontSize = ""
                 , textTransform = Typography.none
             }
-        , if inverted then
+        , if isDark theme then
             -- .ui.inverted.header
             color (hex "#FFFFFF")
 
@@ -63,49 +64,49 @@ basis { inverted } additionalStyles =
         ]
 
 
-header : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-header { inverted } =
-    basis { inverted = inverted } []
+header : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+header props =
+    basis props []
 
 
-miniHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-miniHeader { inverted } =
-    basis { inverted = inverted } (sizeSelector Mini)
+miniHeader : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+miniHeader props =
+    basis props (sizeSelector Mini)
 
 
-tinyHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-tinyHeader { inverted } =
-    basis { inverted = inverted } (sizeSelector Tiny)
+tinyHeader : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+tinyHeader props =
+    basis props (sizeSelector Tiny)
 
 
-smallHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-smallHeader { inverted } =
-    basis { inverted = inverted } (sizeSelector Small)
+smallHeader : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+smallHeader props =
+    basis props (sizeSelector Small)
 
 
-mediumHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-mediumHeader { inverted } =
-    basis { inverted = inverted } []
+mediumHeader : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+mediumHeader props =
+    basis props []
 
 
-largeHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-largeHeader { inverted } =
-    basis { inverted = inverted } (sizeSelector Large)
+largeHeader : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+largeHeader props =
+    basis props (sizeSelector Large)
 
 
-bigHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-bigHeader { inverted } =
-    basis { inverted = inverted } (sizeSelector Big)
+bigHeader : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+bigHeader props =
+    basis props (sizeSelector Big)
 
 
-hugeHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-hugeHeader { inverted } =
-    basis { inverted = inverted } (sizeSelector Huge)
+hugeHeader : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+hugeHeader props =
+    basis props (sizeSelector Huge)
 
 
-massiveHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-massiveHeader { inverted } =
-    basis { inverted = inverted } (sizeSelector Massive)
+massiveHeader : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+massiveHeader props =
+    basis props (sizeSelector Massive)
 
 
 sizeSelector : Size -> List Style
@@ -147,8 +148,8 @@ sizeSelector size =
             [ fontSize (em 0.85714286) ]
 
 
-subHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-subHeader { inverted } =
+subHeader : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+subHeader { theme } =
     Html.styled Html.div
         [ -- .ui.header .sub.header
           display block
@@ -157,7 +158,7 @@ subHeader { inverted } =
         , margin zero
         , fontSize (rem 1)
         , lineHeight (em 1.2)
-        , if inverted then
+        , if isDark theme then
             -- .ui.inverted.header .sub.header
             color (rgba 255 255 255 0.8)
 
@@ -166,9 +167,9 @@ subHeader { inverted } =
         ]
 
 
-iconHeader : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-iconHeader { inverted } =
-    basis { inverted = inverted }
+iconHeader : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+iconHeader props =
+    basis props
         [ -- .ui.icon.header
           display inlineBlock
         , textAlign center

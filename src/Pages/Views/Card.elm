@@ -1,6 +1,5 @@
 module Pages.Views.Card exposing (page)
 
-import Data.Theme exposing (isDark)
 import Html.Styled as Html exposing (Html, a, p, text)
 import Html.Styled.Attributes exposing (name, src, type_)
 import Page exposing (Page)
@@ -30,7 +29,7 @@ view : Model -> List (Html msg)
 view { shared } =
     let
         options =
-            { inverted = isDark shared.theme }
+            { theme = shared.theme }
     in
     [ example
         { title = "Card"

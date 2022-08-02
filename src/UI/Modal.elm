@@ -17,17 +17,18 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, each, selector)
 import Css.Typography exposing (fomanticFontFamilies)
+import Data.Theme exposing (Theme(..), isDark)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import Html.Styled.Attributes as Attributes
 import UI.Dimmer exposing (pageDimmer)
 
 
 modalBasis :
-    { toggle : msg, shadow : Bool, inverted : Bool, additionalStyles : List Style }
+    { toggle : msg, shadow : Bool, theme : Theme, additionalStyles : List Style }
     -> List (Attribute msg)
     -> List (Html msg)
     -> Html msg
-modalBasis { toggle, shadow, inverted, additionalStyles } attributes children_ =
+modalBasis { toggle, shadow, theme, additionalStyles } attributes children_ =
     pageDimmer { isActive = True, toggle = toggle }
         []
         [ Html.styled Html.div
@@ -37,7 +38,7 @@ modalBasis { toggle, shadow, inverted, additionalStyles } attributes children_ =
             -- display: none;
             , zIndex (int 1001)
             , textAlign left
-            , if inverted then
+            , if isDark theme then
                 property "background" "#FFFFFF"
 
               else
@@ -90,7 +91,7 @@ modalBasis { toggle, shadow, inverted, additionalStyles } attributes children_ =
 
 
 modal :
-    { open : Bool, toggle : msg, inverted : Bool }
+    { open : Bool, toggle : msg, theme : Theme }
     -> List (Attribute msg)
     ->
         { header : List (Html msg)
@@ -98,7 +99,7 @@ modal :
         , actions : List (Html msg)
         }
     -> Html msg
-modal { open, toggle, inverted } attributes hca =
+modal { open, toggle, theme } attributes hca =
     let
         has list f =
             case list of
@@ -109,13 +110,13 @@ modal { open, toggle, inverted } attributes hca =
                     f nonEmpty
 
         options =
-            { inverted = inverted }
+            { theme = theme }
     in
     if open then
         modalBasis
             { toggle = toggle
             , shadow = True
-            , inverted = inverted
+            , theme = theme
             , additionalStyles = []
             }
             attributes
@@ -152,7 +153,7 @@ basicModal { open, toggle } attributes hca children =
         modalBasis
             { toggle = toggle
             , shadow = False
-            , inverted = False
+            , theme = Light
             , additionalStyles =
                 [ -- .ui.basic.modal
                   backgroundColor transparent
@@ -171,13 +172,13 @@ basicModal { open, toggle } attributes hca children =
         text ""
 
 
-headerBasis : { inverted : Bool, additionalStyles : List Style } -> List (Attribute msg) -> List (Html msg) -> Html msg
-headerBasis { inverted, additionalStyles } =
+headerBasis : { theme : Theme, additionalStyles : List Style } -> List (Attribute msg) -> List (Html msg) -> Html msg
+headerBasis { theme, additionalStyles } =
     Html.styled Html.header
         [ -- .ui.modal > .header
           display block
         , fontFamilies fomanticFontFamilies
-        , if inverted then
+        , if isDark theme then
             batch
                 [ property "background" "rgba(0, 0, 0, 0.9)"
                 , color (hex "#FFFFFF")
@@ -203,15 +204,15 @@ headerBasis { inverted, additionalStyles } =
         ]
 
 
-header : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-header { inverted } =
-    headerBasis { inverted = inverted, additionalStyles = [] }
+header : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+header { theme } =
+    headerBasis { theme = theme, additionalStyles = [] }
 
 
 basicHeader : List (Attribute msg) -> List (Html msg) -> Html msg
 basicHeader =
     headerBasis
-        { inverted = False
+        { theme = Light
         , additionalStyles =
             [ backgroundColor transparent
 
@@ -222,8 +223,8 @@ basicHeader =
         }
 
 
-contentBasis : { inverted : Bool, additionalStyles : List Style } -> List (Attribute msg) -> List (Html msg) -> Html msg
-contentBasis { inverted, additionalStyles } =
+contentBasis : { theme : Theme, additionalStyles : List Style } -> List (Attribute msg) -> List (Html msg) -> Html msg
+contentBasis { theme, additionalStyles } =
     Html.styled Html.div
         [ -- .ui.modal > .content
           display block
@@ -231,7 +232,7 @@ contentBasis { inverted, additionalStyles } =
         , fontSize (em 1)
         , lineHeight (num 1.4)
         , padding (rem 1.5)
-        , if inverted then
+        , if isDark theme then
             batch
                 [ property "background" "rgba(0, 0, 0, 0.9)"
                 , color (hex "#FFFFFF")
@@ -245,15 +246,15 @@ contentBasis { inverted, additionalStyles } =
         ]
 
 
-content : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-content { inverted } =
-    contentBasis { inverted = inverted, additionalStyles = [] }
+content : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+content { theme } =
+    contentBasis { theme = theme, additionalStyles = [] }
 
 
 basicContent : List (Attribute msg) -> List (Html msg) -> Html msg
 basicContent =
     contentBasis
-        { inverted = False
+        { theme = Light
         , additionalStyles = [ backgroundColor transparent ]
         }
 
@@ -269,11 +270,11 @@ description =
         ]
 
 
-actionsBasis : { inverted : Bool } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-actionsBasis { inverted } additionalStyles =
+actionsBasis : { theme : Theme } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+actionsBasis { theme } additionalStyles =
     Html.styled Html.div
         [ -- .ui.modal > .actions
-          if inverted then
+          if isDark theme then
             batch
                 [ -- .ui.inverted.modal > .actions
                   property "background" "#191A1B"
@@ -294,18 +295,18 @@ actionsBasis { inverted } additionalStyles =
         ]
 
 
-actions : { inverted : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-actions { inverted } =
-    actionsBasis { inverted = inverted } []
+actions : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+actions { theme } =
+    actionsBasis { theme = theme } []
 
 
 basicActions : List (Attribute msg) -> List (Html msg) -> Html msg
 basicActions =
-    actionsBasis { inverted = False } [ backgroundColor transparent ]
+    actionsBasis { theme = Light } [ backgroundColor transparent ]
 
 
-dialogBasis : { shadow : Bool, inverted : Bool, additionalStyles : List Style } -> List (Attribute msg) -> List (Html msg) -> Html msg
-dialogBasis { shadow, inverted, additionalStyles } =
+dialogBasis : { shadow : Bool, theme : Theme, additionalStyles : List Style } -> List (Attribute msg) -> List (Html msg) -> Html msg
+dialogBasis { shadow, theme, additionalStyles } =
     Html.styled (Html.node "dialog")
         [ -- .ui.modal
           position absolute
@@ -313,7 +314,7 @@ dialogBasis { shadow, inverted, additionalStyles } =
         -- display: none;
         , zIndex (int 1001)
         , textAlign left
-        , if inverted then
+        , if isDark theme then
             property "background" "#FFFFFF"
 
           else
@@ -363,7 +364,7 @@ dialogBasis { shadow, inverted, additionalStyles } =
 
 
 dialog :
-    { open : Bool, inverted : Bool }
+    { open : Bool, theme : Theme }
     -> List (Attribute msg)
     ->
         { header : List (Html msg)
@@ -382,9 +383,9 @@ dialog options attributes hca =
                     f nonEmpty
 
         options_ =
-            { inverted = options.inverted }
+            { theme = options.theme }
     in
-    dialogBasis { shadow = True, inverted = options.inverted, additionalStyles = [] }
+    dialogBasis { shadow = True, theme = options.theme, additionalStyles = [] }
         (if options.open then
             Attributes.attribute "open" "" :: attributes
 

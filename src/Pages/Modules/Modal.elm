@@ -1,6 +1,5 @@
 module Pages.Modules.Modal exposing (Model, Msg, page)
 
-import Data.Theme exposing (isDark)
 import Html.Styled as Html exposing (Html, a, p, text)
 import Html.Styled.Attributes as Attributes exposing (href)
 import Html.Styled.Events exposing (onClick)
@@ -84,7 +83,7 @@ view { shared, toggledItems } =
         , modal
             { open = List.member "modal" toggledItems
             , toggle = Toggle "modal"
-            , inverted = isDark shared.theme
+            , theme = shared.theme
             }
             []
             { header = [ text "Select a Photo" ]
@@ -133,7 +132,7 @@ view { shared, toggledItems } =
         [ button [ onClick (Toggle "dialog") ] [ icon [] "fas fa-plus", text "Show" ]
         , dialog
             { open = List.member "dialog" toggledItems
-            , inverted = isDark shared.theme
+            , theme = shared.theme
             }
             []
             { header = [ text "Select a Photo" ]

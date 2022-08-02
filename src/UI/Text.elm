@@ -18,6 +18,7 @@ import Css exposing (..)
 import Css.Color as Color exposing (..)
 import Css.Extra exposing (orNone)
 import Data exposing (PresetColor(..), Size(..))
+import Data.Theme exposing (Theme, isDark)
 import Html.Styled as Html exposing (Html, text)
 
 
@@ -67,79 +68,79 @@ coloredText color_ =
         }
 
 
-primaryText : { inverted : Bool } -> String -> Html msg
+primaryText : { theme : Theme } -> String -> Html msg
 primaryText =
     blueText
 
 
-secondaryText : { inverted : Bool } -> String -> Html msg
+secondaryText : { theme : Theme } -> String -> Html msg
 secondaryText =
     blackText
 
 
-redText : { inverted : Bool } -> String -> Html msg
-redText { inverted } =
-    coloredText (colorSelector Red inverted)
+redText : { theme : Theme } -> String -> Html msg
+redText { theme } =
+    coloredText (colorSelector Red theme)
 
 
-orangeText : { inverted : Bool } -> String -> Html msg
-orangeText { inverted } =
-    coloredText (colorSelector Orange inverted)
+orangeText : { theme : Theme } -> String -> Html msg
+orangeText { theme } =
+    coloredText (colorSelector Orange theme)
 
 
-yellowText : { inverted : Bool } -> String -> Html msg
-yellowText { inverted } =
-    coloredText (colorSelector Yellow inverted)
+yellowText : { theme : Theme } -> String -> Html msg
+yellowText { theme } =
+    coloredText (colorSelector Yellow theme)
 
 
-oliveText : { inverted : Bool } -> String -> Html msg
-oliveText { inverted } =
-    coloredText (colorSelector Olive inverted)
+oliveText : { theme : Theme } -> String -> Html msg
+oliveText { theme } =
+    coloredText (colorSelector Olive theme)
 
 
-greenText : { inverted : Bool } -> String -> Html msg
-greenText { inverted } =
-    coloredText (colorSelector Green inverted)
+greenText : { theme : Theme } -> String -> Html msg
+greenText { theme } =
+    coloredText (colorSelector Green theme)
 
 
-tealText : { inverted : Bool } -> String -> Html msg
-tealText { inverted } =
-    coloredText (colorSelector Teal inverted)
+tealText : { theme : Theme } -> String -> Html msg
+tealText { theme } =
+    coloredText (colorSelector Teal theme)
 
 
-blueText : { inverted : Bool } -> String -> Html msg
-blueText { inverted } =
-    coloredText (colorSelector Blue inverted)
+blueText : { theme : Theme } -> String -> Html msg
+blueText { theme } =
+    coloredText (colorSelector Blue theme)
 
 
-violetText : { inverted : Bool } -> String -> Html msg
-violetText { inverted } =
-    coloredText (colorSelector Violet inverted)
+violetText : { theme : Theme } -> String -> Html msg
+violetText { theme } =
+    coloredText (colorSelector Violet theme)
 
 
-purpleText : { inverted : Bool } -> String -> Html msg
-purpleText { inverted } =
-    coloredText (colorSelector Purple inverted)
+purpleText : { theme : Theme } -> String -> Html msg
+purpleText { theme } =
+    coloredText (colorSelector Purple theme)
 
 
-pinkText : { inverted : Bool } -> String -> Html msg
-pinkText { inverted } =
-    coloredText (colorSelector Pink inverted)
+pinkText : { theme : Theme } -> String -> Html msg
+pinkText { theme } =
+    coloredText (colorSelector Pink theme)
 
 
-brownText : { inverted : Bool } -> String -> Html msg
-brownText { inverted } =
-    coloredText (colorSelector Brown inverted)
+brownText : { theme : Theme } -> String -> Html msg
+brownText { theme } =
+    coloredText (colorSelector Brown theme)
 
 
-greyText : { inverted : Bool } -> String -> Html msg
-greyText { inverted } =
-    coloredText (colorSelector Grey inverted)
+greyText : { theme : Theme } -> String -> Html msg
+greyText { theme } =
+    coloredText (colorSelector Grey theme)
 
 
-blackText : { inverted : Bool } -> String -> Html msg
-blackText { inverted } =
-    coloredText (colorSelector Black inverted)
+blackText : { theme : Theme } -> String -> Html msg
+blackText { theme } =
+    coloredText (colorSelector Black theme)
 
 
 infoText : String -> Html msg
@@ -162,8 +163,8 @@ errorText =
     coloredText Color.error
 
 
-colorSelector : PresetColor -> Bool -> Color
-colorSelector presetColor isInverted =
+colorSelector : PresetColor -> Theme -> Color
+colorSelector presetColor theme =
     let
         ( default, inverted ) =
             case presetColor of
@@ -206,7 +207,7 @@ colorSelector presetColor isInverted =
                 Black ->
                     ( black, hex "#545454" )
     in
-    if isInverted then
+    if isDark theme then
         inverted
 
     else

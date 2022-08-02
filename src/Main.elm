@@ -6,14 +6,14 @@ import Css.FontAwesome exposing (fontAwesome)
 import Css.Global exposing (global)
 import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
-import Data.Theme as Theme exposing (Theme(..), isDark)
+import Data.Theme as Theme exposing (Theme(..))
 import Effect
 import Gen.Model
 import Gen.Pages as Pages
 import Gen.Route as Route
 import Html.Styled exposing (Html, option, select, text)
-import Html.Styled.Attributes exposing (checked, for, id, selected, type_, value)
-import Html.Styled.Events exposing (onClick, onInput)
+import Html.Styled.Attributes exposing (id, selected, value)
+import Html.Styled.Events exposing (onInput)
 import Request
 import Shared
 import UI.Breadcrumb exposing (BreadcrumbItem, breadcrumb)
@@ -160,14 +160,14 @@ view model =
 layout : Model -> View Msg -> List (Html Msg)
 layout { url, shared } { title, body } =
     [ global (normalize ++ additionalReset ++ globalCustomize ++ fontAwesome)
-    , basicSegment { inverted = False }
+    , basicSegment { theme = Light }
         []
         [ container []
-            [ breadcrumb { divider = text "/", inverted = isDark shared.theme }
+            [ breadcrumb { divider = text "/", theme = shared.theme }
                 (breadcrumbItems { title = title, url = url })
             ]
         ]
-    , basicSegment { inverted = False }
+    , basicSegment { theme = Light }
         []
         [ container []
             [ text "Theme "
@@ -176,7 +176,7 @@ layout { url, shared } { title, body } =
                     [ System, Light, Dark ]
             ]
         ]
-    , basicSegment { inverted = False }
+    , basicSegment { theme = Light }
         []
         [ container [] body ]
     ]
