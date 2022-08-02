@@ -1,6 +1,6 @@
 module Css.Palette exposing
     ( Palette, init
-    , palette, paletteWith
+    , palette, paletteWith, darkPalette, darkPaletteWith
     , setBackground, setColor, setBorder
     , setBackgroundIf, setColorIf, setBorderIf
     , red, redOnHover, redOnFocus, redOnActive
@@ -22,7 +22,7 @@ module Css.Palette exposing
 {-|
 
 @docs Palette, init
-@docs palette, paletteWith
+@docs palette, paletteWith, darkPalette, darkPaletteWith
 @docs setBackground, setColor, setBorder
 @docs setBackgroundIf, setColorIf, setBorderIf
 
@@ -44,6 +44,8 @@ module Css.Palette exposing
 -}
 
 import Css exposing (Color, Style, backgroundColor, batch, borderColor, color, hex, rgba)
+import Css.Media exposing (withMediaQuery)
+import Data.Theme exposing (Theme(..))
 
 
 type alias Palette =
@@ -61,6 +63,11 @@ init =
     }
 
 
+palette : Palette -> Style
+palette =
+    paletteWith { border = borderColor }
+
+
 paletteWith : { border : Color -> Style } -> Palette -> Style
 paletteWith option p =
     [ p.background
@@ -76,9 +83,23 @@ paletteWith option p =
         |> batch
 
 
-palette : Palette -> Style
-palette =
-    paletteWith { border = borderColor }
+darkPalette : Theme -> Palette -> Style
+darkPalette =
+    darkPaletteWith { border = borderColor }
+
+
+darkPaletteWith : { border : Color -> Style } -> Theme -> Palette -> Style
+darkPaletteWith option theme p =
+    case theme of
+        Light ->
+            batch []
+
+        Dark ->
+            paletteWith option p
+
+        System ->
+            withMediaQuery [ "(prefers-color-scheme: dark)" ]
+                [ paletteWith option p ]
 
 
 setBackground : Color -> Palette -> Palette
