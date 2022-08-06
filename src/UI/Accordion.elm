@@ -15,8 +15,9 @@ module UI.Accordion exposing
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (adjacentSiblings, children, generalSiblings)
+import Css.Palette as Palette exposing (darkPalette, palette, setColor)
 import Css.Typography exposing (fomanticFontFamilies)
-import Data.Theme exposing (Theme, isDark)
+import Data.Theme exposing (Theme)
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes as Attributes exposing (css, for, href, name, type_, value)
 import UI.Icon as Icon
@@ -175,6 +176,14 @@ accordion { toggleMethod, theme } attributes items =
                 ]
 
         label tag =
+            let
+                defaultPalette =
+                    Palette.init |> setColor (rgba 0 0 0 0.4)
+
+                darkPalette_ =
+                    -- .ui.inverted.accordion .title:not(.ui)
+                    Palette.init |> setColor (rgba 255 255 255 0.9)
+            in
             Html.styled tag
                 [ cursor pointer
                 , if toggleMethod == SummaryDetails then
@@ -187,12 +196,10 @@ accordion { toggleMethod, theme } attributes items =
                 , fontFamilies fomanticFontFamilies
                 , fontSize (em 1)
                 , fontWeight bold
-                , if isDark theme then
-                    -- .ui.inverted.accordion .title:not(.ui)
-                    color (rgba 255 255 255 0.9)
 
-                  else
-                    color (rgba 0 0 0 0.4)
+                -- Palette
+                , palette defaultPalette
+                , darkPalette theme darkPalette_
                 , property "-webkit-transition" "background 0.1s ease, color 0.1s ease"
                 , property "transition" "background 0.1s ease, color 0.1s ease"
                 , hover

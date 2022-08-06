@@ -18,8 +18,7 @@ module UI.Segment exposing
 
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
-import Css.Media exposing (withMediaQuery)
-import Css.Palette as Palette exposing (paletteWith, setBackground, setBackgroundIf, setBorderIf, setColor)
+import Css.Palette as Palette exposing (darkPalette, paletteWith, setBackground, setBackgroundIf, setBorderIf, setColor)
 import Data.Theme exposing (Theme(..), isDark)
 import Html.Styled as Html exposing (Attribute, Html)
 
@@ -32,7 +31,7 @@ basis { border, shadow, theme } additionalStyles =
                 |> setBackgroundIf shadow (hex "#FFF")
                 |> setBorderIf border (rgba 34 36 38 0.15)
 
-        invertedPalette =
+        darkPalette_ =
             Palette.init
                 |> setBackground (hex "#1B1C1D")
                 |> setColor (rgba 255 255 255 0.9)
@@ -46,14 +45,8 @@ basis { border, shadow, theme } additionalStyles =
 
           else
             batch []
-        , paletteWith { border = border3 (px 1) solid } <|
-            if isDark theme then
-                invertedPalette
-
-            else
-                defaultPalette
-        , withMediaQuery [ "(prefers-color-scheme: dark)" ]
-            [ paletteWith { border = border3 (px 1) solid } invertedPalette ]
+        , paletteWith { border = border3 (px 1) solid } defaultPalette
+        , darkPalette theme darkPalette_
         , case ( shadow, isDark theme ) of
             ( True, False ) ->
                 prefixed [] "box-shadow" "0 1px 2px 0 rgba(34, 36, 38, 0.15)"

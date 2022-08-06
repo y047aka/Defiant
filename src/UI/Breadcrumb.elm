@@ -1,7 +1,8 @@
 module UI.Breadcrumb exposing (BreadcrumbItem, breadcrumb)
 
 import Css exposing (..)
-import Data.Theme exposing (Theme, isDark)
+import Css.Palette as Palette exposing (darkPalette, palette, setColor)
+import Data.Theme exposing (Theme)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import Html.Styled.Attributes exposing (href)
 import Svg.Styled exposing (Attribute)
@@ -15,6 +16,11 @@ type alias BreadcrumbItem =
 
 basis : { theme : Theme } -> List (Html msg) -> Html msg
 basis { theme } =
+    let
+        darkPalette_ =
+            -- .ui.inverted.breadcrumb
+            Palette.init |> setColor (hex "#DCDDDE")
+    in
     Html.styled Html.div
         [ -- .ui.breadcrumb
           lineHeight (em 1.4285)
@@ -31,12 +37,7 @@ basis { theme } =
             [ marginBottom zero ]
 
         -- Inverted
-        , if isDark theme then
-            -- .ui.inverted.breadcrumb
-            color (hex "#DCDDDE")
-
-          else
-            batch []
+        , darkPalette theme darkPalette_
         ]
         []
 
@@ -66,6 +67,14 @@ breadcrumb options children =
 
 divider : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
 divider { theme } =
+    let
+        defaultPalette =
+            Palette.init |> setColor (rgba 0 0 0 0.4)
+
+        darkPalette_ =
+            -- .ui.inverted.breadcrumb > .divider
+            Palette.init |> setColor (rgba 255 255 255 0.7)
+    in
     Html.styled Html.div
         [ -- .ui.breadcrumb .divider
           display inlineBlock
@@ -78,13 +87,9 @@ divider { theme } =
         , fontSize (em 0.85714286)
         , verticalAlign baseline
 
-        -- Inverted
-        , if isDark theme then
-            -- .ui.inverted.breadcrumb > .divider
-            color (rgba 255 255 255 0.7)
-
-          else
-            color (rgba 0 0 0 0.4)
+        -- Palette
+        , palette defaultPalette
+        , darkPalette theme darkPalette_
 
         -- Override
         , margin3 zero (rem 0.71428571) zero

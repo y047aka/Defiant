@@ -15,10 +15,9 @@ module UI.Menu exposing
 -}
 
 import Css exposing (..)
-import Css.Extra exposing (prefixed, when)
+import Css.Extra exposing (prefixed)
 import Css.Layout as Layout exposing (layout)
-import Css.Media exposing (withMediaQuery)
-import Css.Palette exposing (paletteWith)
+import Css.Palette as Palette exposing (darkPalette, palette, paletteWith, setBackground, setBackgroundIf, setBorderIf, setColor)
 import Css.Typography as Typography exposing (init, typography)
 import Data.Theme exposing (Theme(..), isDark)
 import Html.Styled as Html exposing (Attribute, Html)
@@ -32,26 +31,12 @@ menuBasis { vertical, border, shadow, theme } additionalStyles =
             Typography.default
 
         defaultPalette =
-            { background =
-                if shadow then
-                    Just (hex "#FFF")
+            Palette.init
+                |> setBackgroundIf shadow (hex "#FFF")
+                |> setBorderIf border (rgba 34 36 38 0.15)
 
-                else
-                    Nothing
-            , color = Nothing
-            , border =
-                if border then
-                    Just (rgba 34 36 38 0.15)
-
-                else
-                    Nothing
-            }
-
-        invertedPalette =
-            { defaultPalette
-                | background = Just (hex "#1B1C1D")
-                , border = Nothing
-            }
+        darkPalette_ =
+            Palette.init |> setBackground (hex "#1B1C1D")
     in
     Html.styled Html.div
         [ margin2 (rem 1) zero
@@ -60,14 +45,10 @@ menuBasis { vertical, border, shadow, theme } additionalStyles =
 
           else
             batch []
-        , paletteWith { border = border3 (px 1) solid } <|
-            if isDark theme then
-                invertedPalette
 
-            else
-                defaultPalette
-        , withMediaQuery [ "(prefers-color-scheme: dark)" ]
-            [ paletteWith { border = border3 (px 1) solid } invertedPalette ]
+        -- Palette
+        , paletteWith { border = border3 (px 1) solid } defaultPalette
+        , darkPalette theme darkPalette_
         , case ( shadow, isDark theme ) of
             ( True, False ) ->
                 prefixed [] "box-shadow" "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
@@ -197,7 +178,22 @@ itemBasis { tag, vertical, borderAndShadows, theme } additionalStyles =
             ]
 
         -- Link
-        , batch <|
+        , let
+            defaultPaletteOnHover =
+                Palette.init
+                    |> setBackground (rgba 0 0 0 0.03)
+                    |> setColor (rgba 0 0 0 0.95)
+
+            darkPaletteOnHover =
+                -- .ui.link.inverted.menu .item:hover
+                -- .ui.inverted.menu .dropdown.item:hover
+                -- .ui.inverted.menu .link.item:hover
+                -- .ui.inverted.menu a.item:hover
+                Palette.init
+                    |> setBackground (rgba 255 255 255 0.08)
+                    |> setColor (hex "#ffffff")
+          in
+          batch <|
             if tag [] [] == Html.a [] [] then
                 [ -- .ui.link.menu .item:hover
                   -- .ui.menu .dropdown.item:hover
@@ -205,19 +201,9 @@ itemBasis { tag, vertical, borderAndShadows, theme } additionalStyles =
                   -- .ui.menu a.item:hover
                   hover
                     [ cursor pointer
-                    , backgroundColor (rgba 0 0 0 0.03)
-                    , color (rgba 0 0 0 0.95)
+                    , palette defaultPaletteOnHover
+                    , darkPalette theme darkPaletteOnHover
                     ]
-
-                -- .ui.link.inverted.menu .item:hover
-                -- .ui.inverted.menu .dropdown.item:hover
-                -- .ui.inverted.menu .link.item:hover
-                -- .ui.inverted.menu a.item:hover
-                , when (isDark theme) <|
-                    hover
-                        [ property "background" "rgba(255, 255, 255, 0.08)"
-                        , color (hex "#ffffff")
-                        ]
 
                 -- .ui.link.menu .item:active
                 -- .ui.menu .link.item:active
@@ -232,7 +218,15 @@ itemBasis { tag, vertical, borderAndShadows, theme } additionalStyles =
                 []
 
         -- Vertical
-        , batch <|
+        , let
+            defaultPalette =
+                Palette.init |> setBackground (rgba 34 36 38 0.1)
+
+            darkPalette_ =
+                -- .ui.vertical.inverted.menu .item:before
+                Palette.init |> setBackground (rgba 255 255 255 0.08)
+          in
+          batch <|
             if vertical then
                 [ -- .ui.vertical.menu .item
                   display block
@@ -256,13 +250,9 @@ itemBasis { tag, vertical, borderAndShadows, theme } additionalStyles =
                     , left zero
                     , width (pct 100)
                     , height (px 1)
-                    , backgroundColor (rgba 34 36 38 0.1)
+                    , palette defaultPalette
+                    , darkPalette theme darkPalette_
                     ]
-
-                -- .ui.vertical.inverted.menu .item:before
-                , when (isDark theme) <|
-                    before
-                        [ backgroundColor (rgba 255 255 255 0.08) ]
 
                 -- .ui.vertical.menu .item:first-child:before
                 , firstChild
@@ -297,13 +287,18 @@ itemBasis { tag, vertical, borderAndShadows, theme } additionalStyles =
                 ]
 
         -- Inverted
-        , when (isDark theme) <|
-            batch
-                [ -- .ui.inverted.menu .item
-                  -- .ui.inverted.menu .item > a:not(.ui)
-                  property "background" "transparent"
-                , color (rgba 255 255 255 0.9)
-                ]
+        , let
+            transparent =
+                rgba 0 0 0 0
+
+            darkPalette_ =
+                -- .ui.inverted.menu .item
+                -- .ui.inverted.menu .item > a:not(.ui)
+                Palette.init
+                    |> setBackground transparent
+                    |> setColor (rgba 255 255 255 0.9)
+          in
+          darkPalette theme darkPalette_
 
         -- AdditionalStyles
         , batch additionalStyles

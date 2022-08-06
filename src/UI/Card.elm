@@ -13,7 +13,7 @@ module UI.Card exposing
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, everything, selector)
-import Css.Palette exposing (paletteWith)
+import Css.Palette as Palette exposing (darkPalette, darkPaletteWith, palette, paletteWith, setBackground, setBorder, setBorderIf, setColor)
 import Css.Typography exposing (fomanticFontFamilies)
 import Data.Theme exposing (Theme, isDark)
 import Html.Styled as Html exposing (Attribute, Html, text)
@@ -51,30 +51,25 @@ cards =
 cardBasis : { border : Bool, shadow : Bool, theme : Theme } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 cardBasis { border, shadow, theme } additionalStyles =
     let
-        paletteBasis =
-            { background = Just (hex "#FFF")
-            , color = Nothing
-            , border = Nothing
-            }
+        defaultPalette =
+            Palette.init
+                |> setBackground (hex "#FFF")
+                |> setBorderIf border (hex "#D4D4D5")
+
+        darkPalette_ =
+            Palette.init
+                |> setBackground (hex "#1B1C1D")
+                |> setBorderIf border (hex "#D4D4D5")
     in
     Html.styled Html.div
         [ position relative
         , margin2 (em 1) zero
         , padding zero
         , borderRadius (rem 0.28571429)
-        , paletteWith { border = border3 (px 1) solid } <|
-            case ( border, isDark theme ) of
-                ( False, False ) ->
-                    paletteBasis
 
-                ( True, False ) ->
-                    { paletteBasis | border = Just (hex "#D4D4D5") }
-
-                ( False, True ) ->
-                    { paletteBasis | background = Just (hex "#1B1C1D") }
-
-                ( True, True ) ->
-                    { paletteBasis | background = Just (hex "#1B1C1D"), border = Just (hex "#D4D4D5") }
+        -- Palette
+        , paletteWith { border = border3 (px 1) solid } defaultPalette
+        , darkPaletteWith theme { border = border3 (px 1) solid } darkPalette_
         , case ( shadow, isDark theme ) of
             ( True, False ) ->
                 prefixed [] "box-shadow" "0 1px 2px 0 #D4D4D5"
@@ -155,6 +150,15 @@ card { theme } =
 
 contentBasis : { theme : Theme, additionalStyles : List Style } -> List (Attribute msg) -> List (Html msg) -> Html msg
 contentBasis { theme, additionalStyles } =
+    let
+        defaultPalette =
+            Palette.init |> setBorder (rgba 34 36 38 0.1)
+
+        darkPalette_ =
+            -- .ui.inverted.cards > .card > .content
+            -- .ui.inverted.card > .content
+            Palette.init |> setBorder (rgba 255 255 255 0.15)
+    in
     Html.styled Html.div
         [ -- .ui.cards > .card > .content
           -- .ui.card > .content
@@ -162,7 +166,6 @@ contentBasis { theme, additionalStyles } =
         , property "-ms-flex-positive" "1"
         , property "flex-grow" "1"
         , property "border" "none"
-        , borderTop3 (px 1) solid (rgba 34 36 38 0.1)
         , property "background" "none"
         , margin zero
         , padding2 (em 1) (em 1)
@@ -170,14 +173,9 @@ contentBasis { theme, additionalStyles } =
         , fontSize (em 1)
         , borderRadius zero
 
-        -- Inverted
-        , if isDark theme then
-            -- .ui.inverted.cards > .card > .content
-            -- .ui.inverted.card > .content
-            borderTop3 (px 1) solid (rgba 255 255 255 0.15)
-
-          else
-            borderTop3 (px 1) solid (rgba 34 36 38 0.1)
+        -- Palette
+        , paletteWith { border = borderTop3 (px 1) solid } defaultPalette
+        , darkPaletteWith theme { border = borderTop3 (px 1) solid } darkPalette_
 
         -- .ui.cards > .card > .content:after
         -- .ui.card > .content:after
@@ -253,6 +251,15 @@ content { theme } attributes hmd =
 
 header : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
 header { theme } =
+    let
+        defaultPalette =
+            Palette.init |> setColor (rgba 0 0 0 0.85)
+
+        darkPalette_ =
+            -- .ui.inverted.cards > .card > .content > .header
+            -- .ui.inverted.card > .content > .header
+            Palette.init |> setColor (rgba 255 255 255 0.9)
+    in
     Html.styled Html.header
         [ -- .ui.cards > .card > .content > .header
           -- .ui.card > .content > .header
@@ -267,19 +274,23 @@ header { theme } =
         , marginTop (em -0.21425)
         , lineHeight (em 1.28571429)
 
-        -- Inverted
-        , if isDark theme then
-            -- .ui.inverted.cards > .card > .content > .header
-            -- .ui.inverted.card > .content > .header
-            color (rgba 255 255 255 0.9)
-
-          else
-            color (rgba 0 0 0 0.85)
+        -- Palette
+        , palette defaultPalette
+        , darkPalette theme darkPalette_
         ]
 
 
 description : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
 description { theme } =
+    let
+        defaultPalette =
+            Palette.init |> setColor (rgba 0 0 0 0.68)
+
+        darkPalette_ =
+            -- .ui.inverted.cards > .card > .content > .description
+            -- .ui.inverted.card > .content > .description
+            Palette.init |> setColor (rgba 255 255 255 0.8)
+    in
     Html.styled Html.div <|
         [ -- .ui.cards > .card > .content > .meta + .description
           -- .ui.cards > .card > .content > .header + .description
@@ -291,32 +302,31 @@ description { theme } =
         -- .ui.card > .content > .description
         , property "clear" "both"
 
-        -- Inverted
-        , if isDark theme then
-            -- .ui.inverted.cards > .card > .content > .description,
-            -- .ui.inverted.card > .content > .description {
-            color (rgba 255 255 255 0.8)
-
-          else
-            color (rgba 0 0 0 0.68)
+        -- Palette
+        , palette defaultPalette
+        , darkPalette theme darkPalette_
         ]
 
 
 meta : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
 meta { theme } =
+    let
+        defaultPalette =
+            Palette.init |> setColor (rgba 0 0 0 0.4)
+
+        darkPalette_ =
+            -- .ui.inverted.cards > .card .meta
+            -- .ui.inverted.card .meta
+            Palette.init |> setColor (rgba 255 255 255 0.7)
+    in
     Html.styled Html.div <|
         [ -- .ui.cards > .card .meta
           -- .ui.card .meta
           fontSize (em 1)
 
-        -- Inverted
-        , if isDark theme then
-            -- .ui.inverted.cards > .card .meta
-            -- .ui.inverted.card .meta
-            color (rgba 255 255 255 0.7)
-
-          else
-            color (rgba 0 0 0 0.4)
+        -- Palette
+        , palette defaultPalette
+        , darkPalette theme darkPalette_
 
         -- .ui.cards > .card .meta *
         -- .ui.card .meta *
@@ -348,6 +358,19 @@ meta { theme } =
 
 extraContent : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
 extraContent { theme } =
+    let
+        defaultPalette =
+            Palette.init
+                |> setColor (rgba 0 0 0 0.4)
+                |> setBorder (rgba 0 0 0 0.05)
+
+        darkPalette_ =
+            -- .ui.inverted.cards > .card > .extra
+            -- .ui.inverted.card > .extra
+            Palette.init
+                |> setColor (rgba 255 255 255 0.7)
+                |> setBorder (rgba 255 255 255 0.15)
+    in
     contentBasis
         { theme = theme
         , additionalStyles =
@@ -366,20 +389,9 @@ extraContent { theme } =
             , top zero
             , left zero
 
-            -- Inverted
-            , if isDark theme then
-                -- .ui.inverted.cards > .card > .extra
-                -- .ui.inverted.card > .extra
-                batch
-                    [ color (rgba 255 255 255 0.7)
-                    , borderTop3 (px 1) solid (rgba 255 255 255 0.15) |> important
-                    ]
-
-              else
-                batch
-                    [ color (rgba 0 0 0 0.4)
-                    , borderTop3 (px 1) solid (rgba 0 0 0 0.05) |> important
-                    ]
+            -- Palette
+            , paletteWith { border = borderTop3 (px 1) solid >> important } defaultPalette
+            , darkPaletteWith theme { border = borderTop3 (px 1) solid >> important } darkPalette_
             , prefixed [] "box-shadow" "none"
             , property "-webkit-transition" "color 0.1s ease"
             , property "transition" "color 0.1s ease"

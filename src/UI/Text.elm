@@ -17,14 +17,14 @@ module UI.Text exposing
 import Css exposing (..)
 import Css.Color as Color exposing (..)
 import Css.Extra exposing (orNone)
+import Css.Palette as Palette exposing (Palette, darkPalette, palette, setColor)
 import Data exposing (PresetColor(..), Size(..))
-import Data.Theme exposing (Theme, isDark)
+import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Html, text)
 
 
 basis :
     { size : Maybe (FontSize a)
-    , color : Maybe Color
     , disabled : Bool
     , additionalStyles : List Style
     }
@@ -33,7 +33,6 @@ basis :
 basis options str =
     Html.styled Html.span
         [ orNone options.size fontSize
-        , orNone options.color color
         , if options.disabled then
             opacity (num 0.45)
 
@@ -52,19 +51,20 @@ disabledText =
     -- span.ui.disabled.text
     basis
         { size = Nothing
-        , color = Nothing
         , disabled = True
         , additionalStyles = []
         }
 
 
-coloredText : Color -> String -> Html msg
-coloredText color_ =
+coloredText : Theme -> { defaultPalette : Palette, darkPalette_ : Palette } -> String -> Html msg
+coloredText theme { defaultPalette, darkPalette_ } =
     basis
         { size = Nothing
-        , color = Just color_
         , disabled = False
-        , additionalStyles = []
+        , additionalStyles =
+            [ palette defaultPalette
+            , darkPalette theme darkPalette_
+            ]
         }
 
 
@@ -80,91 +80,91 @@ secondaryText =
 
 redText : { theme : Theme } -> String -> Html msg
 redText { theme } =
-    coloredText (colorSelector Red theme)
+    coloredText theme (colorSelector Red)
 
 
 orangeText : { theme : Theme } -> String -> Html msg
 orangeText { theme } =
-    coloredText (colorSelector Orange theme)
+    coloredText theme (colorSelector Orange)
 
 
 yellowText : { theme : Theme } -> String -> Html msg
 yellowText { theme } =
-    coloredText (colorSelector Yellow theme)
+    coloredText theme (colorSelector Yellow)
 
 
 oliveText : { theme : Theme } -> String -> Html msg
 oliveText { theme } =
-    coloredText (colorSelector Olive theme)
+    coloredText theme (colorSelector Olive)
 
 
 greenText : { theme : Theme } -> String -> Html msg
 greenText { theme } =
-    coloredText (colorSelector Green theme)
+    coloredText theme (colorSelector Green)
 
 
 tealText : { theme : Theme } -> String -> Html msg
 tealText { theme } =
-    coloredText (colorSelector Teal theme)
+    coloredText theme (colorSelector Teal)
 
 
 blueText : { theme : Theme } -> String -> Html msg
 blueText { theme } =
-    coloredText (colorSelector Blue theme)
+    coloredText theme (colorSelector Blue)
 
 
 violetText : { theme : Theme } -> String -> Html msg
 violetText { theme } =
-    coloredText (colorSelector Violet theme)
+    coloredText theme (colorSelector Violet)
 
 
 purpleText : { theme : Theme } -> String -> Html msg
 purpleText { theme } =
-    coloredText (colorSelector Purple theme)
+    coloredText theme (colorSelector Purple)
 
 
 pinkText : { theme : Theme } -> String -> Html msg
 pinkText { theme } =
-    coloredText (colorSelector Pink theme)
+    coloredText theme (colorSelector Pink)
 
 
 brownText : { theme : Theme } -> String -> Html msg
 brownText { theme } =
-    coloredText (colorSelector Brown theme)
+    coloredText theme (colorSelector Brown)
 
 
 greyText : { theme : Theme } -> String -> Html msg
 greyText { theme } =
-    coloredText (colorSelector Grey theme)
+    coloredText theme (colorSelector Grey)
 
 
 blackText : { theme : Theme } -> String -> Html msg
 blackText { theme } =
-    coloredText (colorSelector Black theme)
+    coloredText theme (colorSelector Black)
 
 
 infoText : String -> Html msg
 infoText =
-    coloredText Color.info
+    coloredText Light { defaultPalette = Palette.init |> setColor Color.info, darkPalette_ = Palette.init }
 
 
 successText : String -> Html msg
 successText =
-    coloredText Color.success
+    coloredText Light { defaultPalette = Palette.init |> setColor Color.success, darkPalette_ = Palette.init }
 
 
 warningText : String -> Html msg
 warningText =
-    coloredText Color.warning
+    coloredText Light { defaultPalette = Palette.init |> setColor Color.warning, darkPalette_ = Palette.init }
 
 
 errorText : String -> Html msg
 errorText =
-    coloredText Color.error
+    coloredText Light { defaultPalette = Palette.init |> setColor Color.error, darkPalette_ = Palette.init }
 
 
-colorSelector : PresetColor -> Theme -> Color
-colorSelector presetColor theme =
+colorSelector : PresetColor -> { defaultPalette : Palette, darkPalette_ : Palette }
+colorSelector presetColor =
     let
         ( default, inverted ) =
             case presetColor of
@@ -207,18 +207,15 @@ colorSelector presetColor theme =
                 Black ->
                     ( black, hex "#545454" )
     in
-    if isDark theme then
-        inverted
-
-    else
-        default
+    { defaultPalette = Palette.init |> setColor default
+    , darkPalette_ = Palette.init |> setColor inverted
+    }
 
 
 sizedText : FontSize a -> String -> Html msg
 sizedText size =
     basis
         { size = Just size
-        , color = Nothing
         , disabled = False
         , additionalStyles = []
         }

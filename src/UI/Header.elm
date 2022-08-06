@@ -16,9 +16,10 @@ module UI.Header exposing
 
 import Css exposing (..)
 import Css.Global exposing (adjacentSiblings, children, typeSelector)
+import Css.Palette as Palette exposing (darkPalette, palette, setColor)
 import Css.Typography as Typography exposing (typography)
 import Data exposing (Size(..))
-import Data.Theme exposing (Theme, isDark)
+import Data.Theme exposing (Theme)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
@@ -27,6 +28,13 @@ basis { theme } additionalStyles =
     let
         headingTypography =
             Typography.heading
+
+        defaultPalette =
+            Palette.init |> setColor (rgba 0 0 0 0.87)
+
+        darkPalette_ =
+            -- .ui.inverted.header
+            Palette.init |> setColor (hex "#FFFFFF")
     in
     Html.styled Html.header
         [ -- .ui.header
@@ -38,12 +46,10 @@ basis { theme } additionalStyles =
                 | fontSize = ""
                 , textTransform = Typography.none
             }
-        , if isDark theme then
-            -- .ui.inverted.header
-            color (hex "#FFFFFF")
 
-          else
-            color (rgba 0 0 0 0.87)
+        -- Palette
+        , palette defaultPalette
+        , darkPalette theme darkPalette_
 
         -- .ui.header:first-child
         , firstChild
@@ -150,6 +156,14 @@ sizeSelector size =
 
 subHeader : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
 subHeader { theme } =
+    let
+        defaultPalette =
+            Palette.init |> setColor (rgba 0 0 0 0.6)
+
+        darkPalette_ =
+            -- .ui.inverted.header .sub.header
+            Palette.init |> setColor (rgba 255 255 255 0.8)
+    in
     Html.styled Html.div
         [ -- .ui.header .sub.header
           display block
@@ -158,12 +172,10 @@ subHeader { theme } =
         , margin zero
         , fontSize (rem 1)
         , lineHeight (em 1.2)
-        , if isDark theme then
-            -- .ui.inverted.header .sub.header
-            color (rgba 255 255 255 0.8)
 
-          else
-            color (rgba 0 0 0 0.6)
+        -- Palette
+        , palette defaultPalette
+        , darkPalette theme darkPalette_
         ]
 
 
