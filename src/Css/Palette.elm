@@ -84,12 +84,12 @@ paletteWith option p =
 
 
 darkPalette : Theme -> Palette -> Style
-darkPalette =
-    darkPaletteWith { border = borderColor }
+darkPalette theme =
+    darkPaletteWith theme { border = borderColor }
 
 
-darkPaletteWith : { border : Color -> Style } -> Theme -> Palette -> Style
-darkPaletteWith option theme p =
+darkPaletteWith : Theme -> { border : Color -> Style } -> Palette -> Style
+darkPaletteWith theme option p =
     case theme of
         Light ->
             batch []
