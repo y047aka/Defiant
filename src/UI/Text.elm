@@ -56,14 +56,14 @@ disabledText =
         }
 
 
-coloredText : Theme -> { defaultPalette : Palette, darkPalette_ : Palette } -> String -> Html msg
-coloredText theme { defaultPalette, darkPalette_ } =
+coloredText : Theme -> { defaultPalette : Palette, darkPalette : Palette } -> String -> Html msg
+coloredText theme palettes =
     basis
         { size = Nothing
         , disabled = False
         , additionalStyles =
-            [ palette defaultPalette
-            , darkPalette theme darkPalette_
+            [ palette palettes.defaultPalette
+            , darkPalette theme palettes.darkPalette
             ]
         }
 
@@ -80,93 +80,93 @@ secondaryText =
 
 redText : { theme : Theme } -> String -> Html msg
 redText { theme } =
-    coloredText theme (colorSelector Red)
+    coloredText theme (paletteSelector Red)
 
 
 orangeText : { theme : Theme } -> String -> Html msg
 orangeText { theme } =
-    coloredText theme (colorSelector Orange)
+    coloredText theme (paletteSelector Orange)
 
 
 yellowText : { theme : Theme } -> String -> Html msg
 yellowText { theme } =
-    coloredText theme (colorSelector Yellow)
+    coloredText theme (paletteSelector Yellow)
 
 
 oliveText : { theme : Theme } -> String -> Html msg
 oliveText { theme } =
-    coloredText theme (colorSelector Olive)
+    coloredText theme (paletteSelector Olive)
 
 
 greenText : { theme : Theme } -> String -> Html msg
 greenText { theme } =
-    coloredText theme (colorSelector Green)
+    coloredText theme (paletteSelector Green)
 
 
 tealText : { theme : Theme } -> String -> Html msg
 tealText { theme } =
-    coloredText theme (colorSelector Teal)
+    coloredText theme (paletteSelector Teal)
 
 
 blueText : { theme : Theme } -> String -> Html msg
 blueText { theme } =
-    coloredText theme (colorSelector Blue)
+    coloredText theme (paletteSelector Blue)
 
 
 violetText : { theme : Theme } -> String -> Html msg
 violetText { theme } =
-    coloredText theme (colorSelector Violet)
+    coloredText theme (paletteSelector Violet)
 
 
 purpleText : { theme : Theme } -> String -> Html msg
 purpleText { theme } =
-    coloredText theme (colorSelector Purple)
+    coloredText theme (paletteSelector Purple)
 
 
 pinkText : { theme : Theme } -> String -> Html msg
 pinkText { theme } =
-    coloredText theme (colorSelector Pink)
+    coloredText theme (paletteSelector Pink)
 
 
 brownText : { theme : Theme } -> String -> Html msg
 brownText { theme } =
-    coloredText theme (colorSelector Brown)
+    coloredText theme (paletteSelector Brown)
 
 
 greyText : { theme : Theme } -> String -> Html msg
 greyText { theme } =
-    coloredText theme (colorSelector Grey)
+    coloredText theme (paletteSelector Grey)
 
 
 blackText : { theme : Theme } -> String -> Html msg
 blackText { theme } =
-    coloredText theme (colorSelector Black)
+    coloredText theme (paletteSelector Black)
 
 
 infoText : String -> Html msg
 infoText =
-    coloredText Light { defaultPalette = Palette.init |> setColor Color.info, darkPalette_ = Palette.init }
+    coloredText Light { defaultPalette = Palette.init |> setColor Color.info, darkPalette = Palette.init }
 
 
 successText : String -> Html msg
 successText =
-    coloredText Light { defaultPalette = Palette.init |> setColor Color.success, darkPalette_ = Palette.init }
+    coloredText Light { defaultPalette = Palette.init |> setColor Color.success, darkPalette = Palette.init }
 
 
 warningText : String -> Html msg
 warningText =
-    coloredText Light { defaultPalette = Palette.init |> setColor Color.warning, darkPalette_ = Palette.init }
+    coloredText Light { defaultPalette = Palette.init |> setColor Color.warning, darkPalette = Palette.init }
 
 
 errorText : String -> Html msg
 errorText =
-    coloredText Light { defaultPalette = Palette.init |> setColor Color.error, darkPalette_ = Palette.init }
+    coloredText Light { defaultPalette = Palette.init |> setColor Color.error, darkPalette = Palette.init }
 
 
-colorSelector : PresetColor -> { defaultPalette : Palette, darkPalette_ : Palette }
-colorSelector presetColor =
+paletteSelector : PresetColor -> { defaultPalette : Palette, darkPalette : Palette }
+paletteSelector presetColor =
     let
-        ( default, inverted ) =
+        ( default, dark ) =
             case presetColor of
                 Red ->
                     ( red, hex "#FF695E" )
@@ -208,7 +208,7 @@ colorSelector presetColor =
                     ( black, hex "#545454" )
     in
     { defaultPalette = Palette.init |> setColor default
-    , darkPalette_ = Palette.init |> setColor inverted
+    , darkPalette = Palette.init |> setColor dark
     }
 
 
