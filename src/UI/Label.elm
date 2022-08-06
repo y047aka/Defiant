@@ -18,8 +18,9 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children)
 import Css.Layout as Layout exposing (layout)
-import Css.Palette exposing (..)
+import Css.Palette exposing (Palette, palette, setColor, textColor, transparent_)
 import Css.Typography as Typography exposing (typography)
+import Data.PalettesByState exposing (..)
 import Html.Styled as Html exposing (Attribute, Html)
 
 

@@ -18,9 +18,9 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, selector, typeSelector)
 import Css.Layout as Layout exposing (layout)
-import Css.Palette exposing (..)
+import Css.Palette as Palette exposing (..)
 import Css.Typography as Typography exposing (fomanticFontFamilies, typography)
-import Data exposing (PresetColor(..))
+import Data.PalettesByState exposing (..)
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes exposing (css)
 
@@ -295,201 +295,124 @@ secondaryButton =
 
 redButton : List (Attribute msg) -> List (Html msg) -> Html msg
 redButton =
-    coloredButton (paletteSelector Red)
+    coloredButton red
 
 
 orangeButton : List (Attribute msg) -> List (Html msg) -> Html msg
 orangeButton =
-    coloredButton (paletteSelector Orange)
+    coloredButton orange
 
 
 yellowButton : List (Attribute msg) -> List (Html msg) -> Html msg
 yellowButton =
-    coloredButton (paletteSelector Yellow)
+    coloredButton yellow
 
 
 oliveButton : List (Attribute msg) -> List (Html msg) -> Html msg
 oliveButton =
-    coloredButton (paletteSelector Olive)
+    coloredButton olive
 
 
 greenButton : List (Attribute msg) -> List (Html msg) -> Html msg
 greenButton =
-    coloredButton (paletteSelector Green)
+    coloredButton green
 
 
 tealButton : List (Attribute msg) -> List (Html msg) -> Html msg
 tealButton =
-    coloredButton (paletteSelector Teal)
+    coloredButton teal
 
 
 blueButton : List (Attribute msg) -> List (Html msg) -> Html msg
 blueButton =
-    coloredButton (paletteSelector Blue)
+    coloredButton blue
 
 
 violetButton : List (Attribute msg) -> List (Html msg) -> Html msg
 violetButton =
-    coloredButton (paletteSelector Violet)
+    coloredButton violet
 
 
 purpleButton : List (Attribute msg) -> List (Html msg) -> Html msg
 purpleButton =
-    coloredButton (paletteSelector Purple)
+    coloredButton purple
 
 
 pinkButton : List (Attribute msg) -> List (Html msg) -> Html msg
 pinkButton =
-    coloredButton (paletteSelector Purple)
+    coloredButton pink
 
 
 brownButton : List (Attribute msg) -> List (Html msg) -> Html msg
 brownButton =
-    coloredButton (paletteSelector Brown)
+    coloredButton brown
 
 
 greyButton : List (Attribute msg) -> List (Html msg) -> Html msg
 greyButton =
-    coloredButton (paletteSelector Grey)
+    coloredButton grey
 
 
 blackButton : List (Attribute msg) -> List (Html msg) -> Html msg
 blackButton =
-    coloredButton (paletteSelector Black)
+    coloredButton black
 
 
 
 -- PALETTES BY STATE
 
 
-type alias PalettesByState =
-    { default : Palette
-    , onHover : Palette
-    , onFocus : Palette
-    , onActive : Palette
-    }
-
-
-palettesByState : PalettesByState -> Style
-palettesByState { default, onHover, onFocus, onActive } =
-    batch
-        [ palette default
-        , hover [ palette onHover ]
-        , focus [ palette onFocus ]
-        , active [ palette onActive ]
-        ]
-
-
 defaultPalettes : PalettesByState
 defaultPalettes =
-    PalettesByState basisDefault basisOnHover basisOnFocus basisOnActive
+    let
+        default =
+            Palette.init
+                |> setBackground (hex "#E0E1E2")
+                |> setColor textColor
+
+        onHover =
+            default
+                |> setBackground (hex "#CACBCD")
+                |> setColor hoverColor
+
+        onFocus =
+            onHover
+
+        onActive =
+            default
+                |> setBackground (hex "#BABBBC")
+                |> setColor (rgba 0 0 0 0.9)
+    in
+    { default = default
+    , onHover = onHover
+    , onFocus = onFocus
+    , onActive = onActive
+    }
 
 
 basicPalettes : PalettesByState
 basicPalettes =
-    PalettesByState basic basicOnHover basicOnFocus basicOnActive
+    let
+        default =
+            Palette.init
+                |> setBackground (rgba 0 0 0 0)
+                |> setColor textColor
 
+        onHover =
+            default
+                |> setBackground (hex "#FFFFFF")
+                |> setColor hoverColor
 
-paletteSelector : PresetColor -> PalettesByState
-paletteSelector presetColor =
-    case presetColor of
-        Red ->
-            red
+        onFocus =
+            onHover
 
-        Orange ->
-            orange
-
-        Yellow ->
-            yellow
-
-        Olive ->
-            olive
-
-        Green ->
-            green
-
-        Teal ->
-            teal
-
-        Blue ->
-            blue
-
-        Violet ->
-            violet
-
-        Purple ->
-            purple
-
-        Pink ->
-            purple
-
-        Brown ->
-            brown
-
-        Grey ->
-            grey
-
-        Black ->
-            black
-
-
-
--- PALETTE
-
-
-basisDefault : Palette
-basisDefault =
-    { background = Just (hex "#E0E1E2")
-    , color = Just textColor
-    , border = Just transparent_
-    }
-
-
-basisOnHover : Palette
-basisOnHover =
-    { basisDefault
-        | background = Just (hex "#CACBCD")
-        , color = Just hoverColor
-    }
-
-
-basisOnFocus : Palette
-basisOnFocus =
-    basisOnHover
-
-
-basisOnActive : Palette
-basisOnActive =
-    { basisDefault
-        | background = Just (hex "#BABBBC")
-        , color = Just (rgba 0 0 0 0.9)
-    }
-
-
-basic : Palette
-basic =
-    { background = Just (rgba 0 0 0 0)
-    , color = Just textColor
-    , border = Just transparent_
-    }
-
-
-basicOnHover : Palette
-basicOnHover =
-    { basic
-        | background = Just (hex "#FFFFFF")
-        , color = Just hoverColor
-    }
-
-
-basicOnFocus : Palette
-basicOnFocus =
-    basicOnHover
-
-
-basicOnActive : Palette
-basicOnActive =
-    { basic
-        | background = Just (hex "#F8F8F8")
-        , color = Just (rgba 0 0 0 0.9)
+        onActive =
+            default
+                |> setBackground (hex "#F8F8F8")
+                |> setColor (rgba 0 0 0 0.9)
+    in
+    { default = default
+    , onHover = onHover
+    , onFocus = onFocus
+    , onActive = onActive
     }
