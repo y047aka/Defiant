@@ -394,43 +394,43 @@ paletteSelector : PresetColor -> PalettesByState
 paletteSelector presetColor =
     case presetColor of
         Red ->
-            PalettesByState red redOnHover redOnFocus redOnActive
+            red
 
         Orange ->
-            PalettesByState orange orangeOnHover orangeOnFocus orangeOnActive
+            orange
 
         Yellow ->
-            PalettesByState yellow yellowOnHover yellowOnFocus yellowOnActive
+            yellow
 
         Olive ->
-            PalettesByState olive oliveOnHover oliveOnFocus oliveOnActive
+            olive
 
         Green ->
-            PalettesByState green greenOnHover greenOnFocus greenOnActive
+            green
 
         Teal ->
-            PalettesByState teal tealOnHover tealOnFocus tealOnActive
+            teal
 
         Blue ->
-            PalettesByState blue blueOnHover blueOnFocus blueOnActive
+            blue
 
         Violet ->
-            PalettesByState violet violetOnHover violetOnFocus violetOnActive
+            violet
 
         Purple ->
-            PalettesByState purple purpleOnHover purpleOnFocus purpleOnActive
+            purple
 
         Pink ->
-            PalettesByState purple purpleOnHover purpleOnFocus purpleOnActive
+            purple
 
         Brown ->
-            PalettesByState brown brownOnHover brownOnFocus brownOnActive
+            brown
 
         Grey ->
-            PalettesByState grey greyOnHover greyOnFocus greyOnActive
+            grey
 
         Black ->
-            PalettesByState black blackOnHover blackOnFocus blackOnActive
+            black
 
 
 

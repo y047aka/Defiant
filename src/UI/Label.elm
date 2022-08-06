@@ -105,77 +105,77 @@ coloredLabel palettes =
 
 primaryLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 primaryLabel =
-    coloredLabel { blue | color = Just (rgba 255 255 255 0.9) }
+    coloredLabel (blue.default |> setColor (rgba 255 255 255 0.9))
 
 
 secondaryLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 secondaryLabel =
-    coloredLabel { black | color = Just (rgba 255 255 255 0.9) }
+    coloredLabel (black.default |> setColor (rgba 255 255 255 0.9))
 
 
 redLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 redLabel =
-    coloredLabel red
+    coloredLabel red.default
 
 
 orangeLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 orangeLabel =
-    coloredLabel orange
+    coloredLabel orange.default
 
 
 yellowLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 yellowLabel =
-    coloredLabel yellow
+    coloredLabel yellow.default
 
 
 oliveLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 oliveLabel =
-    coloredLabel olive
+    coloredLabel olive.default
 
 
 greenLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 greenLabel =
-    coloredLabel green
+    coloredLabel green.default
 
 
 tealLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 tealLabel =
-    coloredLabel teal
+    coloredLabel teal.default
 
 
 blueLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 blueLabel =
-    coloredLabel blue
+    coloredLabel blue.default
 
 
 violetLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 violetLabel =
-    coloredLabel violet
+    coloredLabel violet.default
 
 
 purpleLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 purpleLabel =
-    coloredLabel purple
+    coloredLabel purple.default
 
 
 pinkLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 pinkLabel =
-    coloredLabel pink
+    coloredLabel pink.default
 
 
 brownLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 brownLabel =
-    coloredLabel brown
+    coloredLabel brown.default
 
 
 greyLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 greyLabel =
-    coloredLabel grey
+    coloredLabel grey.default
 
 
 blackLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 blackLabel =
-    coloredLabel black
+    coloredLabel black.default
 
 
 

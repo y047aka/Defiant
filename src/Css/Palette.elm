@@ -3,19 +3,7 @@ module Css.Palette exposing
     , palette, paletteWith, darkPalette, darkPaletteWith
     , setBackground, setColor, setBorder
     , setBackgroundIf, setColorIf, setBorderIf
-    , red, redOnHover, redOnFocus, redOnActive
-    , orange, orangeOnHover, orangeOnFocus, orangeOnActive
-    , yellow, yellowOnHover, yellowOnFocus, yellowOnActive
-    , olive, oliveOnHover, oliveOnFocus, oliveOnActive
-    , green, greenOnHover, greenOnFocus, greenOnActive
-    , teal, tealOnHover, tealOnFocus, tealOnActive
-    , blue, blueOnHover, blueOnFocus, blueOnActive
-    , violet, violetOnHover, violetOnFocus, violetOnActive
-    , purple, purpleOnHover, purpleOnFocus, purpleOnActive
-    , pink, pinkOnHover, pinkOnFocus, pinkOnActive
-    , brown, brownOnHover, brownOnFocus, brownOnActive
-    , grey, greyOnHover, greyOnFocus, greyOnActive
-    , black, blackOnHover, blackOnFocus, blackOnActive
+    , red, orange, yellow, olive, green, teal, blue, violet, purple, pink, brown, grey, black
     , transparent_, textColor, hoverColor
     )
 
@@ -26,19 +14,7 @@ module Css.Palette exposing
 @docs setBackground, setColor, setBorder
 @docs setBackgroundIf, setColorIf, setBorderIf
 
-@docs red, redOnHover, redOnFocus, redOnActive
-@docs orange, orangeOnHover, orangeOnFocus, orangeOnActive
-@docs yellow, yellowOnHover, yellowOnFocus, yellowOnActive
-@docs olive, oliveOnHover, oliveOnFocus, oliveOnActive
-@docs green, greenOnHover, greenOnFocus, greenOnActive
-@docs teal, tealOnHover, tealOnFocus, tealOnActive
-@docs blue, blueOnHover, blueOnFocus, blueOnActive
-@docs violet, violetOnHover, violetOnFocus, violetOnActive
-@docs purple, purpleOnHover, purpleOnFocus, purpleOnActive
-@docs pink, pinkOnHover, pinkOnFocus, pinkOnActive
-@docs brown, brownOnHover, brownOnFocus, brownOnActive
-@docs grey, greyOnHover, greyOnFocus, greyOnActive
-@docs black, blackOnHover, blackOnFocus, blackOnActive
+@docs red, orange, yellow, olive, green, teal, blue, violet, purple, pink, brown, grey, black
 @docs transparent_, textColor, hoverColor
 
 -}
@@ -145,308 +121,233 @@ setIf bool setter c p =
 -- COLORED
 
 
-colored : Palette
-colored =
-    { init | color = Just (hex "#FFFFFF") }
+type alias PalettesByState =
+    { default : Palette
+    , onHover : Palette
+    , onFocus : Palette
+    , onActive : Palette
+    }
 
 
-red : Palette
+red : PalettesByState
 red =
-    { colored
-        | background = Just (hex "#DB2828")
-        , border = Just (hex "#DB2828")
+    let
+        default =
+            { init
+                | background = Just (hex "#DB2828")
+                , color = Just (hex "#FFFFFF")
+                , border = Just (hex "#DB2828")
+            }
+    in
+    { default = default
+    , onHover = default |> setBackground (hex "#d01919")
+    , onFocus = default |> setBackground (hex "#ca1010")
+    , onActive = default |> setBackground (hex "#b21e1e")
     }
 
 
-redOnHover : Palette
-redOnHover =
-    { red | background = Just (hex "#d01919") }
-
-
-redOnFocus : Palette
-redOnFocus =
-    { red | background = Just (hex "#ca1010") }
-
-
-redOnActive : Palette
-redOnActive =
-    { red | background = Just (hex "#b21e1e") }
-
-
-orange : Palette
+orange : PalettesByState
 orange =
-    { colored
-        | background = Just (hex "#F2711C")
-        , border = Just (hex "#F2711C")
+    let
+        default =
+            { init
+                | background = Just (hex "#F2711C")
+                , color = Just (hex "#FFFFFF")
+                , border = Just (hex "#F2711C")
+            }
+    in
+    { default = default
+    , onHover = default |> setBackground (hex "#f26202")
+    , onFocus = default |> setBackground (hex "#e55b00")
+    , onActive = default |> setBackground (hex "#cf590c")
     }
 
 
-orangeOnHover : Palette
-orangeOnHover =
-    { orange | background = Just (hex "#f26202") }
-
-
-orangeOnFocus : Palette
-orangeOnFocus =
-    { orange | background = Just (hex "#e55b00") }
-
-
-orangeOnActive : Palette
-orangeOnActive =
-    { orange | background = Just (hex "#cf590c") }
-
-
-yellow : Palette
+yellow : PalettesByState
 yellow =
-    { colored
-        | background = Just (hex "#FBBD08")
-        , border = Just (hex "#FBBD08")
+    let
+        default =
+            { init
+                | background = Just (hex "#FBBD08")
+                , color = Just (hex "#FFFFFF")
+                , border = Just (hex "#FBBD08")
+            }
+    in
+    { default = default
+    , onHover = default |> setBackground (hex "#eaae00")
+    , onFocus = default |> setBackground (hex "#daa300")
+    , onActive = default |> setBackground (hex "#cd9903")
     }
 
 
-yellowOnHover : Palette
-yellowOnHover =
-    { yellow | background = Just (hex "#eaae00") }
-
-
-yellowOnFocus : Palette
-yellowOnFocus =
-    { yellow | background = Just (hex "#daa300") }
-
-
-yellowOnActive : Palette
-yellowOnActive =
-    { yellow | background = Just (hex "#cd9903") }
-
-
-olive : Palette
+olive : PalettesByState
 olive =
-    { colored
-        | background = Just (hex "#B5CC18")
-        , border = Just (hex "#B5CC18")
+    let
+        default =
+            { init
+                | background = Just (hex "#B5CC18")
+                , color = Just (hex "#FFFFFF")
+                , border = Just (hex "#B5CC18")
+            }
+    in
+    { default = default
+    , onHover = default |> setBackground (hex "#a7bd0d")
+    , onFocus = default |> setBackground (hex "#a0b605")
+    , onActive = default |> setBackground (hex "#8d9e13")
     }
 
 
-oliveOnHover : Palette
-oliveOnHover =
-    { olive | background = Just (hex "#a7bd0d") }
-
-
-oliveOnFocus : Palette
-oliveOnFocus =
-    { olive | background = Just (hex "#a0b605") }
-
-
-oliveOnActive : Palette
-oliveOnActive =
-    { olive | background = Just (hex "#8d9e13") }
-
-
-green : Palette
+green : PalettesByState
 green =
-    { colored
-        | background = Just (hex "#21BA45")
-        , border = Just (hex "#21BA45")
+    let
+        default =
+            { init
+                | background = Just (hex "#21BA45")
+                , color = Just (hex "#FFFFFF")
+                , border = Just (hex "#21BA45")
+            }
+    in
+    { default = default
+    , onHover = default |> setBackground (hex "#16ab39")
+    , onFocus = default |> setBackground (hex "#0ea432")
+    , onActive = default |> setBackground (hex "#198f35")
     }
 
 
-greenOnHover : Palette
-greenOnHover =
-    { green | background = Just (hex "#16ab39") }
-
-
-greenOnFocus : Palette
-greenOnFocus =
-    { green | background = Just (hex "#0ea432") }
-
-
-greenOnActive : Palette
-greenOnActive =
-    { green | background = Just (hex "#198f35") }
-
-
-teal : Palette
+teal : PalettesByState
 teal =
-    { colored
-        | background = Just (hex "#00B5AD")
-        , border = Just (hex "#00B5AD")
+    let
+        default =
+            { init
+                | background = Just (hex "#00B5AD")
+                , color = Just (hex "#FFFFFF")
+                , border = Just (hex "#00B5AD")
+            }
+    in
+    { default = default
+    , onHover = default |> setBackground (hex "#009c95")
+    , onFocus = default |> setBackground (hex "#008c86")
+    , onActive = default |> setBackground (hex "#00827c")
     }
 
 
-tealOnHover : Palette
-tealOnHover =
-    { teal | background = Just (hex "#009c95") }
-
-
-tealOnFocus : Palette
-tealOnFocus =
-    { teal | background = Just (hex "#008c86") }
-
-
-tealOnActive : Palette
-tealOnActive =
-    { teal | background = Just (hex "#00827c") }
-
-
-blue : Palette
+blue : PalettesByState
 blue =
-    { colored
-        | background = Just (hex "#2185D0")
-        , border = Just (hex "#2185D0")
+    let
+        default =
+            { init
+                | background = Just (hex "#2185D0")
+                , color = Just (hex "#FFFFFF")
+                , border = Just (hex "#2185D0")
+            }
+    in
+    { default = default
+    , onHover = default |> setBackground (hex "#1678c2")
+    , onFocus = default |> setBackground (hex "#0d71bb")
+    , onActive = default |> setBackground (hex "#1a69a4")
     }
 
 
-blueOnHover : Palette
-blueOnHover =
-    { blue | background = Just (hex "#1678c2") }
-
-
-blueOnFocus : Palette
-blueOnFocus =
-    { blue | background = Just (hex "#0d71bb") }
-
-
-blueOnActive : Palette
-blueOnActive =
-    { blue | background = Just (hex "#1a69a4") }
-
-
-violet : Palette
+violet : PalettesByState
 violet =
-    { colored
-        | background = Just (hex "#6435C9")
-        , border = Just (hex "#6435C9")
+    let
+        default =
+            { init
+                | background = Just (hex "#6435C9")
+                , color = Just (hex "#FFFFFF")
+                , border = Just (hex "#6435C9")
+            }
+    in
+    { default = default
+    , onHover = default |> setBackground (hex "#5829bb")
+    , onFocus = default |> setBackground (hex "#4f20b5")
+    , onActive = default |> setBackground (hex "#502aa1")
     }
 
 
-violetOnHover : Palette
-violetOnHover =
-    { violet | background = Just (hex "#5829bb") }
-
-
-violetOnFocus : Palette
-violetOnFocus =
-    { violet | background = Just (hex "#4f20b5") }
-
-
-violetOnActive : Palette
-violetOnActive =
-    { violet | background = Just (hex "#502aa1") }
-
-
-purple : Palette
+purple : PalettesByState
 purple =
-    { colored
-        | background = Just (hex "#A333C8")
-        , border = Just (hex "#A333C8")
+    let
+        default =
+            { init
+                | background = Just (hex "#A333C8")
+                , color = Just (hex "#FFFFFF")
+                , border = Just (hex "#A333C8")
+            }
+    in
+    { default = default
+    , onHover = default |> setBackground (hex "#9627ba")
+    , onFocus = default |> setBackground (hex "#8f1eb4")
+    , onActive = default |> setBackground (hex "#82299f")
     }
 
 
-purpleOnHover : Palette
-purpleOnHover =
-    { purple | background = Just (hex "#9627ba") }
-
-
-purpleOnFocus : Palette
-purpleOnFocus =
-    { purple | background = Just (hex "#8f1eb4") }
-
-
-purpleOnActive : Palette
-purpleOnActive =
-    { purple | background = Just (hex "#82299f") }
-
-
-pink : Palette
+pink : PalettesByState
 pink =
-    { colored
-        | background = Just (hex "#E03997")
-        , border = Just (hex "#E03997")
+    let
+        default =
+            { init
+                | background = Just (hex "#E03997")
+                , color = Just (hex "#FFFFFF")
+                , border = Just (hex "#E03997")
+            }
+    in
+    { default = default
+    , onHover = default |> setBackground (hex "#e61a8d")
+    , onFocus = default |> setBackground (hex "#e10f85")
+    , onActive = default |> setBackground (hex "#c71f7e")
     }
 
 
-pinkOnHover : Palette
-pinkOnHover =
-    { pink | background = Just (hex "#e61a8d") }
-
-
-pinkOnFocus : Palette
-pinkOnFocus =
-    { pink | background = Just (hex "#e10f85") }
-
-
-pinkOnActive : Palette
-pinkOnActive =
-    { pink | background = Just (hex "#c71f7e") }
-
-
-brown : Palette
+brown : PalettesByState
 brown =
-    { colored
-        | background = Just (hex "#A5673F")
-        , border = Just (hex "#A5673F")
+    let
+        default =
+            { init
+                | background = Just (hex "#A5673F")
+                , color = Just (hex "#FFFFFF")
+                , border = Just (hex "#A5673F")
+            }
+    in
+    { default = default
+    , onHover = default |> setBackground (hex "#975b33")
+    , onFocus = default |> setBackground (hex "#90532b")
+    , onActive = default |> setBackground (hex "#805031")
     }
 
 
-brownOnHover : Palette
-brownOnHover =
-    { brown | background = Just (hex "#975b33") }
-
-
-brownOnFocus : Palette
-brownOnFocus =
-    { brown | background = Just (hex "#90532b") }
-
-
-brownOnActive : Palette
-brownOnActive =
-    { brown | background = Just (hex "#805031") }
-
-
-grey : Palette
+grey : PalettesByState
 grey =
-    { colored
-        | background = Just (hex "#767676")
-        , border = Just (hex "#767676")
+    let
+        default =
+            { init
+                | background = Just (hex "#767676")
+                , color = Just (hex "#FFFFFF")
+                , border = Just (hex "#767676")
+            }
+    in
+    { default = default
+    , onHover = default |> setBackground (hex "#838383")
+    , onFocus = default |> setBackground (hex "#8a8a8a")
+    , onActive = default |> setBackground (hex "#909090")
     }
 
 
-greyOnHover : Palette
-greyOnHover =
-    { grey | background = Just (hex "#838383") }
-
-
-greyOnFocus : Palette
-greyOnFocus =
-    { grey | background = Just (hex "#8a8a8a") }
-
-
-greyOnActive : Palette
-greyOnActive =
-    { grey | background = Just (hex "#909090") }
-
-
-black : Palette
+black : PalettesByState
 black =
-    { colored
-        | background = Just (hex "#1B1C1D")
-        , border = Just (hex "#1B1C1D")
+    let
+        default =
+            { init
+                | background = Just (hex "#1B1C1D")
+                , color = Just (hex "#FFFFFF")
+                , border = Just (hex "#1B1C1D")
+            }
+    in
+    { default = default
+    , onHover = default |> setBackground (hex "#27292a")
+    , onFocus = default |> setBackground (hex "#2f3032")
+    , onActive = default |> setBackground (hex "#343637")
     }
-
-
-blackOnHover : Palette
-blackOnHover =
-    { black | background = Just (hex "#27292a") }
-
-
-blackOnFocus : Palette
-blackOnFocus =
-    { black | background = Just (hex "#2f3032") }
-
-
-blackOnActive : Palette
-blackOnActive =
-    { black | background = Just (hex "#343637") }
 
 
 
