@@ -17,7 +17,7 @@ module Css.Palette exposing
 
 -}
 
-import Css exposing (Color, Style, backgroundColor, batch, borderColor, color, rgba)
+import Css exposing (Color, Style, backgroundColor, batch, borderColor, color, rgba, unset)
 import Css.Media exposing (withMediaQuery)
 import Data.Theme exposing (Theme(..))
 
@@ -64,16 +64,24 @@ darkPalette theme =
 
 darkPaletteWith : Theme -> { border : Color -> Style } -> Palette -> Style
 darkPaletteWith theme option p =
+    let
+        unset_ =
+            batch
+                [ backgroundColor unset
+                , color unset
+                , borderColor unset
+                ]
+    in
     case theme of
         Light ->
             batch []
 
         Dark ->
-            paletteWith option p
+            batch [ unset_, paletteWith option p ]
 
         System ->
             withMediaQuery [ "(prefers-color-scheme: dark)" ]
-                [ paletteWith option p ]
+                [ unset_, paletteWith option p ]
 
 
 setBackground : Color -> Palette -> Palette
