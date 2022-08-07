@@ -2,6 +2,7 @@ module Main exposing (main)
 
 import Browser
 import Browser.Navigation as Nav exposing (Key)
+import Css exposing (backgroundColor, borderBottom3, displayFlex, hex, int, justifyContent, padding, position, px, solid, spaceBetween, sticky, top, zIndex, zero)
 import Css.FontAwesome exposing (fontAwesome)
 import Css.Global exposing (global)
 import Css.Reset exposing (normalize)
@@ -11,8 +12,8 @@ import Effect
 import Gen.Model
 import Gen.Pages as Pages
 import Gen.Route as Route
-import Html.Styled exposing (Html, option, select, text)
-import Html.Styled.Attributes exposing (id, selected, value)
+import Html.Styled exposing (Html, div, header, main_, option, select, text)
+import Html.Styled.Attributes exposing (css, id, selected, value)
 import Html.Styled.Events exposing (onInput)
 import Request
 import Shared
@@ -160,26 +161,32 @@ view model =
 layout : Model -> View Msg -> List (Html Msg)
 layout { url, shared } { title, body } =
     [ global (normalize ++ additionalReset ++ globalCustomize ++ fontAwesome)
-    , basicSegment { theme = Light }
-        []
-        [ container []
-            [ breadcrumb { divider = text "/", theme = shared.theme }
-                (breadcrumbItems { title = title, url = url })
+    , siteHeader shared { title = title, url = url }
+    , main_ [] [ basicSegment { theme = Light } [] [ container [] body ] ]
+    ]
+
+
+siteHeader : Shared.Model -> { title : String, url : Url } -> Html Msg
+siteHeader shared page =
+    header
+        [ css
+            [ position sticky
+            , top zero
+            , zIndex (int 1)
+            , displayFlex
+            , justifyContent spaceBetween
+            , padding (px 20)
+            , backgroundColor (hex "#FFF")
+            , borderBottom3 (px 1) solid (hex "#EEE")
             ]
         ]
-    , basicSegment { theme = Light }
-        []
-        [ container []
-            [ text "Theme "
-            , select [ onInput (Theme.fromString >> Maybe.withDefault shared.theme >> (\theme -> Shared (Shared.ChangeTheme theme))) ] <|
+        [ breadcrumb { divider = text "/", theme = shared.theme } (breadcrumbItems page)
+        , div []
+            [ select [ onInput (Theme.fromString >> Maybe.withDefault shared.theme >> (\theme -> Shared (Shared.ChangeTheme theme))) ] <|
                 List.map (\theme -> option [ value (Theme.toString theme), selected (shared.theme == theme) ] [ text (Theme.toString theme) ])
                     [ System, Light, Dark ]
             ]
         ]
-    , basicSegment { theme = Light }
-        []
-        [ container [] body ]
-    ]
 
 
 breadcrumbItems : { title : String, url : Url } -> List BreadcrumbItem
