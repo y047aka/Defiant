@@ -17,7 +17,7 @@ module Css.Palette exposing
 
 -}
 
-import Css exposing (Color, Style, backgroundColor, batch, borderColor, color, rgba, unset)
+import Css exposing (Color, Style, backgroundColor, batch, borderColor, boxShadow, color, rgba, unset)
 import Css.Media exposing (withMediaQuery)
 import Data.Theme exposing (Theme(..))
 
@@ -39,11 +39,11 @@ init =
 
 palette : Palette -> Style
 palette =
-    paletteWith { border = borderColor }
+    paletteWith { border = borderColor, shadow = batch [] }
 
 
-paletteWith : { border : Color -> Style } -> Palette -> Style
-paletteWith option p =
+paletteWith : { border : Color -> Style, shadow : Style } -> Palette -> Style
+paletteWith options p =
     [ p.background
         |> Maybe.map backgroundColor
         |> Maybe.withDefault (batch [])
@@ -51,25 +51,27 @@ paletteWith option p =
         |> Maybe.map color
         |> Maybe.withDefault (batch [])
     , p.border
-        |> Maybe.map option.border
+        |> Maybe.map options.border
         |> Maybe.withDefault (batch [])
+    , options.shadow
     ]
         |> batch
 
 
 darkPalette : Theme -> Palette -> Style
 darkPalette theme =
-    darkPaletteWith theme { border = borderColor }
+    darkPaletteWith theme { border = borderColor, shadow = batch [] }
 
 
-darkPaletteWith : Theme -> { border : Color -> Style } -> Palette -> Style
-darkPaletteWith theme option p =
+darkPaletteWith : Theme -> { border : Color -> Style, shadow : Style } -> Palette -> Style
+darkPaletteWith theme options p =
     let
         unset_ =
             batch
                 [ backgroundColor unset
                 , color unset
                 , borderColor unset
+                , boxShadow unset
                 ]
     in
     case theme of
@@ -77,11 +79,11 @@ darkPaletteWith theme option p =
             batch []
 
         Dark ->
-            batch [ unset_, paletteWith option p ]
+            batch [ unset_, paletteWith options p ]
 
         System ->
             withMediaQuery [ "(prefers-color-scheme: dark)" ]
-                [ unset_, paletteWith option p ]
+                [ unset_, paletteWith options p ]
 
 
 setBackground : Color -> Palette -> Palette

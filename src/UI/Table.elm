@@ -32,7 +32,7 @@ basis options additionalStyles =
     in
     Html.styled Html.table
         [ margin2 (em 1) zero
-        , paletteWith { border = border3 (px 1) solid }
+        , paletteWith { border = border3 (px 1) solid, shadow = batch [] }
             { background = Just (hex "#FFF")
             , color = Just (rgba 0 0 0 0.87)
             , border =

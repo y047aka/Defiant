@@ -17,9 +17,9 @@ module UI.Segment exposing
 -}
 
 import Css exposing (..)
-import Css.Extra exposing (prefixed)
+import Css.Extra exposing (prefixed, when)
 import Css.Palette as Palette exposing (darkPalette, paletteWith, setBackground, setBackgroundIf, setBorderIf, setColor)
-import Data.Theme exposing (Theme(..), isDark)
+import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Attribute, Html)
 
 
@@ -45,14 +45,12 @@ basis { border, shadow, theme } additionalStyles =
 
           else
             batch []
-        , paletteWith { border = border3 (px 1) solid } defaultPalette
+        , paletteWith
+            { border = border3 (px 1) solid
+            , shadow = when shadow <| prefixed [] "box-shadow" "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
+            }
+            defaultPalette
         , darkPalette theme darkPalette_
-        , case ( shadow, isDark theme ) of
-            ( True, False ) ->
-                prefixed [] "box-shadow" "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
-
-            _ ->
-                batch []
 
         -- .ui.segment:first-child
         , pseudoClass "first-child"
