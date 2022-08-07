@@ -1,8 +1,8 @@
 module Css.Palette exposing
     ( Palette, init
     , palette, paletteWith, darkPalette, darkPaletteWith
-    , setBackground, setColor, setBorder
-    , setBackgroundIf, setColorIf, setBorderIf
+    , setBackground, setColor, setBorder, setShadow
+    , setBackgroundIf, setColorIf, setBorderIf, setShadowIf
     , transparent_, textColor, hoverColor
     )
 
@@ -10,8 +10,8 @@ module Css.Palette exposing
 
 @docs Palette, init
 @docs palette, paletteWith, darkPalette, darkPaletteWith
-@docs setBackground, setColor, setBorder
-@docs setBackgroundIf, setColorIf, setBorderIf
+@docs setBackground, setColor, setBorder, setShadow
+@docs setBackgroundIf, setColorIf, setBorderIf, setShadowIf
 
 @docs transparent_, textColor, hoverColor
 
@@ -26,6 +26,7 @@ type alias Palette =
     { background : Maybe Color
     , color : Maybe Color
     , border : Maybe Color
+    , shadow : Maybe Style
     }
 
 
@@ -34,15 +35,16 @@ init =
     { background = Nothing
     , color = Nothing
     , border = Nothing
+    , shadow = Nothing
     }
 
 
 palette : Palette -> Style
 palette =
-    paletteWith { border = borderColor, shadow = batch [] }
+    paletteWith { border = borderColor }
 
 
-paletteWith : { border : Color -> Style, shadow : Style } -> Palette -> Style
+paletteWith : { border : Color -> Style } -> Palette -> Style
 paletteWith options p =
     [ p.background
         |> Maybe.map backgroundColor
@@ -53,17 +55,18 @@ paletteWith options p =
     , p.border
         |> Maybe.map options.border
         |> Maybe.withDefault (batch [])
-    , options.shadow
+    , p.shadow
+        |> Maybe.withDefault (batch [])
     ]
         |> batch
 
 
 darkPalette : Theme -> Palette -> Style
 darkPalette theme =
-    darkPaletteWith theme { border = borderColor, shadow = batch [] }
+    darkPaletteWith theme { border = borderColor }
 
 
-darkPaletteWith : Theme -> { border : Color -> Style, shadow : Style } -> Palette -> Style
+darkPaletteWith : Theme -> { border : Color -> Style } -> Palette -> Style
 darkPaletteWith theme options p =
     let
         unset_ =
@@ -101,6 +104,20 @@ setBorder c p =
     { p | border = Just c }
 
 
+setShadow : Style -> Palette -> Palette
+setShadow shadow p =
+    { p | shadow = Just shadow }
+
+
+setIf : Bool -> (Color -> Palette -> Palette) -> Color -> Palette -> Palette
+setIf bool setter c p =
+    if bool then
+        setter c p
+
+    else
+        p
+
+
 setBackgroundIf : Bool -> Color -> Palette -> Palette
 setBackgroundIf bool c p =
     setIf bool setBackground c p
@@ -116,10 +133,10 @@ setBorderIf bool c p =
     setIf bool setBorder c p
 
 
-setIf : Bool -> (Color -> Palette -> Palette) -> Color -> Palette -> Palette
-setIf bool setter c p =
+setShadowIf : Bool -> Style -> Palette -> Palette
+setShadowIf bool shadow p =
     if bool then
-        setter c p
+        setShadow shadow p
 
     else
         p

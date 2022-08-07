@@ -15,9 +15,9 @@ module UI.Menu exposing
 -}
 
 import Css exposing (..)
-import Css.Extra exposing (prefixed, when)
+import Css.Extra exposing (prefixed)
 import Css.Layout as Layout exposing (layout)
-import Css.Palette as Palette exposing (darkPalette, palette, paletteWith, setBackground, setBackgroundIf, setBorderIf, setColor)
+import Css.Palette as Palette exposing (darkPalette, palette, paletteWith, setBackground, setBackgroundIf, setBorderIf, setColor, setShadowIf)
 import Css.Typography as Typography exposing (init, typography)
 import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Attribute, Html)
@@ -47,11 +47,8 @@ menuBasis { vertical, border, shadow, theme } additionalStyles =
             batch []
 
         -- Palette
-        , paletteWith
-            { border = border3 (px 1) solid
-            , shadow = when shadow <| prefixed [] "box-shadow" "0 1px 2px 0 rgba(34, 36, 38, 0.15)"
-            }
-            defaultPalette
+        , paletteWith { border = border3 (px 1) solid }
+            (defaultPalette |> setShadowIf shadow (prefixed [] "box-shadow" "0 1px 2px 0 rgba(34, 36, 38, 0.15)"))
         , darkPalette theme darkPalette_
 
         -- .ui.menu

@@ -11,9 +11,9 @@ module UI.Card exposing
 -}
 
 import Css exposing (..)
-import Css.Extra exposing (prefixed, when)
+import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, everything, selector)
-import Css.Palette as Palette exposing (darkPalette, darkPaletteWith, palette, paletteWith, setBackground, setBorder, setBorderIf, setColor)
+import Css.Palette as Palette exposing (darkPalette, darkPaletteWith, palette, paletteWith, setBackground, setBorder, setBorderIf, setColor, setShadowIf)
 import Css.Typography exposing (fomanticFontFamilies)
 import Data.Theme exposing (Theme)
 import Html.Styled as Html exposing (Attribute, Html, text)
@@ -68,19 +68,13 @@ cardBasis { border, shadow, theme } additionalStyles =
         , borderRadius (rem 0.28571429)
 
         -- Palette
-        , paletteWith
-            { border = border3 (px 1) solid
-            , shadow = when shadow <| prefixed [] "box-shadow" "0 1px 2px 0 #D4D4D5"
-            }
-            defaultPalette
-        , darkPaletteWith theme
-            { border = border3 (px 1) solid
-            , shadow =
-                -- .ui.inverted.cards > .card
-                -- .ui.inverted.card
-                when shadow <| prefixed [] "box-shadow" "0 1px 3px 0 #555555, 0 0 0 1px #555555"
-            }
-            darkPalette_
+        , paletteWith { border = border3 (px 1) solid }
+            (defaultPalette |> setShadowIf shadow (prefixed [] "box-shadow" "0 1px 2px 0 #D4D4D5"))
+        , darkPaletteWith theme { border = border3 (px 1) solid } <|
+            (-- .ui.inverted.cards > .card
+             -- .ui.inverted.card
+             darkPalette_ |> setShadowIf shadow (prefixed [] "box-shadow" "0 1px 3px 0 #555555, 0 0 0 1px #555555")
+            )
 
         -- .ui.cards > .card
         -- .ui.card
@@ -174,8 +168,8 @@ contentBasis { theme, additionalStyles } =
         , borderRadius zero
 
         -- Palette
-        , paletteWith { border = borderTop3 (px 1) solid, shadow = batch [] } defaultPalette
-        , darkPaletteWith theme { border = borderTop3 (px 1) solid, shadow = batch [] } darkPalette_
+        , paletteWith { border = borderTop3 (px 1) solid } defaultPalette
+        , darkPaletteWith theme { border = borderTop3 (px 1) solid } darkPalette_
 
         -- .ui.cards > .card > .content:after
         -- .ui.card > .content:after
@@ -390,8 +384,8 @@ extraContent { theme } =
             , left zero
 
             -- Palette
-            , paletteWith { border = borderTop3 (px 1) solid >> important, shadow = batch [] } defaultPalette
-            , darkPaletteWith theme { border = borderTop3 (px 1) solid >> important, shadow = batch [] } darkPalette_
+            , paletteWith { border = borderTop3 (px 1) solid >> important } defaultPalette
+            , darkPaletteWith theme { border = borderTop3 (px 1) solid >> important } darkPalette_
             , prefixed [] "box-shadow" "none"
             , property "-webkit-transition" "color 0.1s ease"
             , property "transition" "color 0.1s ease"

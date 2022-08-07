@@ -213,7 +213,7 @@ accordion { toggleMethod, theme } attributes items =
     in
     accordionBasis itemProps
         [ borderRadius (rem 0.28571429)
-        , paletteWith { border = border3 (px 1) solid, shadow = batch [] }
+        , paletteWith { border = border3 (px 1) solid }
             (Palette.init
                 |> Palette.setBackground (hex "#FFFFFF")
                 |> Palette.setBorder (rgba 34 36 38 0.15)

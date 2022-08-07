@@ -13,10 +13,11 @@ basis additionalStyles =
         [ position relative
         , margin2 (em 1) zero
         , padding2 (em 1) (em 1.5)
-        , paletteWith { border = border3 (px 1) solid, shadow = batch [] }
+        , paletteWith { border = border3 (px 1) solid }
             { background = Just (hex "#F8F8F9")
             , color = Just (rgba 0 0 0 0.87)
             , border = Just (rgba 34 36 38 0.22)
+            , shadow = Nothing
             }
         , borderRadius (rem 0.28571429)
 

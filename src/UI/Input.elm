@@ -31,7 +31,7 @@ input =
                 , lineHeight (em 1.21428571)
                 , fontFamilies fomanticFontFamilies
                 , padding2 (em 0.67857143) (em 1)
-                , paletteWith { border = border3 (px 1) solid, shadow = batch [] }
+                , paletteWith { border = border3 (px 1) solid }
                     (Palette.init
                         |> setBackground (hex "#FFFFFF")
                         |> setColor (rgba 0 0 0 0.87)

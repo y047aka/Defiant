@@ -119,7 +119,7 @@ labelBasis additionalStyles =
             , property "transition" "border 0.1s ease, opacity 0.1s ease, -webkit-transform 0.1s ease, -webkit-box-shadow 0.1s ease"
             , property "transition" "border 0.1s ease, opacity 0.1s ease, transform 0.1s ease, box-shadow 0.1s ease"
             , property "transition" "border 0.1s ease, opacity 0.1s ease, transform 0.1s ease, box-shadow 0.1s ease, -webkit-transform 0.1s ease, -webkit-box-shadow 0.1s ease"
-            , paletteWith { border = border3 (px 1) solid, shadow = batch [] }
+            , paletteWith { border = border3 (px 1) solid }
                 (Palette.init
                     |> setBackground (hex "#FFFFFF")
                     |> setBorder (hex "#D4D4D5")

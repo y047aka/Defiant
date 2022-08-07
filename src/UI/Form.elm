@@ -24,7 +24,7 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, each, selector)
 import Css.Media as Media exposing (only, screen, withMedia)
-import Css.Palette as Palette exposing (palette, paletteWith, setBackground, setBorder, setColor)
+import Css.Palette as Palette exposing (palette, paletteWith, setBackground, setBorder, setColor, setShadow)
 import Css.Typography exposing (fomanticFontFamilies)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import UI.Checkbox
@@ -223,14 +223,12 @@ input { state } =
         , lineHeight (em 1.21428571)
         , padding2 (em 0.67857143) (em 1)
         , fontSize (em 1)
-        , paletteWith
-            { border = border3 (px 1) solid
-            , shadow = prefixed [] "box-shadow" "0 0 0 0 transparent inset"
-            }
+        , paletteWith { border = border3 (px 1) solid }
             (Palette.init
                 |> setBackground (hex "#FFFFFF")
                 |> setColor (rgba 0 0 0 0.87)
                 |> setBorder (rgba 34 36 38 0.15)
+                |> setShadow (prefixed [] "box-shadow" "0 0 0 0 transparent inset")
             )
         , borderRadius (rem 0.28571429)
         , property "-webkit-transition" "color 0.1s ease, border-color 0.1s ease"
@@ -239,11 +237,12 @@ input { state } =
         --
         , focus
             [ borderRadius (rem 0.28571429)
-            , paletteWith { border = borderColor, shadow = prefixed [] "box-shadow" "0 0 0 0 rgba(34, 36, 38, 0.35) inset" }
+            , paletteWith { border = borderColor }
                 (Palette.init
                     |> setBackground (hex "#ffffff")
                     |> setColor (rgba 0 0 0 0.95)
                     |> setBorder (hex "#85b7d9")
+                    |> setShadow (prefixed [] "box-shadow" "0 0 0 0 rgba(34, 36, 38, 0.35) inset")
                 )
             ]
 
@@ -265,14 +264,12 @@ textarea { state } =
         , property "-webkit-appearance" "none"
         , property "-webkit-tap-highlight-color" "rgba(255, 255, 255, 0)"
         , padding2 (em 0.78571429) (em 1)
-        , paletteWith
-            { border = border3 (px 1) solid
-            , shadow = prefixed [] "box-shadow" "0 0 0 0 transparent inset"
-            }
+        , paletteWith { border = border3 (px 1) solid }
             (Palette.init
                 |> setBackground (hex "#FFFFFF")
                 |> setColor (rgba 0 0 0 0.87)
                 |> setBorder (rgba 34 36 38 0.15)
+                |> setShadow (prefixed [] "box-shadow" "0 0 0 0 transparent inset")
             )
         , outline none
         , borderRadius (rem 0.28571429)
@@ -292,11 +289,12 @@ textarea { state } =
 
         -- .ui.form textarea:focus
         , focus
-            [ paletteWith { border = borderColor, shadow = prefixed [] "box-shadow" "0 0 0 0 rgba(34, 36, 38, 0.35) inset" }
+            [ paletteWith { border = borderColor }
                 (Palette.init
                     |> setBackground (hex "#ffffff")
                     |> setColor (rgba 0 0 0 0.95)
                     |> setBorder (hex "#85b7d9")
+                    |> setShadow (prefixed [] "box-shadow" "0 0 0 0 rgba(34, 36, 38, 0.35) inset")
                 )
             , borderRadius (rem 0.28571429)
             , property "-webkit-appearance" "none"
@@ -488,6 +486,7 @@ stylesByState state =
                         { background = Just (hex "#fcfff5")
                         , color = Just (hex "#2c662d")
                         , border = Just (hex "#a3c293")
+                        , shadow = Nothing
                         }
 
                 Info ->
@@ -495,6 +494,7 @@ stylesByState state =
                         { background = Just (hex "#f8ffff")
                         , color = Just (hex "#276f86")
                         , border = Just (hex "#a9d5de")
+                        , shadow = Nothing
                         }
 
                 Warning ->
@@ -502,6 +502,7 @@ stylesByState state =
                         { background = Just (hex "#fffaf3")
                         , color = Just (hex "#573a08")
                         , border = Just (hex "#c9ba9b")
+                        , shadow = Nothing
                         }
 
                 Error ->
@@ -509,6 +510,7 @@ stylesByState state =
                         { background = Just (hex "#fff6f6")
                         , color = Just (hex "#9f3a38")
                         , border = Just (hex "#e0b4b4")
+                        , shadow = Nothing
                         }
 
                 Default ->

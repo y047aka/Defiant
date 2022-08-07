@@ -179,7 +179,7 @@ headerBasis { theme, additionalStyles } =
         [ -- .ui.modal > .header
           display block
         , fontFamilies fomanticFontFamilies
-        , paletteWith { border = borderBottom3 (px 1) solid, shadow = batch [] }
+        , paletteWith { border = borderBottom3 (px 1) solid }
             (Palette.init
                 |> setBackground (hex "#FFFFFF")
                 |> setColor (rgba 0 0 0 0.85)
@@ -276,12 +276,12 @@ actionsBasis { theme } additionalStyles =
         , textAlign right
 
         -- Palette
-        , paletteWith { border = borderTop3 (px 1) solid, shadow = batch [] }
+        , paletteWith { border = borderTop3 (px 1) solid }
             (Palette.init
                 |> setBackground (hex "#F9FAFB")
                 |> setBorder (rgba 34 36 38 0.15)
             )
-        , darkPaletteWith theme { border = borderTop3 (px 1) solid, shadow = batch [] } <|
+        , darkPaletteWith theme { border = borderTop3 (px 1) solid } <|
             -- .ui.inverted.modal > .actions
             (Palette.init
                 |> setBackground (hex "#191A1B")

@@ -188,6 +188,7 @@ basis_ =
     { background = Just (hex "#E8E8E8")
     , color = Just textColor
     , border = Just transparent_
+    , shadow = Nothing
     }
 
 
@@ -196,4 +197,5 @@ basic =
     { background = Just (hex "#FFFFFF")
     , color = Just (rgba 0 0 0 0.87)
     , border = Just transparent_
+    , shadow = Nothing
     }

@@ -123,7 +123,7 @@ stepBasis { state } =
             , width (em 1.14285714)
             , height (em 1.14285714)
             , borderRadius (pct 50)
-            , paletteWith { border = border3 (px 2) solid, shadow = batch [] } <|
+            , paletteWith { border = border3 (px 2) solid } <|
                 let
                     default =
                         Palette.init
