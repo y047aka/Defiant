@@ -3,7 +3,7 @@ module Css.Palette exposing
     , palette, paletteWith, darkPalette, darkPaletteWith
     , setBackground, setColor, setBorder, setShadow
     , setBackgroundIf, setColorIf, setBorderIf, setShadowIf
-    , transparent_, textColor, hoverColor
+    , transparent, textColor, hoverColor
     )
 
 {-|
@@ -13,7 +13,7 @@ module Css.Palette exposing
 @docs setBackground, setColor, setBorder, setShadow
 @docs setBackgroundIf, setColorIf, setBorderIf, setShadowIf
 
-@docs transparent_, textColor, hoverColor
+@docs transparent, textColor, hoverColor
 
 -}
 
@@ -146,9 +146,10 @@ setShadowIf bool shadow p =
 -- COLOR
 
 
-transparent_ : Color
-transparent_ =
-    Css.rgba 0 0 0 0
+transparent : Color
+transparent =
+    Css.transparent
+        |> (\{ value, color } -> { value = value, color = color, red = 0, green = 0, blue = 0, alpha = 0 })
 
 
 textColor : Color

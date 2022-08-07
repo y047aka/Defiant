@@ -286,14 +286,11 @@ itemBasis { tag, vertical, borderAndShadows, theme } additionalStyles =
 
         -- Inverted
         , let
-            transparent =
-                rgba 0 0 0 0
-
             darkPalette_ =
                 -- .ui.inverted.menu .item
                 -- .ui.inverted.menu .item > a:not(.ui)
                 Palette.init
-                    |> setBackground transparent
+                    |> setBackground Palette.transparent
                     |> setColor (rgba 255 255 255 0.9)
           in
           darkPalette theme darkPalette_

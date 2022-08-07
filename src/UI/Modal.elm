@@ -16,7 +16,7 @@ module UI.Modal exposing
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, each, selector)
-import Css.Palette as Palette exposing (darkPalette, darkPaletteWith, palette, paletteWith, setBackground, setBorder, setColor, transparent_)
+import Css.Palette as Palette exposing (darkPalette, darkPaletteWith, palette, paletteWith, setBackground, setBorder, setColor)
 import Css.Typography exposing (fomanticFontFamilies)
 import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Attribute, Html, text)
@@ -156,7 +156,7 @@ basicModal { open, toggle } attributes hca children =
                 [ -- .ui.basic.modal
                   palette
                     (Palette.init
-                        |> setBackground transparent_
+                        |> setBackground Palette.transparent
                         |> setColor (hex "#FFFFFF")
                     )
                 ]

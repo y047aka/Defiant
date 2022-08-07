@@ -15,7 +15,7 @@ module UI.Accordion exposing
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (adjacentSiblings, children, generalSiblings)
-import Css.Palette as Palette exposing (darkPalette, palette, paletteWith, setBackground, setColor, transparent_)
+import Css.Palette as Palette exposing (darkPalette, palette, paletteWith, setBackground, setColor)
 import Css.Typography exposing (fomanticFontFamilies)
 import Data.Theme exposing (Theme)
 import Html.Styled as Html exposing (Attribute, Html)
@@ -205,7 +205,7 @@ accordion { toggleMethod, theme } attributes items =
                 , hover
                     [ palette
                         (Palette.init
-                            |> setBackground transparent_
+                            |> setBackground Palette.transparent
                             |> setColor (rgba 0 0 0 0.87)
                         )
                     ]

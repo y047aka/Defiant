@@ -190,9 +190,6 @@ stepBasis { state } =
 colorBarGradient : StepPosition -> State -> Style
 colorBarGradient position state =
     let
-        transparent_ =
-            rgba 0 0 0 0
-
         completed =
             rgba 0 0 0 0.87
 
@@ -202,7 +199,7 @@ colorBarGradient position state =
         leftColor =
             case ( position, state ) of
                 ( First, _ ) ->
-                    transparent_
+                    Palette.transparent
 
                 ( _, Active ) ->
                     completed
@@ -216,7 +213,7 @@ colorBarGradient position state =
         rightColor =
             case ( position, state ) of
                 ( Last, _ ) ->
-                    transparent_
+                    Palette.transparent
 
                 ( _, Completed ) ->
                     completed

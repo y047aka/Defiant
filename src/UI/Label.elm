@@ -18,7 +18,7 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children)
 import Css.Layout as Layout exposing (layout)
-import Css.Palette exposing (Palette, palette, setColor, textColor, transparent_)
+import Css.Palette as Palette exposing (Palette, palette, setColor, textColor)
 import Css.Typography as Typography exposing (typography)
 import Data.PalettesByState exposing (..)
 import Html.Styled as Html exposing (Attribute, Html)
@@ -187,7 +187,7 @@ basis_ : Palette
 basis_ =
     { background = Just (hex "#E8E8E8")
     , color = Just textColor
-    , border = Just transparent_
+    , border = Just Palette.transparent
     , shadow = Nothing
     }
 
@@ -196,6 +196,6 @@ basic : Palette
 basic =
     { background = Just (hex "#FFFFFF")
     , color = Just (rgba 0 0 0 0.87)
-    , border = Just transparent_
+    , border = Just Palette.transparent
     , shadow = Nothing
     }

@@ -142,7 +142,7 @@ imageBasis =
         , display inlineBlock
         , verticalAlign middle
         , maxWidth (pct 100)
-        , backgroundColor Css.transparent
+        , backgroundColor transparent
 
         -- img.ui.image
         , display block
