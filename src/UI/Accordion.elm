@@ -15,7 +15,7 @@ module UI.Accordion exposing
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (adjacentSiblings, children, generalSiblings)
-import Css.Palette as Palette exposing (darkPalette, palette, setColor)
+import Css.Palette as Palette exposing (darkPalette, palette, paletteWith, setBackground, setColor, transparent_)
 import Css.Typography exposing (fomanticFontFamilies)
 import Data.Theme exposing (Theme)
 import Html.Styled as Html exposing (Attribute, Html)
@@ -203,15 +203,21 @@ accordion { toggleMethod, theme } attributes items =
                 , property "-webkit-transition" "background 0.1s ease, color 0.1s ease"
                 , property "transition" "background 0.1s ease, color 0.1s ease"
                 , hover
-                    [ backgroundColor transparent
-                    , color (rgba 0 0 0 0.87)
+                    [ palette
+                        (Palette.init
+                            |> setBackground transparent_
+                            |> setColor (rgba 0 0 0 0.87)
+                        )
                     ]
                 ]
     in
     accordionBasis itemProps
         [ borderRadius (rem 0.28571429)
-        , backgroundColor (hex "#FFFFFF")
-        , border3 (px 1) solid (rgba 34 36 38 0.15)
+        , paletteWith { border = border3 (px 1) solid, shadow = batch [] }
+            (Palette.init
+                |> Palette.setBackground (hex "#FFFFFF")
+                |> Palette.setBorder (rgba 34 36 38 0.15)
+            )
         ]
         attributes
         (List.map

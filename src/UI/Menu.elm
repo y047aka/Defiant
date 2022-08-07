@@ -207,8 +207,11 @@ itemBasis { tag, vertical, borderAndShadows, theme } additionalStyles =
                 -- .ui.menu .link.item:active
                 -- .ui.menu a.item:active
                 , active
-                    [ backgroundColor (rgba 0 0 0 0.03)
-                    , color (rgba 0 0 0 0.95)
+                    [ palette
+                        (Palette.init
+                            |> setBackground (rgba 0 0 0 0.03)
+                            |> setColor (rgba 0 0 0 0.95)
+                        )
                     ]
                 ]
 
@@ -317,8 +320,11 @@ activeItem : List (Attribute msg) -> List (Html msg) -> Html msg
 activeItem =
     itemBasis { tag = Html.div, vertical = False, borderAndShadows = True, theme = Light }
         [ -- .ui.menu .active.item
-          backgroundColor (rgba 0 0 0 0.05)
-        , color (rgba 0 0 0 0.95)
+          palette
+            (Palette.init
+                |> setBackground (rgba 0 0 0 0.05)
+                |> setColor (rgba 0 0 0 0.95)
+            )
         , fontWeight normal
         , prefixed [] "box-shadow" "none"
         ]
@@ -394,8 +400,11 @@ secondaryMenuActiveItem =
     secondaryMenuItem
         [ -- .ui.secondary.menu .active.item
           prefixed [] "box-shadow" "none"
-        , backgroundColor (rgba 0 0 0 0.05)
-        , color (rgba 0 0 0 0.95)
+        , palette
+            (Palette.init
+                |> setBackground (rgba 0 0 0 0.05)
+                |> setColor (rgba 0 0 0 0.95)
+            )
         , borderRadius (rem 0.28571429)
         ]
 
@@ -465,8 +474,11 @@ verticalMenuActiveItemLabel =
         , padding2 (em 0.3) (em 0.78571429)
 
         -- .ui.menu .item > .label
-        , backgroundColor (hex "#999999")
-        , color (hex "#FFFFFF")
+        , palette
+            (Palette.init
+                |> setBackground (hex "#999999")
+                |> setColor (hex "#FFFFFF")
+            )
 
         -- .ui.vertical.menu .item > .label
         , float right

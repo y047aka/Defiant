@@ -16,8 +16,9 @@ module UI.Modal exposing
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, each, selector)
+import Css.Palette as Palette exposing (darkPalette, darkPaletteWith, palette, paletteWith, setBackground, setBorder, setColor, transparent_)
 import Css.Typography exposing (fomanticFontFamilies)
-import Data.Theme exposing (Theme(..), isDark)
+import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Attribute, Html, text)
 import Html.Styled.Attributes as Attributes
 import UI.Dimmer exposing (pageDimmer)
@@ -38,12 +39,9 @@ modalBasis { toggle, shadow, theme, additionalStyles } attributes children_ =
             -- display: none;
             , zIndex (int 1001)
             , textAlign left
-            , if isDark theme then
-                property "background" "#FFFFFF"
-
-              else
-                -- .ui.inverted.modal
-                property "background" "rgba(0, 0, 0, 0.9)"
+            , palette (Palette.init |> setBackground (hex "#FFFFFF"))
+            , -- .ui.inverted.modal
+              darkPalette theme (Palette.init |> setBackground (rgba 0 0 0 0.9))
             , property "border" "none"
             , if shadow then
                 prefixed [] "box-shadow" "1px 3px 3px 0 rgba(0, 0, 0, 0.2), 1px 3px 15px 2px rgba(0, 0, 0, 0.2)"
@@ -156,8 +154,11 @@ basicModal { open, toggle } attributes hca children =
             , theme = Light
             , additionalStyles =
                 [ -- .ui.basic.modal
-                  backgroundColor transparent
-                , color (hex "#FFFFFF")
+                  palette
+                    (Palette.init
+                        |> setBackground transparent_
+                        |> setColor (hex "#FFFFFF")
+                    )
                 ]
             }
             attributes
@@ -178,21 +179,20 @@ headerBasis { theme, additionalStyles } =
         [ -- .ui.modal > .header
           display block
         , fontFamilies fomanticFontFamilies
-        , if isDark theme then
-            batch
-                [ property "background" "rgba(0, 0, 0, 0.9)"
-                , color (hex "#FFFFFF")
-                ]
-
-          else
-            batch
-                [ property "background" "#FFFFFF"
-                , color (rgba 0 0 0 0.85)
-                ]
+        , paletteWith { border = borderBottom3 (px 1) solid, shadow = batch [] }
+            (Palette.init
+                |> setBackground (hex "#FFFFFF")
+                |> setColor (rgba 0 0 0 0.85)
+                |> setBorder (rgba 34 36 38 0.15)
+            )
+        , darkPalette theme
+            (Palette.init
+                |> setBackground (rgba 0 0 0 0.9)
+                |> setColor (hex "#FFFFFF")
+            )
         , margin zero
         , padding2 (rem 1.25) (rem 1.5)
         , prefixed [] "box-shadow" "none"
-        , borderBottom3 (px 1) solid (rgba 34 36 38 0.15)
 
         -- .ui.modal > .header:not(.ui)
         , fontSize (rem 1.42857143)
@@ -232,14 +232,12 @@ contentBasis { theme, additionalStyles } =
         , fontSize (em 1)
         , lineHeight (num 1.4)
         , padding (rem 1.5)
-        , if isDark theme then
-            batch
-                [ property "background" "rgba(0, 0, 0, 0.9)"
-                , color (hex "#FFFFFF")
-                ]
-
-          else
-            property "background" "#FFFFFF"
+        , palette (Palette.init |> setBackground (hex "#FFFFFF"))
+        , darkPalette theme
+            (Palette.init
+                |> setBackground (rgba 0 0 0 0.9)
+                |> setColor (hex "#FFFFFF")
+            )
 
         -- AdditionalStyles
         , batch additionalStyles
@@ -274,21 +272,22 @@ actionsBasis : { theme : Theme } -> List Style -> List (Attribute msg) -> List (
 actionsBasis { theme } additionalStyles =
     Html.styled Html.div
         [ -- .ui.modal > .actions
-          if isDark theme then
-            batch
-                [ -- .ui.inverted.modal > .actions
-                  property "background" "#191A1B"
-                , borderTop3 (px 1) solid (rgba 34 36 38 0.85)
-                , color (hex "#FFFFFF")
-                ]
-
-          else
-            batch
-                [ property "background" "#F9FAFB"
-                , borderTop3 (px 1) solid (rgba 34 36 38 0.15)
-                ]
-        , padding2 (rem 1) (rem 1)
+          padding2 (rem 1) (rem 1)
         , textAlign right
+
+        -- Palette
+        , paletteWith { border = borderTop3 (px 1) solid, shadow = batch [] }
+            (Palette.init
+                |> setBackground (hex "#F9FAFB")
+                |> setBorder (rgba 34 36 38 0.15)
+            )
+        , darkPaletteWith theme { border = borderTop3 (px 1) solid, shadow = batch [] } <|
+            -- .ui.inverted.modal > .actions
+            (Palette.init
+                |> setBackground (hex "#191A1B")
+                |> setColor (hex "#FFFFFF")
+                |> setBorder (rgba 34 36 38 0.85)
+            )
 
         -- AdditionalStyles
         , batch additionalStyles
@@ -314,12 +313,9 @@ dialogBasis { shadow, theme, additionalStyles } =
         -- display: none;
         , zIndex (int 1001)
         , textAlign left
-        , if isDark theme then
-            property "background" "#FFFFFF"
-
-          else
-            -- .ui.inverted.modal
-            property "background" "rgba(0, 0, 0, 0.9)"
+        , palette (Palette.init |> setBackground (hex "#FFFFFF"))
+        , -- .ui.inverted.modal
+          darkPalette theme (Palette.init |> setBackground (rgba 0 0 0 0.9))
         , property "border" "none"
         , if shadow then
             prefixed [] "box-shadow" "1px 3px 3px 0 rgba(0, 0, 0, 0.2), 1px 3px 15px 2px rgba(0, 0, 0, 0.2)"

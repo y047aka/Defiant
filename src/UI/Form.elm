@@ -24,6 +24,7 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, each, selector)
 import Css.Media as Media exposing (only, screen, withMedia)
+import Css.Palette as Palette exposing (palette, paletteWith, setBackground, setBorder, setColor)
 import Css.Typography exposing (fomanticFontFamilies)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import UI.Checkbox
@@ -222,21 +223,28 @@ input { state } =
         , lineHeight (em 1.21428571)
         , padding2 (em 0.67857143) (em 1)
         , fontSize (em 1)
-        , property "background" "#FFFFFF"
-        , border3 (px 1) solid (rgba 34 36 38 0.15)
-        , color (rgba 0 0 0 0.87)
+        , paletteWith
+            { border = border3 (px 1) solid
+            , shadow = prefixed [] "box-shadow" "0 0 0 0 transparent inset"
+            }
+            (Palette.init
+                |> setBackground (hex "#FFFFFF")
+                |> setColor (rgba 0 0 0 0.87)
+                |> setBorder (rgba 34 36 38 0.15)
+            )
         , borderRadius (rem 0.28571429)
-        , prefixed [] "box-shadow" "0 0 0 0 transparent inset"
         , property "-webkit-transition" "color 0.1s ease, border-color 0.1s ease"
         , property "transition" "color 0.1s ease, border-color 0.1s ease"
 
         --
         , focus
-            [ color (rgba 0 0 0 0.95)
-            , borderColor (hex "#85b7d9")
-            , borderRadius (rem 0.28571429)
-            , property "background" "#ffffff"
-            , prefixed [] "box-shadow" "0 0 0 0 rgba(34, 36, 38, 0.35) inset"
+            [ borderRadius (rem 0.28571429)
+            , paletteWith { border = borderColor, shadow = prefixed [] "box-shadow" "0 0 0 0 rgba(34, 36, 38, 0.35) inset" }
+                (Palette.init
+                    |> setBackground (hex "#ffffff")
+                    |> setColor (rgba 0 0 0 0.95)
+                    |> setBorder (hex "#85b7d9")
+                )
             ]
 
         -- States
@@ -257,12 +265,17 @@ textarea { state } =
         , property "-webkit-appearance" "none"
         , property "-webkit-tap-highlight-color" "rgba(255, 255, 255, 0)"
         , padding2 (em 0.78571429) (em 1)
-        , property "background" "#FFFFFF"
-        , border3 (px 1) solid (rgba 34 36 38 0.15)
+        , paletteWith
+            { border = border3 (px 1) solid
+            , shadow = prefixed [] "box-shadow" "0 0 0 0 transparent inset"
+            }
+            (Palette.init
+                |> setBackground (hex "#FFFFFF")
+                |> setColor (rgba 0 0 0 0.87)
+                |> setBorder (rgba 34 36 38 0.15)
+            )
         , outline none
-        , color (rgba 0 0 0 0.87)
         , borderRadius (rem 0.28571429)
-        , prefixed [] "box-shadow" "0 0 0 0 transparent inset"
         , property "-webkit-transition" "color 0.1s ease, border-color 0.1s ease"
         , property "transition" "color 0.1s ease, border-color 0.1s ease"
         , fontSize (em 1)
@@ -279,13 +292,13 @@ textarea { state } =
 
         -- .ui.form textarea:focus
         , focus
-            [ color (rgba 0 0 0 0.95)
-            , borderColor (hex "#85b7d9")
+            [ paletteWith { border = borderColor, shadow = prefixed [] "box-shadow" "0 0 0 0 rgba(34, 36, 38, 0.35) inset" }
+                (Palette.init
+                    |> setBackground (hex "#ffffff")
+                    |> setColor (rgba 0 0 0 0.95)
+                    |> setBorder (hex "#85b7d9")
+                )
             , borderRadius (rem 0.28571429)
-            , property "background" "#ffffff"
-
-            -- -webkit-box-shadow: 0 0 0 0 rgba(34, 36, 38, 0.35) inset;
-            , prefixed [] "box-shadow" "0 0 0 0 rgba(34, 36, 38, 0.35) inset"
             , property "-webkit-appearance" "none"
             ]
 
@@ -330,46 +343,55 @@ checkboxLabel { state } =
                 batch []
 
         --
-        , before <|
-            case state of
+        , before
+            [ case state of
                 Success ->
                     -- .ui.form .fields.success .field .checkbox:not(.toggle):not(.slider) label:before
                     -- .ui.form .field.success .checkbox:not(.toggle):not(.slider) label:before
                     -- .ui.form .fields.success .field .checkbox:not(.toggle):not(.slider) .box:before
                     -- .ui.form .field.success .checkbox:not(.toggle):not(.slider) .box:before
-                    [ property "background" "#fcfff5"
-                    , borderColor (hex "#a3c293")
-                    ]
+                    palette
+                        (Palette.init
+                            |> setBackground (hex "#fcfff5")
+                            |> setBorder (hex "#a3c293")
+                        )
 
                 Info ->
                     -- .ui.form .fields.info .field .checkbox:not(.toggle):not(.slider) label:before
                     -- .ui.form .field.info .checkbox:not(.toggle):not(.slider) label:before
                     -- .ui.form .fields.info .field .checkbox:not(.toggle):not(.slider) .box:before
                     -- .ui.form .field.info .checkbox:not(.toggle):not(.slider) .box:before
-                    [ property "background" "#f8ffff"
-                    , borderColor (hex "#a9d5de")
-                    ]
+                    palette
+                        (Palette.init
+                            |> setBackground (hex "#f8ffff")
+                            |> setBorder (hex "#a9d5de")
+                        )
 
                 Warning ->
                     -- .ui.form .fields.warning .field .checkbox:not(.toggle):not(.slider) label:before
                     -- .ui.form .field.warning .checkbox:not(.toggle):not(.slider) label:before
                     -- .ui.form .fields.warning .field .checkbox:not(.toggle):not(.slider) .box:before
                     -- .ui.form .field.warning .checkbox:not(.toggle):not(.slider) .box:before
-                    [ property "background" "#fffaf3"
-                    , borderColor (hex "#c9ba9b")
-                    ]
+                    palette
+                        (Palette.init
+                            |> setBackground (hex "#fffaf3")
+                            |> setBorder (hex "#c9ba9b")
+                        )
 
                 Error ->
                     -- .ui.form .fields.error .field .checkbox:not(.toggle):not(.slider) label:before
                     -- .ui.form .field.error .checkbox:not(.toggle):not(.slider) label:before
                     -- .ui.form .fields.error .field .checkbox:not(.toggle):not(.slider) .box:before
                     -- .ui.form .field.error .checkbox:not(.toggle):not(.slider) .box:before
-                    [ property "background" "#fff6f6"
-                    , borderColor (hex "#e0b4b4")
-                    ]
+                    palette
+                        (Palette.init
+                            |> setBackground (hex "#fff6f6")
+                            |> setBorder (hex "#e0b4b4")
+                        )
 
                 _ ->
-                    []
+                    batch []
+            ]
 
         --
         , after
@@ -460,34 +482,37 @@ stylesByState : State -> List Style
 stylesByState state =
     let
         paletteByState =
-            batch <|
-                case state of
-                    Success ->
-                        [ property "background" "#fcfff5"
-                        , color (hex "#2c662d")
-                        , borderColor (hex "#a3c293")
-                        ]
+            case state of
+                Success ->
+                    palette
+                        { background = Just (hex "#fcfff5")
+                        , color = Just (hex "#2c662d")
+                        , border = Just (hex "#a3c293")
+                        }
 
-                    Info ->
-                        [ property "background" "#f8ffff"
-                        , color (hex "#276f86")
-                        , borderColor (hex "#a9d5de")
-                        ]
+                Info ->
+                    palette
+                        { background = Just (hex "#f8ffff")
+                        , color = Just (hex "#276f86")
+                        , border = Just (hex "#a9d5de")
+                        }
 
-                    Warning ->
-                        [ property "background" "#fffaf3"
-                        , color (hex "#573a08")
-                        , borderColor (hex "#c9ba9b")
-                        ]
+                Warning ->
+                    palette
+                        { background = Just (hex "#fffaf3")
+                        , color = Just (hex "#573a08")
+                        , border = Just (hex "#c9ba9b")
+                        }
 
-                    Error ->
-                        [ property "background" "#fff6f6"
-                        , color (hex "#9f3a38")
-                        , borderColor (hex "#e0b4b4")
-                        ]
+                Error ->
+                    palette
+                        { background = Just (hex "#fff6f6")
+                        , color = Just (hex "#9f3a38")
+                        , border = Just (hex "#e0b4b4")
+                        }
 
-                    Default ->
-                        []
+                Default ->
+                    batch []
     in
     [ paletteByState
     , property "border-radius" "''"

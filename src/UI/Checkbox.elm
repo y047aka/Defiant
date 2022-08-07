@@ -3,6 +3,7 @@ module UI.Checkbox exposing (checkbox, input, label, labelBasis)
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (generalSiblings)
+import Css.Palette as Palette exposing (palette, paletteWith, setBackground, setBorder)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
@@ -53,8 +54,11 @@ input =
 
                     -- .ui.checkbox input:focus ~ label:before
                     , before
-                        [ property "background" "#FFFFFF"
-                        , borderColor (hex "#96C8DA")
+                        [ palette
+                            (Palette.init
+                                |> setBackground (hex "#FFFFFF")
+                                |> setBorder (hex "#96C8DA")
+                            )
                         ]
 
                     -- .ui.checkbox input:focus ~ label:after
@@ -68,8 +72,11 @@ input =
                 [ Css.Global.label
                     [ -- .ui.checkbox input:checked ~ label:before
                       before
-                        [ property "background" "#FFFFFF"
-                        , borderColor (rgba 34 36 38 0.35)
+                        [ palette
+                            (Palette.init
+                                |> setBackground (hex "#FFFFFF")
+                                |> setBorder (rgba 34 36 38 0.35)
+                            )
                         ]
 
                     -- .ui.checkbox input:checked ~ label:after
@@ -107,13 +114,16 @@ labelBasis additionalStyles =
             , width (px 17)
             , height (px 17)
             , property "content" "''"
-            , property "background" "#FFFFFF"
             , borderRadius (rem 0.21428571)
             , property "-webkit-transition" "border 0.1s ease, opacity 0.1s ease, -webkit-transform 0.1s ease, -webkit-box-shadow 0.1s ease"
             , property "transition" "border 0.1s ease, opacity 0.1s ease, -webkit-transform 0.1s ease, -webkit-box-shadow 0.1s ease"
             , property "transition" "border 0.1s ease, opacity 0.1s ease, transform 0.1s ease, box-shadow 0.1s ease"
             , property "transition" "border 0.1s ease, opacity 0.1s ease, transform 0.1s ease, box-shadow 0.1s ease, -webkit-transform 0.1s ease, -webkit-box-shadow 0.1s ease"
-            , border3 (px 1) solid (hex "#D4D4D5")
+            , paletteWith { border = border3 (px 1) solid, shadow = batch [] }
+                (Palette.init
+                    |> setBackground (hex "#FFFFFF")
+                    |> setBorder (hex "#D4D4D5")
+                )
             ]
 
         -- .ui.checkbox label:after
@@ -137,8 +147,11 @@ labelBasis additionalStyles =
         , hover
             [ -- .ui.checkbox label:hover::before
               before
-                [ property "background" "#FFFFFF"
-                , borderColor (rgba 34 36 38 0.35)
+                [ palette
+                    (Palette.init
+                        |> setBackground (hex "#FFFFFF")
+                        |> setBorder (rgba 34 36 38 0.35)
+                    )
                 ]
 
             -- .ui.checkbox label:hover
@@ -150,8 +163,11 @@ labelBasis additionalStyles =
         , active
             [ -- .ui.checkbox label:active::before
               before
-                [ property "background" "#F9FAFB"
-                , borderColor (rgba 34 36 38 0.35)
+                [ palette
+                    (Palette.init
+                        |> setBackground (hex "#F9FAFB")
+                        |> setBorder (rgba 34 36 38 0.35)
+                    )
                 ]
 
             -- .ui.checkbox label:active::after

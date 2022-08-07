@@ -14,7 +14,7 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, each)
 import Css.Layout as Layout exposing (layout)
-import Css.Palette exposing (paletteWith)
+import Css.Palette as Palette exposing (paletteWith, setBackground, setBorderIf, setColor)
 import Css.Typography as Typography exposing (init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
 
@@ -33,15 +33,11 @@ basis options additionalStyles =
     Html.styled Html.table
         [ margin2 (em 1) zero
         , paletteWith { border = border3 (px 1) solid, shadow = batch [] }
-            { background = Just (hex "#FFF")
-            , color = Just (rgba 0 0 0 0.87)
-            , border =
-                if options.border then
-                    Just (rgba 34 36 38 0.15)
-
-                else
-                    Nothing
-            }
+            (Palette.init
+                |> setBackground (hex "#FFF")
+                |> setColor (rgba 0 0 0 0.87)
+                |> setBorderIf options.border (rgba 34 36 38 0.15)
+            )
         , borderRadius (rem 0.28571429)
 
         -- .ui.table

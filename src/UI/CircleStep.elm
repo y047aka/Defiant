@@ -12,6 +12,7 @@ module UI.CircleStep exposing
 
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
+import Css.Palette as Palette exposing (palette, paletteWith, setBackground, setBorder, setColor)
 import Css.Typography exposing (fomanticFontFamilies)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import Html.Styled.Attributes exposing (css)
@@ -74,8 +75,11 @@ stepBasis { state } =
         , prefixed [] "justify-content" "center"
         , margin2 zero zero
         , padding3 (em 1.14285714) (em 2) (em 2.28571428)
-        , property "background" "#FFFFFF"
-        , color (rgba 0 0 0 0.87)
+        , palette
+            (Palette.init
+                |> setBackground (hex "#FFFFFF")
+                |> setColor (rgba 0 0 0 0.87)
+            )
         , prefixed [] "box-shadow" "none"
         , borderRadius zero
         , property "border" "none"
@@ -116,23 +120,25 @@ stepBasis { state } =
             , property "content" "''"
             , top (pct 100)
             , left (pct 50)
-            , case state of
-                Completed ->
-                    backgroundColor (rgba 0 0 0 0.87)
-
-                _ ->
-                    backgroundColor (hex "#FFFFFF")
             , width (em 1.14285714)
             , height (em 1.14285714)
             , borderRadius (pct 50)
-            , borderStyle solid
-            , case state of
-                Active ->
-                    borderColor (rgba 0 0 0 0.87)
+            , paletteWith { border = border3 (px 2) solid, shadow = batch [] } <|
+                let
+                    default =
+                        Palette.init
+                            |> setBackground (hex "#FFFFFF")
+                            |> setBorder (rgba 40 40 40 0.3)
+                in
+                case state of
+                    Active ->
+                        default |> setBorder (rgba 0 0 0 0.87)
 
-                _ ->
-                    borderColor (rgba 40 40 40 0.3)
-            , borderWidth (px 2)
+                    Completed ->
+                        default |> setBackground (rgba 0 0 0 0.87)
+
+                    _ ->
+                        default
             , property "-webkit-transition" "background-color 0.1s ease, opacity 0.1s ease, color 0.1s ease, -webkit-box-shadow 0.1s ease"
             , property "transition" "background-color 0.1s ease, opacity 0.1s ease, color 0.1s ease, -webkit-box-shadow 0.1s ease"
             , property "transition" "background-color 0.1s ease, opacity 0.1s ease, color 0.1s ease, box-shadow 0.1s ease"

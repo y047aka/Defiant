@@ -12,6 +12,7 @@ module UI.Step exposing
 
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
+import Css.Palette as Palette exposing (paletteWith, setBackground, setBorder, setColor)
 import Css.Typography exposing (fomanticFontFamilies)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import Html.Styled.Attributes exposing (css)
@@ -39,7 +40,8 @@ steps =
         , prefixed [] "box-shadow" "none"
         , lineHeight (em 1.14285714)
         , borderRadius (rem 0.28571429)
-        , border3 (px 1) solid (rgba 34 36 38 0.15)
+        , paletteWith { border = border3 (px 1) solid, shadow = batch [] }
+            (Palette.init |> setBorder (rgba 34 36 38 0.15))
 
         -- .ui.steps:not(.unstackable)
         , prefixed [] "flex-wrap" "wrap"
@@ -70,12 +72,15 @@ stepBasis { state } =
         , prefixed [] "justify-content" "center"
         , margin2 zero zero
         , padding2 (em 1.14285714) (em 2)
-        , property "background" "#FFFFFF"
-        , color (rgba 0 0 0 0.87)
         , prefixed [] "box-shadow" "none"
         , borderRadius zero
         , property "border" "none"
-        , borderRight3 (px 1) solid (rgba 34 36 38 0.15)
+        , paletteWith { border = borderRight3 (px 1) solid, shadow = batch [] }
+            (Palette.init
+                |> setBackground (hex "#FFFFFF")
+                |> setColor (rgba 0 0 0 0.87)
+                |> setBorder (rgba 34 36 38 0.15)
+            )
         , property "-webkit-transition" "background-color 0.1s ease, opacity 0.1s ease, color 0.1s ease, -webkit-box-shadow 0.1s ease"
         , property "transition" "background-color 0.1s ease, opacity 0.1s ease, color 0.1s ease, -webkit-box-shadow 0.1s ease"
         , property "transition" "background-color 0.1s ease, opacity 0.1s ease, color 0.1s ease, box-shadow 0.1s ease"
@@ -89,12 +94,22 @@ stepBasis { state } =
             , property "content" "''"
             , top (pct 50)
             , right zero
-            , backgroundColor (hex "#FFFFFF")
             , width (em 1.14285714)
             , height (em 1.14285714)
-            , borderStyle solid
-            , borderColor (rgba 34 36 38 0.15)
-            , borderWidth4 zero (px 1) (px 1) zero
+            , paletteWith
+                { border =
+                    \color ->
+                        batch
+                            [ borderStyle solid
+                            , borderWidth4 zero (px 1) (px 1) zero
+                            , borderColor color
+                            ]
+                , shadow = batch []
+                }
+                (Palette.init
+                    |> setBackground (hex "#FFFFFF")
+                    |> setBorder (rgba 34 36 38 0.15)
+                )
             , property "-webkit-transition" "background-color 0.1s ease, opacity 0.1s ease, color 0.1s ease, -webkit-box-shadow 0.1s ease"
             , property "transition" "background-color 0.1s ease, opacity 0.1s ease, color 0.1s ease, -webkit-box-shadow 0.1s ease"
             , property "transition" "background-color 0.1s ease, opacity 0.1s ease, color 0.1s ease, box-shadow 0.1s ease"

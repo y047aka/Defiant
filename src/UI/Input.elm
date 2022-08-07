@@ -3,6 +3,7 @@ module UI.Input exposing (input, label)
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (adjacentSiblings, children)
+import Css.Palette as Palette exposing (palette, paletteWith, setBackground, setBorder, setColor)
 import Css.Typography exposing (fomanticFontFamilies)
 import Html.Styled as Html exposing (Attribute, Html)
 import UI.Label as Label
@@ -30,9 +31,12 @@ input =
                 , lineHeight (em 1.21428571)
                 , fontFamilies fomanticFontFamilies
                 , padding2 (em 0.67857143) (em 1)
-                , property "background" "#FFFFFF"
-                , border3 (px 1) solid (rgba 34 36 38 0.15)
-                , color (rgba 0 0 0 0.87)
+                , paletteWith { border = border3 (px 1) solid, shadow = batch [] }
+                    (Palette.init
+                        |> setBackground (hex "#FFFFFF")
+                        |> setColor (rgba 0 0 0 0.87)
+                        |> setBorder (rgba 34 36 38 0.15)
+                    )
                 , borderRadius (rem 0.28571429)
                 , property "-webkit-transition" "border-color 0.1s ease, -webkit-box-shadow 0.1s ease"
                 , property "transition" "border-color 0.1s ease, -webkit-box-shadow 0.1s ease"
@@ -55,18 +59,24 @@ input =
                 -- .ui.input > input:active
                 -- .ui.input.down input
                 , active
-                    [ borderColor (rgba 0 0 0 0.3)
-                    , property "background" "#FAFAFA"
-                    , color (rgba 0 0 0 0.87)
+                    [ palette
+                        (Palette.init
+                            |> setBackground (hex "#FAFAFA")
+                            |> setColor (rgba 0 0 0 0.87)
+                            |> setBorder (rgba 0 0 0 0.3)
+                        )
                     , prefixed [] "box-shadow" "none"
                     ]
 
                 -- .ui.input.focus > input
                 -- .ui.input > input:focus
                 , focus
-                    [ borderColor (hex "#85B7D9")
-                    , property "background" "#FFFFFF"
-                    , color (rgba 0 0 0 0.8)
+                    [ palette
+                        (Palette.init
+                            |> setBackground (hex "#FFFFFF")
+                            |> setColor (rgba 0 0 0 0.8)
+                            |> setBorder (hex "#85B7D9")
+                        )
                     , prefixed [] "box-shadow" "none"
 
                     -- .ui.input.focus > input::-webkit-input-placeholder
