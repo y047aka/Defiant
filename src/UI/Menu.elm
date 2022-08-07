@@ -48,7 +48,7 @@ menuBasis { vertical, border, shadow, theme } additionalStyles =
 
         -- Palette
         , paletteWith { border = border3 (px 1) solid }
-            (defaultPalette |> setShadowIf shadow (prefixed [] "box-shadow" "0 1px 2px 0 rgba(34, 36, 38, 0.15)"))
+            (defaultPalette |> setShadowIf shadow (boxShadow5 zero (px 1) (px 2) zero (rgba 34 36 38 0.15)))
         , darkPalette theme darkPalette_
 
         -- .ui.menu

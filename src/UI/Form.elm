@@ -228,7 +228,7 @@ input { state } =
                 |> setBackground (hex "#FFFFFF")
                 |> setColor (rgba 0 0 0 0.87)
                 |> setBorder (rgba 34 36 38 0.15)
-                |> setShadow (prefixed [] "box-shadow" "0 0 0 0 transparent inset")
+                |> setShadow (boxShadow6 inset zero zero zero zero transparent)
             )
         , borderRadius (rem 0.28571429)
         , property "-webkit-transition" "color 0.1s ease, border-color 0.1s ease"
@@ -242,7 +242,7 @@ input { state } =
                     |> setBackground (hex "#ffffff")
                     |> setColor (rgba 0 0 0 0.95)
                     |> setBorder (hex "#85b7d9")
-                    |> setShadow (prefixed [] "box-shadow" "0 0 0 0 rgba(34, 36, 38, 0.35) inset")
+                    |> setShadow (boxShadow6 inset zero zero zero zero (rgba 34 36 38 0.35))
                 )
             ]
 
@@ -269,7 +269,7 @@ textarea { state } =
                 |> setBackground (hex "#FFFFFF")
                 |> setColor (rgba 0 0 0 0.87)
                 |> setBorder (rgba 34 36 38 0.15)
-                |> setShadow (prefixed [] "box-shadow" "0 0 0 0 transparent inset")
+                |> setShadow (boxShadow6 inset zero zero zero zero transparent)
             )
         , outline none
         , borderRadius (rem 0.28571429)
@@ -294,7 +294,7 @@ textarea { state } =
                     |> setBackground (hex "#ffffff")
                     |> setColor (rgba 0 0 0 0.95)
                     |> setBorder (hex "#85b7d9")
-                    |> setShadow (prefixed [] "box-shadow" "0 0 0 0 rgba(34, 36, 38, 0.35) inset")
+                    |> setShadow (boxShadow6 inset zero zero zero zero (rgba 34 36 38 0.35))
                 )
             , borderRadius (rem 0.28571429)
             , property "-webkit-appearance" "none"

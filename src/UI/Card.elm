@@ -69,11 +69,11 @@ cardBasis { border, shadow, theme } additionalStyles =
 
         -- Palette
         , paletteWith { border = border3 (px 1) solid }
-            (defaultPalette |> setShadowIf shadow (prefixed [] "box-shadow" "0 1px 2px 0 #D4D4D5"))
+            (defaultPalette |> setShadowIf shadow (boxShadow5 zero (px 1) (px 2) zero (hex "#D4D4D5")))
         , darkPaletteWith theme { border = border3 (px 1) solid } <|
             (-- .ui.inverted.cards > .card
              -- .ui.inverted.card
-             darkPalette_ |> setShadowIf shadow (prefixed [] "box-shadow" "0 1px 3px 0 #555555, 0 0 0 1px #555555")
+             darkPalette_ |> setShadowIf shadow (property "box-shadow" "0 1px 3px 0 #555555, 0 0 0 1px #555555")
             )
 
         -- .ui.cards > .card
