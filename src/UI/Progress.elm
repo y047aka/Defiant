@@ -1,4 +1,4 @@
-module UI.Progress exposing (State(..), progress)
+module UI.Progress exposing (State(..), progress, stateFromString, stateToString)
 
 import Css exposing (..)
 import Css.Animations as Animations exposing (keyframes)
@@ -299,3 +299,48 @@ label { value, indicating, state } =
                 else
                     color (rgba 0 0 0 0.87)
         ]
+
+
+
+-- HELPER
+
+
+stateFromString : String -> Maybe State
+stateFromString string =
+    case string of
+        "Success" ->
+            Just Success
+
+        "Warning" ->
+            Just Warning
+
+        "Error" ->
+            Just Error
+
+        "Active" ->
+            Just Active
+
+        "Default" ->
+            Just Default
+
+        _ ->
+            Nothing
+
+
+stateToString : State -> String
+stateToString state =
+    case state of
+        Success ->
+            "Success"
+
+        Warning ->
+            "Warning"
+
+        Error ->
+            "Error"
+
+        Active ->
+            "Active"
+
+        Default ->
+            "Default"
