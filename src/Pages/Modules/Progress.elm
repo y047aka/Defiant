@@ -1,8 +1,7 @@
 module Pages.Modules.Progress exposing (Model, Msg, page)
 
-import Css exposing (borderLeft3, color, column, displayFlex, flexDirection, hex, paddingLeft, pct, property, px, solid, width)
-import Html.Styled as Html exposing (Html, aside, div, input, label, option, p, select, text)
-import Html.Styled.Attributes exposing (checked, css, for, id, selected, type_, value)
+import Html.Styled as Html exposing (Html, input, option, select, text)
+import Html.Styled.Attributes exposing (checked, for, id, selected, type_, value)
 import Html.Styled.Events exposing (onClick, onInput)
 import Page
 import Random
@@ -10,10 +9,10 @@ import Request exposing (Request)
 import Shared
 import UI.Button exposing (button, labeledButton)
 import UI.Checkbox as Checkbox exposing (checkbox)
-import UI.Example exposing (example)
 import UI.Input as Input
 import UI.Label exposing (basicLabel)
 import UI.Progress as Progress exposing (State(..))
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
@@ -265,36 +264,3 @@ view model =
           }
         ]
     ]
-
-
-configAndPreview :
-    { title : String }
-    -> Html msg
-    -> List { label : String, description : String, content : Html msg }
-    -> Html msg
-configAndPreview { title } preview config =
-    example { title = title, description = "" }
-        [ div [ css [ displayFlex, property "gap" "50px" ] ]
-            [ div [ css [ width (pct 70) ] ] [ preview ]
-            , aside
-                [ css
-                    [ width (pct 30)
-                    , displayFlex
-                    , flexDirection column
-                    , property "gap" "25px"
-                    , paddingLeft (px 25)
-                    , borderLeft3 (px 1) solid (hex "#EEE")
-                    ]
-                ]
-                (List.map
-                    (\item ->
-                        div [ css [ displayFlex, flexDirection column, property "gap" "5px" ] ]
-                            [ label [] [ text item.label ]
-                            , item.content
-                            , p [ css [ color (hex "#999") ] ] [ text item.description ]
-                            ]
-                    )
-                    config
-                )
-            ]
-        ]
