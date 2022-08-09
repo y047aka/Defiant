@@ -284,8 +284,8 @@ toggleMethodFromString string =
 
 
 toggleMethodToString : ToggleMethod -> String
-toggleMethodToString state =
-    case state of
+toggleMethodToString toggleMethod =
+    case toggleMethod of
         SummaryDetails ->
             "SummaryDetails"
 
