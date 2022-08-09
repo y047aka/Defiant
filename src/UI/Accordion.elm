@@ -1,12 +1,13 @@
 module UI.Accordion exposing
-    ( ToggleMethod(..)
+    ( ToggleMethod(..), toggleMethodFromString, toggleMethodToString
     , accordionUnstyled
     , accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl
     )
 
 {-|
 
-@docs ToggleMethod
+@docs ToggleMethod, toggleMethodFromString, toggleMethodToString
+
 @docs accordionUnstyled
 @docs accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl
 
@@ -257,3 +258,42 @@ accordion_TargetUrl { theme } =
 accordion_SummaryDetails : { theme : Theme } -> List (Attribute msg) -> List (AccordionItem msg) -> Html msg
 accordion_SummaryDetails { theme } =
     accordion { toggleMethod = SummaryDetails, theme = theme }
+
+
+
+-- HELPER
+
+
+toggleMethodFromString : String -> Maybe ToggleMethod
+toggleMethodFromString string =
+    case string of
+        "SummaryDetails" ->
+            Just SummaryDetails
+
+        "TargetUrl" ->
+            Just TargetUrl
+
+        "Checkbox" ->
+            Just Checkbox
+
+        "Radio" ->
+            Just Radio
+
+        _ ->
+            Nothing
+
+
+toggleMethodToString : ToggleMethod -> String
+toggleMethodToString state =
+    case state of
+        SummaryDetails ->
+            "SummaryDetails"
+
+        TargetUrl ->
+            "TargetUrl"
+
+        Checkbox ->
+            "Checkbox"
+
+        Radio ->
+            "Radio"

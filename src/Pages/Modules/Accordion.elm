@@ -1,32 +1,67 @@
-module Pages.Modules.Accordion exposing (page)
+module Pages.Modules.Accordion exposing (Model, Msg, page)
 
 import Data.Theme exposing (Theme(..))
-import Html.Styled as Html exposing (Html, p, text)
-import Html.Styled.Attributes exposing (id)
-import Page exposing (Page)
+import Html.Styled as Html exposing (Html, option, p, select, text)
+import Html.Styled.Attributes exposing (id, selected, value)
+import Html.Styled.Events exposing (onInput)
+import Page
 import Request exposing (Request)
 import Shared
-import UI.Accordion exposing (ToggleMethod(..), accordionUnstyled, accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl)
-import UI.Example exposing (example)
+import UI.Accordion as Accordion exposing (ToggleMethod(..), accordionUnstyled, accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl)
 import UI.Segment exposing (segment)
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page
+page : Shared.Model -> Request -> Page.With Model Msg
 page shared _ =
-    Page.static
-        { view =
-            { title = "Accordion"
-            , body = view { shared = shared }
-            }
+    Page.element
+        { init = init shared
+        , update = update
+        , view =
+            \model ->
+                { title = "Accordion"
+                , body = view model
+                }
+        , subscriptions = \_ -> Sub.none
         }
 
 
+
+-- INIT
+
+
 type alias Model =
-    { shared : Shared.Model }
+    { shared : Shared.Model
+    , toggleMethod : ToggleMethod
+    }
 
 
-view : Model -> List (Html msg)
-view { shared } =
+init : Shared.Model -> ( Model, Cmd Msg )
+init shared =
+    ( { shared = shared
+      , toggleMethod = SummaryDetails
+      }
+    , Cmd.none
+    )
+
+
+
+-- UPDATE
+
+
+type Msg
+    = ChangeToggleMethod ToggleMethod
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        ChangeToggleMethod method ->
+            ( { model | toggleMethod = method }, Cmd.none )
+
+
+view : Model -> List (Html Msg)
+view { shared, toggleMethod } =
     let
         items =
             [ { id = "what_is_a_dog"
@@ -53,32 +88,45 @@ view { shared } =
                         }
                     )
     in
-    [ example
-        { title = "Accordion"
-        , description = "A standard accordion"
-        }
-        [ accordion_SummaryDetails { theme = shared.theme } [] items ]
-    , example
-        { title = "Accordion - checkbox"
-        , description = "A standard accordion with checkbox"
-        }
-        [ accordion_Checkbox { theme = shared.theme } [] items ]
-    , example
-        { title = "Accordion - radio button"
-        , description = "A standard accordion with radio button"
-        }
-        [ accordion_Radio { theme = shared.theme } [] items ]
-    , example
-        { title = "Accordion - target URL"
-        , description = "A standard accordion with target URL"
-        }
-        [ accordion_TargetUrl { theme = shared.theme } [] items ]
-    , example
-        { title = "Inverted"
-        , description = "An accordion can be formatted to appear on dark backgrounds"
-        }
-        [ segment { theme = Dark }
+    [ configAndPreview { title = "Accordion" }
+        (case toggleMethod of
+            SummaryDetails ->
+                accordion_SummaryDetails { theme = shared.theme } [] items
+
+            TargetUrl ->
+                accordion_TargetUrl { theme = shared.theme } [] items
+
+            Checkbox ->
+                accordion_Checkbox { theme = shared.theme } [] items
+
+            Radio ->
+                accordion_Radio { theme = shared.theme } [] items
+        )
+        [ { label = "States"
+          , description =
+                case toggleMethod of
+                    SummaryDetails ->
+                        "A standard accordion with summary/details tag"
+
+                    TargetUrl ->
+                        "A standard accordion with target URL"
+
+                    Checkbox ->
+                        "A standard accordion with checkbox"
+
+                    Radio ->
+                        "A standard accordion with radio button"
+          , content =
+                select [ onInput (Accordion.toggleMethodFromString >> Maybe.withDefault toggleMethod >> ChangeToggleMethod) ] <|
+                    List.map (\state -> option [ value (Accordion.toggleMethodToString state), selected (toggleMethod == state) ] [ text (Accordion.toggleMethodToString state) ])
+                        [ SummaryDetails, TargetUrl, Checkbox, Radio ]
+          }
+        ]
+    , configAndPreview
+        { title = "Inverted" }
+        (segment { theme = Dark }
             []
             [ accordionUnstyled { toggleMethod = SummaryDetails } [] items ]
-        ]
+        )
+        []
     ]
