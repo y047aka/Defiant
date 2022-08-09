@@ -1,7 +1,7 @@
 module Pages.Modules.Progress exposing (Model, Msg, page)
 
-import Css exposing (borderLeft3, column, displayFlex, flexDirection, hex, paddingLeft, pct, property, px, solid, width)
-import Html.Styled as Html exposing (Html, aside, div, label, option, p, select, text)
+import Css exposing (borderLeft3, color, column, displayFlex, flexDirection, hex, paddingLeft, pct, property, px, solid, width)
+import Html.Styled as Html exposing (Html, aside, div, input, label, option, p, select, text)
 import Html.Styled.Attributes exposing (checked, css, for, id, selected, type_, value)
 import Html.Styled.Events exposing (onClick, onInput)
 import Page
@@ -11,6 +11,7 @@ import Shared
 import UI.Button exposing (button, labeledButton)
 import UI.Checkbox as Checkbox exposing (checkbox)
 import UI.Example exposing (example)
+import UI.Input as Input
 import UI.Label exposing (basicLabel)
 import UI.Progress as Progress exposing (State(..))
 
@@ -34,17 +35,23 @@ page _ _ =
 
 
 type alias Model =
-    { progress : Float
+    { progressValue : Float
+    , progressLabel : String
+    , label : String
     , indicating : Bool
     , state : State
+    , disabled : Bool
     }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( { progress = 0
+    ( { progressValue = 0
+      , progressLabel = "%"
+      , label = "Uploading Files"
       , indicating = False
       , state = Default
+      , disabled = True
       }
     , Random.generate NewProgress (Random.int 10 50)
     )
@@ -58,8 +65,11 @@ type Msg
     = ProgressPlus
     | ProgressMinus
     | NewProgress Int
+    | EditProgressLabel String
+    | EditLabel String
     | ToggleIndicating
     | ChangeState State
+    | ToggleDisabled
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -74,7 +84,7 @@ update msg model =
         NewProgress int ->
             let
                 calculated =
-                    model.progress + toFloat int
+                    model.progressValue + toFloat int
 
                 newProgress =
                     if calculated > 100 then
@@ -86,13 +96,22 @@ update msg model =
                     else
                         calculated
             in
-            ( { model | progress = newProgress }, Cmd.none )
+            ( { model | progressValue = newProgress }, Cmd.none )
+
+        EditProgressLabel string ->
+            ( { model | progressLabel = string }, Cmd.none )
+
+        EditLabel string ->
+            ( { model | label = string }, Cmd.none )
 
         ToggleIndicating ->
             ( { model | indicating = not model.indicating }, Cmd.none )
 
         ChangeState state ->
             ( { model | state = state }, Cmd.none )
+
+        ToggleDisabled ->
+            ( { model | disabled = not model.disabled }, Cmd.none )
 
 
 
@@ -101,31 +120,82 @@ update msg model =
 
 view : Model -> List (Html Msg)
 view model =
-    [ div [ css [ displayFlex, property "column-gap" "30px" ] ]
-        [ div [ css [ width (pct 100) ] ] (examples model)
-        , aside
-            [ css
-                [ displayFlex
-                , flexDirection column
-                , property "gap" "20px"
-                , paddingLeft (px 20)
-                , borderLeft3 (px 1) solid (hex "#EEE")
+    let
+        controller =
+            labeledButton []
+                [ button [ onClick ProgressMinus ] [ text "-" ]
+                , basicLabel [] [ text (String.fromFloat model.progressValue ++ "%") ]
+                , button [ onClick ProgressPlus ] [ text "+" ]
                 ]
-            ]
-            (settings model)
+    in
+    [ configAndPreview { title = "Content" }
+        (Progress.progress
+            { value = model.progressValue
+            , progress = String.fromFloat model.progressValue ++ model.progressLabel
+            , label = model.label
+            , indicating = False
+            , disabled = False
+            , state = Progress.Default
+            }
+        )
+        [ { label = "Bar"
+          , description = "A progress element can contain a bar visually indicating progress"
+          , content = controller
+          }
+        , { label = "Progress"
+          , description = "A progress bar can contain a text value indicating current progress"
+          , content =
+                Input.input []
+                    [ input [ type_ "text", value model.progressLabel, onInput EditProgressLabel ] [] ]
+          }
+        , { label = "Label"
+          , description = "A progress element can contain a label"
+          , content =
+                Input.input []
+                    [ input [ type_ "text", value model.label, onInput EditLabel ] [] ]
+          }
         ]
-    ]
+    , configAndPreview { title = "Types" }
+        (Progress.progress
+            { value = model.progressValue
+            , progress = String.fromFloat model.progressValue ++ "%"
+            , label =
+                if model.indicating == True then
+                    if model.progressValue == 100 then
+                        "Project Funded!"
 
+                    else
+                        String.fromFloat model.progressValue ++ "% Funded"
 
-examples : Model -> List (Html Msg)
-examples model =
-    [ example
-        { title = "Standard"
-        , description = "A standard progress bar"
-        }
-        [ Progress.progress
-            { value = model.progress
-            , progress = String.fromFloat model.progress ++ "%"
+                else
+                    "Uploading Files"
+            , indicating = model.indicating
+            , disabled = False
+            , state =
+                if model.indicating == True then
+                    Progress.Active
+
+                else
+                    Progress.Default
+            }
+        )
+        [ { label = "Bar"
+          , description = ""
+          , content = controller
+          }
+        , { label = "Indicating"
+          , description = "An indicating progress bar visually indicates the current level of progress of a task"
+          , content =
+                checkbox []
+                    [ Checkbox.input [ id "indicating", type_ "checkbox", checked model.indicating, onClick ToggleIndicating ] []
+                    , Checkbox.label [ for "indicating" ] [ text "Indicating" ]
+                    ]
+          }
+        ]
+    , configAndPreview { title = "States" }
+        (Progress.progress
+            { value = model.progressValue
+            , progress = String.fromFloat model.progressValue ++ "%"
             , label =
                 case model.state of
                     Success ->
@@ -137,126 +207,94 @@ examples model =
                     Error ->
                         "There was an error."
 
-                    Active ->
-                        if model.indicating == True then
-                            if model.progress == 100 then
-                                "Project Funded!"
-
-                            else
-                                String.fromFloat model.progress ++ "% Funded"
-
-                        else
-                            "Uploading Files"
-
                     _ ->
                         "Uploading Files"
-            , indicating = model.indicating
+            , indicating = False
             , disabled = False
             , state = model.state
             }
+        )
+        [ { label = "Bar"
+          , description = ""
+          , content = controller
+          }
+        , { label = "States"
+          , description =
+                case model.state of
+                    Success ->
+                        "A progress bar can show a success state"
+
+                    Warning ->
+                        "A progress bar can show a warning state"
+
+                    Error ->
+                        "A progress bar can show an error state"
+
+                    Active ->
+                        "A progress bar can show activity"
+
+                    _ ->
+                        ""
+          , content =
+                select [ onInput (Progress.stateFromString >> Maybe.withDefault model.state >> ChangeState) ] <|
+                    List.map (\state -> option [ value (Progress.stateToString state), selected (model.state == state) ] [ text (Progress.stateToString state) ])
+                        [ Default, Active, Success, Warning, Error ]
+          }
         ]
-    , example
-        { title = "Bar"
-        , description = "A progress element can contain a bar visually indicating progress"
-        }
-        [ Progress.progress
-            { value = model.progress
+    , configAndPreview { title = "Disabled" }
+        (Progress.progress
+            { value = model.progressValue
             , progress = ""
             , label = ""
             , indicating = False
-            , disabled = False
+            , disabled = model.disabled
             , state = Progress.Default
             }
-        ]
-    , example
-        { title = "Progress"
-        , description = "A progress bar can contain a text value indicating current progress"
-        }
-        [ Progress.progress
-            { value = model.progress
-            , progress = String.fromFloat model.progress ++ "%"
-            , label = ""
-            , indicating = False
-            , disabled = False
-            , state = Progress.Default
-            }
-        ]
-    , example
-        { title = "Label"
-        , description = "A progress element can contain a label"
-        }
-        [ Progress.progress
-            { value = model.progress
-            , progress = String.fromFloat model.progress ++ "%"
-            , label = "Uploading Files"
-            , indicating = False
-            , disabled = False
-            , state = Progress.Default
-            }
-        ]
-    , example
-        { title = "Disabled"
-        , description = "A progress bar can be disabled"
-        }
-        [ Progress.progress
-            { value = model.progress
-            , progress = ""
-            , label = ""
-            , indicating = False
-            , disabled = True
-            , state = Progress.Default
-            }
-        ]
-    ]
-
-
-settings : Model -> List (Html Msg)
-settings model =
-    [ { label = "Value"
-      , description = ""
-      , content =
-            labeledButton []
-                [ button [ onClick ProgressMinus ] [ text "-" ]
-                , basicLabel [] [ text (String.fromFloat model.progress ++ "%") ]
-                , button [ onClick ProgressPlus ] [ text "+" ]
-                ]
-      }
-    , { label = "Indicating"
-      , description = "An indicating progress bar visually indicates the current level of progress of a task"
-      , content =
-            checkbox []
-                [ Checkbox.input [ id "indicating", type_ "checkbox", checked model.indicating, onClick ToggleIndicating ] []
-                , Checkbox.label [ for "indicating" ] [ text "Indicating" ]
-                ]
-      }
-    , { label = "States"
-      , description =
-            case model.state of
-                Success ->
-                    "A progress bar can show a success state"
-
-                Warning ->
-                    "A progress bar can show a warning state"
-
-                Error ->
-                    "A progress bar can show an error state"
-
-                Active ->
-                    "A progress bar can show activity"
-
-                _ ->
-                    ""
-      , content =
-            select [ onInput (Progress.stateFromString >> Maybe.withDefault model.state >> ChangeState) ] <|
-                List.map (\state -> option [ value (Progress.stateToString state), selected (model.state == state) ] [ text (Progress.stateToString state) ])
-                    [ Default, Active, Success, Warning, Error ]
-      }
-    ]
-        |> List.map
-            (\item ->
-                div [ css [ displayFlex, flexDirection column, property "gap" "5px" ] ]
-                    [ label [] [ text item.label ]
-                    , item.content
-                    , p [] [ text item.description ]
+        )
+        [ { label = "Bar"
+          , description = ""
+          , content = controller
+          }
+        , { label = "Disabled"
+          , description = "A progress bar can be disabled"
+          , content =
+                checkbox []
+                    [ Checkbox.input [ id "disabled", type_ "checkbox", checked model.disabled, onClick ToggleDisabled ] []
+                    , Checkbox.label [ for "disabled" ] [ text "Disabled" ]
                     ]
-            )
+          }
+        ]
+    ]
+
+
+configAndPreview :
+    { title : String }
+    -> Html msg
+    -> List { label : String, description : String, content : Html msg }
+    -> Html msg
+configAndPreview { title } preview config =
+    example { title = title, description = "" }
+        [ div [ css [ displayFlex, property "gap" "50px" ] ]
+            [ div [ css [ width (pct 70) ] ] [ preview ]
+            , aside
+                [ css
+                    [ width (pct 30)
+                    , displayFlex
+                    , flexDirection column
+                    , property "gap" "25px"
+                    , paddingLeft (px 25)
+                    , borderLeft3 (px 1) solid (hex "#EEE")
+                    ]
+                ]
+                (List.map
+                    (\item ->
+                        div [ css [ displayFlex, flexDirection column, property "gap" "5px" ] ]
+                            [ label [] [ text item.label ]
+                            , item.content
+                            , p [ css [ color (hex "#999") ] ] [ text item.description ]
+                            ]
+                    )
+                    config
+                )
+            ]
+        ]
