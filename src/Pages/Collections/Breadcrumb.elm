@@ -6,9 +6,9 @@ import Page exposing (Page)
 import Request exposing (Request)
 import Shared
 import UI.Breadcrumb exposing (breadcrumb)
-import UI.Example exposing (example)
 import UI.Icon exposing (icon)
 import UI.Segment exposing (segment)
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page
@@ -27,50 +27,39 @@ type alias Model =
 
 view : Model -> List (Html msg)
 view { shared } =
-    [ example
-        { title = "Breadcrumb"
-        , description = "A standard breadcrumb"
-        }
-        [ breadcrumb { divider = text "/", theme = shared.theme }
+    [ configAndPreview { title = "Breadcrumb" }
+        (breadcrumb { divider = text "/", theme = shared.theme }
             [ { label = "Home", url = "/" }
             , { label = "Store", url = "/" }
             , { label = "T-Shirt", url = "" }
             ]
-        ]
-    , example
-        { title = ""
-        , description = ""
-        }
-        [ breadcrumb { divider = icon [] "fas fa-angle-right", theme = shared.theme }
+        )
+        []
+    , configAndPreview { title = "" }
+        (breadcrumb { divider = icon [] "fas fa-angle-right", theme = shared.theme }
             [ { label = "Home", url = "/" }
             , { label = "Store", url = "/" }
             , { label = "T-Shirt", url = "" }
             ]
-        ]
-    , example
-        { title = "Divider"
-        , description = "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text."
-        }
-        [ breadcrumb { divider = text "/", theme = shared.theme }
+        )
+        []
+    , configAndPreview { title = "Divider" }
+        (breadcrumb { divider = text "/", theme = shared.theme }
             [ { label = "Home", url = "/" }
             , { label = "Registration", url = "/" }
             , { label = "Personal Information", url = "" }
             ]
-        ]
-    , example
-        { title = "Active"
-        , description = "A section can be active"
-        }
-        [ breadcrumb { divider = text "/", theme = shared.theme }
+        )
+        []
+    , configAndPreview { title = "Active" }
+        (breadcrumb { divider = text "/", theme = shared.theme }
             [ { label = "Products", url = "/" }
             , { label = "Paper Towels", url = "" }
             ]
-        ]
-    , example
-        { title = "Inverted"
-        , description = "A breadcrumb can be inverted"
-        }
-        [ segment { theme = Dark }
+        )
+        []
+    , configAndPreview { title = "Inverted" }
+        (segment { theme = Dark }
             []
             [ breadcrumb { divider = text "/", theme = Dark }
                 [ { label = "Home", url = "/" }
@@ -78,5 +67,6 @@ view { shared } =
                 , { label = "Personal Information", url = "" }
                 ]
             ]
-        ]
+        )
+        []
     ]
