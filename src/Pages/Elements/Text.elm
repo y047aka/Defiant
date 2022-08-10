@@ -116,7 +116,7 @@ view { theme } model =
                         [ text "Starting with ", miniText "mini", text " text" ]
             ]
         )
-        [ { label = "States"
+        [ { label = "Size"
           , description = "Text can vary in the same sizes as icons"
           , content =
                 select [ onInput (sizeFromString >> Maybe.withDefault model.size >> ChangeSize) ] <|
