@@ -6,6 +6,7 @@ module UI.Form exposing
     , label
     , input, textarea
     , checkboxLabel
+    , stateFromString, stateToString
     )
 
 {-|
@@ -17,6 +18,8 @@ module UI.Form exposing
 @docs label
 @docs input, textarea
 @docs checkboxLabel
+
+@docs stateFromString, stateToString
 
 -}
 
@@ -524,3 +527,48 @@ stylesByState state =
         , prefixed [] "box-shadow" "none"
         ]
     ]
+
+
+
+-- HELPER
+
+
+stateFromString : String -> Maybe State
+stateFromString string =
+    case string of
+        "Default" ->
+            Just Default
+
+        "Success" ->
+            Just Success
+
+        "Info" ->
+            Just Info
+
+        "Warning" ->
+            Just Warning
+
+        "Error" ->
+            Just Error
+
+        _ ->
+            Nothing
+
+
+stateToString : State -> String
+stateToString state =
+    case state of
+        Default ->
+            "Default"
+
+        Success ->
+            "Success"
+
+        Info ->
+            "Info"
+
+        Warning ->
+            "Warning"
+
+        Error ->
+            "Error"

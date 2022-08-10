@@ -1,28 +1,64 @@
-module Pages.Collections.Form exposing (page)
+module Pages.Collections.Form exposing (Model, Msg, page)
 
-import Html.Styled as Html exposing (Html, text)
-import Html.Styled.Attributes exposing (for, id, name, placeholder, rows, tabindex, type_)
-import Page exposing (Page)
+import Html.Styled as Html exposing (Html, option, select, text)
+import Html.Styled.Attributes exposing (for, id, name, placeholder, rows, selected, tabindex, type_, value)
+import Html.Styled.Events exposing (onInput)
+import Page
 import Request exposing (Request)
 import Shared
 import UI.Button exposing (button)
 import UI.Checkbox as Checkbox exposing (checkbox)
-import UI.Example exposing (example)
 import UI.Form as Form exposing (State(..), checkboxLabel, field, fields, form, textarea, threeFields, twoFields)
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page
+page : Shared.Model -> Request -> Page.With Model Msg
 page _ _ =
-    Page.static
-        { view =
-            { title = "Form"
-            , body = view
-            }
+    Page.sandbox
+        { init = init
+        , update = update
+        , view =
+            \model ->
+                { title = "Form"
+                , body = view model
+                }
         }
 
 
-view : List (Html msg)
-view =
+
+-- INIT
+
+
+type alias Model =
+    { state : State }
+
+
+init : Model
+init =
+    { state = Error }
+
+
+
+-- UPDATE
+
+
+type Msg
+    = ChangeState State
+
+
+update : Msg -> Model -> Model
+update msg model =
+    case msg of
+        ChangeState state ->
+            { model | state = state }
+
+
+
+-- VIEW
+
+
+view : Model -> List (Html Msg)
+view model =
     let
         fieldsWithState options =
             [ twoFields []
@@ -54,11 +90,8 @@ view =
                 ]
             ]
     in
-    [ example
-        { title = "Form"
-        , description = "A form"
-        }
-        [ form []
+    [ configAndPreview { title = "Form" }
+        (form []
             [ field
                 { type_ = "text"
                 , label = "First Name"
@@ -86,12 +119,10 @@ view =
                 ]
             , button [ type_ "submit" ] [ text "Submit" ]
             ]
-        ]
-    , example
-        { title = "Field"
-        , description = "A field is a form element containing a label and an input"
-        }
-        [ form []
+        )
+        []
+    , configAndPreview { title = "Field" }
+        (form []
             [ field
                 { type_ = "text"
                 , label = "User Input"
@@ -100,12 +131,10 @@ view =
                 []
                 [ Form.input { state = Default } [ type_ "text" ] [] ]
             ]
-        ]
-    , example
-        { title = "Fields"
-        , description = "A set of fields can appear grouped together"
-        }
-        [ form []
+        )
+        []
+    , configAndPreview { title = "Fields" }
+        (form []
             [ fields []
                 [ field
                     { type_ = "text"
@@ -130,10 +159,10 @@ view =
                     [ Form.input { state = Default } [ type_ "text", placeholder "Last Name" ] [] ]
                 ]
             ]
-        ]
-    , example
-        { title = "", description = "" }
-        [ form []
+        )
+        []
+    , configAndPreview { title = "" }
+        (form []
             [ threeFields []
                 [ field
                     { type_ = "text"
@@ -158,12 +187,10 @@ view =
                     [ Form.input { state = Default } [ type_ "text", placeholder "Last Name" ] [] ]
                 ]
             ]
-        ]
-    , example
-        { title = "Text Area"
-        , description = "A textarea can be used to allow for extended user input."
-        }
-        [ form []
+        )
+        []
+    , configAndPreview { title = "Text Area" }
+        (form []
             [ field
                 { type_ = "textarea"
                 , label = "Text"
@@ -179,12 +206,10 @@ view =
                 []
                 [ textarea { state = Default } [ rows 2 ] [] ]
             ]
-        ]
-    , example
-        { title = "Checkbox"
-        , description = "A form can contain a checkbox"
-        }
-        [ form []
+        )
+        []
+    , configAndPreview { title = "Checkbox" }
+        (form []
             [ field
                 { type_ = "checkbox"
                 , label = ""
@@ -197,25 +222,31 @@ view =
                     ]
                 ]
             ]
+        )
+        []
+    , configAndPreview { title = "Form States" }
+        (form [] (fieldsWithState { id = "state_example", state = model.state }))
+        [ { label = "Form States"
+          , description =
+                case model.state of
+                    Error ->
+                        "Individual fields may display an error state"
+
+                    Warning ->
+                        "Individual fields may display a warning state"
+
+                    Success ->
+                        "Individual fields may display a Success state"
+
+                    Info ->
+                        "Individual fields may display an informational state"
+
+                    Default ->
+                        ""
+          , content =
+                select [ onInput (Form.stateFromString >> Maybe.withDefault model.state >> ChangeState) ] <|
+                    List.map (\state -> option [ value (Form.stateToString state), selected (model.state == state) ] [ text (Form.stateToString state) ])
+                        [ Default, Error, Warning, Success, Info ]
+          }
         ]
-    , example
-        { title = "Field Error"
-        , description = "Individual fields may display an error state"
-        }
-        [ form [] (fieldsWithState { id = "state_example_1", state = Error }) ]
-    , example
-        { title = "Field Warning"
-        , description = "Individual fields may display a warning state"
-        }
-        [ form [] (fieldsWithState { id = "state_example_2", state = Warning }) ]
-    , example
-        { title = "Field Success"
-        , description = "Individual fields may display a Success state"
-        }
-        [ form [] (fieldsWithState { id = "state_example_3", state = Success }) ]
-    , example
-        { title = "Field Info"
-        , description = "Individual fields may display an informational state"
-        }
-        [ form [] (fieldsWithState { id = "state_example_4", state = Info }) ]
     ]
