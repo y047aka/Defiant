@@ -119,7 +119,7 @@ view { shared, toggleMethod } =
                         "A standard accordion with radio button"
           , content =
                 select [ onInput (Accordion.toggleMethodFromString >> Maybe.withDefault toggleMethod >> ChangeToggleMethod) ] <|
-                    List.map (\state -> option [ value (Accordion.toggleMethodToString state), selected (toggleMethod == state) ] [ text (Accordion.toggleMethodToString state) ])
+                    List.map (\method -> option [ value (Accordion.toggleMethodToString method), selected (toggleMethod == method) ] [ text (Accordion.toggleMethodToString method) ])
                         [ SummaryDetails, TargetUrl, Checkbox, Radio ]
           }
         ]

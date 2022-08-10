@@ -124,7 +124,7 @@ view { theme } model =
           , description = "Text can vary in the same sizes as icons"
           , content =
                 select [ onInput (sizeFromString >> Maybe.withDefault model.size >> ChangeSize) ] <|
-                    List.map (\state -> option [ value (sizeToString state), selected (model.size == state) ] [ text (sizeToString state) ])
+                    List.map (\size -> option [ value (sizeToString size), selected (model.size == size) ] [ text (sizeToString size) ])
                         [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
           }
         ]
