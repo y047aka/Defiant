@@ -99,7 +99,7 @@ view { shared, toggleMethod } =
             Radio ->
                 accordion_Radio { theme = shared.theme } [] items
         )
-        [ { label = "States"
+        [ { label = "Toggle Method"
           , description =
                 case toggleMethod of
                     SummaryDetails ->
