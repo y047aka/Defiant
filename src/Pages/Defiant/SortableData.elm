@@ -1,15 +1,15 @@
 module Pages.Defiant.SortableData exposing (Model, Msg, page)
 
 import Data.Theme exposing (Theme(..))
-import Html.Styled as Html exposing (Html, div, input, strong, text)
-import Html.Styled.Attributes exposing (placeholder, value)
+import Html.Styled as Html exposing (Html, div, input, option, select, strong, text)
+import Html.Styled.Attributes exposing (placeholder, selected, value)
 import Html.Styled.Events exposing (onInput)
 import Page
 import Request exposing (Request)
 import Shared
-import UI.Example exposing (example)
 import UI.Segment exposing (segment)
 import UI.SortableData exposing (State, initialSort, intColumn, list, stringColumn, table)
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
@@ -30,7 +30,8 @@ page _ _ =
 
 
 type alias Model =
-    { people : List Person
+    { mode : Mode
+    , people : List Person
     , tableState : State
     , query : String
     }
@@ -38,7 +39,8 @@ type alias Model =
 
 init : Model
 init =
-    { people = presidents
+    { mode = Table
+    , people = presidents
     , tableState = initialSort "Year"
     , query = ""
     }
@@ -49,13 +51,17 @@ init =
 
 
 type Msg
-    = SetQuery String
+    = ChangeMode Mode
+    | SetQuery String
     | SetTableState State
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
+        ChangeMode mode ->
+            { model | mode = mode }
+
         SetQuery newQuery ->
             { model | query = newQuery }
 
@@ -68,7 +74,7 @@ update msg model =
 
 
 view : Model -> List (Html Msg)
-view { people, tableState, query } =
+view ({ people, tableState, query } as model) =
     let
         config =
             { toId = .name
@@ -97,19 +103,24 @@ view { people, tableState, query } =
         acceptablePeople =
             List.filter (String.contains lowerQuery << String.toLower << .name) people
     in
-    [ example
-        { title = "List"
-        , description = ""
-        }
-        [ input [ value query, placeholder "Search by Name", onInput SetQuery ] []
-        , list config tableState toListItem acceptablePeople
-        ]
-    , example
-        { title = "Table"
-        , description = ""
-        }
-        [ input [ value query, placeholder "Search by Name", onInput SetQuery ] []
-        , table config tableState acceptablePeople
+    [ configAndPreview { title = "List" }
+        (div []
+            [ input [ value query, placeholder "Search by Name", onInput SetQuery ] []
+            , case model.mode of
+                List ->
+                    list config tableState toListItem acceptablePeople
+
+                Table ->
+                    table config tableState acceptablePeople
+            ]
+        )
+        [ { label = "Mode"
+          , description = ""
+          , content =
+                select [ onInput (modeFromString >> Maybe.withDefault model.mode >> ChangeMode) ] <|
+                    List.map (\mode -> option [ value (modeToString mode), selected (model.mode == mode) ] [ text (modeToString mode) ])
+                        [ List, Table ]
+          }
         ]
     ]
 
@@ -169,3 +180,35 @@ presidents =
     , Person "Barack Obama" 1961 "Honolulu" "Hawaii"
     , Person "Donald Trump" 1946 "New York City" "New York"
     ]
+
+
+
+-- HELPER
+
+
+type Mode
+    = List
+    | Table
+
+
+modeFromString : String -> Maybe Mode
+modeFromString string =
+    case string of
+        "List" ->
+            Just List
+
+        "Table" ->
+            Just Table
+
+        _ ->
+            Nothing
+
+
+modeToString : Mode -> String
+modeToString mode =
+    case mode of
+        List ->
+            "List"
+
+        Table ->
+            "Table"
