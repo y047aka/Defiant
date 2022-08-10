@@ -15,12 +15,12 @@ import View.ConfigAndPreview exposing (configAndPreview)
 page : Shared.Model -> Request -> Page.With Model Msg
 page shared _ =
     Page.sandbox
-        { init = init shared
+        { init = init
         , update = update
         , view =
             \model ->
                 { title = "Text"
-                , body = view model
+                , body = view shared model
                 }
         }
 
@@ -30,16 +30,12 @@ page shared _ =
 
 
 type alias Model =
-    { shared : Shared.Model
-    , size : Size
-    }
+    { size : Size }
 
 
-init : Shared.Model -> Model
-init shared =
-    { shared = shared
-    , size = Medium
-    }
+init : Model
+init =
+    { size = Medium }
 
 
 
@@ -57,11 +53,11 @@ update msg model =
             { model | size = size }
 
 
-view : Model -> List (Html Msg)
-view model =
+view : Shared.Model -> Model -> List (Html Msg)
+view { theme } model =
     let
         options =
-            { theme = model.shared.theme }
+            { theme = theme }
     in
     [ configAndPreview { title = "Text" }
         (div []
