@@ -14,7 +14,7 @@ import UI.SortableData exposing (State, initialSort, intColumn, list, stringColu
 
 page : Shared.Model -> Request -> Page.With Model Msg
 page _ _ =
-    Page.element
+    Page.sandbox
         { init = init
         , update = update
         , view =
@@ -22,7 +22,6 @@ page _ _ =
                 { title = "Sortable Data"
                 , body = view model
                 }
-        , subscriptions = \_ -> Sub.none
         }
 
 
@@ -37,14 +36,12 @@ type alias Model =
     }
 
 
-init : ( Model, Cmd Msg )
+init : Model
 init =
-    ( { people = presidents
-      , tableState = initialSort "Year"
-      , query = ""
-      }
-    , Cmd.none
-    )
+    { people = presidents
+    , tableState = initialSort "Year"
+    , query = ""
+    }
 
 
 
@@ -56,14 +53,14 @@ type Msg
     | SetTableState State
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> Model
 update msg model =
     case msg of
         SetQuery newQuery ->
-            ( { model | query = newQuery }, Cmd.none )
+            { model | query = newQuery }
 
         SetTableState newState ->
-            ( { model | tableState = newState }, Cmd.none )
+            { model | tableState = newState }
 
 
 

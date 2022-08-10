@@ -14,7 +14,7 @@ import UI.Modal as Modal exposing (basicModal, dialog, modal)
 
 page : Shared.Model -> Request -> Page.With Model Msg
 page shared _ =
-    Page.element
+    Page.sandbox
         { init = init shared
         , update = update
         , view =
@@ -22,7 +22,6 @@ page shared _ =
                 { title = "Modal"
                 , body = view model
                 }
-        , subscriptions = \_ -> Sub.none
         }
 
 
@@ -36,13 +35,11 @@ type alias Model =
     }
 
 
-init : Shared.Model -> ( Model, Cmd Msg )
+init : Shared.Model -> Model
 init shared =
-    ( { shared = shared
-      , toggledItems = []
-      }
-    , Cmd.none
-    )
+    { shared = shared
+    , toggledItems = []
+    }
 
 
 
@@ -53,20 +50,18 @@ type Msg
     = Toggle String
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> Model
 update msg model =
     case msg of
         Toggle newItem ->
-            ( { model
+            { model
                 | toggledItems =
                     if List.member newItem model.toggledItems then
                         List.filter ((/=) newItem) model.toggledItems
 
                     else
                         newItem :: model.toggledItems
-              }
-            , Cmd.none
-            )
+            }
 
 
 

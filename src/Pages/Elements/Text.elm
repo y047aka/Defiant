@@ -14,7 +14,7 @@ import View.ConfigAndPreview exposing (configAndPreview)
 
 page : Shared.Model -> Request -> Page.With Model Msg
 page shared _ =
-    Page.element
+    Page.sandbox
         { init = init shared
         , update = update
         , view =
@@ -22,7 +22,6 @@ page shared _ =
                 { title = "Text"
                 , body = view model
                 }
-        , subscriptions = \_ -> Sub.none
         }
 
 
@@ -36,13 +35,11 @@ type alias Model =
     }
 
 
-init : Shared.Model -> ( Model, Cmd Msg )
+init : Shared.Model -> Model
 init shared =
-    ( { shared = shared
-      , size = Medium
-      }
-    , Cmd.none
-    )
+    { shared = shared
+    , size = Medium
+    }
 
 
 
@@ -53,11 +50,11 @@ type Msg
     = ChangeSize Size
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> Model
 update msg model =
     case msg of
         ChangeSize size ->
-            ( { model | size = size }, Cmd.none )
+            { model | size = size }
 
 
 view : Model -> List (Html Msg)
