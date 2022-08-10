@@ -57,6 +57,10 @@ update msg model =
             { model | toggleMethod = method }
 
 
+
+-- VIEW
+
+
 view : Model -> List (Html Msg)
 view { shared, toggleMethod } =
     let

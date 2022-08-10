@@ -53,6 +53,10 @@ update msg model =
             { model | size = size }
 
 
+
+-- VIEW
+
+
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
     let
