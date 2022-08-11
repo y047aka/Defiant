@@ -1,8 +1,10 @@
-module Pages.Collections.Breadcrumb exposing (page)
+module Pages.Collections.Breadcrumb exposing (Model, Msg, page)
 
 import Data.Theme exposing (Theme(..))
-import Html.Styled as Html exposing (Html, text)
-import Page exposing (Page)
+import Html.Styled as Html exposing (Html, option, select, text)
+import Html.Styled.Attributes exposing (selected, value)
+import Html.Styled.Events exposing (onInput)
+import Page
 import Request exposing (Request)
 import Shared
 import UI.Breadcrumb exposing (breadcrumb)
@@ -11,48 +13,82 @@ import UI.Segment exposing (segment)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page
+page : Shared.Model -> Request -> Page.With Model Msg
 page shared _ =
-    Page.static
-        { view =
-            { title = "Breadcrumb"
-            , body = view { shared = shared }
-            }
+    Page.sandbox
+        { init = init
+        , update = update
+        , view =
+            \model ->
+                { title = "Breadcrumb"
+                , body = view shared model
+                }
         }
 
 
+
+-- INIT
+
+
 type alias Model =
-    { shared : Shared.Model }
+    { divider : Divider }
 
 
-view : Model -> List (Html msg)
-view { shared } =
+init : Model
+init =
+    { divider = Slash }
+
+
+
+-- UPDATE
+
+
+type Msg
+    = ChangeDivider Divider
+
+
+update : Msg -> Model -> Model
+update msg model =
+    case msg of
+        ChangeDivider divider ->
+            { model | divider = divider }
+
+
+
+-- VIEW
+
+
+view : Shared.Model -> Model -> List (Html Msg)
+view { theme } model =
+    let
+        options =
+            { divider =
+                case model.divider of
+                    Slash ->
+                        text "/"
+
+                    RightChevron ->
+                        icon [] "fas fa-angle-right"
+            , theme = theme
+            }
+    in
     [ configAndPreview { title = "Breadcrumb" }
-        (breadcrumb { divider = text "/", theme = shared.theme }
+        (breadcrumb options
             [ { label = "Home", url = "/" }
             , { label = "Store", url = "/" }
             , { label = "T-Shirt", url = "" }
             ]
         )
-        []
-    , configAndPreview { title = "" }
-        (breadcrumb { divider = icon [] "fas fa-angle-right", theme = shared.theme }
-            [ { label = "Home", url = "/" }
-            , { label = "Store", url = "/" }
-            , { label = "T-Shirt", url = "" }
-            ]
-        )
-        []
-    , configAndPreview { title = "Divider" }
-        (breadcrumb { divider = text "/", theme = shared.theme }
-            [ { label = "Home", url = "/" }
-            , { label = "Registration", url = "/" }
-            , { label = "Personal Information", url = "" }
-            ]
-        )
-        []
+        [ { label = "Divider"
+          , description = "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text."
+          , content =
+                select [ onInput (dividerFromString >> Maybe.withDefault model.divider >> ChangeDivider) ] <|
+                    List.map (\divider -> option [ value (dividerToString divider), selected (model.divider == divider) ] [ text (dividerToString divider) ])
+                        [ Slash, RightChevron ]
+          }
+        ]
     , configAndPreview { title = "Active" }
-        (breadcrumb { divider = text "/", theme = shared.theme }
+        (breadcrumb { divider = text "/", theme = theme }
             [ { label = "Products", url = "/" }
             , { label = "Paper Towels", url = "" }
             ]
@@ -70,3 +106,35 @@ view { shared } =
         )
         []
     ]
+
+
+
+-- HELPER
+
+
+type Divider
+    = Slash
+    | RightChevron
+
+
+dividerFromString : String -> Maybe Divider
+dividerFromString string =
+    case string of
+        "Slash" ->
+            Just Slash
+
+        "RightChevron" ->
+            Just RightChevron
+
+        _ ->
+            Nothing
+
+
+dividerToString : Divider -> String
+dividerToString divider =
+    case divider of
+        Slash ->
+            "Slash"
+
+        RightChevron ->
+            "RightChevron"
