@@ -1,74 +1,187 @@
-module Pages.Elements.Segment exposing (page)
+module Pages.Elements.Segment exposing (Model, Msg, page)
 
-import Html.Styled as Html exposing (Html, p, text)
-import Page exposing (Page)
+import Html.Styled as Html exposing (Html, div, option, p, select, text)
+import Html.Styled.Attributes exposing (checked, for, id, selected, type_, value)
+import Html.Styled.Events exposing (onClick, onInput)
+import Page
 import Request exposing (Request)
 import Shared
-import UI.Example exposing (example, wireframeShortParagraph)
+import UI.Checkbox as Checkbox exposing (checkbox)
+import UI.Example exposing (wireframeShortParagraph)
 import UI.Segment exposing (basicSegment, disabledSegment, invertedSegment, paddedSegment, segment, verticalSegment, veryPaddedSegment)
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page
+page : Shared.Model -> Request -> Page.With Model Msg
 page shared _ =
-    Page.static
-        { view =
-            { title = "Segment"
-            , body = view { shared = shared }
-            }
+    Page.sandbox
+        { init = init
+        , update = update
+        , view =
+            \model ->
+                { title = "Segment"
+                , body = view shared model
+                }
         }
 
 
+
+-- INIT
+
+
 type alias Model =
-    { shared : Shared.Model }
+    { vertical : Bool
+    , disabled : Bool
+    , padding : Padding
+    }
 
 
-view : Model -> List (Html msg)
-view { shared } =
+init : Model
+init =
+    { vertical = True
+    , disabled = True
+    , padding = Padded
+    }
+
+
+
+-- UPDATE
+
+
+type Msg
+    = ToggleVertical
+    | ToggleDisabled
+    | ChangePadding Padding
+
+
+update : Msg -> Model -> Model
+update msg model =
+    case msg of
+        ToggleVertical ->
+            { model | vertical = not model.vertical }
+
+        ToggleDisabled ->
+            { model | disabled = not model.disabled }
+
+        ChangePadding padding ->
+            { model | padding = padding }
+
+
+view : Shared.Model -> Model -> List (Html Msg)
+view shared model =
     let
         options =
             { theme = shared.theme }
     in
-    [ example
-        { title = "Segment"
-        , description = "A segment of content"
-        }
-        [ segment options [] [ wireframeShortParagraph ] ]
-    , example
-        { title = "Vertical Segment"
-        , description = "A vertical segment formats content to be aligned as part of a vertical group"
-        }
-        [ verticalSegment options [] [ wireframeShortParagraph ]
-        , verticalSegment options [] [ wireframeShortParagraph ]
-        , verticalSegment options [] [ wireframeShortParagraph ]
+    [ configAndPreview { title = "Segment" }
+        (segment options [] [ wireframeShortParagraph ])
+        []
+    , configAndPreview { title = "Vertical Segment" }
+        (div [] <|
+            if model.vertical then
+                [ verticalSegment options [] [ wireframeShortParagraph ]
+                , verticalSegment options [] [ wireframeShortParagraph ]
+                , verticalSegment options [] [ wireframeShortParagraph ]
+                ]
+
+            else
+                [ segment options [] [ wireframeShortParagraph ]
+                , segment options [] [ wireframeShortParagraph ]
+                , segment options [] [ wireframeShortParagraph ]
+                ]
+        )
+        [ { label = "Vertical Segment"
+          , description = "A vertical segment formats content to be aligned as part of a vertical group"
+          , content =
+                checkbox []
+                    [ Checkbox.input [ id "vertical", type_ "checkbox", checked model.vertical, onClick ToggleVertical ] []
+                    , Checkbox.label [ for "vertical" ] [ text "Vertical" ]
+                    ]
+          }
         ]
-    , example
-        { title = "Disabled"
-        , description = "A segment may show its content is disabled"
-        }
-        [ disabledSegment options [] [ wireframeShortParagraph ] ]
-    , example
-        { title = "Inverted"
-        , description = "A segment can have its colors inverted for contrast"
-        }
-        [ invertedSegment []
+    , configAndPreview { title = "Disabled" }
+        (if model.disabled then
+            disabledSegment options [] [ wireframeShortParagraph ]
+
+         else
+            segment options [] [ wireframeShortParagraph ]
+        )
+        [ { label = "Disabled"
+          , description = "A segment may show its content is disabled"
+          , content =
+                checkbox []
+                    [ Checkbox.input [ id "disabled", type_ "checkbox", checked model.disabled, onClick ToggleDisabled ] []
+                    , Checkbox.label [ for "disabled" ] [ text "Disabled" ]
+                    ]
+          }
+        ]
+    , configAndPreview { title = "Inverted" }
+        (invertedSegment []
             [ p [] [ text "I'm here to tell you something, and you will probably read me first." ] ]
+        )
+        []
+    , configAndPreview { title = "Padded" }
+        (case model.padding of
+            VeryPadded ->
+                veryPaddedSegment options [] [ wireframeShortParagraph ]
+
+            Padded ->
+                paddedSegment options [] [ wireframeShortParagraph ]
+
+            Default ->
+                segment options [] [ wireframeShortParagraph ]
+        )
+        [ { label = "Padding"
+          , description = "A segment can increase its padding"
+          , content =
+                select [ onInput (paddingFromString >> Maybe.withDefault model.padding >> ChangePadding) ] <|
+                    List.map (\padding -> option [ value (paddingToString padding), selected (model.padding == padding) ] [ text (paddingToString padding) ])
+                        [ Default, Padded, VeryPadded ]
+          }
         ]
-    , example
-        { title = "Padded"
-        , description = "A segment can increase its padding"
-        }
-        [ paddedSegment options [] [ wireframeShortParagraph ] ]
-    , example
-        { title = ""
-        , description = ""
-        }
-        [ veryPaddedSegment options [] [ wireframeShortParagraph ] ]
-    , example
-        { title = "Basic"
-        , description = "A basic segment has no special formatting"
-        }
-        [ basicSegment options
+    , configAndPreview { title = "Basic" }
+        (basicSegment options
             []
             [ p [] [ text "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo." ] ]
-        ]
+        )
+        []
     ]
+
+
+
+-- HELPER
+
+
+type Padding
+    = VeryPadded
+    | Padded
+    | Default
+
+
+paddingFromString : String -> Maybe Padding
+paddingFromString string =
+    case string of
+        "VeryPadded" ->
+            Just VeryPadded
+
+        "Padded" ->
+            Just Padded
+
+        "Default" ->
+            Just Default
+
+        _ ->
+            Nothing
+
+
+paddingToString : Padding -> String
+paddingToString padding =
+    case padding of
+        VeryPadded ->
+            "VeryPadded"
+
+        Padded ->
+            "Padded"
+
+        Default ->
+            "Default"
