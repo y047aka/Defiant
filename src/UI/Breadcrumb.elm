@@ -1,8 +1,23 @@
-module UI.Breadcrumb exposing (BreadcrumbItem, breadcrumb)
+module UI.Breadcrumb exposing
+    ( breadcrumb
+    , miniBreadCrumb, tinyBreadCrumb, smallBreadCrumb, mediumBreadCrumb, largeBreadCrumb, bigBreadCrumb, hugeBreadCrumb, massiveBreadCrumb
+    , BreadcrumbItem
+    )
+
+{-|
+
+@docs BreadcrumbIte
+@docs breadcrumb
+
+@docs miniBreadCrumb, tinyBreadCrumb, smallBreadCrumb, mediumBreadCrumb, largeBreadCrumb, bigBreadCrumb, hugeBreadCrumb, massiveBreadCrumb
+
+-}
 
 import Css exposing (..)
+import Css.Extra exposing (orNone)
 import Css.Palette as Palette exposing (darkPalette, palette, setColor)
-import Data.Theme exposing (Theme)
+import Data exposing (Size(..))
+import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Attribute, Html, text)
 import Html.Styled.Attributes exposing (href)
 import Svg.Styled exposing (Attribute)
@@ -14,8 +29,8 @@ type alias BreadcrumbItem =
     }
 
 
-basis : { theme : Theme } -> List (Html msg) -> Html msg
-basis { theme } =
+basis : { size : Maybe (FontSize a), theme : Theme } -> List (Html msg) -> Html msg
+basis { size, theme } =
     let
         darkPalette_ =
             -- .ui.inverted.breadcrumb
@@ -35,6 +50,9 @@ basis { theme } =
         -- .ui.breadcrumb:last-child
         , lastChild
             [ marginBottom zero ]
+
+        -- Variations
+        , orNone size fontSize
 
         -- Inverted
         , darkPalette theme darkPalette_
@@ -58,7 +76,7 @@ breadcrumb options children =
         divider_ =
             divider { theme = options.theme } [] [ options.divider ]
     in
-    basis { theme = options.theme }
+    basis { size = Nothing, theme = options.theme }
         (children
             |> List.indexedMap section_
             |> List.intersperse divider_
@@ -141,3 +159,106 @@ section =
 activeSection : List (Attribute msg) -> List (Html msg) -> Html msg
 activeSection =
     sectionBasis { active = True }
+
+
+
+-- Variations
+
+
+sizedBreadCrumb : { divider : Html msg, theme : Theme } -> FontSize a -> List BreadcrumbItem -> Html msg
+sizedBreadCrumb options size children =
+    let
+        length =
+            List.length children
+
+        section_ index { label, url } =
+            if index + 1 == length then
+                activeSection [] [ text label ]
+
+            else
+                section [ href url ] [ text label ]
+
+        divider_ =
+            divider { theme = options.theme } [] [ options.divider ]
+    in
+    basis { size = Just size, theme = options.theme }
+        (children
+            |> List.indexedMap section_
+            |> List.intersperse divider_
+        )
+
+
+miniBreadCrumb : { divider : Html msg, theme : Theme } -> List BreadcrumbItem -> Html msg
+miniBreadCrumb options =
+    -- .ui.mini.breadcrumb
+    sizedBreadCrumb options (sizeSelector Mini)
+
+
+tinyBreadCrumb : { divider : Html msg, theme : Theme } -> List BreadcrumbItem -> Html msg
+tinyBreadCrumb options =
+    -- .ui.tiny.breadcrumb
+    sizedBreadCrumb options (sizeSelector Tiny)
+
+
+smallBreadCrumb : { divider : Html msg, theme : Theme } -> List BreadcrumbItem -> Html msg
+smallBreadCrumb options =
+    -- .ui.small.breadcrumb
+    sizedBreadCrumb options (sizeSelector Small)
+
+
+mediumBreadCrumb : { divider : Html msg, theme : Theme } -> List BreadcrumbItem -> Html msg
+mediumBreadCrumb options =
+    -- .ui.breadcrumb
+    sizedBreadCrumb options (sizeSelector Medium)
+
+
+largeBreadCrumb : { divider : Html msg, theme : Theme } -> List BreadcrumbItem -> Html msg
+largeBreadCrumb options =
+    -- .ui.large.breadcrumb
+    sizedBreadCrumb options (sizeSelector Large)
+
+
+bigBreadCrumb : { divider : Html msg, theme : Theme } -> List BreadcrumbItem -> Html msg
+bigBreadCrumb options =
+    -- .ui.big.breadcrumb
+    sizedBreadCrumb options (sizeSelector Big)
+
+
+hugeBreadCrumb : { divider : Html msg, theme : Theme } -> List BreadcrumbItem -> Html msg
+hugeBreadCrumb options =
+    -- .ui.huge.breadcrumb
+    sizedBreadCrumb options (sizeSelector Huge)
+
+
+massiveBreadCrumb : { divider : Html msg, theme : Theme } -> List BreadcrumbItem -> Html msg
+massiveBreadCrumb options =
+    -- .ui.massive.breadcrumb
+    sizedBreadCrumb options (sizeSelector Massive)
+
+
+sizeSelector : Size -> Css.Rem
+sizeSelector size =
+    case size of
+        Massive ->
+            rem 1.71428571
+
+        Huge ->
+            rem 1.42857143
+
+        Big ->
+            rem 1.28571429
+
+        Large ->
+            rem 1.14285714
+
+        Medium ->
+            rem 1
+
+        Small ->
+            rem 0.92857143
+
+        Tiny ->
+            rem 0.85714286
+
+        Mini ->
+            rem 0.78571429
