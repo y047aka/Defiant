@@ -20,7 +20,7 @@ page _ _ =
         , update = update
         , view =
             \model ->
-                { title = "Segment"
+                { title = "Item"
                 , body = view model
                 }
         }
@@ -82,7 +82,7 @@ update msg model =
 
 view : Model -> List (Html Msg)
 view model =
-    [ configAndPreview { title = "Metadata" }
+    [ configAndPreview { title = "Items" }
         (let
             item { header, metadata } =
                 Item.item []
