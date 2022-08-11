@@ -6,9 +6,10 @@ import Page exposing (Page)
 import Request exposing (Request)
 import Shared
 import UI.Card as Card exposing (card, cards, extraContent)
-import UI.Example exposing (example, wireframeParagraph)
+import UI.Example exposing (wireframeParagraph)
 import UI.Icon exposing (icon)
 import UI.Image exposing (image)
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page
@@ -31,11 +32,8 @@ view { shared } =
         options =
             { theme = shared.theme }
     in
-    [ example
-        { title = "Card"
-        , description = "A single card."
-        }
-        [ card options
+    [ configAndPreview { title = "Card" }
+        (card options
             []
             [ image [ src "/static/images/avatar/kristy.png" ] []
             , Card.content options
@@ -50,12 +48,10 @@ view { shared } =
                 , text "22 Friends"
                 ]
             ]
-        ]
-    , example
-        { title = "Cards"
-        , description = "A group of cards."
-        }
-        [ cards [] <|
+        )
+        []
+    , configAndPreview { title = "Cards" }
+        (cards [] <|
             List.map
                 (\{ name, type_, description_, friends, imageUrl } ->
                     card options
@@ -93,12 +89,10 @@ view { shared } =
                   , imageUrl = "/static/images/avatar/elyse.png"
                   }
                 ]
-        ]
-    , example
-        { title = "Header"
-        , description = "A card can contain a header"
-        }
-        [ cards [] <|
+        )
+        []
+    , configAndPreview { title = "Header" }
+        (cards [] <|
             List.map
                 (\person ->
                     card options
@@ -124,12 +118,10 @@ view { shared } =
                   , description = "Jenny is a student studying Media Management at the New School"
                   }
                 ]
-        ]
-    , example
-        { title = "Metadata"
-        , description = "A card can contain content metadata"
-        }
-        [ card options
+        )
+        []
+    , configAndPreview { title = "Metadata" }
+        (card options
             []
             [ Card.content options
                 []
@@ -141,12 +133,10 @@ view { shared } =
                 , description = [ wireframeParagraph ]
                 }
             ]
-        ]
-    , example
-        { title = "Description"
-        , description = "A card can contain a description with one or more paragraphs"
-        }
-        [ card options
+        )
+        []
+    , configAndPreview { title = "Description" }
+        (card options
             []
             [ Card.content options
                 []
@@ -158,12 +148,10 @@ view { shared } =
                     ]
                 }
             ]
-        ]
-    , example
-        { title = "Extra Content"
-        , description = "A card can contain extra content meant to be formatted separately from the main content"
-        }
-        [ card options
+        )
+        []
+    , configAndPreview { title = "Extra Content" }
+        (card options
             []
             [ Card.content options
                 []
@@ -180,5 +168,6 @@ view { shared } =
                 , text "121 Votes"
                 ]
             ]
-        ]
+        )
+        []
     ]
