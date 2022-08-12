@@ -1,42 +1,79 @@
-module Pages.Elements.CircleStep exposing (page)
+module Pages.Elements.CircleStep exposing (Model, Msg, page)
 
-import Html.Styled as Html exposing (Html)
-import Page exposing (Page)
+import Html.Styled as Html exposing (Html, option, select, text)
+import Html.Styled.Attributes exposing (checked, for, id, selected, type_, value)
+import Html.Styled.Events exposing (onClick, onInput)
+import Page
 import Request exposing (Request)
 import Shared
-import UI.CircleStep as CircleStep
-import UI.Example exposing (example)
+import UI.Checkbox as Checkbox exposing (checkbox)
+import UI.CircleStep as CircleStep exposing (State(..))
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page
+page : Shared.Model -> Request -> Page.With Model Msg
 page _ _ =
-    Page.static
-        { view =
-            { title = "Circle Step"
-            , body = view
-            }
-        }
-
-
-view : List (Html msg)
-view =
-    [ example
-        { title = "Step"
-        , description = "A single step"
-        }
-        [ CircleStep.steps []
-            [ CircleStep.step []
-                { icon = ""
-                , title = ""
-                , description = "Shipping"
+    Page.sandbox
+        { init = init
+        , update = update
+        , view =
+            \model ->
+                { title = "Circle Step"
+                , body = view model
                 }
-            ]
-        ]
-    , example
-        { title = "Steps"
-        , description = "A set of steps"
         }
-        [ CircleStep.steps []
+
+
+
+-- INIT
+
+
+type alias Model =
+    { hasIcon : Bool
+    , hasDescription : Bool
+    , state : State
+    }
+
+
+init : Model
+init =
+    { hasIcon = True
+    , hasDescription = True
+    , state = Default
+    }
+
+
+
+-- UPDATE
+
+
+type Msg
+    = ToggleHasIcon
+    | ToggleHasDescription
+    | ChangeState State
+
+
+update : Msg -> Model -> Model
+update msg model =
+    case msg of
+        ToggleHasIcon ->
+            { model | hasIcon = not model.hasIcon }
+
+        ToggleHasDescription ->
+            { model | hasDescription = not model.hasDescription }
+
+        ChangeState state ->
+            { model | state = state }
+
+
+
+-- VIEW
+
+
+view : Model -> List (Html Msg)
+view model =
+    [ configAndPreview { title = "Steps" }
+        (CircleStep.steps []
             [ CircleStep.completedStep []
                 { icon = "fas fa-truck"
                 , title = "Shipping"
@@ -53,65 +90,86 @@ view =
                 , description = ""
                 }
             ]
-        ]
-    , example
-        { title = "Description"
-        , description = "A step can contain a description"
-        }
-        [ CircleStep.steps []
+        )
+        []
+    , configAndPreview { title = "Content" }
+        (CircleStep.steps []
             [ CircleStep.step []
-                { icon = ""
+                { icon =
+                    if model.hasIcon then
+                        "fas fa-truck"
+
+                    else
+                        ""
                 , title = "Shipping"
-                , description = "Choose your shipping options"
+                , description =
+                    if model.hasDescription then
+                        "Choose your shipping options"
+
+                    else
+                        ""
                 }
             ]
+        )
+        [ { label = "Icon"
+          , description = "A step can contain an icon"
+          , content =
+                checkbox []
+                    [ Checkbox.input [ id "icon", type_ "checkbox", checked model.hasIcon, onClick ToggleHasIcon ] []
+                    , Checkbox.label [ for "icon" ] [ text "Icon" ]
+                    ]
+          }
+        , { label = "Description"
+          , description = "A step can contain a description"
+          , content =
+                checkbox []
+                    [ Checkbox.input [ id "description", type_ "checkbox", checked model.hasDescription, onClick ToggleHasDescription ] []
+                    , Checkbox.label [ for "description" ] [ text "Description" ]
+                    ]
+          }
         ]
-    , example
-        { title = "Icon"
-        , description = "A step can contain an icon"
-        }
-        [ CircleStep.steps []
-            [ CircleStep.step []
-                { icon = "fas fa-truck"
-                , title = "Shipping"
-                , description = "Choose your shipping options"
-                }
-            ]
-        ]
-    , example
-        { title = "Active"
-        , description = "A step can be highlighted as active"
-        }
-        [ CircleStep.steps []
-            [ CircleStep.activeStep []
+    , configAndPreview { title = "States" }
+        (CircleStep.steps []
+            [ let
+                step =
+                    case model.state of
+                        Default ->
+                            CircleStep.step
+
+                        Active ->
+                            CircleStep.activeStep
+
+                        Completed ->
+                            CircleStep.completedStep
+
+                        Disabled ->
+                            CircleStep.disabledStep
+              in
+              step []
                 { icon = "fas fa-credit-card"
                 , title = "Billing"
                 , description = "Enter billing information"
                 }
             ]
-        ]
-    , example
-        { title = "Completed"
-        , description = "A step can show that a user has completed it"
-        }
-        [ CircleStep.steps []
-            [ CircleStep.completedStep []
-                { icon = "fas fa-credit-card"
-                , title = "Billing"
-                , description = "Enter billing information"
-                }
-            ]
-        ]
-    , example
-        { title = "Disabled"
-        , description = "A step can show that it cannot be selected"
-        }
-        [ CircleStep.steps []
-            [ CircleStep.disabledStep []
-                { icon = ""
-                , title = ""
-                , description = "Billing"
-                }
-            ]
+        )
+        [ { label = "States"
+          , description =
+                case model.state of
+                    Default ->
+                        ""
+
+                    Active ->
+                        "A step can be highlighted as active"
+
+                    Completed ->
+                        "A step can show that a user has completed it"
+
+                    Disabled ->
+                        "A step can show that it cannot be selected"
+          , content =
+                select [ onInput (CircleStep.stateFromString >> Maybe.withDefault model.state >> ChangeState) ] <|
+                    List.map (\state -> option [ value (CircleStep.stateToString state), selected (model.state == state) ] [ text (CircleStep.stateToString state) ])
+                        [ Default, Active, Completed, Disabled ]
+          }
         ]
     ]

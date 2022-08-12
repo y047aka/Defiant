@@ -1,12 +1,17 @@
 module UI.CircleStep exposing
-    ( steps
+    ( State(..)
+    , steps
     , step, activeStep, completedStep, disabledStep
+    , stateFromString, stateToString
     )
 
 {-|
 
+@docs State
 @docs steps
 @docs step, activeStep, completedStep, disabledStep
+
+@docs stateFromString, stateToString
 
 -}
 
@@ -373,3 +378,42 @@ description { state } =
                 _ ->
                     []
         ]
+
+
+
+-- HELPER
+
+
+stateFromString : String -> Maybe State
+stateFromString string =
+    case string of
+        "Default" ->
+            Just Default
+
+        "Active" ->
+            Just Active
+
+        "Completed" ->
+            Just Completed
+
+        "Disabled" ->
+            Just Disabled
+
+        _ ->
+            Nothing
+
+
+stateToString : State -> String
+stateToString state =
+    case state of
+        Default ->
+            "Default"
+
+        Active ->
+            "Active"
+
+        Completed ->
+            "Completed"
+
+        Disabled ->
+            "Disabled"
