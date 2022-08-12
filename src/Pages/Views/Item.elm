@@ -80,6 +80,10 @@ update msg model =
             { model | hasExtraContent = not model.hasExtraContent }
 
 
+
+-- VIEW
+
+
 view : Model -> List (Html Msg)
 view model =
     [ configAndPreview { title = "Items" }
