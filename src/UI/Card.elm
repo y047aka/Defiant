@@ -14,7 +14,7 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, everything, selector)
 import Css.Palette as Palette exposing (darkPalette, darkPaletteWith, palette, paletteWith, setBackground, setBorder, setBorderIf, setColor, setShadowIf)
-import Css.Typography exposing (fomanticFontFamilies)
+import Css.Typography_Outdated exposing (fomanticFontFamilies)
 import Data.Theme exposing (Theme)
 import Html.Styled as Html exposing (Attribute, Html, text)
 

@@ -3,7 +3,7 @@ module Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (Snippet, each, everything, selector)
-import Css.Typography as Typography exposing (typography)
+import Css.Typography_Outdated as Typography exposing (typography)
 
 
 additionalReset : List Snippet

@@ -17,7 +17,7 @@ module UI.Item exposing
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, everything)
-import Css.Typography exposing (fomanticFontFamilies)
+import Css.Typography_Outdated exposing (fomanticFontFamilies)
 import Html.Styled as Html exposing (Attribute, Html, text)
 
 

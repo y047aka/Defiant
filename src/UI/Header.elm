@@ -17,7 +17,7 @@ module UI.Header exposing
 import Css exposing (..)
 import Css.Global exposing (adjacentSiblings, children, typeSelector)
 import Css.Palette as Palette exposing (darkPalette, palette, setColor)
-import Css.Typography as Typography exposing (typography)
+import Css.Typography_Outdated as Typography exposing (typography)
 import Data exposing (Size(..))
 import Data.Theme exposing (Theme)
 import Html.Styled as Html exposing (Attribute, Html)

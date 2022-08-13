@@ -1,28 +1,15 @@
 module Css.Typography exposing
-    ( Typography
+    ( Typography, init
     , typography
-    , init
-    , default, heading
     , fomanticFontFamilies
-    , int, num, px, rem, em
-    , inherit, none
-    , normal, italic, oblique
-    , bold
-    , capitalize, uppercase, lowercase
     )
 
 {-|
 
-@docs Typography
+@docs Typography, init
 @docs typography
-@docs init
-@docs default, heading
+
 @docs fomanticFontFamilies
-@docs int, num, px, rem, em
-@docs inherit, none
-@docs normal, italic, oblique
-@docs bold
-@docs capitalize, uppercase, lowercase
 
 -}
 
@@ -38,6 +25,18 @@ type alias Typography =
     , fontWeight : String
     , textTransform : String
     , textDecoration : String
+    }
+
+
+init : Typography
+init =
+    { fontFamilies = []
+    , fontStyle = ""
+    , fontSize = ""
+    , fontWeight = ""
+    , lineHeight = ""
+    , textTransform = ""
+    , textDecoration = ""
     }
 
 
@@ -58,109 +57,6 @@ typography t =
         ]
 
 
-init : Typography
-init =
-    { fontFamilies = []
-    , fontStyle = ""
-    , fontSize = ""
-    , fontWeight = ""
-    , lineHeight = ""
-    , textTransform = ""
-    , textDecoration = ""
-    }
-
-
-default : Typography
-default =
-    { init
-        | fontFamilies = fomanticFontFamilies
-        , fontSize = px 14
-        , lineHeight = em 1.4285
-    }
-
-
-heading : Typography
-heading =
-    { default
-        | fontWeight = bold
-        , lineHeight = em 1.28571429
-    }
-
-
 fomanticFontFamilies : List String
 fomanticFontFamilies =
     [ qt "Lato", qt "Helvetica Neue", "Arial", "Helvetica", "sans-serif" ]
-
-
-
--- HELPERS
-
-
-int : Int -> String
-int =
-    String.fromInt
-
-
-num : Float -> String
-num =
-    String.fromFloat
-
-
-px : Float -> String
-px px_ =
-    String.fromFloat px_ ++ "px"
-
-
-rem : Float -> String
-rem rem_ =
-    String.fromFloat rem_ ++ "rem"
-
-
-em : Float -> String
-em em_ =
-    String.fromFloat em_ ++ "em"
-
-
-inherit : String
-inherit =
-    "inherit"
-
-
-none : String
-none =
-    "none"
-
-
-normal : String
-normal =
-    "normal"
-
-
-italic : String
-italic =
-    "italic"
-
-
-oblique : String
-oblique =
-    "oblique"
-
-
-bold : String
-bold =
-    "bold"
-
-
-capitalize : String
-capitalize =
-    "capitalize"
-
-
-uppercase : String
-uppercase =
-    "uppercase"
-
-
-lowercase : String
-lowercase =
-    "lowercase"

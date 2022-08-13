@@ -28,7 +28,7 @@ import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, each, selector)
 import Css.Media as Media exposing (only, screen, withMedia)
 import Css.Palette as Palette exposing (palette, paletteWith, setBackground, setBorder, setColor, setShadow)
-import Css.Typography exposing (fomanticFontFamilies)
+import Css.Typography_Outdated exposing (fomanticFontFamilies)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import UI.Checkbox
 

@@ -15,7 +15,7 @@ import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, each)
 import Css.Layout as Layout exposing (layout)
 import Css.Palette as Palette exposing (paletteWith, setBackground, setBorderIf, setColor)
-import Css.Typography as Typography exposing (init, typography)
+import Css.Typography_Outdated as Typography exposing (init, typography)
 import Html.Styled as Html exposing (Attribute, Html)
 
 

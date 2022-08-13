@@ -18,7 +18,7 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Layout as Layout exposing (layout)
 import Css.Palette as Palette exposing (darkPalette, palette, paletteWith, setBackground, setBackgroundIf, setBorderIf, setColor, setShadowIf)
-import Css.Typography as Typography exposing (init, typography)
+import Css.Typography_Outdated as Typography exposing (init, typography)
 import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Attribute, Html)
 import UI.Label
