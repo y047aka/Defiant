@@ -1,9 +1,10 @@
 module Pages.Elements.CircleStep exposing (Model, Msg, page)
 
-import Html.Styled as Html exposing (Html, option, select, text)
-import Html.Styled.Attributes exposing (checked, for, id, selected, type_, value)
+import Html.Styled as Html exposing (Html, div, input, label, option, select, text)
+import Html.Styled.Attributes exposing (checked, for, id, name, selected, type_, value)
 import Html.Styled.Events exposing (onClick, onInput)
 import Page
+import Pages.Elements.Step exposing (Progress(..), progressFromString, progressToString)
 import Request exposing (Request)
 import Shared
 import UI.Checkbox as Checkbox exposing (checkbox)
@@ -32,6 +33,7 @@ type alias Model =
     { hasIcon : Bool
     , hasDescription : Bool
     , state : State
+    , progress : Progress
     }
 
 
@@ -40,6 +42,7 @@ init =
     { hasIcon = True
     , hasDescription = True
     , state = Default
+    , progress = Shipping
     }
 
 
@@ -51,6 +54,7 @@ type Msg
     = ToggleHasIcon
     | ToggleHasDescription
     | ChangeState State
+    | ChangeProgress Progress
 
 
 update : Msg -> Model -> Model
@@ -65,6 +69,9 @@ update msg model =
         ChangeState state ->
             { model | state = state }
 
+        ChangeProgress progress ->
+            { model | progress = progress }
+
 
 
 -- VIEW
@@ -74,24 +81,79 @@ view : Model -> List (Html Msg)
 view model =
     [ configAndPreview { title = "Steps" }
         [ CircleStep.steps []
-            [ CircleStep.completedStep []
+            [ let
+                step =
+                    case model.progress of
+                        Shipping ->
+                            CircleStep.activeStep
+
+                        _ ->
+                            CircleStep.completedStep
+              in
+              step []
                 { icon = "fas fa-truck"
                 , title = "Shipping"
                 , description = "Choose your shipping options"
                 }
-            , CircleStep.activeStep []
+            , let
+                step =
+                    case model.progress of
+                        Shipping ->
+                            CircleStep.disabledStep
+
+                        Billing ->
+                            CircleStep.activeStep
+
+                        ConfirmOrder ->
+                            CircleStep.completedStep
+              in
+              step []
                 { icon = "fas fa-credit-card"
                 , title = "Billing"
                 , description = "Enter billing information"
                 }
-            , CircleStep.disabledStep []
+            , let
+                step =
+                    case model.progress of
+                        ConfirmOrder ->
+                            CircleStep.activeStep
+
+                        _ ->
+                            CircleStep.disabledStep
+              in
+              step []
                 { icon = "fas fa-info"
                 , title = "Confirm Order"
                 , description = ""
                 }
             ]
         ]
-        []
+        [ { label = "Progress"
+          , description = ""
+          , content =
+                div [] <|
+                    List.map
+                        (\progress ->
+                            let
+                                prefixedId =
+                                    "progress_" ++ progressToString progress
+                            in
+                            div []
+                                [ input
+                                    [ id prefixedId
+                                    , type_ "radio"
+                                    , name "progress"
+                                    , value (progressToString progress)
+                                    , checked (model.progress == progress)
+                                    , onInput (progressFromString >> Maybe.withDefault model.progress >> ChangeProgress)
+                                    ]
+                                    []
+                                , label [ for prefixedId ] [ text (progressToString progress) ]
+                                ]
+                        )
+                        [ Shipping, Billing, ConfirmOrder ]
+          }
+        ]
     , configAndPreview { title = "Content" }
         [ CircleStep.steps []
             [ CircleStep.step []

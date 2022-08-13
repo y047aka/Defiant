@@ -1,4 +1,4 @@
-module Pages.Elements.Step exposing (Model, Msg, page)
+module Pages.Elements.Step exposing (Model, Msg, Progress(..), page, progressFromString, progressToString)
 
 import Html.Styled as Html exposing (Html, div, input, label, option, select, text)
 import Html.Styled.Attributes exposing (checked, for, id, name, selected, type_, value)
