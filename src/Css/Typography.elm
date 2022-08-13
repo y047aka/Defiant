@@ -1,60 +1,72 @@
 module Css.Typography exposing
     ( Typography, init
     , typography
-    , fomanticFontFamilies
+    , setFontFamilies, setFontWeight
+    , default, bold
     )
 
 {-|
 
 @docs Typography, init
 @docs typography
+@docs setFontFamilies, setFontWeight
 
+@docs default, bold
 @docs fomanticFontFamilies
 
 -}
 
-import Css exposing (Style, batch, fontFamilies, property, qt)
-import Css.Extra exposing (when)
+import Css exposing (Compatible, FontWeight, Style, batch, fontFamilies, fontWeight, qt)
 
 
 type alias Typography =
-    { lineHeight : String
-    , fontFamilies : List String
-    , fontStyle : String
-    , fontSize : String
-    , fontWeight : String
-    , textTransform : String
-    , textDecoration : String
+    { fontFamilies : List String
+    , fontWeight : Maybe { value : String, fontWeight : Compatible }
     }
 
 
 init : Typography
 init =
     { fontFamilies = []
-    , fontStyle = ""
-    , fontSize = ""
-    , fontWeight = ""
-    , lineHeight = ""
-    , textTransform = ""
-    , textDecoration = ""
+    , fontWeight = Nothing
     }
 
 
 typography : Typography -> Style
 typography t =
-    let
-        setUnlessBlank p v =
-            when (v /= "") <| property p v
-    in
-    batch
-        [ when (t.fontFamilies /= []) <| fontFamilies t.fontFamilies
-        , setUnlessBlank "font-style" t.fontStyle
-        , setUnlessBlank "font-size" t.fontSize
-        , setUnlessBlank "font-weight" t.fontWeight
-        , setUnlessBlank "line-height" t.lineHeight
-        , setUnlessBlank "text-transform" t.textTransform
-        , setUnlessBlank "text-decoration" t.textDecoration
-        ]
+    [ if t.fontFamilies /= [] then
+        fontFamilies t.fontFamilies
+
+      else
+        batch []
+    , t.fontWeight
+        |> Maybe.map fontWeight
+        |> Maybe.withDefault (batch [])
+    ]
+        |> batch
+
+
+setFontFamilies : List String -> Typography -> Typography
+setFontFamilies families t =
+    { t | fontFamilies = families }
+
+
+setFontWeight : FontWeight a -> Typography -> Typography
+setFontWeight { value, fontWeight } t =
+    { t | fontWeight = Just { value = value, fontWeight = fontWeight } }
+
+
+default : Typography
+default =
+    init
+        |> setFontFamilies fomanticFontFamilies
+
+
+bold : Typography
+bold =
+    init
+        |> setFontFamilies fomanticFontFamilies
+        |> setFontWeight Css.bold
 
 
 fomanticFontFamilies : List String
