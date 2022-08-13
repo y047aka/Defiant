@@ -1,6 +1,6 @@
 module Pages.Elements.Segment exposing (Model, Msg, page)
 
-import Html.Styled as Html exposing (Html, div, option, p, select, text)
+import Html.Styled as Html exposing (Html, option, p, select, text)
 import Html.Styled.Attributes exposing (checked, for, id, selected, type_, value)
 import Html.Styled.Events exposing (onClick, onInput)
 import Page
@@ -74,21 +74,20 @@ view shared model =
             { theme = shared.theme }
     in
     [ configAndPreview { title = "Segment" }
-        (segment options [] [ wireframeShortParagraph ])
+        [ segment options [] [ wireframeShortParagraph ] ]
         []
     , configAndPreview { title = "Vertical Segment" }
-        (div [] <|
-            if model.vertical then
-                [ verticalSegment options [] [ wireframeShortParagraph ]
-                , verticalSegment options [] [ wireframeShortParagraph ]
-                , verticalSegment options [] [ wireframeShortParagraph ]
-                ]
+        (if model.vertical then
+            [ verticalSegment options [] [ wireframeShortParagraph ]
+            , verticalSegment options [] [ wireframeShortParagraph ]
+            , verticalSegment options [] [ wireframeShortParagraph ]
+            ]
 
-            else
-                [ segment options [] [ wireframeShortParagraph ]
-                , segment options [] [ wireframeShortParagraph ]
-                , segment options [] [ wireframeShortParagraph ]
-                ]
+         else
+            [ segment options [] [ wireframeShortParagraph ]
+            , segment options [] [ wireframeShortParagraph ]
+            , segment options [] [ wireframeShortParagraph ]
+            ]
         )
         [ { label = "Vertical Segment"
           , description = "A vertical segment formats content to be aligned as part of a vertical group"
@@ -100,12 +99,12 @@ view shared model =
           }
         ]
     , configAndPreview { title = "Disabled" }
-        (if model.disabled then
+        [ if model.disabled then
             disabledSegment options [] [ wireframeShortParagraph ]
 
-         else
+          else
             segment options [] [ wireframeShortParagraph ]
-        )
+        ]
         [ { label = "Disabled"
           , description = "A segment may show its content is disabled"
           , content =
@@ -116,12 +115,12 @@ view shared model =
           }
         ]
     , configAndPreview { title = "Inverted" }
-        (invertedSegment []
+        [ invertedSegment []
             [ p [] [ text "I'm here to tell you something, and you will probably read me first." ] ]
-        )
+        ]
         []
     , configAndPreview { title = "Padded" }
-        (case model.padding of
+        [ case model.padding of
             VeryPadded ->
                 veryPaddedSegment options [] [ wireframeShortParagraph ]
 
@@ -130,7 +129,7 @@ view shared model =
 
             Default ->
                 segment options [] [ wireframeShortParagraph ]
-        )
+        ]
         [ { label = "Padding"
           , description = "A segment can increase its padding"
           , content =
@@ -140,10 +139,10 @@ view shared model =
           }
         ]
     , configAndPreview { title = "Basic" }
-        (basicSegment options
+        [ basicSegment options
             []
             [ p [] [ text "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo." ] ]
-        )
+        ]
         []
     ]
 

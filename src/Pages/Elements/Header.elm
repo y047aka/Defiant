@@ -1,7 +1,7 @@
 module Pages.Elements.Header exposing (Model, Msg, page)
 
 import Data exposing (PresetColor(..), Size(..), sizeFromString, sizeToString)
-import Html.Styled as Html exposing (Html, div, option, select, text)
+import Html.Styled as Html exposing (Html, option, select, text)
 import Html.Styled.Attributes exposing (selected, value)
 import Html.Styled.Events exposing (onInput)
 import Page
@@ -65,34 +65,32 @@ view { theme } model =
             { theme = theme }
     in
     [ configAndPreview { title = "Content Headers" }
-        (div [] <|
-            [ case model.size of
-                Massive ->
-                    massiveHeader options [] [ text "Massive Header" ]
+        [ case model.size of
+            Massive ->
+                massiveHeader options [] [ text "Massive Header" ]
 
-                Huge ->
-                    hugeHeader options [] [ text "Huge Header" ]
+            Huge ->
+                hugeHeader options [] [ text "Huge Header" ]
 
-                Big ->
-                    bigHeader options [] [ text "Big Header" ]
+            Big ->
+                bigHeader options [] [ text "Big Header" ]
 
-                Large ->
-                    largeHeader options [] [ text "Large Header" ]
+            Large ->
+                largeHeader options [] [ text "Large Header" ]
 
-                Medium ->
-                    mediumHeader options [] [ text "Medium Header" ]
+            Medium ->
+                mediumHeader options [] [ text "Medium Header" ]
 
-                Small ->
-                    smallHeader options [] [ text "Small Header" ]
+            Small ->
+                smallHeader options [] [ text "Small Header" ]
 
-                Tiny ->
-                    tinyHeader options [] [ text "Tiny Header" ]
+            Tiny ->
+                tinyHeader options [] [ text "Tiny Header" ]
 
-                Mini ->
-                    miniHeader options [] [ text "Mini Header" ]
-            , wireframeShortParagraph
-            ]
-        )
+            Mini ->
+                miniHeader options [] [ text "Mini Header" ]
+        , wireframeShortParagraph
+        ]
         [ { label = "Size"
           , description = "Text can vary in the same sizes as icons"
           , content =
@@ -102,7 +100,7 @@ view { theme } model =
           }
         ]
     , configAndPreview { title = "Icon Headers" }
-        (iconHeader options
+        [ iconHeader options
             []
             [ icon [] "fas fa-cogs"
             , iconHeaderContent []
@@ -110,15 +108,15 @@ view { theme } model =
                 , subHeader options [] [ text "Manage your account settings and set e-mail preferences." ]
                 ]
             ]
-        )
+        ]
         []
     , configAndPreview { title = "Subheader" }
-        (Header.header options
+        [ Header.header options
             []
             [ text "Account Settings"
             , subHeader options [] [ text "Manage your account settings and set e-mail preferences." ]
             , wireframeShortParagraph
             ]
-        )
+        ]
         []
     ]

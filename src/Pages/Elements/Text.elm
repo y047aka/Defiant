@@ -1,7 +1,7 @@
 module Pages.Elements.Text exposing (Model, Msg, page)
 
 import Data exposing (PresetColor(..), Size(..), sizeFromString, sizeToString)
-import Html.Styled as Html exposing (Html, div, option, p, select, text)
+import Html.Styled as Html exposing (Html, option, p, select, text)
 import Html.Styled.Attributes exposing (selected, value)
 import Html.Styled.Events exposing (onInput)
 import Page
@@ -64,34 +64,32 @@ view { theme } model =
             { theme = theme }
     in
     [ configAndPreview { title = "Text" }
-        (div []
-            [ segment options
-                []
-                [ text "This is "
-                , redText options "red"
-                , text " inline text and this is "
-                , blueText options "blue"
-                , text " inline text and this is "
-                , purpleText options "purple"
-                , text " inline text"
-                ]
-            , segment options
-                []
-                [ text "This is "
-                , infoText "info"
-                , text " inline text and this is "
-                , successText "success"
-                , text " inline text and this is "
-                , warningText "warning"
-                , text " inline text and this is "
-                , errorText "error"
-                , text " inline text"
-                ]
+        [ segment options
+            []
+            [ text "This is "
+            , redText options "red"
+            , text " inline text and this is "
+            , blueText options "blue"
+            , text " inline text and this is "
+            , purpleText options "purple"
+            , text " inline text"
             ]
-        )
+        , segment options
+            []
+            [ text "This is "
+            , infoText "info"
+            , text " inline text and this is "
+            , successText "success"
+            , text " inline text and this is "
+            , warningText "warning"
+            , text " inline text and this is "
+            , errorText "error"
+            , text " inline text"
+            ]
+        ]
         []
     , configAndPreview { title = "Size" }
-        (segment options
+        [ segment options
             []
             [ p [] <|
                 case model.size of
@@ -119,7 +117,7 @@ view { theme } model =
                     Mini ->
                         [ text "Starting with ", miniText "mini", text " text" ]
             ]
-        )
+        ]
         [ { label = "Size"
           , description = "Text can vary in the same sizes as icons"
           , content =

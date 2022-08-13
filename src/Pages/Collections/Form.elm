@@ -91,7 +91,7 @@ view model =
             ]
     in
     [ configAndPreview { title = "Form" }
-        (form []
+        [ form []
             [ field
                 { type_ = "text"
                 , label = "First Name"
@@ -119,10 +119,10 @@ view model =
                 ]
             , button [ type_ "submit" ] [ text "Submit" ]
             ]
-        )
+        ]
         []
     , configAndPreview { title = "Field" }
-        (form []
+        [ form []
             [ field
                 { type_ = "text"
                 , label = "User Input"
@@ -131,10 +131,10 @@ view model =
                 []
                 [ Form.input { state = Default } [ type_ "text" ] [] ]
             ]
-        )
+        ]
         []
     , configAndPreview { title = "Fields" }
-        (form []
+        [ form []
             [ fields []
                 [ field
                     { type_ = "text"
@@ -159,10 +159,10 @@ view model =
                     [ Form.input { state = Default } [ type_ "text", placeholder "Last Name" ] [] ]
                 ]
             ]
-        )
+        ]
         []
     , configAndPreview { title = "" }
-        (form []
+        [ form []
             [ threeFields []
                 [ field
                     { type_ = "text"
@@ -187,10 +187,10 @@ view model =
                     [ Form.input { state = Default } [ type_ "text", placeholder "Last Name" ] [] ]
                 ]
             ]
-        )
+        ]
         []
     , configAndPreview { title = "Text Area" }
-        (form []
+        [ form []
             [ field
                 { type_ = "textarea"
                 , label = "Text"
@@ -206,10 +206,10 @@ view model =
                 []
                 [ textarea { state = Default } [ rows 2 ] [] ]
             ]
-        )
+        ]
         []
     , configAndPreview { title = "Checkbox" }
-        (form []
+        [ form []
             [ field
                 { type_ = "checkbox"
                 , label = ""
@@ -222,10 +222,10 @@ view model =
                     ]
                 ]
             ]
-        )
+        ]
         []
     , configAndPreview { title = "Form States" }
-        (form [] (fieldsWithState { id = "state_example", state = model.state }))
+        [ form [] (fieldsWithState { id = "state_example", state = model.state }) ]
         [ { label = "Form States"
           , description =
                 case model.state of

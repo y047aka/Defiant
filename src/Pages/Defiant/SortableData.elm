@@ -104,16 +104,14 @@ view ({ people, tableState, query } as model) =
             List.filter (String.contains lowerQuery << String.toLower << .name) people
     in
     [ configAndPreview { title = "List" }
-        (div []
-            [ input [ value query, placeholder "Search by Name", onInput SetQuery ] []
-            , case model.mode of
-                List ->
-                    list config tableState toListItem acceptablePeople
+        [ input [ value query, placeholder "Search by Name", onInput SetQuery ] []
+        , case model.mode of
+            List ->
+                list config tableState toListItem acceptablePeople
 
-                Table ->
-                    table config tableState acceptablePeople
-            ]
-        )
+            Table ->
+                table config tableState acceptablePeople
+        ]
         [ { label = "Mode"
           , description = ""
           , content =

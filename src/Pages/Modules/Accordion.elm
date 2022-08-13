@@ -90,7 +90,7 @@ view { shared, toggleMethod } =
                     )
     in
     [ configAndPreview { title = "Accordion" }
-        (case toggleMethod of
+        [ case toggleMethod of
             SummaryDetails ->
                 accordion_SummaryDetails { theme = shared.theme } [] items
 
@@ -102,7 +102,7 @@ view { shared, toggleMethod } =
 
             Radio ->
                 accordion_Radio { theme = shared.theme } [] items
-        )
+        ]
         [ { label = "Toggle Method"
           , description =
                 case toggleMethod of
@@ -125,9 +125,9 @@ view { shared, toggleMethod } =
         ]
     , configAndPreview
         { title = "Inverted" }
-        (segment { theme = Dark }
+        [ segment { theme = Dark }
             []
             [ accordionUnstyled { toggleMethod = SummaryDetails } [] items ]
-        )
+        ]
         []
     ]

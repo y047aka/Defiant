@@ -87,7 +87,7 @@ update msg model =
 view : Model -> List (Html Msg)
 view model =
     [ configAndPreview { title = "Items" }
-        (let
+        [ let
             item { header, metadata } =
                 Item.item []
                     [ if model.hasImage then
@@ -122,8 +122,8 @@ view model =
                                 []
                         }
                     ]
-         in
-         items []
+          in
+          items []
             [ item
                 { header = "12 Years a Slave"
                 , metadata = "Union Square 14"
@@ -137,7 +137,7 @@ view model =
                 , metadata = "IFC"
                 }
             ]
-        )
+        ]
         [ { label = "Image"
           , description = "An item can contain an image"
           , content =

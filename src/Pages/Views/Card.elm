@@ -33,7 +33,7 @@ view { shared } =
             { theme = shared.theme }
     in
     [ configAndPreview { title = "Card" }
-        (card options
+        [ card options
             []
             [ image [ src "/static/images/avatar/kristy.png" ] []
             , Card.content options
@@ -48,10 +48,10 @@ view { shared } =
                 , text "22 Friends"
                 ]
             ]
-        )
+        ]
         []
     , configAndPreview { title = "Cards" }
-        (cards [] <|
+        [ cards [] <|
             List.map
                 (\{ name, type_, description_, friends, imageUrl } ->
                     card options
@@ -89,10 +89,10 @@ view { shared } =
                   , imageUrl = "/static/images/avatar/elyse.png"
                   }
                 ]
-        )
+        ]
         []
     , configAndPreview { title = "Header" }
-        (cards [] <|
+        [ cards [] <|
             List.map
                 (\person ->
                     card options
@@ -118,10 +118,10 @@ view { shared } =
                   , description = "Jenny is a student studying Media Management at the New School"
                   }
                 ]
-        )
+        ]
         []
     , configAndPreview { title = "Metadata" }
-        (card options
+        [ card options
             []
             [ Card.content options
                 []
@@ -133,10 +133,10 @@ view { shared } =
                 , description = [ wireframeParagraph ]
                 }
             ]
-        )
+        ]
         []
     , configAndPreview { title = "Description" }
-        (card options
+        [ card options
             []
             [ Card.content options
                 []
@@ -148,10 +148,10 @@ view { shared } =
                     ]
                 }
             ]
-        )
+        ]
         []
     , configAndPreview { title = "Extra Content" }
-        (card options
+        [ card options
             []
             [ Card.content options
                 []
@@ -168,6 +168,6 @@ view { shared } =
                 , text "121 Votes"
                 ]
             ]
-        )
+        ]
         []
     ]

@@ -128,7 +128,7 @@ view model =
                 ]
     in
     [ configAndPreview { title = "Content" }
-        (Progress.progress
+        [ Progress.progress
             { value = model.progressValue
             , progress = String.fromFloat model.progressValue ++ model.progressLabel
             , label = model.label
@@ -136,7 +136,7 @@ view model =
             , disabled = False
             , state = Progress.Default
             }
-        )
+        ]
         [ { label = "Bar"
           , description = "A progress element can contain a bar visually indicating progress"
           , content = controller
@@ -155,7 +155,7 @@ view model =
           }
         ]
     , configAndPreview { title = "Types" }
-        (Progress.progress
+        [ Progress.progress
             { value = model.progressValue
             , progress = String.fromFloat model.progressValue ++ "%"
             , label =
@@ -177,7 +177,7 @@ view model =
                 else
                     Progress.Default
             }
-        )
+        ]
         [ { label = "Bar"
           , description = ""
           , content = controller
@@ -192,7 +192,7 @@ view model =
           }
         ]
     , configAndPreview { title = "States" }
-        (Progress.progress
+        [ Progress.progress
             { value = model.progressValue
             , progress = String.fromFloat model.progressValue ++ "%"
             , label =
@@ -212,7 +212,7 @@ view model =
             , disabled = False
             , state = model.state
             }
-        )
+        ]
         [ { label = "Bar"
           , description = ""
           , content = controller
@@ -241,7 +241,7 @@ view model =
           }
         ]
     , configAndPreview { title = "Disabled" }
-        (Progress.progress
+        [ Progress.progress
             { value = model.progressValue
             , progress = ""
             , label = ""
@@ -249,7 +249,7 @@ view model =
             , disabled = model.disabled
             , state = Progress.Default
             }
-        )
+        ]
         [ { label = "Bar"
           , description = ""
           , content = controller

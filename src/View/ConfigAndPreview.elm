@@ -8,13 +8,13 @@ import UI.Example exposing (example)
 
 configAndPreview :
     { title : String }
-    -> Html msg
+    -> List (Html msg)
     -> List { label : String, description : String, content : Html msg }
     -> Html msg
 configAndPreview { title } preview config =
     example { title = title, description = "" }
         [ div [ css [ displayFlex, property "gap" "50px" ] ]
-            [ div [ css [ width (pct 70) ] ] [ preview ]
+            [ div [ css [ width (pct 70) ] ] preview
             , aside
                 [ css
                     [ width (pct 30)

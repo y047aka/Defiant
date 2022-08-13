@@ -82,12 +82,12 @@ view { theme } model =
             }
     in
     [ configAndPreview { title = "Breadcrumb" }
-        (breadcrumb options
+        [ breadcrumb options
             [ { label = "Home", url = "/" }
             , { label = "Store", url = "/" }
             , { label = "T-Shirt", url = "" }
             ]
-        )
+        ]
         [ { label = "Divider"
           , description = "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text."
           , content =
@@ -97,7 +97,7 @@ view { theme } model =
           }
         ]
     , configAndPreview { title = "Inverted" }
-        (segment { theme = Dark }
+        [ segment { theme = Dark }
             []
             [ breadcrumb { divider = text "/", theme = Dark }
                 [ { label = "Home", url = "/" }
@@ -105,7 +105,7 @@ view { theme } model =
                 , { label = "Personal Information", url = "" }
                 ]
             ]
-        )
+        ]
         []
     , let
         breadcrumb_ =
@@ -135,12 +135,12 @@ view { theme } model =
                     massiveBreadCrumb
       in
       configAndPreview { title = "Size" }
-        (breadcrumb_ { divider = text "/", theme = System }
+        [ breadcrumb_ { divider = text "/", theme = System }
             [ { label = "Home", url = "/" }
             , { label = "Registration", url = "/" }
             , { label = "Personal Information", url = "" }
             ]
-        )
+        ]
         [ { label = "Size"
           , description = "A breadcrumb can vary in size"
           , content =

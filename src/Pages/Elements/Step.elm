@@ -73,7 +73,7 @@ update msg model =
 view : Model -> List (Html Msg)
 view model =
     [ configAndPreview { title = "Steps" }
-        (steps []
+        [ steps []
             [ step []
                 { icon = "fas fa-truck"
                 , title = "Shipping"
@@ -90,10 +90,10 @@ view model =
                 , description = ""
                 }
             ]
-        )
+        ]
         []
     , configAndPreview { title = "Content" }
-        (steps []
+        [ steps []
             [ step []
                 { icon =
                     if model.hasIcon then
@@ -110,7 +110,7 @@ view model =
                         ""
                 }
             ]
-        )
+        ]
         [ { label = "Icon"
           , description = "A step can contain an icon"
           , content =
@@ -129,7 +129,7 @@ view model =
           }
         ]
     , configAndPreview { title = "States" }
-        (steps []
+        [ steps []
             [ let
                 step_ =
                     case model.state of
@@ -151,7 +151,7 @@ view model =
                 , description = "Enter billing information"
                 }
             ]
-        )
+        ]
         [ { label = "States"
           , description =
                 case model.state of
