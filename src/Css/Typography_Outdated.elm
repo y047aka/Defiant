@@ -2,8 +2,7 @@ module Css.Typography_Outdated exposing
     ( Typography
     , typography
     , init
-    , default, heading
-    , fomanticFontFamilies
+    , default
     , int, num, px, rem, em
     , inherit, none
     , normal, italic, oblique
@@ -17,7 +16,6 @@ module Css.Typography_Outdated exposing
 @docs typography
 @docs init
 @docs default, heading
-@docs fomanticFontFamilies
 @docs int, num, px, rem, em
 @docs inherit, none
 @docs normal, italic, oblique
@@ -76,14 +74,6 @@ default =
         | fontFamilies = fomanticFontFamilies
         , fontSize = px 14
         , lineHeight = em 1.4285
-    }
-
-
-heading : Typography
-heading =
-    { default
-        | fontWeight = bold
-        , lineHeight = em 1.28571429
     }
 
 

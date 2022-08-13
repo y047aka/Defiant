@@ -18,7 +18,7 @@ module UI.CircleStep exposing
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Palette as Palette exposing (palette, paletteWith, setBackground, setBorder, setColor)
-import Css.Typography_Outdated exposing (fomanticFontFamilies)
+import Css.Typography as Typography exposing (typography)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import Html.Styled.Attributes exposing (css)
 import UI.Icon as Icon
@@ -324,9 +324,8 @@ title : { state : State } -> List (Attribute msg) -> List (Html msg) -> Html msg
 title { state } =
     Html.styled Html.div
         [ -- .ui.steps .step .title
-          fontFamilies fomanticFontFamilies
+          typography Typography.bold
         , fontSize (em 1.14285714)
-        , fontWeight bold
 
         -- .ui.steps .step > .title
         , width (pct 100)

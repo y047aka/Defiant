@@ -19,7 +19,8 @@ import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, selector, typeSelector)
 import Css.Layout as Layout exposing (layout)
 import Css.Palette as Palette exposing (hoverColor, setBackground, setColor, textColor)
-import Css.Typography_Outdated as Typography exposing (fomanticFontFamilies, typography)
+import Css.Typography as Typography exposing (typography)
+import Css.Typography_Outdated as Typography_
 import Data.PalettesByState exposing (..)
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes exposing (css)
@@ -35,9 +36,6 @@ basis { palettes, shadow } additionalStyles =
     let
         defaultLayout =
             Layout.default
-
-        initialTypography =
-            Typography.init
     in
     Html.styled Html.button
         [ -- .ui.button
@@ -47,15 +45,18 @@ basis { palettes, shadow } additionalStyles =
         , outline none
         , borderStyle none
         , layout { defaultLayout | textAlign = Layout.center }
-        , typography
-            { initialTypography
-                | fontFamilies = fomanticFontFamilies
-                , textTransform = Typography.none
-                , fontStyle = Typography.normal
-                , fontWeight = Typography.bold
-                , lineHeight = Typography.em 1
-                , textDecoration = Typography.none
-            }
+        , typography Typography.bold
+        , Typography_.typography
+            (Typography_.init
+                |> (\initial ->
+                        { initial
+                            | textTransform = Typography_.none
+                            , fontStyle = Typography_.normal
+                            , lineHeight = Typography_.em 1
+                            , textDecoration = Typography_.none
+                        }
+                   )
+            )
         , margin4 zero (em 0.25) zero zero
         , padding3 (em 0.78571429) (em 1.5) (em 0.78571429)
         , textShadow none
@@ -151,15 +152,15 @@ basicButton : List (Attribute msg) -> List (Html msg) -> Html msg
 basicButton =
     let
         initialTypography =
-            Typography.init
+            Typography_.init
     in
     basis { palettes = basicPalettes, shadow = True }
         [ -- .ui.basic.button
           property "background" "transparent none"
-        , typography
+        , Typography_.typography
             { initialTypography
-                | fontWeight = Typography.normal
-                , textTransform = Typography.none
+                | fontWeight = Typography_.normal
+                , textTransform = Typography_.none
             }
         , borderRadius (rem 0.28571429)
         , textShadow none |> important
@@ -173,7 +174,7 @@ labeledButton attributes =
             Layout.default
 
         initialTypography =
-            Typography.init
+            Typography_.init
     in
     Html.div <|
         css
@@ -183,14 +184,13 @@ labeledButton attributes =
             , outline none
             , borderStyle none
             , layout { defaultLayout | textAlign = Layout.center }
-            , typography
+            , typography Typography.bold
+            , Typography_.typography
                 { initialTypography
-                    | fontFamilies = fomanticFontFamilies
-                    , textTransform = Typography.none
-                    , fontStyle = Typography.normal
-                    , fontWeight = Typography.bold
-                    , lineHeight = Typography.em 1
-                    , textDecoration = Typography.none
+                    | textTransform = Typography_.none
+                    , fontStyle = Typography_.normal
+                    , lineHeight = Typography_.em 1
+                    , textDecoration = Typography_.none
                 }
             , color (rgba 0 0 0 0.6)
             , margin4 zero (em 0.25) zero zero

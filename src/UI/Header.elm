@@ -17,7 +17,8 @@ module UI.Header exposing
 import Css exposing (..)
 import Css.Global exposing (adjacentSiblings, children, typeSelector)
 import Css.Palette as Palette exposing (darkPalette, palette, setColor)
-import Css.Typography_Outdated as Typography exposing (typography)
+import Css.Typography as Typography exposing (typography)
+import Css.Typography_Outdated as Typography_
 import Data exposing (Size(..))
 import Data.Theme exposing (Theme)
 import Html.Styled as Html exposing (Attribute, Html)
@@ -26,9 +27,6 @@ import Html.Styled as Html exposing (Attribute, Html)
 basis : { theme : Theme } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 basis { theme } additionalStyles =
     let
-        headingTypography =
-            Typography.heading
-
         defaultPalette =
             Palette.init |> setColor (rgba 0 0 0 0.87)
 
@@ -41,11 +39,17 @@ basis { theme } additionalStyles =
           borderStyle none
         , margin3 (calc (rem 2) minus (em 0.1428571428571429)) zero (rem 1)
         , padding2 zero zero
-        , typography
-            { headingTypography
-                | fontSize = ""
-                , textTransform = Typography.none
-            }
+        , typography Typography.bold
+        , Typography_.typography
+            (Typography_.init
+                |> (\initial ->
+                        { initial
+                            | fontSize = ""
+                            , lineHeight = "1.28571429em"
+                            , textTransform = Typography_.none
+                        }
+                   )
+            )
 
         -- Palette
         , palette defaultPalette

@@ -3,7 +3,7 @@ module UI.Container exposing (container, textContainer)
 import Css exposing (..)
 import Css.Global exposing (children)
 import Css.Media as Media exposing (only, screen, withMedia)
-import Css.Typography_Outdated exposing (fomanticFontFamilies)
+import Css.Typography as Typography exposing (typography)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
@@ -60,7 +60,7 @@ textContainer : List (Attribute msg) -> List (Html msg) -> Html msg
 textContainer =
     basis
         [ -- .ui.text.container
-          fontFamilies fomanticFontFamilies
+          typography Typography.default
         , maxWidth (px 700)
         , lineHeight (num 1.5)
         , fontSize (rem 1.14285714)

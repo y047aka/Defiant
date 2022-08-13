@@ -28,7 +28,7 @@ import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, each, selector)
 import Css.Media as Media exposing (only, screen, withMedia)
 import Css.Palette as Palette exposing (palette, paletteWith, setBackground, setBorder, setColor, setShadow)
-import Css.Typography_Outdated exposing (fomanticFontFamilies)
+import Css.Typography as Typography exposing (typography)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import UI.Checkbox
 
@@ -218,7 +218,7 @@ input { state } =
         , verticalAlign top
 
         --
-        , fontFamilies fomanticFontFamilies
+        , typography Typography.default
         , margin zero
         , outline none
         , property "-webkit-appearance" "none"
@@ -279,7 +279,7 @@ textarea { state } =
         , property "-webkit-transition" "color 0.1s ease, border-color 0.1s ease"
         , property "transition" "color 0.1s ease, border-color 0.1s ease"
         , fontSize (em 1)
-        , fontFamilies fomanticFontFamilies
+        , typography Typography.default
         , lineHeight (num 1.2857)
         , resize vertical
 

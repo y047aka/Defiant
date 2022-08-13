@@ -14,7 +14,7 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, everything, selector)
 import Css.Palette as Palette exposing (darkPalette, darkPaletteWith, palette, paletteWith, setBackground, setBorder, setBorderIf, setColor, setShadowIf)
-import Css.Typography_Outdated exposing (fomanticFontFamilies)
+import Css.Typography as Typography exposing (typography)
 import Data.Theme exposing (Theme)
 import Html.Styled as Html exposing (Attribute, Html, text)
 
@@ -259,11 +259,10 @@ header { theme } =
           -- .ui.card > .content > .header
           display block
         , property "margin" "''"
-        , fontFamilies fomanticFontFamilies
+        , typography Typography.bold
 
         -- .ui.cards > .card > .content > .header:not(.ui)
         -- .ui.card > .content > .header:not(.ui)
-        , fontWeight bold
         , fontSize (em 1.28571429)
         , marginTop (em -0.21425)
         , lineHeight (em 1.28571429)

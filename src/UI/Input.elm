@@ -4,7 +4,7 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (adjacentSiblings, children)
 import Css.Palette as Palette exposing (palette, paletteWith, setBackground, setBorder, setColor)
-import Css.Typography_Outdated exposing (fomanticFontFamilies)
+import Css.Typography as Typography exposing (typography)
 import Html.Styled as Html exposing (Attribute, Html)
 import UI.Label as Label
 
@@ -29,7 +29,7 @@ input =
                 , property "-webkit-tap-highlight-color" "rgba(255, 255, 255, 0)"
                 , textAlign left
                 , lineHeight (em 1.21428571)
-                , fontFamilies fomanticFontFamilies
+                , typography Typography.default
                 , padding2 (em 0.67857143) (em 1)
                 , paletteWith { border = border3 (px 1) solid }
                     (Palette.init

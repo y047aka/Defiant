@@ -17,7 +17,7 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, each, selector)
 import Css.Palette as Palette exposing (darkPalette, darkPaletteWith, palette, paletteWith, setBackground, setBorder, setColor)
-import Css.Typography_Outdated exposing (fomanticFontFamilies)
+import Css.Typography as Typography exposing (typography)
 import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Attribute, Html, text)
 import Html.Styled.Attributes as Attributes
@@ -178,7 +178,7 @@ headerBasis { theme, additionalStyles } =
     Html.styled Html.header
         [ -- .ui.modal > .header
           display block
-        , fontFamilies fomanticFontFamilies
+        , typography Typography.bold
         , paletteWith { border = borderBottom3 (px 1) solid }
             (Palette.init
                 |> setBackground (hex "#FFFFFF")
@@ -197,7 +197,6 @@ headerBasis { theme, additionalStyles } =
         -- .ui.modal > .header:not(.ui)
         , fontSize (rem 1.42857143)
         , lineHeight (em 1.28571429)
-        , fontWeight bold
 
         -- AdditionalStyles
         , batch additionalStyles

@@ -17,7 +17,7 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (adjacentSiblings, children, generalSiblings)
 import Css.Palette as Palette exposing (darkPalette, palette, paletteWith, setBackground, setColor)
-import Css.Typography_Outdated exposing (fomanticFontFamilies)
+import Css.Typography as Typography exposing (typography)
 import Data.Theme exposing (Theme)
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes as Attributes exposing (css, for, href, name, type_, value)
@@ -194,9 +194,8 @@ accordion { toggleMethod, theme } attributes items =
                     display block
                 , margin zero
                 , padding2 (em 0.75) (em 1)
-                , fontFamilies fomanticFontFamilies
+                , typography Typography.bold
                 , fontSize (em 1)
-                , fontWeight bold
 
                 -- Palette
                 , palette defaultPalette

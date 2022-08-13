@@ -17,7 +17,7 @@ module UI.Item exposing
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, everything)
-import Css.Typography_Outdated exposing (fomanticFontFamilies)
+import Css.Typography as Typography exposing (typography)
 import Html.Styled as Html exposing (Attribute, Html, text)
 
 
@@ -222,8 +222,7 @@ header =
         [ -- .ui.items > .item > .content > .header
           display inlineBlock
         , margin3 (em -0.21425) zero zero
-        , fontFamilies fomanticFontFamilies
-        , fontWeight bold
+        , typography Typography.bold
         , color (rgba 0 0 0 0.85)
 
         -- .ui.items > .item > .content > .header:not(.ui)
