@@ -6,10 +6,10 @@ import Html.Styled.Attributes exposing (css, src)
 import Page exposing (Page)
 import Request exposing (Request)
 import Shared
-import UI.Example exposing (example)
 import UI.Grid as Grid exposing (eightWideColumn, fourWideColumn, grid, sixWideColumn, threeColumnsGrid, twoWideColumn)
 import UI.Image exposing (smallImage)
 import UI.Segment exposing (segment)
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page
@@ -54,11 +54,7 @@ view { shared } =
                     ]
                 ]
     in
-    [ example
-        { title = "Grids"
-        , description = """A grid is a structure with a long history used to align negative space in designs.
-Using a grid makes content appear to flow more naturally on your page."""
-        }
+    [ configAndPreview { title = "Grids" }
         [ grid [ css additionalStyles ]
             [ fourWideColumn [ dummyContent ] []
             , fourWideColumn [ dummyContent ] []
@@ -66,13 +62,8 @@ Using a grid makes content appear to flow more naturally on your page."""
             , fourWideColumn [ dummyContent ] []
             ]
         ]
-    , example
-        { title = "Columns"
-        , description = """Grids divide horizontal space into indivisible units called "columns". All columns in a grid must specify their width as proportion of the total available row width.
-All grid systems choose an arbitrary column count to allow per row. Fomantic's default theme uses 16 columns.
-The example below shows four four wide columns will fit in the first row, 16 / 4 = 4, and three various sized columns in the second row. 2 + 8 + 6 = 16
-The default column count, and other arbitrary features of grids can be changed by adjusting Fomantic UI's underlying theming variables."""
-        }
+        []
+    , configAndPreview { title = "Columns" }
         [ grid [ css additionalStyles ]
             [ fourWideColumn [ dummyContent ] []
             , fourWideColumn [ dummyContent ] []
@@ -83,10 +74,8 @@ The default column count, and other arbitrary features of grids can be changed b
             , sixWideColumn [ dummyContent ] []
             ]
         ]
-    , example
-        { title = "Automatic Flow"
-        , description = "Most grids do not need to specify rows. Content will automatically flow to the next row when all the grid columns are taken in the current row."
-        }
+        []
+    , configAndPreview { title = "Automatic Flow" }
         [ grid [ css additionalStyles ]
             [ fourWideColumn [ dummyContent ] []
             , fourWideColumn [ dummyContent ] []
@@ -98,10 +87,8 @@ The default column count, and other arbitrary features of grids can be changed b
             , fourWideColumn [ dummyContent ] []
             ]
         ]
-    , example
-        { title = "Column Content"
-        , description = "Since columns use padding to create gutters, content stylings should not be applied directly to columns, but to elements inside of columns."
-        }
+        []
+    , configAndPreview { title = "Column Content" }
         [ let
             imageSegment =
                 segment { theme = shared.theme }
@@ -114,4 +101,5 @@ The default column count, and other arbitrary features of grids can be changed b
             , Grid.column [] [ imageSegment ]
             ]
         ]
+        []
     ]

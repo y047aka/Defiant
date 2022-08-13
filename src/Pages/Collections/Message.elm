@@ -4,10 +4,10 @@ import Html.Styled as Html exposing (Html, div, p, text)
 import Page exposing (Page)
 import Request exposing (Request)
 import Shared
-import UI.Example exposing (example)
 import UI.Header as Header
 import UI.Icon exposing (icon)
 import UI.Message exposing (message)
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page
@@ -30,10 +30,7 @@ view { shared } =
         options =
             { theme = shared.theme }
     in
-    [ example
-        { title = "Message"
-        , description = "A basic message"
-        }
+    [ configAndPreview { title = "Message" }
         [ message []
             [ div []
                 [ Header.header options [] [ text "Changes in Service" ]
@@ -41,10 +38,8 @@ view { shared } =
                 ]
             ]
         ]
-    , example
-        { title = "Icon Message"
-        , description = "A message can contain an icon."
-        }
+        []
+    , configAndPreview { title = "Icon Message" }
         [ message []
             [ icon [] "fas fa-inbox"
             , div []
@@ -53,4 +48,5 @@ view { shared } =
                 ]
             ]
         ]
+        []
     ]

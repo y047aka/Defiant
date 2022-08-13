@@ -4,8 +4,8 @@ import Html.Styled as Html exposing (Html, text)
 import Page exposing (Page)
 import Request exposing (Request)
 import Shared
-import UI.Example exposing (example)
 import UI.Table exposing (..)
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page
@@ -20,10 +20,7 @@ page _ _ =
 
 view : List (Html msg)
 view =
-    [ example
-        { title = "Table"
-        , description = "A standard table"
-        }
+    [ configAndPreview { title = "Table" }
         [ celledTable []
             [ thead []
                 [ tr [] <|
@@ -38,10 +35,8 @@ view =
                     ]
             ]
         ]
-    , example
-        { title = "Striped"
-        , description = "A table can stripe alternate rows of content with a darker color to increase contrast"
-        }
+        []
+    , configAndPreview { title = "Striped" }
         [ stripedTable []
             [ thead []
                 [ tr [] <|
@@ -61,10 +56,8 @@ view =
                     ]
             ]
         ]
-    , example
-        { title = "Basic"
-        , description = "A table can reduce its complexity to increase readability."
-        }
+        []
+    , configAndPreview { title = "Basic" }
         [ basicTable []
             [ thead []
                 [ tr [] <|
@@ -79,10 +72,8 @@ view =
                     ]
             ]
         ]
-    , example
-        { title = ""
-        , description = ""
-        }
+        []
+    , configAndPreview { title = "" }
         [ veryBasicTable []
             [ thead []
                 [ tr [] <|
@@ -97,4 +88,5 @@ view =
                     ]
             ]
         ]
+        []
     ]

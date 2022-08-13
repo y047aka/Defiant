@@ -6,7 +6,7 @@ import Page exposing (Page)
 import Request exposing (Request)
 import Shared
 import UI.Checkbox as Checkbox exposing (checkbox)
-import UI.Example exposing (example)
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page
@@ -21,13 +21,11 @@ page _ _ =
 
 view : List (Html msg)
 view =
-    [ example
-        { title = "Checkbox"
-        , description = "A checkbox allows a user to select a value from a small set of options, often binary"
-        }
+    [ configAndPreview { title = "Checkbox" }
         [ checkbox []
             [ Checkbox.input [ id "checkbox_example", type_ "checkbox" ] []
             , Checkbox.label [ for "checkbox_example" ] [ text "Make my profile visible" ]
             ]
         ]
+        []
     ]

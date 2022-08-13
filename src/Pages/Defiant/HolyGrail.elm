@@ -4,8 +4,9 @@ import Html.Styled as Html exposing (Html, text)
 import Page exposing (Page)
 import Request exposing (Request)
 import Shared
-import UI.Example exposing (example, wireframeParagraph)
+import UI.Example exposing (wireframeParagraph)
 import UI.HolyGrail exposing (holyGrail)
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page
@@ -20,10 +21,7 @@ page _ _ =
 
 view : List (Html msg)
 view =
-    [ example
-        { title = "Holy grail"
-        , description = "Holy grail layout"
-        }
+    [ configAndPreview { title = "Holy grail" }
         [ holyGrail
             { header = [ text "header" ]
             , main = [ wireframeParagraph ]
@@ -32,4 +30,5 @@ view =
             , footer = [ text "footer" ]
             }
         ]
+        []
     ]

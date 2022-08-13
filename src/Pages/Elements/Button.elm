@@ -6,9 +6,9 @@ import Page
 import Request exposing (Request)
 import Shared
 import UI.Button exposing (..)
-import UI.Example exposing (example)
 import UI.Icon exposing (icon)
 import UI.Label exposing (basicLabel)
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
@@ -62,36 +62,25 @@ update msg model =
 
 view : Model -> List (Html Msg)
 view { counter } =
-    [ example
-        { title = "Button"
-        , description = "A standard button"
-        }
+    [ configAndPreview { title = "Button" }
         [ button [] [ text "Follow" ] ]
-    , example
-        { title = ""
-        , description = ""
-        }
+        []
+    , configAndPreview { title = "" }
         [ button [] [ text "Button" ]
         , button [] [ text "Focusable" ]
         ]
-    , example
-        { title = "Emphasis"
-        , description = "A button can be formatted to show different levels of emphasis"
-        }
+        []
+    , configAndPreview { title = "Emphasis" }
         [ primaryButton [] [ text "Save" ]
         , button [] [ text "Discard" ]
         ]
-    , example
-        { title = ""
-        , description = ""
-        }
+        []
+    , configAndPreview { title = "" }
         [ secondaryButton [] [ text "Okay" ]
         , button [] [ text "Cancel" ]
         ]
-    , example
-        { title = "Labeled"
-        , description = "A button can appear alongside a label"
-        }
+        []
+    , configAndPreview { title = "Labeled" }
         [ labeledButton []
             [ button [] [ icon [] "fas fa-heart", text "Like" ]
             , basicLabel [] [ text "2048" ]
@@ -102,20 +91,14 @@ view { counter } =
             , button [ onClick Increment ] [ text "+" ]
             ]
         ]
-    , example
-        { title = "Icon"
-        , description = "A button can have only an icon"
-        }
+        []
+    , configAndPreview { title = "Icon" }
         [ button [] [ icon [] "fas fa-cloud" ] ]
-    , example
-        { title = "Basic"
-        , description = "A basic button is less pronounced"
-        }
+        []
+    , configAndPreview { title = "Basic" }
         [ basicButton [] [ icon [] "fas fa-user", text "Add Friend" ] ]
-    , example
-        { title = "Colored"
-        , description = "A button can have different colors"
-        }
+        []
+    , configAndPreview { title = "Colored" }
         [ primaryButton [] [ text "Primary" ]
         , secondaryButton [] [ text "Secondary" ]
         , redButton [] [ text "Red" ]
@@ -132,4 +115,5 @@ view { counter } =
         , greyButton [] [ text "Grey" ]
         , blackButton [] [ text "Black" ]
         ]
+        []
     ]

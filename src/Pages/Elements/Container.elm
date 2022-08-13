@@ -6,7 +6,7 @@ import Page exposing (Page)
 import Request exposing (Request)
 import Shared
 import UI.Container exposing (container, textContainer)
-import UI.Example exposing (example)
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page
@@ -31,19 +31,15 @@ view =
                 , text " mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi."
                 ]
     in
-    [ example
-        { title = "Container"
-        , description = "A standard container"
-        }
+    [ configAndPreview { title = "Container" }
         [ container [] [ content ] ]
-    , example
-        { title = "Text Container"
-        , description = "A container can reduce its maximum width to more naturally accomodate a single column of text"
-        }
+        []
+    , configAndPreview { title = "Text Container" }
         [ textContainer []
             [ h2 [] [ text "Header" ]
             , content
             , content
             ]
         ]
+        []
     ]

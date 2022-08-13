@@ -6,9 +6,9 @@ import Html.Styled.Attributes exposing (css)
 import Page exposing (Page)
 import Request exposing (Request)
 import Shared
-import UI.Example exposing (example)
 import UI.Grid as Grid exposing (fiveColumnsGrid)
 import UI.Icon exposing (icon)
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page
@@ -54,10 +54,7 @@ view =
                     ]
                 ]
     in
-    [ example
-        { title = "Accessibility"
-        , description = "Icons can represent accessibility standards"
-        }
+    [ configAndPreview { title = "Accessibility" }
         [ fiveColumnsGrid []
             [ -- row 1
               column [] [ icon_ "fab fa-accessible-icon", text "accessible icon" ]
@@ -85,4 +82,5 @@ view =
             , column [] [ icon_ "fas fa-wheelchair", text "wheelchair" ]
             ]
         ]
+        []
     ]

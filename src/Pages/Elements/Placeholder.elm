@@ -4,8 +4,8 @@ import Html.Styled as Html exposing (Html)
 import Page exposing (Page)
 import Request exposing (Request)
 import Shared
-import UI.Example exposing (example)
 import UI.Placeholder as Placeholder exposing (line)
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page
@@ -20,10 +20,7 @@ page _ _ =
 
 view : List (Html msg)
 view =
-    [ example
-        { title = "Lines"
-        , description = "A placeholder can contain have lines of text"
-        }
+    [ configAndPreview { title = "Lines" }
         [ Placeholder.placeholder []
             [ line [] []
             , line [] []
@@ -32,4 +29,5 @@ view =
             , line [] []
             ]
         ]
+        []
     ]

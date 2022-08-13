@@ -7,9 +7,9 @@ import Page
 import Request exposing (Request)
 import Shared
 import UI.Button exposing (blackButton, button, greenButton, redButton)
-import UI.Example exposing (example)
 import UI.Icon exposing (icon)
 import UI.Modal as Modal exposing (basicModal, dialog, modal)
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
@@ -70,10 +70,7 @@ update msg model =
 
 view : Model -> List (Html Msg)
 view { shared, toggledItems } =
-    [ example
-        { title = "Modal"
-        , description = "A standard modal"
-        }
+    [ configAndPreview { title = "Modal" }
         [ button [ onClick (Toggle "modal") ] [ icon [] "fas fa-plus", text "Show" ]
         , modal
             { open = List.member "modal" toggledItems
@@ -98,10 +95,8 @@ view { shared, toggledItems } =
                 ]
             }
         ]
-    , example
-        { title = "Basic"
-        , description = "A modal can reduce its complexity"
-        }
+        []
+    , configAndPreview { title = "Basic" }
         [ button [ onClick (Toggle "basicModal") ] [ icon [] "fas fa-plus", text "Show" ]
         , basicModal
             { open = List.member "basicModal" toggledItems
@@ -120,10 +115,8 @@ view { shared, toggledItems } =
             }
             []
         ]
-    , example
-        { title = "Dialog"
-        , description = ""
-        }
+        []
+    , configAndPreview { title = "Dialog" }
         [ button [ onClick (Toggle "dialog") ] [ icon [] "fas fa-plus", text "Show" ]
         , dialog
             { open = List.member "dialog" toggledItems
@@ -147,4 +140,5 @@ view { shared, toggledItems } =
                 ]
             }
         ]
+        []
     ]

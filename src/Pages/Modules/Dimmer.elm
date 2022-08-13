@@ -9,11 +9,12 @@ import Request exposing (Request)
 import Shared
 import UI.Button exposing (button)
 import UI.Dimmer as Dimmer exposing (dimmer, pageDimmer)
-import UI.Example exposing (example, wireframeMediaParagraph, wireframeShortParagraph)
+import UI.Example exposing (wireframeMediaParagraph, wireframeShortParagraph)
 import UI.Header as Header exposing (iconHeader, subHeader)
 import UI.Icon exposing (icon)
 import UI.Image exposing (smallImage)
 import UI.Segment exposing (segment)
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
@@ -78,10 +79,7 @@ view { shared, toggledItems } =
         options =
             { theme = shared.theme }
     in
-    [ example
-        { title = "Dimmer"
-        , description = "A simple dimmer displays no content"
-        }
+    [ configAndPreview { title = "Dimmer" }
         [ segment options
             []
             [ Header.header options [] [ text "Overlayable Section" ]
@@ -92,10 +90,8 @@ view { shared, toggledItems } =
             ]
         , button [ onClick (Toggle "dimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
         ]
-    , example
-        { title = "Content Dimmer"
-        , description = "A dimmer can display content"
-        }
+        []
+    , configAndPreview { title = "Content Dimmer" }
         [ segment options
             []
             [ Header.header options [] [ text "Overlayable Section" ]
@@ -113,10 +109,8 @@ view { shared, toggledItems } =
             ]
         , button [ onClick (Toggle "contentDimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
         ]
-    , example
-        { title = "Page Dimmer"
-        , description = "A dimmer can be formatted to be fixed to the page"
-        }
+        []
+    , configAndPreview { title = "Page Dimmer" }
         [ button [ onClick (Toggle "pageDimmer") ] [ icon [] "fas fa-plus", text "Show" ]
         , pageDimmer { isActive = List.member "pageDimmer" toggledItems, toggle = Toggle "pageDimmer" }
             []
@@ -130,10 +124,8 @@ view { shared, toggledItems } =
                 ]
             ]
         ]
-    , example
-        { title = "Inverted Dimmer"
-        , description = "A dimmer can be formatted to have its colors inverted"
-        }
+        []
+    , configAndPreview { title = "Inverted Dimmer" }
         [ segment options
             []
             [ wireframeShortParagraph
@@ -144,4 +136,5 @@ view { shared, toggledItems } =
             ]
         , button [ onClick (Toggle "invertedDimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
         ]
+        []
     ]

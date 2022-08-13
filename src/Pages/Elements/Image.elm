@@ -5,8 +5,8 @@ import Html.Styled.Attributes exposing (src)
 import Page exposing (Page)
 import Request exposing (Request)
 import Shared
-import UI.Example exposing (example)
 import UI.Image exposing (smallImage)
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page
@@ -21,9 +21,7 @@ page _ _ =
 
 view : List (Html msg)
 view =
-    [ example
-        { title = "Image"
-        , description = "An image"
-        }
+    [ configAndPreview { title = "Image" }
         [ smallImage [ src "/static/images/wireframe/image.png" ] [] ]
+        []
     ]

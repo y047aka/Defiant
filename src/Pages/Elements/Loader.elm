@@ -6,9 +6,10 @@ import Page exposing (Page)
 import Request exposing (Request)
 import Shared
 import UI.Dimmer exposing (dimmer)
-import UI.Example exposing (example, wireframeShortParagraph)
+import UI.Example exposing (wireframeShortParagraph)
 import UI.Loader exposing (loader, textLoader)
 import UI.Segment exposing (segment)
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page
@@ -27,10 +28,7 @@ type alias Model =
 
 view : Model -> List (Html msg)
 view { shared } =
-    [ example
-        { title = "Loader"
-        , description = "A loader"
-        }
+    [ configAndPreview { title = "Loader" }
         [ segment { theme = shared.theme }
             []
             [ wireframeShortParagraph
@@ -39,10 +37,8 @@ view { shared } =
                 [ loader { theme = Light } [] [] ]
             ]
         ]
-    , example
-        { title = "Text Loader"
-        , description = "A loader can contain text"
-        }
+        []
+    , configAndPreview { title = "Text Loader" }
         [ segment { theme = shared.theme }
             []
             [ wireframeShortParagraph
@@ -58,4 +54,5 @@ view { shared } =
                 [ textLoader { theme = Dark } [] [ text "Loading" ] ]
             ]
         ]
+        []
     ]

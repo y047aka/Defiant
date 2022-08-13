@@ -4,9 +4,9 @@ import Html.Styled as Html exposing (Html, text)
 import Page exposing (Page)
 import Request exposing (Request)
 import Shared
-import UI.Example exposing (example)
 import UI.Icon exposing (icon)
 import UI.Label as Label exposing (..)
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page
@@ -21,46 +21,33 @@ page _ _ =
 
 view : List (Html msg)
 view =
-    [ example
-        { title = "Label"
-        , description = "A label"
-        }
+    [ configAndPreview { title = "Label" }
         [ Label.label [] [ icon [] "fas fa-envelope", text "23" ] ]
-    , example
-        { title = "Icon"
-        , description = "A label can include an icon"
-        }
+        []
+    , configAndPreview { title = "Icon" }
         [ Label.label [] [ icon [] "fas fa-envelope", text "Mail" ]
         , Label.label [] [ icon [] "fas fa-check", text "Test Passed" ]
         , Label.label [] [ icon [] "fas fa-dog", text "Dog" ]
         , Label.label [] [ icon [] "fas fa-cat", text "Cat" ]
         ]
-    , example
-        { title = ""
-        , description = ""
-        }
+        []
+    , configAndPreview { title = "" }
         [ Label.label [] [ text "Mail", icon [] "fas fa-envelope" ]
         , Label.label [] [ text "Test Passed", icon [] "fas fa-check" ]
         , Label.label [] [ text "Dog", icon [] "fas fa-dog" ]
         , Label.label [] [ text "Cat", icon [] "fas fa-cat" ]
         ]
-    , example
-        { title = ""
-        , description = ""
-        }
+        []
+    , configAndPreview { title = "" }
         [ Label.label [] [ icon [] "fas fa-envelope" ]
         , Label.label [] [ icon [] "fas fa-dog" ]
         , Label.label [] [ icon [] "fas fa-cat" ]
         ]
-    , example
-        { title = "Basic"
-        , description = "A label can reduce its complexity"
-        }
+        []
+    , configAndPreview { title = "Basic" }
         [ basicLabel [] [ text "Basic" ] ]
-    , example
-        { title = "Colored"
-        , description = "A label can have different colors"
-        }
+        []
+    , configAndPreview { title = "Colored" }
         [ primaryLabel [] [ text "Primary" ]
         , secondaryLabel [] [ text "Secondary" ]
         , redLabel [] [ text "Red" ]
@@ -77,4 +64,5 @@ view =
         , greyLabel [] [ text "Grey" ]
         , blackLabel [] [ text "Black" ]
         ]
+        []
     ]

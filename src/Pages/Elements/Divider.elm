@@ -5,7 +5,8 @@ import Page exposing (Page)
 import Request exposing (Request)
 import Shared
 import UI.Divider exposing (divider)
-import UI.Example exposing (example, wireframeShortParagraph)
+import UI.Example exposing (wireframeShortParagraph)
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page
@@ -20,12 +21,10 @@ page _ _ =
 
 view : List (Html msg)
 view =
-    [ example
-        { title = "Divider"
-        , description = "A standard divider"
-        }
+    [ configAndPreview { title = "Divider" }
         [ wireframeShortParagraph
         , divider [] []
         , wireframeShortParagraph
         ]
+        []
     ]

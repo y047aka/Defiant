@@ -6,10 +6,10 @@ import Html.Styled.Attributes as Attributes exposing (href, placeholder, rel, ty
 import Page exposing (Page)
 import Request exposing (Request)
 import Shared
-import UI.Example exposing (example)
 import UI.Input as Input
 import UI.Menu as Menu exposing (..)
 import UI.Segment exposing (invertedSegment)
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page
@@ -28,10 +28,7 @@ type alias Model =
 
 view : Model -> List (Html msg)
 view { shared } =
-    [ example
-        { title = "Secondary Menu"
-        , description = "A menu can adjust its appearance to de-emphasize its contents"
-        }
+    [ configAndPreview { title = "Secondary Menu" }
         [ secondaryMenu { theme = Light } [] <|
             [ secondaryMenuActiveItem [] [ text "Home" ]
             , secondaryMenuItem [] [] [ text "Messages" ]
@@ -45,10 +42,8 @@ view { shared } =
                 ]
             ]
         ]
-    , example
-        { title = "Vertical Menu"
-        , description = "A vertical menu displays elements vertically.."
-        }
+        []
+    , configAndPreview { title = "Vertical Menu" }
         [ verticalMenu { theme = shared.theme, additionalStyles = [] } [] <|
             [ verticalMenuActiveItem { theme = shared.theme } [] <|
                 [ text "Inbox"
@@ -65,29 +60,23 @@ view { shared } =
             , verticalMenuItem { theme = shared.theme, additionalStyles = [] } [] [ text "Search mail..." ]
             ]
         ]
-    , example
-        { title = "Link Item"
-        , description = "A menu may contain a link item, or an item formatted as if it is a link."
-        }
+        []
+    , configAndPreview { title = "Link Item" }
         [ verticalMenu { theme = shared.theme, additionalStyles = [] } [] <|
             [ verticalMenuLinkItem { theme = shared.theme, additionalStyles = [] } [ href "http://www.google.com", Attributes.target "_blank", rel "noopener" ] [ text "Visit Google" ]
             , verticalMenuLinkItem { theme = shared.theme, additionalStyles = [] } [] [ text "Javascript Link" ]
             ]
         ]
-    , example
-        { title = "Inverted"
-        , description = "A menu may have its colors inverted to show greater contrast"
-        }
+        []
+    , configAndPreview { title = "Inverted" }
         [ Menu.menu { theme = Dark } [] <|
             [ linkItem { theme = Dark } [] [ text "Home" ]
             , linkItem { theme = Dark } [] [ text "Messages" ]
             , linkItem { theme = Dark } [] [ text "Friends" ]
             ]
         ]
-    , example
-        { title = ""
-        , description = ""
-        }
+        []
+    , configAndPreview { title = "" }
         [ invertedSegment []
             [ secondaryMenu { theme = Light } [] <|
                 [ linkItem { theme = Dark } [] [ text "Home" ]
@@ -96,4 +85,5 @@ view { shared } =
                 ]
             ]
         ]
+        []
     ]

@@ -5,8 +5,8 @@ import Html.Styled.Attributes exposing (placeholder, type_)
 import Page exposing (Page)
 import Request exposing (Request)
 import Shared
-import UI.Example exposing (example)
 import UI.Input as Input
+import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page
@@ -21,29 +21,23 @@ page _ _ =
 
 view : List (Html msg)
 view =
-    [ example
-        { title = "Input"
-        , description = "A standard input"
-        }
+    [ configAndPreview { title = "Input" }
         [ Input.input []
             [ input [ type_ "text", placeholder "Search..." ] [] ]
         ]
-    , example
-        { title = "Labeled"
-        , description = "An input can be formatted with a label"
-        }
+        []
+    , configAndPreview { title = "Labeled" }
         [ Input.input []
             [ Input.label [] [ text "http://" ]
             , input [ type_ "text", placeholder "mysite.com" ] []
             ]
         ]
-    , example
-        { title = ""
-        , description = ""
-        }
+        []
+    , configAndPreview { title = "" }
         [ Input.input []
             [ input [ type_ "text", placeholder "Enter weight.." ] []
             , Input.label [] [ text "kg" ]
             ]
         ]
+        []
     ]
