@@ -17,7 +17,7 @@ module UI.Item exposing
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, everything)
-import Css.Typography as Typography exposing (typography)
+import Css.Typography as Typography exposing (setFontSize, setLineHeight, typography)
 import Html.Styled as Html exposing (Attribute, Html, text)
 
 
@@ -222,11 +222,8 @@ header =
         [ -- .ui.items > .item > .content > .header
           display inlineBlock
         , margin3 (em -0.21425) zero zero
-        , typography Typography.bold
+        , typography (Typography.bold |> setFontSize (em 1.28571429))
         , color (rgba 0 0 0 0.85)
-
-        -- .ui.items > .item > .content > .header:not(.ui)
-        , fontSize (em 1.28571429)
         ]
 
 
@@ -235,8 +232,11 @@ meta =
     Html.styled Html.div
         [ -- .ui.items > .item .meta
           margin3 (em 0.5) zero (em 0.5)
-        , fontSize (em 1)
-        , lineHeight (em 1)
+        , typography
+            (Typography.init
+                |> setFontSize (em 1)
+                |> setLineHeight (em 1)
+            )
         , color (rgba 0 0 0 0.6)
 
         -- .ui.items > .item .meta *
@@ -258,8 +258,11 @@ description =
         [ -- .ui.items > .item > .content > .description
           marginTop (em 0.6)
         , property "max-width" "auto"
-        , fontSize (em 1)
-        , lineHeight (em 1.4285)
+        , typography
+            (Typography.init
+                |> setFontSize (em 1)
+                |> setLineHeight (em 1.4285)
+            )
         , color (rgba 0 0 0 0.87)
         ]
 

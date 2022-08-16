@@ -17,7 +17,7 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, each, selector)
 import Css.Palette as Palette exposing (darkPalette, darkPaletteWith, palette, paletteWith, setBackground, setBorder, setColor)
-import Css.Typography as Typography exposing (typography)
+import Css.Typography as Typography exposing (setFontSize, setLineHeight, typography)
 import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Attribute, Html, text)
 import Html.Styled.Attributes as Attributes
@@ -178,7 +178,11 @@ headerBasis { theme, additionalStyles } =
     Html.styled Html.header
         [ -- .ui.modal > .header
           display block
-        , typography Typography.bold
+        , typography
+            (Typography.bold
+                |> setFontSize (rem 1.42857143)
+                |> setLineHeight (em 1.28571429)
+            )
         , paletteWith { border = borderBottom3 (px 1) solid }
             (Palette.init
                 |> setBackground (hex "#FFFFFF")
@@ -193,10 +197,6 @@ headerBasis { theme, additionalStyles } =
         , margin zero
         , padding2 (rem 1.25) (rem 1.5)
         , prefixed [] "box-shadow" "none"
-
-        -- .ui.modal > .header:not(.ui)
-        , fontSize (rem 1.42857143)
-        , lineHeight (em 1.28571429)
 
         -- AdditionalStyles
         , batch additionalStyles
@@ -228,8 +228,11 @@ contentBasis { theme, additionalStyles } =
         [ -- .ui.modal > .content
           display block
         , width (pct 100)
-        , fontSize (em 1)
-        , lineHeight (num 1.4)
+        , typography
+            (Typography.init
+                |> setFontSize (em 1)
+                |> setLineHeight (num 1.4)
+            )
         , padding (rem 1.5)
         , palette (Palette.init |> setBackground (hex "#FFFFFF"))
         , darkPalette theme

@@ -18,7 +18,7 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Layout as Layout exposing (layout)
 import Css.Palette as Palette exposing (darkPalette, palette, paletteWith, setBackground, setBackgroundIf, setBorderIf, setColor, setShadowIf)
-import Css.Typography_Outdated as Typography exposing (init, typography)
+import Css.Typography as Typography exposing (setFontSize, setFontWeight, setLineHeight, setTextDecoration, setTextTransform, typography)
 import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Attribute, Html)
 import UI.Label
@@ -27,9 +27,6 @@ import UI.Label
 menuBasis : { vertical : Bool, border : Bool, shadow : Bool, theme : Theme } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 menuBasis { vertical, border, shadow, theme } additionalStyles =
     let
-        defaultTypography =
-            Typography.default
-
         defaultPalette =
             Palette.init
                 |> setBackgroundIf shadow (hex "#FFF")
@@ -53,7 +50,11 @@ menuBasis { vertical, border, shadow, theme } additionalStyles =
 
         -- .ui.menu
         , prefixed [] "display" "flex"
-        , typography { defaultTypography | fontWeight = Typography.normal }
+        , typography
+            (Typography.default
+                |> setFontSize (rem 1)
+                |> setFontWeight normal
+            )
         , minHeight (em 2.85714286)
 
         -- .ui.menu:after
@@ -85,9 +86,6 @@ menuBasis { vertical, border, shadow, theme } additionalStyles =
         -- prefixed [] "display" "flex"
         -- prefixed [] "align-items" "center"
         --
-        -- .ui.menu
-        , fontSize (rem 1)
-
         -- Vertical
         , batch <|
             if vertical then
@@ -140,12 +138,12 @@ itemBasis { tag, vertical, borderAndShadows, theme } additionalStyles =
           position relative
         , layout { initialLayout | verticalAlign = Layout.middle }
         , typography
-            { init
-                | textTransform = Typography.none
-                , fontWeight = Typography.normal
-                , lineHeight = Typography.int 1
-                , textDecoration = Typography.none
-            }
+            (Typography.init
+                |> setFontWeight normal
+                |> setLineHeight (int 1)
+                |> setTextDecoration none
+                |> setTextTransform none
+            )
         , property "-webkit-tap-highlight-color" "transparent"
         , prefixed [] "flex" "0 0 auto"
         , prefixed [] "user-select" "none"

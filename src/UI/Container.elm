@@ -3,7 +3,7 @@ module UI.Container exposing (container, textContainer)
 import Css exposing (..)
 import Css.Global exposing (children)
 import Css.Media as Media exposing (only, screen, withMedia)
-import Css.Typography as Typography exposing (typography)
+import Css.Typography as Typography exposing (setFontSize, setLineHeight, typography)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
@@ -60,10 +60,12 @@ textContainer : List (Attribute msg) -> List (Html msg) -> Html msg
 textContainer =
     basis
         [ -- .ui.text.container
-          typography Typography.default
-        , maxWidth (px 700)
-        , lineHeight (num 1.5)
-        , fontSize (rem 1.14285714)
+          maxWidth (px 700)
+        , typography
+            (Typography.default
+                |> setFontSize (rem 1.14285714)
+                |> setLineHeight (num 1.5)
+            )
 
         -- orverride
         , children

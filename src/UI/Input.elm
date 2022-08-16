@@ -4,7 +4,7 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (adjacentSiblings, children)
 import Css.Palette as Palette exposing (palette, paletteWith, setBackground, setBorder, setColor)
-import Css.Typography as Typography exposing (typography)
+import Css.Typography as Typography exposing (setFontStyle, setFontWeight, setLineHeight, typography)
 import Html.Styled as Html exposing (Attribute, Html)
 import UI.Label as Label
 
@@ -14,8 +14,11 @@ input =
     Html.styled Html.div
         [ -- .ui.input
           position relative
-        , fontWeight normal
-        , fontStyle normal
+        , typography
+            (Typography.init
+                |> setFontStyle normal
+                |> setFontWeight normal
+            )
         , prefixed [] "display" "inline-flex"
         , color (rgba 0 0 0 0.87)
 
@@ -28,8 +31,7 @@ input =
                 , outline none
                 , property "-webkit-tap-highlight-color" "rgba(255, 255, 255, 0)"
                 , textAlign left
-                , lineHeight (em 1.21428571)
-                , typography Typography.default
+                , typography (Typography.default |> setLineHeight (em 1.21428571))
                 , padding2 (em 0.67857143) (em 1)
                 , paletteWith { border = border3 (px 1) solid }
                     (Palette.init

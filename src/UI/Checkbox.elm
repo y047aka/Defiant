@@ -4,6 +4,7 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (generalSiblings)
 import Css.Palette as Palette exposing (palette, paletteWith, setBackground, setBorder)
+import Css.Typography as Typography exposing (setFontSize, setFontStyle, setLineHeight, typography)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
@@ -16,10 +17,13 @@ checkbox =
         , prefixed [] "backface-visibility" "hidden"
         , outline none
         , verticalAlign baseline
-        , fontStyle normal
         , minHeight (px 17)
-        , fontSize (em 1)
-        , lineHeight (px 17)
+        , typography
+            (Typography.init
+                |> setFontSize (em 1)
+                |> setFontStyle normal
+                |> setLineHeight (px 17)
+            )
         , minWidth (px 17)
         ]
 

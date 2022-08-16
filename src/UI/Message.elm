@@ -4,6 +4,7 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, selector)
 import Css.Palette exposing (paletteWith)
+import Css.Typography as Typography exposing (setFontSize, setLineHeight, typography)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
@@ -76,9 +77,12 @@ basis additionalStyles =
                 , display block
                 , prefixed [] "flex" "0 0 auto"
                 , width auto
-                , lineHeight (int 1)
                 , verticalAlign middle
-                , fontSize (em 3)
+                , typography
+                    (Typography.init
+                        |> setFontSize (em 3)
+                        |> setLineHeight (int 1)
+                    )
                 , opacity (num 0.8)
                 ]
             , Css.Global.div

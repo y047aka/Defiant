@@ -19,28 +19,24 @@ import Css.Extra exposing (prefixed)
 import Css.Global exposing (children)
 import Css.Layout as Layout exposing (layout)
 import Css.Palette as Palette exposing (Palette, palette, setColor, textColor)
-import Css.Typography_Outdated as Typography exposing (typography)
+import Css.Typography as Typography exposing (setFontSize, setFontWeight, setLineHeight, setTextTransform, typography)
 import Data.PalettesByState exposing (..)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
 basis : { border : Bool, palette : Maybe Palette } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 basis options additionalStyles =
-    let
-        initialTypography =
-            Typography.init
-    in
     Html.styled Html.div
         [ -- .ui.label
           display inlineBlock
         , layout Layout.default
         , typography
-            { initialTypography
-                | lineHeight = Typography.int 1
-                , fontSize = Typography.rem 0.85714286
-                , fontWeight = Typography.bold
-                , textTransform = Typography.none
-            }
+            (Typography.init
+                |> setFontSize (rem 0.85714286)
+                |> setFontWeight bold
+                |> setLineHeight (int 1)
+                |> setTextTransform none
+            )
         , margin2 zero (em 0.14285714)
         , backgroundImage none
         , palette <| Maybe.withDefault basis_ options.palette

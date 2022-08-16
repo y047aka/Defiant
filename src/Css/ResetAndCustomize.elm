@@ -3,8 +3,7 @@ module Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (Snippet, each, everything, selector)
-import Css.Typography as Typography exposing (typography)
-import Css.Typography_Outdated as Typography_
+import Css.Typography as Typography exposing (setFontSize, setLineHeight, typography)
 
 
 additionalReset : List Snippet
@@ -47,7 +46,11 @@ globalCustomize =
         , minWidth (px 320)
         , property "background" "#FFFFFF"
         , color (rgba 0 0 0 0.87)
-        , Typography_.typography Typography_.default
+        , typography
+            (Typography.default
+                |> setFontSize (px 14)
+                |> setLineHeight (em 1.4285)
+            )
         ]
 
     -- Headers
@@ -60,16 +63,7 @@ globalCustomize =
         ]
         [ margin3 (calc (rem 2) minus (em 0.1428571428571429)) zero (rem 1)
         , padding zero
-        , typography Typography.bold
-        , Typography_.typography
-            (Typography_.init
-                |> (\initial ->
-                        { initial
-                            | fontSize = Typography_.px 14
-                            , lineHeight = Typography_.em 1.28571429
-                        }
-                   )
-            )
+        , typography (Typography.bold |> setLineHeight (em 1.28571429))
         ]
     , Css.Global.h1
         [ minHeight (rem 1)
@@ -103,7 +97,11 @@ globalCustomize =
     -- Text
     , Css.Global.p
         [ margin3 zero zero (em 1)
-        , Typography_.typography Typography_.default
+        , typography
+            (Typography.default
+                |> setFontSize (px 14)
+                |> setLineHeight (em 1.4285)
+            )
         , firstChild
             [ marginTop zero ]
         , lastChild

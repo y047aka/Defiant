@@ -17,8 +17,7 @@ module UI.Header exposing
 import Css exposing (..)
 import Css.Global exposing (adjacentSiblings, children, typeSelector)
 import Css.Palette as Palette exposing (darkPalette, palette, setColor)
-import Css.Typography as Typography exposing (typography)
-import Css.Typography_Outdated as Typography_
+import Css.Typography as Typography exposing (setFontSize, setFontWeight, setLineHeight, setTextTransform, typography)
 import Data exposing (Size(..))
 import Data.Theme exposing (Theme)
 import Html.Styled as Html exposing (Attribute, Html)
@@ -39,16 +38,10 @@ basis { theme } additionalStyles =
           borderStyle none
         , margin3 (calc (rem 2) minus (em 0.1428571428571429)) zero (rem 1)
         , padding2 zero zero
-        , typography Typography.bold
-        , Typography_.typography
-            (Typography_.init
-                |> (\initial ->
-                        { initial
-                            | fontSize = ""
-                            , lineHeight = "1.28571429em"
-                            , textTransform = Typography_.none
-                        }
-                   )
+        , typography
+            (Typography.bold
+                |> setLineHeight (em 1.28571429)
+                |> setTextTransform none
             )
 
         -- Palette
@@ -171,11 +164,14 @@ subHeader { theme } =
     Html.styled Html.div
         [ -- .ui.header .sub.header
           display block
-        , fontWeight normal
         , padding zero
         , margin zero
-        , fontSize (rem 1)
-        , lineHeight (em 1.2)
+        , typography
+            (Typography.init
+                |> setFontSize (rem 1)
+                |> setFontWeight normal
+                |> setLineHeight (em 1.2)
+            )
 
         -- Palette
         , palette defaultPalette
@@ -211,9 +207,12 @@ iconHeader props =
                 , display block
                 , width auto
                 , height auto
-                , lineHeight (int 1)
                 , padding zero
-                , fontSize (em 3)
+                , typography
+                    (Typography.init
+                        |> setFontSize (em 3)
+                        |> setLineHeight (int 1)
+                    )
                 , margin3 zero auto (rem 0.5)
                 , opacity (int 1)
                 ]

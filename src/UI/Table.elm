@@ -15,7 +15,8 @@ import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, each)
 import Css.Layout as Layout exposing (layout)
 import Css.Palette as Palette exposing (paletteWith, setBackground, setBorderIf, setColor)
-import Css.Typography_Outdated as Typography exposing (init, typography)
+import Css.Typography as Typography exposing (setFontWeight, setTextTransform, typography)
+import Css.Typography_Outdated as Typography_
 import Html.Styled as Html exposing (Attribute, Html)
 
 
@@ -63,8 +64,8 @@ basis options additionalStyles =
               each [ Css.Global.thead, Css.Global.tbody ]
                 [ layout
                     { initialLayout
-                        | textAlign = Typography.inherit
-                        , verticalAlign = Typography.inherit
+                        | textAlign = Typography_.inherit
+                        , verticalAlign = Typography_.inherit
                     }
                 ]
 
@@ -246,7 +247,7 @@ td =
         [ -- .ui.table > tbody > tr > td
           -- .ui.table > tr > td
           padding2 (em 0.78571429) (em 0.78571429)
-        , layout { initialLayout | textAlign = Typography.inherit }
+        , layout { initialLayout | textAlign = Typography_.inherit }
         ]
 
 
@@ -261,15 +262,15 @@ th =
           cursor auto
         , layout
             { initialLayout
-                | textAlign = Typography.inherit
-                , verticalAlign = Typography.inherit
+                | textAlign = Typography_.inherit
+                , verticalAlign = Typography_.inherit
             }
         , typography
-            { init
-                | fontStyle = Typography.none
-                , fontWeight = Typography.bold
-                , textTransform = Typography.none
-            }
+            (Typography.init
+                |> setFontWeight bold
+                |> setTextTransform none
+            )
+        , property "font-style" "none"
         , color (rgba 0 0 0 0.87)
         , padding2 (em 0.92857143) (em 0.78571429)
         , borderBottom3 (px 1) solid (rgba 34 36 38 0.1)

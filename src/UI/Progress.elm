@@ -3,6 +3,7 @@ module UI.Progress exposing (State(..), progress, stateFromString, stateToString
 import Css exposing (..)
 import Css.Animations as Animations exposing (keyframes)
 import Css.Extra exposing (prefixed)
+import Css.Typography as Typography exposing (setFontSize, setFontWeight, typography)
 import Html.Styled as Html exposing (Attribute, Html, text)
 
 
@@ -232,11 +233,15 @@ bar options =
                   whiteSpace noWrap
                 , position absolute
                 , width auto
-                , fontSize (em 0.92857143)
                 , top (pct 50)
                 , right (em 0.5)
                 , left auto
                 , bottom auto
+                , typography
+                    (Typography.init
+                        |> setFontSize (em 0.92857143)
+                        |> setFontWeight bold
+                    )
                 , color <|
                     if options.value == 0 then
                         -- .ui.progress[data-percent="0"] .bar .progress
@@ -246,7 +251,6 @@ bar options =
                         rgba 255 255 255 0.7
                 , textShadow none
                 , marginTop (em -0.5)
-                , fontWeight bold
                 , textAlign left
                 ]
     in
@@ -265,12 +269,15 @@ label { value, indicating, state } =
         [ -- .ui.progress > .label
           position absolute
         , width (pct 100)
-        , fontSize (em 1)
         , top (pct 100)
         , right auto
         , left zero
         , bottom auto
-        , fontWeight bold
+        , typography
+            (Typography.init
+                |> setFontSize (em 1)
+                |> setFontWeight bold
+            )
         , textShadow none
         , marginTop (em 0.2)
         , textAlign center

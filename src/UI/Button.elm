@@ -19,8 +19,7 @@ import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, selector, typeSelector)
 import Css.Layout as Layout exposing (layout)
 import Css.Palette as Palette exposing (hoverColor, setBackground, setColor, textColor)
-import Css.Typography as Typography exposing (typography)
-import Css.Typography_Outdated as Typography_
+import Css.Typography as Typography exposing (setFontStyle, setFontWeight, setLineHeight, setTextDecoration, setTextTransform, typography)
 import Data.PalettesByState exposing (..)
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes exposing (css)
@@ -45,17 +44,12 @@ basis { palettes, shadow } additionalStyles =
         , outline none
         , borderStyle none
         , layout { defaultLayout | textAlign = Layout.center }
-        , typography Typography.bold
-        , Typography_.typography
-            (Typography_.init
-                |> (\initial ->
-                        { initial
-                            | textTransform = Typography_.none
-                            , fontStyle = Typography_.normal
-                            , lineHeight = Typography_.em 1
-                            , textDecoration = Typography_.none
-                        }
-                   )
+        , typography
+            (Typography.bold
+                |> setFontStyle normal
+                |> setLineHeight (em 1)
+                |> setTextDecoration none
+                |> setTextTransform none
             )
         , margin4 zero (em 0.25) zero zero
         , padding3 (em 0.78571429) (em 1.5) (em 0.78571429)
@@ -150,18 +144,14 @@ button =
 
 basicButton : List (Attribute msg) -> List (Html msg) -> Html msg
 basicButton =
-    let
-        initialTypography =
-            Typography_.init
-    in
     basis { palettes = basicPalettes, shadow = True }
         [ -- .ui.basic.button
           property "background" "transparent none"
-        , Typography_.typography
-            { initialTypography
-                | fontWeight = Typography_.normal
-                , textTransform = Typography_.none
-            }
+        , typography
+            (Typography.init
+                |> setFontWeight normal
+                |> setTextTransform none
+            )
         , borderRadius (rem 0.28571429)
         , textShadow none |> important
         ]
@@ -172,9 +162,6 @@ labeledButton attributes =
     let
         defaultLayout =
             Layout.default
-
-        initialTypography =
-            Typography_.init
     in
     Html.div <|
         css
@@ -184,14 +171,13 @@ labeledButton attributes =
             , outline none
             , borderStyle none
             , layout { defaultLayout | textAlign = Layout.center }
-            , typography Typography.bold
-            , Typography_.typography
-                { initialTypography
-                    | textTransform = Typography_.none
-                    , fontStyle = Typography_.normal
-                    , lineHeight = Typography_.em 1
-                    , textDecoration = Typography_.none
-                }
+            , typography
+                (Typography.bold
+                    |> setFontStyle normal
+                    |> setLineHeight (em 1)
+                    |> setTextTransform none
+                    |> setTextDecoration none
+                )
             , color (rgba 0 0 0 0.6)
             , margin4 zero (em 0.25) zero zero
             , textShadow none

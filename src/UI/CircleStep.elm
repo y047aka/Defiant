@@ -18,7 +18,7 @@ module UI.CircleStep exposing
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Palette as Palette exposing (palette, paletteWith, setBackground, setBorder, setColor)
-import Css.Typography as Typography exposing (typography)
+import Css.Typography as Typography exposing (setFontSize, setFontWeight, setLineHeight, typography)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import Html.Styled.Attributes exposing (css)
 import UI.Icon as Icon
@@ -272,8 +272,11 @@ icon { state } =
     Icon.icon
         [ css
             [ -- .ui.steps .step > i.icon
-              lineHeight (int 1)
-            , fontSize (em 2.5)
+              typography
+                (Typography.init
+                    |> setFontSize (em 2.5)
+                    |> setLineHeight (int 1)
+                )
             , margin4 zero (rem 1) zero zero
 
             -- .ui.steps .step > i.icon
@@ -324,8 +327,7 @@ title : { state : State } -> List (Attribute msg) -> List (Html msg) -> Html msg
 title { state } =
     Html.styled Html.div
         [ -- .ui.steps .step .title
-          typography Typography.bold
-        , fontSize (em 1.14285714)
+          typography (Typography.bold |> setFontSize (em 1.14285714))
 
         -- .ui.steps .step > .title
         , width (pct 100)
@@ -354,8 +356,11 @@ description : { state : State } -> List (Attribute msg) -> List (Html msg) -> Ht
 description { state } =
     Html.styled Html.div
         [ -- .ui.steps .step .description
-          fontWeight normal
-        , fontSize (em 0.92857143)
+          typography
+            (Typography.init
+                |> setFontSize (em 0.92857143)
+                |> setFontWeight normal
+            )
         , color (rgba 0 0 0 0.87)
 
         -- .ui.steps .step > .description

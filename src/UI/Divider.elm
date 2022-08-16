@@ -2,6 +2,7 @@ module UI.Divider exposing (divider)
 
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
+import Css.Typography as Typography exposing (setFontWeight, setLetterSpacing, setLineHeight, setTextTransform, typography)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
@@ -10,11 +11,14 @@ basis additionalStyles =
     Html.styled Html.div
         [ -- .ui.divider
           margin2 (rem 1) zero
-        , lineHeight (int 1)
         , height zero
-        , fontWeight bold
-        , textTransform uppercase
-        , letterSpacing (em 0.05)
+        , typography
+            (Typography.init
+                |> setFontWeight bold
+                |> setLineHeight (int 1)
+                |> setTextTransform uppercase
+                |> setLetterSpacing (em 0.05)
+            )
         , color (rgba 0 0 0 0.85)
         , prefixed [] "user-select" "none"
         , property "-webkit-tap-highlight-color" "rgba(0, 0, 0, 0)"

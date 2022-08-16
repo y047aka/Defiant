@@ -28,7 +28,7 @@ import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, each, selector)
 import Css.Media as Media exposing (only, screen, withMedia)
 import Css.Palette as Palette exposing (palette, paletteWith, setBackground, setBorder, setColor, setShadow)
-import Css.Typography as Typography exposing (typography)
+import Css.Typography as Typography exposing (setFontSize, setFontWeight, setLineHeight, setTextTransform, typography)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import UI.Checkbox
 
@@ -190,9 +190,12 @@ label { state } =
           display block
         , margin4 zero zero (rem 0.28571429) zero
         , color (rgba 0 0 0 0.87)
-        , fontSize (em 0.92857143)
-        , fontWeight bold
-        , textTransform none
+        , typography
+            (Typography.init
+                |> setFontSize (em 0.92857143)
+                |> setFontWeight bold
+                |> setTextTransform none
+            )
 
         -- State
         , colorByState state
@@ -218,14 +221,16 @@ input { state } =
         , verticalAlign top
 
         --
-        , typography Typography.default
         , margin zero
         , outline none
         , property "-webkit-appearance" "none"
         , property "-webkit-tap-highlight-color" "rgba(255, 255, 255, 0)"
-        , lineHeight (em 1.21428571)
         , padding2 (em 0.67857143) (em 1)
-        , fontSize (em 1)
+        , typography
+            (Typography.default
+                |> setFontSize (em 1)
+                |> setLineHeight (em 1.21428571)
+            )
         , paletteWith { border = border3 (px 1) solid }
             (Palette.init
                 |> setBackground (hex "#FFFFFF")
@@ -278,9 +283,11 @@ textarea { state } =
         , borderRadius (rem 0.28571429)
         , property "-webkit-transition" "color 0.1s ease, border-color 0.1s ease"
         , property "transition" "color 0.1s ease, border-color 0.1s ease"
-        , fontSize (em 1)
-        , typography Typography.default
-        , lineHeight (num 1.2857)
+        , typography
+            (Typography.default
+                |> setFontSize (em 1)
+                |> setLineHeight (num 1.2857)
+            )
         , resize vertical
 
         -- .ui.form textarea:not([rows])
