@@ -8,8 +8,7 @@ import Html.Styled.Events exposing (onInput)
 import Page
 import Request exposing (Request)
 import Shared
-import UI.Breadcrumb exposing (bigBreadCrumb, breadcrumb, hugeBreadCrumb, largeBreadCrumb, massiveBreadCrumb, mediumBreadCrumb, miniBreadCrumb, smallBreadCrumb, tinyBreadCrumb)
-import UI.Icon exposing (icon)
+import UI.Breadcrumb exposing (Divider(..), bigBreadCrumb, breadcrumb, dividerFromString, dividerToString, hugeBreadCrumb, largeBreadCrumb, massiveBreadCrumb, mediumBreadCrumb, miniBreadCrumb, smallBreadCrumb, tinyBreadCrumb)
 import UI.Segment exposing (segment)
 import View.ConfigAndPreview exposing (configAndPreview)
 
@@ -39,7 +38,7 @@ type alias Model =
 
 init : Model
 init =
-    { divider = Slash
+    { divider = RightChevron
     , size = Medium
     }
 
@@ -71,15 +70,7 @@ view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
     let
         options =
-            { divider =
-                case model.divider of
-                    Slash ->
-                        text "/"
-
-                    RightChevron ->
-                        icon [] "fas fa-angle-right"
-            , theme = theme
-            }
+            { divider = model.divider, theme = theme }
     in
     [ configAndPreview { title = "Breadcrumb" }
         [ breadcrumb options
@@ -99,7 +90,7 @@ view { theme } model =
     , configAndPreview { title = "Inverted" }
         [ segment { theme = Dark }
             []
-            [ breadcrumb { divider = text "/", theme = Dark }
+            [ breadcrumb { divider = Slash, theme = Dark }
                 [ { label = "Home", url = "/" }
                 , { label = "Registration", url = "/" }
                 , { label = "Personal Information", url = "" }
@@ -135,7 +126,7 @@ view { theme } model =
                     massiveBreadCrumb
       in
       configAndPreview { title = "Size" }
-        [ breadcrumb_ { divider = text "/", theme = System }
+        [ breadcrumb_ { divider = Slash, theme = System }
             [ { label = "Home", url = "/" }
             , { label = "Registration", url = "/" }
             , { label = "Personal Information", url = "" }
@@ -150,35 +141,3 @@ view { theme } model =
           }
         ]
     ]
-
-
-
--- HELPER
-
-
-type Divider
-    = Slash
-    | RightChevron
-
-
-dividerFromString : String -> Maybe Divider
-dividerFromString string =
-    case string of
-        "Slash" ->
-            Just Slash
-
-        "RightChevron" ->
-            Just RightChevron
-
-        _ ->
-            Nothing
-
-
-dividerToString : Divider -> String
-dividerToString divider =
-    case divider of
-        Slash ->
-            "Slash"
-
-        RightChevron ->
-            "RightChevron"

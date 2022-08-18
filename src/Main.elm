@@ -17,7 +17,7 @@ import Html.Styled.Attributes exposing (css, id, selected, value)
 import Html.Styled.Events exposing (onInput)
 import Request
 import Shared
-import UI.Breadcrumb exposing (BreadcrumbItem, breadcrumb)
+import UI.Breadcrumb exposing (BreadcrumbItem, Divider(..), breadcrumb)
 import UI.Container exposing (container)
 import UI.Segment exposing (basicSegment)
 import Url exposing (Url)
@@ -180,7 +180,8 @@ siteHeader shared page =
             , borderBottom3 (px 1) solid (hex "#EEE")
             ]
         ]
-        [ breadcrumb { divider = text "/", theme = shared.theme } (breadcrumbItems page)
+        [ breadcrumb { divider = Slash, theme = shared.theme }
+            (breadcrumbItems page)
         , div []
             [ select [ onInput (Theme.fromString >> Maybe.withDefault shared.theme >> (\theme -> Shared (Shared.ChangeTheme theme))) ] <|
                 List.map (\theme -> option [ value (Theme.toString theme), selected (shared.theme == theme) ] [ text (Theme.toString theme) ])
