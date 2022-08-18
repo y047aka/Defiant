@@ -72,33 +72,7 @@ view { theme } model =
         options =
             { divider = model.divider, theme = theme }
     in
-    [ configAndPreview { title = "Breadcrumb" }
-        [ breadcrumb options
-            [ { label = "Home", url = "/" }
-            , { label = "Store", url = "/" }
-            , { label = "T-Shirt", url = "" }
-            ]
-        ]
-        [ { label = "Divider"
-          , description = "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text."
-          , content =
-                select [ onInput (dividerFromString >> Maybe.withDefault model.divider >> ChangeDivider) ] <|
-                    List.map (\divider -> option [ value (dividerToString divider), selected (model.divider == divider) ] [ text (dividerToString divider) ])
-                        [ Slash, RightChevron ]
-          }
-        ]
-    , configAndPreview { title = "Inverted" }
-        [ segment { theme = Dark }
-            []
-            [ breadcrumb { divider = Slash, theme = Dark }
-                [ { label = "Home", url = "/" }
-                , { label = "Registration", url = "/" }
-                , { label = "Personal Information", url = "" }
-                ]
-            ]
-        ]
-        []
-    , let
+    [ let
         breadcrumb_ =
             case model.size of
                 Mini ->
@@ -125,14 +99,21 @@ view { theme } model =
                 Massive ->
                     massiveBreadCrumb
       in
-      configAndPreview { title = "Size" }
-        [ breadcrumb_ { divider = Slash, theme = System }
+      configAndPreview { title = "Breadcrumb" }
+        [ breadcrumb_ options
             [ { label = "Home", url = "/" }
-            , { label = "Registration", url = "/" }
-            , { label = "Personal Information", url = "" }
+            , { label = "Store", url = "/" }
+            , { label = "T-Shirt", url = "" }
             ]
         ]
-        [ { label = "Size"
+        [ { label = "Divider"
+          , description = "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text."
+          , content =
+                select [ onInput (dividerFromString >> Maybe.withDefault model.divider >> ChangeDivider) ] <|
+                    List.map (\divider -> option [ value (dividerToString divider), selected (model.divider == divider) ] [ text (dividerToString divider) ])
+                        [ Slash, RightChevron ]
+          }
+        , { label = "Size"
           , description = "A breadcrumb can vary in size"
           , content =
                 select [ onInput (sizeFromString >> Maybe.withDefault model.size >> ChangeSize) ] <|
@@ -140,4 +121,15 @@ view { theme } model =
                         [ Mini, Tiny, Small, Medium, Large, Big, Huge, Massive ]
           }
         ]
+    , configAndPreview { title = "Inverted" }
+        [ segment { theme = Dark }
+            []
+            [ breadcrumb { divider = Slash, theme = Dark }
+                [ { label = "Home", url = "/" }
+                , { label = "Registration", url = "/" }
+                , { label = "Personal Information", url = "" }
+                ]
+            ]
+        ]
+        []
     ]
