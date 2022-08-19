@@ -32,8 +32,46 @@ type alias BreadcrumbItem =
     }
 
 
-basis : { size : Maybe (FontSize a), theme : Theme } -> List (Html msg) -> Html msg
-basis { size, theme } =
+breadcrumb : { divider : Divider, theme : Theme } -> List BreadcrumbItem -> Html msg
+breadcrumb { divider, theme } children =
+    breadcrumbWithProps { divider = divider, size = Nothing, theme = theme } children
+
+
+breadcrumbWithProps : { divider : Divider, size : Maybe (FontSize a), theme : Theme } -> List BreadcrumbItem -> Html msg
+breadcrumbWithProps { divider, size, theme } children =
+    let
+        itemOption =
+            { divider = divider, theme = theme }
+    in
+    breadcrumbInternal
+        { wrapper = breadcrumbBasis { size = size, theme = theme }
+        , item = itemBasis itemOption { active = False }
+        , activeItem = itemBasis itemOption { active = True }
+        }
+        children
+
+
+breadcrumbInternal :
+    { wrapper : List (Attribute msg) -> List (Html msg) -> Html msg
+    , item : List (Attribute msg) -> List (Html msg) -> Html msg
+    , activeItem : List (Attribute msg) -> List (Html msg) -> Html msg
+    }
+    -> List BreadcrumbItem
+    -> Html msg
+breadcrumbInternal options items =
+    let
+        section_ index { label, url } =
+            if index + 1 == List.length items then
+                options.activeItem [] [ text label ]
+
+            else
+                options.item [ href url ] [ text label ]
+    in
+    options.wrapper [] (List.indexedMap section_ items)
+
+
+breadcrumbBasis : { size : Maybe (FontSize a), theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+breadcrumbBasis { size, theme } =
     Html.styled Html.ul
         [ margin zero
         , padding zero
@@ -54,33 +92,10 @@ basis { size, theme } =
             -- .ui.inverted.breadcrumb
             (Palette.init |> setColor (hex "#DCDDDE"))
         ]
-        []
 
 
-breadcrumbWithProps : { divider : Divider, size : Maybe (FontSize a), theme : Theme } -> List BreadcrumbItem -> Html msg
-breadcrumbWithProps { divider, size, theme } children =
-    let
-        length =
-            List.length children
-
-        section_ index { label, url } =
-            if index + 1 == length then
-                activeSection { divider = divider, theme = theme } [] [ text label ]
-
-            else
-                section { divider = divider, theme = theme } [ href url ] [ text label ]
-    in
-    basis { size = size, theme = theme }
-        (children |> List.indexedMap section_)
-
-
-breadcrumb : { divider : Divider, theme : Theme } -> List BreadcrumbItem -> Html msg
-breadcrumb { divider, theme } children =
-    breadcrumbWithProps { divider = divider, size = Nothing, theme = theme } children
-
-
-sectionBasis : { divider : Divider, theme : Theme } -> { active : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-sectionBasis { divider } { active } attributes children =
+itemBasis : { divider : Divider, theme : Theme } -> { active : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
+itemBasis { divider } { active } attributes children =
     Html.styled Html.li
         [ margin zero
         , padding zero
@@ -134,16 +149,6 @@ sectionBasis { divider } { active } attributes children =
                 attributes
                 children
         ]
-
-
-section : { divider : Divider, theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
-section options =
-    sectionBasis options { active = False }
-
-
-activeSection : { divider : Divider, theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
-activeSection options =
-    sectionBasis options { active = True }
 
 
 
