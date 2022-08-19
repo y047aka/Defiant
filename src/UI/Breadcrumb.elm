@@ -45,8 +45,8 @@ breadcrumbWithProps { divider, size, theme } children =
     in
     breadcrumbInternal
         { wrapper = breadcrumbBasis { size = size, theme = theme }
-        , item = itemBasis itemOption { active = False }
-        , activeItem = itemBasis itemOption { active = True }
+        , item = item itemOption
+        , activeItem = activeItem itemOption
         }
         children
 
@@ -94,8 +94,46 @@ breadcrumbBasis { size, theme } =
         ]
 
 
-itemBasis : { divider : Divider, theme : Theme } -> { active : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
-itemBasis { divider } { active } attributes children =
+item : { divider : Divider, theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+item options attributes children =
+    itemBasis options [] <|
+        [ Html.styled Html.a
+            [ cursor pointer
+            , color (hex "#4183C4")
+            , hover
+                [ color (hex "#1e70bf") ]
+            ]
+            attributes
+            children
+        ]
+
+
+activeItem : { divider : Divider, theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+activeItem options attributes children =
+    itemBasis options [] <|
+        [ Html.styled Html.span
+            [ -- .ui.breadcrumb .active.section
+              typography (Typography.init |> setFontWeight bold)
+            ]
+            attributes
+            children
+        ]
+
+
+itemBasis : { divider : Divider, theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+itemBasis { divider } =
+    let
+        svg path =
+            "url('data:image/svg+xml;utf-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 10 10\"><g fill=\"none\" stroke-width=\"1\" stroke=\"hsl(0, 0%, 65%)\">" ++ path ++ "</g></svg>')"
+
+        svgIcon =
+            case divider of
+                Slash ->
+                    svg "<path d=\"M7 1L3 9\"></path>"
+
+                RightChevron ->
+                    svg "<path d=\"M3 1L7 5L3 9\"></path>"
+    in
     Html.styled Html.li
         [ margin zero
         , padding zero
@@ -104,17 +142,7 @@ itemBasis { divider } { active } attributes children =
         , nthChild "n+2"
             [ before
                 [ property "content" (qt "")
-                , property "background-image" <|
-                    let
-                        svg path =
-                            "url('data:image/svg+xml;utf-8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 10 10\"><g fill=\"none\" stroke-width=\"1\" stroke=\"hsl(0, 0%, 65%)\">" ++ path ++ "</g></svg>')"
-                    in
-                    case divider of
-                        Slash ->
-                            svg "<path d=\"M7 1L3 9\"></path>"
-
-                        RightChevron ->
-                            svg "<path d=\"M3 1L7 5L3 9\"></path>"
+                , property "background-image" svgIcon
                 , backgroundSize contain
                 , backgroundPosition center
                 , backgroundRepeat noRepeat
@@ -129,25 +157,6 @@ itemBasis { divider } { active } attributes children =
                 , margin3 zero (rem 0.71428571) zero
                 ]
             ]
-        ]
-        []
-        [ if active then
-            Html.styled Html.span
-                [ -- .ui.breadcrumb .active.section
-                  typography (Typography.init |> setFontWeight bold)
-                ]
-                []
-                children
-
-          else
-            Html.styled Html.a
-                [ cursor pointer
-                , color (hex "#4183C4")
-                , hover
-                    [ color (hex "#1e70bf") ]
-                ]
-                attributes
-                children
         ]
 
 
