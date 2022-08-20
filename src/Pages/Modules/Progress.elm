@@ -39,7 +39,6 @@ type alias Model =
     , label : String
     , indicating : Bool
     , state : State
-    , disabled : Bool
     }
 
 
@@ -49,8 +48,7 @@ init =
       , progressLabel = "%"
       , label = "Uploading Files"
       , indicating = False
-      , state = Default
-      , disabled = True
+      , state = Active
       }
     , Random.generate NewProgress (Random.int 10 50)
     )
@@ -68,7 +66,6 @@ type Msg
     | EditLabel String
     | ToggleIndicating
     | ChangeState State
-    | ToggleDisabled
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -109,9 +106,6 @@ update msg model =
         ChangeState state ->
             ( { model | state = state }, Cmd.none )
 
-        ToggleDisabled ->
-            ( { model | disabled = not model.disabled }, Cmd.none )
-
 
 
 -- VIEW
@@ -142,7 +136,6 @@ view model =
                 else
                     model.label
             , indicating = model.indicating
-            , disabled = False
             , state =
                 if model.indicating == True then
                     Progress.Active
@@ -194,7 +187,6 @@ view model =
                     _ ->
                         "Uploading Files"
             , indicating = False
-            , disabled = False
             , state = model.state
             }
         ]
@@ -205,6 +197,9 @@ view model =
         , { label = "States"
           , description =
                 case model.state of
+                    Active ->
+                        "A progress bar can show activity"
+
                     Success ->
                         "A progress bar can show a success state"
 
@@ -214,38 +209,15 @@ view model =
                     Error ->
                         "A progress bar can show an error state"
 
-                    Active ->
-                        "A progress bar can show activity"
+                    Disabled ->
+                        "A progress bar can be disabled"
 
                     _ ->
                         ""
           , content =
                 select [ onInput (Progress.stateFromString >> Maybe.withDefault model.state >> ChangeState) ] <|
                     List.map (\state -> option [ value (Progress.stateToString state), selected (model.state == state) ] [ text (Progress.stateToString state) ])
-                        [ Default, Active, Success, Warning, Error ]
-          }
-        ]
-    , configAndPreview { title = "Disabled" }
-        [ Progress.progressWithProps
-            { value = model.progressValue
-            , progress = ""
-            , label = ""
-            , indicating = False
-            , disabled = model.disabled
-            , state = Progress.Default
-            }
-        ]
-        [ { label = "Bar"
-          , description = ""
-          , content = controller
-          }
-        , { label = "Disabled"
-          , description = "A progress bar can be disabled"
-          , content =
-                checkbox []
-                    [ Checkbox.input [ id "disabled", type_ "checkbox", checked model.disabled, onClick ToggleDisabled ] []
-                    , Checkbox.label [ for "disabled" ] [ text "Disabled" ]
-                    ]
+                        [ Default, Active, Success, Warning, Error, Disabled ]
           }
         ]
     ]

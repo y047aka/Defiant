@@ -8,11 +8,12 @@ import Html.Styled as Html exposing (Attribute, Html, text)
 
 
 type State
-    = Success
+    = Default
+    | Active
+    | Success
     | Warning
     | Error
-    | Active
-    | Default
+    | Disabled
 
 
 progressWithProps :
@@ -20,12 +21,11 @@ progressWithProps :
     , progress : String
     , label : String
     , indicating : Bool
-    , disabled : Bool
     , state : State
     }
     -> Html msg
 progressWithProps options =
-    basis { disabled = options.disabled }
+    basis { disabled = options.state == Disabled }
         []
         [ bar options
         , case options.label of
@@ -76,13 +76,12 @@ barBasis :
     { a
         | value : Float
         , indicating : Bool
-        , disabled : Bool
         , state : State
     }
     -> List (Attribute msg)
     -> List (Html msg)
     -> Html msg
-barBasis { value, indicating, disabled, state } =
+barBasis { value, indicating, state } =
     Html.styled Html.div
         [ -- .ui.progress .bar
           display block
@@ -163,8 +162,8 @@ barBasis { value, indicating, disabled, state } =
                 else
                     property "background" "#888888"
         , batch <|
-            case ( state, value < 100, disabled ) of
-                ( Active, True, False ) ->
+            case ( state, value < 100 ) of
+                ( Active, True ) ->
                     let
                         progress_active =
                             keyframes
@@ -221,7 +220,6 @@ bar :
         | value : Float
         , progress : String
         , indicating : Bool
-        , disabled : Bool
         , state : State
     }
     -> Html msg
@@ -315,6 +313,12 @@ label { value, indicating, state } =
 stateFromString : String -> Maybe State
 stateFromString string =
     case string of
+        "Default" ->
+            Just Default
+
+        "Active" ->
+            Just Active
+
         "Success" ->
             Just Success
 
@@ -324,11 +328,8 @@ stateFromString string =
         "Error" ->
             Just Error
 
-        "Active" ->
-            Just Active
-
-        "Default" ->
-            Just Default
+        "Disabled" ->
+            Just Disabled
 
         _ ->
             Nothing
@@ -337,6 +338,12 @@ stateFromString string =
 stateToString : State -> String
 stateToString state =
     case state of
+        Default ->
+            "Default"
+
+        Active ->
+            "Active"
+
         Success ->
             "Success"
 
@@ -346,8 +353,5 @@ stateToString state =
         Error ->
             "Error"
 
-        Active ->
-            "Active"
-
-        Default ->
-            "Default"
+        Disabled ->
+            "Disabled"
