@@ -1,5 +1,5 @@
 module UI.Breadcrumb exposing
-    ( breadcrumb
+    ( breadcrumb, breadcrumbWithProps
     , Divider(..), dividerFromString, dividerToString
     , miniBreadCrumb, tinyBreadCrumb, smallBreadCrumb, mediumBreadCrumb, largeBreadCrumb, bigBreadCrumb, hugeBreadCrumb, massiveBreadCrumb
     , BreadcrumbItem
@@ -8,7 +8,7 @@ module UI.Breadcrumb exposing
 {-|
 
 @docs BreadcrumbIte
-@docs breadcrumb
+@docs breadcrumb, breadcrumbWithProps
 @docs Divider, dividerFromString, dividerToString
 
 @docs miniBreadCrumb, tinyBreadCrumb, smallBreadCrumb, mediumBreadCrumb, largeBreadCrumb, bigBreadCrumb, hugeBreadCrumb, massiveBreadCrumb
@@ -32,9 +32,9 @@ type alias BreadcrumbItem =
     }
 
 
-breadcrumb : { divider : Divider, theme : Theme } -> List BreadcrumbItem -> Html msg
-breadcrumb { divider, theme } children =
-    breadcrumbWithProps { divider = divider, size = Nothing, theme = theme } children
+breadcrumb : List BreadcrumbItem -> Html msg
+breadcrumb children =
+    breadcrumbWithProps { divider = Slash, size = Nothing, theme = System } children
 
 
 breadcrumbWithProps : { divider : Divider, size : Maybe (FontSize a), theme : Theme } -> List BreadcrumbItem -> Html msg

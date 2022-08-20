@@ -8,7 +8,7 @@ import Html.Styled.Events exposing (onInput)
 import Page
 import Request exposing (Request)
 import Shared
-import UI.Breadcrumb exposing (Divider(..), bigBreadCrumb, breadcrumb, dividerFromString, dividerToString, hugeBreadCrumb, largeBreadCrumb, massiveBreadCrumb, mediumBreadCrumb, miniBreadCrumb, smallBreadCrumb, tinyBreadCrumb)
+import UI.Breadcrumb exposing (Divider(..), bigBreadCrumb, breadcrumbWithProps, dividerFromString, dividerToString, hugeBreadCrumb, largeBreadCrumb, massiveBreadCrumb, mediumBreadCrumb, miniBreadCrumb, smallBreadCrumb, tinyBreadCrumb)
 import UI.Segment exposing (segment)
 import View.ConfigAndPreview exposing (configAndPreview)
 
@@ -124,7 +124,7 @@ view { theme } model =
     , configAndPreview { title = "Inverted" }
         [ segment { theme = Dark }
             []
-            [ breadcrumb { divider = Slash, theme = Dark }
+            [ breadcrumbWithProps { divider = Slash, size = Nothing, theme = Dark }
                 [ { label = "Home", url = "/" }
                 , { label = "Registration", url = "/" }
                 , { label = "Personal Information", url = "" }
