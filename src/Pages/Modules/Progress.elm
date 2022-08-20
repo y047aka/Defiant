@@ -48,7 +48,7 @@ init =
       , progressLabel = "%"
       , label = "Uploading Files"
       , indicating = False
-      , state = Active
+      , state = Default
       }
     , Random.generate NewProgress (Random.int 10 50)
     )
@@ -92,7 +92,10 @@ update msg model =
                     else
                         calculated
             in
-            ( { model | progressValue = newProgress }, Cmd.none )
+            ( { model | progressValue = newProgress }
+                |> updatelabelOnIndicating
+            , Cmd.none
+            )
 
         EditProgressLabel string ->
             ( { model | progressLabel = string }, Cmd.none )
@@ -101,10 +104,58 @@ update msg model =
             ( { model | label = string }, Cmd.none )
 
         ToggleIndicating ->
-            ( { model | indicating = not model.indicating }, Cmd.none )
+            let
+                newIndicating =
+                    not model.indicating
+            in
+            ( { model
+                | indicating = newIndicating
+                , label =
+                    if newIndicating then
+                        model.label
+
+                    else
+                        "Uploading Files"
+              }
+                |> updatelabelOnIndicating
+            , Cmd.none
+            )
 
         ChangeState state ->
-            ( { model | state = state }, Cmd.none )
+            ( { model
+                | state = state
+                , label =
+                    case state of
+                        Success ->
+                            "Everything worked, your file is all ready."
+
+                        Warning ->
+                            "Your file didn't meet the minimum resolution requirements."
+
+                        Error ->
+                            "There was an error."
+
+                        _ ->
+                            model.label
+              }
+            , Cmd.none
+            )
+
+
+updatelabelOnIndicating : Model -> Model
+updatelabelOnIndicating model =
+    { model
+        | label =
+            case ( model.indicating, model.progressValue == 100 ) of
+                ( True, True ) ->
+                    "Project Funded!"
+
+                ( True, False ) ->
+                    String.fromFloat model.progressValue ++ "% Funded"
+
+                ( False, _ ) ->
+                    model.label
+    }
 
 
 
@@ -121,27 +172,13 @@ view model =
                 , button [ onClick ProgressPlus ] [ text "+" ]
                 ]
     in
-    [ configAndPreview { title = "Content" }
+    [ configAndPreview { title = "Progress" }
         [ Progress.progressWithProps
             { value = model.progressValue
             , progress = String.fromFloat model.progressValue ++ model.progressLabel
-            , label =
-                if model.indicating == True then
-                    if model.progressValue == 100 then
-                        "Project Funded!"
-
-                    else
-                        String.fromFloat model.progressValue ++ "% Funded"
-
-                else
-                    model.label
+            , label = model.label
             , indicating = model.indicating
-            , state =
-                if model.indicating == True then
-                    Progress.Active
-
-                else
-                    Progress.Default
+            , state = model.state
             }
         ]
         [ { label = "Bar"
@@ -155,44 +192,6 @@ view model =
                     [ Checkbox.input [ id "indicating", type_ "checkbox", checked model.indicating, onClick ToggleIndicating ] []
                     , Checkbox.label [ for "indicating" ] [ text "Indicating" ]
                     ]
-          }
-        , { label = "Progress"
-          , description = "A progress bar can contain a text value indicating current progress"
-          , content =
-                Input.input []
-                    [ input [ type_ "text", value model.progressLabel, onInput EditProgressLabel ] [] ]
-          }
-        , { label = "Label"
-          , description = "A progress element can contain a label"
-          , content =
-                Input.input []
-                    [ input [ type_ "text", value model.label, onInput EditLabel ] [] ]
-          }
-        ]
-    , configAndPreview { title = "States" }
-        [ Progress.progressWithProps
-            { value = model.progressValue
-            , progress = String.fromFloat model.progressValue ++ "%"
-            , label =
-                case model.state of
-                    Success ->
-                        "Everything worked, your file is all ready."
-
-                    Warning ->
-                        "Your file didn't meet the minimum resolution requirements."
-
-                    Error ->
-                        "There was an error."
-
-                    _ ->
-                        "Uploading Files"
-            , indicating = False
-            , state = model.state
-            }
-        ]
-        [ { label = "Bar"
-          , description = ""
-          , content = controller
           }
         , { label = "States"
           , description =
@@ -218,6 +217,18 @@ view model =
                 select [ onInput (Progress.stateFromString >> Maybe.withDefault model.state >> ChangeState) ] <|
                     List.map (\state -> option [ value (Progress.stateToString state), selected (model.state == state) ] [ text (Progress.stateToString state) ])
                         [ Default, Active, Success, Warning, Error, Disabled ]
+          }
+        , { label = "Progress"
+          , description = "A progress bar can contain a text value indicating current progress"
+          , content =
+                Input.input []
+                    [ input [ type_ "text", value model.progressLabel, onInput EditProgressLabel ] [] ]
+          }
+        , { label = "Label"
+          , description = "A progress element can contain a label"
+          , content =
+                Input.input []
+                    [ input [ type_ "text", value model.label, onInput EditLabel ] [] ]
           }
         ]
     ]
