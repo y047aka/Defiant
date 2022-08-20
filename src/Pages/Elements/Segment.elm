@@ -40,7 +40,7 @@ init : Model
 init =
     { vertical = True
     , disabled = True
-    , padding = Padded
+    , padding = Default
     }
 
 
@@ -74,8 +74,36 @@ view shared model =
             { theme = shared.theme }
     in
     [ configAndPreview { title = "Segment" }
-        [ segment options [] [ wireframeShortParagraph ] ]
-        []
+        [ case model.padding of
+            Default ->
+                if model.disabled then
+                    disabledSegment options [] [ wireframeShortParagraph ]
+
+                else
+                    segment options [] [ wireframeShortParagraph ]
+
+            Padded ->
+                paddedSegment options [] [ wireframeShortParagraph ]
+
+            VeryPadded ->
+                veryPaddedSegment options [] [ wireframeShortParagraph ]
+        ]
+        [ { label = "Disabled"
+          , description = "A segment may show its content is disabled"
+          , content =
+                checkbox []
+                    [ Checkbox.input [ id "disabled", type_ "checkbox", checked model.disabled, onClick ToggleDisabled ] []
+                    , Checkbox.label [ for "disabled" ] [ text "Disabled" ]
+                    ]
+          }
+        , { label = "Padding"
+          , description = "A segment can increase its padding"
+          , content =
+                select [ onInput (paddingFromString >> Maybe.withDefault model.padding >> ChangePadding) ] <|
+                    List.map (\padding -> option [ value (paddingToString padding), selected (model.padding == padding) ] [ text (paddingToString padding) ])
+                        [ Default, Padded, VeryPadded ]
+          }
+        ]
     , configAndPreview { title = "Vertical Segment" }
         (if model.vertical then
             [ verticalSegment options [] [ wireframeShortParagraph ]
@@ -98,46 +126,11 @@ view shared model =
                     ]
           }
         ]
-    , configAndPreview { title = "Disabled" }
-        [ if model.disabled then
-            disabledSegment options [] [ wireframeShortParagraph ]
-
-          else
-            segment options [] [ wireframeShortParagraph ]
-        ]
-        [ { label = "Disabled"
-          , description = "A segment may show its content is disabled"
-          , content =
-                checkbox []
-                    [ Checkbox.input [ id "disabled", type_ "checkbox", checked model.disabled, onClick ToggleDisabled ] []
-                    , Checkbox.label [ for "disabled" ] [ text "Disabled" ]
-                    ]
-          }
-        ]
     , configAndPreview { title = "Inverted" }
         [ invertedSegment []
             [ p [] [ text "I'm here to tell you something, and you will probably read me first." ] ]
         ]
         []
-    , configAndPreview { title = "Padded" }
-        [ case model.padding of
-            VeryPadded ->
-                veryPaddedSegment options [] [ wireframeShortParagraph ]
-
-            Padded ->
-                paddedSegment options [] [ wireframeShortParagraph ]
-
-            Default ->
-                segment options [] [ wireframeShortParagraph ]
-        ]
-        [ { label = "Padding"
-          , description = "A segment can increase its padding"
-          , content =
-                select [ onInput (paddingFromString >> Maybe.withDefault model.padding >> ChangePadding) ] <|
-                    List.map (\padding -> option [ value (paddingToString padding), selected (model.padding == padding) ] [ text (paddingToString padding) ])
-                        [ Default, Padded, VeryPadded ]
-          }
-        ]
     , configAndPreview { title = "Basic" }
         [ basicSegment options
             []
@@ -152,22 +145,22 @@ view shared model =
 
 
 type Padding
-    = VeryPadded
+    = Default
     | Padded
-    | Default
+    | VeryPadded
 
 
 paddingFromString : String -> Maybe Padding
 paddingFromString string =
     case string of
-        "VeryPadded" ->
-            Just VeryPadded
+        "Default" ->
+            Just Default
 
         "Padded" ->
             Just Padded
 
-        "Default" ->
-            Just Default
+        "VeryPadded" ->
+            Just VeryPadded
 
         _ ->
             Nothing
@@ -176,11 +169,11 @@ paddingFromString string =
 paddingToString : Padding -> String
 paddingToString padding =
     case padding of
-        VeryPadded ->
-            "VeryPadded"
+        Default ->
+            "Default"
 
         Padded ->
             "Padded"
 
-        Default ->
-            "Default"
+        VeryPadded ->
+            "VeryPadded"
