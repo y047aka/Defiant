@@ -24,16 +24,30 @@ progressWithProps :
     , state : State
     }
     -> Html msg
-progressWithProps options =
-    basis { disabled = options.state == Disabled }
-        []
-        [ bar options
-        , case options.label of
-            "" ->
-                text ""
+progressWithProps props =
+    progressInternal
+        { wrapper = basis { disabled = props.state == Disabled }
+        , bar = bar props
+        , label =
+            case props.label of
+                "" ->
+                    text ""
 
-            _ ->
-                label options [] [ text options.label ]
+                _ ->
+                    label props [] [ text props.label ]
+        }
+
+
+progressInternal :
+    { wrapper : List (Attribute msg) -> List (Html msg) -> Html msg
+    , bar : Html msg
+    , label : Html msg
+    }
+    -> Html msg
+progressInternal options =
+    options.wrapper []
+        [ options.bar
+        , options.label
         ]
 
 
