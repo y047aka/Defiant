@@ -128,7 +128,7 @@ view model =
                 ]
     in
     [ configAndPreview { title = "Content" }
-        [ Progress.progress
+        [ Progress.progressWithProps
             { value = model.progressValue
             , progress = String.fromFloat model.progressValue ++ model.progressLabel
             , label =
@@ -177,7 +177,7 @@ view model =
           }
         ]
     , configAndPreview { title = "States" }
-        [ Progress.progress
+        [ Progress.progressWithProps
             { value = model.progressValue
             , progress = String.fromFloat model.progressValue ++ "%"
             , label =
@@ -226,7 +226,7 @@ view model =
           }
         ]
     , configAndPreview { title = "Disabled" }
-        [ Progress.progress
+        [ Progress.progressWithProps
             { value = model.progressValue
             , progress = ""
             , label = ""

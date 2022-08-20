@@ -1,4 +1,4 @@
-module UI.Progress exposing (State(..), progress, stateFromString, stateToString)
+module UI.Progress exposing (State(..), progressWithProps, stateFromString, stateToString)
 
 import Css exposing (..)
 import Css.Animations as Animations exposing (keyframes)
@@ -13,6 +13,28 @@ type State
     | Error
     | Active
     | Default
+
+
+progressWithProps :
+    { value : Float
+    , progress : String
+    , label : String
+    , indicating : Bool
+    , disabled : Bool
+    , state : State
+    }
+    -> Html msg
+progressWithProps options =
+    basis { disabled = options.disabled }
+        []
+        [ bar options
+        , case options.label of
+            "" ->
+                text ""
+
+            _ ->
+                label options [] [ text options.label ]
+        ]
 
 
 basis : { disabled : Bool } -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -47,28 +69,6 @@ basis { disabled } =
 
             else
                 []
-        ]
-
-
-progress :
-    { value : Float
-    , progress : String
-    , label : String
-    , indicating : Bool
-    , disabled : Bool
-    , state : State
-    }
-    -> Html msg
-progress options =
-    basis { disabled = options.disabled }
-        []
-        [ bar options
-        , case options.label of
-            "" ->
-                text ""
-
-            _ ->
-                label options [] [ text options.label ]
         ]
 
 
