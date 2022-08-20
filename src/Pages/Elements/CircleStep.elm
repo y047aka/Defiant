@@ -80,7 +80,24 @@ update msg model =
 view : Model -> List (Html Msg)
 view model =
     [ configAndPreview { title = "Steps" }
-        [ CircleStep.steps []
+        [ let
+            considerOptions { icon, title, description } =
+                { icon =
+                    if model.hasIcon then
+                        icon
+
+                    else
+                        ""
+                , title = title
+                , description =
+                    if model.hasDescription then
+                        description
+
+                    else
+                        ""
+                }
+          in
+          CircleStep.steps []
             [ let
                 step =
                     case model.progress of
@@ -90,11 +107,12 @@ view model =
                         _ ->
                             CircleStep.completedStep
               in
-              step []
-                { icon = "fas fa-truck"
-                , title = "Shipping"
-                , description = "Choose your shipping options"
-                }
+              step [] <|
+                considerOptions
+                    { icon = "fas fa-truck"
+                    , title = "Shipping"
+                    , description = "Choose your shipping options"
+                    }
             , let
                 step =
                     case model.progress of
@@ -107,11 +125,12 @@ view model =
                         ConfirmOrder ->
                             CircleStep.completedStep
               in
-              step []
-                { icon = "fas fa-credit-card"
-                , title = "Billing"
-                , description = "Enter billing information"
-                }
+              step [] <|
+                considerOptions
+                    { icon = "fas fa-credit-card"
+                    , title = "Billing"
+                    , description = "Enter billing information"
+                    }
             , let
                 step =
                     case model.progress of
@@ -121,11 +140,12 @@ view model =
                         _ ->
                             CircleStep.disabledStep
               in
-              step []
-                { icon = "fas fa-info"
-                , title = "Confirm Order"
-                , description = ""
-                }
+              step [] <|
+                considerOptions
+                    { icon = "fas fa-info"
+                    , title = "Confirm Order"
+                    , description = ""
+                    }
             ]
         ]
         [ { label = "Progress"
@@ -153,27 +173,7 @@ view model =
                         )
                         [ Shipping, Billing, ConfirmOrder ]
           }
-        ]
-    , configAndPreview { title = "Content" }
-        [ CircleStep.steps []
-            [ CircleStep.step []
-                { icon =
-                    if model.hasIcon then
-                        "fas fa-truck"
-
-                    else
-                        ""
-                , title = "Shipping"
-                , description =
-                    if model.hasDescription then
-                        "Choose your shipping options"
-
-                    else
-                        ""
-                }
-            ]
-        ]
-        [ { label = "Icon"
+        , { label = "Icon"
           , description = "A step can contain an icon"
           , content =
                 checkbox []
@@ -190,7 +190,7 @@ view model =
                     ]
           }
         ]
-    , configAndPreview { title = "States" }
+    , configAndPreview { title = "Step" }
         [ CircleStep.steps []
             [ let
                 step =

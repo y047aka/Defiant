@@ -131,15 +131,37 @@ view model =
         [ Progress.progress
             { value = model.progressValue
             , progress = String.fromFloat model.progressValue ++ model.progressLabel
-            , label = model.label
-            , indicating = False
+            , label =
+                if model.indicating == True then
+                    if model.progressValue == 100 then
+                        "Project Funded!"
+
+                    else
+                        String.fromFloat model.progressValue ++ "% Funded"
+
+                else
+                    model.label
+            , indicating = model.indicating
             , disabled = False
-            , state = Progress.Default
+            , state =
+                if model.indicating == True then
+                    Progress.Active
+
+                else
+                    Progress.Default
             }
         ]
         [ { label = "Bar"
           , description = "A progress element can contain a bar visually indicating progress"
           , content = controller
+          }
+        , { label = "Types"
+          , description = "An indicating progress bar visually indicates the current level of progress of a task"
+          , content =
+                checkbox []
+                    [ Checkbox.input [ id "indicating", type_ "checkbox", checked model.indicating, onClick ToggleIndicating ] []
+                    , Checkbox.label [ for "indicating" ] [ text "Indicating" ]
+                    ]
           }
         , { label = "Progress"
           , description = "A progress bar can contain a text value indicating current progress"
@@ -152,43 +174,6 @@ view model =
           , content =
                 Input.input []
                     [ input [ type_ "text", value model.label, onInput EditLabel ] [] ]
-          }
-        ]
-    , configAndPreview { title = "Types" }
-        [ Progress.progress
-            { value = model.progressValue
-            , progress = String.fromFloat model.progressValue ++ "%"
-            , label =
-                if model.indicating == True then
-                    if model.progressValue == 100 then
-                        "Project Funded!"
-
-                    else
-                        String.fromFloat model.progressValue ++ "% Funded"
-
-                else
-                    "Uploading Files"
-            , indicating = model.indicating
-            , disabled = False
-            , state =
-                if model.indicating == True then
-                    Progress.Active
-
-                else
-                    Progress.Default
-            }
-        ]
-        [ { label = "Bar"
-          , description = ""
-          , content = controller
-          }
-        , { label = "Indicating"
-          , description = "An indicating progress bar visually indicates the current level of progress of a task"
-          , content =
-                checkbox []
-                    [ Checkbox.input [ id "indicating", type_ "checkbox", checked model.indicating, onClick ToggleIndicating ] []
-                    , Checkbox.label [ for "indicating" ] [ text "Indicating" ]
-                    ]
           }
         ]
     , configAndPreview { title = "States" }

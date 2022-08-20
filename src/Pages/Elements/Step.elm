@@ -79,7 +79,24 @@ update msg model =
 view : Model -> List (Html Msg)
 view model =
     [ configAndPreview { title = "Steps" }
-        [ steps []
+        [ let
+            considerOptions { icon, title, description } =
+                { icon =
+                    if model.hasIcon then
+                        icon
+
+                    else
+                        ""
+                , title = title
+                , description =
+                    if model.hasDescription then
+                        description
+
+                    else
+                        ""
+                }
+          in
+          steps []
             [ let
                 step_ =
                     case model.progress of
@@ -89,11 +106,12 @@ view model =
                         _ ->
                             step
               in
-              step_ []
-                { icon = "fas fa-truck"
-                , title = "Shipping"
-                , description = "Choose your shipping options"
-                }
+              step_ [] <|
+                considerOptions
+                    { icon = "fas fa-truck"
+                    , title = "Shipping"
+                    , description = "Choose your shipping options"
+                    }
             , let
                 step_ =
                     case model.progress of
@@ -106,11 +124,12 @@ view model =
                         ConfirmOrder ->
                             step
               in
-              step_ []
-                { icon = "fas fa-credit-card"
-                , title = "Billing"
-                , description = "Enter billing information"
-                }
+              step_ [] <|
+                considerOptions
+                    { icon = "fas fa-credit-card"
+                    , title = "Billing"
+                    , description = "Enter billing information"
+                    }
             , let
                 step_ =
                     case model.progress of
@@ -120,11 +139,12 @@ view model =
                         _ ->
                             disabledStep
               in
-              step_ []
-                { icon = "fas fa-info"
-                , title = "Confirm Order"
-                , description = ""
-                }
+              step_ [] <|
+                considerOptions
+                    { icon = "fas fa-info"
+                    , title = "Confirm Order"
+                    , description = ""
+                    }
             ]
         ]
         [ { label = "Progress"
@@ -152,27 +172,7 @@ view model =
                         )
                         [ Shipping, Billing, ConfirmOrder ]
           }
-        ]
-    , configAndPreview { title = "Content" }
-        [ steps []
-            [ step []
-                { icon =
-                    if model.hasIcon then
-                        "fas fa-truck"
-
-                    else
-                        ""
-                , title = "Shipping"
-                , description =
-                    if model.hasDescription then
-                        "Choose your shipping options"
-
-                    else
-                        ""
-                }
-            ]
-        ]
-        [ { label = "Icon"
+        , { label = "Icon"
           , description = "A step can contain an icon"
           , content =
                 checkbox []
@@ -213,7 +213,7 @@ view model =
                 }
             ]
         ]
-        [ { label = "States"
+        [ { label = "Step"
           , description =
                 case model.state of
                     Default ->
