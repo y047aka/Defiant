@@ -1,16 +1,19 @@
 module UI.Segment exposing
-    ( segment
+    ( segment, segmentWithProps
     , disabledSegment
     , verticalSegment
     , invertedSegment, paddedSegment, veryPaddedSegment, basicSegment
+    , Padding(..), paddingFromString, paddingToString
     )
 
 {-|
 
-@docs segment
+@docs segment, segmentWithProps
 @docs disabledSegment
 @docs verticalSegment
 @docs invertedSegment, paddedSegment, veryPaddedSegment, basicSegment
+
+@docs Padding, paddingFromString, paddingToString
 
 -}
 
@@ -20,9 +23,56 @@ import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Attribute, Html)
 
 
+type alias Props =
+    { padding : Padding
+    , border : Bool
+    , shadow : Bool
+    , theme : Theme
+    , disabled : Bool
+    }
+
+
+segmentWithProps : Props -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+segmentWithProps ({ border, shadow, theme, disabled } as props) styles =
+    basis { border = border, shadow = shadow, theme = theme }
+        [ batch styles
+        , case props.padding of
+            Default ->
+                batch []
+
+            Padded ->
+                -- .ui.padded.segment
+                padding (em 1.5)
+
+            VeryPadded ->
+                -- .ui[class*="very padded"].segment
+                padding (em 3)
+
+        -- .ui.disabled.segment
+        , if disabled then
+            batch
+                [ opacity (num 0.45)
+                , color (rgba 40 40 40 0.3)
+                ]
+
+          else
+            batch []
+        ]
+
+
 segment : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
 segment { theme } =
-    basis { border = True, shadow = True, theme = theme } []
+    segmentWithProps { defaultProps | theme = theme } []
+
+
+defaultProps : Props
+defaultProps =
+    { padding = Default
+    , border = True
+    , shadow = True
+    , theme = System
+    , disabled = False
+    }
 
 
 basis : { border : Bool, shadow : Bool, theme : Theme } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -66,7 +116,7 @@ basis { border, shadow, theme } additionalStyles =
 
 verticalSegment : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
 verticalSegment { theme } =
-    basis { border = False, shadow = False, theme = theme }
+    segmentWithProps { defaultProps | border = False, shadow = False, theme = theme }
         [ -- .ui.vertical.segment
           margin zero
         , paddingLeft zero
@@ -81,27 +131,17 @@ verticalSegment { theme } =
 
 disabledSegment : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
 disabledSegment { theme } =
-    basis { border = True, shadow = True, theme = theme }
-        [ -- .ui.disabled.segment
-          opacity (num 0.45)
-        , color (rgba 40 40 40 0.3)
-        ]
+    segmentWithProps { defaultProps | theme = theme, disabled = True } []
 
 
 paddedSegment : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
 paddedSegment { theme } =
-    basis { border = True, shadow = True, theme = theme }
-        [ -- .ui.padded.segment
-          padding (em 1.5)
-        ]
+    segmentWithProps { defaultProps | padding = Padded, theme = theme } []
 
 
 veryPaddedSegment : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
 veryPaddedSegment { theme } =
-    basis { border = True, shadow = True, theme = theme }
-        [ -- .ui[class*="very padded"].segment
-          padding (em 3)
-        ]
+    segmentWithProps { defaultProps | padding = VeryPadded, theme = theme } []
 
 
 basicSegment : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -109,9 +149,48 @@ basicSegment { theme } =
     -- .ui.basic.segment
     -- .ui.segments .ui.basic.segment
     -- .ui.basic.segments
-    basis { border = False, shadow = False, theme = theme } []
+    segmentWithProps { defaultProps | border = False, shadow = False, theme = theme } []
 
 
 invertedSegment : List (Attribute msg) -> List (Html msg) -> Html msg
 invertedSegment =
-    basis { border = True, shadow = True, theme = Dark } []
+    segmentWithProps { defaultProps | theme = Dark } []
+
+
+
+-- HELPER
+
+
+type Padding
+    = Default
+    | Padded
+    | VeryPadded
+
+
+paddingFromString : String -> Maybe Padding
+paddingFromString string =
+    case string of
+        "Default" ->
+            Just Default
+
+        "Padded" ->
+            Just Padded
+
+        "VeryPadded" ->
+            Just VeryPadded
+
+        _ ->
+            Nothing
+
+
+paddingToString : Padding -> String
+paddingToString padding =
+    case padding of
+        Default ->
+            "Default"
+
+        Padded ->
+            "Padded"
+
+        VeryPadded ->
+            "VeryPadded"

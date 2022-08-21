@@ -8,7 +8,7 @@ import Request exposing (Request)
 import Shared
 import UI.Checkbox as Checkbox exposing (checkbox)
 import UI.Example exposing (wireframeShortParagraph)
-import UI.Segment exposing (basicSegment, disabledSegment, invertedSegment, paddedSegment, segment, verticalSegment, veryPaddedSegment)
+import UI.Segment exposing (Padding(..), basicSegment, invertedSegment, paddingFromString, paddingToString, segment, segmentWithProps, verticalSegment)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
@@ -39,7 +39,7 @@ type alias Model =
 init : Model
 init =
     { vertical = True
-    , disabled = True
+    , disabled = False
     , padding = Default
     }
 
@@ -74,19 +74,16 @@ view shared model =
             { theme = shared.theme }
     in
     [ configAndPreview { title = "Segment" }
-        [ case model.padding of
-            Default ->
-                if model.disabled then
-                    disabledSegment options [] [ wireframeShortParagraph ]
-
-                else
-                    segment options [] [ wireframeShortParagraph ]
-
-            Padded ->
-                paddedSegment options [] [ wireframeShortParagraph ]
-
-            VeryPadded ->
-                veryPaddedSegment options [] [ wireframeShortParagraph ]
+        [ segmentWithProps
+            { padding = model.padding
+            , border = True
+            , shadow = True
+            , theme = shared.theme
+            , disabled = model.disabled
+            }
+            []
+            []
+            [ wireframeShortParagraph ]
         ]
         [ { label = "Disabled"
           , description = "A segment may show its content is disabled"
@@ -138,42 +135,3 @@ view shared model =
         ]
         []
     ]
-
-
-
--- HELPER
-
-
-type Padding
-    = Default
-    | Padded
-    | VeryPadded
-
-
-paddingFromString : String -> Maybe Padding
-paddingFromString string =
-    case string of
-        "Default" ->
-            Just Default
-
-        "Padded" ->
-            Just Padded
-
-        "VeryPadded" ->
-            Just VeryPadded
-
-        _ ->
-            Nothing
-
-
-paddingToString : Padding -> String
-paddingToString padding =
-    case padding of
-        Default ->
-            "Default"
-
-        Padded ->
-            "Padded"
-
-        VeryPadded ->
-            "VeryPadded"
