@@ -81,17 +81,6 @@ defaultProps =
 
 basis : { border : Bool, shadow : Bool, theme : Theme } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 basis { border, shadow, theme } additionalStyles =
-    let
-        defaultPalette =
-            Palette.init
-                |> setBackgroundIf shadow (hex "#FFF")
-                |> setBorderIf border (rgba 34 36 38 0.15)
-
-        darkPalette_ =
-            Palette.init
-                |> setBackground (hex "#1B1C1D")
-                |> setColor (rgba 255 255 255 0.9)
-    in
     Html.styled Html.section
         [ position relative
         , margin2 (rem 1) zero
@@ -102,8 +91,16 @@ basis { border, shadow, theme } additionalStyles =
           else
             batch []
         , paletteWith { border = border3 (px 1) solid }
-            (defaultPalette |> setShadowIf shadow (boxShadow5 zero (px 1) (px 2) zero (rgba 34 36 38 0.15)))
-        , darkPalette theme darkPalette_
+            (Palette.init
+                |> setBackgroundIf shadow (hex "#FFF")
+                |> setBorderIf border (rgba 34 36 38 0.15)
+                |> setShadowIf shadow (boxShadow5 zero (px 1) (px 2) zero (rgba 34 36 38 0.15))
+            )
+        , darkPalette theme
+            (Palette.init
+                |> setBackground (hex "#1B1C1D")
+                |> setColor (rgba 255 255 255 0.9)
+            )
 
         -- .ui.segment:first-child
         , pseudoClass "first-child"
