@@ -29,14 +29,14 @@ type alias Props =
     , shadow : Bool
     , theme : Theme
     , disabled : Bool
+    , additionalStyles : List Style
     }
 
 
-segmentWithProps : Props -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
-segmentWithProps ({ border, shadow, theme, disabled } as props) styles =
+segmentWithProps : Props -> List (Attribute msg) -> List (Html msg) -> Html msg
+segmentWithProps ({ border, shadow, theme, disabled, additionalStyles } as props) =
     basis { border = border, shadow = shadow, theme = theme }
-        [ batch styles
-        , case props.padding of
+        [ case props.padding of
             Default ->
                 batch []
 
@@ -57,12 +57,15 @@ segmentWithProps ({ border, shadow, theme, disabled } as props) styles =
 
           else
             batch []
+
+        -- AdditionalStyles
+        , batch additionalStyles
         ]
 
 
 segment : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
 segment { theme } =
-    segmentWithProps { defaultProps | theme = theme } []
+    segmentWithProps { defaultProps | theme = theme }
 
 
 defaultProps : Props
@@ -72,6 +75,7 @@ defaultProps =
     , shadow = True
     , theme = System
     , disabled = False
+    , additionalStyles = []
     }
 
 
@@ -116,32 +120,38 @@ basis { border, shadow, theme } additionalStyles =
 
 verticalSegment : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
 verticalSegment { theme } =
-    segmentWithProps { defaultProps | border = False, shadow = False, theme = theme }
-        [ -- .ui.vertical.segment
-          margin zero
-        , paddingLeft zero
-        , paddingRight zero
-        , borderBottom3 (px 1) solid (rgba 34 36 38 0.15)
+    segmentWithProps
+        { defaultProps
+            | border = False
+            , shadow = False
+            , theme = theme
+            , additionalStyles =
+                [ -- .ui.vertical.segment
+                  margin zero
+                , paddingLeft zero
+                , paddingRight zero
+                , borderBottom3 (px 1) solid (rgba 34 36 38 0.15)
 
-        -- .ui.vertical.segment:last-child
-        , lastChild
-            [ property "border-bottom" "none" ]
-        ]
+                -- .ui.vertical.segment:last-child
+                , lastChild
+                    [ property "border-bottom" "none" ]
+                ]
+        }
 
 
 disabledSegment : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
 disabledSegment { theme } =
-    segmentWithProps { defaultProps | theme = theme, disabled = True } []
+    segmentWithProps { defaultProps | theme = theme, disabled = True }
 
 
 paddedSegment : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
 paddedSegment { theme } =
-    segmentWithProps { defaultProps | padding = Padded, theme = theme } []
+    segmentWithProps { defaultProps | padding = Padded, theme = theme }
 
 
 veryPaddedSegment : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
 veryPaddedSegment { theme } =
-    segmentWithProps { defaultProps | padding = VeryPadded, theme = theme } []
+    segmentWithProps { defaultProps | padding = VeryPadded, theme = theme }
 
 
 basicSegment : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -149,12 +159,12 @@ basicSegment { theme } =
     -- .ui.basic.segment
     -- .ui.segments .ui.basic.segment
     -- .ui.basic.segments
-    segmentWithProps { defaultProps | border = False, shadow = False, theme = theme } []
+    segmentWithProps { defaultProps | border = False, shadow = False, theme = theme }
 
 
 invertedSegment : List (Attribute msg) -> List (Html msg) -> Html msg
 invertedSegment =
-    segmentWithProps { defaultProps | theme = Dark } []
+    segmentWithProps { defaultProps | theme = Dark }
 
 
 

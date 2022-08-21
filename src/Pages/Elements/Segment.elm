@@ -80,8 +80,8 @@ view shared model =
             , shadow = True
             , theme = shared.theme
             , disabled = model.disabled
+            , additionalStyles = []
             }
-            []
             []
             [ wireframeShortParagraph ]
         ]
