@@ -1,18 +1,16 @@
 module UI.Segment exposing
-    ( segment, basicSegment
+    ( segment
     , disabledSegment
     , verticalSegment
-    , paddedSegment, veryPaddedSegment
-    , invertedSegment
+    , invertedSegment, paddedSegment, veryPaddedSegment, basicSegment
     )
 
 {-|
 
-@docs segment, basicSegment
+@docs segment
 @docs disabledSegment
 @docs verticalSegment
-@docs paddedSegment, veryPaddedSegment
-@docs invertedSegment
+@docs invertedSegment, paddedSegment, veryPaddedSegment, basicSegment
 
 -}
 
@@ -20,6 +18,11 @@ import Css exposing (..)
 import Css.Palette as Palette exposing (darkPalette, paletteWith, setBackground, setBackgroundIf, setBorderIf, setColor, setShadowIf)
 import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Attribute, Html)
+
+
+segment : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
+segment { theme } =
+    basis { border = True, shadow = True, theme = theme } []
 
 
 basis : { border : Bool, shadow : Bool, theme : Theme } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -59,11 +62,6 @@ basis { border, shadow, theme } additionalStyles =
         -- AdditionalStyles
         , batch additionalStyles
         ]
-
-
-segment : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
-segment { theme } =
-    basis { border = True, shadow = True, theme = theme } []
 
 
 verticalSegment : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
