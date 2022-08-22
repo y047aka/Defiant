@@ -1,7 +1,9 @@
 module Pages.Elements.Button exposing (Model, Msg, page)
 
-import Html.Styled as Html exposing (Html, text)
-import Html.Styled.Events exposing (onClick)
+import Data exposing (PresetColor(..))
+import Html.Styled as Html exposing (Html, option, select, text)
+import Html.Styled.Attributes exposing (selected, value)
+import Html.Styled.Events exposing (onClick, onInput)
 import Page
 import Request exposing (Request)
 import Shared
@@ -29,12 +31,23 @@ page _ _ =
 
 
 type alias Model =
-    { counter : Int }
+    { counter : Int
+    , color : Color
+    }
+
+
+type Color
+    = Default
+    | Primary
+    | Secondary
+    | Colored PresetColor
 
 
 init : Model
 init =
-    { counter = 0 }
+    { counter = 0
+    , color = Default
+    }
 
 
 
@@ -44,6 +57,7 @@ init =
 type Msg
     = Increment
     | Decrement
+    | ChangeColor Color
 
 
 update : Msg -> Model -> Model
@@ -55,16 +69,78 @@ update msg model =
         Decrement ->
             { model | counter = model.counter - 1 }
 
+        ChangeColor color ->
+            { model | color = color }
+
 
 
 -- VIEW
 
 
 view : Model -> List (Html Msg)
-view { counter } =
+view model =
     [ configAndPreview { title = "Button" }
-        [ button [] [ text "Follow" ] ]
-        []
+        [ let
+            button_ =
+                case model.color of
+                    Default ->
+                        button
+
+                    Primary ->
+                        primaryButton
+
+                    Secondary ->
+                        secondaryButton
+
+                    Colored Red ->
+                        redButton
+
+                    Colored Orange ->
+                        orangeButton
+
+                    Colored Yellow ->
+                        yellowButton
+
+                    Colored Olive ->
+                        oliveButton
+
+                    Colored Green ->
+                        greenButton
+
+                    Colored Teal ->
+                        tealButton
+
+                    Colored Blue ->
+                        blueButton
+
+                    Colored Violet ->
+                        violetButton
+
+                    Colored Purple ->
+                        purpleButton
+
+                    Colored Pink ->
+                        pinkButton
+
+                    Colored Brown ->
+                        brownButton
+
+                    Colored Grey ->
+                        greyButton
+
+                    Colored Black ->
+                        blackButton
+          in
+          button_ [] [ text "Follow" ]
+        ]
+        [ { label = "Color"
+          , description = "A button can have different colors"
+          , content =
+                select [ onInput (colorFromString >> Maybe.withDefault Default >> ChangeColor) ] <|
+                    List.map (\color -> option [ value (colorToString color), selected (model.color == color) ] [ text (colorToString color) ])
+                        ([ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ])
+          }
+        ]
     , configAndPreview { title = "" }
         [ button [] [ text "Button" ]
         , button [] [ text "Focusable" ]
@@ -87,7 +163,7 @@ view { counter } =
             ]
         , labeledButton []
             [ button [ onClick Decrement ] [ text "-" ]
-            , basicLabel [] [ text (String.fromInt counter) ]
+            , basicLabel [] [ text (String.fromInt model.counter) ]
             , button [ onClick Increment ] [ text "+" ]
             ]
         ]
@@ -98,22 +174,43 @@ view { counter } =
     , configAndPreview { title = "Basic" }
         [ basicButton [] [ icon [] "fas fa-user", text "Add Friend" ] ]
         []
-    , configAndPreview { title = "Colored" }
-        [ primaryButton [] [ text "Primary" ]
-        , secondaryButton [] [ text "Secondary" ]
-        , redButton [] [ text "Red" ]
-        , orangeButton [] [ text "Orange" ]
-        , yellowButton [] [ text "Yellow" ]
-        , oliveButton [] [ text "Olive" ]
-        , greenButton [] [ text "Green" ]
-        , tealButton [] [ text "Teal" ]
-        , blueButton [] [ text "Blue" ]
-        , violetButton [] [ text "Violet" ]
-        , purpleButton [] [ text "Purple" ]
-        , pinkButton [] [ text "Pink" ]
-        , brownButton [] [ text "Brown" ]
-        , greyButton [] [ text "Grey" ]
-        , blackButton [] [ text "Black" ]
-        ]
-        []
     ]
+
+
+
+-- HELPER
+
+
+colorFromString : String -> Maybe Color
+colorFromString string =
+    case ( string, Data.colorFromString string ) of
+        ( "Default", _ ) ->
+            Just Default
+
+        ( "Primary", _ ) ->
+            Just Primary
+
+        ( "Secondary", _ ) ->
+            Just Secondary
+
+        ( _, Just colored ) ->
+            Just (Colored colored)
+
+        _ ->
+            Nothing
+
+
+colorToString : Color -> String
+colorToString color =
+    case color of
+        Default ->
+            "Default"
+
+        Primary ->
+            "Primary"
+
+        Secondary ->
+            "Secondary"
+
+        Colored c ->
+            Data.colorToString c
