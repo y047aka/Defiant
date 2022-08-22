@@ -1,6 +1,6 @@
 module Pages.Elements.Label exposing (Model, Msg, page)
 
-import Data exposing (PresetColor(..), Size(..), colorFromString, colorToString)
+import Data exposing (PresetColor(..), Size(..))
 import Html.Styled as Html exposing (Html, option, select, text)
 import Html.Styled.Attributes exposing (selected, value)
 import Html.Styled.Events exposing (onInput)
@@ -30,12 +30,19 @@ page _ _ =
 
 
 type alias Model =
-    { color : Maybe PresetColor }
+    { color : Color }
+
+
+type Color
+    = Default
+    | Primary
+    | Secondary
+    | Colored PresetColor
 
 
 init : Model
 init =
-    { color = Nothing }
+    { color = Default }
 
 
 
@@ -43,7 +50,7 @@ init =
 
 
 type Msg
-    = ChangeColor (Maybe PresetColor)
+    = ChangeColor Color
 
 
 update : Msg -> Model -> Model
@@ -63,58 +70,62 @@ view model =
         [ let
             label_ =
                 case model.color of
-                    Just Red ->
+                    Default ->
+                        Label.label
+
+                    Primary ->
+                        primaryLabel
+
+                    Secondary ->
+                        secondaryLabel
+
+                    Colored Red ->
                         redLabel
 
-                    Just Orange ->
+                    Colored Orange ->
                         orangeLabel
 
-                    Just Yellow ->
+                    Colored Yellow ->
                         yellowLabel
 
-                    Just Olive ->
+                    Colored Olive ->
                         oliveLabel
 
-                    Just Green ->
+                    Colored Green ->
                         greenLabel
 
-                    Just Teal ->
+                    Colored Teal ->
                         tealLabel
 
-                    Just Blue ->
+                    Colored Blue ->
                         blueLabel
 
-                    Just Violet ->
+                    Colored Violet ->
                         violetLabel
 
-                    Just Purple ->
+                    Colored Purple ->
                         purpleLabel
 
-                    Just Pink ->
+                    Colored Pink ->
                         pinkLabel
 
-                    Just Brown ->
+                    Colored Brown ->
                         brownLabel
 
-                    Just Grey ->
+                    Colored Grey ->
                         greyLabel
 
-                    Just Black ->
+                    Colored Black ->
                         blackLabel
-
-                    Nothing ->
-                        Label.label
           in
           label_ [] [ icon [] "fas fa-envelope", text "23" ]
         ]
         [ { label = "Color"
           , description = "A label can have different colors"
           , content =
-                select [ onInput (colorFromString >> ChangeColor) ] <|
-                    (option [ value "Default", selected (model.color == Nothing) ] [ text "Default" ]
-                        :: List.map (\color -> option [ value (colorToString color), selected (model.color == Just color) ] [ text (colorToString color) ])
-                            [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ]
-                    )
+                select [ onInput (colorFromString >> Maybe.withDefault Default >> ChangeColor) ] <|
+                    List.map (\color -> option [ value (colorToString color), selected (model.color == color) ] [ text (colorToString color) ])
+                        ([ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ])
           }
         ]
     , configAndPreview { title = "Icon" }
@@ -141,3 +152,42 @@ view model =
         [ basicLabel [] [ text "Basic" ] ]
         []
     ]
+
+
+
+-- HELPER
+
+
+colorFromString : String -> Maybe Color
+colorFromString string =
+    case ( string, Data.colorFromString string ) of
+        ( "Default", _ ) ->
+            Just Default
+
+        ( "Primary", _ ) ->
+            Just Primary
+
+        ( "Secondary", _ ) ->
+            Just Secondary
+
+        ( _, Just colored ) ->
+            Just (Colored colored)
+
+        _ ->
+            Nothing
+
+
+colorToString : Color -> String
+colorToString color =
+    case color of
+        Default ->
+            "Default"
+
+        Primary ->
+            "Primary"
+
+        Secondary ->
+            "Secondary"
+
+        Colored c ->
+            Data.colorToString c
