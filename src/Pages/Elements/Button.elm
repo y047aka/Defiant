@@ -1,13 +1,14 @@
 module Pages.Elements.Button exposing (Model, Msg, page)
 
 import Data exposing (PresetColor(..))
+import Data.PalettesByState as PalettesByState
 import Html.Styled as Html exposing (Html, option, select, text)
 import Html.Styled.Attributes exposing (selected, value)
 import Html.Styled.Events exposing (onClick, onInput)
 import Page
 import Request exposing (Request)
 import Shared
-import UI.Button exposing (..)
+import UI.Button as Button exposing (..)
 import UI.Icon exposing (icon)
 import UI.Label exposing (basicLabel)
 import View.ConfigAndPreview exposing (configAndPreview)
@@ -80,58 +81,25 @@ update msg model =
 view : Model -> List (Html Msg)
 view model =
     [ configAndPreview { title = "Button" }
-        [ let
-            button_ =
+        [ buttonWithProps
+            { palettesByState =
                 case model.color of
                     Default ->
-                        button
+                        Button.defaultPalettes
 
                     Primary ->
-                        primaryButton
+                        PalettesByState.fromPresetColor Blue
 
                     Secondary ->
-                        secondaryButton
+                        PalettesByState.fromPresetColor Black
 
-                    Colored Red ->
-                        redButton
-
-                    Colored Orange ->
-                        orangeButton
-
-                    Colored Yellow ->
-                        yellowButton
-
-                    Colored Olive ->
-                        oliveButton
-
-                    Colored Green ->
-                        greenButton
-
-                    Colored Teal ->
-                        tealButton
-
-                    Colored Blue ->
-                        blueButton
-
-                    Colored Violet ->
-                        violetButton
-
-                    Colored Purple ->
-                        purpleButton
-
-                    Colored Pink ->
-                        pinkButton
-
-                    Colored Brown ->
-                        brownButton
-
-                    Colored Grey ->
-                        greyButton
-
-                    Colored Black ->
-                        blackButton
-          in
-          button_ [] [ text "Follow" ]
+                    Colored c ->
+                        PalettesByState.fromPresetColor c
+            , shadow = False
+            , additionalStyles = []
+            }
+            []
+            [ text "Follow" ]
         ]
         [ { label = "Color"
           , description = "A button can have different colors"

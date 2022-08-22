@@ -1,5 +1,6 @@
 module UI.Button exposing
-    ( button, basicButton
+    ( button, buttonWithProps, basicButton
+    , defaultPalettes
     , labeledButton
     , primaryButton, secondaryButton
     , redButton, orangeButton, yellowButton, oliveButton, greenButton, tealButton, blueButton, violetButton, purpleButton, pinkButton, brownButton, greyButton, blackButton
@@ -7,7 +8,9 @@ module UI.Button exposing
 
 {-|
 
-@docs button, basicButton
+@docs button, buttonWithProps, basicButton
+@docs defaultPalettes
+
 @docs labeledButton
 @docs primaryButton, secondaryButton
 @docs redButton, orangeButton, yellowButton, oliveButton, greenButton, tealButton, blueButton, violetButton, purpleButton, pinkButton, brownButton, greyButton, blackButton
@@ -24,6 +27,18 @@ import Data exposing (PresetColor(..))
 import Data.PalettesByState as PalettesByState exposing (PalettesByState, palettesByState)
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes exposing (css)
+
+
+type alias Props =
+    { palettesByState : PalettesByState
+    , shadow : Bool
+    , additionalStyles : List Style
+    }
+
+
+buttonWithProps : Props -> List (Attribute msg) -> List (Html msg) -> Html msg
+buttonWithProps { palettesByState, shadow, additionalStyles } =
+    basis { palettes = palettesByState, shadow = shadow } additionalStyles
 
 
 basis :
@@ -140,22 +155,34 @@ basis { palettes, shadow } additionalStyles =
 
 button : List (Attribute msg) -> List (Html msg) -> Html msg
 button =
-    basis { palettes = defaultPalettes, shadow = False } []
+    buttonWithProps defaultProps
+
+
+defaultProps : Props
+defaultProps =
+    { palettesByState = defaultPalettes
+    , shadow = False
+    , additionalStyles = []
+    }
 
 
 basicButton : List (Attribute msg) -> List (Html msg) -> Html msg
 basicButton =
-    basis { palettes = basicPalettes, shadow = True }
-        [ -- .ui.basic.button
-          property "background" "transparent none"
-        , typography
-            (Typography.init
-                |> setFontWeight normal
-                |> setTextTransform none
-            )
-        , borderRadius (rem 0.28571429)
-        , textShadow none |> important
-        ]
+    buttonWithProps
+        { palettesByState = basicPalettes
+        , shadow = True
+        , additionalStyles =
+            [ -- .ui.basic.button
+              property "background" "transparent none"
+            , typography
+                (Typography.init
+                    |> setFontWeight normal
+                    |> setTextTransform none
+                )
+            , borderRadius (rem 0.28571429)
+            , textShadow none |> important
+            ]
+        }
 
 
 labeledButton : List (Attribute msg) -> List (Html msg) -> Html msg
@@ -252,22 +279,26 @@ coloredButton :
     -> List (Html msg)
     -> Html msg
 coloredButton color =
-    basis { palettes = PalettesByState.fromPresetColor color, shadow = False }
-        [ -- .ui.xxx.button
-          textShadow none
-        , backgroundImage none
+    buttonWithProps
+        { defaultProps
+            | palettesByState = PalettesByState.fromPresetColor color
+            , additionalStyles =
+                [ -- .ui.xxx.button
+                  textShadow none
+                , backgroundImage none
 
-        -- .ui.xxx.button
-        , prefixed [] "box-shadow" "0 0 0 0 rgba(34, 36, 38, 0.15) inset"
+                -- .ui.xxx.button
+                , prefixed [] "box-shadow" "0 0 0 0 rgba(34, 36, 38, 0.15) inset"
 
-        -- .ui.xxx.button:hover
-        , hover
-            [ textShadow none ]
+                -- .ui.xxx.button:hover
+                , hover
+                    [ textShadow none ]
 
-        -- .ui.xxx.button:focus
-        , focus
-            [ textShadow none ]
-        ]
+                -- .ui.xxx.button:focus
+                , focus
+                    [ textShadow none ]
+                ]
+        }
 
 
 primaryButton : List (Attribute msg) -> List (Html msg) -> Html msg
