@@ -1,12 +1,12 @@
 module Pages.Views.Card exposing (Model, Msg, page)
 
 import Html.Styled as Html exposing (Html, text)
-import Html.Styled.Attributes exposing (checked, for, id, name, src, type_)
+import Html.Styled.Attributes exposing (checked, for, id, src, type_)
 import Html.Styled.Events exposing (onClick)
 import Page
 import Request exposing (Request)
 import Shared
-import UI.Card as Card exposing (card, cards, extraContent)
+import UI.Card as Card exposing (cards, extraContent)
 import UI.Checkbox as Checkbox exposing (checkbox)
 import UI.Icon exposing (icon)
 import UI.Image exposing (image)
@@ -89,46 +89,75 @@ view shared model =
     let
         options =
             { theme = shared.theme }
-    in
-    [ configAndPreview { title = "Card" }
-        [ card options
-            []
-            [ if model.hasImage then
-                image [ src "/static/images/avatar/kristy.png" ] []
 
-              else
-                text ""
-            , Card.content options
+        card { header, metadata, description_, friends, imageUrl } =
+            Card.card options
                 []
-                { header =
-                    if model.hasHeader then
-                        [ text "Kristy" ]
+                [ if model.hasImage then
+                    image [ src imageUrl ] []
 
-                    else
-                        []
-                , meta =
-                    if model.hasMetadata then
-                        [ text "Joined in 2013" ]
-
-                    else
-                        []
-                , description =
-                    if model.hasDescription then
-                        [ text "Kristy is an art director living in New York." ]
-
-                    else
-                        []
-                }
-            , if model.hasExtraContent then
-                extraContent options
+                  else
+                    text ""
+                , Card.content options
                     []
-                    [ icon [] "fas fa-user"
-                    , text "22 Friends"
-                    ]
+                    { header =
+                        if model.hasHeader then
+                            [ text header ]
 
-              else
-                text ""
-            ]
+                        else
+                            []
+                    , meta =
+                        if model.hasMetadata then
+                            [ text metadata ]
+
+                        else
+                            []
+                    , description =
+                        if model.hasDescription then
+                            [ text description_ ]
+
+                        else
+                            []
+                    }
+                , if model.hasExtraContent then
+                    extraContent options
+                        []
+                        [ icon [] "fas fa-user"
+                        , text (String.fromInt friends ++ " Friends")
+                        ]
+
+                  else
+                    text ""
+                ]
+    in
+    [ configAndPreview { title = "Cards" }
+        [ cards [] <|
+            List.map card
+                [ { header = "Matt Giampietro"
+                  , metadata = "Friends"
+                  , description_ = "Matthew is an interior designer living in New York."
+                  , friends = 75
+                  , imageUrl = "/static/images/avatar/matthew.png"
+                  }
+                , { header = "Molly"
+                  , metadata = "Coworker"
+                  , description_ = "Molly is a personal assistant living in Paris."
+                  , friends = 35
+                  , imageUrl = "/static/images/avatar/molly.png"
+                  }
+                , { header = "Elyse"
+                  , metadata = "Coworker"
+                  , description_ = "Elyse is a copywriter working in New York."
+                  , friends = 151
+                  , imageUrl = "/static/images/avatar/elyse.png"
+                  }
+                , { header = "Kristy"
+                  , metadata = "Friends"
+                  , description_ = "Kristy is an art director living in New York."
+                  , friends = 22
+                  , imageUrl = "/static/images/avatar/kristy.png"
+                  }
+                ]
         ]
         [ { label = "Image"
           , description = "A card can contain an image"
@@ -171,45 +200,4 @@ view shared model =
                     ]
           }
         ]
-    , configAndPreview { title = "Cards" }
-        [ cards [] <|
-            List.map
-                (\{ name, type_, description_, friends, imageUrl } ->
-                    card options
-                        []
-                        [ image [ src imageUrl ] []
-                        , Card.content options
-                            []
-                            { header = [ text name ]
-                            , meta = [ text type_ ]
-                            , description = [ text description_ ]
-                            }
-                        , extraContent options
-                            []
-                            [ icon [] "fas fa-user"
-                            , text (String.fromInt friends ++ " Friends")
-                            ]
-                        ]
-                )
-                [ { name = "Matt Giampietro"
-                  , type_ = "Friends"
-                  , description_ = "Matthew is an interior designer living in New York."
-                  , friends = 75
-                  , imageUrl = "/static/images/avatar/matthew.png"
-                  }
-                , { name = "Molly"
-                  , type_ = "Coworker"
-                  , description_ = "Molly is a personal assistant living in Paris."
-                  , friends = 35
-                  , imageUrl = "/static/images/avatar/molly.png"
-                  }
-                , { name = "Elyse"
-                  , type_ = "Coworker"
-                  , description_ = "Elyse is a copywriter working in New York."
-                  , friends = 151
-                  , imageUrl = "/static/images/avatar/elyse.png"
-                  }
-                ]
-        ]
-        []
     ]
