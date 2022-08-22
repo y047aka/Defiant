@@ -1,14 +1,16 @@
 module Data exposing
     ( Size(..), sizeFromString, sizeToString
-    , PresetColor(..)
+    , PresetColor(..), colorFromString, colorToString
     )
 
 {-|
 
 @docs Size, sizeFromString, sizeToString
-@docs PresetColor
+@docs PresetColor, colorFromString, colorToString
 
 -}
+
+-- Size
 
 
 type Size
@@ -81,6 +83,10 @@ sizeToString size =
             "Mini"
 
 
+
+-- PresetColor
+
+
 type PresetColor
     = Red
     | Orange
@@ -95,3 +101,92 @@ type PresetColor
     | Brown
     | Grey
     | Black
+
+
+colorFromString : String -> Maybe PresetColor
+colorFromString string =
+    case string of
+        "Red" ->
+            Just Red
+
+        "Orange" ->
+            Just Orange
+
+        "Yellow" ->
+            Just Yellow
+
+        "Olive" ->
+            Just Olive
+
+        "Green" ->
+            Just Green
+
+        "Teal" ->
+            Just Teal
+
+        "Blue" ->
+            Just Blue
+
+        "Violet" ->
+            Just Violet
+
+        "Purple" ->
+            Just Purple
+
+        "Pink" ->
+            Just Pink
+
+        "Brown" ->
+            Just Brown
+
+        "Grey" ->
+            Just Grey
+
+        "Black" ->
+            Just Black
+
+        _ ->
+            Nothing
+
+
+colorToString : PresetColor -> String
+colorToString color =
+    case color of
+        Red ->
+            "Red"
+
+        Orange ->
+            "Orange"
+
+        Yellow ->
+            "Yellow"
+
+        Olive ->
+            "Olive"
+
+        Green ->
+            "Green"
+
+        Teal ->
+            "Teal"
+
+        Blue ->
+            "Blue"
+
+        Violet ->
+            "Violet"
+
+        Purple ->
+            "Purple"
+
+        Pink ->
+            "Pink"
+
+        Brown ->
+            "Brown"
+
+        Grey ->
+            "Grey"
+
+        Black ->
+            "Black"
