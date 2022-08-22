@@ -30,12 +30,12 @@ page _ _ =
 
 
 type alias Model =
-    { color : PresetColor }
+    { color : Maybe PresetColor }
 
 
 init : Model
 init =
-    { color = Red }
+    { color = Nothing }
 
 
 
@@ -43,7 +43,7 @@ init =
 
 
 type Msg
-    = ChangeColor PresetColor
+    = ChangeColor (Maybe PresetColor)
 
 
 update : Msg -> Model -> Model
@@ -60,8 +60,63 @@ update msg model =
 view : Model -> List (Html Msg)
 view model =
     [ configAndPreview { title = "Label" }
-        [ Label.label [] [ icon [] "fas fa-envelope", text "23" ] ]
-        []
+        [ let
+            label_ =
+                case model.color of
+                    Just Red ->
+                        redLabel
+
+                    Just Orange ->
+                        orangeLabel
+
+                    Just Yellow ->
+                        yellowLabel
+
+                    Just Olive ->
+                        oliveLabel
+
+                    Just Green ->
+                        greenLabel
+
+                    Just Teal ->
+                        tealLabel
+
+                    Just Blue ->
+                        blueLabel
+
+                    Just Violet ->
+                        violetLabel
+
+                    Just Purple ->
+                        purpleLabel
+
+                    Just Pink ->
+                        pinkLabel
+
+                    Just Brown ->
+                        brownLabel
+
+                    Just Grey ->
+                        greyLabel
+
+                    Just Black ->
+                        blackLabel
+
+                    Nothing ->
+                        Label.label
+          in
+          label_ [] [ icon [] "fas fa-envelope", text "23" ]
+        ]
+        [ { label = "Color"
+          , description = "A label can have different colors"
+          , content =
+                select [ onInput (colorFromString >> ChangeColor) ] <|
+                    (option [ value "Default", selected (model.color == Nothing) ] [ text "Default" ]
+                        :: List.map (\color -> option [ value (colorToString color), selected (model.color == Just color) ] [ text (colorToString color) ])
+                            [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ]
+                    )
+          }
+        ]
     , configAndPreview { title = "Icon" }
         [ Label.label [] [ icon [] "fas fa-envelope", text "Mail" ]
         , Label.label [] [ icon [] "fas fa-check", text "Test Passed" ]
@@ -85,53 +140,4 @@ view model =
     , configAndPreview { title = "Basic" }
         [ basicLabel [] [ text "Basic" ] ]
         []
-    , configAndPreview { title = "Colored" }
-        [ case model.color of
-            Red ->
-                redLabel [] [ text "Red" ]
-
-            Orange ->
-                orangeLabel [] [ text "Orange" ]
-
-            Yellow ->
-                yellowLabel [] [ text "Yellow" ]
-
-            Olive ->
-                oliveLabel [] [ text "Olive" ]
-
-            Green ->
-                greenLabel [] [ text "Green" ]
-
-            Teal ->
-                tealLabel [] [ text "Teal" ]
-
-            Blue ->
-                blueLabel [] [ text "Blue" ]
-
-            Violet ->
-                violetLabel [] [ text "Violet" ]
-
-            Purple ->
-                purpleLabel [] [ text "Purple" ]
-
-            Pink ->
-                pinkLabel [] [ text "Pink" ]
-
-            Brown ->
-                brownLabel [] [ text "Brown" ]
-
-            Grey ->
-                greyLabel [] [ text "Grey" ]
-
-            Black ->
-                blackLabel [] [ text "Black" ]
-        ]
-        [ { label = "Colored"
-          , description = "A label can have different colors"
-          , content =
-                select [ onInput (colorFromString >> Maybe.withDefault model.color >> ChangeColor) ] <|
-                    List.map (\color -> option [ value (colorToString color), selected (model.color == color) ] [ text (colorToString color) ])
-                        [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ]
-          }
-        ]
     ]
