@@ -1,33 +1,91 @@
-module Pages.Views.Card exposing (page)
+module Pages.Views.Card exposing (Model, Msg, page)
 
-import Html.Styled as Html exposing (Html, a, p, text)
-import Html.Styled.Attributes exposing (name, src, type_)
-import Page exposing (Page)
+import Html.Styled as Html exposing (Html, text)
+import Html.Styled.Attributes exposing (checked, for, id, name, src, type_)
+import Html.Styled.Events exposing (onClick)
+import Page
 import Request exposing (Request)
 import Shared
 import UI.Card as Card exposing (card, cards, extraContent)
-import UI.Example exposing (wireframeParagraph)
+import UI.Checkbox as Checkbox exposing (checkbox)
 import UI.Icon exposing (icon)
 import UI.Image exposing (image)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page
+page : Shared.Model -> Request -> Page.With Model Msg
 page shared _ =
-    Page.static
-        { view =
-            { title = "Card"
-            , body = view { shared = shared }
-            }
+    Page.sandbox
+        { init = init
+        , update = update
+        , view =
+            \model ->
+                { title = "Card"
+                , body = view shared model
+                }
         }
 
 
+
+-- INIT
+
+
 type alias Model =
-    { shared : Shared.Model }
+    { hasImage : Bool
+    , hasHeader : Bool
+    , hasMetadata : Bool
+    , hasDescription : Bool
+    , hasExtraContent : Bool
+    }
 
 
-view : Model -> List (Html msg)
-view { shared } =
+init : Model
+init =
+    { hasImage = True
+    , hasHeader = True
+    , hasMetadata = True
+    , hasDescription = True
+    , hasExtraContent = True
+    }
+
+
+
+-- UPDATE
+
+
+type Msg
+    = ToggleHasImage
+    | ToggleHasHeader
+    | ToggleHasMetadata
+    | ToggleHasDescription
+    | ToggleHasExtraContent
+
+
+update : Msg -> Model -> Model
+update msg model =
+    case msg of
+        ToggleHasImage ->
+            { model | hasImage = not model.hasImage }
+
+        ToggleHasHeader ->
+            { model | hasHeader = not model.hasHeader }
+
+        ToggleHasMetadata ->
+            { model | hasMetadata = not model.hasMetadata }
+
+        ToggleHasDescription ->
+            { model | hasDescription = not model.hasDescription }
+
+        ToggleHasExtraContent ->
+            { model | hasExtraContent = not model.hasExtraContent }
+
+
+
+-- VIEW
+
+
+view : Shared.Model -> Model -> List (Html Msg)
+view shared model =
     let
         options =
             { theme = shared.theme }
@@ -35,21 +93,84 @@ view { shared } =
     [ configAndPreview { title = "Card" }
         [ card options
             []
-            [ image [ src "/static/images/avatar/kristy.png" ] []
+            [ if model.hasImage then
+                image [ src "/static/images/avatar/kristy.png" ] []
+
+              else
+                text ""
             , Card.content options
                 []
-                { header = [ text "Kristy" ]
-                , meta = [ text "Joined in 2013" ]
-                , description = [ text "Kristy is an art director living in New York." ]
+                { header =
+                    if model.hasHeader then
+                        [ text "Kristy" ]
+
+                    else
+                        []
+                , meta =
+                    if model.hasMetadata then
+                        [ text "Joined in 2013" ]
+
+                    else
+                        []
+                , description =
+                    if model.hasDescription then
+                        [ text "Kristy is an art director living in New York." ]
+
+                    else
+                        []
                 }
-            , extraContent options
-                []
-                [ icon [] "fas fa-user"
-                , text "22 Friends"
-                ]
+            , if model.hasExtraContent then
+                extraContent options
+                    []
+                    [ icon [] "fas fa-user"
+                    , text "22 Friends"
+                    ]
+
+              else
+                text ""
             ]
         ]
-        []
+        [ { label = "Image"
+          , description = "A card can contain an image"
+          , content =
+                checkbox []
+                    [ Checkbox.input [ id "image", type_ "checkbox", checked model.hasImage, onClick ToggleHasImage ] []
+                    , Checkbox.label [ for "image" ] [ text "Image" ]
+                    ]
+          }
+        , { label = "Header"
+          , description = "A card can contain a header"
+          , content =
+                checkbox []
+                    [ Checkbox.input [ id "header", type_ "checkbox", checked model.hasHeader, onClick ToggleHasHeader ] []
+                    , Checkbox.label [ for "header" ] [ text "Header" ]
+                    ]
+          }
+        , { label = "Metadata"
+          , description = "A card can contain content metadata"
+          , content =
+                checkbox []
+                    [ Checkbox.input [ id "metadata", type_ "checkbox", checked model.hasMetadata, onClick ToggleHasMetadata ] []
+                    , Checkbox.label [ for "metadata" ] [ text "Metadata" ]
+                    ]
+          }
+        , { label = "Description"
+          , description = "A card can contain a description with one or more paragraphs"
+          , content =
+                checkbox []
+                    [ Checkbox.input [ id "description", type_ "checkbox", checked model.hasDescription, onClick ToggleHasDescription ] []
+                    , Checkbox.label [ for "description" ] [ text "Description" ]
+                    ]
+          }
+        , { label = "Extra Content"
+          , description = "A card can contain extra content meant to be formatted separately from the main content"
+          , content =
+                checkbox []
+                    [ Checkbox.input [ id "extra_content", type_ "checkbox", checked model.hasExtraContent, onClick ToggleHasExtraContent ] []
+                    , Checkbox.label [ for "extra_content" ] [ text "ExtraContent" ]
+                    ]
+          }
+        ]
     , configAndPreview { title = "Cards" }
         [ cards [] <|
             List.map
@@ -89,85 +210,6 @@ view { shared } =
                   , imageUrl = "/static/images/avatar/elyse.png"
                   }
                 ]
-        ]
-        []
-    , configAndPreview { title = "Header" }
-        [ cards [] <|
-            List.map
-                (\person ->
-                    card options
-                        []
-                        [ Card.content options
-                            []
-                            { header = [ text person.name ]
-                            , meta = [ text person.type_ ]
-                            , description = [ text person.description ]
-                            }
-                        ]
-                )
-                [ { name = "Elliot Fu"
-                  , type_ = "Friend"
-                  , description = "Elliot Fu is a film-maker from New York."
-                  }
-                , { name = "Veronika Ossi"
-                  , type_ = "Friend"
-                  , description = "Veronika Ossi is a set designer living in New York who enjoys kittens, music, and partying."
-                  }
-                , { name = "Jenny Hess"
-                  , type_ = "Friend"
-                  , description = "Jenny is a student studying Media Management at the New School"
-                  }
-                ]
-        ]
-        []
-    , configAndPreview { title = "Metadata" }
-        [ card options
-            []
-            [ Card.content options
-                []
-                { header = [ text "Cute Dog" ]
-                , meta =
-                    [ text "2 days ago "
-                    , a [] [ text "Animals" ]
-                    ]
-                , description = [ wireframeParagraph ]
-                }
-            ]
-        ]
-        []
-    , configAndPreview { title = "Description" }
-        [ card options
-            []
-            [ Card.content options
-                []
-                { header = [ text "Cute Dog" ]
-                , meta = [ text "2 days ago " ]
-                , description =
-                    [ p [] [ text "Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size." ]
-                    , p [] [ text "Many people also have their own barometers for what makes a cute dog." ]
-                    ]
-                }
-            ]
-        ]
-        []
-    , configAndPreview { title = "Extra Content" }
-        [ card options
-            []
-            [ Card.content options
-                []
-                { header = [ text "Cute Dog" ]
-                , meta = [ text "2 days ago " ]
-                , description =
-                    [ p [] [ text "Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size." ]
-                    , p [] [ text "Many people also have their own barometers for what makes a cute dog." ]
-                    ]
-                }
-            , extraContent options
-                []
-                [ icon [] "fas fa-check"
-                , text "121 Votes"
-                ]
-            ]
         ]
         []
     ]

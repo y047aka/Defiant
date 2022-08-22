@@ -170,7 +170,7 @@ view model =
                     , Checkbox.label [ for "description" ] [ text "Description" ]
                     ]
           }
-        , { label = "ExtraContent"
+        , { label = "Extra Content"
           , description = "An item can contain content ExtraContent"
           , content =
                 checkbox []
