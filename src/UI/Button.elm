@@ -20,7 +20,8 @@ import Css.Global exposing (children, descendants, selector, typeSelector)
 import Css.Layout as Layout exposing (layout)
 import Css.Palette as Palette exposing (hoverColor, setBackground, setColor, textColor)
 import Css.Typography as Typography exposing (setFontStyle, setFontWeight, setLineHeight, setTextDecoration, setTextTransform, typography)
-import Data.PalettesByState exposing (..)
+import Data exposing (PresetColor(..))
+import Data.PalettesByState as PalettesByState exposing (PalettesByState, palettesByState)
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes exposing (css)
 
@@ -246,12 +247,12 @@ labeledButton attributes =
 
 
 coloredButton :
-    PalettesByState
+    PresetColor
     -> List (Attribute msg)
     -> List (Html msg)
     -> Html msg
-coloredButton palettes =
-    basis { palettes = palettes, shadow = False }
+coloredButton color =
+    basis { palettes = PalettesByState.fromPresetColor color, shadow = False }
         [ -- .ui.xxx.button
           textShadow none
         , backgroundImage none
@@ -281,67 +282,67 @@ secondaryButton =
 
 redButton : List (Attribute msg) -> List (Html msg) -> Html msg
 redButton =
-    coloredButton red
+    coloredButton Red
 
 
 orangeButton : List (Attribute msg) -> List (Html msg) -> Html msg
 orangeButton =
-    coloredButton orange
+    coloredButton Orange
 
 
 yellowButton : List (Attribute msg) -> List (Html msg) -> Html msg
 yellowButton =
-    coloredButton yellow
+    coloredButton Yellow
 
 
 oliveButton : List (Attribute msg) -> List (Html msg) -> Html msg
 oliveButton =
-    coloredButton olive
+    coloredButton Olive
 
 
 greenButton : List (Attribute msg) -> List (Html msg) -> Html msg
 greenButton =
-    coloredButton green
+    coloredButton Green
 
 
 tealButton : List (Attribute msg) -> List (Html msg) -> Html msg
 tealButton =
-    coloredButton teal
+    coloredButton Teal
 
 
 blueButton : List (Attribute msg) -> List (Html msg) -> Html msg
 blueButton =
-    coloredButton blue
+    coloredButton Blue
 
 
 violetButton : List (Attribute msg) -> List (Html msg) -> Html msg
 violetButton =
-    coloredButton violet
+    coloredButton Violet
 
 
 purpleButton : List (Attribute msg) -> List (Html msg) -> Html msg
 purpleButton =
-    coloredButton purple
+    coloredButton Purple
 
 
 pinkButton : List (Attribute msg) -> List (Html msg) -> Html msg
 pinkButton =
-    coloredButton pink
+    coloredButton Pink
 
 
 brownButton : List (Attribute msg) -> List (Html msg) -> Html msg
 brownButton =
-    coloredButton brown
+    coloredButton Brown
 
 
 greyButton : List (Attribute msg) -> List (Html msg) -> Html msg
 greyButton =
-    coloredButton grey
+    coloredButton Grey
 
 
 blackButton : List (Attribute msg) -> List (Html msg) -> Html msg
 blackButton =
-    coloredButton black
+    coloredButton Black
 
 
 

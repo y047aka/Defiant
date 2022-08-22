@@ -1,17 +1,20 @@
 module Data.PalettesByState exposing
     ( PalettesByState, palettesByState
     , red, orange, yellow, olive, green, teal, blue, violet, purple, pink, brown, grey, black
+    , fromPresetColor
     )
 
 {-|
 
 @docs PalettesByState, palettesByState
 @docs red, orange, yellow, olive, green, teal, blue, violet, purple, pink, brown, grey, black
+@docs fromPresetColor
 
 -}
 
 import Css exposing (Style, active, batch, focus, hex, hover)
 import Css.Palette as Palette exposing (Palette, palette, setBackground, setBorder, setColor)
+import Data exposing (PresetColor(..))
 
 
 type alias PalettesByState =
@@ -238,3 +241,46 @@ black =
     , onFocus = default |> setBackground (hex "#2f3032")
     , onActive = default |> setBackground (hex "#343637")
     }
+
+
+fromPresetColor : PresetColor -> PalettesByState
+fromPresetColor color =
+    case color of
+        Red ->
+            red
+
+        Orange ->
+            orange
+
+        Yellow ->
+            yellow
+
+        Olive ->
+            olive
+
+        Green ->
+            green
+
+        Teal ->
+            teal
+
+        Blue ->
+            blue
+
+        Violet ->
+            violet
+
+        Purple ->
+            purple
+
+        Pink ->
+            pink
+
+        Brown ->
+            brown
+
+        Grey ->
+            grey
+
+        Black ->
+            black
