@@ -1,6 +1,7 @@
 module Pages.Elements.Label exposing (Model, Msg, page)
 
-import Data exposing (PresetColor(..), Size(..))
+import Data exposing (PresetColor(..))
+import Data.PalettesByState as PalettesByState
 import Html.Styled as Html exposing (Html, option, select, text)
 import Html.Styled.Attributes exposing (selected, value)
 import Html.Styled.Events exposing (onInput)
@@ -79,44 +80,12 @@ view model =
                     Secondary ->
                         secondaryLabel
 
-                    Colored Red ->
-                        redLabel
-
-                    Colored Orange ->
-                        orangeLabel
-
-                    Colored Yellow ->
-                        yellowLabel
-
-                    Colored Olive ->
-                        oliveLabel
-
-                    Colored Green ->
-                        greenLabel
-
-                    Colored Teal ->
-                        tealLabel
-
-                    Colored Blue ->
-                        blueLabel
-
-                    Colored Violet ->
-                        violetLabel
-
-                    Colored Purple ->
-                        purpleLabel
-
-                    Colored Pink ->
-                        pinkLabel
-
-                    Colored Brown ->
-                        brownLabel
-
-                    Colored Grey ->
-                        greyLabel
-
-                    Colored Black ->
-                        blackLabel
+                    Colored c ->
+                        labelWithProps
+                            { border = False
+                            , palette = Just (PalettesByState.fromPresetColor c |> .default)
+                            , additionalStyles = []
+                            }
           in
           label_ [] [ icon [] "fas fa-envelope", text "23" ]
         ]

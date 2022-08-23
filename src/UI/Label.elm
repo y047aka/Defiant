@@ -1,6 +1,6 @@
 module UI.Label exposing
     ( basis
-    , label, basicLabel
+    , label, labelWithProps, basicLabel
     , primaryLabel, secondaryLabel
     , redLabel, orangeLabel, yellowLabel, oliveLabel, greenLabel, tealLabel, blueLabel, violetLabel, purpleLabel, pinkLabel, brownLabel, greyLabel, blackLabel
     )
@@ -8,7 +8,7 @@ module UI.Label exposing
 {-|
 
 @docs basis
-@docs label, basicLabel
+@docs label, labelWithProps, basicLabel
 @docs primaryLabel, secondaryLabel
 @docs redLabel, orangeLabel, yellowLabel, oliveLabel, greenLabel, tealLabel, blueLabel, violetLabel, purpleLabel, pinkLabel, brownLabel, greyLabel, blackLabel
 
@@ -18,10 +18,23 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children)
 import Css.Layout as Layout exposing (layout)
-import Css.Palette as Palette exposing (Palette, palette, setColor, textColor)
+import Css.Palette as Palette exposing (Palette, palette, setBackground, setColor, textColor)
 import Css.Typography as Typography exposing (setFontSize, setFontWeight, setLineHeight, setTextTransform, typography)
-import Data.PalettesByState exposing (..)
+import Data exposing (PresetColor(..))
+import Data.PalettesByState as PalettesByState exposing (black, blue)
 import Html.Styled as Html exposing (Attribute, Html)
+
+
+type alias Props =
+    { border : Bool
+    , palette : Maybe Palette
+    , additionalStyles : List Style
+    }
+
+
+labelWithProps : Props -> List (Attribute msg) -> List (Html msg) -> Html msg
+labelWithProps { border, palette, additionalStyles } =
+    basis { border = border, palette = palette } additionalStyles
 
 
 basis : { border : Bool, palette : Maybe Palette } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -84,95 +97,108 @@ basis options additionalStyles =
 
 label : List (Attribute msg) -> List (Html msg) -> Html msg
 label =
-    basis { border = False, palette = Nothing } []
+    labelWithProps defaultProps
+
+
+defaultProps : Props
+defaultProps =
+    { border = False, palette = Nothing, additionalStyles = [] }
 
 
 basicLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 basicLabel =
-    basis { border = True, palette = Just basic }
-        [ -- .ui.basic.label
-          prefixed [] "box-shadow" "none"
-        ]
-
-
-coloredLabel : Palette -> List (Attribute msg) -> List (Html msg) -> Html msg
-coloredLabel palettes =
-    basis { border = False, palette = Just palettes } []
+    labelWithProps
+        { border = True
+        , palette =
+            basis_
+                |> setBackground (hex "#FFFFFF")
+                |> setColor (rgba 0 0 0 0.87)
+                |> Just
+        , additionalStyles =
+            [ -- .ui.basic.label
+              prefixed [] "box-shadow" "none"
+            ]
+        }
 
 
 primaryLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 primaryLabel =
-    coloredLabel (blue.default |> setColor (rgba 255 255 255 0.9))
+    labelWithProps { defaultProps | palette = Just (blue.default |> setColor (rgba 255 255 255 0.9)) }
 
 
 secondaryLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 secondaryLabel =
-    coloredLabel (black.default |> setColor (rgba 255 255 255 0.9))
+    labelWithProps { defaultProps | palette = Just (black.default |> setColor (rgba 255 255 255 0.9)) }
+
+
+coloredLabel : PresetColor -> List (Attribute msg) -> List (Html msg) -> Html msg
+coloredLabel color =
+    labelWithProps { defaultProps | palette = Just (PalettesByState.fromPresetColor color |> .default) }
 
 
 redLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 redLabel =
-    coloredLabel red.default
+    coloredLabel Red
 
 
 orangeLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 orangeLabel =
-    coloredLabel orange.default
+    coloredLabel Orange
 
 
 yellowLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 yellowLabel =
-    coloredLabel yellow.default
+    coloredLabel Yellow
 
 
 oliveLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 oliveLabel =
-    coloredLabel olive.default
+    coloredLabel Olive
 
 
 greenLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 greenLabel =
-    coloredLabel green.default
+    coloredLabel Green
 
 
 tealLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 tealLabel =
-    coloredLabel teal.default
+    coloredLabel Teal
 
 
 blueLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 blueLabel =
-    coloredLabel blue.default
+    coloredLabel Blue
 
 
 violetLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 violetLabel =
-    coloredLabel violet.default
+    coloredLabel Violet
 
 
 purpleLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 purpleLabel =
-    coloredLabel purple.default
+    coloredLabel Purple
 
 
 pinkLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 pinkLabel =
-    coloredLabel pink.default
+    coloredLabel Pink
 
 
 brownLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 brownLabel =
-    coloredLabel brown.default
+    coloredLabel Brown
 
 
 greyLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 greyLabel =
-    coloredLabel grey.default
+    coloredLabel Grey
 
 
 blackLabel : List (Attribute msg) -> List (Html msg) -> Html msg
 blackLabel =
-    coloredLabel black.default
+    coloredLabel Black
 
 
 
@@ -183,15 +209,6 @@ basis_ : Palette
 basis_ =
     { background = Just (hex "#E8E8E8")
     , color = Just textColor
-    , border = Just Palette.transparent
-    , shadow = Nothing
-    }
-
-
-basic : Palette
-basic =
-    { background = Just (hex "#FFFFFF")
-    , color = Just (rgba 0 0 0 0.87)
     , border = Just Palette.transparent
     , shadow = Nothing
     }
