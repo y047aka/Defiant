@@ -2,11 +2,11 @@ module Pages.Elements.Step exposing (Model, Msg, Progress(..), page, progressFro
 
 import Html.Styled as Html exposing (Html, div, input, label, option, select, text)
 import Html.Styled.Attributes exposing (checked, for, id, name, selected, type_, value)
-import Html.Styled.Events exposing (onClick, onInput)
+import Html.Styled.Events exposing (onInput)
 import Page
 import Request exposing (Request)
 import Shared
-import UI.Checkbox as Checkbox exposing (checkbox)
+import UI.Checkbox exposing (checkbox)
 import UI.Step as Step exposing (State(..), activeStep, completedStep, disabledStep, step, steps)
 import View.ConfigAndPreview exposing (configAndPreview)
 
@@ -184,18 +184,22 @@ view model =
                     [ { label = ""
                       , description = "A step can contain an icon"
                       , content =
-                            checkbox []
-                                [ Checkbox.input [ id "icon", type_ "checkbox", checked model.hasIcon, onClick ToggleHasIcon ] []
-                                , Checkbox.label [ for "icon" ] [ text "Icon" ]
-                                ]
+                            checkbox
+                                { id = "icon"
+                                , label = "Icon"
+                                , checked = model.hasIcon
+                                , onClick = ToggleHasIcon
+                                }
                       }
                     , { label = ""
                       , description = "A step can contain a description"
                       , content =
-                            checkbox []
-                                [ Checkbox.input [ id "description", type_ "checkbox", checked model.hasDescription, onClick ToggleHasDescription ] []
-                                , Checkbox.label [ for "description" ] [ text "Description" ]
-                                ]
+                            checkbox
+                                { id = "description"
+                                , label = "Description"
+                                , checked = model.hasDescription
+                                , onClick = ToggleHasDescription
+                                }
                       }
                     ]
               }

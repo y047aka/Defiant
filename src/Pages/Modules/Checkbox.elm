@@ -1,33 +1,67 @@
-module Pages.Modules.Checkbox exposing (page)
+module Pages.Modules.Checkbox exposing (Model, Msg, page)
 
-import Html.Styled as Html exposing (Html, text)
-import Html.Styled.Attributes exposing (for, id, type_)
-import Page exposing (Page)
+import Html.Styled as Html exposing (Html)
+import Page
 import Request exposing (Request)
 import Shared
-import UI.Checkbox as Checkbox exposing (checkbox)
+import UI.Checkbox exposing (checkbox)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page
+page : Shared.Model -> Request -> Page.With Model Msg
 page _ _ =
-    Page.static
-        { view =
-            { title = "Checkbox"
-            , body = view
-            }
+    Page.sandbox
+        { init = init
+        , update = update
+        , view =
+            \_ ->
+                { title = "Checkbox"
+                , body = view
+                }
         }
 
 
-view : List (Html msg)
+
+-- INIT
+
+
+type alias Model =
+    {}
+
+
+init : Model
+init =
+    {}
+
+
+
+-- UPDATE
+
+
+type Msg
+    = NoOp
+
+
+update : Msg -> Model -> Model
+update _ model =
+    model
+
+
+
+-- VIEW
+
+
+view : List (Html Msg)
 view =
     [ configAndPreview
         { title = "Checkbox"
         , preview =
-            [ checkbox []
-                [ Checkbox.input [ id "checkbox_example", type_ "checkbox" ] []
-                , Checkbox.label [ for "checkbox_example" ] [ text "Make my profile visible" ]
-                ]
+            [ checkbox
+                { id = "checkbox_example"
+                , label = "Make my profile visible"
+                , checked = False
+                , onClick = NoOp
+                }
             ]
         , configs = []
         }

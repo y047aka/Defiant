@@ -1,12 +1,11 @@
 module Pages.Views.Item exposing (Model, Msg, page)
 
 import Html.Styled as Html exposing (Html, span, text)
-import Html.Styled.Attributes exposing (checked, for, id, src, type_)
-import Html.Styled.Events exposing (onClick)
+import Html.Styled.Attributes exposing (src)
 import Page
 import Request exposing (Request)
 import Shared
-import UI.Checkbox as Checkbox exposing (checkbox)
+import UI.Checkbox exposing (checkbox)
 import UI.Example exposing (wireframeShortParagraph)
 import UI.Image exposing (image)
 import UI.Item as Item exposing (..)
@@ -146,42 +145,52 @@ view model =
                     [ { label = ""
                       , description = "An item can contain an image"
                       , content =
-                            checkbox []
-                                [ Checkbox.input [ id "image", type_ "checkbox", checked model.hasImage, onClick ToggleHasImage ] []
-                                , Checkbox.label [ for "image" ] [ text "Image" ]
-                                ]
+                            checkbox
+                                { id = "image"
+                                , label = "Image"
+                                , checked = model.hasImage
+                                , onClick = ToggleHasImage
+                                }
                       }
                     , { label = ""
                       , description = "An item can contain a header"
                       , content =
-                            checkbox []
-                                [ Checkbox.input [ id "header", type_ "checkbox", checked model.hasHeader, onClick ToggleHasHeader ] []
-                                , Checkbox.label [ for "header" ] [ text "Header" ]
-                                ]
+                            checkbox
+                                { id = "header"
+                                , label = "Header"
+                                , checked = model.hasHeader
+                                , onClick = ToggleHasHeader
+                                }
                       }
                     , { label = ""
                       , description = "An item can contain content metadata"
                       , content =
-                            checkbox []
-                                [ Checkbox.input [ id "metadata", type_ "checkbox", checked model.hasMetadata, onClick ToggleHasMetadata ] []
-                                , Checkbox.label [ for "metadata" ] [ text "Metadata" ]
-                                ]
+                            checkbox
+                                { id = "metadata"
+                                , label = "Metadata"
+                                , checked = model.hasMetadata
+                                , onClick = ToggleHasMetadata
+                                }
                       }
                     , { label = ""
                       , description = "An item can contain a description with a single or multiple paragraphs"
                       , content =
-                            checkbox []
-                                [ Checkbox.input [ id "description", type_ "checkbox", checked model.hasDescription, onClick ToggleHasDescription ] []
-                                , Checkbox.label [ for "description" ] [ text "Description" ]
-                                ]
+                            checkbox
+                                { id = "description"
+                                , label = "Description"
+                                , checked = model.hasDescription
+                                , onClick = ToggleHasDescription
+                                }
                       }
                     , { label = ""
                       , description = "An item can contain content ExtraContent"
                       , content =
-                            checkbox []
-                                [ Checkbox.input [ id "extra_content", type_ "checkbox", checked model.hasExtraContent, onClick ToggleHasExtraContent ] []
-                                , Checkbox.label [ for "extra_content" ] [ text "ExtraContent" ]
-                                ]
+                            checkbox
+                                { id = "extra_content"
+                                , label = "Extra Content"
+                                , checked = model.hasExtraContent
+                                , onClick = ToggleHasExtraContent
+                                }
                       }
                     ]
               }

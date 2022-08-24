@@ -1,12 +1,12 @@
 module Pages.Elements.Segment exposing (Model, Msg, page)
 
 import Html.Styled as Html exposing (Html, option, p, select, text)
-import Html.Styled.Attributes exposing (checked, for, id, selected, type_, value)
-import Html.Styled.Events exposing (onClick, onInput)
+import Html.Styled.Attributes exposing (selected, value)
+import Html.Styled.Events exposing (onInput)
 import Page
 import Request exposing (Request)
 import Shared
-import UI.Checkbox as Checkbox exposing (checkbox)
+import UI.Checkbox exposing (checkbox)
 import UI.Example exposing (wireframeShortParagraph)
 import UI.Segment exposing (Padding(..), basicSegment, invertedSegment, paddingFromString, paddingToString, segment, segmentWithProps, verticalSegment)
 import View.ConfigAndPreview exposing (configAndPreview)
@@ -93,10 +93,12 @@ view shared model =
                     [ { label = ""
                       , description = "A segment may show its content is disabled"
                       , content =
-                            checkbox []
-                                [ Checkbox.input [ id "disabled", type_ "checkbox", checked model.disabled, onClick ToggleDisabled ] []
-                                , Checkbox.label [ for "disabled" ] [ text "Disabled" ]
-                                ]
+                            checkbox
+                                { id = "disabled"
+                                , label = "Disabled"
+                                , checked = model.disabled
+                                , onClick = ToggleDisabled
+                                }
                       }
                     ]
               }
@@ -133,10 +135,12 @@ view shared model =
                     [ { label = "Vertical Segment"
                       , description = "A vertical segment formats content to be aligned as part of a vertical group"
                       , content =
-                            checkbox []
-                                [ Checkbox.input [ id "vertical", type_ "checkbox", checked model.vertical, onClick ToggleVertical ] []
-                                , Checkbox.label [ for "vertical" ] [ text "Vertical" ]
-                                ]
+                            checkbox
+                                { id = "vertical"
+                                , label = "Vertical"
+                                , checked = model.vertical
+                                , onClick = ToggleVertical
+                                }
                       }
                     ]
               }

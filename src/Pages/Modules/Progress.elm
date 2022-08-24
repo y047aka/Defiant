@@ -1,14 +1,14 @@
 module Pages.Modules.Progress exposing (Model, Msg, page)
 
 import Html.Styled as Html exposing (Html, input, option, select, text)
-import Html.Styled.Attributes exposing (checked, for, id, selected, type_, value)
+import Html.Styled.Attributes exposing (selected, type_, value)
 import Html.Styled.Events exposing (onClick, onInput)
 import Page
 import Random
 import Request exposing (Request)
 import Shared
 import UI.Button exposing (button, labeledButton)
-import UI.Checkbox as Checkbox exposing (checkbox)
+import UI.Checkbox exposing (checkbox)
 import UI.Input as Input
 import UI.Label exposing (basicLabel)
 import UI.Progress as Progress exposing (State(..))
@@ -197,10 +197,12 @@ view model =
                     [ { label = ""
                       , description = "An indicating progress bar visually indicates the current level of progress of a task"
                       , content =
-                            checkbox []
-                                [ Checkbox.input [ id "indicating", type_ "checkbox", checked model.indicating, onClick ToggleIndicating ] []
-                                , Checkbox.label [ for "indicating" ] [ text "Indicating" ]
-                                ]
+                            checkbox
+                                { id = "indicating"
+                                , label = "Indicating"
+                                , checked = model.indicating
+                                , onClick = ToggleIndicating
+                                }
                       }
                     ]
               }

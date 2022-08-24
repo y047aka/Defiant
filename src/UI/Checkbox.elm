@@ -1,15 +1,37 @@
-module UI.Checkbox exposing (checkbox, input, label, labelBasis)
+module UI.Checkbox exposing (checkbox, checkboxWrapper, input, label, labelBasis)
 
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (generalSiblings)
 import Css.Palette as Palette exposing (palette, paletteWith, setBackground, setBorder)
 import Css.Typography as Typography exposing (setFontSize, setFontStyle, setLineHeight, typography)
-import Html.Styled as Html exposing (Attribute, Html)
+import Html.Styled as Html exposing (Attribute, Html, text)
+import Html.Styled.Attributes as Attributes exposing (for, id, type_)
+import Html.Styled.Events exposing (onClick)
 
 
-checkbox : List (Attribute msg) -> List (Html msg) -> Html msg
-checkbox =
+checkbox :
+    { id : String
+    , label : String
+    , checked : Bool
+    , onClick : msg
+    }
+    -> Html msg
+checkbox options =
+    checkboxWrapper []
+        [ input
+            [ id options.id
+            , type_ "checkbox"
+            , Attributes.checked options.checked
+            , onClick options.onClick
+            ]
+            []
+        , label [ for options.id ] [ text options.label ]
+        ]
+
+
+checkboxWrapper : List (Attribute msg) -> List (Html msg) -> Html msg
+checkboxWrapper =
     Html.styled Html.div
         [ -- .ui.checkbox
           position relative

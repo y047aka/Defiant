@@ -7,7 +7,7 @@ import Page
 import Request exposing (Request)
 import Shared
 import UI.Button exposing (button)
-import UI.Checkbox as Checkbox exposing (checkbox)
+import UI.Checkbox as Checkbox exposing (checkboxWrapper)
 import UI.Form as Form exposing (State(..), checkboxLabel, field, fields, form, textarea, threeFields, twoFields)
 import View.ConfigAndPreview exposing (configAndPreview)
 
@@ -83,7 +83,7 @@ view model =
                 , state = options.state
                 }
                 []
-                [ checkbox []
+                [ checkboxWrapper []
                     [ Checkbox.input [ id options.id, type_ "checkbox", tabindex 0 ] []
                     , checkboxLabel { state = options.state } [ for options.id ] [ text "I agree to the Terms and Conditions" ]
                     ]
@@ -114,7 +114,7 @@ view model =
                     , state = Default
                     }
                     []
-                    [ checkbox []
+                    [ checkboxWrapper []
                         [ Checkbox.input [ id "checkbox_example_1", type_ "checkbox", tabindex 0 ] []
                         , checkboxLabel { state = Default } [ for "checkbox_example_1" ] [ text "I agree to the Terms and Conditions" ]
                         ]
@@ -233,7 +233,7 @@ view model =
                     , state = Default
                     }
                     []
-                    [ checkbox []
+                    [ checkboxWrapper []
                         [ Checkbox.input [ id "checkbox_example_2", type_ "checkbox", tabindex 0 ] []
                         , checkboxLabel { state = Default } [ for "checkbox_example_2" ] [ text "Checkbox" ]
                         ]
