@@ -63,71 +63,78 @@ view { theme } model =
         options =
             { theme = theme }
     in
-    [ configAndPreview { title = "Text" }
-        [ segment options
-            []
-            [ text "This is "
-            , redText options "red"
-            , text " inline text and this is "
-            , blueText options "blue"
-            , text " inline text and this is "
-            , purpleText options "purple"
-            , text " inline text"
-            ]
-        , segment options
-            []
-            [ text "This is "
-            , infoText "info"
-            , text " inline text and this is "
-            , successText "success"
-            , text " inline text and this is "
-            , warningText "warning"
-            , text " inline text and this is "
-            , errorText "error"
-            , text " inline text"
-            ]
-        ]
-        []
-    , configAndPreview { title = "Size" }
-        [ segment options
-            []
-            [ p [] <|
-                case model.size of
-                    Massive ->
-                        [ text "to finally become ", massiveText "massive", text " text" ]
-
-                    Huge ->
-                        [ text "then growing to ", hugeText "huge", text " text" ]
-
-                    Big ->
-                        [ text "to turn into ", bigText "big", text " text" ]
-
-                    Large ->
-                        [ text "and could be ", largeText "large", text " text" ]
-
-                    Medium ->
-                        [ text "the default ", mediumText "medium", text " text" ]
-
-                    Small ->
-                        [ text "changing to ", smallText "small", text " text until it is" ]
-
-                    Tiny ->
-                        [ text "which turns into ", tinyText "tiny", text " text" ]
-
-                    Mini ->
-                        [ text "Starting with ", miniText "mini", text " text" ]
-            ]
-        ]
-        [ { label = "Size"
-          , fields =
-                [ { label = ""
-                  , description = "Text can vary in the same sizes as icons"
-                  , content =
-                        select [ onInput (sizeFromString >> Maybe.withDefault model.size >> ChangeSize) ] <|
-                            List.map (\size -> option [ value (sizeToString size), selected (model.size == size) ] [ text (sizeToString size) ])
-                                [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
-                  }
+    [ configAndPreview
+        { title = "Text"
+        , preview =
+            [ segment options
+                []
+                [ text "This is "
+                , redText options "red"
+                , text " inline text and this is "
+                , blueText options "blue"
+                , text " inline text and this is "
+                , purpleText options "purple"
+                , text " inline text"
                 ]
-          }
-        ]
+            , segment options
+                []
+                [ text "This is "
+                , infoText "info"
+                , text " inline text and this is "
+                , successText "success"
+                , text " inline text and this is "
+                , warningText "warning"
+                , text " inline text and this is "
+                , errorText "error"
+                , text " inline text"
+                ]
+            ]
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Size"
+        , preview =
+            [ segment options
+                []
+                [ p [] <|
+                    case model.size of
+                        Massive ->
+                            [ text "to finally become ", massiveText "massive", text " text" ]
+
+                        Huge ->
+                            [ text "then growing to ", hugeText "huge", text " text" ]
+
+                        Big ->
+                            [ text "to turn into ", bigText "big", text " text" ]
+
+                        Large ->
+                            [ text "and could be ", largeText "large", text " text" ]
+
+                        Medium ->
+                            [ text "the default ", mediumText "medium", text " text" ]
+
+                        Small ->
+                            [ text "changing to ", smallText "small", text " text until it is" ]
+
+                        Tiny ->
+                            [ text "which turns into ", tinyText "tiny", text " text" ]
+
+                        Mini ->
+                            [ text "Starting with ", miniText "mini", text " text" ]
+                ]
+            ]
+        , configs =
+            [ { label = "Size"
+              , fields =
+                    [ { label = ""
+                      , description = "Text can vary in the same sizes as icons"
+                      , content =
+                            select [ onInput (sizeFromString >> Maybe.withDefault model.size >> ChangeSize) ] <|
+                                List.map (\size -> option [ value (sizeToString size), selected (model.size == size) ] [ text (sizeToString size) ])
+                                    [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
+                      }
+                    ]
+              }
+            ]
+        }
     ]

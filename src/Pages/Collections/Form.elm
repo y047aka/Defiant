@@ -90,167 +90,188 @@ view model =
                 ]
             ]
     in
-    [ configAndPreview { title = "Form" }
-        [ form []
-            [ field
-                { type_ = "text"
-                , label = "First Name"
-                , state = Default
-                }
-                []
-                [ Form.input { state = Default } [ type_ "text", name "first-name", placeholder "First Name" ] [] ]
-            , field
-                { type_ = "text"
-                , label = "Last Name"
-                , state = Default
-                }
-                []
-                [ Form.input { state = Default } [ type_ "text", name "last-name", placeholder "Last Name" ] [] ]
-            , field
-                { type_ = "checkbox"
-                , label = ""
-                , state = Default
-                }
-                []
-                [ checkbox []
-                    [ Checkbox.input [ id "checkbox_example_1", type_ "checkbox", tabindex 0 ] []
-                    , checkboxLabel { state = Default } [ for "checkbox_example_1" ] [ text "I agree to the Terms and Conditions" ]
-                    ]
-                ]
-            , button [ type_ "submit" ] [ text "Submit" ]
-            ]
-        ]
-        []
-    , configAndPreview { title = "Field" }
-        [ form []
-            [ field
-                { type_ = "text"
-                , label = "User Input"
-                , state = Default
-                }
-                []
-                [ Form.input { state = Default } [ type_ "text" ] [] ]
-            ]
-        ]
-        []
-    , configAndPreview { title = "Fields" }
-        [ form []
-            [ fields []
+    [ configAndPreview
+        { title = "Form"
+        , preview =
+            [ form []
                 [ field
                     { type_ = "text"
                     , label = "First Name"
                     , state = Default
                     }
                     []
-                    [ Form.input { state = Default } [ type_ "text", placeholder "First Name" ] [] ]
-                , field
-                    { type_ = "text"
-                    , label = "Middle name"
-                    , state = Default
-                    }
-                    []
-                    [ Form.input { state = Default } [ type_ "text", placeholder "Middle name" ] [] ]
+                    [ Form.input { state = Default } [ type_ "text", name "first-name", placeholder "First Name" ] [] ]
                 , field
                     { type_ = "text"
                     , label = "Last Name"
                     , state = Default
                     }
                     []
-                    [ Form.input { state = Default } [ type_ "text", placeholder "Last Name" ] [] ]
+                    [ Form.input { state = Default } [ type_ "text", name "last-name", placeholder "Last Name" ] [] ]
+                , field
+                    { type_ = "checkbox"
+                    , label = ""
+                    , state = Default
+                    }
+                    []
+                    [ checkbox []
+                        [ Checkbox.input [ id "checkbox_example_1", type_ "checkbox", tabindex 0 ] []
+                        , checkboxLabel { state = Default } [ for "checkbox_example_1" ] [ text "I agree to the Terms and Conditions" ]
+                        ]
+                    ]
+                , button [ type_ "submit" ] [ text "Submit" ]
                 ]
             ]
-        ]
-        []
-    , configAndPreview { title = "" }
-        [ form []
-            [ threeFields []
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Field"
+        , preview =
+            [ form []
                 [ field
                     { type_ = "text"
-                    , label = "First Name"
+                    , label = "User Input"
                     , state = Default
                     }
                     []
-                    [ Form.input { state = Default } [ type_ "text", placeholder "First Name" ] [] ]
-                , field
-                    { type_ = "text"
-                    , label = "Middle name"
-                    , state = Default
-                    }
-                    []
-                    [ Form.input { state = Default } [ type_ "text", placeholder "Middle name" ] [] ]
-                , field
-                    { type_ = "text"
-                    , label = "Last Name"
-                    , state = Default
-                    }
-                    []
-                    [ Form.input { state = Default } [ type_ "text", placeholder "Last Name" ] [] ]
+                    [ Form.input { state = Default } [ type_ "text" ] [] ]
                 ]
             ]
-        ]
-        []
-    , configAndPreview { title = "Text Area" }
-        [ form []
-            [ field
-                { type_ = "textarea"
-                , label = "Text"
-                , state = Default
-                }
-                []
-                [ textarea { state = Default } [] [] ]
-            , field
-                { type_ = "textarea"
-                , label = "Short Text"
-                , state = Default
-                }
-                []
-                [ textarea { state = Default } [ rows 2 ] [] ]
-            ]
-        ]
-        []
-    , configAndPreview { title = "Checkbox" }
-        [ form []
-            [ field
-                { type_ = "checkbox"
-                , label = ""
-                , state = Default
-                }
-                []
-                [ checkbox []
-                    [ Checkbox.input [ id "checkbox_example_2", type_ "checkbox", tabindex 0 ] []
-                    , checkboxLabel { state = Default } [ for "checkbox_example_2" ] [ text "Checkbox" ]
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Fields"
+        , preview =
+            [ form []
+                [ fields []
+                    [ field
+                        { type_ = "text"
+                        , label = "First Name"
+                        , state = Default
+                        }
+                        []
+                        [ Form.input { state = Default } [ type_ "text", placeholder "First Name" ] [] ]
+                    , field
+                        { type_ = "text"
+                        , label = "Middle name"
+                        , state = Default
+                        }
+                        []
+                        [ Form.input { state = Default } [ type_ "text", placeholder "Middle name" ] [] ]
+                    , field
+                        { type_ = "text"
+                        , label = "Last Name"
+                        , state = Default
+                        }
+                        []
+                        [ Form.input { state = Default } [ type_ "text", placeholder "Last Name" ] [] ]
                     ]
                 ]
             ]
-        ]
-        []
-    , configAndPreview { title = "Form States" }
-        [ form [] (fieldsWithState { id = "state_example", state = model.state }) ]
-        [ { label = "Form States"
-          , fields =
-                [ { label = ""
-                  , description =
-                        case model.state of
-                            Error ->
-                                "Individual fields may display an error state"
-
-                            Warning ->
-                                "Individual fields may display a warning state"
-
-                            Success ->
-                                "Individual fields may display a Success state"
-
-                            Info ->
-                                "Individual fields may display an informational state"
-
-                            Default ->
-                                ""
-                  , content =
-                        select [ onInput (Form.stateFromString >> Maybe.withDefault model.state >> ChangeState) ] <|
-                            List.map (\state -> option [ value (Form.stateToString state), selected (model.state == state) ] [ text (Form.stateToString state) ])
-                                [ Default, Error, Warning, Success, Info ]
-                  }
+        , configs = []
+        }
+    , configAndPreview
+        { title = ""
+        , preview =
+            [ form []
+                [ threeFields []
+                    [ field
+                        { type_ = "text"
+                        , label = "First Name"
+                        , state = Default
+                        }
+                        []
+                        [ Form.input { state = Default } [ type_ "text", placeholder "First Name" ] [] ]
+                    , field
+                        { type_ = "text"
+                        , label = "Middle name"
+                        , state = Default
+                        }
+                        []
+                        [ Form.input { state = Default } [ type_ "text", placeholder "Middle name" ] [] ]
+                    , field
+                        { type_ = "text"
+                        , label = "Last Name"
+                        , state = Default
+                        }
+                        []
+                        [ Form.input { state = Default } [ type_ "text", placeholder "Last Name" ] [] ]
+                    ]
                 ]
-          }
-        ]
+            ]
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Text Area"
+        , preview =
+            [ form []
+                [ field
+                    { type_ = "textarea"
+                    , label = "Text"
+                    , state = Default
+                    }
+                    []
+                    [ textarea { state = Default } [] [] ]
+                , field
+                    { type_ = "textarea"
+                    , label = "Short Text"
+                    , state = Default
+                    }
+                    []
+                    [ textarea { state = Default } [ rows 2 ] [] ]
+                ]
+            ]
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Checkbox"
+        , preview =
+            [ form []
+                [ field
+                    { type_ = "checkbox"
+                    , label = ""
+                    , state = Default
+                    }
+                    []
+                    [ checkbox []
+                        [ Checkbox.input [ id "checkbox_example_2", type_ "checkbox", tabindex 0 ] []
+                        , checkboxLabel { state = Default } [ for "checkbox_example_2" ] [ text "Checkbox" ]
+                        ]
+                    ]
+                ]
+            ]
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Form States"
+        , preview = [ form [] (fieldsWithState { id = "state_example", state = model.state }) ]
+        , configs =
+            [ { label = "Form States"
+              , fields =
+                    [ { label = ""
+                      , description =
+                            case model.state of
+                                Error ->
+                                    "Individual fields may display an error state"
+
+                                Warning ->
+                                    "Individual fields may display a warning state"
+
+                                Success ->
+                                    "Individual fields may display a Success state"
+
+                                Info ->
+                                    "Individual fields may display an informational state"
+
+                                Default ->
+                                    ""
+                      , content =
+                            select [ onInput (Form.stateFromString >> Maybe.withDefault model.state >> ChangeState) ] <|
+                                List.map (\state -> option [ value (Form.stateToString state), selected (model.state == state) ] [ text (Form.stateToString state) ])
+                                    [ Default, Error, Warning, Success, Info ]
+                      }
+                    ]
+              }
+            ]
+        }
     ]

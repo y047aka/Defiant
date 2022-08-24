@@ -73,77 +73,90 @@ view shared model =
         options =
             { theme = shared.theme }
     in
-    [ configAndPreview { title = "Segment" }
-        [ segmentWithProps
-            { padding = model.padding
-            , border = True
-            , shadow = True
-            , theme = shared.theme
-            , disabled = model.disabled
-            , additionalStyles = []
-            }
-            []
-            [ wireframeShortParagraph ]
-        ]
-        [ { label = "States"
-          , fields =
-                [ { label = ""
-                  , description = "A segment may show its content is disabled"
-                  , content =
-                        checkbox []
-                            [ Checkbox.input [ id "disabled", type_ "checkbox", checked model.disabled, onClick ToggleDisabled ] []
-                            , Checkbox.label [ for "disabled" ] [ text "Disabled" ]
-                            ]
-                  }
-                ]
-          }
-        , { label = "Variations"
-          , fields =
-                [ { label = "Padding"
-                  , description = "A segment can increase its padding"
-                  , content =
-                        select [ onInput (paddingFromString >> Maybe.withDefault model.padding >> ChangePadding) ] <|
-                            List.map (\padding -> option [ value (paddingToString padding), selected (model.padding == padding) ] [ text (paddingToString padding) ])
-                                [ Default, Padded, VeryPadded ]
-                  }
-                ]
-          }
-        ]
-    , configAndPreview { title = "Vertical Segment" }
-        (if model.vertical then
-            [ verticalSegment options [] [ wireframeShortParagraph ]
-            , verticalSegment options [] [ wireframeShortParagraph ]
-            , verticalSegment options [] [ wireframeShortParagraph ]
+    [ configAndPreview
+        { title = "Segment"
+        , preview =
+            [ segmentWithProps
+                { padding = model.padding
+                , border = True
+                , shadow = True
+                , theme = shared.theme
+                , disabled = model.disabled
+                , additionalStyles = []
+                }
+                []
+                [ wireframeShortParagraph ]
             ]
+        , configs =
+            [ { label = "States"
+              , fields =
+                    [ { label = ""
+                      , description = "A segment may show its content is disabled"
+                      , content =
+                            checkbox []
+                                [ Checkbox.input [ id "disabled", type_ "checkbox", checked model.disabled, onClick ToggleDisabled ] []
+                                , Checkbox.label [ for "disabled" ] [ text "Disabled" ]
+                                ]
+                      }
+                    ]
+              }
+            , { label = "Variations"
+              , fields =
+                    [ { label = "Padding"
+                      , description = "A segment can increase its padding"
+                      , content =
+                            select [ onInput (paddingFromString >> Maybe.withDefault model.padding >> ChangePadding) ] <|
+                                List.map (\padding -> option [ value (paddingToString padding), selected (model.padding == padding) ] [ text (paddingToString padding) ])
+                                    [ Default, Padded, VeryPadded ]
+                      }
+                    ]
+              }
+            ]
+        }
+    , configAndPreview
+        { title = "Vertical Segment"
+        , preview =
+            if model.vertical then
+                [ verticalSegment options [] [ wireframeShortParagraph ]
+                , verticalSegment options [] [ wireframeShortParagraph ]
+                , verticalSegment options [] [ wireframeShortParagraph ]
+                ]
 
-         else
-            [ segment options [] [ wireframeShortParagraph ]
-            , segment options [] [ wireframeShortParagraph ]
-            , segment options [] [ wireframeShortParagraph ]
-            ]
-        )
-        [ { label = ""
-          , fields =
-                [ { label = "Vertical Segment"
-                  , description = "A vertical segment formats content to be aligned as part of a vertical group"
-                  , content =
-                        checkbox []
-                            [ Checkbox.input [ id "vertical", type_ "checkbox", checked model.vertical, onClick ToggleVertical ] []
-                            , Checkbox.label [ for "vertical" ] [ text "Vertical" ]
-                            ]
-                  }
+            else
+                [ segment options [] [ wireframeShortParagraph ]
+                , segment options [] [ wireframeShortParagraph ]
+                , segment options [] [ wireframeShortParagraph ]
                 ]
-          }
-        ]
-    , configAndPreview { title = "Inverted" }
-        [ invertedSegment []
-            [ p [] [ text "I'm here to tell you something, and you will probably read me first." ] ]
-        ]
-        []
-    , configAndPreview { title = "Basic" }
-        [ basicSegment options
-            []
-            [ p [] [ text "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo." ] ]
-        ]
-        []
+        , configs =
+            [ { label = ""
+              , fields =
+                    [ { label = "Vertical Segment"
+                      , description = "A vertical segment formats content to be aligned as part of a vertical group"
+                      , content =
+                            checkbox []
+                                [ Checkbox.input [ id "vertical", type_ "checkbox", checked model.vertical, onClick ToggleVertical ] []
+                                , Checkbox.label [ for "vertical" ] [ text "Vertical" ]
+                                ]
+                      }
+                    ]
+              }
+            ]
+        }
+    , configAndPreview
+        { title = "Inverted"
+        , preview =
+            [ invertedSegment []
+                [ p [] [ text "I'm here to tell you something, and you will probably read me first." ] ]
+            ]
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Basic"
+        , preview =
+            [ basicSegment options
+                []
+                [ p [] [ text "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo." ] ]
+            ]
+        , configs = []
+        }
     ]

@@ -21,10 +21,13 @@ page _ _ =
 
 view : List (Html msg)
 view =
-    [ configAndPreview { title = "Divider" }
-        [ wireframeShortParagraph
-        , divider [] []
-        , wireframeShortParagraph
-        ]
-        []
+    [ configAndPreview
+        { title = "Divider"
+        , preview =
+            [ wireframeShortParagraph
+            , divider [] []
+            , wireframeShortParagraph
+            ]
+        , configs = []
+        }
     ]

@@ -130,78 +130,82 @@ view shared model =
                     text ""
                 ]
     in
-    [ configAndPreview { title = "Cards" }
-        [ cards [] <|
-            List.map card
-                [ { header = "Matt Giampietro"
-                  , metadata = "Friends"
-                  , description_ = "Matthew is an interior designer living in New York."
-                  , friends = 75
-                  , imageUrl = "/static/images/avatar/matthew.png"
-                  }
-                , { header = "Molly"
-                  , metadata = "Coworker"
-                  , description_ = "Molly is a personal assistant living in Paris."
-                  , friends = 35
-                  , imageUrl = "/static/images/avatar/molly.png"
-                  }
-                , { header = "Elyse"
-                  , metadata = "Coworker"
-                  , description_ = "Elyse is a copywriter working in New York."
-                  , friends = 151
-                  , imageUrl = "/static/images/avatar/elyse.png"
-                  }
-                , { header = "Kristy"
-                  , metadata = "Friends"
-                  , description_ = "Kristy is an art director living in New York."
-                  , friends = 22
-                  , imageUrl = "/static/images/avatar/kristy.png"
-                  }
-                ]
-        ]
-        [ { label = "Content"
-          , fields =
-                [ { label = ""
-                  , description = "A card can contain an image"
-                  , content =
-                        checkbox []
-                            [ Checkbox.input [ id "image", type_ "checkbox", checked model.hasImage, onClick ToggleHasImage ] []
-                            , Checkbox.label [ for "image" ] [ text "Image" ]
-                            ]
-                  }
-                , { label = ""
-                  , description = "A card can contain a header"
-                  , content =
-                        checkbox []
-                            [ Checkbox.input [ id "header", type_ "checkbox", checked model.hasHeader, onClick ToggleHasHeader ] []
-                            , Checkbox.label [ for "header" ] [ text "Header" ]
-                            ]
-                  }
-                , { label = ""
-                  , description = "A card can contain content metadata"
-                  , content =
-                        checkbox []
-                            [ Checkbox.input [ id "metadata", type_ "checkbox", checked model.hasMetadata, onClick ToggleHasMetadata ] []
-                            , Checkbox.label [ for "metadata" ] [ text "Metadata" ]
-                            ]
-                  }
-                , { label = ""
-                  , description = "A card can contain a description with one or more paragraphs"
-                  , content =
-                        checkbox []
-                            [ Checkbox.input [ id "description", type_ "checkbox", checked model.hasDescription, onClick ToggleHasDescription ] []
-                            , Checkbox.label [ for "description" ] [ text "Description" ]
-                            ]
-                  }
-                , { label = ""
-                  , description = "A card can contain extra content meant to be formatted separately from the main content"
-                  , content =
-                        checkbox []
-                            [ Checkbox.input [ id "extra_content", type_ "checkbox", checked model.hasExtraContent, onClick ToggleHasExtraContent ] []
-                            , Checkbox.label [ for "extra_content" ] [ text "ExtraContent" ]
-                            ]
-                  }
-                ]
-          }
-        ]
+    [ configAndPreview
+        { title = "Cards"
+        , preview =
+            [ cards [] <|
+                List.map card
+                    [ { header = "Matt Giampietro"
+                      , metadata = "Friends"
+                      , description_ = "Matthew is an interior designer living in New York."
+                      , friends = 75
+                      , imageUrl = "/static/images/avatar/matthew.png"
+                      }
+                    , { header = "Molly"
+                      , metadata = "Coworker"
+                      , description_ = "Molly is a personal assistant living in Paris."
+                      , friends = 35
+                      , imageUrl = "/static/images/avatar/molly.png"
+                      }
+                    , { header = "Elyse"
+                      , metadata = "Coworker"
+                      , description_ = "Elyse is a copywriter working in New York."
+                      , friends = 151
+                      , imageUrl = "/static/images/avatar/elyse.png"
+                      }
+                    , { header = "Kristy"
+                      , metadata = "Friends"
+                      , description_ = "Kristy is an art director living in New York."
+                      , friends = 22
+                      , imageUrl = "/static/images/avatar/kristy.png"
+                      }
+                    ]
+            ]
+        , configs =
+            [ { label = "Content"
+              , fields =
+                    [ { label = ""
+                      , description = "A card can contain an image"
+                      , content =
+                            checkbox []
+                                [ Checkbox.input [ id "image", type_ "checkbox", checked model.hasImage, onClick ToggleHasImage ] []
+                                , Checkbox.label [ for "image" ] [ text "Image" ]
+                                ]
+                      }
+                    , { label = ""
+                      , description = "A card can contain a header"
+                      , content =
+                            checkbox []
+                                [ Checkbox.input [ id "header", type_ "checkbox", checked model.hasHeader, onClick ToggleHasHeader ] []
+                                , Checkbox.label [ for "header" ] [ text "Header" ]
+                                ]
+                      }
+                    , { label = ""
+                      , description = "A card can contain content metadata"
+                      , content =
+                            checkbox []
+                                [ Checkbox.input [ id "metadata", type_ "checkbox", checked model.hasMetadata, onClick ToggleHasMetadata ] []
+                                , Checkbox.label [ for "metadata" ] [ text "Metadata" ]
+                                ]
+                      }
+                    , { label = ""
+                      , description = "A card can contain a description with one or more paragraphs"
+                      , content =
+                            checkbox []
+                                [ Checkbox.input [ id "description", type_ "checkbox", checked model.hasDescription, onClick ToggleHasDescription ] []
+                                , Checkbox.label [ for "description" ] [ text "Description" ]
+                                ]
+                      }
+                    , { label = ""
+                      , description = "A card can contain extra content meant to be formatted separately from the main content"
+                      , content =
+                            checkbox []
+                                [ Checkbox.input [ id "extra_content", type_ "checkbox", checked model.hasExtraContent, onClick ToggleHasExtraContent ] []
+                                , Checkbox.label [ for "extra_content" ] [ text "ExtraContent" ]
+                                ]
+                      }
+                    ]
+              }
+            ]
+        }
     ]

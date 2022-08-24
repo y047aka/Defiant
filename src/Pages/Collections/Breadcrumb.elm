@@ -99,45 +99,52 @@ view { theme } model =
                 Massive ->
                     massiveBreadCrumb
       in
-      configAndPreview { title = "Breadcrumb" }
-        [ breadcrumb_ options
-            [ { label = "Home", url = "/" }
-            , { label = "Store", url = "/" }
-            , { label = "T-Shirt", url = "" }
-            ]
-        ]
-        [ { label = "Content"
-          , fields =
-                [ { label = "Divider"
-                  , description = "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text."
-                  , content =
-                        select [ onInput (dividerFromString >> Maybe.withDefault model.divider >> ChangeDivider) ] <|
-                            List.map (\divider -> option [ value (dividerToString divider), selected (model.divider == divider) ] [ text (dividerToString divider) ])
-                                [ Slash, RightChevron ]
-                  }
-                ]
-          }
-        , { label = "Variations"
-          , fields =
-                [ { label = "Size"
-                  , description = "A breadcrumb can vary in size"
-                  , content =
-                        select [ onInput (sizeFromString >> Maybe.withDefault model.size >> ChangeSize) ] <|
-                            List.map (\size -> option [ value (sizeToString size), selected (model.size == size) ] [ text (sizeToString size) ])
-                                [ Mini, Tiny, Small, Medium, Large, Big, Huge, Massive ]
-                  }
-                ]
-          }
-        ]
-    , configAndPreview { title = "Inverted" }
-        [ segment { theme = Dark }
-            []
-            [ breadcrumbWithProps { divider = Slash, size = Nothing, theme = Dark }
+      configAndPreview
+        { title = "Breadcrumb"
+        , preview =
+            [ breadcrumb_ options
                 [ { label = "Home", url = "/" }
-                , { label = "Registration", url = "/" }
-                , { label = "Personal Information", url = "" }
+                , { label = "Store", url = "/" }
+                , { label = "T-Shirt", url = "" }
                 ]
             ]
-        ]
-        []
+        , configs =
+            [ { label = "Content"
+              , fields =
+                    [ { label = "Divider"
+                      , description = "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text."
+                      , content =
+                            select [ onInput (dividerFromString >> Maybe.withDefault model.divider >> ChangeDivider) ] <|
+                                List.map (\divider -> option [ value (dividerToString divider), selected (model.divider == divider) ] [ text (dividerToString divider) ])
+                                    [ Slash, RightChevron ]
+                      }
+                    ]
+              }
+            , { label = "Variations"
+              , fields =
+                    [ { label = "Size"
+                      , description = "A breadcrumb can vary in size"
+                      , content =
+                            select [ onInput (sizeFromString >> Maybe.withDefault model.size >> ChangeSize) ] <|
+                                List.map (\size -> option [ value (sizeToString size), selected (model.size == size) ] [ text (sizeToString size) ])
+                                    [ Mini, Tiny, Small, Medium, Large, Big, Huge, Massive ]
+                      }
+                    ]
+              }
+            ]
+        }
+    , configAndPreview
+        { title = "Inverted"
+        , preview =
+            [ segment { theme = Dark }
+                []
+                [ breadcrumbWithProps { divider = Slash, size = Nothing, theme = Dark }
+                    [ { label = "Home", url = "/" }
+                    , { label = "Registration", url = "/" }
+                    , { label = "Personal Information", url = "" }
+                    ]
+                ]
+            ]
+        , configs = []
+        }
     ]

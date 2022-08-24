@@ -21,7 +21,9 @@ page _ _ =
 
 view : List (Html msg)
 view =
-    [ configAndPreview { title = "Image" }
-        [ smallImage [ src "/static/images/wireframe/image.png" ] [] ]
-        []
+    [ configAndPreview
+        { title = "Image"
+        , preview = [ smallImage [ src "/static/images/wireframe/image.png" ] [] ]
+        , configs = []
+        }
     ]

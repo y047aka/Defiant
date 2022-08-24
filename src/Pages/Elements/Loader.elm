@@ -28,31 +28,37 @@ type alias Model =
 
 view : Model -> List (Html msg)
 view { shared } =
-    [ configAndPreview { title = "Loader" }
-        [ segment { theme = shared.theme }
-            []
-            [ wireframeShortParagraph
-            , dimmer { isActive = True, theme = Light }
+    [ configAndPreview
+        { title = "Loader"
+        , preview =
+            [ segment { theme = shared.theme }
                 []
-                [ loader { theme = Light } [] [] ]
+                [ wireframeShortParagraph
+                , dimmer { isActive = True, theme = Light }
+                    []
+                    [ loader { theme = Light } [] [] ]
+                ]
             ]
-        ]
-        []
-    , configAndPreview { title = "Text Loader" }
-        [ segment { theme = shared.theme }
-            []
-            [ wireframeShortParagraph
-            , dimmer { isActive = True, theme = Light }
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Text Loader"
+        , preview =
+            [ segment { theme = shared.theme }
                 []
-                [ textLoader { theme = Light } [] [ text "Loading" ] ]
-            ]
-        , segment { theme = shared.theme }
-            []
-            [ wireframeShortParagraph
-            , dimmer { isActive = True, theme = Dark }
+                [ wireframeShortParagraph
+                , dimmer { isActive = True, theme = Light }
+                    []
+                    [ textLoader { theme = Light } [] [ text "Loading" ] ]
+                ]
+            , segment { theme = shared.theme }
                 []
-                [ textLoader { theme = Dark } [] [ text "Loading" ] ]
+                [ wireframeShortParagraph
+                , dimmer { isActive = True, theme = Dark }
+                    []
+                    [ textLoader { theme = Dark } [] [ text "Loading" ] ]
+                ]
             ]
-        ]
-        []
+        , configs = []
+        }
     ]

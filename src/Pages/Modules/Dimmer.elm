@@ -79,62 +79,74 @@ view { shared, toggledItems } =
         options =
             { theme = shared.theme }
     in
-    [ configAndPreview { title = "Dimmer" }
-        [ segment options
-            []
-            [ Header.header options [] [ text "Overlayable Section" ]
-            , div [] <|
-                List.repeat 1 (smallImage [ src "/static/images/wireframe/image.png" ] [])
-            , wireframeMediaParagraph
-            , dimmer { isActive = List.member "dimmer" toggledItems, theme = Light } [ onClick (Toggle "dimmer") ] []
+    [ configAndPreview
+        { title = "Dimmer"
+        , preview =
+            [ segment options
+                []
+                [ Header.header options [] [ text "Overlayable Section" ]
+                , div [] <|
+                    List.repeat 1 (smallImage [ src "/static/images/wireframe/image.png" ] [])
+                , wireframeMediaParagraph
+                , dimmer { isActive = List.member "dimmer" toggledItems, theme = Light } [ onClick (Toggle "dimmer") ] []
+                ]
+            , button [ onClick (Toggle "dimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
             ]
-        , button [ onClick (Toggle "dimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
-        ]
-        []
-    , configAndPreview { title = "Content Dimmer" }
-        [ segment options
-            []
-            [ Header.header options [] [ text "Overlayable Section" ]
-            , div [] <|
-                List.repeat 1 (smallImage [ src "/static/images/wireframe/image.png" ] [])
-            , wireframeMediaParagraph
-            , dimmer { isActive = List.member "contentDimmer" toggledItems, theme = Light }
-                [ onClick (Toggle "contentDimmer") ]
-                [ Dimmer.content []
-                    [ iconHeader { theme = Dark }
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Content Dimmer"
+        , preview =
+            [ segment options
+                []
+                [ Header.header options [] [ text "Overlayable Section" ]
+                , div [] <|
+                    List.repeat 1 (smallImage [ src "/static/images/wireframe/image.png" ] [])
+                , wireframeMediaParagraph
+                , dimmer { isActive = List.member "contentDimmer" toggledItems, theme = Light }
+                    [ onClick (Toggle "contentDimmer") ]
+                    [ Dimmer.content []
+                        [ iconHeader { theme = Dark }
+                            []
+                            [ icon [] "fas fa-heart", text "Dimmed Message!" ]
+                        ]
+                    ]
+                ]
+            , button [ onClick (Toggle "contentDimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
+            ]
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Page Dimmer"
+        , preview =
+            [ button [ onClick (Toggle "pageDimmer") ] [ icon [] "fas fa-plus", text "Show" ]
+            , pageDimmer { isActive = List.member "pageDimmer" toggledItems, toggle = Toggle "pageDimmer" }
+                []
+                [ iconHeader { theme = Dark }
+                    []
+                    [ icon [] "fas fa-envelope"
+                    , text "Dimmer Message"
+                    , subHeader { theme = Dark }
                         []
-                        [ icon [] "fas fa-heart", text "Dimmed Message!" ]
+                        [ text "Dimmer sub-header" ]
                     ]
                 ]
             ]
-        , button [ onClick (Toggle "contentDimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
-        ]
-        []
-    , configAndPreview { title = "Page Dimmer" }
-        [ button [ onClick (Toggle "pageDimmer") ] [ icon [] "fas fa-plus", text "Show" ]
-        , pageDimmer { isActive = List.member "pageDimmer" toggledItems, toggle = Toggle "pageDimmer" }
-            []
-            [ iconHeader { theme = Dark }
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Inverted Dimmer"
+        , preview =
+            [ segment options
                 []
-                [ icon [] "fas fa-envelope"
-                , text "Dimmer Message"
-                , subHeader { theme = Dark }
+                [ wireframeShortParagraph
+                , wireframeShortParagraph
+                , dimmer { isActive = List.member "invertedDimmer" toggledItems, theme = Dark }
+                    [ onClick (Toggle "invertedDimmer") ]
                     []
-                    [ text "Dimmer sub-header" ]
                 ]
+            , button [ onClick (Toggle "invertedDimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
             ]
-        ]
-        []
-    , configAndPreview { title = "Inverted Dimmer" }
-        [ segment options
-            []
-            [ wireframeShortParagraph
-            , wireframeShortParagraph
-            , dimmer { isActive = List.member "invertedDimmer" toggledItems, theme = Dark }
-                [ onClick (Toggle "invertedDimmer") ]
-                []
-            ]
-        , button [ onClick (Toggle "invertedDimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
-        ]
-        []
+        , configs = []
+        }
     ]

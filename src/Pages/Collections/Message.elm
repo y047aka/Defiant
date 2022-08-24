@@ -30,23 +30,29 @@ view { shared } =
         options =
             { theme = shared.theme }
     in
-    [ configAndPreview { title = "Message" }
-        [ message []
-            [ div []
-                [ Header.header options [] [ text "Changes in Service" ]
-                , p [] [ text "We just updated our privacy policy here to better service our customers. We recommend reviewing the changes." ]
+    [ configAndPreview
+        { title = "Message"
+        , preview =
+            [ message []
+                [ div []
+                    [ Header.header options [] [ text "Changes in Service" ]
+                    , p [] [ text "We just updated our privacy policy here to better service our customers. We recommend reviewing the changes." ]
+                    ]
                 ]
             ]
-        ]
-        []
-    , configAndPreview { title = "Icon Message" }
-        [ message []
-            [ icon [] "fas fa-inbox"
-            , div []
-                [ Header.header options [] [ text "Have you heard about our mailing list?" ]
-                , p [] [ text "Get the best news in your e-mail every day." ]
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Icon Message"
+        , preview =
+            [ message []
+                [ icon [] "fas fa-inbox"
+                , div []
+                    [ Header.header options [] [ text "Have you heard about our mailing list?" ]
+                    , p [] [ text "Get the best news in your e-mail every day." ]
+                    ]
                 ]
             ]
-        ]
-        []
+        , configs = []
+        }
     ]

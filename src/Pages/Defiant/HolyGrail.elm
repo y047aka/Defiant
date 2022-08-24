@@ -21,14 +21,17 @@ page _ _ =
 
 view : List (Html msg)
 view =
-    [ configAndPreview { title = "Holy grail" }
-        [ holyGrail
-            { header = [ text "header" ]
-            , main = [ wireframeParagraph ]
-            , aside_left = [ text "aside" ]
-            , aside_right = [ text "aside" ]
-            , footer = [ text "footer" ]
-            }
-        ]
-        []
+    [ configAndPreview
+        { title = "Holy grail"
+        , preview =
+            [ holyGrail
+                { header = [ text "header" ]
+                , main = [ wireframeParagraph ]
+                , aside_left = [ text "aside" ]
+                , aside_right = [ text "aside" ]
+                , footer = [ text "footer" ]
+                }
+            ]
+        , configs = []
+        }
     ]

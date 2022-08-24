@@ -21,23 +21,32 @@ page _ _ =
 
 view : List (Html msg)
 view =
-    [ configAndPreview { title = "Input" }
-        [ Input.input []
-            [ input [ type_ "text", placeholder "Search..." ] [] ]
-        ]
-        []
-    , configAndPreview { title = "Labeled" }
-        [ Input.input []
-            [ Input.label [] [ text "http://" ]
-            , input [ type_ "text", placeholder "mysite.com" ] []
+    [ configAndPreview
+        { title = "Input"
+        , preview =
+            [ Input.input []
+                [ input [ type_ "text", placeholder "Search..." ] [] ]
             ]
-        ]
-        []
-    , configAndPreview { title = "" }
-        [ Input.input []
-            [ input [ type_ "text", placeholder "Enter weight.." ] []
-            , Input.label [] [ text "kg" ]
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Labeled"
+        , preview =
+            [ Input.input []
+                [ Input.label [] [ text "http://" ]
+                , input [ type_ "text", placeholder "mysite.com" ] []
+                ]
             ]
-        ]
-        []
+        , configs = []
+        }
+    , configAndPreview
+        { title = ""
+        , preview =
+            [ Input.input []
+                [ input [ type_ "text", placeholder "Enter weight.." ] []
+                , Input.label [] [ text "kg" ]
+                ]
+            ]
+        , configs = []
+        }
     ]

@@ -20,73 +20,85 @@ page _ _ =
 
 view : List (Html msg)
 view =
-    [ configAndPreview { title = "Table" }
-        [ celledTable []
-            [ thead []
-                [ tr [] <|
-                    List.map (\item -> th [] [ text item ])
-                        [ "Name", "Age", "Job" ]
-                ]
-            , tbody [] <|
-                List.map (\row -> tr [] <| List.map (\d -> td [] [ text d ]) row)
-                    [ [ "James", "24", "Engineer" ]
-                    , [ "Jill", "26", "Engineer" ]
-                    , [ "Elyse", "24", "Designer" ]
+    [ configAndPreview
+        { title = "Table"
+        , preview =
+            [ celledTable []
+                [ thead []
+                    [ tr [] <|
+                        List.map (\item -> th [] [ text item ])
+                            [ "Name", "Age", "Job" ]
                     ]
-            ]
-        ]
-        []
-    , configAndPreview { title = "Striped" }
-        [ stripedTable []
-            [ thead []
-                [ tr [] <|
-                    List.map (\item -> th [] [ text item ])
-                        [ "Name", "Date Joined", "E-mail", "Called" ]
+                , tbody [] <|
+                    List.map (\row -> tr [] <| List.map (\d -> td [] [ text d ]) row)
+                        [ [ "James", "24", "Engineer" ]
+                        , [ "Jill", "26", "Engineer" ]
+                        , [ "Elyse", "24", "Designer" ]
+                        ]
                 ]
-            , tbody [] <|
-                List.map (\row -> tr [] <| List.map (\d -> td [] [ text d ]) row)
-                    [ [ "John Lilki", "September 14, 2013", "jhlilk22@yahoo.com", "No" ]
-                    , [ "Jamie Harington", "January 11, 2014", "jamieharingonton@yahoo.com", "Yes" ]
-                    , [ "Jill Lewis", "May 11, 2014", "jilsewris22@yahoo.com", "Yes" ]
-                    , [ "John Lilki", "September 14, 2013", "jhlilk22@yahoo.com", "No" ]
-                    , [ "John Lilki", "September 14, 2013", "jhlilk22@yahoo.com", "No" ]
-                    , [ "Jamie Harington", "January 11, 2014", "jamieharingonton@yahoo.com", "Yes" ]
-                    , [ "Jill Lewis", "May 11, 2014", "jilsewris22@yahoo.com", "Yes" ]
-                    , [ "John Lilki", "September 14, 2013", "jhlilk22@yahoo.com", "No" ]
-                    ]
             ]
-        ]
-        []
-    , configAndPreview { title = "Basic" }
-        [ basicTable []
-            [ thead []
-                [ tr [] <|
-                    List.map (\item -> th [] [ text item ])
-                        [ "Name", "Status", "Notes" ]
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Striped"
+        , preview =
+            [ stripedTable []
+                [ thead []
+                    [ tr [] <|
+                        List.map (\item -> th [] [ text item ])
+                            [ "Name", "Date Joined", "E-mail", "Called" ]
+                    ]
+                , tbody [] <|
+                    List.map (\row -> tr [] <| List.map (\d -> td [] [ text d ]) row)
+                        [ [ "John Lilki", "September 14, 2013", "jhlilk22@yahoo.com", "No" ]
+                        , [ "Jamie Harington", "January 11, 2014", "jamieharingonton@yahoo.com", "Yes" ]
+                        , [ "Jill Lewis", "May 11, 2014", "jilsewris22@yahoo.com", "Yes" ]
+                        , [ "John Lilki", "September 14, 2013", "jhlilk22@yahoo.com", "No" ]
+                        , [ "John Lilki", "September 14, 2013", "jhlilk22@yahoo.com", "No" ]
+                        , [ "Jamie Harington", "January 11, 2014", "jamieharingonton@yahoo.com", "Yes" ]
+                        , [ "Jill Lewis", "May 11, 2014", "jilsewris22@yahoo.com", "Yes" ]
+                        , [ "John Lilki", "September 14, 2013", "jhlilk22@yahoo.com", "No" ]
+                        ]
                 ]
-            , tbody [] <|
-                List.map (\row -> tr [] <| List.map (\d -> td [] [ text d ]) row)
-                    [ [ "John", "Approved", "None" ]
-                    , [ "Jamie", "Approved", "Requires call" ]
-                    , [ "Jill", "Denied", "None" ]
-                    ]
             ]
-        ]
-        []
-    , configAndPreview { title = "" }
-        [ veryBasicTable []
-            [ thead []
-                [ tr [] <|
-                    List.map (\item -> th [] [ text item ])
-                        [ "Name", "Status", "Notes" ]
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Basic"
+        , preview =
+            [ basicTable []
+                [ thead []
+                    [ tr [] <|
+                        List.map (\item -> th [] [ text item ])
+                            [ "Name", "Status", "Notes" ]
+                    ]
+                , tbody [] <|
+                    List.map (\row -> tr [] <| List.map (\d -> td [] [ text d ]) row)
+                        [ [ "John", "Approved", "None" ]
+                        , [ "Jamie", "Approved", "Requires call" ]
+                        , [ "Jill", "Denied", "None" ]
+                        ]
                 ]
-            , tbody [] <|
-                List.map (\row -> tr [] <| List.map (\d -> td [] [ text d ]) row)
-                    [ [ "John", "Approved", "None" ]
-                    , [ "Jamie", "Approved", "Requires call" ]
-                    , [ "Jill", "Denied", "None" ]
-                    ]
             ]
-        ]
-        []
+        , configs = []
+        }
+    , configAndPreview
+        { title = ""
+        , preview =
+            [ veryBasicTable []
+                [ thead []
+                    [ tr [] <|
+                        List.map (\item -> th [] [ text item ])
+                            [ "Name", "Status", "Notes" ]
+                    ]
+                , tbody [] <|
+                    List.map (\row -> tr [] <| List.map (\d -> td [] [ text d ]) row)
+                        [ [ "John", "Approved", "None" ]
+                        , [ "Jamie", "Approved", "Requires call" ]
+                        , [ "Jill", "Denied", "None" ]
+                        ]
+                ]
+            ]
+        , configs = []
+        }
     ]

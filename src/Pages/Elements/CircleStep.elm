@@ -79,171 +79,179 @@ update msg model =
 
 view : Model -> List (Html Msg)
 view model =
-    [ configAndPreview { title = "Steps" }
-        [ let
-            considerOptions { icon, title, description } =
-                { icon =
-                    if model.hasIcon then
-                        icon
-
-                    else
-                        ""
-                , title = title
-                , description =
-                    if model.hasDescription then
-                        description
-
-                    else
-                        ""
-                }
-          in
-          CircleStep.steps []
+    [ configAndPreview
+        { title = "Steps"
+        , preview =
             [ let
-                step =
-                    case model.progress of
-                        Shipping ->
-                            CircleStep.activeStep
+                considerOptions { icon, title, description } =
+                    { icon =
+                        if model.hasIcon then
+                            icon
 
-                        _ ->
-                            CircleStep.completedStep
-              in
-              step [] <|
-                considerOptions
-                    { icon = "fas fa-truck"
-                    , title = "Shipping"
-                    , description = "Choose your shipping options"
+                        else
+                            ""
+                    , title = title
+                    , description =
+                        if model.hasDescription then
+                            description
+
+                        else
+                            ""
                     }
-            , let
-                step =
-                    case model.progress of
-                        Shipping ->
-                            CircleStep.disabledStep
-
-                        Billing ->
-                            CircleStep.activeStep
-
-                        ConfirmOrder ->
-                            CircleStep.completedStep
               in
-              step [] <|
-                considerOptions
+              CircleStep.steps []
+                [ let
+                    step =
+                        case model.progress of
+                            Shipping ->
+                                CircleStep.activeStep
+
+                            _ ->
+                                CircleStep.completedStep
+                  in
+                  step [] <|
+                    considerOptions
+                        { icon = "fas fa-truck"
+                        , title = "Shipping"
+                        , description = "Choose your shipping options"
+                        }
+                , let
+                    step =
+                        case model.progress of
+                            Shipping ->
+                                CircleStep.disabledStep
+
+                            Billing ->
+                                CircleStep.activeStep
+
+                            ConfirmOrder ->
+                                CircleStep.completedStep
+                  in
+                  step [] <|
+                    considerOptions
+                        { icon = "fas fa-credit-card"
+                        , title = "Billing"
+                        , description = "Enter billing information"
+                        }
+                , let
+                    step =
+                        case model.progress of
+                            ConfirmOrder ->
+                                CircleStep.activeStep
+
+                            _ ->
+                                CircleStep.disabledStep
+                  in
+                  step [] <|
+                    considerOptions
+                        { icon = "fas fa-info"
+                        , title = "Confirm Order"
+                        , description = ""
+                        }
+                ]
+            ]
+        , configs =
+            [ { label = "Progress"
+              , fields =
+                    [ { label = ""
+                      , description = ""
+                      , content =
+                            div [] <|
+                                List.map
+                                    (\progress ->
+                                        let
+                                            prefixedId =
+                                                "progress_" ++ progressToString progress
+                                        in
+                                        div []
+                                            [ input
+                                                [ id prefixedId
+                                                , type_ "radio"
+                                                , name "progress"
+                                                , value (progressToString progress)
+                                                , checked (model.progress == progress)
+                                                , onInput (progressFromString >> Maybe.withDefault model.progress >> ChangeProgress)
+                                                ]
+                                                []
+                                            , label [ for prefixedId ] [ text (progressToString progress) ]
+                                            ]
+                                    )
+                                    [ Shipping, Billing, ConfirmOrder ]
+                      }
+                    ]
+              }
+            , { label = "Content"
+              , fields =
+                    [ { label = ""
+                      , description = "A step can contain an icon"
+                      , content =
+                            checkbox []
+                                [ Checkbox.input [ id "icon", type_ "checkbox", checked model.hasIcon, onClick ToggleHasIcon ] []
+                                , Checkbox.label [ for "icon" ] [ text "Icon" ]
+                                ]
+                      }
+                    , { label = ""
+                      , description = "A step can contain a description"
+                      , content =
+                            checkbox []
+                                [ Checkbox.input [ id "description", type_ "checkbox", checked model.hasDescription, onClick ToggleHasDescription ] []
+                                , Checkbox.label [ for "description" ] [ text "Description" ]
+                                ]
+                      }
+                    ]
+              }
+            ]
+        }
+    , configAndPreview
+        { title = "Step"
+        , preview =
+            [ CircleStep.steps []
+                [ let
+                    step =
+                        case model.state of
+                            Default ->
+                                CircleStep.step
+
+                            Active ->
+                                CircleStep.activeStep
+
+                            Completed ->
+                                CircleStep.completedStep
+
+                            Disabled ->
+                                CircleStep.disabledStep
+                  in
+                  step []
                     { icon = "fas fa-credit-card"
                     , title = "Billing"
                     , description = "Enter billing information"
                     }
-            , let
-                step =
-                    case model.progress of
-                        ConfirmOrder ->
-                            CircleStep.activeStep
-
-                        _ ->
-                            CircleStep.disabledStep
-              in
-              step [] <|
-                considerOptions
-                    { icon = "fas fa-info"
-                    , title = "Confirm Order"
-                    , description = ""
-                    }
+                ]
             ]
-        ]
-        [ { label = "Progress"
-          , fields =
-                [ { label = ""
-                  , description = ""
-                  , content =
-                        div [] <|
-                            List.map
-                                (\progress ->
-                                    let
-                                        prefixedId =
-                                            "progress_" ++ progressToString progress
-                                    in
-                                    div []
-                                        [ input
-                                            [ id prefixedId
-                                            , type_ "radio"
-                                            , name "progress"
-                                            , value (progressToString progress)
-                                            , checked (model.progress == progress)
-                                            , onInput (progressFromString >> Maybe.withDefault model.progress >> ChangeProgress)
-                                            ]
-                                            []
-                                        , label [ for prefixedId ] [ text (progressToString progress) ]
-                                        ]
-                                )
-                                [ Shipping, Billing, ConfirmOrder ]
-                  }
-                ]
-          }
-        , { label = "Content"
-          , fields =
-                [ { label = ""
-                  , description = "A step can contain an icon"
-                  , content =
-                        checkbox []
-                            [ Checkbox.input [ id "icon", type_ "checkbox", checked model.hasIcon, onClick ToggleHasIcon ] []
-                            , Checkbox.label [ for "icon" ] [ text "Icon" ]
-                            ]
-                  }
-                , { label = ""
-                  , description = "A step can contain a description"
-                  , content =
-                        checkbox []
-                            [ Checkbox.input [ id "description", type_ "checkbox", checked model.hasDescription, onClick ToggleHasDescription ] []
-                            , Checkbox.label [ for "description" ] [ text "Description" ]
-                            ]
-                  }
-                ]
-          }
-        ]
-    , configAndPreview { title = "Step" }
-        [ CircleStep.steps []
-            [ let
-                step =
-                    case model.state of
-                        Default ->
-                            CircleStep.step
+        , configs =
+            [ { label = "States"
+              , fields =
+                    [ { label = ""
+                      , description =
+                            case model.state of
+                                Default ->
+                                    ""
 
-                        Active ->
-                            CircleStep.activeStep
+                                Active ->
+                                    "A step can be highlighted as active"
 
-                        Completed ->
-                            CircleStep.completedStep
+                                Completed ->
+                                    "A step can show that a user has completed it"
 
-                        Disabled ->
-                            CircleStep.disabledStep
-              in
-              step []
-                { icon = "fas fa-credit-card"
-                , title = "Billing"
-                , description = "Enter billing information"
-                }
+                                Disabled ->
+                                    "A step can show that it cannot be selected"
+                      , content =
+                            select [ onInput (CircleStep.stateFromString >> Maybe.withDefault model.state >> ChangeState) ] <|
+                                List.map (\state -> option [ value (CircleStep.stateToString state), selected (model.state == state) ] [ text (CircleStep.stateToString state) ])
+                                    [ Default, Active, Completed, Disabled ]
+                      }
+                    ]
+              }
             ]
-        ]
-        [ { label = "States"
-          , fields =
-                [ { label = ""
-                  , description =
-                        case model.state of
-                            Default ->
-                                ""
-
-                            Active ->
-                                "A step can be highlighted as active"
-
-                            Completed ->
-                                "A step can show that a user has completed it"
-
-                            Disabled ->
-                                "A step can show that it cannot be selected"
-                  , content =
-                        select [ onInput (CircleStep.stateFromString >> Maybe.withDefault model.state >> ChangeState) ] <|
-                            List.map (\state -> option [ value (CircleStep.stateToString state), selected (model.state == state) ] [ text (CircleStep.stateToString state) ])
-                                [ Default, Active, Completed, Disabled ]
-                  }
-                ]
-          }
-        ]
+        }
     ]

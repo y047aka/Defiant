@@ -89,49 +89,55 @@ view { shared, toggleMethod } =
                         }
                     )
     in
-    [ configAndPreview { title = "Accordion" }
-        [ case toggleMethod of
-            SummaryDetails ->
-                accordion_SummaryDetails { theme = shared.theme } [] items
+    [ configAndPreview
+        { title = "Accordion"
+        , preview =
+            [ case toggleMethod of
+                SummaryDetails ->
+                    accordion_SummaryDetails { theme = shared.theme } [] items
 
-            TargetUrl ->
-                accordion_TargetUrl { theme = shared.theme } [] items
+                TargetUrl ->
+                    accordion_TargetUrl { theme = shared.theme } [] items
 
-            Checkbox ->
-                accordion_Checkbox { theme = shared.theme } [] items
+                Checkbox ->
+                    accordion_Checkbox { theme = shared.theme } [] items
 
-            Radio ->
-                accordion_Radio { theme = shared.theme } [] items
-        ]
-        [ { label = "Toggle Method"
-          , fields =
-                [ { label = ""
-                  , description =
-                        case toggleMethod of
-                            SummaryDetails ->
-                                "A standard accordion with summary/details tag"
+                Radio ->
+                    accordion_Radio { theme = shared.theme } [] items
+            ]
+        , configs =
+            [ { label = "Toggle Method"
+              , fields =
+                    [ { label = ""
+                      , description =
+                            case toggleMethod of
+                                SummaryDetails ->
+                                    "A standard accordion with summary/details tag"
 
-                            TargetUrl ->
-                                "A standard accordion with target URL"
+                                TargetUrl ->
+                                    "A standard accordion with target URL"
 
-                            Checkbox ->
-                                "A standard accordion with checkbox"
+                                Checkbox ->
+                                    "A standard accordion with checkbox"
 
-                            Radio ->
-                                "A standard accordion with radio button"
-                  , content =
-                        select [ onInput (Accordion.toggleMethodFromString >> Maybe.withDefault toggleMethod >> ChangeToggleMethod) ] <|
-                            List.map (\method -> option [ value (Accordion.toggleMethodToString method), selected (toggleMethod == method) ] [ text (Accordion.toggleMethodToString method) ])
-                                [ SummaryDetails, TargetUrl, Checkbox, Radio ]
-                  }
-                ]
-          }
-        ]
+                                Radio ->
+                                    "A standard accordion with radio button"
+                      , content =
+                            select [ onInput (Accordion.toggleMethodFromString >> Maybe.withDefault toggleMethod >> ChangeToggleMethod) ] <|
+                                List.map (\method -> option [ value (Accordion.toggleMethodToString method), selected (toggleMethod == method) ] [ text (Accordion.toggleMethodToString method) ])
+                                    [ SummaryDetails, TargetUrl, Checkbox, Radio ]
+                      }
+                    ]
+              }
+            ]
+        }
     , configAndPreview
-        { title = "Inverted" }
-        [ segment { theme = Dark }
-            []
-            [ accordionUnstyled { toggleMethod = SummaryDetails } [] items ]
-        ]
-        []
+        { title = "Inverted"
+        , preview =
+            [ segment { theme = Dark }
+                []
+                [ accordionUnstyled { toggleMethod = SummaryDetails } [] items ]
+            ]
+        , configs = []
+        }
     ]

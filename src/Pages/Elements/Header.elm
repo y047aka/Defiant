@@ -64,63 +64,73 @@ view { theme } model =
         options =
             { theme = theme }
     in
-    [ configAndPreview { title = "Content Headers" }
-        [ case model.size of
-            Massive ->
-                massiveHeader options [] [ text "Massive Header" ]
+    [ configAndPreview
+        { title = "Content Headers"
+        , preview =
+            [ case model.size of
+                Massive ->
+                    massiveHeader options [] [ text "Massive Header" ]
 
-            Huge ->
-                hugeHeader options [] [ text "Huge Header" ]
+                Huge ->
+                    hugeHeader options [] [ text "Huge Header" ]
 
-            Big ->
-                bigHeader options [] [ text "Big Header" ]
+                Big ->
+                    bigHeader options [] [ text "Big Header" ]
 
-            Large ->
-                largeHeader options [] [ text "Large Header" ]
+                Large ->
+                    largeHeader options [] [ text "Large Header" ]
 
-            Medium ->
-                mediumHeader options [] [ text "Medium Header" ]
+                Medium ->
+                    mediumHeader options [] [ text "Medium Header" ]
 
-            Small ->
-                smallHeader options [] [ text "Small Header" ]
+                Small ->
+                    smallHeader options [] [ text "Small Header" ]
 
-            Tiny ->
-                tinyHeader options [] [ text "Tiny Header" ]
+                Tiny ->
+                    tinyHeader options [] [ text "Tiny Header" ]
 
-            Mini ->
-                miniHeader options [] [ text "Mini Header" ]
-        , wireframeShortParagraph
-        ]
-        [ { label = "Variations"
-          , fields =
-                [ { label = "Size"
-                  , description = "Text can vary in the same sizes as icons"
-                  , content =
-                        select [ onInput (sizeFromString >> Maybe.withDefault model.size >> ChangeSize) ] <|
-                            List.map (\size -> option [ value (sizeToString size), selected (model.size == size) ] [ text (sizeToString size) ])
-                                [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
-                  }
-                ]
-          }
-        ]
-    , configAndPreview { title = "Icon Headers" }
-        [ iconHeader options
-            []
-            [ icon [] "fas fa-cogs"
-            , iconHeaderContent []
-                [ text "Account Settings"
-                , subHeader options [] [ text "Manage your account settings and set e-mail preferences." ]
-                ]
-            ]
-        ]
-        []
-    , configAndPreview { title = "Subheader" }
-        [ Header.header options
-            []
-            [ text "Account Settings"
-            , subHeader options [] [ text "Manage your account settings and set e-mail preferences." ]
+                Mini ->
+                    miniHeader options [] [ text "Mini Header" ]
             , wireframeShortParagraph
             ]
-        ]
-        []
+        , configs =
+            [ { label = "Variations"
+              , fields =
+                    [ { label = "Size"
+                      , description = "Text can vary in the same sizes as icons"
+                      , content =
+                            select [ onInput (sizeFromString >> Maybe.withDefault model.size >> ChangeSize) ] <|
+                                List.map (\size -> option [ value (sizeToString size), selected (model.size == size) ] [ text (sizeToString size) ])
+                                    [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
+                      }
+                    ]
+              }
+            ]
+        }
+    , configAndPreview
+        { title = "Icon Headers"
+        , preview =
+            [ iconHeader options
+                []
+                [ icon [] "fas fa-cogs"
+                , iconHeaderContent []
+                    [ text "Account Settings"
+                    , subHeader options [] [ text "Manage your account settings and set e-mail preferences." ]
+                    ]
+                ]
+            ]
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Subheader"
+        , preview =
+            [ Header.header options
+                []
+                [ text "Account Settings"
+                , subHeader options [] [ text "Manage your account settings and set e-mail preferences." ]
+                , wireframeShortParagraph
+                ]
+            ]
+        , configs = []
+        }
     ]

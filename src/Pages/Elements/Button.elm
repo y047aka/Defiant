@@ -80,72 +80,92 @@ update msg model =
 
 view : Model -> List (Html Msg)
 view model =
-    [ configAndPreview { title = "Button" }
-        [ buttonWithProps
-            { palettesByState =
-                case model.color of
-                    Default ->
-                        Button.defaultPalettes
+    [ configAndPreview
+        { title = "Button"
+        , preview =
+            [ buttonWithProps
+                { palettesByState =
+                    case model.color of
+                        Default ->
+                            Button.defaultPalettes
 
-                    Primary ->
-                        PalettesByState.fromPresetColor Blue
+                        Primary ->
+                            PalettesByState.fromPresetColor Blue
 
-                    Secondary ->
-                        PalettesByState.fromPresetColor Black
+                        Secondary ->
+                            PalettesByState.fromPresetColor Black
 
-                    Colored c ->
-                        PalettesByState.fromPresetColor c
-            , shadow = False
-            , additionalStyles = []
-            }
-            []
-            [ text "Follow" ]
-        ]
-        [ { label = "Variations"
-          , fields =
-                [ { label = "Color"
-                  , description = "A button can have different colors"
-                  , content =
-                        select [ onInput (colorFromString >> Maybe.withDefault Default >> ChangeColor) ] <|
-                            List.map (\color -> option [ value (colorToString color), selected (model.color == color) ] [ text (colorToString color) ])
-                                ([ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ])
-                  }
+                        Colored c ->
+                            PalettesByState.fromPresetColor c
+                , shadow = False
+                , additionalStyles = []
+                }
+                []
+                [ text "Follow" ]
+            ]
+        , configs =
+            [ { label = "Variations"
+              , fields =
+                    [ { label = "Color"
+                      , description = "A button can have different colors"
+                      , content =
+                            select [ onInput (colorFromString >> Maybe.withDefault Default >> ChangeColor) ] <|
+                                List.map (\color -> option [ value (colorToString color), selected (model.color == color) ] [ text (colorToString color) ])
+                                    ([ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ])
+                      }
+                    ]
+              }
+            ]
+        }
+    , configAndPreview
+        { title = ""
+        , preview =
+            [ button [] [ text "Button" ]
+            , button [] [ text "Focusable" ]
+            ]
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Emphasis"
+        , preview =
+            [ primaryButton [] [ text "Save" ]
+            , button [] [ text "Discard" ]
+            ]
+        , configs = []
+        }
+    , configAndPreview
+        { title = ""
+        , preview =
+            [ secondaryButton [] [ text "Okay" ]
+            , button [] [ text "Cancel" ]
+            ]
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Labeled"
+        , preview =
+            [ labeledButton []
+                [ button [] [ icon [] "fas fa-heart", text "Like" ]
+                , basicLabel [] [ text "2048" ]
                 ]
-          }
-        ]
-    , configAndPreview { title = "" }
-        [ button [] [ text "Button" ]
-        , button [] [ text "Focusable" ]
-        ]
-        []
-    , configAndPreview { title = "Emphasis" }
-        [ primaryButton [] [ text "Save" ]
-        , button [] [ text "Discard" ]
-        ]
-        []
-    , configAndPreview { title = "" }
-        [ secondaryButton [] [ text "Okay" ]
-        , button [] [ text "Cancel" ]
-        ]
-        []
-    , configAndPreview { title = "Labeled" }
-        [ labeledButton []
-            [ button [] [ icon [] "fas fa-heart", text "Like" ]
-            , basicLabel [] [ text "2048" ]
+            , labeledButton []
+                [ button [ onClick Decrement ] [ text "-" ]
+                , basicLabel [] [ text (String.fromInt model.counter) ]
+                , button [ onClick Increment ] [ text "+" ]
+                ]
             ]
-        , labeledButton []
-            [ button [ onClick Decrement ] [ text "-" ]
-            , basicLabel [] [ text (String.fromInt model.counter) ]
-            , button [ onClick Increment ] [ text "+" ]
-            ]
-        ]
-        []
-    , configAndPreview { title = "Icon" }
-        [ button [] [ icon [] "fas fa-cloud" ] ]
-        []
-    , configAndPreview { title = "Basic" }
-        [ basicButton [] [ icon [] "fas fa-user", text "Add Friend" ] ]
-        []
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Icon"
+        , preview = [ button [] [ icon [] "fas fa-cloud" ] ]
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Basic"
+        , preview = [ basicButton [] [ icon [] "fas fa-user", text "Add Friend" ] ]
+        , configs = []
+        }
     ]
 
 

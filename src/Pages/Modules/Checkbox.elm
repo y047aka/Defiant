@@ -21,11 +21,14 @@ page _ _ =
 
 view : List (Html msg)
 view =
-    [ configAndPreview { title = "Checkbox" }
-        [ checkbox []
-            [ Checkbox.input [ id "checkbox_example", type_ "checkbox" ] []
-            , Checkbox.label [ for "checkbox_example" ] [ text "Make my profile visible" ]
+    [ configAndPreview
+        { title = "Checkbox"
+        , preview =
+            [ checkbox []
+                [ Checkbox.input [ id "checkbox_example", type_ "checkbox" ] []
+                , Checkbox.label [ for "checkbox_example" ] [ text "Make my profile visible" ]
+                ]
             ]
-        ]
-        []
+        , configs = []
+        }
     ]

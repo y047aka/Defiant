@@ -20,14 +20,17 @@ page _ _ =
 
 view : List (Html msg)
 view =
-    [ configAndPreview { title = "Lines" }
-        [ Placeholder.placeholder []
-            [ line [] []
-            , line [] []
-            , line [] []
-            , line [] []
-            , line [] []
+    [ configAndPreview
+        { title = "Lines"
+        , preview =
+            [ Placeholder.placeholder []
+                [ line [] []
+                , line [] []
+                , line [] []
+                , line [] []
+                , line [] []
+                ]
             ]
-        ]
-        []
+        , configs = []
+        }
     ]

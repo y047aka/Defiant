@@ -67,63 +67,78 @@ update msg model =
 
 view : Model -> List (Html Msg)
 view model =
-    [ configAndPreview { title = "Label" }
-        [ let
-            label_ =
-                case model.color of
-                    Default ->
-                        Label.label
+    [ configAndPreview
+        { title = "Label"
+        , preview =
+            [ let
+                label_ =
+                    case model.color of
+                        Default ->
+                            Label.label
 
-                    Primary ->
-                        primaryLabel
+                        Primary ->
+                            primaryLabel
 
-                    Secondary ->
-                        secondaryLabel
+                        Secondary ->
+                            secondaryLabel
 
-                    Colored c ->
-                        labelWithProps
-                            { border = False
-                            , palette = Just (PalettesByState.fromPresetColor c |> .default)
-                            , additionalStyles = []
-                            }
-          in
-          label_ [] [ icon [] "fas fa-envelope", text "23" ]
-        ]
-        [ { label = "Variations"
-          , fields =
-                [ { label = "Color"
-                  , description = "A label can have different colors"
-                  , content =
-                        select [ onInput (colorFromString >> Maybe.withDefault Default >> ChangeColor) ] <|
-                            List.map (\color -> option [ value (colorToString color), selected (model.color == color) ] [ text (colorToString color) ])
-                                ([ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ])
-                  }
-                ]
-          }
-        ]
-    , configAndPreview { title = "Icon" }
-        [ Label.label [] [ icon [] "fas fa-envelope", text "Mail" ]
-        , Label.label [] [ icon [] "fas fa-check", text "Test Passed" ]
-        , Label.label [] [ icon [] "fas fa-dog", text "Dog" ]
-        , Label.label [] [ icon [] "fas fa-cat", text "Cat" ]
-        ]
-        []
-    , configAndPreview { title = "" }
-        [ Label.label [] [ text "Mail", icon [] "fas fa-envelope" ]
-        , Label.label [] [ text "Test Passed", icon [] "fas fa-check" ]
-        , Label.label [] [ text "Dog", icon [] "fas fa-dog" ]
-        , Label.label [] [ text "Cat", icon [] "fas fa-cat" ]
-        ]
-        []
-    , configAndPreview { title = "" }
-        [ Label.label [] [ icon [] "fas fa-envelope" ]
-        , Label.label [] [ icon [] "fas fa-dog" ]
-        , Label.label [] [ icon [] "fas fa-cat" ]
-        ]
-        []
-    , configAndPreview { title = "Basic" }
-        [ basicLabel [] [ text "Basic" ] ]
-        []
+                        Colored c ->
+                            labelWithProps
+                                { border = False
+                                , palette = Just (PalettesByState.fromPresetColor c |> .default)
+                                , additionalStyles = []
+                                }
+              in
+              label_ [] [ icon [] "fas fa-envelope", text "23" ]
+            ]
+        , configs =
+            [ { label = "Variations"
+              , fields =
+                    [ { label = "Color"
+                      , description = "A label can have different colors"
+                      , content =
+                            select [ onInput (colorFromString >> Maybe.withDefault Default >> ChangeColor) ] <|
+                                List.map (\color -> option [ value (colorToString color), selected (model.color == color) ] [ text (colorToString color) ])
+                                    ([ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ])
+                      }
+                    ]
+              }
+            ]
+        }
+    , configAndPreview
+        { title = "Icon"
+        , preview =
+            [ Label.label [] [ icon [] "fas fa-envelope", text "Mail" ]
+            , Label.label [] [ icon [] "fas fa-check", text "Test Passed" ]
+            , Label.label [] [ icon [] "fas fa-dog", text "Dog" ]
+            , Label.label [] [ icon [] "fas fa-cat", text "Cat" ]
+            ]
+        , configs = []
+        }
+    , configAndPreview
+        { title = ""
+        , preview =
+            [ Label.label [] [ text "Mail", icon [] "fas fa-envelope" ]
+            , Label.label [] [ text "Test Passed", icon [] "fas fa-check" ]
+            , Label.label [] [ text "Dog", icon [] "fas fa-dog" ]
+            , Label.label [] [ text "Cat", icon [] "fas fa-cat" ]
+            ]
+        , configs = []
+        }
+    , configAndPreview
+        { title = ""
+        , preview =
+            [ Label.label [] [ icon [] "fas fa-envelope" ]
+            , Label.label [] [ icon [] "fas fa-dog" ]
+            , Label.label [] [ icon [] "fas fa-cat" ]
+            ]
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Basic"
+        , preview = [ basicLabel [] [ text "Basic" ] ]
+        , configs = []
+        }
     ]
 
 

@@ -70,75 +70,84 @@ update msg model =
 
 view : Model -> List (Html Msg)
 view { shared, toggledItems } =
-    [ configAndPreview { title = "Modal" }
-        [ button [ onClick (Toggle "modal") ] [ icon [] "fas fa-plus", text "Show" ]
-        , modal
-            { open = List.member "modal" toggledItems
-            , toggle = Toggle "modal"
-            , theme = shared.theme
-            }
-            []
-            { header = [ text "Select a Photo" ]
-            , content =
-                [ Modal.description []
-                    [ p []
-                        [ text "We've found the following "
-                        , a [ href "https://www.gravatar.com", Attributes.target "_blank" ] [ text "gravatar" ]
-                        , text " image associated with your e-mail address."
+    [ configAndPreview
+        { title = "Modal"
+        , preview =
+            [ button [ onClick (Toggle "modal") ] [ icon [] "fas fa-plus", text "Show" ]
+            , modal
+                { open = List.member "modal" toggledItems
+                , toggle = Toggle "modal"
+                , theme = shared.theme
+                }
+                []
+                { header = [ text "Select a Photo" ]
+                , content =
+                    [ Modal.description []
+                        [ p []
+                            [ text "We've found the following "
+                            , a [ href "https://www.gravatar.com", Attributes.target "_blank" ] [ text "gravatar" ]
+                            , text " image associated with your e-mail address."
+                            ]
+                        , p [] [ text "Is it okay to use this photo?" ]
                         ]
-                    , p [] [ text "Is it okay to use this photo?" ]
                     ]
-                ]
-            , actions =
-                [ blackButton [ onClick (Toggle "modal") ] [ text "Nope" ]
-                , greenButton [ onClick (Toggle "modal") ] [ text "Yep, that's me" ]
-                ]
-            }
-        ]
-        []
-    , configAndPreview { title = "Basic" }
-        [ button [ onClick (Toggle "basicModal") ] [ icon [] "fas fa-plus", text "Show" ]
-        , basicModal
-            { open = List.member "basicModal" toggledItems
-            , toggle = Toggle "basicModal"
-            }
-            []
-            { header = [ text "Archive Old Messages" ]
-            , content =
-                [ Modal.description []
-                    [ p [] [ text "Your inbox is getting full, would you like us to enable automatic archiving of old messages?" ] ]
-                ]
-            , actions =
-                [ redButton [ onClick (Toggle "basicModal") ] [ text "No" ]
-                , greenButton [ onClick (Toggle "basicModal") ] [ text "Yes" ]
-                ]
-            }
-            []
-        ]
-        []
-    , configAndPreview { title = "Dialog" }
-        [ button [ onClick (Toggle "dialog") ] [ icon [] "fas fa-plus", text "Show" ]
-        , dialog
-            { open = List.member "dialog" toggledItems
-            , theme = shared.theme
-            }
-            []
-            { header = [ text "Select a Photo" ]
-            , content =
-                [ Modal.description []
-                    [ p []
-                        [ text "We've found the following "
-                        , a [ href "https://www.gravatar.com", Attributes.target "_blank" ] [ text "gravatar" ]
-                        , text " image associated with your e-mail address."
+                , actions =
+                    [ blackButton [ onClick (Toggle "modal") ] [ text "Nope" ]
+                    , greenButton [ onClick (Toggle "modal") ] [ text "Yep, that's me" ]
+                    ]
+                }
+            ]
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Basic"
+        , preview =
+            [ button [ onClick (Toggle "basicModal") ] [ icon [] "fas fa-plus", text "Show" ]
+            , basicModal
+                { open = List.member "basicModal" toggledItems
+                , toggle = Toggle "basicModal"
+                }
+                []
+                { header = [ text "Archive Old Messages" ]
+                , content =
+                    [ Modal.description []
+                        [ p [] [ text "Your inbox is getting full, would you like us to enable automatic archiving of old messages?" ] ]
+                    ]
+                , actions =
+                    [ redButton [ onClick (Toggle "basicModal") ] [ text "No" ]
+                    , greenButton [ onClick (Toggle "basicModal") ] [ text "Yes" ]
+                    ]
+                }
+                []
+            ]
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Dialog"
+        , preview =
+            [ button [ onClick (Toggle "dialog") ] [ icon [] "fas fa-plus", text "Show" ]
+            , dialog
+                { open = List.member "dialog" toggledItems
+                , theme = shared.theme
+                }
+                []
+                { header = [ text "Select a Photo" ]
+                , content =
+                    [ Modal.description []
+                        [ p []
+                            [ text "We've found the following "
+                            , a [ href "https://www.gravatar.com", Attributes.target "_blank" ] [ text "gravatar" ]
+                            , text " image associated with your e-mail address."
+                            ]
+                        , p [] [ text "Is it okay to use this photo?" ]
                         ]
-                    , p [] [ text "Is it okay to use this photo?" ]
                     ]
-                ]
-            , actions =
-                [ blackButton [ onClick (Toggle "dialog") ] [ text "Nope" ]
-                , greenButton [ onClick (Toggle "dialog") ] [ text "Yep, that's me" ]
-                ]
-            }
-        ]
-        []
+                , actions =
+                    [ blackButton [ onClick (Toggle "dialog") ] [ text "Nope" ]
+                    , greenButton [ onClick (Toggle "dialog") ] [ text "Yep, that's me" ]
+                    ]
+                }
+            ]
+        , configs = []
+        }
     ]

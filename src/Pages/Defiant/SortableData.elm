@@ -103,27 +103,31 @@ view ({ people, tableState, query } as model) =
         acceptablePeople =
             List.filter (String.contains lowerQuery << String.toLower << .name) people
     in
-    [ configAndPreview { title = "List" }
-        [ input [ value query, placeholder "Search by Name", onInput SetQuery ] []
-        , case model.mode of
-            List ->
-                list config tableState toListItem acceptablePeople
+    [ configAndPreview
+        { title = "List"
+        , preview =
+            [ input [ value query, placeholder "Search by Name", onInput SetQuery ] []
+            , case model.mode of
+                List ->
+                    list config tableState toListItem acceptablePeople
 
-            Table ->
-                table config tableState acceptablePeople
-        ]
-        [ { label = "Types"
-          , fields =
-                [ { label = ""
-                  , description = ""
-                  , content =
-                        select [ onInput (modeFromString >> Maybe.withDefault model.mode >> ChangeMode) ] <|
-                            List.map (\mode -> option [ value (modeToString mode), selected (model.mode == mode) ] [ text (modeToString mode) ])
-                                [ List, Table ]
-                  }
-                ]
-          }
-        ]
+                Table ->
+                    table config tableState acceptablePeople
+            ]
+        , configs =
+            [ { label = "Types"
+              , fields =
+                    [ { label = ""
+                      , description = ""
+                      , content =
+                            select [ onInput (modeFromString >> Maybe.withDefault model.mode >> ChangeMode) ] <|
+                                List.map (\mode -> option [ value (modeToString mode), selected (model.mode == mode) ] [ text (modeToString mode) ])
+                                    [ List, Table ]
+                      }
+                    ]
+              }
+            ]
+        }
     ]
 
 

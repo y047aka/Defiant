@@ -21,28 +21,37 @@ page _ _ =
 
 view : List (Html msg)
 view =
-    [ configAndPreview { title = "Tab" }
-        [ tab { state = Inactive }
-            []
-            [ wireframeParagraph
-            , wireframeParagraph
+    [ configAndPreview
+        { title = "Tab"
+        , preview =
+            [ tab { state = Inactive }
+                []
+                [ wireframeParagraph
+                , wireframeParagraph
+                ]
             ]
-        ]
-        []
-    , configAndPreview { title = "Active" }
-        [ tab { state = Active }
-            []
-            [ wireframeParagraph
-            , wireframeParagraph
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Active"
+        , preview =
+            [ tab { state = Active }
+                []
+                [ wireframeParagraph
+                , wireframeParagraph
+                ]
             ]
-        ]
-        []
-    , configAndPreview { title = "Loading" }
-        [ tab { state = Loading }
-            []
-            [ wireframeParagraph
-            , wireframeParagraph
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Loading"
+        , preview =
+            [ tab { state = Loading }
+                []
+                [ wireframeParagraph
+                , wireframeParagraph
+                ]
             ]
-        ]
-        []
+        , configs = []
+        }
     ]

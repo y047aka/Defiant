@@ -13,11 +13,12 @@ type alias FieldSet msg =
 
 
 configAndPreview :
-    { title : String }
-    -> List (Html msg)
-    -> List (FieldSet msg)
+    { title : String
+    , preview : List (Html msg)
+    , configs : List (FieldSet msg)
+    }
     -> Html msg
-configAndPreview { title } preview configs =
+configAndPreview { title, preview, configs } =
     example { title = title, description = "" }
         [ div
             [ css

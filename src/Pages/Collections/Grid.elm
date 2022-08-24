@@ -54,52 +54,64 @@ view { shared } =
                     ]
                 ]
     in
-    [ configAndPreview { title = "Grids" }
-        [ grid [ css additionalStyles ]
-            [ fourWideColumn [ dummyContent ] []
-            , fourWideColumn [ dummyContent ] []
-            , fourWideColumn [ dummyContent ] []
-            , fourWideColumn [ dummyContent ] []
+    [ configAndPreview
+        { title = "Grids"
+        , preview =
+            [ grid [ css additionalStyles ]
+                [ fourWideColumn [ dummyContent ] []
+                , fourWideColumn [ dummyContent ] []
+                , fourWideColumn [ dummyContent ] []
+                , fourWideColumn [ dummyContent ] []
+                ]
             ]
-        ]
-        []
-    , configAndPreview { title = "Columns" }
-        [ grid [ css additionalStyles ]
-            [ fourWideColumn [ dummyContent ] []
-            , fourWideColumn [ dummyContent ] []
-            , fourWideColumn [ dummyContent ] []
-            , fourWideColumn [ dummyContent ] []
-            , twoWideColumn [ dummyContent ] []
-            , eightWideColumn [ dummyContent ] []
-            , sixWideColumn [ dummyContent ] []
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Columns"
+        , preview =
+            [ grid [ css additionalStyles ]
+                [ fourWideColumn [ dummyContent ] []
+                , fourWideColumn [ dummyContent ] []
+                , fourWideColumn [ dummyContent ] []
+                , fourWideColumn [ dummyContent ] []
+                , twoWideColumn [ dummyContent ] []
+                , eightWideColumn [ dummyContent ] []
+                , sixWideColumn [ dummyContent ] []
+                ]
             ]
-        ]
-        []
-    , configAndPreview { title = "Automatic Flow" }
-        [ grid [ css additionalStyles ]
-            [ fourWideColumn [ dummyContent ] []
-            , fourWideColumn [ dummyContent ] []
-            , fourWideColumn [ dummyContent ] []
-            , fourWideColumn [ dummyContent ] []
-            , fourWideColumn [ dummyContent ] []
-            , fourWideColumn [ dummyContent ] []
-            , fourWideColumn [ dummyContent ] []
-            , fourWideColumn [ dummyContent ] []
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Automatic Flow"
+        , preview =
+            [ grid [ css additionalStyles ]
+                [ fourWideColumn [ dummyContent ] []
+                , fourWideColumn [ dummyContent ] []
+                , fourWideColumn [ dummyContent ] []
+                , fourWideColumn [ dummyContent ] []
+                , fourWideColumn [ dummyContent ] []
+                , fourWideColumn [ dummyContent ] []
+                , fourWideColumn [ dummyContent ] []
+                , fourWideColumn [ dummyContent ] []
+                ]
             ]
-        ]
-        []
-    , configAndPreview { title = "Column Content" }
-        [ let
-            imageSegment =
-                segment { theme = shared.theme }
-                    []
-                    [ smallImage [ src "/static/images/wireframe/image.png" ] [] ]
-          in
-          threeColumnsGrid []
-            [ Grid.column [] [ imageSegment ]
-            , Grid.column [] [ imageSegment ]
-            , Grid.column [] [ imageSegment ]
+        , configs = []
+        }
+    , configAndPreview
+        { title = "Column Content"
+        , preview =
+            [ let
+                imageSegment =
+                    segment { theme = shared.theme }
+                        []
+                        [ smallImage [ src "/static/images/wireframe/image.png" ] [] ]
+              in
+              threeColumnsGrid []
+                [ Grid.column [] [ imageSegment ]
+                , Grid.column [] [ imageSegment ]
+                , Grid.column [] [ imageSegment ]
+                ]
             ]
-        ]
-        []
+        , configs = []
+        }
     ]
