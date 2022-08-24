@@ -159,45 +159,49 @@ view shared model =
                   }
                 ]
         ]
-        [ { label = "Image"
-          , description = "A card can contain an image"
-          , content =
-                checkbox []
-                    [ Checkbox.input [ id "image", type_ "checkbox", checked model.hasImage, onClick ToggleHasImage ] []
-                    , Checkbox.label [ for "image" ] [ text "Image" ]
-                    ]
-          }
-        , { label = "Header"
-          , description = "A card can contain a header"
-          , content =
-                checkbox []
-                    [ Checkbox.input [ id "header", type_ "checkbox", checked model.hasHeader, onClick ToggleHasHeader ] []
-                    , Checkbox.label [ for "header" ] [ text "Header" ]
-                    ]
-          }
-        , { label = "Metadata"
-          , description = "A card can contain content metadata"
-          , content =
-                checkbox []
-                    [ Checkbox.input [ id "metadata", type_ "checkbox", checked model.hasMetadata, onClick ToggleHasMetadata ] []
-                    , Checkbox.label [ for "metadata" ] [ text "Metadata" ]
-                    ]
-          }
-        , { label = "Description"
-          , description = "A card can contain a description with one or more paragraphs"
-          , content =
-                checkbox []
-                    [ Checkbox.input [ id "description", type_ "checkbox", checked model.hasDescription, onClick ToggleHasDescription ] []
-                    , Checkbox.label [ for "description" ] [ text "Description" ]
-                    ]
-          }
-        , { label = "Extra Content"
-          , description = "A card can contain extra content meant to be formatted separately from the main content"
-          , content =
-                checkbox []
-                    [ Checkbox.input [ id "extra_content", type_ "checkbox", checked model.hasExtraContent, onClick ToggleHasExtraContent ] []
-                    , Checkbox.label [ for "extra_content" ] [ text "ExtraContent" ]
-                    ]
+        [ { label = "Content"
+          , fields =
+                [ { label = ""
+                  , description = "A card can contain an image"
+                  , content =
+                        checkbox []
+                            [ Checkbox.input [ id "image", type_ "checkbox", checked model.hasImage, onClick ToggleHasImage ] []
+                            , Checkbox.label [ for "image" ] [ text "Image" ]
+                            ]
+                  }
+                , { label = ""
+                  , description = "A card can contain a header"
+                  , content =
+                        checkbox []
+                            [ Checkbox.input [ id "header", type_ "checkbox", checked model.hasHeader, onClick ToggleHasHeader ] []
+                            , Checkbox.label [ for "header" ] [ text "Header" ]
+                            ]
+                  }
+                , { label = ""
+                  , description = "A card can contain content metadata"
+                  , content =
+                        checkbox []
+                            [ Checkbox.input [ id "metadata", type_ "checkbox", checked model.hasMetadata, onClick ToggleHasMetadata ] []
+                            , Checkbox.label [ for "metadata" ] [ text "Metadata" ]
+                            ]
+                  }
+                , { label = ""
+                  , description = "A card can contain a description with one or more paragraphs"
+                  , content =
+                        checkbox []
+                            [ Checkbox.input [ id "description", type_ "checkbox", checked model.hasDescription, onClick ToggleHasDescription ] []
+                            , Checkbox.label [ for "description" ] [ text "Description" ]
+                            ]
+                  }
+                , { label = ""
+                  , description = "A card can contain extra content meant to be formatted separately from the main content"
+                  , content =
+                        checkbox []
+                            [ Checkbox.input [ id "extra_content", type_ "checkbox", checked model.hasExtraContent, onClick ToggleHasExtraContent ] []
+                            , Checkbox.label [ for "extra_content" ] [ text "ExtraContent" ]
+                            ]
+                  }
+                ]
           }
         ]
     ]

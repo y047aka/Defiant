@@ -38,7 +38,7 @@ type alias Model =
 
 init : Model
 init =
-    { divider = RightChevron
+    { divider = Slash
     , size = Medium
     }
 
@@ -106,19 +106,27 @@ view { theme } model =
             , { label = "T-Shirt", url = "" }
             ]
         ]
-        [ { label = "Divider"
-          , description = "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text."
-          , content =
-                select [ onInput (dividerFromString >> Maybe.withDefault model.divider >> ChangeDivider) ] <|
-                    List.map (\divider -> option [ value (dividerToString divider), selected (model.divider == divider) ] [ text (dividerToString divider) ])
-                        [ Slash, RightChevron ]
+        [ { label = "Content"
+          , fields =
+                [ { label = "Divider"
+                  , description = "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text."
+                  , content =
+                        select [ onInput (dividerFromString >> Maybe.withDefault model.divider >> ChangeDivider) ] <|
+                            List.map (\divider -> option [ value (dividerToString divider), selected (model.divider == divider) ] [ text (dividerToString divider) ])
+                                [ Slash, RightChevron ]
+                  }
+                ]
           }
-        , { label = "Size"
-          , description = "A breadcrumb can vary in size"
-          , content =
-                select [ onInput (sizeFromString >> Maybe.withDefault model.size >> ChangeSize) ] <|
-                    List.map (\size -> option [ value (sizeToString size), selected (model.size == size) ] [ text (sizeToString size) ])
-                        [ Mini, Tiny, Small, Medium, Large, Big, Huge, Massive ]
+        , { label = "Variations"
+          , fields =
+                [ { label = "Size"
+                  , description = "A breadcrumb can vary in size"
+                  , content =
+                        select [ onInput (sizeFromString >> Maybe.withDefault model.size >> ChangeSize) ] <|
+                            List.map (\size -> option [ value (sizeToString size), selected (model.size == size) ] [ text (sizeToString size) ])
+                                [ Mini, Tiny, Small, Medium, Large, Big, Huge, Massive ]
+                  }
+                ]
           }
         ]
     , configAndPreview { title = "Inverted" }

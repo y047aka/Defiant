@@ -227,26 +227,30 @@ view model =
     , configAndPreview { title = "Form States" }
         [ form [] (fieldsWithState { id = "state_example", state = model.state }) ]
         [ { label = "Form States"
-          , description =
-                case model.state of
-                    Error ->
-                        "Individual fields may display an error state"
+          , fields =
+                [ { label = ""
+                  , description =
+                        case model.state of
+                            Error ->
+                                "Individual fields may display an error state"
 
-                    Warning ->
-                        "Individual fields may display a warning state"
+                            Warning ->
+                                "Individual fields may display a warning state"
 
-                    Success ->
-                        "Individual fields may display a Success state"
+                            Success ->
+                                "Individual fields may display a Success state"
 
-                    Info ->
-                        "Individual fields may display an informational state"
+                            Info ->
+                                "Individual fields may display an informational state"
 
-                    Default ->
-                        ""
-          , content =
-                select [ onInput (Form.stateFromString >> Maybe.withDefault model.state >> ChangeState) ] <|
-                    List.map (\state -> option [ value (Form.stateToString state), selected (model.state == state) ] [ text (Form.stateToString state) ])
-                        [ Default, Error, Warning, Success, Info ]
+                            Default ->
+                                ""
+                  , content =
+                        select [ onInput (Form.stateFromString >> Maybe.withDefault model.state >> ChangeState) ] <|
+                            List.map (\state -> option [ value (Form.stateToString state), selected (model.state == state) ] [ text (Form.stateToString state) ])
+                                [ Default, Error, Warning, Success, Info ]
+                  }
+                ]
           }
         ]
     ]

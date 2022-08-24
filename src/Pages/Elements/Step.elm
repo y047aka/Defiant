@@ -148,48 +148,56 @@ view model =
             ]
         ]
         [ { label = "Progress"
-          , description = ""
-          , content =
-                div [] <|
-                    List.map
-                        (\progress ->
-                            let
-                                prefixedId =
-                                    "progress_" ++ progressToString progress
-                            in
-                            div []
-                                [ input
-                                    [ id prefixedId
-                                    , type_ "radio"
-                                    , name "progress"
-                                    , value (progressToString progress)
-                                    , checked (model.progress == progress)
-                                    , onInput (progressFromString >> Maybe.withDefault model.progress >> ChangeProgress)
-                                    ]
-                                    []
-                                , label [ for prefixedId ] [ text (progressToString progress) ]
-                                ]
-                        )
-                        [ Shipping, Billing, ConfirmOrder ]
+          , fields =
+                [ { label = ""
+                  , description = ""
+                  , content =
+                        div [] <|
+                            List.map
+                                (\progress ->
+                                    let
+                                        prefixedId =
+                                            "progress_" ++ progressToString progress
+                                    in
+                                    div []
+                                        [ input
+                                            [ id prefixedId
+                                            , type_ "radio"
+                                            , name "progress"
+                                            , value (progressToString progress)
+                                            , checked (model.progress == progress)
+                                            , onInput (progressFromString >> Maybe.withDefault model.progress >> ChangeProgress)
+                                            ]
+                                            []
+                                        , label [ for prefixedId ] [ text (progressToString progress) ]
+                                        ]
+                                )
+                                [ Shipping, Billing, ConfirmOrder ]
+                  }
+                ]
           }
-        , { label = "Icon"
-          , description = "A step can contain an icon"
-          , content =
-                checkbox []
-                    [ Checkbox.input [ id "icon", type_ "checkbox", checked model.hasIcon, onClick ToggleHasIcon ] []
-                    , Checkbox.label [ for "icon" ] [ text "Icon" ]
-                    ]
-          }
-        , { label = "Description"
-          , description = "A step can contain a description"
-          , content =
-                checkbox []
-                    [ Checkbox.input [ id "description", type_ "checkbox", checked model.hasDescription, onClick ToggleHasDescription ] []
-                    , Checkbox.label [ for "description" ] [ text "Description" ]
-                    ]
+        , { label = "Content"
+          , fields =
+                [ { label = ""
+                  , description = "A step can contain an icon"
+                  , content =
+                        checkbox []
+                            [ Checkbox.input [ id "icon", type_ "checkbox", checked model.hasIcon, onClick ToggleHasIcon ] []
+                            , Checkbox.label [ for "icon" ] [ text "Icon" ]
+                            ]
+                  }
+                , { label = ""
+                  , description = "A step can contain a description"
+                  , content =
+                        checkbox []
+                            [ Checkbox.input [ id "description", type_ "checkbox", checked model.hasDescription, onClick ToggleHasDescription ] []
+                            , Checkbox.label [ for "description" ] [ text "Description" ]
+                            ]
+                  }
+                ]
           }
         ]
-    , configAndPreview { title = "States" }
+    , configAndPreview { title = "Step" }
         [ steps []
             [ let
                 step_ =
@@ -213,24 +221,28 @@ view model =
                 }
             ]
         ]
-        [ { label = "Step"
-          , description =
-                case model.state of
-                    Default ->
-                        ""
+        [ { label = "States"
+          , fields =
+                [ { label = ""
+                  , description =
+                        case model.state of
+                            Default ->
+                                ""
 
-                    Active ->
-                        "A step can be highlighted as active"
+                            Active ->
+                                "A step can be highlighted as active"
 
-                    Completed ->
-                        "A step can show that a user has completed it"
+                            Completed ->
+                                "A step can show that a user has completed it"
 
-                    Disabled ->
-                        "A step can show that it cannot be selected"
-          , content =
-                select [ onInput (Step.stateFromString >> Maybe.withDefault model.state >> ChangeState) ] <|
-                    List.map (\state -> option [ value (Step.stateToString state), selected (model.state == state) ] [ text (Step.stateToString state) ])
-                        [ Default, Active, Completed, Disabled ]
+                            Disabled ->
+                                "A step can show that it cannot be selected"
+                  , content =
+                        select [ onInput (Step.stateFromString >> Maybe.withDefault model.state >> ChangeState) ] <|
+                            List.map (\state -> option [ value (Step.stateToString state), selected (model.state == state) ] [ text (Step.stateToString state) ])
+                                [ Default, Active, Completed, Disabled ]
+                  }
+                ]
           }
         ]
     ]

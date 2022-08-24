@@ -85,20 +85,28 @@ view shared model =
             []
             [ wireframeShortParagraph ]
         ]
-        [ { label = "Disabled"
-          , description = "A segment may show its content is disabled"
-          , content =
-                checkbox []
-                    [ Checkbox.input [ id "disabled", type_ "checkbox", checked model.disabled, onClick ToggleDisabled ] []
-                    , Checkbox.label [ for "disabled" ] [ text "Disabled" ]
-                    ]
+        [ { label = "States"
+          , fields =
+                [ { label = ""
+                  , description = "A segment may show its content is disabled"
+                  , content =
+                        checkbox []
+                            [ Checkbox.input [ id "disabled", type_ "checkbox", checked model.disabled, onClick ToggleDisabled ] []
+                            , Checkbox.label [ for "disabled" ] [ text "Disabled" ]
+                            ]
+                  }
+                ]
           }
-        , { label = "Padding"
-          , description = "A segment can increase its padding"
-          , content =
-                select [ onInput (paddingFromString >> Maybe.withDefault model.padding >> ChangePadding) ] <|
-                    List.map (\padding -> option [ value (paddingToString padding), selected (model.padding == padding) ] [ text (paddingToString padding) ])
-                        [ Default, Padded, VeryPadded ]
+        , { label = "Variations"
+          , fields =
+                [ { label = "Padding"
+                  , description = "A segment can increase its padding"
+                  , content =
+                        select [ onInput (paddingFromString >> Maybe.withDefault model.padding >> ChangePadding) ] <|
+                            List.map (\padding -> option [ value (paddingToString padding), selected (model.padding == padding) ] [ text (paddingToString padding) ])
+                                [ Default, Padded, VeryPadded ]
+                  }
+                ]
           }
         ]
     , configAndPreview { title = "Vertical Segment" }
@@ -114,13 +122,17 @@ view shared model =
             , segment options [] [ wireframeShortParagraph ]
             ]
         )
-        [ { label = "Vertical Segment"
-          , description = "A vertical segment formats content to be aligned as part of a vertical group"
-          , content =
-                checkbox []
-                    [ Checkbox.input [ id "vertical", type_ "checkbox", checked model.vertical, onClick ToggleVertical ] []
-                    , Checkbox.label [ for "vertical" ] [ text "Vertical" ]
-                    ]
+        [ { label = ""
+          , fields =
+                [ { label = "Vertical Segment"
+                  , description = "A vertical segment formats content to be aligned as part of a vertical group"
+                  , content =
+                        checkbox []
+                            [ Checkbox.input [ id "vertical", type_ "checkbox", checked model.vertical, onClick ToggleVertical ] []
+                            , Checkbox.label [ for "vertical" ] [ text "Vertical" ]
+                            ]
+                  }
+                ]
           }
         ]
     , configAndPreview { title = "Inverted" }

@@ -91,12 +91,16 @@ view { theme } model =
                 miniHeader options [] [ text "Mini Header" ]
         , wireframeShortParagraph
         ]
-        [ { label = "Size"
-          , description = "Text can vary in the same sizes as icons"
-          , content =
-                select [ onInput (sizeFromString >> Maybe.withDefault model.size >> ChangeSize) ] <|
-                    List.map (\size -> option [ value (sizeToString size), selected (model.size == size) ] [ text (sizeToString size) ])
-                        [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
+        [ { label = "Variations"
+          , fields =
+                [ { label = "Size"
+                  , description = "Text can vary in the same sizes as icons"
+                  , content =
+                        select [ onInput (sizeFromString >> Maybe.withDefault model.size >> ChangeSize) ] <|
+                            List.map (\size -> option [ value (sizeToString size), selected (model.size == size) ] [ text (sizeToString size) ])
+                                [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
+                  }
+                ]
           }
         ]
     , configAndPreview { title = "Icon Headers" }

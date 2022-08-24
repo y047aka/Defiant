@@ -112,12 +112,16 @@ view ({ people, tableState, query } as model) =
             Table ->
                 table config tableState acceptablePeople
         ]
-        [ { label = "Mode"
-          , description = ""
-          , content =
-                select [ onInput (modeFromString >> Maybe.withDefault model.mode >> ChangeMode) ] <|
-                    List.map (\mode -> option [ value (modeToString mode), selected (model.mode == mode) ] [ text (modeToString mode) ])
-                        [ List, Table ]
+        [ { label = "Types"
+          , fields =
+                [ { label = ""
+                  , description = ""
+                  , content =
+                        select [ onInput (modeFromString >> Maybe.withDefault model.mode >> ChangeMode) ] <|
+                            List.map (\mode -> option [ value (modeToString mode), selected (model.mode == mode) ] [ text (modeToString mode) ])
+                                [ List, Table ]
+                  }
+                ]
           }
         ]
     ]

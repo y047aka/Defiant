@@ -101,12 +101,16 @@ view model =
             []
             [ text "Follow" ]
         ]
-        [ { label = "Color"
-          , description = "A button can have different colors"
-          , content =
-                select [ onInput (colorFromString >> Maybe.withDefault Default >> ChangeColor) ] <|
-                    List.map (\color -> option [ value (colorToString color), selected (model.color == color) ] [ text (colorToString color) ])
-                        ([ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ])
+        [ { label = "Variations"
+          , fields =
+                [ { label = "Color"
+                  , description = "A button can have different colors"
+                  , content =
+                        select [ onInput (colorFromString >> Maybe.withDefault Default >> ChangeColor) ] <|
+                            List.map (\color -> option [ value (colorToString color), selected (model.color == color) ] [ text (colorToString color) ])
+                                ([ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ])
+                  }
+                ]
           }
         ]
     , configAndPreview { title = "" }
