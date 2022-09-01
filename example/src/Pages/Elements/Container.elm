@@ -1,25 +1,59 @@
-module Pages.Elements.Container exposing (page)
+module Pages.Elements.Container exposing (Model, Msg, page)
 
+import Config
 import Html.Styled as Html exposing (Html, a, h2, p, strong, text)
 import Html.Styled.Attributes exposing (href)
-import Page exposing (Page)
+import Page
 import Request exposing (Request)
 import Shared
 import UI.Container exposing (container, textContainer)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page
+page : Shared.Model -> Request -> Page.With Model Msg
 page _ _ =
-    Page.static
-        { view =
-            { title = "Container"
-            , body = view
-            }
+    Page.sandbox
+        { init = init
+        , update = update
+        , view =
+            \_ ->
+                { title = "Container"
+                , body = view
+                }
         }
 
 
-view : List (Html msg)
+
+-- INIT
+
+
+type alias Model =
+    {}
+
+
+init : Model
+init =
+    {}
+
+
+
+-- UPDATE
+
+
+type Msg
+    = UpdateConfig (Config.Msg Model)
+
+
+update : Msg -> Model -> Model
+update _ model =
+    model
+
+
+
+-- VIEW
+
+
+view : List (Html Msg)
 view =
     let
         content =
@@ -31,12 +65,12 @@ view =
                 , text " mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi."
                 ]
     in
-    [ configAndPreview
+    [ configAndPreview UpdateConfig
         { title = "Container"
         , preview = [ container [] [ content ] ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Text Container"
         , preview =
             [ textContainer []
@@ -45,6 +79,6 @@ view =
                 , content
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
     ]

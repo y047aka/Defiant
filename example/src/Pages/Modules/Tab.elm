@@ -1,7 +1,8 @@
-module Pages.Modules.Tab exposing (page)
+module Pages.Modules.Tab exposing (Model, Msg, page)
 
+import Config
 import Html.Styled as Html exposing (Html)
-import Page exposing (Page)
+import Page
 import Request exposing (Request)
 import Shared
 import UI.Example exposing (wireframeParagraph)
@@ -9,19 +10,52 @@ import UI.Tab exposing (State(..), tab)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page
+page : Shared.Model -> Request -> Page.With Model Msg
 page _ _ =
-    Page.static
-        { view =
-            { title = "Tab"
-            , body = view
-            }
+    Page.sandbox
+        { init = init
+        , update = update
+        , view =
+            \_ ->
+                { title = "Tab"
+                , body = view
+                }
         }
 
 
-view : List (Html msg)
+
+-- INIT
+
+
+type alias Model =
+    {}
+
+
+init : Model
+init =
+    {}
+
+
+
+-- UPDATE
+
+
+type Msg
+    = UpdateConfig (Config.Msg Model)
+
+
+update : Msg -> Model -> Model
+update _ model =
+    model
+
+
+
+-- VIEW
+
+
+view : List (Html Msg)
 view =
-    [ configAndPreview
+    [ configAndPreview UpdateConfig
         { title = "Tab"
         , preview =
             [ tab { state = Inactive }
@@ -30,9 +64,9 @@ view =
                 , wireframeParagraph
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Active"
         , preview =
             [ tab { state = Active }
@@ -41,9 +75,9 @@ view =
                 , wireframeParagraph
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Loading"
         , preview =
             [ tab { state = Loading }
@@ -52,6 +86,6 @@ view =
                 , wireframeParagraph
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
     ]

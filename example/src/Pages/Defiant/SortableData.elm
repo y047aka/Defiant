@@ -1,8 +1,9 @@
 module Pages.Defiant.SortableData exposing (Model, Msg, page)
 
+import Config
 import Data.Theme exposing (Theme(..))
-import Html.Styled as Html exposing (Html, div, input, option, select, strong, text)
-import Html.Styled.Attributes exposing (placeholder, selected, value)
+import Html.Styled as Html exposing (Html, div, input, strong, text)
+import Html.Styled.Attributes exposing (placeholder, value)
 import Html.Styled.Events exposing (onInput)
 import Page
 import Request exposing (Request)
@@ -51,22 +52,22 @@ init =
 
 
 type Msg
-    = ChangeMode Mode
-    | SetQuery String
+    = SetQuery String
     | SetTableState State
+    | UpdateConfig (Config.Msg Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        ChangeMode mode ->
-            { model | mode = mode }
-
         SetQuery newQuery ->
             { model | query = newQuery }
 
         SetTableState newState ->
             { model | tableState = newState }
+
+        UpdateConfig configMsg ->
+            Config.update configMsg model
 
 
 
@@ -103,7 +104,7 @@ view ({ people, tableState, query } as model) =
         acceptablePeople =
             List.filter (String.contains lowerQuery << String.toLower << .name) people
     in
-    [ configAndPreview
+    [ configAndPreview UpdateConfig
         { title = "List"
         , preview =
             [ input [ value query, placeholder "Search by Name", onInput SetQuery ] []
@@ -114,15 +115,19 @@ view ({ people, tableState, query } as model) =
                 Table ->
                     table config tableState acceptablePeople
             ]
-        , configs =
+        , configSections =
             [ { label = "Types"
-              , fields =
+              , configs =
                     [ { label = ""
-                      , description = ""
-                      , content =
-                            select [ onInput (modeFromString >> Maybe.withDefault model.mode >> ChangeMode) ] <|
-                                List.map (\mode -> option [ value (modeToString mode), selected (model.mode == mode) ] [ text (modeToString mode) ])
-                                    [ List, Table ]
+                      , config =
+                            Config.select
+                                { value = model.mode
+                                , options = [ List, Table ]
+                                , fromString = modeFromString
+                                , toString = modeToString
+                                , setter = \mode m -> { m | mode = mode }
+                                }
+                      , note = ""
                       }
                     ]
               }

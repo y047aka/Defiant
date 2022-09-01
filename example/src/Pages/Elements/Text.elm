@@ -1,9 +1,8 @@
 module Pages.Elements.Text exposing (Model, Msg, page)
 
+import Config
 import Data exposing (PresetColor(..), Size(..), sizeFromString, sizeToString)
-import Html.Styled as Html exposing (Html, option, p, select, text)
-import Html.Styled.Attributes exposing (selected, value)
-import Html.Styled.Events exposing (onInput)
+import Html.Styled as Html exposing (Html, p, text)
 import Page
 import Request exposing (Request)
 import Shared
@@ -43,14 +42,14 @@ init =
 
 
 type Msg
-    = ChangeSize Size
+    = UpdateConfig (Config.Msg Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        ChangeSize size ->
-            { model | size = size }
+        UpdateConfig configMsg ->
+            Config.update configMsg model
 
 
 
@@ -63,7 +62,7 @@ view { theme } model =
         options =
             { theme = theme }
     in
-    [ configAndPreview
+    [ configAndPreview UpdateConfig
         { title = "Text"
         , preview =
             [ segment options
@@ -89,9 +88,9 @@ view { theme } model =
                 , text " inline text"
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Size"
         , preview =
             [ segment options
@@ -123,15 +122,19 @@ view { theme } model =
                             [ text "Starting with ", miniText "mini", text " text" ]
                 ]
             ]
-        , configs =
+        , configSections =
             [ { label = "Size"
-              , fields =
+              , configs =
                     [ { label = ""
-                      , description = "Text can vary in the same sizes as icons"
-                      , content =
-                            select [ onInput (sizeFromString >> Maybe.withDefault model.size >> ChangeSize) ] <|
-                                List.map (\size -> option [ value (sizeToString size), selected (model.size == size) ] [ text (sizeToString size) ])
-                                    [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
+                      , config =
+                            Config.select
+                                { value = model.size
+                                , options = [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
+                                , fromString = sizeFromString
+                                , toString = sizeToString
+                                , setter = \size m -> { m | size = size }
+                                }
+                      , note = "Text can vary in the same sizes as icons"
                       }
                     ]
               }

@@ -1,10 +1,9 @@
 module Pages.Elements.Label exposing (Model, Msg, page)
 
+import Config
 import Data exposing (PresetColor(..))
 import Data.PalettesByState as PalettesByState
-import Html.Styled as Html exposing (Html, option, select, text)
-import Html.Styled.Attributes exposing (selected, value)
-import Html.Styled.Events exposing (onInput)
+import Html.Styled as Html exposing (Html, text)
 import Page
 import Request exposing (Request)
 import Shared
@@ -51,14 +50,14 @@ init =
 
 
 type Msg
-    = ChangeColor Color
+    = UpdateConfig (Config.Msg Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        ChangeColor color ->
-            { model | color = color }
+        UpdateConfig configMsg ->
+            Config.update configMsg model
 
 
 
@@ -67,7 +66,7 @@ update msg model =
 
 view : Model -> List (Html Msg)
 view model =
-    [ configAndPreview
+    [ configAndPreview UpdateConfig
         { title = "Label"
         , preview =
             [ let
@@ -91,21 +90,25 @@ view model =
               in
               label_ [] [ icon [] "fas fa-envelope", text "23" ]
             ]
-        , configs =
+        , configSections =
             [ { label = "Variations"
-              , fields =
+              , configs =
                     [ { label = "Color"
-                      , description = "A label can have different colors"
-                      , content =
-                            select [ onInput (colorFromString >> Maybe.withDefault Default >> ChangeColor) ] <|
-                                List.map (\color -> option [ value (colorToString color), selected (model.color == color) ] [ text (colorToString color) ])
-                                    ([ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ])
+                      , config =
+                            Config.select
+                                { value = model.color
+                                , options = [ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ]
+                                , fromString = colorFromString
+                                , toString = colorToString
+                                , setter = \color m -> { m | color = color }
+                                }
+                      , note = "A label can have different colors"
                       }
                     ]
               }
             ]
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Icon"
         , preview =
             [ Label.label [] [ icon [] "fas fa-envelope", text "Mail" ]
@@ -113,9 +116,9 @@ view model =
             , Label.label [] [ icon [] "fas fa-dog", text "Dog" ]
             , Label.label [] [ icon [] "fas fa-cat", text "Cat" ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = ""
         , preview =
             [ Label.label [] [ text "Mail", icon [] "fas fa-envelope" ]
@@ -123,21 +126,21 @@ view model =
             , Label.label [] [ text "Dog", icon [] "fas fa-dog" ]
             , Label.label [] [ text "Cat", icon [] "fas fa-cat" ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = ""
         , preview =
             [ Label.label [] [ icon [] "fas fa-envelope" ]
             , Label.label [] [ icon [] "fas fa-dog" ]
             , Label.label [] [ icon [] "fas fa-cat" ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Basic"
         , preview = [ basicLabel [] [ text "Basic" ] ]
-        , configs = []
+        , configSections = []
         }
     ]
 

@@ -1,7 +1,8 @@
-module Pages.Defiant.HolyGrail exposing (page)
+module Pages.Defiant.HolyGrail exposing (Model, Msg, page)
 
+import Config
 import Html.Styled as Html exposing (Html, text)
-import Page exposing (Page)
+import Page
 import Request exposing (Request)
 import Shared
 import UI.Example exposing (wireframeParagraph)
@@ -9,19 +10,52 @@ import UI.HolyGrail exposing (holyGrail)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page
+page : Shared.Model -> Request -> Page.With Model Msg
 page _ _ =
-    Page.static
-        { view =
-            { title = "Holy Grail"
-            , body = view
-            }
+    Page.sandbox
+        { init = init
+        , update = update
+        , view =
+            \_ ->
+                { title = "Holy Grail"
+                , body = view
+                }
         }
 
 
-view : List (Html msg)
+
+-- INIT
+
+
+type alias Model =
+    {}
+
+
+init : Model
+init =
+    {}
+
+
+
+-- UPDATE
+
+
+type Msg
+    = UpdateConfig (Config.Msg Model)
+
+
+update : Msg -> Model -> Model
+update _ model =
+    model
+
+
+
+-- VIEW
+
+
+view : List (Html Msg)
 view =
-    [ configAndPreview
+    [ configAndPreview UpdateConfig
         { title = "Holy grail"
         , preview =
             [ holyGrail
@@ -32,6 +66,6 @@ view =
                 , footer = [ text "footer" ]
                 }
             ]
-        , configs = []
+        , configSections = []
         }
     ]

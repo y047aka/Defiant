@@ -1,9 +1,9 @@
 module Pages.Modules.Accordion exposing (Model, Msg, page)
 
+import Config
 import Data.Theme exposing (Theme(..))
-import Html.Styled as Html exposing (Html, option, p, select, text)
-import Html.Styled.Attributes exposing (id, selected, value)
-import Html.Styled.Events exposing (onInput)
+import Html.Styled as Html exposing (Html, p, text)
+import Html.Styled.Attributes exposing (id)
 import Page
 import Request exposing (Request)
 import Shared
@@ -47,14 +47,14 @@ init shared =
 
 
 type Msg
-    = ChangeToggleMethod ToggleMethod
+    = UpdateConfig (Config.Msg Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        ChangeToggleMethod method ->
-            { model | toggleMethod = method }
+        UpdateConfig configMsg ->
+            Config.update configMsg model
 
 
 
@@ -89,7 +89,7 @@ view { shared, toggleMethod } =
                         }
                     )
     in
-    [ configAndPreview
+    [ configAndPreview UpdateConfig
         { title = "Accordion"
         , preview =
             [ case toggleMethod of
@@ -105,11 +105,19 @@ view { shared, toggleMethod } =
                 Radio ->
                     accordion_Radio { theme = shared.theme } [] items
             ]
-        , configs =
+        , configSections =
             [ { label = "Toggle Method"
-              , fields =
+              , configs =
                     [ { label = ""
-                      , description =
+                      , config =
+                            Config.select
+                                { value = toggleMethod
+                                , options = [ SummaryDetails, TargetUrl, Checkbox, Radio ]
+                                , fromString = Accordion.toggleMethodFromString
+                                , toString = Accordion.toggleMethodToString
+                                , setter = \method m -> { m | toggleMethod = method }
+                                }
+                      , note =
                             case toggleMethod of
                                 SummaryDetails ->
                                     "A standard accordion with summary/details tag"
@@ -122,22 +130,18 @@ view { shared, toggleMethod } =
 
                                 Radio ->
                                     "A standard accordion with radio button"
-                      , content =
-                            select [ onInput (Accordion.toggleMethodFromString >> Maybe.withDefault toggleMethod >> ChangeToggleMethod) ] <|
-                                List.map (\method -> option [ value (Accordion.toggleMethodToString method), selected (toggleMethod == method) ] [ text (Accordion.toggleMethodToString method) ])
-                                    [ SummaryDetails, TargetUrl, Checkbox, Radio ]
                       }
                     ]
               }
             ]
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Inverted"
         , preview =
             [ segment { theme = Dark }
                 []
                 [ accordionUnstyled { toggleMethod = SummaryDetails } [] items ]
             ]
-        , configs = []
+        , configSections = []
         }
     ]

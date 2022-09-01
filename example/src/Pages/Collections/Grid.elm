@@ -1,9 +1,10 @@
-module Pages.Collections.Grid exposing (page)
+module Pages.Collections.Grid exposing (Model, Msg, page)
 
+import Config
 import Css exposing (..)
 import Html.Styled as Html exposing (Html)
 import Html.Styled.Attributes exposing (css, src)
-import Page exposing (Page)
+import Page
 import Request exposing (Request)
 import Shared
 import UI.Grid as Grid exposing (eightWideColumn, fourWideColumn, grid, sixWideColumn, threeColumnsGrid, twoWideColumn)
@@ -12,22 +13,51 @@ import UI.Segment exposing (segment)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page
+page : Shared.Model -> Request -> Page.With Model Msg
 page shared _ =
-    Page.static
-        { view =
-            { title = "Grid"
-            , body = view { shared = shared }
-            }
+    Page.sandbox
+        { init = init
+        , update = update
+        , view =
+            \_ ->
+                { title = "Grid"
+                , body = view shared
+                }
         }
 
 
+
+-- INIT
+
+
 type alias Model =
-    { shared : Shared.Model }
+    {}
 
 
-view : Model -> List (Html msg)
-view { shared } =
+init : Model
+init =
+    {}
+
+
+
+-- UPDATE
+
+
+type Msg
+    = UpdateConfig (Config.Msg Model)
+
+
+update : Msg -> Model -> Model
+update _ model =
+    model
+
+
+
+-- VIEW
+
+
+view : Shared.Model -> List (Html Msg)
+view shared =
     let
         additionalStyles =
             [ position relative
@@ -54,7 +84,7 @@ view { shared } =
                     ]
                 ]
     in
-    [ configAndPreview
+    [ configAndPreview UpdateConfig
         { title = "Grids"
         , preview =
             [ grid [ css additionalStyles ]
@@ -64,9 +94,9 @@ view { shared } =
                 , fourWideColumn [ dummyContent ] []
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Columns"
         , preview =
             [ grid [ css additionalStyles ]
@@ -79,9 +109,9 @@ view { shared } =
                 , sixWideColumn [ dummyContent ] []
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Automatic Flow"
         , preview =
             [ grid [ css additionalStyles ]
@@ -95,9 +125,9 @@ view { shared } =
                 , fourWideColumn [ dummyContent ] []
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Column Content"
         , preview =
             [ let
@@ -112,6 +142,6 @@ view { shared } =
                 , Grid.column [] [ imageSegment ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
     ]

@@ -1,35 +1,69 @@
-module Pages.Elements.Input exposing (page)
+module Pages.Elements.Input exposing (Model, Msg, page)
 
+import Config
 import Html.Styled as Html exposing (Html, input, text)
 import Html.Styled.Attributes exposing (placeholder, type_)
-import Page exposing (Page)
+import Page
 import Request exposing (Request)
 import Shared
 import UI.Input as Input
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page
+page : Shared.Model -> Request -> Page.With Model Msg
 page _ _ =
-    Page.static
-        { view =
-            { title = "Input"
-            , body = view
-            }
+    Page.sandbox
+        { init = init
+        , update = update
+        , view =
+            \_ ->
+                { title = "Input"
+                , body = view
+                }
         }
 
 
-view : List (Html msg)
+
+-- INIT
+
+
+type alias Model =
+    {}
+
+
+init : Model
+init =
+    {}
+
+
+
+-- UPDATE
+
+
+type Msg
+    = UpdateConfig (Config.Msg Model)
+
+
+update : Msg -> Model -> Model
+update _ model =
+    model
+
+
+
+-- VIEW
+
+
+view : List (Html Msg)
 view =
-    [ configAndPreview
+    [ configAndPreview UpdateConfig
         { title = "Input"
         , preview =
             [ Input.input []
                 [ input [ type_ "text", placeholder "Search..." ] [] ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Labeled"
         , preview =
             [ Input.input []
@@ -37,9 +71,9 @@ view =
                 , input [ type_ "text", placeholder "mysite.com" ] []
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = ""
         , preview =
             [ Input.input []
@@ -47,6 +81,6 @@ view =
                 , Input.label [] [ text "kg" ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
     ]

@@ -1,10 +1,9 @@
 module Pages.Collections.Breadcrumb exposing (Model, Msg, page)
 
+import Config
 import Data exposing (Size(..), sizeFromString, sizeToString)
 import Data.Theme exposing (Theme(..))
-import Html.Styled as Html exposing (Html, option, select, text)
-import Html.Styled.Attributes exposing (selected, value)
-import Html.Styled.Events exposing (onInput)
+import Html.Styled as Html exposing (Html)
 import Page
 import Request exposing (Request)
 import Shared
@@ -48,18 +47,14 @@ init =
 
 
 type Msg
-    = ChangeDivider Divider
-    | ChangeSize Size
+    = UpdateConfig (Config.Msg Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        ChangeDivider divider ->
-            { model | divider = divider }
-
-        ChangeSize size ->
-            { model | size = size }
+        UpdateConfig configMsg ->
+            Config.update configMsg model
 
 
 
@@ -99,7 +94,7 @@ view { theme } model =
                 Massive ->
                     massiveBreadCrumb
       in
-      configAndPreview
+      configAndPreview UpdateConfig
         { title = "Breadcrumb"
         , preview =
             [ breadcrumb_ options
@@ -108,32 +103,40 @@ view { theme } model =
                 , { label = "T-Shirt", url = "" }
                 ]
             ]
-        , configs =
+        , configSections =
             [ { label = "Content"
-              , fields =
+              , configs =
                     [ { label = "Divider"
-                      , description = "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text."
-                      , content =
-                            select [ onInput (dividerFromString >> Maybe.withDefault model.divider >> ChangeDivider) ] <|
-                                List.map (\divider -> option [ value (dividerToString divider), selected (model.divider == divider) ] [ text (dividerToString divider) ])
-                                    [ Slash, RightChevron ]
+                      , config =
+                            Config.select
+                                { value = model.divider
+                                , options = [ Slash, RightChevron ]
+                                , fromString = dividerFromString
+                                , toString = dividerToString
+                                , setter = \divider m -> { m | divider = divider }
+                                }
+                      , note = "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text."
                       }
                     ]
               }
             , { label = "Variations"
-              , fields =
+              , configs =
                     [ { label = "Size"
-                      , description = "A breadcrumb can vary in size"
-                      , content =
-                            select [ onInput (sizeFromString >> Maybe.withDefault model.size >> ChangeSize) ] <|
-                                List.map (\size -> option [ value (sizeToString size), selected (model.size == size) ] [ text (sizeToString size) ])
-                                    [ Mini, Tiny, Small, Medium, Large, Big, Huge, Massive ]
+                      , config =
+                            Config.select
+                                { value = model.size
+                                , options = [ Mini, Tiny, Small, Medium, Large, Big, Huge, Massive ]
+                                , fromString = sizeFromString
+                                , toString = sizeToString
+                                , setter = \size m -> { m | size = size }
+                                }
+                      , note = "A breadcrumb can vary in size"
                       }
                     ]
               }
             ]
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Inverted"
         , preview =
             [ segment { theme = Dark }
@@ -145,6 +148,6 @@ view { theme } model =
                     ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
     ]

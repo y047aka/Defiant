@@ -1,9 +1,10 @@
-module Pages.Elements.Icon exposing (page)
+module Pages.Elements.Icon exposing (Model, Msg, page)
 
+import Config
 import Css exposing (..)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import Html.Styled.Attributes exposing (css)
-import Page exposing (Page)
+import Page
 import Request exposing (Request)
 import Shared
 import UI.Grid as Grid exposing (fiveColumnsGrid)
@@ -11,17 +12,50 @@ import UI.Icon exposing (icon)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page
+page : Shared.Model -> Request -> Page.With Model Msg
 page _ _ =
-    Page.static
-        { view =
-            { title = "Icon"
-            , body = view
-            }
+    Page.sandbox
+        { init = init
+        , update = update
+        , view =
+            \_ ->
+                { title = "Icon"
+                , body = view
+                }
         }
 
 
-view : List (Html msg)
+
+-- INIT
+
+
+type alias Model =
+    {}
+
+
+init : Model
+init =
+    {}
+
+
+
+-- UPDATE
+
+
+type Msg
+    = UpdateConfig (Config.Msg Model)
+
+
+update : Msg -> Model -> Model
+update _ model =
+    model
+
+
+
+-- VIEW
+
+
+view : List (Html Msg)
 view =
     let
         column : List (Attribute msg) -> List (Html msg) -> Html msg
@@ -54,7 +88,7 @@ view =
                     ]
                 ]
     in
-    [ configAndPreview
+    [ configAndPreview UpdateConfig
         { title = "Accessibility"
         , preview =
             [ fiveColumnsGrid []
@@ -84,6 +118,6 @@ view =
                 , column [] [ icon_ "fas fa-wheelchair", text "wheelchair" ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
     ]

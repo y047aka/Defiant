@@ -1,9 +1,10 @@
-module Pages.Collections.Menu exposing (page)
+module Pages.Collections.Menu exposing (Model, Msg, page)
 
+import Config
 import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Html, input, text)
 import Html.Styled.Attributes as Attributes exposing (href, placeholder, rel, type_)
-import Page exposing (Page)
+import Page
 import Request exposing (Request)
 import Shared
 import UI.Input as Input
@@ -12,23 +13,52 @@ import UI.Segment exposing (invertedSegment)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page
+page : Shared.Model -> Request -> Page.With Model Msg
 page shared _ =
-    Page.static
-        { view =
-            { title = "Menu"
-            , body = view { shared = shared }
-            }
+    Page.sandbox
+        { init = init
+        , update = update
+        , view =
+            \_ ->
+                { title = "Menu"
+                , body = view shared
+                }
         }
 
 
+
+-- INIT
+
+
 type alias Model =
-    { shared : Shared.Model }
+    {}
 
 
-view : Model -> List (Html msg)
-view { shared } =
-    [ configAndPreview
+init : Model
+init =
+    {}
+
+
+
+-- UPDATE
+
+
+type Msg
+    = UpdateConfig (Config.Msg Model)
+
+
+update : Msg -> Model -> Model
+update _ model =
+    model
+
+
+
+-- VIEW
+
+
+view : Shared.Model -> List (Html Msg)
+view shared =
+    [ configAndPreview UpdateConfig
         { title = "Secondary Menu"
         , preview =
             [ secondaryMenu { theme = Light } [] <|
@@ -44,9 +74,9 @@ view { shared } =
                     ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Vertical Menu"
         , preview =
             [ verticalMenu { theme = shared.theme, additionalStyles = [] } [] <|
@@ -65,9 +95,9 @@ view { shared } =
                 , verticalMenuItem { theme = shared.theme, additionalStyles = [] } [] [ text "Search mail..." ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Link Item"
         , preview =
             [ verticalMenu { theme = shared.theme, additionalStyles = [] } [] <|
@@ -75,9 +105,9 @@ view { shared } =
                 , verticalMenuLinkItem { theme = shared.theme, additionalStyles = [] } [] [ text "Javascript Link" ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Inverted"
         , preview =
             [ Menu.menu { theme = Dark } [] <|
@@ -86,9 +116,9 @@ view { shared } =
                 , linkItem { theme = Dark } [] [ text "Friends" ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = ""
         , preview =
             [ invertedSegment []
@@ -99,6 +129,6 @@ view { shared } =
                     ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
     ]

@@ -1,12 +1,10 @@
 module Pages.Elements.Step exposing (Model, Msg, Progress(..), page, progressFromString, progressToString)
 
-import Html.Styled as Html exposing (Html, div, input, label, option, select, text)
-import Html.Styled.Attributes exposing (checked, for, id, name, selected, type_, value)
-import Html.Styled.Events exposing (onInput)
+import Config
+import Html.Styled as Html exposing (Html)
 import Page
 import Request exposing (Request)
 import Shared
-import UI.Checkbox exposing (checkbox)
 import UI.Step as Step exposing (State(..), activeStep, completedStep, disabledStep, step, steps)
 import View.ConfigAndPreview exposing (configAndPreview)
 
@@ -50,26 +48,14 @@ init =
 
 
 type Msg
-    = ToggleHasIcon
-    | ToggleHasDescription
-    | ChangeState State
-    | ChangeProgress Progress
+    = UpdateConfig (Config.Msg Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        ToggleHasIcon ->
-            { model | hasIcon = not model.hasIcon }
-
-        ToggleHasDescription ->
-            { model | hasDescription = not model.hasDescription }
-
-        ChangeState state ->
-            { model | state = state }
-
-        ChangeProgress progress ->
-            { model | progress = progress }
+        UpdateConfig configMsg ->
+            Config.update configMsg model
 
 
 
@@ -78,7 +64,7 @@ update msg model =
 
 view : Model -> List (Html Msg)
 view model =
-    [ configAndPreview
+    [ configAndPreview UpdateConfig
         { title = "Steps"
         , preview =
             [ let
@@ -149,63 +135,50 @@ view model =
                         }
                 ]
             ]
-        , configs =
+        , configSections =
             [ { label = "Progress"
-              , fields =
+              , configs =
                     [ { label = ""
-                      , description = ""
-                      , content =
-                            div [] <|
-                                List.map
-                                    (\progress ->
-                                        let
-                                            prefixedId =
-                                                "progress_" ++ progressToString progress
-                                        in
-                                        div []
-                                            [ input
-                                                [ id prefixedId
-                                                , type_ "radio"
-                                                , name "progress"
-                                                , value (progressToString progress)
-                                                , checked (model.progress == progress)
-                                                , onInput (progressFromString >> Maybe.withDefault model.progress >> ChangeProgress)
-                                                ]
-                                                []
-                                            , label [ for prefixedId ] [ text (progressToString progress) ]
-                                            ]
-                                    )
-                                    [ Shipping, Billing, ConfirmOrder ]
+                      , config =
+                            Config.radio
+                                { name = "progress"
+                                , value = model.progress
+                                , options = [ Shipping, Billing, ConfirmOrder ]
+                                , fromString = progressFromString
+                                , toString = progressToString
+                                , setter = \progress m -> { m | progress = progress }
+                                }
+                      , note = ""
                       }
                     ]
               }
             , { label = "Content"
-              , fields =
+              , configs =
                     [ { label = ""
-                      , description = "A step can contain an icon"
-                      , content =
-                            checkbox
+                      , config =
+                            Config.bool
                                 { id = "icon"
                                 , label = "Icon"
-                                , checked = model.hasIcon
-                                , onClick = ToggleHasIcon
+                                , bool = model.hasIcon
+                                , setter = \m -> { m | hasIcon = not m.hasIcon }
                                 }
+                      , note = "A step can contain an icon"
                       }
                     , { label = ""
-                      , description = "A step can contain a description"
-                      , content =
-                            checkbox
+                      , config =
+                            Config.bool
                                 { id = "description"
                                 , label = "Description"
-                                , checked = model.hasDescription
-                                , onClick = ToggleHasDescription
+                                , bool = model.hasDescription
+                                , setter = \m -> { m | hasDescription = not m.hasDescription }
                                 }
+                      , note = "A step can contain a description"
                       }
                     ]
               }
             ]
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Step"
         , preview =
             [ steps []
@@ -231,11 +204,19 @@ view model =
                     }
                 ]
             ]
-        , configs =
+        , configSections =
             [ { label = "States"
-              , fields =
+              , configs =
                     [ { label = ""
-                      , description =
+                      , config =
+                            Config.select
+                                { value = model.state
+                                , options = [ Default, Active, Completed, Disabled ]
+                                , fromString = Step.stateFromString
+                                , toString = Step.stateToString
+                                , setter = \state m -> { m | state = state }
+                                }
+                      , note =
                             case model.state of
                                 Default ->
                                     ""
@@ -248,10 +229,6 @@ view model =
 
                                 Disabled ->
                                     "A step can show that it cannot be selected"
-                      , content =
-                            select [ onInput (Step.stateFromString >> Maybe.withDefault model.state >> ChangeState) ] <|
-                                List.map (\state -> option [ value (Step.stateToString state), selected (model.state == state) ] [ text (Step.stateToString state) ])
-                                    [ Default, Active, Completed, Disabled ]
                       }
                     ]
               }

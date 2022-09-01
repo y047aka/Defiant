@@ -1,8 +1,8 @@
 module Pages.Collections.Form exposing (Model, Msg, page)
 
-import Html.Styled as Html exposing (Html, option, select, text)
-import Html.Styled.Attributes exposing (for, id, name, placeholder, rows, selected, tabindex, type_, value)
-import Html.Styled.Events exposing (onInput)
+import Config
+import Html.Styled as Html exposing (Html, text)
+import Html.Styled.Attributes exposing (for, id, name, placeholder, rows, tabindex, type_)
 import Page
 import Request exposing (Request)
 import Shared
@@ -43,14 +43,14 @@ init =
 
 
 type Msg
-    = ChangeState State
+    = UpdateConfig (Config.Msg Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        ChangeState state ->
-            { model | state = state }
+        UpdateConfig configMsg ->
+            Config.update configMsg model
 
 
 
@@ -90,7 +90,7 @@ view model =
                 ]
             ]
     in
-    [ configAndPreview
+    [ configAndPreview UpdateConfig
         { title = "Form"
         , preview =
             [ form []
@@ -122,9 +122,9 @@ view model =
                 , button [ type_ "submit" ] [ text "Submit" ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Field"
         , preview =
             [ form []
@@ -137,9 +137,9 @@ view model =
                     [ Form.input { state = Default } [ type_ "text" ] [] ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Fields"
         , preview =
             [ form []
@@ -168,9 +168,9 @@ view model =
                     ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = ""
         , preview =
             [ form []
@@ -199,9 +199,9 @@ view model =
                     ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Text Area"
         , preview =
             [ form []
@@ -221,9 +221,9 @@ view model =
                     [ textarea { state = Default } [ rows 2 ] [] ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Checkbox"
         , preview =
             [ form []
@@ -240,16 +240,24 @@ view model =
                     ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Form States"
         , preview = [ form [] (fieldsWithState { id = "state_example", state = model.state }) ]
-        , configs =
+        , configSections =
             [ { label = "Form States"
-              , fields =
+              , configs =
                     [ { label = ""
-                      , description =
+                      , config =
+                            Config.select
+                                { value = model.state
+                                , options = [ Default, Error, Warning, Success, Info ]
+                                , fromString = Form.stateFromString
+                                , toString = Form.stateToString
+                                , setter = \state m -> { m | state = state }
+                                }
+                      , note =
                             case model.state of
                                 Error ->
                                     "Individual fields may display an error state"
@@ -265,10 +273,6 @@ view model =
 
                                 Default ->
                                     ""
-                      , content =
-                            select [ onInput (Form.stateFromString >> Maybe.withDefault model.state >> ChangeState) ] <|
-                                List.map (\state -> option [ value (Form.stateToString state), selected (model.state == state) ] [ text (Form.stateToString state) ])
-                                    [ Default, Error, Warning, Success, Info ]
                       }
                     ]
               }

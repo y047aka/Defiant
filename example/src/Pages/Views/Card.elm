@@ -1,12 +1,12 @@
 module Pages.Views.Card exposing (Model, Msg, page)
 
+import Config
 import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Attributes exposing (src)
 import Page
 import Request exposing (Request)
 import Shared
 import UI.Card as Card exposing (cards, extraContent)
-import UI.Checkbox exposing (checkbox)
 import UI.Icon exposing (icon)
 import UI.Image exposing (image)
 import View.ConfigAndPreview exposing (configAndPreview)
@@ -53,30 +53,14 @@ init =
 
 
 type Msg
-    = ToggleHasImage
-    | ToggleHasHeader
-    | ToggleHasMetadata
-    | ToggleHasDescription
-    | ToggleHasExtraContent
+    = UpdateConfig (Config.Msg Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        ToggleHasImage ->
-            { model | hasImage = not model.hasImage }
-
-        ToggleHasHeader ->
-            { model | hasHeader = not model.hasHeader }
-
-        ToggleHasMetadata ->
-            { model | hasMetadata = not model.hasMetadata }
-
-        ToggleHasDescription ->
-            { model | hasDescription = not model.hasDescription }
-
-        ToggleHasExtraContent ->
-            { model | hasExtraContent = not model.hasExtraContent }
+        UpdateConfig configMsg ->
+            Config.update configMsg model
 
 
 
@@ -129,7 +113,7 @@ view shared model =
                     text ""
                 ]
     in
-    [ configAndPreview
+    [ configAndPreview UpdateConfig
         { title = "Cards"
         , preview =
             [ cards [] <|
@@ -160,58 +144,58 @@ view shared model =
                       }
                     ]
             ]
-        , configs =
+        , configSections =
             [ { label = "Content"
-              , fields =
+              , configs =
                     [ { label = ""
-                      , description = "A card can contain an image"
-                      , content =
-                            checkbox
+                      , config =
+                            Config.bool
                                 { id = "image"
                                 , label = "Image"
-                                , checked = model.hasImage
-                                , onClick = ToggleHasImage
+                                , bool = model.hasImage
+                                , setter = \m -> { m | hasImage = not m.hasImage }
                                 }
+                      , note = "A card can contain an image"
                       }
                     , { label = ""
-                      , description = "A card can contain a header"
-                      , content =
-                            checkbox
+                      , config =
+                            Config.bool
                                 { id = "header"
                                 , label = "Header"
-                                , checked = model.hasHeader
-                                , onClick = ToggleHasHeader
+                                , bool = model.hasHeader
+                                , setter = \m -> { m | hasHeader = not m.hasHeader }
                                 }
+                      , note = "A card can contain a header"
                       }
                     , { label = ""
-                      , description = "A card can contain content metadata"
-                      , content =
-                            checkbox
+                      , config =
+                            Config.bool
                                 { id = "metadata"
                                 , label = "Metadata"
-                                , checked = model.hasMetadata
-                                , onClick = ToggleHasMetadata
+                                , bool = model.hasMetadata
+                                , setter = \m -> { m | hasMetadata = not m.hasMetadata }
                                 }
+                      , note = "A card can contain content metadata"
                       }
                     , { label = ""
-                      , description = "A card can contain a description with one or more paragraphs"
-                      , content =
-                            checkbox
+                      , config =
+                            Config.bool
                                 { id = "description"
                                 , label = "Description"
-                                , checked = model.hasDescription
-                                , onClick = ToggleHasDescription
+                                , bool = model.hasDescription
+                                , setter = \m -> { m | hasDescription = not m.hasDescription }
                                 }
+                      , note = "A card can contain a description with one or more paragraphs"
                       }
                     , { label = ""
-                      , description = "A card can contain extra content meant to be formatted separately from the main content"
-                      , content =
-                            checkbox
+                      , config =
+                            Config.bool
                                 { id = "extra_content"
                                 , label = "Extra Content"
-                                , checked = model.hasExtraContent
-                                , onClick = ToggleHasExtraContent
+                                , bool = model.hasExtraContent
+                                , setter = \m -> { m | hasExtraContent = not m.hasExtraContent }
                                 }
+                      , note = "A card can contain extra content meant to be formatted separately from the main content"
                       }
                     ]
               }

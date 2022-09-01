@@ -1,7 +1,8 @@
-module Pages.Collections.Message exposing (page)
+module Pages.Collections.Message exposing (Model, Msg, page)
 
+import Config
 import Html.Styled as Html exposing (Html, div, p, text)
-import Page exposing (Page)
+import Page
 import Request exposing (Request)
 import Shared
 import UI.Header as Header
@@ -10,27 +11,56 @@ import UI.Message exposing (message)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page
+page : Shared.Model -> Request -> Page.With Model Msg
 page shared _ =
-    Page.static
-        { view =
-            { title = "Message"
-            , body = view { shared = shared }
-            }
+    Page.sandbox
+        { init = init
+        , update = update
+        , view =
+            \_ ->
+                { title = "Message"
+                , body = view shared
+                }
         }
 
 
+
+-- INIT
+
+
 type alias Model =
-    { shared : Shared.Model }
+    {}
 
 
-view : Model -> List (Html msg)
-view { shared } =
+init : Model
+init =
+    {}
+
+
+
+-- UPDATE
+
+
+type Msg
+    = UpdateConfig (Config.Msg Model)
+
+
+update : Msg -> Model -> Model
+update _ model =
+    model
+
+
+
+-- VIEW
+
+
+view : Shared.Model -> List (Html Msg)
+view shared =
     let
         options =
             { theme = shared.theme }
     in
-    [ configAndPreview
+    [ configAndPreview UpdateConfig
         { title = "Message"
         , preview =
             [ message []
@@ -40,9 +70,9 @@ view { shared } =
                     ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Icon Message"
         , preview =
             [ message []
@@ -53,6 +83,6 @@ view { shared } =
                     ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
     ]

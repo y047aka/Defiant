@@ -1,12 +1,10 @@
 module Pages.Elements.Segment exposing (Model, Msg, page)
 
-import Html.Styled as Html exposing (Html, option, p, select, text)
-import Html.Styled.Attributes exposing (selected, value)
-import Html.Styled.Events exposing (onInput)
+import Config
+import Html.Styled as Html exposing (Html, p, text)
 import Page
 import Request exposing (Request)
 import Shared
-import UI.Checkbox exposing (checkbox)
 import UI.Example exposing (wireframeShortParagraph)
 import UI.Segment exposing (Padding(..), basicSegment, invertedSegment, paddingFromString, paddingToString, segment, segmentWithProps, verticalSegment)
 import View.ConfigAndPreview exposing (configAndPreview)
@@ -49,22 +47,14 @@ init =
 
 
 type Msg
-    = ToggleVertical
-    | ToggleDisabled
-    | ChangePadding Padding
+    = UpdateConfig (Config.Msg Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        ToggleVertical ->
-            { model | vertical = not model.vertical }
-
-        ToggleDisabled ->
-            { model | disabled = not model.disabled }
-
-        ChangePadding padding ->
-            { model | padding = padding }
+        UpdateConfig configMsg ->
+            Config.update configMsg model
 
 
 view : Shared.Model -> Model -> List (Html Msg)
@@ -73,7 +63,7 @@ view shared model =
         options =
             { theme = shared.theme }
     in
-    [ configAndPreview
+    [ configAndPreview UpdateConfig
         { title = "Segment"
         , preview =
             [ segmentWithProps
@@ -87,35 +77,39 @@ view shared model =
                 []
                 [ wireframeShortParagraph ]
             ]
-        , configs =
+        , configSections =
             [ { label = "States"
-              , fields =
+              , configs =
                     [ { label = ""
-                      , description = "A segment may show its content is disabled"
-                      , content =
-                            checkbox
+                      , config =
+                            Config.bool
                                 { id = "disabled"
                                 , label = "Disabled"
-                                , checked = model.disabled
-                                , onClick = ToggleDisabled
+                                , bool = model.disabled
+                                , setter = \m -> { m | disabled = not m.disabled }
                                 }
+                      , note = "A segment may show its content is disabled"
                       }
                     ]
               }
             , { label = "Variations"
-              , fields =
+              , configs =
                     [ { label = "Padding"
-                      , description = "A segment can increase its padding"
-                      , content =
-                            select [ onInput (paddingFromString >> Maybe.withDefault model.padding >> ChangePadding) ] <|
-                                List.map (\padding -> option [ value (paddingToString padding), selected (model.padding == padding) ] [ text (paddingToString padding) ])
-                                    [ Default, Padded, VeryPadded ]
+                      , config =
+                            Config.select
+                                { value = model.padding
+                                , options = [ Default, Padded, VeryPadded ]
+                                , fromString = paddingFromString
+                                , toString = paddingToString
+                                , setter = \padding m -> { m | padding = padding }
+                                }
+                      , note = "A segment can increase its padding"
                       }
                     ]
               }
             ]
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Vertical Segment"
         , preview =
             if model.vertical then
@@ -129,38 +123,38 @@ view shared model =
                 , segment options [] [ wireframeShortParagraph ]
                 , segment options [] [ wireframeShortParagraph ]
                 ]
-        , configs =
+        , configSections =
             [ { label = ""
-              , fields =
+              , configs =
                     [ { label = "Vertical Segment"
-                      , description = "A vertical segment formats content to be aligned as part of a vertical group"
-                      , content =
-                            checkbox
+                      , config =
+                            Config.bool
                                 { id = "vertical"
                                 , label = "Vertical"
-                                , checked = model.vertical
-                                , onClick = ToggleVertical
+                                , bool = model.vertical
+                                , setter = \m -> { m | vertical = not m.vertical }
                                 }
+                      , note = "A vertical segment formats content to be aligned as part of a vertical group"
                       }
                     ]
               }
             ]
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Inverted"
         , preview =
             [ invertedSegment []
                 [ p [] [ text "I'm here to tell you something, and you will probably read me first." ] ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Basic"
         , preview =
             [ basicSegment options
                 []
                 [ p [] [ text "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo." ] ]
             ]
-        , configs = []
+        , configSections = []
         }
     ]

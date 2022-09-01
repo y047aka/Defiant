@@ -1,26 +1,60 @@
-module Pages.Collections.Table exposing (page)
+module Pages.Collections.Table exposing (Model, Msg, page)
 
+import Config
 import Html.Styled as Html exposing (Html, text)
-import Page exposing (Page)
+import Page
 import Request exposing (Request)
 import Shared
 import UI.Table exposing (..)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page
+page : Shared.Model -> Request -> Page.With Model Msg
 page _ _ =
-    Page.static
-        { view =
-            { title = "Table"
-            , body = view
-            }
+    Page.sandbox
+        { init = init
+        , update = update
+        , view =
+            \_ ->
+                { title = "Table"
+                , body = view
+                }
         }
 
 
-view : List (Html msg)
+
+-- INIT
+
+
+type alias Model =
+    {}
+
+
+init : Model
+init =
+    {}
+
+
+
+-- UPDATE
+
+
+type Msg
+    = UpdateConfig (Config.Msg Model)
+
+
+update : Msg -> Model -> Model
+update _ model =
+    model
+
+
+
+-- VIEW
+
+
+view : List (Html Msg)
 view =
-    [ configAndPreview
+    [ configAndPreview UpdateConfig
         { title = "Table"
         , preview =
             [ celledTable []
@@ -37,9 +71,9 @@ view =
                         ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Striped"
         , preview =
             [ stripedTable []
@@ -61,9 +95,9 @@ view =
                         ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Basic"
         , preview =
             [ basicTable []
@@ -80,9 +114,9 @@ view =
                         ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = ""
         , preview =
             [ veryBasicTable []
@@ -99,6 +133,6 @@ view =
                         ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
     ]

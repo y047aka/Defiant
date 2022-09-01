@@ -1,8 +1,9 @@
-module Pages.Elements.Loader exposing (page)
+module Pages.Elements.Loader exposing (Model, Msg, page)
 
+import Config
 import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Html, text)
-import Page exposing (Page)
+import Page
 import Request exposing (Request)
 import Shared
 import UI.Dimmer exposing (dimmer)
@@ -12,23 +13,52 @@ import UI.Segment exposing (segment)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page
+page : Shared.Model -> Request -> Page.With Model Msg
 page shared _ =
-    Page.static
-        { view =
-            { title = "Loader"
-            , body = view { shared = shared }
-            }
+    Page.sandbox
+        { init = init
+        , update = update
+        , view =
+            \_ ->
+                { title = "Loader"
+                , body = view shared
+                }
         }
 
 
+
+-- INIT
+
+
 type alias Model =
-    { shared : Shared.Model }
+    {}
 
 
-view : Model -> List (Html msg)
-view { shared } =
-    [ configAndPreview
+init : Model
+init =
+    {}
+
+
+
+-- UPDATE
+
+
+type Msg
+    = UpdateConfig (Config.Msg Model)
+
+
+update : Msg -> Model -> Model
+update _ model =
+    model
+
+
+
+-- VIEW
+
+
+view : Shared.Model -> List (Html Msg)
+view shared =
+    [ configAndPreview UpdateConfig
         { title = "Loader"
         , preview =
             [ segment { theme = shared.theme }
@@ -39,9 +69,9 @@ view { shared } =
                     [ loader { theme = Light } [] [] ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Text Loader"
         , preview =
             [ segment { theme = shared.theme }
@@ -59,6 +89,6 @@ view { shared } =
                     [ textLoader { theme = Dark } [] [ text "Loading" ] ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
     ]

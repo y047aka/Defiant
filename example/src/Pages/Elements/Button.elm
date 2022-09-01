@@ -1,10 +1,10 @@
 module Pages.Elements.Button exposing (Model, Msg, page)
 
+import Config
 import Data exposing (PresetColor(..))
 import Data.PalettesByState as PalettesByState
-import Html.Styled as Html exposing (Html, option, select, text)
-import Html.Styled.Attributes exposing (selected, value)
-import Html.Styled.Events exposing (onClick, onInput)
+import Html.Styled as Html exposing (Html, text)
+import Html.Styled.Events exposing (onClick)
 import Page
 import Request exposing (Request)
 import Shared
@@ -58,7 +58,7 @@ init =
 type Msg
     = Increment
     | Decrement
-    | ChangeColor Color
+    | UpdateConfig (Config.Msg Model)
 
 
 update : Msg -> Model -> Model
@@ -70,8 +70,8 @@ update msg model =
         Decrement ->
             { model | counter = model.counter - 1 }
 
-        ChangeColor color ->
-            { model | color = color }
+        UpdateConfig configMsg ->
+            Config.update configMsg model
 
 
 
@@ -80,7 +80,7 @@ update msg model =
 
 view : Model -> List (Html Msg)
 view model =
-    [ configAndPreview
+    [ configAndPreview UpdateConfig
         { title = "Button"
         , preview =
             [ buttonWithProps
@@ -103,45 +103,49 @@ view model =
                 []
                 [ text "Follow" ]
             ]
-        , configs =
+        , configSections =
             [ { label = "Variations"
-              , fields =
+              , configs =
                     [ { label = "Color"
-                      , description = "A button can have different colors"
-                      , content =
-                            select [ onInput (colorFromString >> Maybe.withDefault Default >> ChangeColor) ] <|
-                                List.map (\color -> option [ value (colorToString color), selected (model.color == color) ] [ text (colorToString color) ])
-                                    ([ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ])
+                      , config =
+                            Config.select
+                                { value = model.color
+                                , options = [ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ]
+                                , fromString = colorFromString
+                                , toString = colorToString
+                                , setter = \color m -> { m | color = color }
+                                }
+                      , note = "A button can have different colors"
                       }
                     ]
               }
             ]
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = ""
         , preview =
             [ button [] [ text "Button" ]
             , button [] [ text "Focusable" ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Emphasis"
         , preview =
             [ primaryButton [] [ text "Save" ]
             , button [] [ text "Discard" ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = ""
         , preview =
             [ secondaryButton [] [ text "Okay" ]
             , button [] [ text "Cancel" ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Labeled"
         , preview =
             [ labeledButton []
@@ -154,17 +158,17 @@ view model =
                 , button [ onClick Increment ] [ text "+" ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Icon"
         , preview = [ button [] [ icon [] "fas fa-cloud" ] ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Basic"
         , preview = [ basicButton [] [ icon [] "fas fa-user", text "Add Friend" ] ]
-        , configs = []
+        , configSections = []
         }
     ]
 

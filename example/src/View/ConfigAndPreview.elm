@@ -1,26 +1,45 @@
 module View.ConfigAndPreview exposing (configAndPreview)
 
+import Config
 import Css exposing (..)
+import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Html, aside, div, label, p, text)
 import Html.Styled.Attributes exposing (css)
-import UI.Example exposing (example)
+import UI.Header as Header
 
 
-type alias FieldSet msg =
+type alias ConfigSection model =
     { label : String
-    , fields : List { label : String, description : String, content : Html msg }
+    , configs : List { label : String, config : Html (Config.Msg model), note : String }
     }
 
 
 configAndPreview :
-    { title : String
-    , preview : List (Html msg)
-    , configs : List (FieldSet msg)
-    }
+    (Config.Msg model -> msg)
+    ->
+        { title : String
+        , preview : List (Html msg)
+        , configSections : List (ConfigSection model)
+        }
     -> Html msg
-configAndPreview { title, preview, configs } =
-    example { title = title, description = "" }
-        [ div
+configAndPreview msg { title, preview, configSections } =
+    let
+        title_ =
+            if title == "" then
+                text ""
+
+            else
+                Header.header { theme = Light } [] [ text title ]
+    in
+    Html.styled Html.div
+        [ padding2 (em 2) zero
+        , position relative
+        , property "-webkit-tap-highlight-color" "transparent"
+        , whiteSpace preWrap
+        ]
+        []
+        [ title_
+        , div
             [ css
                 [ property "display" "grid"
                 , property "grid-template-columns" "1fr 300px"
@@ -28,50 +47,51 @@ configAndPreview { title, preview, configs } =
                 ]
             ]
             [ div [ css [ width (pct 100) ] ] preview
-            , configPanel configs
+            , configPanel msg configSections
             ]
         ]
 
 
-configPanel : List (FieldSet msg) -> Html msg
-configPanel configs =
-    aside
-        [ css
-            [ paddingLeft (px 15)
-            , borderLeft3 (px 1) solid (hex "#DDD")
+configPanel : (Config.Msg model -> msg) -> List (ConfigSection model) -> Html msg
+configPanel msg configSections =
+    Html.map msg <|
+        aside
+            [ css
+                [ paddingLeft (px 15)
+                , borderLeft3 (px 1) solid (hex "#DDD")
+                ]
             ]
-        ]
-        (List.map
-            (\fieldset ->
-                div
-                    [ css
-                        [ displayFlex
-                        , flexDirection column
-                        , property "gap" "15px"
-                        , paddingBottom (px 15)
-                        , nthChild "n+2"
-                            [ paddingTop (px 15)
-                            , borderTop3 (px 1) solid (hex "#DDD")
-                            ]
-                        ]
-                    ]
-                    (div
+            (List.map
+                (\configSection ->
+                    div
                         [ css
-                            [ fontWeight bold
-                            , empty [ display none ]
+                            [ displayFlex
+                            , flexDirection column
+                            , property "gap" "15px"
+                            , paddingBottom (px 15)
+                            , nthChild "n+2"
+                                [ paddingTop (px 15)
+                                , borderTop3 (px 1) solid (hex "#DDD")
+                                ]
                             ]
                         ]
-                        [ text fieldset.label ]
-                        :: List.map
-                            (\field ->
-                                div [ css [ displayFlex, flexDirection column, property "gap" "5px" ] ]
-                                    [ label [] [ text field.label ]
-                                    , field.content
-                                    , p [ css [ color (hex "#999") ] ] [ text field.description ]
-                                    ]
-                            )
-                            fieldset.fields
-                    )
+                        (div
+                            [ css
+                                [ fontWeight bold
+                                , empty [ display none ]
+                                ]
+                            ]
+                            [ text configSection.label ]
+                            :: List.map
+                                (\field ->
+                                    div [ css [ displayFlex, flexDirection column, property "gap" "5px" ] ]
+                                        [ label [] [ text field.label ]
+                                        , field.config
+                                        , p [ css [ color (hex "#999") ] ] [ text field.note ]
+                                        ]
+                                )
+                                configSection.configs
+                        )
+                )
+                configSections
             )
-            configs
-        )

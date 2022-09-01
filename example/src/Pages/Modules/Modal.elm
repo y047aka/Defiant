@@ -1,5 +1,6 @@
 module Pages.Modules.Modal exposing (Model, Msg, page)
 
+import Config
 import Html.Styled as Html exposing (Html, a, p, text)
 import Html.Styled.Attributes as Attributes exposing (href)
 import Html.Styled.Events exposing (onClick)
@@ -48,6 +49,7 @@ init shared =
 
 type Msg
     = Toggle String
+    | UpdateConfig (Config.Msg Model)
 
 
 update : Msg -> Model -> Model
@@ -63,6 +65,9 @@ update msg model =
                         newItem :: model.toggledItems
             }
 
+        UpdateConfig configMsg ->
+            Config.update configMsg model
+
 
 
 -- VIEW
@@ -70,7 +75,7 @@ update msg model =
 
 view : Model -> List (Html Msg)
 view { shared, toggledItems } =
-    [ configAndPreview
+    [ configAndPreview UpdateConfig
         { title = "Modal"
         , preview =
             [ button [ onClick (Toggle "modal") ] [ icon [] "fas fa-plus", text "Show" ]
@@ -97,9 +102,9 @@ view { shared, toggledItems } =
                     ]
                 }
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Basic"
         , preview =
             [ button [ onClick (Toggle "basicModal") ] [ icon [] "fas fa-plus", text "Show" ]
@@ -120,9 +125,9 @@ view { shared, toggledItems } =
                 }
                 []
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Dialog"
         , preview =
             [ button [ onClick (Toggle "dialog") ] [ icon [] "fas fa-plus", text "Show" ]
@@ -148,6 +153,6 @@ view { shared, toggledItems } =
                     ]
                 }
             ]
-        , configs = []
+        , configSections = []
         }
     ]

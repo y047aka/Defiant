@@ -1,7 +1,8 @@
-module Pages.Elements.Divider exposing (page)
+module Pages.Elements.Divider exposing (Model, Msg, page)
 
+import Config
 import Html.Styled as Html exposing (Html)
-import Page exposing (Page)
+import Page
 import Request exposing (Request)
 import Shared
 import UI.Divider exposing (divider)
@@ -9,25 +10,58 @@ import UI.Example exposing (wireframeShortParagraph)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page
+page : Shared.Model -> Request -> Page.With Model Msg
 page _ _ =
-    Page.static
-        { view =
-            { title = "Divider"
-            , body = view
-            }
+    Page.sandbox
+        { init = init
+        , update = update
+        , view =
+            \_ ->
+                { title = "Divider"
+                , body = view
+                }
         }
 
 
-view : List (Html msg)
+
+-- INIT
+
+
+type alias Model =
+    {}
+
+
+init : Model
+init =
+    {}
+
+
+
+-- UPDATE
+
+
+type Msg
+    = UpdateConfig (Config.Msg Model)
+
+
+update : Msg -> Model -> Model
+update _ model =
+    model
+
+
+
+-- VIEW
+
+
+view : List (Html Msg)
 view =
-    [ configAndPreview
+    [ configAndPreview UpdateConfig
         { title = "Divider"
         , preview =
             [ wireframeShortParagraph
             , divider [] []
             , wireframeShortParagraph
             ]
-        , configs = []
+        , configSections = []
         }
     ]

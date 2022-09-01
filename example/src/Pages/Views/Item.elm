@@ -1,11 +1,11 @@
 module Pages.Views.Item exposing (Model, Msg, page)
 
+import Config
 import Html.Styled as Html exposing (Html, span, text)
 import Html.Styled.Attributes exposing (src)
 import Page
 import Request exposing (Request)
 import Shared
-import UI.Checkbox exposing (checkbox)
 import UI.Example exposing (wireframeShortParagraph)
 import UI.Image exposing (image)
 import UI.Item as Item exposing (..)
@@ -53,30 +53,14 @@ init =
 
 
 type Msg
-    = ToggleHasImage
-    | ToggleHasHeader
-    | ToggleHasMetadata
-    | ToggleHasDescription
-    | ToggleHasExtraContent
+    = UpdateConfig (Config.Msg Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        ToggleHasImage ->
-            { model | hasImage = not model.hasImage }
-
-        ToggleHasHeader ->
-            { model | hasHeader = not model.hasHeader }
-
-        ToggleHasMetadata ->
-            { model | hasMetadata = not model.hasMetadata }
-
-        ToggleHasDescription ->
-            { model | hasDescription = not model.hasDescription }
-
-        ToggleHasExtraContent ->
-            { model | hasExtraContent = not model.hasExtraContent }
+        UpdateConfig configMsg ->
+            Config.update configMsg model
 
 
 
@@ -85,7 +69,7 @@ update msg model =
 
 view : Model -> List (Html Msg)
 view model =
-    [ configAndPreview
+    [ configAndPreview UpdateConfig
         { title = "Items"
         , preview =
             [ let
@@ -139,58 +123,58 @@ view model =
                     }
                 ]
             ]
-        , configs =
+        , configSections =
             [ { label = "Content"
-              , fields =
+              , configs =
                     [ { label = ""
-                      , description = "An item can contain an image"
-                      , content =
-                            checkbox
+                      , config =
+                            Config.bool
                                 { id = "image"
                                 , label = "Image"
-                                , checked = model.hasImage
-                                , onClick = ToggleHasImage
+                                , bool = model.hasImage
+                                , setter = \m -> { m | hasImage = not m.hasImage }
                                 }
+                      , note = "An item can contain an image"
                       }
                     , { label = ""
-                      , description = "An item can contain a header"
-                      , content =
-                            checkbox
+                      , config =
+                            Config.bool
                                 { id = "header"
                                 , label = "Header"
-                                , checked = model.hasHeader
-                                , onClick = ToggleHasHeader
+                                , bool = model.hasHeader
+                                , setter = \m -> { m | hasHeader = not m.hasHeader }
                                 }
+                      , note = "An item can contain a header"
                       }
                     , { label = ""
-                      , description = "An item can contain content metadata"
-                      , content =
-                            checkbox
+                      , config =
+                            Config.bool
                                 { id = "metadata"
                                 , label = "Metadata"
-                                , checked = model.hasMetadata
-                                , onClick = ToggleHasMetadata
+                                , bool = model.hasMetadata
+                                , setter = \m -> { m | hasMetadata = not m.hasMetadata }
                                 }
+                      , note = "An item can contain content metadata"
                       }
                     , { label = ""
-                      , description = "An item can contain a description with a single or multiple paragraphs"
-                      , content =
-                            checkbox
+                      , config =
+                            Config.bool
                                 { id = "description"
                                 , label = "Description"
-                                , checked = model.hasDescription
-                                , onClick = ToggleHasDescription
+                                , bool = model.hasDescription
+                                , setter = \m -> { m | hasDescription = not m.hasDescription }
                                 }
+                      , note = "An item can contain a description with a single or multiple paragraphs"
                       }
                     , { label = ""
-                      , description = "An item can contain content ExtraContent"
-                      , content =
-                            checkbox
+                      , config =
+                            Config.bool
                                 { id = "extra_content"
                                 , label = "Extra Content"
-                                , checked = model.hasExtraContent
-                                , onClick = ToggleHasExtraContent
+                                , bool = model.hasExtraContent
+                                , setter = \m -> { m | hasExtraContent = not m.hasExtraContent }
                                 }
+                      , note = "An item can contain content ExtraContent"
                       }
                     ]
               }

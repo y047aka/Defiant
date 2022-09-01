@@ -1,5 +1,6 @@
 module Pages.Modules.Dimmer exposing (Model, Msg, page)
 
+import Config
 import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Html, div, text)
 import Html.Styled.Attributes exposing (src)
@@ -53,6 +54,7 @@ init shared =
 
 type Msg
     = Toggle String
+    | UpdateConfig (Config.Msg Model)
 
 
 update : Msg -> Model -> Model
@@ -68,6 +70,9 @@ update msg model =
                         newItem :: model.toggledItems
             }
 
+        UpdateConfig configMsg ->
+            Config.update configMsg model
+
 
 
 -- VIEW
@@ -79,7 +84,7 @@ view { shared, toggledItems } =
         options =
             { theme = shared.theme }
     in
-    [ configAndPreview
+    [ configAndPreview UpdateConfig
         { title = "Dimmer"
         , preview =
             [ segment options
@@ -92,9 +97,9 @@ view { shared, toggledItems } =
                 ]
             , button [ onClick (Toggle "dimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Content Dimmer"
         , preview =
             [ segment options
@@ -114,9 +119,9 @@ view { shared, toggledItems } =
                 ]
             , button [ onClick (Toggle "contentDimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Page Dimmer"
         , preview =
             [ button [ onClick (Toggle "pageDimmer") ] [ icon [] "fas fa-plus", text "Show" ]
@@ -132,9 +137,9 @@ view { shared, toggledItems } =
                     ]
                 ]
             ]
-        , configs = []
+        , configSections = []
         }
-    , configAndPreview
+    , configAndPreview UpdateConfig
         { title = "Inverted Dimmer"
         , preview =
             [ segment options
@@ -147,6 +152,6 @@ view { shared, toggledItems } =
                 ]
             , button [ onClick (Toggle "invertedDimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
             ]
-        , configs = []
+        , configSections = []
         }
     ]

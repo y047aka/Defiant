@@ -1,5 +1,6 @@
 module Pages.Modules.Checkbox exposing (Model, Msg, page)
 
+import Config
 import Html.Styled as Html exposing (Html)
 import Page
 import Request exposing (Request)
@@ -40,6 +41,7 @@ init =
 
 type Msg
     = NoOp
+    | UpdateConfig (Config.Msg Model)
 
 
 update : Msg -> Model -> Model
@@ -53,7 +55,7 @@ update _ model =
 
 view : List (Html Msg)
 view =
-    [ configAndPreview
+    [ configAndPreview UpdateConfig
         { title = "Checkbox"
         , preview =
             [ checkbox
@@ -63,6 +65,6 @@ view =
                 , onClick = NoOp
                 }
             ]
-        , configs = []
+        , configSections = []
         }
     ]
