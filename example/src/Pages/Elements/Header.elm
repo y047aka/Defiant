@@ -1,11 +1,11 @@
 module Pages.Elements.Header exposing (Model, Msg, page)
 
 import Config
-import Data exposing (PresetColor(..), Size(..), sizeFromString, sizeToString)
 import Html.Styled as Html exposing (Html, text)
 import Page
 import Request exposing (Request)
 import Shared
+import Types exposing (PresetColor(..), Size(..), sizeFromString, sizeToString)
 import UI.Example exposing (wireframeShortParagraph)
 import UI.Header as Header exposing (..)
 import UI.Icon exposing (icon)

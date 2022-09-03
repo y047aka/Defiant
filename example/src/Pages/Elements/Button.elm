@@ -1,13 +1,13 @@
 module Pages.Elements.Button exposing (Model, Msg, page)
 
 import Config
-import Data exposing (PresetColor(..))
 import Data.PalettesByState as PalettesByState
 import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Events exposing (onClick)
 import Page
 import Request exposing (Request)
 import Shared
+import Types exposing (PresetColor(..))
 import UI.Button as Button exposing (..)
 import UI.Icon exposing (icon)
 import UI.Label exposing (basicLabel)
@@ -178,7 +178,7 @@ view model =
 
 colorFromString : String -> Maybe Color
 colorFromString string =
-    case ( string, Data.colorFromString string ) of
+    case ( string, Types.colorFromString string ) of
         ( "Default", _ ) ->
             Just Default
 
@@ -208,4 +208,4 @@ colorToString color =
             "Secondary"
 
         Colored c ->
-            Data.colorToString c
+            Types.colorToString c

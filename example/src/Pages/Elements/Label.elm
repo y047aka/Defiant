@@ -1,12 +1,12 @@
 module Pages.Elements.Label exposing (Model, Msg, page)
 
 import Config
-import Data exposing (PresetColor(..))
 import Data.PalettesByState as PalettesByState
 import Html.Styled as Html exposing (Html, text)
 import Page
 import Request exposing (Request)
 import Shared
+import Types exposing (PresetColor(..))
 import UI.Icon exposing (icon)
 import UI.Label as Label exposing (..)
 import View.ConfigAndPreview exposing (configAndPreview)
@@ -151,7 +151,7 @@ view model =
 
 colorFromString : String -> Maybe Color
 colorFromString string =
-    case ( string, Data.colorFromString string ) of
+    case ( string, Types.colorFromString string ) of
         ( "Default", _ ) ->
             Just Default
 
@@ -181,4 +181,4 @@ colorToString color =
             "Secondary"
 
         Colored c ->
-            Data.colorToString c
+            Types.colorToString c

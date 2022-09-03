@@ -1,12 +1,12 @@
 module Pages.Collections.Breadcrumb exposing (Model, Msg, page)
 
 import Config
-import Data exposing (Size(..), sizeFromString, sizeToString)
 import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Html)
 import Page
 import Request exposing (Request)
 import Shared
+import Types exposing (Size(..), sizeFromString, sizeToString)
 import UI.Breadcrumb exposing (Divider(..), bigBreadCrumb, breadcrumbWithProps, dividerFromString, dividerToString, hugeBreadCrumb, largeBreadCrumb, massiveBreadCrumb, mediumBreadCrumb, miniBreadCrumb, smallBreadCrumb, tinyBreadCrumb)
 import UI.Segment exposing (segment)
 import View.ConfigAndPreview exposing (configAndPreview)

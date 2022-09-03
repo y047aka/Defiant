@@ -14,7 +14,7 @@ module Data.PalettesByState exposing
 
 import Css exposing (Style, active, batch, focus, hex, hover)
 import Css.Palette as Palette exposing (Palette, palette, setBackground, setBorder, setColor)
-import Data exposing (PresetColor(..))
+import Types exposing (PresetColor(..))
 
 
 type alias PalettesByState =

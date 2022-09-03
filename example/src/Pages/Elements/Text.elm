@@ -1,11 +1,11 @@
 module Pages.Elements.Text exposing (Model, Msg, page)
 
 import Config
-import Data exposing (PresetColor(..), Size(..), sizeFromString, sizeToString)
 import Html.Styled as Html exposing (Html, p, text)
 import Page
 import Request exposing (Request)
 import Shared
+import Types exposing (PresetColor(..), Size(..), sizeFromString, sizeToString)
 import UI.Segment exposing (segment)
 import UI.Text exposing (..)
 import View.ConfigAndPreview exposing (configAndPreview)

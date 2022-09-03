@@ -1,4 +1,4 @@
-module Data exposing
+module Types exposing
     ( Size(..), sizeFromString, sizeToString
     , PresetColor(..), colorFromString, colorToString
     )
