@@ -2,14 +2,14 @@ module Pages.Collections.Form exposing (Model, Msg, page)
 
 import Config
 import Html.Styled as Html exposing (Html, text)
-import Html.Styled.Attributes exposing (for, id, placeholder, rows, tabindex, type_)
+import Html.Styled.Attributes exposing (placeholder, rows, type_)
 import Page
 import Request exposing (Request)
 import Shared
 import Types exposing (FormState(..), formStateFromString, formStateToString)
 import UI.Button exposing (button)
-import UI.Checkbox as Checkbox exposing (checkboxWrapper)
-import UI.Form as Form exposing (checkboxLabel, field, fields, form, textarea, threeFields, twoFields)
+import UI.Checkbox as Checkbox
+import UI.Form as Form exposing (field, fields, form, textarea, threeFields, twoFields)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
@@ -31,12 +31,16 @@ page _ _ =
 
 
 type alias Model =
-    { state : FormState }
+    { checked : Bool
+    , state : FormState
+    }
 
 
 init : Model
 init =
-    { state = Error }
+    { checked = False
+    , state = Error
+    }
 
 
 
@@ -44,12 +48,16 @@ init =
 
 
 type Msg
-    = UpdateConfig (Config.Msg Model)
+    = ToggleChecked
+    | UpdateConfig (Config.Msg Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
+        ToggleChecked ->
+            { model | checked = not model.checked }
+
         UpdateConfig configMsg ->
             Config.update configMsg model
 
@@ -86,10 +94,13 @@ view model =
                     , state = model.state
                     }
                     []
-                    [ checkboxWrapper []
-                        [ Checkbox.input [ id "state_example", type_ "checkbox", tabindex 0 ] []
-                        , checkboxLabel { state = model.state } [ for "state_example" ] [ text "I agree to the Terms and Conditions" ]
-                        ]
+                    [ Checkbox.checkbox
+                        { id = "state_example"
+                        , label = "I agree to the Terms and Conditions"
+                        , checked = model.checked
+                        , state = model.state
+                        , onClick = ToggleChecked
+                        }
                     ]
                 , button [ type_ "submit" ] [ text "Submit" ]
                 ]
@@ -236,10 +247,13 @@ view model =
                     , state = Default
                     }
                     []
-                    [ checkboxWrapper []
-                        [ Checkbox.input [ id "checkbox_example_2", type_ "checkbox", tabindex 0 ] []
-                        , checkboxLabel { state = Default } [ for "checkbox_example_2" ] [ text "Checkbox" ]
-                        ]
+                    [ Checkbox.checkbox
+                        { id = "checkbox_example_2"
+                        , label = "Checkbox"
+                        , checked = model.checked
+                        , state = Default
+                        , onClick = ToggleChecked
+                        }
                     ]
                 ]
             ]

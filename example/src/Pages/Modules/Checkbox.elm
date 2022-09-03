@@ -5,6 +5,7 @@ import Html.Styled as Html exposing (Html)
 import Page
 import Request exposing (Request)
 import Shared
+import Types exposing (FormState(..))
 import UI.Checkbox exposing (checkbox)
 import View.ConfigAndPreview exposing (configAndPreview)
 
@@ -67,6 +68,7 @@ view model =
                 { id = "checkbox_example"
                 , label = "Make my profile visible"
                 , checked = model.checked
+                , state = Default
                 , onClick = ToggleChecked
                 }
             ]

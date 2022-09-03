@@ -4,7 +4,6 @@ module UI.Form exposing
     , field
     , label
     , input, textarea
-    , checkboxLabel
     )
 
 {-|
@@ -15,7 +14,6 @@ module UI.Form exposing
 @docs field
 @docs label
 @docs input, textarea
-@docs checkboxLabel
 
 -}
 
@@ -27,7 +25,6 @@ import Css.Palette as Palette exposing (palette, paletteWith, setBackground, set
 import Css.Typography as Typography exposing (setFontSize, setFontWeight, setLineHeight, setTextTransform, typography)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import Types exposing (FormState(..))
-import UI.Checkbox
 
 
 type FieldType
@@ -301,129 +298,6 @@ textarea { state } =
 
         -- State
         , batch (stylesByState state)
-        ]
-
-
-checkboxLabel : { state : FormState } -> List (Attribute msg) -> List (Html msg) -> Html msg
-checkboxLabel { state } =
-    UI.Checkbox.labelBasis
-        [ case state of
-            Success ->
-                -- .ui.form .fields.success .field .checkbox:not(.toggle):not(.slider) label
-                -- .ui.form .field.success .checkbox:not(.toggle):not(.slider) label
-                -- .ui.form .fields.success .field .checkbox:not(.toggle):not(.slider) .box
-                -- .ui.form .field.success .checkbox:not(.toggle):not(.slider) .box
-                color (hex "#2c662d")
-
-            Info ->
-                -- .ui.form .fields.info .field .checkbox:not(.toggle):not(.slider) label
-                -- .ui.form .field.info .checkbox:not(.toggle):not(.slider) label
-                -- .ui.form .fields.info .field .checkbox:not(.toggle):not(.slider) .box
-                -- .ui.form .field.info .checkbox:not(.toggle):not(.slider) .box
-                color (hex "#276f86")
-
-            Warning ->
-                -- .ui.form .fields.warning .field .checkbox:not(.toggle):not(.slider) label
-                -- .ui.form .field.warning .checkbox:not(.toggle):not(.slider) label
-                -- .ui.form .fields.warning .field .checkbox:not(.toggle):not(.slider) .box
-                -- .ui.form .field.warning .checkbox:not(.toggle):not(.slider) .box
-                color (hex "#573a08")
-
-            Error ->
-                -- .ui.form .fields.error .field .checkbox:not(.toggle):not(.slider) label
-                -- .ui.form .field.error .checkbox:not(.toggle):not(.slider) label
-                -- .ui.form .fields.error .field .checkbox:not(.toggle):not(.slider) .box
-                -- .ui.form .field.error .checkbox:not(.toggle):not(.slider) .box
-                color (hex "#9f3a38")
-
-            Default ->
-                batch []
-
-        --
-        , before
-            [ case state of
-                Success ->
-                    -- .ui.form .fields.success .field .checkbox:not(.toggle):not(.slider) label:before
-                    -- .ui.form .field.success .checkbox:not(.toggle):not(.slider) label:before
-                    -- .ui.form .fields.success .field .checkbox:not(.toggle):not(.slider) .box:before
-                    -- .ui.form .field.success .checkbox:not(.toggle):not(.slider) .box:before
-                    palette
-                        (Palette.init
-                            |> setBackground (hex "#fcfff5")
-                            |> setBorder (hex "#a3c293")
-                        )
-
-                Info ->
-                    -- .ui.form .fields.info .field .checkbox:not(.toggle):not(.slider) label:before
-                    -- .ui.form .field.info .checkbox:not(.toggle):not(.slider) label:before
-                    -- .ui.form .fields.info .field .checkbox:not(.toggle):not(.slider) .box:before
-                    -- .ui.form .field.info .checkbox:not(.toggle):not(.slider) .box:before
-                    palette
-                        (Palette.init
-                            |> setBackground (hex "#f8ffff")
-                            |> setBorder (hex "#a9d5de")
-                        )
-
-                Warning ->
-                    -- .ui.form .fields.warning .field .checkbox:not(.toggle):not(.slider) label:before
-                    -- .ui.form .field.warning .checkbox:not(.toggle):not(.slider) label:before
-                    -- .ui.form .fields.warning .field .checkbox:not(.toggle):not(.slider) .box:before
-                    -- .ui.form .field.warning .checkbox:not(.toggle):not(.slider) .box:before
-                    palette
-                        (Palette.init
-                            |> setBackground (hex "#fffaf3")
-                            |> setBorder (hex "#c9ba9b")
-                        )
-
-                Error ->
-                    -- .ui.form .fields.error .field .checkbox:not(.toggle):not(.slider) label:before
-                    -- .ui.form .field.error .checkbox:not(.toggle):not(.slider) label:before
-                    -- .ui.form .fields.error .field .checkbox:not(.toggle):not(.slider) .box:before
-                    -- .ui.form .field.error .checkbox:not(.toggle):not(.slider) .box:before
-                    palette
-                        (Palette.init
-                            |> setBackground (hex "#fff6f6")
-                            |> setBorder (hex "#e0b4b4")
-                        )
-
-                _ ->
-                    batch []
-            ]
-
-        --
-        , after
-            [ case state of
-                Success ->
-                    -- .ui.form .fields.success .field .checkbox label:after
-                    -- .ui.form .field.success .checkbox label:after
-                    -- .ui.form .fields.success .field .checkbox .box:after
-                    -- .ui.form .field.success .checkbox .box:after
-                    color (hex "#2c662d")
-
-                Info ->
-                    -- .ui.form .fields.info .field .checkbox label:after
-                    -- .ui.form .field.info .checkbox label:after
-                    -- .ui.form .fields.info .field .checkbox .box:after
-                    -- .ui.form .field.info .checkbox .box:after
-                    color (hex "#276f86")
-
-                Warning ->
-                    -- .ui.form .fields.warning .field .checkbox label:after
-                    -- .ui.form .field.warning .checkbox label:after
-                    -- .ui.form .fields.warning .field .checkbox .box:after
-                    -- .ui.form .field.warning .checkbox .box:after
-                    color (hex "#573a08")
-
-                Error ->
-                    -- .ui.form .fields.error .field .checkbox label:after
-                    -- .ui.form .field.error .checkbox label:after
-                    -- .ui.form .fields.error .field .checkbox .box:after
-                    -- .ui.form .field.error .checkbox .box:after
-                    color (hex "#9f3a38")
-
-                _ ->
-                    batch []
-            ]
         ]
 
 
