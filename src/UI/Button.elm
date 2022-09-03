@@ -23,10 +23,10 @@ import Css.Global exposing (children, descendants, selector, typeSelector)
 import Css.Layout as Layout exposing (layout)
 import Css.Palette as Palette exposing (hoverColor, setBackground, setColor, textColor)
 import Css.Typography as Typography exposing (setFontStyle, setFontWeight, setLineHeight, setTextDecoration, setTextTransform, typography)
-import Data exposing (PresetColor(..))
 import Data.PalettesByState as PalettesByState exposing (PalettesByState, palettesByState)
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes exposing (css)
+import Types exposing (PresetColor(..))
 
 
 type alias Props =

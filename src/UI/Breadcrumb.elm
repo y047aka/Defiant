@@ -19,11 +19,11 @@ import Css exposing (..)
 import Css.Extra exposing (orNone)
 import Css.Palette as Palette exposing (darkPalette, setColor)
 import Css.Typography as Typography exposing (setFontWeight, typography)
-import Data exposing (Size(..))
 import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Attribute, Html, text)
 import Html.Styled.Attributes exposing (href)
 import Svg.Styled exposing (Attribute)
+import Types exposing (Size(..))
 
 
 type alias BreadcrumbItem =
