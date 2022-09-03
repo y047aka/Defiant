@@ -5,7 +5,7 @@ import Html.Styled as Html exposing (Html, text)
 import Page
 import Request exposing (Request)
 import Shared
-import UI.Table exposing (..)
+import UI.Table exposing (basicTable, tableWithProps, tbody, td, th, thead, tr, veryBasicTable)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
@@ -15,9 +15,9 @@ page _ _ =
         { init = init
         , update = update
         , view =
-            \_ ->
+            \model ->
                 { title = "Table"
-                , body = view
+                , body = view model
                 }
         }
 
@@ -27,12 +27,16 @@ page _ _ =
 
 
 type alias Model =
-    {}
+    { striped : Bool
+    , celled : Bool
+    }
 
 
 init : Model
 init =
-    {}
+    { striped = False
+    , celled = True
+    }
 
 
 
@@ -44,39 +48,23 @@ type Msg
 
 
 update : Msg -> Model -> Model
-update _ model =
-    model
+update msg model =
+    case msg of
+        UpdateConfig configMsg ->
+            Config.update configMsg model
 
 
 
 -- VIEW
 
 
-view : List (Html Msg)
-view =
+view : Model -> List (Html Msg)
+view model =
     [ configAndPreview UpdateConfig
         { title = "Table"
         , preview =
-            [ celledTable []
-                [ thead []
-                    [ tr [] <|
-                        List.map (\item -> th [] [ text item ])
-                            [ "Name", "Age", "Job" ]
-                    ]
-                , tbody [] <|
-                    List.map (\row -> tr [] <| List.map (\d -> td [] [ text d ]) row)
-                        [ [ "James", "24", "Engineer" ]
-                        , [ "Jill", "26", "Engineer" ]
-                        , [ "Elyse", "24", "Designer" ]
-                        ]
-                ]
-            ]
-        , configSections = []
-        }
-    , configAndPreview UpdateConfig
-        { title = "Striped"
-        , preview =
-            [ stripedTable []
+            [ tableWithProps { border = True, striped = model.striped, celled = model.celled, thead = True }
+                []
                 [ thead []
                     [ tr [] <|
                         List.map (\item -> th [] [ text item ])
@@ -95,7 +83,32 @@ view =
                         ]
                 ]
             ]
-        , configSections = []
+        , configSections =
+            [ { label = "Variations"
+              , configs =
+                    [ { label = ""
+                      , config =
+                            Config.bool
+                                { id = "striped"
+                                , label = "Striped"
+                                , bool = model.striped
+                                , setter = \m -> { m | striped = not m.striped }
+                                }
+                      , note = "A table can stripe alternate rows of content with a darker color to increase contrast"
+                      }
+                    , { label = ""
+                      , config =
+                            Config.bool
+                                { id = "celled"
+                                , label = "Celled"
+                                , bool = model.celled
+                                , setter = \m -> { m | celled = not m.celled }
+                                }
+                      , note = "A table may be divided each row into separate cells"
+                      }
+                    ]
+              }
+            ]
         }
     , configAndPreview UpdateConfig
         { title = "Basic"

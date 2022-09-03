@@ -1,12 +1,14 @@
 module UI.Table exposing
-    ( table, stripedTable, celledTable, basicTable, veryBasicTable
+    ( tableWithProps
     , thead, tbody, tfoot, tr, td, th
+    , table, stripedTable, celledTable, basicTable, veryBasicTable
     )
 
 {-|
 
-@docs table, stripedTable, celledTable, basicTable, veryBasicTable
+@docs tableWithProps
 @docs thead, tbody, tfoot, tr, td, th
+@docs table, stripedTable, celledTable, basicTable, veryBasicTable
 
 -}
 
@@ -18,6 +20,15 @@ import Css.Palette as Palette exposing (paletteWith, setBackground, setBorderIf,
 import Css.Typography as Typography exposing (setFontWeight, setTextTransform, typography)
 import Css.Typography_Outdated as Typography_
 import Html.Styled as Html exposing (Attribute, Html)
+
+
+tableWithProps :
+    { border : Bool, striped : Bool, celled : Bool, thead : Bool }
+    -> List (Attribute msg)
+    -> List (Html msg)
+    -> Html msg
+tableWithProps props attributes children =
+    basis props [] attributes children
 
 
 basis :
@@ -148,57 +159,52 @@ basis options additionalStyles =
 
 table : List (Attribute msg) -> List (Html msg) -> Html msg
 table =
-    basis
+    tableWithProps
         { border = True
         , striped = False
         , celled = False
         , thead = True
         }
-        []
 
 
 stripedTable : List (Attribute msg) -> List (Html msg) -> Html msg
 stripedTable =
-    basis
+    tableWithProps
         { border = True
         , striped = True
         , celled = False
         , thead = True
         }
-        []
 
 
 celledTable : List (Attribute msg) -> List (Html msg) -> Html msg
 celledTable =
-    basis
+    tableWithProps
         { border = True
         , striped = False
         , celled = True
         , thead = True
         }
-        []
 
 
 basicTable : List (Attribute msg) -> List (Html msg) -> Html msg
 basicTable =
-    basis
+    tableWithProps
         { border = True
         , striped = False
         , celled = False
         , thead = False
         }
-        []
 
 
 veryBasicTable : List (Attribute msg) -> List (Html msg) -> Html msg
 veryBasicTable =
-    basis
+    tableWithProps
         { border = False
         , striped = False
         , celled = False
         , thead = False
         }
-        []
 
 
 thead : List (Attribute msg) -> List (Html msg) -> Html msg
