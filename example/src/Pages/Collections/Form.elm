@@ -2,7 +2,7 @@ module Pages.Collections.Form exposing (Model, Msg, page)
 
 import Config
 import Html.Styled as Html exposing (Html, text)
-import Html.Styled.Attributes exposing (for, id, name, placeholder, rows, tabindex, type_)
+import Html.Styled.Attributes exposing (for, id, placeholder, rows, tabindex, type_)
 import Page
 import Request exposing (Request)
 import Shared
@@ -59,70 +59,72 @@ update msg model =
 
 view : Model -> List (Html Msg)
 view model =
-    let
-        fieldsWithState options =
-            [ twoFields []
-                [ field
-                    { type_ = "text"
-                    , label = "First Name"
-                    , state = options.state
-                    }
-                    []
-                    [ Form.input { state = options.state } [ type_ "text", placeholder "First Name" ] [] ]
-                , field
-                    { type_ = "text"
-                    , label = "Last Name"
-                    , state = Default
-                    }
-                    []
-                    [ Form.input { state = Default } [ type_ "text", placeholder "Last Name" ] [] ]
-                ]
-            , field
-                { type_ = "checkbox"
-                , label = ""
-                , state = options.state
-                }
-                []
-                [ checkboxWrapper []
-                    [ Checkbox.input [ id options.id, type_ "checkbox", tabindex 0 ] []
-                    , checkboxLabel { state = options.state } [ for options.id ] [ text "I agree to the Terms and Conditions" ]
-                    ]
-                ]
-            ]
-    in
     [ configAndPreview UpdateConfig
         { title = "Form"
         , preview =
             [ form []
-                [ field
-                    { type_ = "text"
-                    , label = "First Name"
-                    , state = Default
-                    }
-                    []
-                    [ Form.input { state = Default } [ type_ "text", name "first-name", placeholder "First Name" ] [] ]
-                , field
-                    { type_ = "text"
-                    , label = "Last Name"
-                    , state = Default
-                    }
-                    []
-                    [ Form.input { state = Default } [ type_ "text", name "last-name", placeholder "Last Name" ] [] ]
+                [ twoFields []
+                    [ field
+                        { type_ = "text"
+                        , label = "First Name"
+                        , state = model.state
+                        }
+                        []
+                        [ Form.input { state = model.state } [ type_ "text", placeholder "First Name" ] [] ]
+                    , field
+                        { type_ = "text"
+                        , label = "Last Name"
+                        , state = Default
+                        }
+                        []
+                        [ Form.input { state = Default } [ type_ "text", placeholder "Last Name" ] [] ]
+                    ]
                 , field
                     { type_ = "checkbox"
                     , label = ""
-                    , state = Default
+                    , state = model.state
                     }
                     []
                     [ checkboxWrapper []
-                        [ Checkbox.input [ id "checkbox_example_1", type_ "checkbox", tabindex 0 ] []
-                        , checkboxLabel { state = Default } [ for "checkbox_example_1" ] [ text "I agree to the Terms and Conditions" ]
+                        [ Checkbox.input [ id "state_example", type_ "checkbox", tabindex 0 ] []
+                        , checkboxLabel { state = model.state } [ for "state_example" ] [ text "I agree to the Terms and Conditions" ]
                         ]
                     ]
                 , button [ type_ "submit" ] [ text "Submit" ]
                 ]
             ]
-        , configSections = []
+        , configSections =
+            [ { label = "Form States"
+              , configs =
+                    [ { label = ""
+                      , config =
+                            Config.select
+                                { value = model.state
+                                , options = [ Default, Error, Warning, Success, Info ]
+                                , fromString = Form.stateFromString
+                                , toString = Form.stateToString
+                                , setter = \state m -> { m | state = state }
+                                }
+                      , note =
+                            case model.state of
+                                Error ->
+                                    "Individual fields may display an error state"
+
+                                Warning ->
+                                    "Individual fields may display a warning state"
+
+                                Success ->
+                                    "Individual fields may display a Success state"
+
+                                Info ->
+                                    "Individual fields may display an informational state"
+
+                                Default ->
+                                    ""
+                      }
+                    ]
+              }
+            ]
         }
     , configAndPreview UpdateConfig
         { title = "Field"
@@ -241,41 +243,5 @@ view model =
                 ]
             ]
         , configSections = []
-        }
-    , configAndPreview UpdateConfig
-        { title = "Form States"
-        , preview = [ form [] (fieldsWithState { id = "state_example", state = model.state }) ]
-        , configSections =
-            [ { label = "Form States"
-              , configs =
-                    [ { label = ""
-                      , config =
-                            Config.select
-                                { value = model.state
-                                , options = [ Default, Error, Warning, Success, Info ]
-                                , fromString = Form.stateFromString
-                                , toString = Form.stateToString
-                                , setter = \state m -> { m | state = state }
-                                }
-                      , note =
-                            case model.state of
-                                Error ->
-                                    "Individual fields may display an error state"
-
-                                Warning ->
-                                    "Individual fields may display a warning state"
-
-                                Success ->
-                                    "Individual fields may display a Success state"
-
-                                Info ->
-                                    "Individual fields may display an informational state"
-
-                                Default ->
-                                    ""
-                      }
-                    ]
-              }
-            ]
         }
     ]
