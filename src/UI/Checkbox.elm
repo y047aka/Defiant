@@ -1,4 +1,4 @@
-module UI.Checkbox exposing (checkbox, labelBasis)
+module UI.Checkbox exposing (checkbox, checkboxWithProps)
 
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
@@ -11,7 +11,7 @@ import Html.Styled.Events exposing (onClick)
 import Types exposing (FormState(..))
 
 
-checkbox :
+checkboxWithProps :
     { id : String
     , label : String
     , checked : Bool
@@ -19,17 +19,34 @@ checkbox :
     , onClick : msg
     }
     -> Html msg
-checkbox options =
+checkboxWithProps props =
     checkboxWrapper []
         [ input
-            [ id options.id
+            [ id props.id
             , type_ "checkbox"
-            , Attributes.checked options.checked
-            , onClick options.onClick
+            , Attributes.checked props.checked
+            , onClick props.onClick
             ]
             []
-        , label { state = options.state } [ for options.id ] [ text options.label ]
+        , label { state = props.state } [ for props.id ] [ text props.label ]
         ]
+
+
+checkbox :
+    { id : String
+    , label : String
+    , checked : Bool
+    , onClick : msg
+    }
+    -> Html msg
+checkbox props =
+    checkboxWithProps
+        { id = props.id
+        , label = props.label
+        , checked = props.checked
+        , state = Default
+        , onClick = props.onClick
+        }
 
 
 checkboxWrapper : List (Attribute msg) -> List (Html msg) -> Html msg

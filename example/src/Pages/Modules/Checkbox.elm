@@ -68,7 +68,6 @@ view model =
                 { id = "checkbox_example"
                 , label = "Make my profile visible"
                 , checked = model.checked
-                , state = Default
                 , onClick = ToggleChecked
                 }
             ]

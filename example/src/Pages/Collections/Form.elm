@@ -94,7 +94,7 @@ view model =
                     , state = model.state
                     }
                     []
-                    [ Checkbox.checkbox
+                    [ Checkbox.checkboxWithProps
                         { id = "state_example"
                         , label = "I agree to the Terms and Conditions"
                         , checked = model.checked
@@ -251,7 +251,6 @@ view model =
                         { id = "checkbox_example_2"
                         , label = "Checkbox"
                         , checked = model.checked
-                        , state = Default
                         , onClick = ToggleChecked
                         }
                     ]
