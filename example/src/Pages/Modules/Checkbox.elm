@@ -15,9 +15,9 @@ page _ _ =
         { init = init
         , update = update
         , view =
-            \_ ->
+            \model ->
                 { title = "Checkbox"
-                , body = view
+                , body = view model
                 }
         }
 
@@ -27,12 +27,12 @@ page _ _ =
 
 
 type alias Model =
-    {}
+    { checked : Bool }
 
 
 init : Model
 init =
-    {}
+    { checked = False }
 
 
 
@@ -40,29 +40,34 @@ init =
 
 
 type Msg
-    = NoOp
+    = ToggleChecked
     | UpdateConfig (Config.Msg Model)
 
 
 update : Msg -> Model -> Model
-update _ model =
-    model
+update msg model =
+    case msg of
+        ToggleChecked ->
+            { model | checked = not model.checked }
+
+        UpdateConfig _ ->
+            model
 
 
 
 -- VIEW
 
 
-view : List (Html Msg)
-view =
+view : Model -> List (Html Msg)
+view model =
     [ configAndPreview UpdateConfig
         { title = "Checkbox"
         , preview =
             [ checkbox
                 { id = "checkbox_example"
                 , label = "Make my profile visible"
-                , checked = False
-                , onClick = NoOp
+                , checked = model.checked
+                , onClick = ToggleChecked
                 }
             ]
         , configSections = []
