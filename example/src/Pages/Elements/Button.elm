@@ -33,6 +33,7 @@ page _ _ =
 
 type alias Model =
     { counter : Int
+    , label : String
     , color : Color
     }
 
@@ -47,6 +48,7 @@ type Color
 init : Model
 init =
     { counter = 0
+    , label = "Button"
     , color = Default
     }
 
@@ -101,10 +103,23 @@ view model =
                 , additionalStyles = []
                 }
                 []
-                [ text "Follow" ]
+                [ text model.label ]
             ]
         , configSections =
-            [ { label = "Variations"
+            [ { label = "Content"
+              , configs =
+                    [ { label = "Label"
+                      , config =
+                            Config.string
+                                { label = ""
+                                , value = model.label
+                                , setter = \string m -> { m | label = string }
+                                }
+                      , note = ""
+                      }
+                    ]
+              }
+            , { label = "Variations"
               , configs =
                     [ { label = "Color"
                       , config =
@@ -126,22 +141,6 @@ view model =
         , preview =
             [ button [] [ text "Button" ]
             , button [] [ text "Focusable" ]
-            ]
-        , configSections = []
-        }
-    , configAndPreview UpdateConfig
-        { title = "Emphasis"
-        , preview =
-            [ primaryButton [] [ text "Save" ]
-            , button [] [ text "Discard" ]
-            ]
-        , configSections = []
-        }
-    , configAndPreview UpdateConfig
-        { title = ""
-        , preview =
-            [ secondaryButton [] [ text "Okay" ]
-            , button [] [ text "Cancel" ]
             ]
         , configSections = []
         }
