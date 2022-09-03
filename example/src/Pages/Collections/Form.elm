@@ -6,9 +6,10 @@ import Html.Styled.Attributes exposing (for, id, placeholder, rows, tabindex, ty
 import Page
 import Request exposing (Request)
 import Shared
+import Types exposing (FormState(..), formStateFromString, formStateToString)
 import UI.Button exposing (button)
 import UI.Checkbox as Checkbox exposing (checkboxWrapper)
-import UI.Form as Form exposing (State(..), checkboxLabel, field, fields, form, textarea, threeFields, twoFields)
+import UI.Form as Form exposing (checkboxLabel, field, fields, form, textarea, threeFields, twoFields)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
@@ -30,7 +31,7 @@ page _ _ =
 
 
 type alias Model =
-    { state : State }
+    { state : FormState }
 
 
 init : Model
@@ -101,8 +102,8 @@ view model =
                             Config.select
                                 { value = model.state
                                 , options = [ Default, Error, Warning, Success, Info ]
-                                , fromString = Form.stateFromString
-                                , toString = Form.stateToString
+                                , fromString = formStateFromString
+                                , toString = formStateToString
                                 , setter = \state m -> { m | state = state }
                                 }
                       , note =

@@ -1,12 +1,14 @@
 module Types exposing
     ( Size(..), sizeFromString, sizeToString
     , PresetColor(..), colorFromString, colorToString
+    , FormState(..), formStateFromString, formStateToString
     )
 
 {-|
 
 @docs Size, sizeFromString, sizeToString
 @docs PresetColor, colorFromString, colorToString
+@docs FormState, formStateFromString, formStateToString
 
 -}
 
@@ -190,3 +192,56 @@ colorToString color =
 
         Black ->
             "Black"
+
+
+
+-- FormState
+
+
+type FormState
+    = Default
+    | Success
+    | Info
+    | Warning
+    | Error
+
+
+formStateFromString : String -> Maybe FormState
+formStateFromString string =
+    case string of
+        "Default" ->
+            Just Default
+
+        "Success" ->
+            Just Success
+
+        "Info" ->
+            Just Info
+
+        "Warning" ->
+            Just Warning
+
+        "Error" ->
+            Just Error
+
+        _ ->
+            Nothing
+
+
+formStateToString : FormState -> String
+formStateToString state =
+    case state of
+        Default ->
+            "Default"
+
+        Success ->
+            "Success"
+
+        Info ->
+            "Info"
+
+        Warning ->
+            "Warning"
+
+        Error ->
+            "Error"

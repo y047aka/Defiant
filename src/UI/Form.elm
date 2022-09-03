@@ -1,12 +1,10 @@
 module UI.Form exposing
-    ( State(..)
-    , form
+    ( form
     , fields, twoFields, threeFields
     , field
     , label
     , input, textarea
     , checkboxLabel
-    , stateFromString, stateToString
     )
 
 {-|
@@ -19,8 +17,6 @@ module UI.Form exposing
 @docs input, textarea
 @docs checkboxLabel
 
-@docs stateFromString, stateToString
-
 -}
 
 import Css exposing (..)
@@ -30,6 +26,7 @@ import Css.Media as Media exposing (only, screen, withMedia)
 import Css.Palette as Palette exposing (palette, paletteWith, setBackground, setBorder, setColor, setShadow)
 import Css.Typography as Typography exposing (setFontSize, setFontWeight, setLineHeight, setTextTransform, typography)
 import Html.Styled as Html exposing (Attribute, Html, text)
+import Types exposing (FormState(..))
 import UI.Checkbox
 
 
@@ -37,14 +34,6 @@ type FieldType
     = Text String
     | Textarea
     | Checkbox
-
-
-type State
-    = Default
-    | Success
-    | Info
-    | Warning
-    | Error
 
 
 form : List (Attribute msg) -> List (Html msg) -> Html msg
@@ -149,7 +138,7 @@ threeFields =
     equallyDivideFields 3
 
 
-fieldBasis : State -> List (Attribute msg) -> List (Html msg) -> Html msg
+fieldBasis : FormState -> List (Attribute msg) -> List (Html msg) -> Html msg
 fieldBasis state =
     Html.styled Html.div
         [ -- .ui.form .field
@@ -164,7 +153,7 @@ fieldBasis state =
         ]
 
 
-field : { type_ : String, label : String, state : State } -> List (Attribute msg) -> List (Html msg) -> Html msg
+field : { type_ : String, label : String, state : FormState } -> List (Attribute msg) -> List (Html msg) -> Html msg
 field options attributes children =
     let
         fieldType =
@@ -183,7 +172,7 @@ field options attributes children =
         (label_ :: children)
 
 
-label : { state : State } -> List (Attribute msg) -> List (Html msg) -> Html msg
+label : { state : FormState } -> List (Attribute msg) -> List (Html msg) -> Html msg
 label { state } =
     Html.styled Html.label
         [ -- .ui.form .field > label
@@ -202,7 +191,7 @@ label { state } =
         ]
 
 
-input : { state : State } -> List (Attribute msg) -> List (Html msg) -> Html msg
+input : { state : FormState } -> List (Attribute msg) -> List (Html msg) -> Html msg
 input { state } =
     -- .ui.form input:not([type])
     -- .ui.form input[type="date"]
@@ -259,7 +248,7 @@ input { state } =
         ]
 
 
-textarea : { state : State } -> List (Attribute msg) -> List (Html msg) -> Html msg
+textarea : { state : FormState } -> List (Attribute msg) -> List (Html msg) -> Html msg
 textarea { state } =
     Html.styled Html.textarea
         [ -- .ui.form textarea
@@ -315,7 +304,7 @@ textarea { state } =
         ]
 
 
-checkboxLabel : { state : State } -> List (Attribute msg) -> List (Html msg) -> Html msg
+checkboxLabel : { state : FormState } -> List (Attribute msg) -> List (Html msg) -> Html msg
 checkboxLabel { state } =
     UI.Checkbox.labelBasis
         [ case state of
@@ -451,7 +440,7 @@ fromString type_ =
             Text type_
 
 
-colorByState : State -> Style
+colorByState : FormState -> Style
 colorByState state =
     case state of
         Success ->
@@ -486,7 +475,7 @@ colorByState state =
             batch []
 
 
-stylesByState : State -> List Style
+stylesByState : FormState -> List Style
 stylesByState state =
     let
         paletteByState =
@@ -534,48 +523,3 @@ stylesByState state =
         , prefixed [] "box-shadow" "none"
         ]
     ]
-
-
-
--- HELPER
-
-
-stateFromString : String -> Maybe State
-stateFromString string =
-    case string of
-        "Default" ->
-            Just Default
-
-        "Success" ->
-            Just Success
-
-        "Info" ->
-            Just Info
-
-        "Warning" ->
-            Just Warning
-
-        "Error" ->
-            Just Error
-
-        _ ->
-            Nothing
-
-
-stateToString : State -> String
-stateToString state =
-    case state of
-        Default ->
-            "Default"
-
-        Success ->
-            "Success"
-
-        Info ->
-            "Info"
-
-        Warning ->
-            "Warning"
-
-        Error ->
-            "Error"
