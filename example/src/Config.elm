@@ -64,7 +64,7 @@ bool :
     }
     -> Html (Msg model)
 bool c =
-    Checkbox.checkbox
+    Checkbox.toggleCheckbox
         { id = c.id
         , label = c.label
         , checked = c.bool
