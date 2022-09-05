@@ -220,6 +220,13 @@ labelBasis additionalStyles =
                 [ color (rgba 0 0 0 0.95) ]
             ]
 
+        -- .ui.checkbox input.hidden + label
+        , cursor pointer
+        , property "-webkit-user-select" "none"
+        , property "-moz-user-select" "none"
+        , property "-ms-user-select" "none"
+        , property "user-select" "none"
+
         -- AdditionalStyles
         , batch additionalStyles
         ]
