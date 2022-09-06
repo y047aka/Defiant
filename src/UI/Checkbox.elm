@@ -15,6 +15,7 @@ checkboxWithProps :
     { id : String
     , label : String
     , checked : Bool
+    , disabled : Bool
     , state : FormState
     , onClick : msg
     }
@@ -26,6 +27,7 @@ checkboxWithProps props =
             [ id props.id
             , type_ "checkbox"
             , Attributes.checked props.checked
+            , Attributes.disabled props.disabled
             , onClick props.onClick
             ]
             []
@@ -37,6 +39,7 @@ checkbox :
     { id : String
     , label : String
     , checked : Bool
+    , disabled : Bool
     , onClick : msg
     }
     -> Html msg
@@ -45,6 +48,7 @@ checkbox props =
         { id = props.id
         , label = props.label
         , checked = props.checked
+        , disabled = props.disabled
         , state = Default
         , onClick = props.onClick
         }
@@ -138,6 +142,19 @@ inputBasis additionalStyles =
                     -- .ui.checkbox input:checked ~ label:after
                     , after
                         [ property "content" "url(\"data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='black' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e\")" ]
+                    ]
+                ]
+            ]
+
+        -- .ui.disabled.checkbox label
+        -- .ui.checkbox input[disabled] ~ label
+        , disabled
+            [ generalSiblings
+                [ Css.Global.label
+                    [ cursor default
+                    , opacity (num 0.5)
+                    , color (hex "#000000")
+                    , pointerEvents none
                     ]
                 ]
             ]
@@ -366,6 +383,7 @@ toggleCheckbox :
     { id : String
     , label : String
     , checked : Bool
+    , disabled : Bool
     , onClick : msg
     }
     -> Html msg
@@ -375,6 +393,7 @@ toggleCheckbox props =
             [ id props.id
             , type_ "checkbox"
             , Attributes.checked props.checked
+            , Attributes.disabled props.disabled
             , onClick props.onClick
             ]
             []

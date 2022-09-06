@@ -68,6 +68,7 @@ bool c =
         { id = c.id
         , label = c.label
         , checked = c.bool
+        , disabled = False
         , onClick = Update c.setter
         }
 

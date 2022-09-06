@@ -28,12 +28,12 @@ page _ _ =
 
 
 type alias Model =
-    { checked : Bool }
+    { checked : Bool, disabled : Bool }
 
 
 init : Model
 init =
-    { checked = False }
+    { checked = False, disabled = False }
 
 
 
@@ -51,8 +51,8 @@ update msg model =
         ToggleChecked ->
             { model | checked = not model.checked }
 
-        UpdateConfig _ ->
-            model
+        UpdateConfig configMsg ->
+            Config.update configMsg model
 
 
 
@@ -68,10 +68,26 @@ view model =
                 { id = "checkbox_example"
                 , label = "Make my profile visible"
                 , checked = model.checked
+                , disabled = model.disabled
                 , onClick = ToggleChecked
                 }
             ]
-        , configSections = []
+        , configSections =
+            [ { label = "Disabled"
+              , configs =
+                    [ { label = ""
+                      , config =
+                            Config.bool
+                                { id = "disabled"
+                                , label = "Disabled"
+                                , bool = model.disabled
+                                , setter = \m -> { m | disabled = not m.disabled }
+                                }
+                      , note = "A checkbox can show it is currently unable to be interacted with"
+                      }
+                    ]
+              }
+            ]
         }
     , configAndPreview UpdateConfig
         { title = "Toggle"
@@ -80,6 +96,7 @@ view model =
                 { id = "toggle_example"
                 , label = "Subscribe to weekly newsletter"
                 , checked = model.checked
+                , disabled = model.disabled
                 , onClick = ToggleChecked
                 }
             ]
