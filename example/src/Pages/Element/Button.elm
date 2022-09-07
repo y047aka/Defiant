@@ -1,4 +1,4 @@
-module Pages.Elements.Button exposing (Model, Msg, page)
+module Pages.Element.Button exposing (Model, Msg, page)
 
 import Config
 import Data.PalettesByState as PalettesByState

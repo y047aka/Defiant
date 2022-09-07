@@ -1,4 +1,4 @@
-module Pages.Elements.Header exposing (Model, Msg, page)
+module Pages.Element.Header exposing (Model, Msg, page)
 
 import Config
 import Html.Styled as Html exposing (Html, text)

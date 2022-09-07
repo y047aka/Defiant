@@ -1,4 +1,4 @@
-module Pages.Modules.Dimmer exposing (Model, Msg, page)
+module Pages.Element.Dimmer exposing (Model, Msg, page)
 
 import Config
 import Data.Theme exposing (Theme(..))

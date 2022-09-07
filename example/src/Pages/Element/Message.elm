@@ -1,4 +1,4 @@
-module Pages.Views.Message exposing (Model, Msg, page)
+module Pages.Element.Message exposing (Model, Msg, page)
 
 import Config
 import Html.Styled as Html exposing (Html, div, p, text)

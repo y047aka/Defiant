@@ -27,7 +27,7 @@ summariesByCagetgory =
         (\category ->
             ( category, List.filter (.category >> (==) category) all )
         )
-        [ Globals, Layout, Elements, Navigation, Form, DataDisplay, Views, Modules ]
+        [ Global, Layout, Element, Navigation, Form, DataDisplay ]
 
 
 all : List PageSummary
@@ -44,12 +44,14 @@ all =
 
     -- Elements
     , buttonPage
+    , dimmerPage
     , dividerPage
     , headerPage
     , iconPage
     , imagePage
     , labelPage
     , loaderPage
+    , messagePage
     , placeholderPage
     , segmentPage
     , textPage
@@ -73,12 +75,6 @@ all =
     , itemPage
     , sortableDataPage
     , tablePage
-
-    -- Views
-    , messagePage
-
-    -- Modules
-    , dimmerPage
     ]
 
 
@@ -86,8 +82,8 @@ sitePage : PageSummary
 sitePage =
     { title = "Site"
     , description = "A site is a set of global constraints that define the basic parameters of all UI elements"
-    , category = Globals
-    , route = Route.Globals__Site
+    , category = Global
+    , route = Route.Global__Site
     }
 
 
@@ -140,8 +136,17 @@ buttonPage : PageSummary
 buttonPage =
     { title = "Button"
     , description = "A button indicates a possible user action"
-    , category = Elements
-    , route = Route.Elements__Button
+    , category = Element
+    , route = Route.Element__Button
+    }
+
+
+dimmerPage : PageSummary
+dimmerPage =
+    { title = "Dimmer"
+    , description = "A dimmer hides distractions to focus attention on particular content"
+    , category = Element
+    , route = Route.Element__Dimmer
     }
 
 
@@ -149,8 +154,8 @@ dividerPage : PageSummary
 dividerPage =
     { title = "Divider"
     , description = "A divider visually segments content into groups"
-    , category = Elements
-    , route = Route.Elements__Divider
+    , category = Element
+    , route = Route.Element__Divider
     }
 
 
@@ -158,8 +163,8 @@ headerPage : PageSummary
 headerPage =
     { title = "Header"
     , description = "A header provides a short summary of content"
-    , category = Elements
-    , route = Route.Elements__Header
+    , category = Element
+    , route = Route.Element__Header
     }
 
 
@@ -167,8 +172,8 @@ iconPage : PageSummary
 iconPage =
     { title = "Icon"
     , description = "An icon is a glyph used to represent something else"
-    , category = Elements
-    , route = Route.Elements__Icon
+    , category = Element
+    , route = Route.Element__Icon
     }
 
 
@@ -176,8 +181,8 @@ imagePage : PageSummary
 imagePage =
     { title = "Image"
     , description = "An image is a graphic representation of something"
-    , category = Elements
-    , route = Route.Elements__Image
+    , category = Element
+    , route = Route.Element__Image
     }
 
 
@@ -185,8 +190,8 @@ labelPage : PageSummary
 labelPage =
     { title = "Label"
     , description = "A label displays content classification"
-    , category = Elements
-    , route = Route.Elements__Label
+    , category = Element
+    , route = Route.Element__Label
     }
 
 
@@ -194,8 +199,17 @@ loaderPage : PageSummary
 loaderPage =
     { title = "Loader"
     , description = "A loader alerts a user to wait for an activity to complete"
-    , category = Elements
-    , route = Route.Elements__Loader
+    , category = Element
+    , route = Route.Element__Loader
+    }
+
+
+messagePage : PageSummary
+messagePage =
+    { title = "Message"
+    , description = "A message displays information that explains nearby content"
+    , category = Element
+    , route = Route.Element__Message
     }
 
 
@@ -203,8 +217,8 @@ placeholderPage : PageSummary
 placeholderPage =
     { title = "Placeholder"
     , description = "A placeholder is used to reserve splace for content that soon will appear in a layout"
-    , category = Elements
-    , route = Route.Elements__Placeholder
+    , category = Element
+    , route = Route.Element__Placeholder
     }
 
 
@@ -212,8 +226,8 @@ segmentPage : PageSummary
 segmentPage =
     { title = "Segment"
     , description = "A segment is used to create a grouping of related content"
-    , category = Elements
-    , route = Route.Elements__Segment
+    , category = Element
+    , route = Route.Element__Segment
     }
 
 
@@ -221,8 +235,8 @@ textPage : PageSummary
 textPage =
     { title = "Text"
     , description = "A text is used to style some inline text with a simple color"
-    , category = Elements
-    , route = Route.Elements__Text
+    , category = Element
+    , route = Route.Element__Text
     }
 
 
@@ -352,38 +366,18 @@ tablePage =
     }
 
 
-messagePage : PageSummary
-messagePage =
-    { title = "Message"
-    , description = "A message displays information that explains nearby content"
-    , category = Views
-    , route = Route.Views__Message
-    }
-
-
-dimmerPage : PageSummary
-dimmerPage =
-    { title = "Dimmer"
-    , description = "A dimmer hides distractions to focus attention on particular content"
-    , category = Modules
-    , route = Route.Modules__Dimmer
-    }
-
-
 
 -- Category
 
 
 type Category
     = None
-    | Globals
+    | Global
     | Layout
-    | Elements
+    | Element
     | Navigation
     | Form
     | DataDisplay
-    | Views
-    | Modules
 
 
 categoryToString : Category -> String
@@ -392,14 +386,14 @@ categoryToString category =
         None ->
             "None"
 
-        Globals ->
-            "Globals"
+        Global ->
+            "Global"
 
         Layout ->
             "Layout"
 
-        Elements ->
-            "Elements"
+        Element ->
+            "Element"
 
         Navigation ->
             "Navigation"
@@ -409,9 +403,3 @@ categoryToString category =
 
         DataDisplay ->
             "Data Display"
-
-        Views ->
-            "Views"
-
-        Modules ->
-            "Modules"

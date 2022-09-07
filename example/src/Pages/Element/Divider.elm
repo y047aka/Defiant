@@ -1,4 +1,4 @@
-module Pages.Elements.Divider exposing (Model, Msg, page)
+module Pages.Element.Divider exposing (Model, Msg, page)
 
 import Config
 import Html.Styled as Html exposing (Html)

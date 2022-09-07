@@ -1,4 +1,4 @@
-module Pages.Elements.Segment exposing (Model, Msg, page)
+module Pages.Element.Segment exposing (Model, Msg, page)
 
 import Config
 import Html.Styled as Html exposing (Html, p, text)

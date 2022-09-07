@@ -1,4 +1,4 @@
-module Pages.Elements.Loader exposing (Model, Msg, page)
+module Pages.Element.Loader exposing (Model, Msg, page)
 
 import Config
 import Data.Theme exposing (Theme(..))

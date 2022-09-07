@@ -1,4 +1,4 @@
-module Pages.Elements.Icon exposing (Model, Msg, page)
+module Pages.Element.Icon exposing (Model, Msg, page)
 
 import Config
 import Css exposing (..)

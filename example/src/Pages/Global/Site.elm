@@ -1,4 +1,4 @@
-module Pages.Globals.Site exposing (Model, Msg, page)
+module Pages.Global.Site exposing (Model, Msg, page)
 
 import Config
 import Html.Styled as Html exposing (Html, h1, h2, h3, h4, h5, p, text)

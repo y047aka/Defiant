@@ -1,4 +1,4 @@
-module Pages.Elements.Label exposing (Model, Msg, page)
+module Pages.Element.Label exposing (Model, Msg, page)
 
 import Config
 import Data.PalettesByState as PalettesByState

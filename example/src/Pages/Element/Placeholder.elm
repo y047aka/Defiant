@@ -1,12 +1,11 @@
-module Pages.Elements.Image exposing (Model, Msg, page)
+module Pages.Element.Placeholder exposing (Model, Msg, page)
 
 import Config
 import Html.Styled as Html exposing (Html)
-import Html.Styled.Attributes exposing (src)
 import Page
 import Request exposing (Request)
 import Shared
-import UI.Image exposing (smallImage)
+import UI.Placeholder as Placeholder exposing (line)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
@@ -17,7 +16,7 @@ page _ _ =
         , update = update
         , view =
             \_ ->
-                { title = "Image"
+                { title = "Placeholder"
                 , body = view
                 }
         }
@@ -56,8 +55,16 @@ update _ model =
 view : List (Html Msg)
 view =
     [ configAndPreview UpdateConfig
-        { title = "Image"
-        , preview = [ smallImage [ src "/static/images/wireframe/image.png" ] [] ]
+        { title = "Lines"
+        , preview =
+            [ Placeholder.placeholder []
+                [ line [] []
+                , line [] []
+                , line [] []
+                , line [] []
+                , line [] []
+                ]
+            ]
         , configSections = []
         }
     ]
