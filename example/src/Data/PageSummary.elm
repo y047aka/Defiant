@@ -27,7 +27,7 @@ summariesByCagetgory =
         (\category ->
             ( category, List.filter (.category >> (==) category) all )
         )
-        [ Globals, Elements, Collections, Views, Modules, Defiant ]
+        [ Globals, Elements, Views, Modules, Defiant ]
 
 
 all : List PageSummary
@@ -52,17 +52,15 @@ all =
     , circleStepPage
     , textPage
 
-    -- Collections
+    -- Views
     , breadcrumbPage
+    , cardPage
     , formPage
     , gridPage
+    , itemPage
     , menuPage
     , messagePage
     , tablePage
-
-    -- Views
-    , cardPage
-    , itemPage
 
     -- Modules
     , accordionPage
@@ -226,53 +224,8 @@ breadcrumbPage : PageSummary
 breadcrumbPage =
     { title = "Breadcrumb"
     , description = "A breadcrumb is used to show hierarchy between content"
-    , category = Collections
-    , route = Route.Collections__Breadcrumb
-    }
-
-
-formPage : PageSummary
-formPage =
-    { title = "Form"
-    , description = "A form displays a set of related user input fields in a structured way"
-    , category = Collections
-    , route = Route.Collections__Form
-    }
-
-
-gridPage : PageSummary
-gridPage =
-    { title = "Grid"
-    , description = "A grid is used to harmonize negative space in a layout"
-    , category = Collections
-    , route = Route.Collections__Grid
-    }
-
-
-menuPage : PageSummary
-menuPage =
-    { title = "Menu"
-    , description = "A menu displays grouped navigation actions"
-    , category = Collections
-    , route = Route.Collections__Menu
-    }
-
-
-messagePage : PageSummary
-messagePage =
-    { title = "Message"
-    , description = "A message displays information that explains nearby content"
-    , category = Collections
-    , route = Route.Collections__Message
-    }
-
-
-tablePage : PageSummary
-tablePage =
-    { title = "Table"
-    , description = "A table displays a collections of data grouped into rows"
-    , category = Collections
-    , route = Route.Collections__Table
+    , category = Views
+    , route = Route.Views__Breadcrumb
     }
 
 
@@ -285,12 +238,57 @@ cardPage =
     }
 
 
+formPage : PageSummary
+formPage =
+    { title = "Form"
+    , description = "A form displays a set of related user input fields in a structured way"
+    , category = Views
+    , route = Route.Views__Form
+    }
+
+
+gridPage : PageSummary
+gridPage =
+    { title = "Grid"
+    , description = "A grid is used to harmonize negative space in a layout"
+    , category = Views
+    , route = Route.Views__Grid
+    }
+
+
 itemPage : PageSummary
 itemPage =
     { title = "Item"
     , description = "An item view presents large collections of site content for display"
     , category = Views
     , route = Route.Views__Item
+    }
+
+
+menuPage : PageSummary
+menuPage =
+    { title = "Menu"
+    , description = "A menu displays grouped navigation actions"
+    , category = Views
+    , route = Route.Views__Menu
+    }
+
+
+messagePage : PageSummary
+messagePage =
+    { title = "Message"
+    , description = "A message displays information that explains nearby content"
+    , category = Views
+    , route = Route.Views__Message
+    }
+
+
+tablePage : PageSummary
+tablePage =
+    { title = "Table"
+    , description = "A table displays a collections of data grouped into rows"
+    , category = Views
+    , route = Route.Views__Table
     }
 
 
@@ -374,7 +372,6 @@ type Category
     = None
     | Globals
     | Elements
-    | Collections
     | Views
     | Modules
     | Defiant
@@ -391,9 +388,6 @@ categoryToString category =
 
         Elements ->
             "Elements"
-
-        Collections ->
-            "Collections"
 
         Views ->
             "Views"

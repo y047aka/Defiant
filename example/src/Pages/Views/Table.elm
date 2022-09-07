@@ -1,4 +1,4 @@
-module Pages.Collections.Table exposing (Model, Msg, page)
+module Pages.Views.Table exposing (Model, Msg, page)
 
 import Config
 import Html.Styled as Html exposing (Html, text)

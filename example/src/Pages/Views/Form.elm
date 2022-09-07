@@ -1,4 +1,4 @@
-module Pages.Collections.Form exposing (Model, Msg, page)
+module Pages.Views.Form exposing (Model, Msg, page)
 
 import Config
 import Html.Styled as Html exposing (Html, text)
