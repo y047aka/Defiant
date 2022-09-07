@@ -1,4 +1,4 @@
-module Pages.Modules.Checkbox exposing (Model, Msg, page)
+module Pages.Form.Checkbox exposing (Model, Msg, page)
 
 import Config
 import Html.Styled as Html exposing (Html)

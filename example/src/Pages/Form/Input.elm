@@ -1,4 +1,4 @@
-module Pages.Elements.Input exposing (Model, Msg, page)
+module Pages.Form.Input exposing (Model, Msg, page)
 
 import Config
 import Html.Styled as Html exposing (Html, input, text)

@@ -1,4 +1,4 @@
-module Pages.Elements.Rail exposing (page)
+module Pages.Layout.Rail exposing (page)
 
 import Css exposing (..)
 import Html.Styled as Html exposing (Html, text)

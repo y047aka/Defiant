@@ -1,4 +1,4 @@
-module Pages.Views.Item exposing (Model, Msg, page)
+module Pages.DataDisplay.Item exposing (Model, Msg, page)
 
 import Config
 import Html.Styled as Html exposing (Html, span, text)

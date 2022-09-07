@@ -1,4 +1,4 @@
-module Pages.Elements.Step exposing (Model, Msg, Progress(..), page, progressFromString, progressToString)
+module Pages.Navigation.Step exposing (Model, Msg, Progress(..), page, progressFromString, progressToString)
 
 import Config
 import Html.Styled as Html exposing (Html)

@@ -1,9 +1,9 @@
-module Pages.Elements.CircleStep exposing (Model, Msg, page)
+module Pages.Navigation.CircleStep exposing (Model, Msg, page)
 
 import Config
 import Html.Styled as Html exposing (Html)
 import Page
-import Pages.Elements.Step exposing (Progress(..), progressFromString, progressToString)
+import Pages.Navigation.Step exposing (Progress(..), progressFromString, progressToString)
 import Request exposing (Request)
 import Shared
 import UI.CircleStep as CircleStep exposing (State(..))

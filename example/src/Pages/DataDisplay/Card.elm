@@ -1,4 +1,4 @@
-module Pages.Views.Card exposing (Model, Msg, page)
+module Pages.DataDisplay.Card exposing (Model, Msg, page)
 
 import Config
 import Html.Styled as Html exposing (Html, text)

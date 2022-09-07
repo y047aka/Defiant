@@ -1,4 +1,4 @@
-module Pages.Views.Grid exposing (Model, Msg, page)
+module Pages.Layout.Grid exposing (Model, Msg, page)
 
 import Config
 import Css exposing (..)

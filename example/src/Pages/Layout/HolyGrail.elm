@@ -1,4 +1,4 @@
-module Pages.Defiant.HolyGrail exposing (Model, Msg, page)
+module Pages.Layout.HolyGrail exposing (Model, Msg, page)
 
 import Config
 import Html.Styled as Html exposing (Html, text)

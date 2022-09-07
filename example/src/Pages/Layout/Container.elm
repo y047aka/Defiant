@@ -1,4 +1,4 @@
-module Pages.Elements.Container exposing (Model, Msg, page)
+module Pages.Layout.Container exposing (Model, Msg, page)
 
 import Config
 import Html.Styled as Html exposing (Html, a, h2, p, strong, text)

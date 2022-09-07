@@ -1,4 +1,4 @@
-module Pages.Views.Breadcrumb exposing (Model, Msg, page)
+module Pages.Navigation.Breadcrumb exposing (Model, Msg, page)
 
 import Config
 import Data.Theme exposing (Theme(..))

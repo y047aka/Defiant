@@ -1,4 +1,4 @@
-module Pages.Views.Menu exposing (Model, Msg, page)
+module Pages.Navigation.Menu exposing (Model, Msg, page)
 
 import Config
 import Data.Theme exposing (Theme(..))

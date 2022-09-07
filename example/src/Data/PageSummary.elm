@@ -27,7 +27,7 @@ summariesByCagetgory =
         (\category ->
             ( category, List.filter (.category >> (==) category) all )
         )
-        [ Globals, Elements, Views, Modules, Defiant ]
+        [ Globals, Layout, Elements, Navigation, Form, DataDisplay, Views, Modules ]
 
 
 all : List PageSummary
@@ -35,44 +35,50 @@ all =
     [ -- Globals
       sitePage
 
+    -- Layout
+    , containerPage
+    , gridPage
+    , holyGrailPage
+    , modalPage
+    , railPage
+
     -- Elements
     , buttonPage
-    , containerPage
     , dividerPage
     , headerPage
     , iconPage
     , imagePage
-    , inputPage
     , labelPage
     , loaderPage
     , placeholderPage
-    , railPage
     , segmentPage
-    , stepPage
-    , circleStepPage
     , textPage
 
-    -- Views
-    , breadcrumbPage
-    , cardPage
-    , formPage
-    , gridPage
-    , itemPage
-    , menuPage
-    , messagePage
-    , tablePage
-
-    -- Modules
+    -- Navigation
     , accordionPage
-    , checkboxPage
-    , dimmerPage
-    , modalPage
+    , breadcrumbPage
+    , menuPage
+    , stepPage
+    , circleStepPage
     , progressPage
     , tabPage
 
-    -- Defiant
+    -- Form
+    , checkboxPage
+    , inputPage
+    , formPage
+
+    -- DataDisplay
+    , cardPage
+    , itemPage
     , sortableDataPage
-    , holyGrailPage
+    , tablePage
+
+    -- Views
+    , messagePage
+
+    -- Modules
+    , dimmerPage
     ]
 
 
@@ -85,21 +91,57 @@ sitePage =
     }
 
 
+containerPage : PageSummary
+containerPage =
+    { title = "Container"
+    , description = "A container limits content to a maximum width"
+    , category = Layout
+    , route = Route.Layout__Container
+    }
+
+
+gridPage : PageSummary
+gridPage =
+    { title = "Grid"
+    , description = "A grid is used to harmonize negative space in a layout"
+    , category = Layout
+    , route = Route.Layout__Grid
+    }
+
+
+holyGrailPage : PageSummary
+holyGrailPage =
+    { title = "HolyGrail"
+    , description = "Holy grail layout."
+    , category = Layout
+    , route = Route.Layout__HolyGrail
+    }
+
+
+modalPage : PageSummary
+modalPage =
+    { title = "Modal"
+    , description = "A modal displays content that temporarily blocks interactions with the main view of a site"
+    , category = Layout
+    , route = Route.Layout__Modal
+    }
+
+
+railPage : PageSummary
+railPage =
+    { title = "Rail"
+    , description = "A rail is used to show accompanying content outside the boundaries of the main view of a site"
+    , category = Layout
+    , route = Route.Layout__Rail
+    }
+
+
 buttonPage : PageSummary
 buttonPage =
     { title = "Button"
     , description = "A button indicates a possible user action"
     , category = Elements
     , route = Route.Elements__Button
-    }
-
-
-containerPage : PageSummary
-containerPage =
-    { title = "Container"
-    , description = "A container limits content to a maximum width"
-    , category = Elements
-    , route = Route.Elements__Container
     }
 
 
@@ -139,15 +181,6 @@ imagePage =
     }
 
 
-inputPage : PageSummary
-inputPage =
-    { title = "Input"
-    , description = "An input is a field used to elicit a response from a user"
-    , category = Elements
-    , route = Route.Elements__Input
-    }
-
-
 labelPage : PageSummary
 labelPage =
     { title = "Label"
@@ -175,39 +208,12 @@ placeholderPage =
     }
 
 
-railPage : PageSummary
-railPage =
-    { title = "Rail"
-    , description = "A rail is used to show accompanying content outside the boundaries of the main view of a site"
-    , category = Elements
-    , route = Route.Elements__Rail
-    }
-
-
 segmentPage : PageSummary
 segmentPage =
     { title = "Segment"
     , description = "A segment is used to create a grouping of related content"
     , category = Elements
     , route = Route.Elements__Segment
-    }
-
-
-stepPage : PageSummary
-stepPage =
-    { title = "Step"
-    , description = "A step shows the completion status of an activity in a series of activities"
-    , category = Elements
-    , route = Route.Elements__Step
-    }
-
-
-circleStepPage : PageSummary
-circleStepPage =
-    { title = "Circle Step"
-    , description = "A step shows the completion status of an activity in a series of activities"
-    , category = Elements
-    , route = Route.Elements__CircleStep
     }
 
 
@@ -220,48 +226,21 @@ textPage =
     }
 
 
+accordionPage : PageSummary
+accordionPage =
+    { title = "Accordion"
+    , description = "An accordion allows users to toggle the display of sections of content"
+    , category = Navigation
+    , route = Route.Navigation__Accordion
+    }
+
+
 breadcrumbPage : PageSummary
 breadcrumbPage =
     { title = "Breadcrumb"
     , description = "A breadcrumb is used to show hierarchy between content"
-    , category = Views
-    , route = Route.Views__Breadcrumb
-    }
-
-
-cardPage : PageSummary
-cardPage =
-    { title = "Card"
-    , description = "A card displays site content in a manner similar to a playing card"
-    , category = Views
-    , route = Route.Views__Card
-    }
-
-
-formPage : PageSummary
-formPage =
-    { title = "Form"
-    , description = "A form displays a set of related user input fields in a structured way"
-    , category = Views
-    , route = Route.Views__Form
-    }
-
-
-gridPage : PageSummary
-gridPage =
-    { title = "Grid"
-    , description = "A grid is used to harmonize negative space in a layout"
-    , category = Views
-    , route = Route.Views__Grid
-    }
-
-
-itemPage : PageSummary
-itemPage =
-    { title = "Item"
-    , description = "An item view presents large collections of site content for display"
-    , category = Views
-    , route = Route.Views__Item
+    , category = Navigation
+    , route = Route.Navigation__Breadcrumb
     }
 
 
@@ -269,8 +248,107 @@ menuPage : PageSummary
 menuPage =
     { title = "Menu"
     , description = "A menu displays grouped navigation actions"
-    , category = Views
-    , route = Route.Views__Menu
+    , category = Navigation
+    , route = Route.Navigation__Menu
+    }
+
+
+stepPage : PageSummary
+stepPage =
+    { title = "Step"
+    , description = "A step shows the completion status of an activity in a series of activities"
+    , category = Navigation
+    , route = Route.Navigation__Step
+    }
+
+
+circleStepPage : PageSummary
+circleStepPage =
+    { title = "Circle Step"
+    , description = "A step shows the completion status of an activity in a series of activities"
+    , category = Navigation
+    , route = Route.Navigation__CircleStep
+    }
+
+
+progressPage : PageSummary
+progressPage =
+    { title = "Progress"
+    , description = "A progress bar shows the progression of a task"
+    , category = Navigation
+    , route = Route.Navigation__Progress
+    }
+
+
+tabPage : PageSummary
+tabPage =
+    { title = "Tab"
+    , description = "A tab is a hidden section of content activated by a menu"
+    , category = Navigation
+    , route = Route.Navigation__Tab
+    }
+
+
+checkboxPage : PageSummary
+checkboxPage =
+    { title = "Checkbox"
+    , description = "A checkbox allows a user to select a value from a small set of options, often binary"
+    , category = Form
+    , route = Route.Form__Checkbox
+    }
+
+
+inputPage : PageSummary
+inputPage =
+    { title = "Input"
+    , description = "An input is a field used to elicit a response from a user"
+    , category = Form
+    , route = Route.Form__Input
+    }
+
+
+formPage : PageSummary
+formPage =
+    { title = "Form"
+    , description = "A form displays a set of related user input fields in a structured way"
+    , category = Form
+    , route = Route.Form__Form
+    }
+
+
+cardPage : PageSummary
+cardPage =
+    { title = "Card"
+    , description = "A card displays site content in a manner similar to a playing card"
+    , category = DataDisplay
+    , route = Route.DataDisplay__Card
+    }
+
+
+itemPage : PageSummary
+itemPage =
+    { title = "Item"
+    , description = "An item view presents large collections of site content for display"
+    , category = DataDisplay
+    , route = Route.DataDisplay__Item
+    }
+
+
+sortableDataPage : PageSummary
+sortableDataPage =
+    { title = "SortableData"
+    , description = "Sortable data"
+    , category = DataDisplay
+    , route = Route.DataDisplay__SortableData
+    }
+
+
+tablePage : PageSummary
+tablePage =
+    { title = "Table"
+    , description = "A table displays a collections of data grouped into rows"
+    , category = DataDisplay
+    , route = Route.DataDisplay__Table
     }
 
 
@@ -283,84 +361,12 @@ messagePage =
     }
 
 
-tablePage : PageSummary
-tablePage =
-    { title = "Table"
-    , description = "A table displays a collections of data grouped into rows"
-    , category = Views
-    , route = Route.Views__Table
-    }
-
-
-accordionPage : PageSummary
-accordionPage =
-    { title = "Accordion"
-    , description = "An accordion allows users to toggle the display of sections of content"
-    , category = Modules
-    , route = Route.Modules__Accordion
-    }
-
-
-checkboxPage : PageSummary
-checkboxPage =
-    { title = "Checkbox"
-    , description = "A checkbox allows a user to select a value from a small set of options, often binary"
-    , category = Modules
-    , route = Route.Modules__Checkbox
-    }
-
-
 dimmerPage : PageSummary
 dimmerPage =
     { title = "Dimmer"
     , description = "A dimmer hides distractions to focus attention on particular content"
     , category = Modules
     , route = Route.Modules__Dimmer
-    }
-
-
-modalPage : PageSummary
-modalPage =
-    { title = "Modal"
-    , description = "A modal displays content that temporarily blocks interactions with the main view of a site"
-    , category = Modules
-    , route = Route.Modules__Modal
-    }
-
-
-progressPage : PageSummary
-progressPage =
-    { title = "Progress"
-    , description = "A progress bar shows the progression of a task"
-    , category = Modules
-    , route = Route.Modules__Progress
-    }
-
-
-tabPage : PageSummary
-tabPage =
-    { title = "Tab"
-    , description = "A tab is a hidden section of content activated by a menu"
-    , category = Modules
-    , route = Route.Modules__Tab
-    }
-
-
-sortableDataPage : PageSummary
-sortableDataPage =
-    { title = "SortableData"
-    , description = "Sortable data"
-    , category = Defiant
-    , route = Route.Defiant__SortableData
-    }
-
-
-holyGrailPage : PageSummary
-holyGrailPage =
-    { title = "HolyGrail"
-    , description = "Holy grail layout."
-    , category = Defiant
-    , route = Route.Defiant__HolyGrail
     }
 
 
@@ -371,10 +377,13 @@ holyGrailPage =
 type Category
     = None
     | Globals
+    | Layout
     | Elements
+    | Navigation
+    | Form
+    | DataDisplay
     | Views
     | Modules
-    | Defiant
 
 
 categoryToString : Category -> String
@@ -386,14 +395,23 @@ categoryToString category =
         Globals ->
             "Globals"
 
+        Layout ->
+            "Layout"
+
         Elements ->
             "Elements"
+
+        Navigation ->
+            "Navigation"
+
+        Form ->
+            "Form"
+
+        DataDisplay ->
+            "Data Display"
 
         Views ->
             "Views"
 
         Modules ->
             "Modules"
-
-        Defiant ->
-            "Defiant"

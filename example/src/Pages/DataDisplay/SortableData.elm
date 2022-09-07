@@ -1,4 +1,4 @@
-module Pages.Defiant.SortableData exposing (Model, Msg, page)
+module Pages.DataDisplay.SortableData exposing (Model, Msg, page)
 
 import Config
 import Data.Theme exposing (Theme(..))
