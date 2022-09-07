@@ -2,23 +2,25 @@ module Main exposing (main)
 
 import Browser
 import Browser.Navigation as Nav exposing (Key)
-import Css exposing (backgroundColor, borderBottom3, displayFlex, hex, int, justifyContent, padding, position, px, solid, spaceBetween, sticky, top, zIndex, zero)
+import Css exposing (..)
 import Css.FontAwesome exposing (fontAwesome)
 import Css.Global exposing (global)
 import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
+import Data.PageSummary as PageSummary exposing (categoryToString)
 import Data.Theme as Theme exposing (Theme(..))
 import Effect
 import Gen.Model
 import Gen.Pages as Pages
 import Gen.Route as Route
-import Html.Styled exposing (Html, div, header, main_, option, select, text)
-import Html.Styled.Attributes exposing (css, id, selected, value)
+import Html.Styled as Html exposing (Html, a, div, footer, header, li, main_, option, select, text, ul)
+import Html.Styled.Attributes exposing (css, href, id, selected, value)
 import Html.Styled.Events exposing (onInput)
 import Request
 import Shared
 import UI.Breadcrumb exposing (BreadcrumbItem, Divider(..), breadcrumbWithProps)
 import UI.Container exposing (container)
+import UI.Header as Header
 import UI.Segment exposing (basicSegment)
 import Url exposing (Url)
 import View exposing (View)
@@ -161,8 +163,15 @@ view model =
 layout : Model -> View Msg -> List (Html Msg)
 layout { url, shared } { title, body } =
     [ global (normalize ++ additionalReset ++ globalCustomize ++ fontAwesome)
+    , global
+        [ Css.Global.body
+            [ property "display" "grid"
+            , property "grid-template-rows" "auto 1fr auto"
+            ]
+        ]
     , siteHeader shared { title = title, url = url }
     , main_ [] [ basicSegment { theme = Light } [] [ container [] body ] ]
+    , siteFooter shared
     ]
 
 
@@ -177,7 +186,7 @@ siteHeader shared page =
             , justifyContent spaceBetween
             , padding (px 20)
             , backgroundColor (hex "#FFF")
-            , borderBottom3 (px 1) solid (hex "#EEE")
+            , borderBottom3 (px 1) solid (hex "#DDD")
             ]
         ]
         [ breadcrumbWithProps { divider = Slash, size = Nothing, theme = shared.theme }
@@ -200,6 +209,31 @@ breadcrumbItems { title, url } =
             [ { label = "Top", url = "/" }
             , { label = title, url = Url.toString url }
             ]
+
+
+siteFooter : Shared.Model -> Html Msg
+siteFooter options =
+    footer
+        [ css
+            [ displayFlex
+            , justifyContent spaceBetween
+            , padding (px 20)
+            , backgroundColor (hex "#FFF")
+            , borderTop3 (px 1) solid (hex "#DDD")
+            ]
+        ]
+        (List.map
+            (\( category, pages ) ->
+                basicSegment options
+                    []
+                    [ Header.header options [] [ text (categoryToString category) ]
+                    , ul [ css [ padding zero, listStyle none ] ] <|
+                        List.map (\{ title, route } -> li [] [ a [ href (Route.toHref route) ] [ text title ] ])
+                            pages
+                    ]
+            )
+            PageSummary.summariesByCagetgory
+        )
 
 
 
