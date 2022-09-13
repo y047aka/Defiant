@@ -22,8 +22,6 @@ import UI.Label exposing (basicLabel)
 
 type Msg model msg
     = Update (model -> model)
-    | CounterPlus
-    | CounterMinus
     | Custom msg
 
 
@@ -32,12 +30,6 @@ update msg =
     case msg of
         Update f ->
             f
-
-        CounterPlus ->
-            identity
-
-        CounterMinus ->
-            identity
 
         Custom _ ->
             identity
@@ -125,10 +117,16 @@ radio c =
             c.options
 
 
-counter : { value : Float, toString : Float -> String } -> Html (Msg model msg)
+counter :
+    { value : Float
+    , toString : Float -> String
+    , onClickPlus : msg
+    , onClickMinus : msg
+    }
+    -> Html (Msg model msg)
 counter c =
     labeledButton []
-        [ button [ onClick CounterMinus ] [ text "-" ]
+        [ button [ onClick (Custom c.onClickMinus) ] [ text "-" ]
         , basicLabel [] [ text (c.toString c.value) ]
-        , button [ onClick CounterPlus ] [ text "+" ]
+        , button [ onClick (Custom c.onClickPlus) ] [ text "+" ]
         ]
