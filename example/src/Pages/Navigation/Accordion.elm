@@ -2,19 +2,20 @@ module Pages.Navigation.Accordion exposing (Model, Msg, page)
 
 import Config
 import Data.Theme exposing (Theme(..))
+import Effect exposing (Effect)
 import Html.Styled as Html exposing (Html, p, text)
 import Html.Styled.Attributes exposing (id)
 import Page
 import Request exposing (Request)
 import Shared
-import UI.Accordion as Accordion exposing (ToggleMethod(..), accordionUnstyled, accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl)
-import UI.Segment exposing (segment)
+import UI.Accordion as Accordion exposing (ToggleMethod(..), accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl)
+import UI.Checkbox as Checkbox
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
 page shared _ =
-    Page.sandbox
+    Page.advanced
         { init = init
         , update = update
         , view =
@@ -22,6 +23,7 @@ page shared _ =
                 { title = "Accordion"
                 , body = view shared model
                 }
+        , subscriptions = \_ -> Sub.none
         }
 
 
@@ -33,9 +35,9 @@ type alias Model =
     { toggleMethod : ToggleMethod }
 
 
-init : Model
+init : ( Model, Effect Msg )
 init =
-    { toggleMethod = SummaryDetails }
+    ( { toggleMethod = SummaryDetails }, Effect.none )
 
 
 
@@ -44,13 +46,22 @@ init =
 
 type Msg
     = UpdateConfig (Config.Msg Model Msg)
+    | ChangeTheme Theme
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Effect Msg )
 update msg model =
     case msg of
         UpdateConfig configMsg ->
-            Config.update configMsg model
+            case configMsg of
+                Config.Custom (ChangeTheme theme) ->
+                    ( model, Effect.fromShared (Shared.ChangeTheme theme) )
+
+                _ ->
+                    ( Config.update configMsg model, Effect.none )
+
+        ChangeTheme _ ->
+            ( model, Effect.none )
 
 
 
@@ -129,15 +140,32 @@ view shared { toggleMethod } =
                       }
                     ]
               }
+            , { label = "Variations"
+              , configs =
+                    [ { label = ""
+                      , config =
+                            Checkbox.toggleCheckbox
+                                { id = "inverted"
+                                , label = "Inverted"
+                                , checked = shared.theme == Dark
+                                , disabled = False
+                                , onClick =
+                                    Config.Custom <|
+                                        ChangeTheme <|
+                                            case shared.theme of
+                                                System ->
+                                                    Dark
+
+                                                Light ->
+                                                    Dark
+
+                                                Dark ->
+                                                    Light
+                                }
+                      , note = "An accordion can be formatted to appear on dark backgrounds"
+                      }
+                    ]
+              }
             ]
-        }
-    , configAndPreview UpdateConfig { theme = shared.theme } <|
-        { title = "Inverted"
-        , preview =
-            [ segment { theme = Dark }
-                []
-                [ accordionUnstyled { toggleMethod = SummaryDetails } [] items ]
-            ]
-        , configSections = []
         }
     ]
