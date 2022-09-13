@@ -129,7 +129,7 @@ view shared model =
                                                 Dark ->
                                                     Light
                                 }
-                      , note = "A segment can have its colors inverted for contrast\n\n"
+                      , note = "A segment can have its colors inverted for contrast"
                       }
                     , { label = "Padding"
                       , config =
