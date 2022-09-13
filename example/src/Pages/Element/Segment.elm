@@ -1,18 +1,21 @@
 module Pages.Element.Segment exposing (Model, Msg, page)
 
 import Config
+import Data.Theme exposing (Theme(..))
+import Effect exposing (Effect)
 import Html.Styled as Html exposing (Html, p, text)
 import Page
 import Request exposing (Request)
 import Shared
+import UI.Checkbox as Checkbox
 import UI.Example exposing (wireframeShortParagraph)
-import UI.Segment exposing (Padding(..), basicSegment, invertedSegment, paddingFromString, paddingToString, segment, segmentWithProps, verticalSegment)
+import UI.Segment exposing (Padding(..), basicSegment, paddingFromString, paddingToString, segment, segmentWithProps, verticalSegment)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
 page shared _ =
-    Page.sandbox
+    Page.advanced
         { init = init
         , update = update
         , view =
@@ -20,6 +23,7 @@ page shared _ =
                 { title = "Segment"
                 , body = view shared model
                 }
+        , subscriptions = \_ -> Sub.none
         }
 
 
@@ -34,12 +38,14 @@ type alias Model =
     }
 
 
-init : Model
+init : ( Model, Effect Msg )
 init =
-    { vertical = True
-    , disabled = False
-    , padding = Default
-    }
+    ( { vertical = True
+      , disabled = False
+      , padding = Default
+      }
+    , Effect.none
+    )
 
 
 
@@ -48,13 +54,22 @@ init =
 
 type Msg
     = UpdateConfig (Config.Msg Model Msg)
+    | ChangeTheme Theme
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Effect Msg )
 update msg model =
     case msg of
         UpdateConfig configMsg ->
-            Config.update configMsg model
+            case configMsg of
+                Config.Custom (ChangeTheme theme) ->
+                    ( model, Effect.fromShared (Shared.ChangeTheme theme) )
+
+                _ ->
+                    ( Config.update configMsg model, Effect.none )
+
+        ChangeTheme _ ->
+            ( model, Effect.none )
 
 
 view : Shared.Model -> Model -> List (Html Msg)
@@ -94,7 +109,29 @@ view shared model =
               }
             , { label = "Variations"
               , configs =
-                    [ { label = "Padding"
+                    [ { label = ""
+                      , config =
+                            Checkbox.toggleCheckbox
+                                { id = "inverted"
+                                , label = "Inverted"
+                                , checked = shared.theme == Dark
+                                , disabled = False
+                                , onClick =
+                                    Config.Custom <|
+                                        ChangeTheme <|
+                                            case shared.theme of
+                                                System ->
+                                                    Dark
+
+                                                Light ->
+                                                    Dark
+
+                                                Dark ->
+                                                    Light
+                                }
+                      , note = "A segment can have its colors inverted for contrast\n\n"
+                      }
+                    , { label = "Padding"
                       , config =
                             Config.select
                                 { value = model.padding
@@ -139,14 +176,6 @@ view shared model =
                     ]
               }
             ]
-        }
-    , configAndPreview UpdateConfig { theme = shared.theme } <|
-        { title = "Inverted"
-        , preview =
-            [ invertedSegment []
-                [ p [] [ text "I'm here to tell you something, and you will probably read me first." ] ]
-            ]
-        , configSections = []
         }
     , configAndPreview UpdateConfig { theme = shared.theme } <|
         { title = "Basic"
