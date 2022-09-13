@@ -56,7 +56,7 @@ init =
 
 type Msg
     = NewProgress Int
-    | UpdateConfig (Config.Msg Model)
+    | UpdateConfig (Config.Msg Model Msg)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -92,6 +92,9 @@ update msg model =
 
                 Config.CounterMinus ->
                     ( model, Random.generate NewProgress (Random.int -15 -10) )
+
+                Config.Custom _ ->
+                    ( model, Cmd.none )
 
 
 updatelabelOnIndicating : Model -> Model

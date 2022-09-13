@@ -8,19 +8,19 @@ import Html.Styled.Attributes exposing (css)
 import UI.Header as Header
 
 
-type alias ConfigSection model =
+type alias ConfigSection model msg =
     { label : String
-    , configs : List { label : String, config : Html (Config.Msg model), note : String }
+    , configs : List { label : String, config : Html (Config.Msg model msg), note : String }
     }
 
 
 configAndPreview :
-    (Config.Msg model -> msg)
+    (Config.Msg model msg -> msg)
     -> { theme : Theme }
     ->
         { title : String
         , preview : List (Html msg)
-        , configSections : List (ConfigSection model)
+        , configSections : List (ConfigSection model msg)
         }
     -> Html msg
 configAndPreview msg props { title, preview, configSections } =
@@ -53,7 +53,7 @@ configAndPreview msg props { title, preview, configSections } =
         ]
 
 
-configPanel : (Config.Msg model -> msg) -> List (ConfigSection model) -> Html msg
+configPanel : (Config.Msg model msg -> msg) -> List (ConfigSection model msg) -> Html msg
 configPanel msg configSections =
     Html.map msg <|
         aside

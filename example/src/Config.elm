@@ -20,13 +20,14 @@ import UI.Input as Input
 import UI.Label exposing (basicLabel)
 
 
-type Msg model
+type Msg model msg
     = Update (model -> model)
     | CounterPlus
     | CounterMinus
+    | Custom msg
 
 
-update : Msg model -> model -> model
+update : Msg model msg -> model -> model
 update msg =
     case msg of
         Update f ->
@@ -38,13 +39,16 @@ update msg =
         CounterMinus ->
             identity
 
+        Custom _ ->
+            identity
+
 
 string :
     { label : String
     , value : String
     , setter : String -> model -> model
     }
-    -> Html (Msg model)
+    -> Html (Msg model msg)
 string c =
     Input.input []
         [ if c.label /= "" then
@@ -62,7 +66,7 @@ bool :
     , bool : Bool
     , setter : model -> model
     }
-    -> Html (Msg model)
+    -> Html (Msg model msg)
 bool c =
     Checkbox.toggleCheckbox
         { id = c.id
@@ -80,7 +84,7 @@ select :
     , toString : option -> String
     , setter : option -> model -> model
     }
-    -> Html (Msg model)
+    -> Html (Msg model msg)
 select c =
     Html.select [ onInput (c.fromString >> Maybe.withDefault c.value >> c.setter >> Update) ]
         (List.map (\option -> Html.option [ value (c.toString option), selected (c.value == option) ] [ text (c.toString option) ])
@@ -96,7 +100,7 @@ radio :
     , toString : option -> String
     , setter : option -> model -> model
     }
-    -> Html (Msg model)
+    -> Html (Msg model msg)
 radio c =
     div [] <|
         List.map
@@ -121,7 +125,7 @@ radio c =
             c.options
 
 
-counter : { value : Float, toString : Float -> String } -> Html (Msg model)
+counter : { value : Float, toString : Float -> String } -> Html (Msg model msg)
 counter c =
     labeledButton []
         [ button [ onClick CounterMinus ] [ text "-" ]
