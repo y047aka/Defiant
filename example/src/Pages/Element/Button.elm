@@ -15,14 +15,14 @@ import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
-page _ _ =
+page shared _ =
     Page.sandbox
         { init = init
         , update = update
         , view =
             \model ->
                 { title = "Button"
-                , body = view model
+                , body = view shared model
                 }
         }
 
@@ -80,9 +80,9 @@ update msg model =
 -- VIEW
 
 
-view : Model -> List (Html Msg)
-view model =
-    [ configAndPreview UpdateConfig
+view : Shared.Model -> Model -> List (Html Msg)
+view { theme } model =
+    [ configAndPreview UpdateConfig { theme = theme } <|
         { title = "Button"
         , preview =
             [ buttonWithProps
@@ -136,7 +136,7 @@ view model =
               }
             ]
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = theme } <|
         { title = ""
         , preview =
             [ button [] [ text "Button" ]
@@ -144,7 +144,7 @@ view model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = theme } <|
         { title = "Labeled"
         , preview =
             [ labeledButton []
@@ -159,12 +159,12 @@ view model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = theme } <|
         { title = "Icon"
         , preview = [ button [] [ icon [] "fas fa-cloud" ] ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = theme } <|
         { title = "Basic"
         , preview = [ basicButton [] [ icon [] "fas fa-user", text "Add Friend" ] ]
         , configSections = []

@@ -11,14 +11,14 @@ import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
-page _ _ =
+page shared _ =
     Page.sandbox
         { init = init
         , update = update
         , view =
             \_ ->
                 { title = "Input"
-                , body = view
+                , body = view shared
                 }
         }
 
@@ -53,9 +53,9 @@ update _ model =
 -- VIEW
 
 
-view : List (Html Msg)
-view =
-    [ configAndPreview UpdateConfig
+view : Shared.Model -> List (Html Msg)
+view { theme } =
+    [ configAndPreview UpdateConfig { theme = theme } <|
         { title = "Input"
         , preview =
             [ Input.input []
@@ -63,7 +63,7 @@ view =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = theme } <|
         { title = "Labeled"
         , preview =
             [ Input.input []
@@ -73,7 +73,7 @@ view =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = theme } <|
         { title = ""
         , preview =
             [ Input.input []

@@ -16,20 +16,21 @@ type alias ConfigSection model =
 
 configAndPreview :
     (Config.Msg model -> msg)
+    -> { theme : Theme }
     ->
         { title : String
         , preview : List (Html msg)
         , configSections : List (ConfigSection model)
         }
     -> Html msg
-configAndPreview msg { title, preview, configSections } =
+configAndPreview msg props { title, preview, configSections } =
     let
         title_ =
             if title == "" then
                 text ""
 
             else
-                Header.header { theme = Light } [] [ text title ]
+                Header.header props [] [ text title ]
     in
     Html.styled Html.div
         [ padding2 (em 2) zero

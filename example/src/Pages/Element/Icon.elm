@@ -13,14 +13,14 @@ import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
-page _ _ =
+page shared _ =
     Page.sandbox
         { init = init
         , update = update
         , view =
             \_ ->
                 { title = "Icon"
-                , body = view
+                , body = view shared
                 }
         }
 
@@ -55,8 +55,8 @@ update _ model =
 -- VIEW
 
 
-view : List (Html Msg)
-view =
+view : Shared.Model -> List (Html Msg)
+view { theme } =
     let
         column : List (Attribute msg) -> List (Html msg) -> Html msg
         column attributes =
@@ -88,7 +88,7 @@ view =
                     ]
                 ]
     in
-    [ configAndPreview UpdateConfig
+    [ configAndPreview UpdateConfig { theme = theme } <|
         { title = "Accessibility"
         , preview =
             [ fiveColumnsGrid []

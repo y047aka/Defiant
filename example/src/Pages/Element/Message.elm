@@ -60,7 +60,7 @@ view shared =
         options =
             { theme = shared.theme }
     in
-    [ configAndPreview UpdateConfig
+    [ configAndPreview UpdateConfig { theme = shared.theme } <|
         { title = "Message"
         , preview =
             [ message []
@@ -72,7 +72,7 @@ view shared =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = shared.theme } <|
         { title = "Icon Message"
         , preview =
             [ message []

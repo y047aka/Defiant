@@ -113,7 +113,7 @@ view shared model =
                     text ""
                 ]
     in
-    [ configAndPreview UpdateConfig
+    [ configAndPreview UpdateConfig options <|
         { title = "Cards"
         , preview =
             [ cards [] <|

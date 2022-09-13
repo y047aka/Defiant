@@ -21,12 +21,12 @@ import View.ConfigAndPreview exposing (configAndPreview)
 page : Shared.Model -> Request -> Page.With Model Msg
 page shared _ =
     Page.sandbox
-        { init = init shared
+        { init = init
         , update = update
         , view =
             \model ->
                 { title = "Dimmer"
-                , body = view model
+                , body = view shared model
                 }
         }
 
@@ -36,16 +36,12 @@ page shared _ =
 
 
 type alias Model =
-    { shared : Shared.Model
-    , toggledItems : List String
-    }
+    { toggledItems : List String }
 
 
-init : Shared.Model -> Model
-init shared =
-    { shared = shared
-    , toggledItems = []
-    }
+init : Model
+init =
+    { toggledItems = [] }
 
 
 
@@ -78,13 +74,13 @@ update msg model =
 -- VIEW
 
 
-view : Model -> List (Html Msg)
-view { shared, toggledItems } =
+view : Shared.Model -> Model -> List (Html Msg)
+view shared { toggledItems } =
     let
         options =
             { theme = shared.theme }
     in
-    [ configAndPreview UpdateConfig
+    [ configAndPreview UpdateConfig { theme = shared.theme } <|
         { title = "Dimmer"
         , preview =
             [ segment options
@@ -99,7 +95,7 @@ view { shared, toggledItems } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = shared.theme } <|
         { title = "Content Dimmer"
         , preview =
             [ segment options
@@ -121,7 +117,7 @@ view { shared, toggledItems } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = shared.theme } <|
         { title = "Page Dimmer"
         , preview =
             [ button [ onClick (Toggle "pageDimmer") ] [ icon [] "fas fa-plus", text "Show" ]
@@ -139,7 +135,7 @@ view { shared, toggledItems } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = shared.theme } <|
         { title = "Inverted Dimmer"
         , preview =
             [ segment options

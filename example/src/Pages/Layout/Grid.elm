@@ -57,7 +57,7 @@ update _ model =
 
 
 view : Shared.Model -> List (Html Msg)
-view shared =
+view { theme } =
     let
         additionalStyles =
             [ position relative
@@ -84,7 +84,7 @@ view shared =
                     ]
                 ]
     in
-    [ configAndPreview UpdateConfig
+    [ configAndPreview UpdateConfig { theme = theme } <|
         { title = "Grids"
         , preview =
             [ grid [ css additionalStyles ]
@@ -96,7 +96,7 @@ view shared =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = theme } <|
         { title = "Columns"
         , preview =
             [ grid [ css additionalStyles ]
@@ -111,7 +111,7 @@ view shared =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = theme } <|
         { title = "Automatic Flow"
         , preview =
             [ grid [ css additionalStyles ]
@@ -127,12 +127,12 @@ view shared =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = theme } <|
         { title = "Column Content"
         , preview =
             [ let
                 imageSegment =
-                    segment { theme = shared.theme }
+                    segment { theme = theme }
                         []
                         [ smallImage [ src "/static/images/wireframe/image.png" ] [] ]
               in

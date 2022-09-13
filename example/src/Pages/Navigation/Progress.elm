@@ -12,14 +12,14 @@ import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
-page _ _ =
+page shared _ =
     Page.element
         { init = init
         , update = update
         , view =
             \model ->
                 { title = "Progress"
-                , body = view model
+                , body = view shared model
                 }
         , subscriptions = \_ -> Sub.none
         }
@@ -114,9 +114,9 @@ updatelabelOnIndicating model =
 -- VIEW
 
 
-view : Model -> List (Html Msg)
-view model =
-    [ configAndPreview UpdateConfig
+view : Shared.Model -> Model -> List (Html Msg)
+view { theme } model =
+    [ configAndPreview UpdateConfig { theme = theme } <|
         { title = "Progress"
         , preview =
             [ Progress.progressWithProps

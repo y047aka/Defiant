@@ -10,14 +10,14 @@ import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
-page _ _ =
+page shared _ =
     Page.sandbox
         { init = init
         , update = update
         , view =
             \model ->
                 { title = "Table"
-                , body = view model
+                , body = view shared model
                 }
         }
 
@@ -58,9 +58,9 @@ update msg model =
 -- VIEW
 
 
-view : Model -> List (Html Msg)
-view model =
-    [ configAndPreview UpdateConfig
+view : Shared.Model -> Model -> List (Html Msg)
+view { theme } model =
+    [ configAndPreview UpdateConfig { theme = theme } <|
         { title = "Table"
         , preview =
             [ tableWithProps { border = True, striped = model.striped, celled = model.celled, thead = True }
@@ -110,7 +110,7 @@ view model =
               }
             ]
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = theme } <|
         { title = "Basic"
         , preview =
             [ basicTable []
@@ -129,7 +129,7 @@ view model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = theme } <|
         { title = ""
         , preview =
             [ veryBasicTable []

@@ -16,12 +16,12 @@ import View.ConfigAndPreview exposing (configAndPreview)
 page : Shared.Model -> Request -> Page.With Model Msg
 page shared _ =
     Page.sandbox
-        { init = init shared
+        { init = init
         , update = update
         , view =
             \model ->
                 { title = "Modal"
-                , body = view model
+                , body = view shared model
                 }
         }
 
@@ -31,16 +31,12 @@ page shared _ =
 
 
 type alias Model =
-    { shared : Shared.Model
-    , toggledItems : List String
-    }
+    { toggledItems : List String }
 
 
-init : Shared.Model -> Model
-init shared =
-    { shared = shared
-    , toggledItems = []
-    }
+init : Model
+init =
+    { toggledItems = [] }
 
 
 
@@ -73,9 +69,9 @@ update msg model =
 -- VIEW
 
 
-view : Model -> List (Html Msg)
-view { shared, toggledItems } =
-    [ configAndPreview UpdateConfig
+view : Shared.Model -> Model -> List (Html Msg)
+view shared { toggledItems } =
+    [ configAndPreview UpdateConfig { theme = shared.theme } <|
         { title = "Modal"
         , preview =
             [ button [ onClick (Toggle "modal") ] [ icon [] "fas fa-plus", text "Show" ]
@@ -104,7 +100,7 @@ view { shared, toggledItems } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = shared.theme } <|
         { title = "Basic"
         , preview =
             [ button [ onClick (Toggle "basicModal") ] [ icon [] "fas fa-plus", text "Show" ]
@@ -127,7 +123,7 @@ view { shared, toggledItems } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = shared.theme } <|
         { title = "Dialog"
         , preview =
             [ button [ onClick (Toggle "dialog") ] [ icon [] "fas fa-plus", text "Show" ]

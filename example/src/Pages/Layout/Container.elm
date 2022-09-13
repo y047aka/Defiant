@@ -11,14 +11,14 @@ import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
-page _ _ =
+page shared _ =
     Page.sandbox
         { init = init
         , update = update
         , view =
             \_ ->
                 { title = "Container"
-                , body = view
+                , body = view shared
                 }
         }
 
@@ -53,8 +53,8 @@ update _ model =
 -- VIEW
 
 
-view : List (Html Msg)
-view =
+view : Shared.Model -> List (Html Msg)
+view { theme } =
     let
         content =
             p []
@@ -65,12 +65,12 @@ view =
                 , text " mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi."
                 ]
     in
-    [ configAndPreview UpdateConfig
+    [ configAndPreview UpdateConfig { theme = theme } <|
         { title = "Container"
         , preview = [ container [] [ content ] ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = theme } <|
         { title = "Text Container"
         , preview =
             [ textContainer []

@@ -13,14 +13,14 @@ import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
-page _ _ =
+page shared _ =
     Page.sandbox
         { init = init
         , update = update
         , view =
             \model ->
                 { title = "Label"
-                , body = view model
+                , body = view shared model
                 }
         }
 
@@ -64,9 +64,9 @@ update msg model =
 -- VIEW
 
 
-view : Model -> List (Html Msg)
-view model =
-    [ configAndPreview UpdateConfig
+view : Shared.Model -> Model -> List (Html Msg)
+view { theme } model =
+    [ configAndPreview UpdateConfig { theme = theme } <|
         { title = "Label"
         , preview =
             [ let
@@ -108,7 +108,7 @@ view model =
               }
             ]
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = theme } <|
         { title = "Icon"
         , preview =
             [ Label.label [] [ icon [] "fas fa-envelope", text "Mail" ]
@@ -118,7 +118,7 @@ view model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = theme } <|
         { title = ""
         , preview =
             [ Label.label [] [ text "Mail", icon [] "fas fa-envelope" ]
@@ -128,7 +128,7 @@ view model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = theme } <|
         { title = ""
         , preview =
             [ Label.label [] [ icon [] "fas fa-envelope" ]
@@ -137,7 +137,7 @@ view model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = theme } <|
         { title = "Basic"
         , preview = [ basicLabel [] [ text "Basic" ] ]
         , configSections = []

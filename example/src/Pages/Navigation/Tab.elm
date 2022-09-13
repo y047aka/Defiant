@@ -11,14 +11,14 @@ import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
-page _ _ =
+page shared _ =
     Page.sandbox
         { init = init
         , update = update
         , view =
             \_ ->
                 { title = "Tab"
-                , body = view
+                , body = view shared
                 }
         }
 
@@ -53,9 +53,9 @@ update _ model =
 -- VIEW
 
 
-view : List (Html Msg)
-view =
-    [ configAndPreview UpdateConfig
+view : Shared.Model -> List (Html Msg)
+view { theme } =
+    [ configAndPreview UpdateConfig { theme = theme } <|
         { title = "Tab"
         , preview =
             [ tab { state = Inactive }
@@ -66,7 +66,7 @@ view =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = theme } <|
         { title = "Active"
         , preview =
             [ tab { state = Active }
@@ -77,7 +77,7 @@ view =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = theme } <|
         { title = "Loading"
         , preview =
             [ tab { state = Loading }

@@ -63,7 +63,7 @@ view shared model =
         options =
             { theme = shared.theme }
     in
-    [ configAndPreview UpdateConfig
+    [ configAndPreview UpdateConfig { theme = shared.theme } <|
         { title = "Segment"
         , preview =
             [ segmentWithProps
@@ -109,7 +109,7 @@ view shared model =
               }
             ]
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = shared.theme } <|
         { title = "Vertical Segment"
         , preview =
             if model.vertical then
@@ -140,7 +140,7 @@ view shared model =
               }
             ]
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = shared.theme } <|
         { title = "Inverted"
         , preview =
             [ invertedSegment []
@@ -148,7 +148,7 @@ view shared model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = shared.theme } <|
         { title = "Basic"
         , preview =
             [ basicSegment options

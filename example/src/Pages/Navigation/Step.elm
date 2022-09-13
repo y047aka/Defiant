@@ -10,14 +10,14 @@ import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
-page _ _ =
+page shared _ =
     Page.sandbox
         { init = init
         , update = update
         , view =
             \model ->
                 { title = "Step"
-                , body = view model
+                , body = view shared model
                 }
         }
 
@@ -62,9 +62,9 @@ update msg model =
 -- VIEW
 
 
-view : Model -> List (Html Msg)
-view model =
-    [ configAndPreview UpdateConfig
+view : Shared.Model -> Model -> List (Html Msg)
+view { theme } model =
+    [ configAndPreview UpdateConfig { theme = theme } <|
         { title = "Steps"
         , preview =
             [ let
@@ -178,7 +178,7 @@ view model =
               }
             ]
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = theme } <|
         { title = "Step"
         , preview =
             [ steps []

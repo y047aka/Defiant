@@ -11,14 +11,14 @@ import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
-page _ _ =
+page shared _ =
     Page.sandbox
         { init = init
         , update = update
         , view =
             \model ->
                 { title = "Checkbox"
-                , body = view model
+                , body = view shared model
                 }
         }
 
@@ -59,9 +59,9 @@ update msg model =
 -- VIEW
 
 
-view : Model -> List (Html Msg)
-view model =
-    [ configAndPreview UpdateConfig
+view : Shared.Model -> Model -> List (Html Msg)
+view { theme } model =
+    [ configAndPreview UpdateConfig { theme = theme } <|
         { title = "Checkbox"
         , preview =
             [ checkbox
@@ -89,7 +89,7 @@ view model =
               }
             ]
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = theme } <|
         { title = "Toggle"
         , preview =
             [ toggleCheckbox

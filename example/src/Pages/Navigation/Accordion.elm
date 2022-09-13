@@ -15,12 +15,12 @@ import View.ConfigAndPreview exposing (configAndPreview)
 page : Shared.Model -> Request -> Page.With Model Msg
 page shared _ =
     Page.sandbox
-        { init = init shared
+        { init = init
         , update = update
         , view =
             \model ->
                 { title = "Accordion"
-                , body = view model
+                , body = view shared model
                 }
         }
 
@@ -30,16 +30,12 @@ page shared _ =
 
 
 type alias Model =
-    { shared : Shared.Model
-    , toggleMethod : ToggleMethod
-    }
+    { toggleMethod : ToggleMethod }
 
 
-init : Shared.Model -> Model
-init shared =
-    { shared = shared
-    , toggleMethod = SummaryDetails
-    }
+init : Model
+init =
+    { toggleMethod = SummaryDetails }
 
 
 
@@ -61,8 +57,8 @@ update msg model =
 -- VIEW
 
 
-view : Model -> List (Html Msg)
-view { shared, toggleMethod } =
+view : Shared.Model -> Model -> List (Html Msg)
+view shared { toggleMethod } =
     let
         items =
             [ { id = "what_is_a_dog"
@@ -89,7 +85,7 @@ view { shared, toggleMethod } =
                         }
                     )
     in
-    [ configAndPreview UpdateConfig
+    [ configAndPreview UpdateConfig { theme = shared.theme } <|
         { title = "Accordion"
         , preview =
             [ case toggleMethod of
@@ -135,7 +131,7 @@ view { shared, toggleMethod } =
               }
             ]
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = shared.theme } <|
         { title = "Inverted"
         , preview =
             [ segment { theme = Dark }

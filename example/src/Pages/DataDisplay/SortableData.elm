@@ -14,14 +14,14 @@ import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
-page _ _ =
+page shared _ =
     Page.sandbox
         { init = init
         , update = update
         , view =
             \model ->
                 { title = "Sortable Data"
-                , body = view model
+                , body = view shared model
                 }
         }
 
@@ -74,8 +74,8 @@ update msg model =
 -- VIEW
 
 
-view : Model -> List (Html Msg)
-view ({ people, tableState, query } as model) =
+view : Shared.Model -> Model -> List (Html Msg)
+view { theme } ({ people, tableState, query } as model) =
     let
         config =
             { toId = .name
@@ -104,7 +104,7 @@ view ({ people, tableState, query } as model) =
         acceptablePeople =
             List.filter (String.contains lowerQuery << String.toLower << .name) people
     in
-    [ configAndPreview UpdateConfig
+    [ configAndPreview UpdateConfig { theme = theme } <|
         { title = "List"
         , preview =
             [ input [ value query, placeholder "Search by Name", onInput SetQuery ] []

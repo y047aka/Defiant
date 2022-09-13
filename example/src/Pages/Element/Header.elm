@@ -63,7 +63,7 @@ view { theme } model =
         options =
             { theme = theme }
     in
-    [ configAndPreview UpdateConfig
+    [ configAndPreview UpdateConfig { theme = theme } <|
         { title = "Content Headers"
         , preview =
             [ case model.size of
@@ -110,7 +110,7 @@ view { theme } model =
               }
             ]
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = theme } <|
         { title = "Icon Headers"
         , preview =
             [ iconHeader options
@@ -124,7 +124,7 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = theme } <|
         { title = "Subheader"
         , preview =
             [ Header.header options

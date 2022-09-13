@@ -94,7 +94,7 @@ view { theme } model =
                 Massive ->
                     massiveBreadCrumb
       in
-      configAndPreview UpdateConfig
+      configAndPreview UpdateConfig { theme = theme } <|
         { title = "Breadcrumb"
         , preview =
             [ breadcrumb_ options
@@ -136,7 +136,7 @@ view { theme } model =
               }
             ]
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = theme } <|
         { title = "Inverted"
         , preview =
             [ segment { theme = Dark }

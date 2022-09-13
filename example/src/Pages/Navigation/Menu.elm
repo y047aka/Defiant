@@ -58,7 +58,7 @@ update _ model =
 
 view : Shared.Model -> List (Html Msg)
 view shared =
-    [ configAndPreview UpdateConfig
+    [ configAndPreview UpdateConfig { theme = shared.theme } <|
         { title = "Secondary Menu"
         , preview =
             [ secondaryMenu { theme = Light } [] <|
@@ -76,7 +76,7 @@ view shared =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = shared.theme } <|
         { title = "Vertical Menu"
         , preview =
             [ verticalMenu { theme = shared.theme, additionalStyles = [] } [] <|
@@ -97,7 +97,7 @@ view shared =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = shared.theme } <|
         { title = "Link Item"
         , preview =
             [ verticalMenu { theme = shared.theme, additionalStyles = [] } [] <|
@@ -107,7 +107,7 @@ view shared =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = shared.theme } <|
         { title = "Inverted"
         , preview =
             [ Menu.menu { theme = Dark } [] <|
@@ -118,7 +118,7 @@ view shared =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig
+    , configAndPreview UpdateConfig { theme = shared.theme } <|
         { title = ""
         , preview =
             [ invertedSegment []

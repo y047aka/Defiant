@@ -5,6 +5,7 @@ import Browser.Navigation as Nav exposing (Key)
 import Css exposing (..)
 import Css.FontAwesome exposing (fontAwesome)
 import Css.Global exposing (global)
+import Css.Palette as Palette exposing (darkPalette, palette, paletteWith, setBackground, setColor)
 import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
 import Data.PageSummary as PageSummary exposing (categoryToString)
@@ -167,6 +168,12 @@ layout { url, shared } { title, body } =
         [ Css.Global.body
             [ property "display" "grid"
             , property "grid-template-rows" "auto 1fr auto"
+            , palette Palette.init
+            , darkPalette shared.theme
+                (Palette.init
+                    |> setBackground (hex "#1B1C1D")
+                    |> setColor (rgba 255 255 255 0.9)
+                )
             ]
         ]
     , siteHeader shared { title = title, url = url }
@@ -185,8 +192,16 @@ siteHeader shared page =
             , displayFlex
             , justifyContent spaceBetween
             , padding (px 20)
-            , backgroundColor (hex "#FFF")
-            , borderBottom3 (px 1) solid (hex "#DDD")
+            , paletteWith { border = borderBottom3 (px 1) solid }
+                (Palette.init
+                    |> setBackground (hex "#FFF")
+                    |> Palette.setBorder (hex "#DDD")
+                )
+            , darkPalette shared.theme
+                (Palette.init
+                    |> setBackground (hex "#1B1C1D")
+                    |> setColor (rgba 255 255 255 0.9)
+                )
             ]
         ]
         [ breadcrumbWithProps { divider = Slash, size = Nothing, theme = shared.theme }
@@ -218,7 +233,6 @@ siteFooter options =
             [ displayFlex
             , justifyContent spaceBetween
             , padding (px 20)
-            , backgroundColor (hex "#FFF")
             , borderTop3 (px 1) solid (hex "#DDD")
             ]
         ]
