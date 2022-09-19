@@ -54,7 +54,7 @@ init =
 type Msg
     = SetQuery String
     | SetTableState State
-    | UpdateConfig (Config.Msg Model Msg)
+    | UpdateConfig (Config.Msg Model)
 
 
 update : Msg -> Model -> Model

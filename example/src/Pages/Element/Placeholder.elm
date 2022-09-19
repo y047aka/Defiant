@@ -40,7 +40,7 @@ init =
 
 
 type Msg
-    = UpdateConfig (Config.Msg Model Msg)
+    = UpdateConfig (Config.Msg Model)
 
 
 update : Msg -> Model -> Model

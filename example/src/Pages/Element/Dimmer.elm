@@ -50,7 +50,7 @@ init =
 
 type Msg
     = Toggle String
-    | UpdateConfig (Config.Msg Model Msg)
+    | UpdateConfig (Config.Msg Model)
 
 
 update : Msg -> Model -> Model

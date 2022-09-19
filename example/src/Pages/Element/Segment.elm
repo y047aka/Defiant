@@ -7,7 +7,6 @@ import Html.Styled as Html exposing (Html, p, text)
 import Page
 import Request exposing (Request)
 import Shared
-import UI.Checkbox as Checkbox
 import UI.Example exposing (wireframeShortParagraph)
 import UI.Segment exposing (Padding(..), basicSegment, paddingFromString, paddingToString, segment, segmentWithProps, verticalSegment)
 import View.ConfigAndPreview exposing (configAndPreview)
@@ -34,6 +33,7 @@ page shared _ =
 type alias Model =
     { vertical : Bool
     , disabled : Bool
+    , inverted : Bool
     , padding : Padding
     }
 
@@ -42,6 +42,7 @@ init : ( Model, Effect Msg )
 init =
     ( { vertical = True
       , disabled = False
+      , inverted = False
       , padding = Default
       }
     , Effect.none
@@ -53,23 +54,29 @@ init =
 
 
 type Msg
-    = UpdateConfig (Config.Msg Model Msg)
-    | ChangeTheme Theme
+    = UpdateConfig (Config.Msg Model)
 
 
 update : Msg -> Model -> ( Model, Effect Msg )
 update msg model =
     case msg of
         UpdateConfig configMsg ->
-            case configMsg of
-                Config.Custom (ChangeTheme theme) ->
-                    ( model, Effect.fromShared (Shared.ChangeTheme theme) )
+            let
+                newModel =
+                    Config.update configMsg model
 
-                _ ->
-                    ( Config.update configMsg model, Effect.none )
+                effect =
+                    case ( newModel.inverted == model.inverted, newModel.inverted ) of
+                        ( True, _ ) ->
+                            Effect.none
 
-        ChangeTheme _ ->
-            ( model, Effect.none )
+                        ( False, True ) ->
+                            Effect.fromShared (Shared.ChangeTheme Dark)
+
+                        ( False, False ) ->
+                            Effect.fromShared (Shared.ChangeTheme Light)
+            in
+            ( newModel, effect )
 
 
 view : Shared.Model -> Model -> List (Html Msg)
@@ -111,23 +118,11 @@ view shared model =
               , configs =
                     [ { label = ""
                       , config =
-                            Checkbox.toggleCheckbox
+                            Config.bool
                                 { id = "inverted"
                                 , label = "Inverted"
-                                , checked = shared.theme == Dark
-                                , disabled = False
-                                , onClick =
-                                    Config.Custom <|
-                                        ChangeTheme <|
-                                            case shared.theme of
-                                                System ->
-                                                    Dark
-
-                                                Light ->
-                                                    Dark
-
-                                                Dark ->
-                                                    Light
+                                , bool = shared.theme == Dark
+                                , setter = \m -> { m | inverted = not m.inverted }
                                 }
                       , note = "A segment can have its colors inverted for contrast"
                       }

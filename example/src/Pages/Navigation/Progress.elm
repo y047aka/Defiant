@@ -56,9 +56,7 @@ init =
 
 type Msg
     = NewProgress Int
-    | UpdateConfig (Config.Msg Model Msg)
-    | ProgressPlus
-    | ProgressMinus
+    | UpdateConfig (Config.Msg Model)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -89,17 +87,11 @@ update msg model =
                 Config.Update updater ->
                     ( updater model, Cmd.none )
 
-                Config.Custom ProgressPlus ->
+                Config.CounterPlus ->
                     ( model, Random.generate NewProgress (Random.int 10 15) )
 
-                Config.Custom ProgressMinus ->
+                Config.CounterMinus ->
                     ( model, Random.generate NewProgress (Random.int -15 -10) )
-
-                Config.Custom _ ->
-                    ( model, Cmd.none )
-
-        _ ->
-            ( model, Cmd.none )
 
 
 updatelabelOnIndicating : Model -> Model
@@ -143,8 +135,6 @@ view { theme } model =
                             Config.counter
                                 { value = model.progressValue
                                 , toString = \value -> String.fromFloat value ++ "%"
-                                , onClickPlus = ProgressPlus
-                                , onClickMinus = ProgressMinus
                                 }
                       , note = "A progress element can contain a bar visually indicating progress"
                       }

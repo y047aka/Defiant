@@ -9,7 +9,6 @@ import Page
 import Request exposing (Request)
 import Shared
 import UI.Accordion as Accordion exposing (ToggleMethod(..), accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl)
-import UI.Checkbox as Checkbox
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
@@ -32,12 +31,18 @@ page shared _ =
 
 
 type alias Model =
-    { toggleMethod : ToggleMethod }
+    { toggleMethod : ToggleMethod
+    , inverted : Bool
+    }
 
 
 init : ( Model, Effect Msg )
 init =
-    ( { toggleMethod = SummaryDetails }, Effect.none )
+    ( { toggleMethod = SummaryDetails
+      , inverted = False
+      }
+    , Effect.none
+    )
 
 
 
@@ -45,23 +50,29 @@ init =
 
 
 type Msg
-    = UpdateConfig (Config.Msg Model Msg)
-    | ChangeTheme Theme
+    = UpdateConfig (Config.Msg Model)
 
 
 update : Msg -> Model -> ( Model, Effect Msg )
 update msg model =
     case msg of
         UpdateConfig configMsg ->
-            case configMsg of
-                Config.Custom (ChangeTheme theme) ->
-                    ( model, Effect.fromShared (Shared.ChangeTheme theme) )
+            let
+                newModel =
+                    Config.update configMsg model
 
-                _ ->
-                    ( Config.update configMsg model, Effect.none )
+                effect =
+                    case ( newModel.inverted == model.inverted, newModel.inverted ) of
+                        ( True, _ ) ->
+                            Effect.none
 
-        ChangeTheme _ ->
-            ( model, Effect.none )
+                        ( False, True ) ->
+                            Effect.fromShared (Shared.ChangeTheme Dark)
+
+                        ( False, False ) ->
+                            Effect.fromShared (Shared.ChangeTheme Light)
+            in
+            ( newModel, effect )
 
 
 
@@ -144,23 +155,11 @@ view shared { toggleMethod } =
               , configs =
                     [ { label = ""
                       , config =
-                            Checkbox.toggleCheckbox
+                            Config.bool
                                 { id = "inverted"
                                 , label = "Inverted"
-                                , checked = shared.theme == Dark
-                                , disabled = False
-                                , onClick =
-                                    Config.Custom <|
-                                        ChangeTheme <|
-                                            case shared.theme of
-                                                System ->
-                                                    Dark
-
-                                                Light ->
-                                                    Dark
-
-                                                Dark ->
-                                                    Light
+                                , bool = shared.theme == Dark
+                                , setter = \m -> { m | inverted = not m.inverted }
                                 }
                       , note = "An accordion can be formatted to appear on dark backgrounds"
                       }

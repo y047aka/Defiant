@@ -20,18 +20,22 @@ import UI.Input as Input
 import UI.Label exposing (basicLabel)
 
 
-type Msg model msg
+type Msg model
     = Update (model -> model)
-    | Custom msg
+    | CounterPlus
+    | CounterMinus
 
 
-update : Msg model msg -> model -> model
+update : Msg model -> model -> model
 update msg =
     case msg of
         Update f ->
             f
 
-        Custom _ ->
+        CounterPlus ->
+            identity
+
+        CounterMinus ->
             identity
 
 
@@ -40,7 +44,7 @@ string :
     , value : String
     , setter : String -> model -> model
     }
-    -> Html (Msg model msg)
+    -> Html (Msg model)
 string c =
     Input.input []
         [ if c.label /= "" then
@@ -58,7 +62,7 @@ bool :
     , bool : Bool
     , setter : model -> model
     }
-    -> Html (Msg model msg)
+    -> Html (Msg model)
 bool c =
     Checkbox.toggleCheckbox
         { id = c.id
@@ -76,7 +80,7 @@ select :
     , toString : option -> String
     , setter : option -> model -> model
     }
-    -> Html (Msg model msg)
+    -> Html (Msg model)
 select c =
     Html.select [ onInput (c.fromString >> Maybe.withDefault c.value >> c.setter >> Update) ]
         (List.map (\option -> Html.option [ value (c.toString option), selected (c.value == option) ] [ text (c.toString option) ])
@@ -92,7 +96,7 @@ radio :
     , toString : option -> String
     , setter : option -> model -> model
     }
-    -> Html (Msg model msg)
+    -> Html (Msg model)
 radio c =
     div [] <|
         List.map
@@ -117,16 +121,10 @@ radio c =
             c.options
 
 
-counter :
-    { value : Float
-    , toString : Float -> String
-    , onClickPlus : msg
-    , onClickMinus : msg
-    }
-    -> Html (Msg model msg)
+counter : { value : Float, toString : Float -> String } -> Html (Msg model)
 counter c =
     labeledButton []
-        [ button [ onClick (Custom c.onClickMinus) ] [ text "-" ]
+        [ button [ onClick CounterMinus ] [ text "-" ]
         , basicLabel [] [ text (c.toString c.value) ]
-        , button [ onClick (Custom c.onClickPlus) ] [ text "+" ]
+        , button [ onClick CounterPlus ] [ text "+" ]
         ]
