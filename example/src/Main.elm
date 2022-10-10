@@ -177,7 +177,19 @@ layout { url, shared } { title, body } =
             ]
         ]
     , siteHeader shared { title = title, url = url }
-    , main_ [] [ basicSegment { theme = Light } [] [ container [] body ] ]
+    , main_ []
+        [ basicSegment { theme = Light }
+            []
+            [ container
+                [ css
+                    [ displayFlex
+                    , flexDirection column
+                    , property "gap" "50px"
+                    ]
+                ]
+                body
+            ]
+        ]
     , siteFooter shared
     ]
 

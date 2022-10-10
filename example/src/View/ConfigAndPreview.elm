@@ -32,25 +32,33 @@ configAndPreview msg props { title, preview, configSections } =
             else
                 Header.header props [] [ text title ]
     in
-    Html.styled Html.div
-        [ padding2 (em 2) zero
-        , position relative
-        , property "-webkit-tap-highlight-color" "transparent"
-        , whiteSpace preWrap
-        ]
-        []
+    div []
         [ title_
         , div
             [ css
                 [ property "display" "grid"
                 , property "grid-template-columns" "1fr 300px"
-                , property "gap" "50px"
+                , border3 (px 1) solid (hex "#DDD")
+                , borderRadius (px 15)
                 ]
             ]
-            [ div [ css [ width (pct 100) ] ] preview
+            [ previewPanel preview
             , configPanel msg configSections
             ]
         ]
+
+
+previewPanel : List (Html msg) -> Html msg
+previewPanel previewSections =
+    div
+        [ css
+            [ displayFlex
+            , flexDirection column
+            , justifyContent center
+            , padding (em 2)
+            ]
+        ]
+        previewSections
 
 
 configPanel : (Config.Msg model -> msg) -> List (ConfigSection model) -> Html msg
@@ -58,7 +66,7 @@ configPanel msg configSections =
     Html.map msg <|
         aside
             [ css
-                [ paddingLeft (px 15)
+                [ padding (em 1)
                 , borderLeft3 (px 1) solid (hex "#DDD")
                 ]
             ]
@@ -74,6 +82,7 @@ configPanel msg configSections =
                                 [ paddingTop (px 15)
                                 , borderTop3 (px 1) solid (hex "#DDD")
                                 ]
+                            , lastChild [ paddingBottom zero ]
                             ]
                         ]
                         (div
