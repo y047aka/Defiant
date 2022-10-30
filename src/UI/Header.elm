@@ -1,5 +1,6 @@
 module UI.Header exposing
-    ( header
+    ( headerWithProps
+    , header
     , massiveHeader, hugeHeader, bigHeader, largeHeader, mediumHeader, smallHeader, tinyHeader, miniHeader
     , subHeader
     , iconHeader, iconHeaderContent
@@ -7,6 +8,7 @@ module UI.Header exposing
 
 {-|
 
+@docs headerWithProps
 @docs header
 @docs massiveHeader, hugeHeader, bigHeader, largeHeader, mediumHeader, smallHeader, tinyHeader, miniHeader
 @docs subHeader
@@ -21,6 +23,17 @@ import Css.Typography as Typography exposing (setFontSize, setFontWeight, setLin
 import Data.Theme exposing (Theme)
 import Html.Styled as Html exposing (Attribute, Html)
 import Types exposing (Size(..))
+
+
+type alias Props =
+    { size : Size
+    , theme : Theme
+    }
+
+
+headerWithProps : Props -> List (Attribute msg) -> List (Html msg) -> Html msg
+headerWithProps { size, theme } =
+    basis { theme = theme } (sizeSelector size)
 
 
 basis : { theme : Theme } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
@@ -68,48 +81,48 @@ basis { theme } additionalStyles =
 
 
 header : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
-header props =
-    basis props []
+header { theme } =
+    headerWithProps { theme = theme, size = Medium }
 
 
 miniHeader : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
-miniHeader props =
-    basis props (sizeSelector Mini)
+miniHeader { theme } =
+    headerWithProps { theme = theme, size = Mini }
 
 
 tinyHeader : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
-tinyHeader props =
-    basis props (sizeSelector Tiny)
+tinyHeader { theme } =
+    headerWithProps { theme = theme, size = Tiny }
 
 
 smallHeader : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
-smallHeader props =
-    basis props (sizeSelector Small)
+smallHeader { theme } =
+    headerWithProps { theme = theme, size = Small }
 
 
 mediumHeader : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
-mediumHeader props =
-    basis props []
+mediumHeader { theme } =
+    headerWithProps { theme = theme, size = Medium }
 
 
 largeHeader : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
-largeHeader props =
-    basis props (sizeSelector Large)
+largeHeader { theme } =
+    headerWithProps { theme = theme, size = Large }
 
 
 bigHeader : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
-bigHeader props =
-    basis props (sizeSelector Big)
+bigHeader { theme } =
+    headerWithProps { theme = theme, size = Big }
 
 
 hugeHeader : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
-hugeHeader props =
-    basis props (sizeSelector Huge)
+hugeHeader { theme } =
+    headerWithProps { theme = theme, size = Huge }
 
 
 massiveHeader : { theme : Theme } -> List (Attribute msg) -> List (Html msg) -> Html msg
-massiveHeader props =
-    basis props (sizeSelector Massive)
+massiveHeader { theme } =
+    headerWithProps { theme = theme, size = Massive }
 
 
 sizeSelector : Size -> List Style

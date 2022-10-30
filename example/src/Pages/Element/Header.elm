@@ -66,30 +66,7 @@ view { theme } model =
     [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Content Headers"
         , preview =
-            [ case model.size of
-                Massive ->
-                    massiveHeader options [] [ text "Massive Header" ]
-
-                Huge ->
-                    hugeHeader options [] [ text "Huge Header" ]
-
-                Big ->
-                    bigHeader options [] [ text "Big Header" ]
-
-                Large ->
-                    largeHeader options [] [ text "Large Header" ]
-
-                Medium ->
-                    mediumHeader options [] [ text "Medium Header" ]
-
-                Small ->
-                    smallHeader options [] [ text "Small Header" ]
-
-                Tiny ->
-                    tinyHeader options [] [ text "Tiny Header" ]
-
-                Mini ->
-                    miniHeader options [] [ text "Mini Header" ]
+            [ headerWithProps { size = model.size, theme = theme } [] [ text <| sizeToString model.size ++ " Heading" ]
             , wireframeShortParagraph
             ]
         , configSections =
