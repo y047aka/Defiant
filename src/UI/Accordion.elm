@@ -218,9 +218,11 @@ accordion { toggleMethod, theme } attributes items =
                 |> Palette.setBackground (hex "#FFFFFF")
                 |> Palette.setBorder (rgba 34 36 38 0.15)
             )
-        , darkPalette theme (Palette.init
-            |> setBackground (hex "#1B1C1D")
-            |> setColor (rgba 255 255 255 0.9))
+        , darkPalette theme
+            (Palette.init
+                |> setBackground (hex "#1B1C1D")
+                |> setColor (rgba 255 255 255 0.9)
+            )
         ]
         attributes
         (List.map
