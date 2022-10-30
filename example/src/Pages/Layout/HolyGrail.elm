@@ -55,7 +55,7 @@ update _ model =
 
 view : Shared.Model -> List (Html Msg)
 view { theme } =
-    [ configAndPreview UpdateConfig { theme = theme } <|
+    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Holy grail"
         , preview =
             [ holyGrail

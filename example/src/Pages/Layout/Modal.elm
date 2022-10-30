@@ -71,7 +71,7 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view shared { toggledItems } =
-    [ configAndPreview UpdateConfig { theme = shared.theme } <|
+    [ configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
         { title = "Modal"
         , preview =
             [ button [ onClick (Toggle "modal") ] [ icon [] "fas fa-plus", text "Show" ]
@@ -100,7 +100,7 @@ view shared { toggledItems } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = shared.theme } <|
+    , configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
         { title = "Basic"
         , preview =
             [ button [ onClick (Toggle "basicModal") ] [ icon [] "fas fa-plus", text "Show" ]
@@ -123,7 +123,7 @@ view shared { toggledItems } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = shared.theme } <|
+    , configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
         { title = "Dialog"
         , preview =
             [ button [ onClick (Toggle "dialog") ] [ icon [] "fas fa-plus", text "Show" ]

@@ -57,22 +57,7 @@ update : Msg -> Model -> ( Model, Effect Msg )
 update msg model =
     case msg of
         UpdateConfig configMsg ->
-            let
-                newModel =
-                    Config.update configMsg model
-
-                effect =
-                    case ( newModel.inverted == model.inverted, newModel.inverted ) of
-                        ( True, _ ) ->
-                            Effect.none
-
-                        ( False, True ) ->
-                            Effect.fromShared (Shared.ChangeTheme Dark)
-
-                        ( False, False ) ->
-                            Effect.fromShared (Shared.ChangeTheme Light)
-            in
-            ( newModel, effect )
+            ( Config.update configMsg model, Effect.none )
 
 
 
@@ -80,8 +65,15 @@ update msg model =
 
 
 view : Shared.Model -> Model -> List (Html Msg)
-view shared { toggleMethod } =
+view shared { toggleMethod, inverted } =
     let
+        theme =
+            if inverted then
+                Dark
+
+            else
+                shared.theme
+
         items =
             [ { id = "what_is_a_dog"
               , title = "What is a dog?"
@@ -107,21 +99,21 @@ view shared { toggleMethod } =
                         }
                     )
     in
-    [ configAndPreview UpdateConfig { theme = shared.theme } <|
+    [ configAndPreview UpdateConfig { theme = shared.theme, inverted = inverted } <|
         { title = "Accordion"
         , preview =
             [ case toggleMethod of
                 SummaryDetails ->
-                    accordion_SummaryDetails { theme = shared.theme } [] items
+                    accordion_SummaryDetails { theme = theme } [] items
 
                 TargetUrl ->
-                    accordion_TargetUrl { theme = shared.theme } [] items
+                    accordion_TargetUrl { theme = theme } [] items
 
                 Checkbox ->
-                    accordion_Checkbox { theme = shared.theme } [] items
+                    accordion_Checkbox { theme = theme } [] items
 
                 Radio ->
-                    accordion_Radio { theme = shared.theme } [] items
+                    accordion_Radio { theme = theme } [] items
             ]
         , configSections =
             [ { label = "Toggle Method"
@@ -158,7 +150,7 @@ view shared { toggleMethod } =
                             Config.bool
                                 { id = "inverted"
                                 , label = "Inverted"
-                                , bool = shared.theme == Dark
+                                , bool = inverted
                                 , setter = \m -> { m | inverted = not m.inverted }
                                 }
                       , note = "An accordion can be formatted to appear on dark backgrounds"

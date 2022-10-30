@@ -66,7 +66,7 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ configAndPreview UpdateConfig { theme = theme } <|
+    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Label"
         , preview =
             [ let
@@ -108,7 +108,7 @@ view { theme } model =
               }
             ]
         }
-    , configAndPreview UpdateConfig { theme = theme } <|
+    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Icon"
         , preview =
             [ Label.label [] [ icon [] "fas fa-envelope", text "Mail" ]
@@ -118,7 +118,7 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme } <|
+    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = ""
         , preview =
             [ Label.label [] [ text "Mail", icon [] "fas fa-envelope" ]
@@ -128,7 +128,7 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme } <|
+    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = ""
         , preview =
             [ Label.label [] [ icon [] "fas fa-envelope" ]
@@ -137,7 +137,7 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme } <|
+    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Basic"
         , preview = [ basicLabel [] [ text "Basic" ] ]
         , configSections = []

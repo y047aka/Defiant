@@ -62,7 +62,7 @@ view { theme } model =
         options =
             { theme = theme }
     in
-    [ configAndPreview UpdateConfig { theme = theme } <|
+    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Text"
         , preview =
             [ segment options
@@ -90,7 +90,7 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme } <|
+    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Size"
         , preview =
             [ segment options

@@ -80,7 +80,7 @@ view shared { toggledItems } =
         options =
             { theme = shared.theme }
     in
-    [ configAndPreview UpdateConfig { theme = shared.theme } <|
+    [ configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
         { title = "Dimmer"
         , preview =
             [ segment options
@@ -95,7 +95,7 @@ view shared { toggledItems } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = shared.theme } <|
+    , configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
         { title = "Content Dimmer"
         , preview =
             [ segment options
@@ -117,7 +117,7 @@ view shared { toggledItems } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = shared.theme } <|
+    , configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
         { title = "Page Dimmer"
         , preview =
             [ button [ onClick (Toggle "pageDimmer") ] [ icon [] "fas fa-plus", text "Show" ]
@@ -135,7 +135,7 @@ view shared { toggledItems } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = shared.theme } <|
+    , configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
         { title = "Inverted Dimmer"
         , preview =
             [ segment options

@@ -104,7 +104,7 @@ view { theme } ({ people, tableState, query } as model) =
         acceptablePeople =
             List.filter (String.contains lowerQuery << String.toLower << .name) people
     in
-    [ configAndPreview UpdateConfig { theme = theme } <|
+    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "List"
         , preview =
             [ input [ value query, placeholder "Search by Name", onInput SetQuery ] []

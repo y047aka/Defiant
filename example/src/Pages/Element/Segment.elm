@@ -61,22 +61,7 @@ update : Msg -> Model -> ( Model, Effect Msg )
 update msg model =
     case msg of
         UpdateConfig configMsg ->
-            let
-                newModel =
-                    Config.update configMsg model
-
-                effect =
-                    case ( newModel.inverted == model.inverted, newModel.inverted ) of
-                        ( True, _ ) ->
-                            Effect.none
-
-                        ( False, True ) ->
-                            Effect.fromShared (Shared.ChangeTheme Dark)
-
-                        ( False, False ) ->
-                            Effect.fromShared (Shared.ChangeTheme Light)
-            in
-            ( newModel, effect )
+            ( Config.update configMsg model, Effect.none )
 
 
 view : Shared.Model -> Model -> List (Html Msg)
@@ -85,14 +70,19 @@ view shared model =
         options =
             { theme = shared.theme }
     in
-    [ configAndPreview UpdateConfig { theme = shared.theme } <|
+    [ configAndPreview UpdateConfig { theme = shared.theme, inverted = model.inverted } <|
         { title = "Segment"
         , preview =
             [ segmentWithProps
                 { padding = model.padding
                 , border = True
                 , shadow = True
-                , theme = shared.theme
+                , theme =
+                    if model.inverted then
+                        Dark
+
+                    else
+                        shared.theme
                 , disabled = model.disabled
                 , additionalStyles = []
                 }
@@ -121,7 +111,7 @@ view shared model =
                             Config.bool
                                 { id = "inverted"
                                 , label = "Inverted"
-                                , bool = shared.theme == Dark
+                                , bool = model.inverted
                                 , setter = \m -> { m | inverted = not m.inverted }
                                 }
                       , note = "A segment can have its colors inverted for contrast"
@@ -141,7 +131,7 @@ view shared model =
               }
             ]
         }
-    , configAndPreview UpdateConfig { theme = shared.theme } <|
+    , configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
         { title = "Vertical Segment"
         , preview =
             if model.vertical then
@@ -172,7 +162,7 @@ view shared model =
               }
             ]
         }
-    , configAndPreview UpdateConfig { theme = shared.theme } <|
+    , configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
         { title = "Basic"
         , preview =
             [ basicSegment options

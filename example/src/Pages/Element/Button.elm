@@ -82,7 +82,7 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ configAndPreview UpdateConfig { theme = theme } <|
+    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Button"
         , preview =
             [ buttonWithProps
@@ -136,7 +136,7 @@ view { theme } model =
               }
             ]
         }
-    , configAndPreview UpdateConfig { theme = theme } <|
+    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = ""
         , preview =
             [ button [] [ text "Button" ]
@@ -144,7 +144,7 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme } <|
+    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Labeled"
         , preview =
             [ labeledButton []
@@ -159,12 +159,12 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme } <|
+    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Icon"
         , preview = [ button [] [ icon [] "fas fa-cloud" ] ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme } <|
+    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Basic"
         , preview = [ basicButton [] [ icon [] "fas fa-user", text "Add Friend" ] ]
         , configSections = []

@@ -64,7 +64,7 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ configAndPreview UpdateConfig { theme = theme } <|
+    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Steps"
         , preview =
             [ let
@@ -178,7 +178,7 @@ view { theme } model =
               }
             ]
         }
-    , configAndPreview UpdateConfig { theme = theme } <|
+    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Step"
         , preview =
             [ steps []

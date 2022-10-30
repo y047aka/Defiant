@@ -58,7 +58,7 @@ update _ model =
 
 view : Shared.Model -> List (Html Msg)
 view shared =
-    [ configAndPreview UpdateConfig { theme = shared.theme } <|
+    [ configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
         { title = "Loader"
         , preview =
             [ segment { theme = shared.theme }
@@ -71,7 +71,7 @@ view shared =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = shared.theme } <|
+    , configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
         { title = "Text Loader"
         , preview =
             [ segment { theme = shared.theme }

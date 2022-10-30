@@ -2,6 +2,7 @@ module View.ConfigAndPreview exposing (configAndPreview)
 
 import Config
 import Css exposing (..)
+import Css.Palette as Palette exposing (darkPalette, palette, setBackground, setColor)
 import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Html, aside, div, label, p, text)
 import Html.Styled.Attributes exposing (css)
@@ -16,21 +17,21 @@ type alias ConfigSection model =
 
 configAndPreview :
     (Config.Msg model -> msg)
-    -> { theme : Theme }
+    -> { theme : Theme, inverted : Bool }
     ->
         { title : String
         , preview : List (Html msg)
         , configSections : List (ConfigSection model)
         }
     -> Html msg
-configAndPreview msg props { title, preview, configSections } =
+configAndPreview msg { theme, inverted } { title, preview, configSections } =
     let
         title_ =
             if title == "" then
                 text ""
 
             else
-                Header.header props [] [ text title ]
+                Header.header { theme = theme } [] [ text title ]
     in
     div []
         [ title_
@@ -40,22 +41,37 @@ configAndPreview msg props { title, preview, configSections } =
                 , property "grid-template-columns" "1fr 300px"
                 , border3 (px 1) solid (hex "#DDD")
                 , borderRadius (px 15)
+                , overflow hidden
                 ]
             ]
-            [ previewPanel preview
+            [ previewPanel { inverted = inverted } preview
             , configPanel msg configSections
             ]
         ]
 
 
-previewPanel : List (Html msg) -> Html msg
-previewPanel previewSections =
+previewPanel : { inverted : Bool } -> List (Html msg) -> Html msg
+previewPanel { inverted } previewSections =
+    let
+        theme =
+            if inverted then
+                Dark
+
+            else
+                Light
+    in
     div
         [ css
             [ displayFlex
             , flexDirection column
             , justifyContent center
             , padding (em 2)
+            , palette (Palette.init |> setBackground (hex "#FFFFFF"))
+            , darkPalette theme
+                (Palette.init
+                    |> setBackground (hex "#1B1C1D")
+                    |> setColor (rgba 255 255 255 0.9)
+                )
             ]
         ]
         previewSections

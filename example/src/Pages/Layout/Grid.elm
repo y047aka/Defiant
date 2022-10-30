@@ -84,7 +84,7 @@ view { theme } =
                     ]
                 ]
     in
-    [ configAndPreview UpdateConfig { theme = theme } <|
+    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Grids"
         , preview =
             [ grid [ css additionalStyles ]
@@ -96,7 +96,7 @@ view { theme } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme } <|
+    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Columns"
         , preview =
             [ grid [ css additionalStyles ]
@@ -111,7 +111,7 @@ view { theme } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme } <|
+    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Automatic Flow"
         , preview =
             [ grid [ css additionalStyles ]
@@ -127,7 +127,7 @@ view { theme } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme } <|
+    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Column Content"
         , preview =
             [ let

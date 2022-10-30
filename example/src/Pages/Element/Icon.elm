@@ -88,7 +88,7 @@ view { theme } =
                     ]
                 ]
     in
-    [ configAndPreview UpdateConfig { theme = theme } <|
+    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Accessibility"
         , preview =
             [ fiveColumnsGrid []

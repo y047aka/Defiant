@@ -55,7 +55,7 @@ update _ model =
 
 view : Shared.Model -> List (Html Msg)
 view { theme } =
-    [ configAndPreview UpdateConfig { theme = theme } <|
+    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Tab"
         , preview =
             [ tab { state = Inactive }
@@ -66,7 +66,7 @@ view { theme } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme } <|
+    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Active"
         , preview =
             [ tab { state = Active }
@@ -77,7 +77,7 @@ view { theme } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme } <|
+    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Loading"
         , preview =
             [ tab { state = Loading }

@@ -60,7 +60,7 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ configAndPreview UpdateConfig { theme = theme } <|
+    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Table"
         , preview =
             [ tableWithProps { border = True, striped = model.striped, celled = model.celled, thead = True }
@@ -110,7 +110,7 @@ view { theme } model =
               }
             ]
         }
-    , configAndPreview UpdateConfig { theme = theme } <|
+    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Basic"
         , preview =
             [ basicTable []
@@ -129,7 +129,7 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme } <|
+    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = ""
         , preview =
             [ veryBasicTable []

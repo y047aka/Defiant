@@ -59,22 +59,7 @@ update : Msg -> Model -> ( Model, Effect Msg )
 update msg model =
     case msg of
         UpdateConfig configMsg ->
-            let
-                newModel =
-                    Config.update configMsg model
-
-                effect =
-                    case ( newModel.inverted == model.inverted, newModel.inverted ) of
-                        ( True, _ ) ->
-                            Effect.none
-
-                        ( False, True ) ->
-                            Effect.fromShared (Shared.ChangeTheme Dark)
-
-                        ( False, False ) ->
-                            Effect.fromShared (Shared.ChangeTheme Light)
-            in
-            ( newModel, effect )
+            ( Config.update configMsg model, Effect.none )
 
 
 
@@ -114,7 +99,7 @@ view { theme } model =
                 Massive ->
                     massiveBreadCrumb
       in
-      configAndPreview UpdateConfig { theme = theme } <|
+      configAndPreview UpdateConfig { theme = theme, inverted = model.inverted } <|
         { title = "Breadcrumb"
         , preview =
             [ breadcrumb_ options
@@ -146,7 +131,7 @@ view { theme } model =
                             Config.bool
                                 { id = "inverted"
                                 , label = "Inverted"
-                                , bool = theme == Dark
+                                , bool = model.inverted
                                 , setter = \m -> { m | inverted = not m.inverted }
                                 }
                       , note = "A breadcrumb can be inverted"
