@@ -1,6 +1,7 @@
 module Pages.DataDisplay.Card exposing (Model, Msg, page)
 
 import Config
+import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Attributes exposing (src)
 import Page
@@ -9,7 +10,7 @@ import Shared
 import UI.Card as Card exposing (cards, extraContent)
 import UI.Icon exposing (icon)
 import UI.Image exposing (image)
-import View.ConfigAndPreview exposing (configAndPreview)
+import View.Playground exposing (playground)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
@@ -30,7 +31,8 @@ page shared _ =
 
 
 type alias Model =
-    { hasImage : Bool
+    { inverted : Bool
+    , hasImage : Bool
     , hasHeader : Bool
     , hasMetadata : Bool
     , hasDescription : Bool
@@ -40,7 +42,8 @@ type alias Model =
 
 init : Model
 init =
-    { hasImage = True
+    { inverted = False
+    , hasImage = True
     , hasHeader = True
     , hasMetadata = True
     , hasDescription = True
@@ -71,7 +74,13 @@ view : Shared.Model -> Model -> List (Html Msg)
 view shared model =
     let
         options =
-            { theme = shared.theme }
+            { theme =
+                if model.inverted then
+                    Dark
+
+                else
+                    shared.theme
+            }
 
         card { header, metadata, description_, friends, imageUrl } =
             Card.card options
@@ -113,8 +122,11 @@ view shared model =
                     text ""
                 ]
     in
-    [ configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
+    [ playground
         { title = "Cards"
+        , toMsg = UpdateConfig
+        , theme = shared.theme
+        , inverted = model.inverted
         , preview =
             [ cards [] <|
                 List.map card
