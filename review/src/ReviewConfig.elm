@@ -11,10 +11,17 @@ when inside the directory containing this file.
 
 -}
 
+import NoExposingEverything
+import NoUnused.Dependencies
+import NoUnused.Parameters
 import NoUnused.Variables
 import Review.Rule exposing (Rule)
 
 
 config : List Rule
 config =
-    [ NoUnused.Variables.rule ]
+    [ NoExposingEverything.rule
+    , NoUnused.Dependencies.rule
+    , NoUnused.Parameters.rule
+    , NoUnused.Variables.rule
+    ]

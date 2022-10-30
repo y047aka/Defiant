@@ -1,7 +1,7 @@
 module UI.HolyGrail exposing (holyGrail)
 
 import Css exposing (..)
-import Html.Styled as Html exposing (Html, aside, div, footer, header, main_, text)
+import Html.Styled exposing (Html, aside, div, footer, header, main_, text)
 import Html.Styled.Attributes exposing (css)
 
 

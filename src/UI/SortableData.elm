@@ -38,7 +38,7 @@ I recommend checking out the [examples] to get a feel for how it works.
 -}
 
 import Css exposing (color, hex)
-import Html.Styled as Html exposing (Attribute, Html, li, span, text, ul)
+import Html.Styled exposing (Attribute, Html, li, span, text, ul)
 import Html.Styled.Attributes exposing (css)
 import Html.Styled.Events as Events
 import Html.Styled.Keyed as Keyed

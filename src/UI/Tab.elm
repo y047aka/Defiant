@@ -3,7 +3,7 @@ module UI.Tab exposing (State(..), tab)
 import Css exposing (..)
 import Css.Animations as Animations exposing (keyframes)
 import Css.Extra exposing (prefixed)
-import Css.Global exposing (children, descendants, everything)
+import Css.Global exposing (descendants, everything)
 import Html.Styled as Html exposing (Attribute, Html)
 
 
