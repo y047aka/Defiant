@@ -1,12 +1,12 @@
 module Pages.Element.Text exposing (Model, Msg, page)
 
 import Config
+import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Html, p, text)
 import Page
 import Request exposing (Request)
 import Shared
 import Types exposing (PresetColor(..), Size(..), sizeFromString, sizeToString)
-import UI.Segment exposing (segment)
 import UI.Text exposing (..)
 import View.ConfigAndPreview exposing (configAndPreview)
 
@@ -29,12 +29,16 @@ page shared _ =
 
 
 type alias Model =
-    { size : Size }
+    { inverted : Bool
+    , size : Size
+    }
 
 
 init : Model
 init =
-    { size = Medium }
+    { inverted = False
+    , size = Medium
+    }
 
 
 
@@ -60,13 +64,18 @@ view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
     let
         options =
-            { theme = theme }
+            { theme =
+                if model.inverted then
+                    Dark
+
+                else
+                    theme
+            }
     in
-    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    [ configAndPreview UpdateConfig { theme = theme, inverted = model.inverted } <|
         { title = "Text"
         , preview =
-            [ segment options
-                []
+            [ p []
                 [ text "This is "
                 , redText options "red"
                 , text " inline text and this is "
@@ -75,8 +84,7 @@ view { theme } model =
                 , purpleText options "purple"
                 , text " inline text"
                 ]
-            , segment options
-                []
+            , p []
                 [ text "This is "
                 , infoText "info"
                 , text " inline text and this is "
@@ -88,39 +96,51 @@ view { theme } model =
                 , text " inline text"
                 ]
             ]
-        , configSections = []
+        , configSections =
+            [ { label = "Variations"
+              , configs =
+                    [ { label = ""
+                      , config =
+                            Config.bool
+                                { id = "inverted"
+                                , label = "Inverted"
+                                , bool = model.inverted
+                                , setter = \m -> { m | inverted = not m.inverted }
+                                }
+                      , note = ""
+                      }
+                    ]
+              }
+            ]
         }
     , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Size"
         , preview =
-            [ segment options
-                []
-                [ p [] <|
-                    case model.size of
-                        Massive ->
-                            [ text "to finally become ", massiveText "massive", text " text" ]
+            [ p [] <|
+                case model.size of
+                    Massive ->
+                        [ text "to finally become ", massiveText "massive", text " text" ]
 
-                        Huge ->
-                            [ text "then growing to ", hugeText "huge", text " text" ]
+                    Huge ->
+                        [ text "then growing to ", hugeText "huge", text " text" ]
 
-                        Big ->
-                            [ text "to turn into ", bigText "big", text " text" ]
+                    Big ->
+                        [ text "to turn into ", bigText "big", text " text" ]
 
-                        Large ->
-                            [ text "and could be ", largeText "large", text " text" ]
+                    Large ->
+                        [ text "and could be ", largeText "large", text " text" ]
 
-                        Medium ->
-                            [ text "the default ", mediumText "medium", text " text" ]
+                    Medium ->
+                        [ text "the default ", mediumText "medium", text " text" ]
 
-                        Small ->
-                            [ text "changing to ", smallText "small", text " text until it is" ]
+                    Small ->
+                        [ text "changing to ", smallText "small", text " text until it is" ]
 
-                        Tiny ->
-                            [ text "which turns into ", tinyText "tiny", text " text" ]
+                    Tiny ->
+                        [ text "which turns into ", tinyText "tiny", text " text" ]
 
-                        Mini ->
-                            [ text "Starting with ", miniText "mini", text " text" ]
-                ]
+                    Mini ->
+                        [ text "Starting with ", miniText "mini", text " text" ]
             ]
         , configSections =
             [ { label = "Size"
