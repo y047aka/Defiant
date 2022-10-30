@@ -4,11 +4,8 @@
     "start": "elm-spa server"
   },
   "devDependencies": {
-    "elm-format": "^0.8.5",
-    "elm-review": "^2.7.3"
-  },
-  "dependencies": {
     "elm": "^0.19.1-5",
+    "elm-format": "^0.8.5",
     "elm-spa": "^6.0.4"
   }
 }
