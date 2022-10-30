@@ -10,6 +10,7 @@ import Shared
 import UI.Example exposing (wireframeShortParagraph)
 import UI.Segment exposing (Padding(..), basicSegment, paddingFromString, paddingToString, segment, segmentWithProps, verticalSegment)
 import View.ConfigAndPreview exposing (configAndPreview)
+import View.Playground exposing (playground)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
@@ -70,8 +71,11 @@ view shared model =
         options =
             { theme = shared.theme }
     in
-    [ configAndPreview UpdateConfig { theme = shared.theme, inverted = model.inverted } <|
+    [ playground
         { title = "Segment"
+        , toMsg = UpdateConfig
+        , theme = shared.theme
+        , inverted = model.inverted
         , preview =
             [ segmentWithProps
                 { padding = model.padding
@@ -106,17 +110,7 @@ view shared model =
               }
             , { label = "Variations"
               , configs =
-                    [ { label = ""
-                      , config =
-                            Config.bool
-                                { id = "inverted"
-                                , label = "Inverted"
-                                , bool = model.inverted
-                                , setter = \m -> { m | inverted = not m.inverted }
-                                }
-                      , note = "A segment can have its colors inverted for contrast"
-                      }
-                    , { label = "Padding"
+                    [ { label = "Padding"
                       , config =
                             Config.select
                                 { value = model.padding

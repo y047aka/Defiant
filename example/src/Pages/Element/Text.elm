@@ -9,6 +9,7 @@ import Shared
 import Types exposing (PresetColor(..), Size(..), sizeFromString, sizeToString)
 import UI.Text exposing (..)
 import View.ConfigAndPreview exposing (configAndPreview)
+import View.Playground exposing (playground)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
@@ -72,8 +73,11 @@ view { theme } model =
                     theme
             }
     in
-    [ configAndPreview UpdateConfig { theme = theme, inverted = model.inverted } <|
+    [ playground
         { title = "Text"
+        , toMsg = UpdateConfig
+        , theme = theme
+        , inverted = model.inverted
         , preview =
             [ p []
                 [ text "This is "
@@ -96,22 +100,7 @@ view { theme } model =
                 , text " inline text"
                 ]
             ]
-        , configSections =
-            [ { label = "Variations"
-              , configs =
-                    [ { label = ""
-                      , config =
-                            Config.bool
-                                { id = "inverted"
-                                , label = "Inverted"
-                                , bool = model.inverted
-                                , setter = \m -> { m | inverted = not m.inverted }
-                                }
-                      , note = ""
-                      }
-                    ]
-              }
-            ]
+        , configSections = []
         }
     , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Size"

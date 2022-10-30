@@ -9,7 +9,7 @@ import Page
 import Request exposing (Request)
 import Shared
 import UI.Accordion as Accordion exposing (ToggleMethod(..), accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl)
-import View.ConfigAndPreview exposing (configAndPreview)
+import View.Playground exposing (playground)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
@@ -99,8 +99,11 @@ view shared { toggleMethod, inverted } =
                         }
                     )
     in
-    [ configAndPreview UpdateConfig { theme = shared.theme, inverted = inverted } <|
+    [ playground
         { title = "Accordion"
+        , toMsg = UpdateConfig
+        , theme = shared.theme
+        , inverted = inverted
         , preview =
             [ case toggleMethod of
                 SummaryDetails ->
@@ -140,20 +143,6 @@ view shared { toggleMethod, inverted } =
 
                                 Radio ->
                                     "A standard accordion with radio button"
-                      }
-                    ]
-              }
-            , { label = "Variations"
-              , configs =
-                    [ { label = ""
-                      , config =
-                            Config.bool
-                                { id = "inverted"
-                                , label = "Inverted"
-                                , bool = inverted
-                                , setter = \m -> { m | inverted = not m.inverted }
-                                }
-                      , note = "An accordion can be formatted to appear on dark backgrounds"
                       }
                     ]
               }

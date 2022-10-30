@@ -9,7 +9,7 @@ import Request exposing (Request)
 import Shared
 import Types exposing (Size(..), sizeFromString, sizeToString)
 import UI.Breadcrumb exposing (Divider(..), bigBreadCrumb, dividerFromString, dividerToString, hugeBreadCrumb, largeBreadCrumb, massiveBreadCrumb, mediumBreadCrumb, miniBreadCrumb, smallBreadCrumb, tinyBreadCrumb)
-import View.ConfigAndPreview exposing (configAndPreview)
+import View.Playground exposing (playground)
 
 
 page : Shared.Model -> Request -> Page.With Model Msg
@@ -99,8 +99,11 @@ view { theme } model =
                 Massive ->
                     massiveBreadCrumb
       in
-      configAndPreview UpdateConfig { theme = theme, inverted = model.inverted } <|
+      playground
         { title = "Breadcrumb"
+        , toMsg = UpdateConfig
+        , theme = theme
+        , inverted = model.inverted
         , preview =
             [ breadcrumb_ options
                 [ { label = "Home", url = "/" }
@@ -126,17 +129,7 @@ view { theme } model =
               }
             , { label = "Variations"
               , configs =
-                    [ { label = ""
-                      , config =
-                            Config.bool
-                                { id = "inverted"
-                                , label = "Inverted"
-                                , bool = model.inverted
-                                , setter = \m -> { m | inverted = not m.inverted }
-                                }
-                      , note = "A breadcrumb can be inverted"
-                      }
-                    , { label = "Size"
+                    [ { label = "Size"
                       , config =
                             Config.select
                                 { value = model.size
