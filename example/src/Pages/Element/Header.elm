@@ -30,12 +30,12 @@ page shared _ =
 
 
 type alias Model =
-    { size : Size }
+    { label : String, size : Size }
 
 
 init : Model
 init =
-    { size = Medium }
+    { label = "Heading", size = Medium }
 
 
 
@@ -66,11 +66,24 @@ view { theme } model =
     [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Content Headers"
         , preview =
-            [ headerWithProps { size = model.size, theme = theme } [] [ text <| sizeToString model.size ++ " Heading" ]
+            [ headerWithProps { size = model.size, theme = theme } [] [ text <| sizeToString model.size ++ " " ++ model.label ]
             , wireframeShortParagraph
             ]
         , configSections =
-            [ { label = "Variations"
+            [ { label = "Content"
+              , configs =
+                    [ { label = "Header"
+                      , config =
+                            Config.string
+                                { label = ""
+                                , value = model.label
+                                , setter = \string m -> { m | label = string }
+                                }
+                      , note = ""
+                      }
+                    ]
+              }
+            , { label = "Variations"
               , configs =
                     [ { label = "Size"
                       , config =
