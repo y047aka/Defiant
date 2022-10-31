@@ -30,12 +30,18 @@ page shared _ =
 
 
 type alias Model =
-    { label : String, size : Size }
+    { header : String
+    , subHeader : String
+    , size : Size
+    }
 
 
 init : Model
 init =
-    { label = "Heading", size = Medium }
+    { header = "Header"
+    , subHeader = "Subheader"
+    , size = Medium
+    }
 
 
 
@@ -66,7 +72,11 @@ view { theme } model =
     [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Content Headers"
         , preview =
-            [ headerWithProps { size = model.size, theme = theme } [] [ text <| sizeToString model.size ++ " " ++ model.label ]
+            [ headerWithProps { size = model.size, theme = theme }
+                []
+                [ text <| sizeToString model.size ++ " " ++ model.header
+                , subHeader options [] [ text model.subHeader ]
+                ]
             , wireframeShortParagraph
             ]
         , configSections =
@@ -76,8 +86,17 @@ view { theme } model =
                       , config =
                             Config.string
                                 { label = ""
-                                , value = model.label
-                                , setter = \string m -> { m | label = string }
+                                , value = model.header
+                                , setter = \string m -> { m | header = string }
+                                }
+                      , note = ""
+                      }
+                    , { label = "Subheader"
+                      , config =
+                            Config.string
+                                { label = ""
+                                , value = model.subHeader
+                                , setter = \string m -> { m | subHeader = string }
                                 }
                       , note = ""
                       }
@@ -110,18 +129,6 @@ view { theme } model =
                     [ text "Account Settings"
                     , subHeader options [] [ text "Manage your account settings and set e-mail preferences." ]
                     ]
-                ]
-            ]
-        , configSections = []
-        }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
-        { title = "Subheader"
-        , preview =
-            [ Header.header options
-                []
-                [ text "Account Settings"
-                , subHeader options [] [ text "Manage your account settings and set e-mail preferences." ]
-                , wireframeShortParagraph
                 ]
             ]
         , configSections = []
