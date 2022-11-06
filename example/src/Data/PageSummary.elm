@@ -61,7 +61,6 @@ all =
     , breadcrumbPage
     , menuPage
     , stepPage
-    , circleStepPage
     , progressPage
     , tabPage
 
@@ -273,15 +272,6 @@ stepPage =
     , description = "A step shows the completion status of an activity in a series of activities"
     , category = Navigation
     , route = Route.Navigation__Step
-    }
-
-
-circleStepPage : PageSummary
-circleStepPage =
-    { title = "Circle Step"
-    , description = "A step shows the completion status of an activity in a series of activities"
-    , category = Navigation
-    , route = Route.Navigation__CircleStep
     }
 
 

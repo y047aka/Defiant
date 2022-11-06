@@ -5,7 +5,8 @@ import Html.Styled as Html exposing (Html)
 import Page
 import Request exposing (Request)
 import Shared
-import UI.Step as Step exposing (State(..), activeStep, completedStep, disabledStep, step, steps)
+import UI.CircleStep as CircleStep
+import UI.Step as Step exposing (State(..))
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
@@ -27,18 +28,18 @@ page shared _ =
 
 
 type alias Model =
-    { hasIcon : Bool
+    { type_ : StepType
+    , hasIcon : Bool
     , hasDescription : Bool
-    , state : State
     , progress : Progress
     }
 
 
 init : Model
 init =
-    { hasIcon = True
+    { type_ = Step
+    , hasIcon = True
     , hasDescription = True
-    , state = Default
     , progress = Shipping
     }
 
@@ -83,16 +84,30 @@ view { theme } model =
                         else
                             ""
                     }
+
+                steps =
+                    case model.type_ of
+                        Step ->
+                            Step.steps
+
+                        CircleStep ->
+                            CircleStep.steps
               in
               steps []
                 [ let
                     step_ =
-                        case model.progress of
-                            Shipping ->
-                                activeStep
+                        case ( model.type_, model.progress ) of
+                            ( Step, Shipping ) ->
+                                Step.activeStep
 
-                            _ ->
-                                step
+                            ( Step, _ ) ->
+                                Step.step
+
+                            ( CircleStep, Shipping ) ->
+                                CircleStep.activeStep
+
+                            ( CircleStep, _ ) ->
+                                CircleStep.completedStep
                   in
                   step_ [] <|
                     considerOptions
@@ -102,15 +117,24 @@ view { theme } model =
                         }
                 , let
                     step_ =
-                        case model.progress of
-                            Shipping ->
-                                disabledStep
+                        case ( model.type_, model.progress ) of
+                            ( Step, Shipping ) ->
+                                Step.disabledStep
 
-                            Billing ->
-                                activeStep
+                            ( Step, Billing ) ->
+                                Step.activeStep
 
-                            ConfirmOrder ->
-                                step
+                            ( Step, ConfirmOrder ) ->
+                                Step.step
+
+                            ( CircleStep, Shipping ) ->
+                                CircleStep.disabledStep
+
+                            ( CircleStep, Billing ) ->
+                                CircleStep.activeStep
+
+                            ( CircleStep, ConfirmOrder ) ->
+                                CircleStep.completedStep
                   in
                   step_ [] <|
                     considerOptions
@@ -120,12 +144,18 @@ view { theme } model =
                         }
                 , let
                     step_ =
-                        case model.progress of
-                            ConfirmOrder ->
-                                activeStep
+                        case ( model.type_, model.progress ) of
+                            ( Step, ConfirmOrder ) ->
+                                Step.activeStep
 
-                            _ ->
-                                disabledStep
+                            ( Step, _ ) ->
+                                Step.disabledStep
+
+                            ( CircleStep, ConfirmOrder ) ->
+                                CircleStep.activeStep
+
+                            ( CircleStep, _ ) ->
+                                CircleStep.disabledStep
                   in
                   step_ [] <|
                     considerOptions
@@ -136,7 +166,22 @@ view { theme } model =
                 ]
             ]
         , configSections =
-            [ { label = "Progress"
+            [ { label = "Type"
+              , configs =
+                    [ { label = ""
+                      , config =
+                            Config.select
+                                { value = model.type_
+                                , options = [ Step, CircleStep ]
+                                , fromString = stepTypeFromString
+                                , toString = stepTypeToString
+                                , setter = \type_ m -> { m | type_ = type_ }
+                                }
+                      , note = ""
+                      }
+                    ]
+              }
+            , { label = "Progress"
               , configs =
                     [ { label = ""
                       , config =
@@ -178,67 +223,39 @@ view { theme } model =
               }
             ]
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
-        { title = "Step"
-        , preview =
-            [ steps []
-                [ let
-                    step_ =
-                        case model.state of
-                            Default ->
-                                step
-
-                            Active ->
-                                activeStep
-
-                            Completed ->
-                                completedStep
-
-                            Disabled ->
-                                disabledStep
-                  in
-                  step_ []
-                    { icon = "fas fa-credit-card"
-                    , title = "Billing"
-                    , description = "Enter billing information"
-                    }
-                ]
-            ]
-        , configSections =
-            [ { label = "States"
-              , configs =
-                    [ { label = ""
-                      , config =
-                            Config.select
-                                { value = model.state
-                                , options = [ Default, Active, Completed, Disabled ]
-                                , fromString = Step.stateFromString
-                                , toString = Step.stateToString
-                                , setter = \state m -> { m | state = state }
-                                }
-                      , note =
-                            case model.state of
-                                Default ->
-                                    ""
-
-                                Active ->
-                                    "A step can be highlighted as active"
-
-                                Completed ->
-                                    "A step can show that a user has completed it"
-
-                                Disabled ->
-                                    "A step can show that it cannot be selected"
-                      }
-                    ]
-              }
-            ]
-        }
     ]
 
 
 
 -- HELPER
+
+
+type StepType
+    = Step
+    | CircleStep
+
+
+stepTypeFromString : String -> Maybe StepType
+stepTypeFromString string =
+    case string of
+        "Step" ->
+            Just Step
+
+        "CircleStep" ->
+            Just CircleStep
+
+        _ ->
+            Nothing
+
+
+stepTypeToString : StepType -> String
+stepTypeToString stepType =
+    case stepType of
+        Step ->
+            "Step"
+
+        CircleStep ->
+            "CircleStep"
 
 
 type Progress
