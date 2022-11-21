@@ -1,18 +1,20 @@
 module Pages.Global.Site exposing (Model, Msg, page)
 
 import Config
+import Effect
 import Html.Styled as Html exposing (Html, h1, h2, h3, h4, h5, p, text)
-import Page
-import Request exposing (Request)
+import Page exposing (Page)
+import Route exposing (Route)
 import Shared
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page.With Model Msg
+page : Shared.Model -> Route () -> Page Model Msg
 page shared _ =
-    Page.sandbox
-        { init = init
-        , update = update
+    Page.new
+        { init = \() -> ( init, Effect.none )
+        , update = \msg model -> ( update msg model, Effect.none )
+        , subscriptions = \_ -> Sub.none
         , view =
             \_ ->
                 { title = "Site"

@@ -2,27 +2,27 @@ module Pages.Navigation.Breadcrumb exposing (Model, Msg, page)
 
 import Config
 import Data.Theme exposing (Theme(..))
-import Effect exposing (Effect)
+import Effect
 import Html.Styled as Html exposing (Html)
-import Page
-import Request exposing (Request)
+import Page exposing (Page)
+import Route exposing (Route)
 import Shared
 import Types exposing (Size(..), sizeFromString, sizeToString)
 import UI.Breadcrumb exposing (Divider(..), bigBreadCrumb, dividerFromString, dividerToString, hugeBreadCrumb, largeBreadCrumb, massiveBreadCrumb, mediumBreadCrumb, miniBreadCrumb, smallBreadCrumb, tinyBreadCrumb)
 import View.Playground exposing (playground)
 
 
-page : Shared.Model -> Request -> Page.With Model Msg
+page : Shared.Model -> Route () -> Page Model Msg
 page shared _ =
-    Page.advanced
-        { init = init
-        , update = update
+    Page.new
+        { init = \() -> ( init, Effect.none )
+        , update = \msg model -> ( update msg model, Effect.none )
+        , subscriptions = \_ -> Sub.none
         , view =
             \model ->
                 { title = "Breadcrumb"
                 , body = view shared model
                 }
-        , subscriptions = \_ -> Sub.none
         }
 
 
@@ -37,14 +37,12 @@ type alias Model =
     }
 
 
-init : ( Model, Effect Msg )
+init : Model
 init =
-    ( { divider = Slash
-      , inverted = False
-      , size = Medium
-      }
-    , Effect.none
-    )
+    { divider = Slash
+    , inverted = False
+    , size = Medium
+    }
 
 
 
@@ -55,11 +53,11 @@ type Msg
     = UpdateConfig (Config.Msg Model)
 
 
-update : Msg -> Model -> ( Model, Effect Msg )
+update : Msg -> Model -> Model
 update msg model =
     case msg of
         UpdateConfig configMsg ->
-            ( Config.update configMsg model, Effect.none )
+            Config.update configMsg model
 
 
 

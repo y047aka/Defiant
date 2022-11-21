@@ -2,11 +2,12 @@ module Pages.Element.Dimmer exposing (Model, Msg, page)
 
 import Config
 import Data.Theme exposing (Theme(..))
+import Effect
 import Html.Styled as Html exposing (Html, div, text)
 import Html.Styled.Attributes exposing (src)
 import Html.Styled.Events exposing (onClick)
-import Page
-import Request exposing (Request)
+import Page exposing (Page)
+import Route exposing (Route)
 import Shared
 import UI.Button exposing (button)
 import UI.Dimmer as Dimmer exposing (dimmer, pageDimmer)
@@ -18,11 +19,12 @@ import UI.Segment exposing (segment)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page.With Model Msg
+page : Shared.Model -> Route () -> Page Model Msg
 page shared _ =
-    Page.sandbox
-        { init = init
-        , update = update
+    Page.new
+        { init = \() -> ( init, Effect.none )
+        , update = \msg model -> ( update msg model, Effect.none )
+        , subscriptions = \_ -> Sub.none
         , view =
             \model ->
                 { title = "Dimmer"

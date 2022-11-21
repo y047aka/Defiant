@@ -1,20 +1,22 @@
 module Pages.Layout.HolyGrail exposing (Model, Msg, page)
 
 import Config
+import Effect
 import Html.Styled as Html exposing (Html, text)
-import Page
-import Request exposing (Request)
+import Page exposing (Page)
+import Route exposing (Route)
 import Shared
 import UI.Example exposing (wireframeParagraph)
 import UI.HolyGrail exposing (holyGrail)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page.With Model Msg
+page : Shared.Model -> Route () -> Page Model Msg
 page shared _ =
-    Page.sandbox
-        { init = init
-        , update = update
+    Page.new
+        { init = \() -> ( init, Effect.none )
+        , update = \msg model -> ( update msg model, Effect.none )
+        , subscriptions = \_ -> Sub.none
         , view =
             \_ ->
                 { title = "Holy Grail"

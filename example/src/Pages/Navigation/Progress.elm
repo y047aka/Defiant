@@ -1,27 +1,28 @@
 module Pages.Navigation.Progress exposing (Model, Msg, page)
 
 import Config
+import Effect exposing (Effect)
 import Html.Styled as Html exposing (Html)
 import Html.Styled.Attributes exposing (value)
-import Page
+import Page exposing (Page)
 import Random
-import Request exposing (Request)
+import Route exposing (Route)
 import Shared
 import UI.Progress as Progress exposing (State(..))
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page.With Model Msg
+page : Shared.Model -> Route () -> Page Model Msg
 page shared _ =
-    Page.element
+    Page.new
         { init = init
         , update = update
+        , subscriptions = \_ -> Sub.none
         , view =
             \model ->
                 { title = "Progress"
                 , body = view shared model
                 }
-        , subscriptions = \_ -> Sub.none
         }
 
 
@@ -38,15 +39,15 @@ type alias Model =
     }
 
 
-init : ( Model, Cmd Msg )
-init =
+init : () -> ( Model, Effect Msg )
+init () =
     ( { progressValue = 0
       , progressLabel = "%"
       , label = "Uploading Files"
       , indicating = False
       , state = Default
       }
-    , Random.generate NewProgress (Random.int 10 50)
+    , Effect.fromCmd <| Random.generate NewProgress (Random.int 10 50)
     )
 
 
@@ -59,7 +60,7 @@ type Msg
     | UpdateConfig (Config.Msg Model)
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> ( Model, Effect Msg )
 update msg model =
     case msg of
         NewProgress int ->
@@ -79,19 +80,19 @@ update msg model =
             in
             ( { model | progressValue = newProgress }
                 |> updatelabelOnIndicating
-            , Cmd.none
+            , Effect.none
             )
 
         UpdateConfig configMsg ->
             case configMsg of
                 Config.Update updater ->
-                    ( updater model, Cmd.none )
+                    ( updater model, Effect.none )
 
                 Config.CounterPlus ->
-                    ( model, Random.generate NewProgress (Random.int 10 15) )
+                    ( model, Effect.fromCmd <| Random.generate NewProgress (Random.int 10 15) )
 
                 Config.CounterMinus ->
-                    ( model, Random.generate NewProgress (Random.int -15 -10) )
+                    ( model, Effect.fromCmd <| Random.generate NewProgress (Random.int -15 -10) )
 
 
 updatelabelOnIndicating : Model -> Model

@@ -2,9 +2,10 @@ module Pages.Element.Loader exposing (Model, Msg, page)
 
 import Config
 import Data.Theme exposing (Theme(..))
+import Effect
 import Html.Styled as Html exposing (Html, text)
-import Page
-import Request exposing (Request)
+import Page exposing (Page)
+import Route exposing (Route)
 import Shared
 import UI.Dimmer exposing (dimmer)
 import UI.Example exposing (wireframeShortParagraph)
@@ -13,11 +14,12 @@ import UI.Segment exposing (segment)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page.With Model Msg
+page : Shared.Model -> Route () -> Page Model Msg
 page shared _ =
-    Page.sandbox
-        { init = init
-        , update = update
+    Page.new
+        { init = \() -> ( init, Effect.none )
+        , update = \msg model -> ( update msg model, Effect.none )
+        , subscriptions = \_ -> Sub.none
         , view =
             \_ ->
                 { title = "Loader"

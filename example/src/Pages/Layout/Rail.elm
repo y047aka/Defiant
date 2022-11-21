@@ -1,32 +1,58 @@
-module Pages.Layout.Rail exposing (page)
+module Pages.Layout.Rail exposing (Model, Msg, page)
 
 import Css exposing (..)
+import Effect
 import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Attributes exposing (css)
 import Page exposing (Page)
-import Request exposing (Request)
+import Route exposing (Route)
 import Shared
 import UI.Example exposing (example, wireframeParagraph)
 import UI.Rail exposing (leftRail, rightRail)
 import UI.Segment exposing (segment)
 
 
-page : Shared.Model -> Request -> Page
+page : Shared.Model -> Route () -> Page Model Msg
 page shared _ =
-    Page.static
-        { view =
-            { title = "Rail"
-            , body = view { shared = shared }
-            }
+    Page.new
+        { init = \() -> ( init, Effect.none )
+        , update = \_ model -> ( model, Effect.none )
+        , subscriptions = \_ -> Sub.none
+        , view =
+            \_ ->
+                { title = "Rail"
+                , body = view shared
+                }
         }
 
 
+
+-- INIT
+
+
 type alias Model =
-    { shared : Shared.Model }
+    {}
 
 
-view : Model -> List (Html msg)
-view { shared } =
+init : Model
+init =
+    {}
+
+
+
+-- UPDATE
+
+
+type Msg
+    = NoOp
+
+
+
+-- VIEW
+
+
+view : Shared.Model -> List (Html msg)
+view shared =
     let
         options =
             { theme = shared.theme }

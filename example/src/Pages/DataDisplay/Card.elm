@@ -2,10 +2,11 @@ module Pages.DataDisplay.Card exposing (Model, Msg, page)
 
 import Config
 import Data.Theme exposing (Theme(..))
+import Effect
 import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Attributes exposing (src)
-import Page
-import Request exposing (Request)
+import Page exposing (Page)
+import Route exposing (Route)
 import Shared
 import UI.Card as Card exposing (cards, extraContent)
 import UI.Icon exposing (icon)
@@ -13,11 +14,12 @@ import UI.Image exposing (image)
 import View.Playground exposing (playground)
 
 
-page : Shared.Model -> Request -> Page.With Model Msg
+page : Shared.Model -> Route () -> Page Model Msg
 page shared _ =
-    Page.sandbox
-        { init = init
-        , update = update
+    Page.new
+        { init = \() -> ( init, Effect.none )
+        , update = \msg model -> ( update msg model, Effect.none )
+        , subscriptions = \_ -> Sub.none
         , view =
             \model ->
                 { title = "Card"
