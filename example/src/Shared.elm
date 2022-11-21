@@ -1,34 +1,73 @@
-module Shared exposing (Flags, Model, Msg(..), init, subscriptions, update)
+module Shared exposing
+    ( Flags, decoder
+    , Model, Msg
+    , init, update, subscriptions
+    )
+
+{-|
+
+@docs Flags, decoder
+@docs Model, Msg
+@docs init, update, subscriptions
+
+-}
 
 import Data.Theme exposing (Theme(..))
-import Json.Decode as Json
-import Request exposing (Request)
+import Effect exposing (Effect)
+import Json.Decode
+import Route exposing (Route)
+import Route.Path
+
+
+
+-- FLAGS
 
 
 type alias Flags =
-    Json.Value
+    {}
+
+
+decoder : Json.Decode.Decoder Flags
+decoder =
+    Json.Decode.succeed {}
+
+
+
+-- INIT
 
 
 type alias Model =
     { theme : Theme }
 
 
+init : Result Json.Decode.Error Flags -> Route () -> ( Model, Effect Msg )
+init flagsResult route =
+    ( { theme = System }
+    , Effect.none
+    )
+
+
+
+-- UPDATE
+
+
 type Msg
     = ChangeTheme Theme
 
 
-init : Request -> Flags -> ( Model, Cmd Msg )
-init _ _ =
-    ( { theme = System }, Cmd.none )
-
-
-update : Request -> Msg -> Model -> ( Model, Cmd Msg )
-update _ msg model =
+update : Route () -> Msg -> Model -> ( Model, Effect Msg )
+update route msg model =
     case msg of
         ChangeTheme theme ->
-            ( { model | theme = theme }, Cmd.none )
+            ( { model | theme = theme }
+            , Effect.none
+            )
 
 
-subscriptions : Request -> Model -> Sub Msg
-subscriptions _ _ =
+
+-- SUBSCRIPTIONS
+
+
+subscriptions : Route () -> Model -> Sub Msg
+subscriptions route model =
     Sub.none
