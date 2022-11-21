@@ -5,6 +5,7 @@ import Data.Theme exposing (Theme(..))
 import Effect
 import Html.Styled as Html exposing (Html, input, text)
 import Html.Styled.Attributes as Attributes exposing (href, placeholder, rel, type_)
+import Layouts.Default exposing (layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared
@@ -15,7 +16,7 @@ import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Route () -> Page Model Msg
-page shared _ =
+page shared route =
     Page.new
         { init = \() -> ( init, Effect.none )
         , update = \_ model -> ( model, Effect.none )
@@ -25,6 +26,7 @@ page shared _ =
                 { title = "Menu"
                 , body = view shared
                 }
+                    |> layout shared route
         }
 
 

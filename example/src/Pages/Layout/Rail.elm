@@ -4,6 +4,7 @@ import Css exposing (..)
 import Effect
 import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Attributes exposing (css)
+import Layouts.Default exposing (layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared
@@ -13,7 +14,7 @@ import UI.Segment exposing (segment)
 
 
 page : Shared.Model -> Route () -> Page Model Msg
-page shared _ =
+page shared route =
     Page.new
         { init = \() -> ( init, Effect.none )
         , update = \_ model -> ( model, Effect.none )
@@ -23,6 +24,7 @@ page shared _ =
                 { title = "Rail"
                 , body = view shared
                 }
+                    |> layout shared route
         }
 
 

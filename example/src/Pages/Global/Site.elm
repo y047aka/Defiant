@@ -3,6 +3,7 @@ module Pages.Global.Site exposing (Model, Msg, page)
 import Config
 import Effect
 import Html.Styled as Html exposing (Html, h1, h2, h3, h4, h5, p, text)
+import Layouts.Default exposing (layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared
@@ -10,7 +11,7 @@ import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Route () -> Page Model Msg
-page shared _ =
+page shared route =
     Page.new
         { init = \() -> ( init, Effect.none )
         , update = \msg model -> ( update msg model, Effect.none )
@@ -20,6 +21,7 @@ page shared _ =
                 { title = "Site"
                 , body = view shared
                 }
+                    |> layout shared route
         }
 
 

@@ -4,6 +4,7 @@ import Config
 import Effect
 import Html.Styled as Html exposing (Html, span, text)
 import Html.Styled.Attributes exposing (src)
+import Layouts.Default exposing (layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared
@@ -14,7 +15,7 @@ import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Route () -> Page Model Msg
-page shared _ =
+page shared route =
     Page.new
         { init = \() -> ( init, Effect.none )
         , update = \msg model -> ( update msg model, Effect.none )
@@ -24,6 +25,7 @@ page shared _ =
                 { title = "Item"
                 , body = view shared model
                 }
+                    |> layout shared route
         }
 
 

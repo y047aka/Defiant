@@ -4,6 +4,7 @@ import Config
 import Effect exposing (Effect)
 import Html.Styled as Html exposing (Html)
 import Html.Styled.Attributes exposing (value)
+import Layouts.Default exposing (layout)
 import Page exposing (Page)
 import Random
 import Route exposing (Route)
@@ -13,7 +14,7 @@ import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Route () -> Page Model Msg
-page shared _ =
+page shared route =
     Page.new
         { init = init
         , update = update
@@ -23,6 +24,7 @@ page shared _ =
                 { title = "Progress"
                 , body = view shared model
                 }
+                    |> layout shared route
         }
 
 

@@ -3,6 +3,7 @@ module Pages.Element.Placeholder exposing (Model, Msg, page)
 import Config
 import Effect
 import Html.Styled as Html exposing (Html)
+import Layouts.Default exposing (layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared
@@ -11,7 +12,7 @@ import View.ConfigAndPreview exposing (configAndPreview)
 
 
 page : Shared.Model -> Route () -> Page Model Msg
-page shared _ =
+page shared route =
     Page.new
         { init = \() -> ( init, Effect.none )
         , update = \msg model -> ( update msg model, Effect.none )
@@ -21,6 +22,7 @@ page shared _ =
                 { title = "Placeholder"
                 , body = view shared
                 }
+                    |> layout shared route
         }
 
 
