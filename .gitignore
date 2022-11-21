@@ -3,9 +3,3 @@ node_modules
 
 # Elm Dependency directory
 elm-stuff
-
-# example directory
-example/public/dist
-
-# elm-spa directory
-.elm-spa
