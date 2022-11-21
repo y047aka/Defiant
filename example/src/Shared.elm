@@ -12,8 +12,11 @@ module Shared exposing
 
 -}
 
-import Data.Theme exposing (Theme(..))
+import Data.Theme as Theme exposing (Theme(..))
 import Effect exposing (Effect)
+import Html.Styled exposing (Html, option, select, text)
+import Html.Styled.Attributes exposing (selected, value)
+import Html.Styled.Events exposing (onInput)
 import Json.Decode
 import Route exposing (Route)
 import Route.Path
@@ -71,3 +74,15 @@ update route msg model =
 subscriptions : Route () -> Model -> Sub Msg
 subscriptions route model =
     Sub.none
+
+
+
+-- VIEW
+
+
+themeSelector : Model -> List (Html Msg)
+themeSelector shared =
+    [ select [ onInput (Theme.fromString >> Maybe.withDefault shared.theme >> (\theme -> ChangeTheme theme)) ] <|
+        List.map (\theme -> option [ value (Theme.toString theme), selected (shared.theme == theme) ] [ text (Theme.toString theme) ])
+            [ System, Light, Dark ]
+    ]
