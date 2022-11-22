@@ -80,7 +80,7 @@ view { theme } model =
                 item { header, metadata } =
                     Item.item []
                         [ if model.hasImage then
-                            image [ src "/static/images/wireframe/image.png" ] []
+                            image [ src "/images/wireframe/image.png" ] []
 
                           else
                             text ""

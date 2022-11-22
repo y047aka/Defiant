@@ -138,25 +138,25 @@ view shared model =
                       , metadata = "Friends"
                       , description_ = "Matthew is an interior designer living in New York."
                       , friends = 75
-                      , imageUrl = "/static/images/avatar/matthew.png"
+                      , imageUrl = "/images/avatar/matthew.png"
                       }
                     , { header = "Molly"
                       , metadata = "Coworker"
                       , description_ = "Molly is a personal assistant living in Paris."
                       , friends = 35
-                      , imageUrl = "/static/images/avatar/molly.png"
+                      , imageUrl = "/images/avatar/molly.png"
                       }
                     , { header = "Elyse"
                       , metadata = "Coworker"
                       , description_ = "Elyse is a copywriter working in New York."
                       , friends = 151
-                      , imageUrl = "/static/images/avatar/elyse.png"
+                      , imageUrl = "/images/avatar/elyse.png"
                       }
                     , { header = "Kristy"
                       , metadata = "Friends"
                       , description_ = "Kristy is an art director living in New York."
                       , friends = 22
-                      , imageUrl = "/static/images/avatar/kristy.png"
+                      , imageUrl = "/images/avatar/kristy.png"
                       }
                     ]
             ]

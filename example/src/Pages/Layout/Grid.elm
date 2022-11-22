@@ -138,7 +138,7 @@ view { theme } =
                 imageSegment =
                     segment { theme = theme }
                         []
-                        [ smallImage [ src "/static/images/wireframe/image.png" ] [] ]
+                        [ smallImage [ src "/images/wireframe/image.png" ] [] ]
               in
               threeColumnsGrid []
                 [ Grid.column [] [ imageSegment ]

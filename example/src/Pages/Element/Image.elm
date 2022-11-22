@@ -61,7 +61,7 @@ view : Shared.Model -> List (Html Msg)
 view { theme } =
     [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
         { title = "Image"
-        , preview = [ smallImage [ src "/static/images/wireframe/image.png" ] [] ]
+        , preview = [ smallImage [ src "/images/wireframe/image.png" ] [] ]
         , configSections = []
         }
     ]

@@ -91,7 +91,7 @@ view shared { toggledItems } =
                 []
                 [ Header.header options [] [ text "Overlayable Section" ]
                 , div [] <|
-                    List.repeat 1 (smallImage [ src "/static/images/wireframe/image.png" ] [])
+                    List.repeat 1 (smallImage [ src "/images/wireframe/image.png" ] [])
                 , wireframeMediaParagraph
                 , dimmer { isActive = List.member "dimmer" toggledItems, theme = Light } [ onClick (Toggle "dimmer") ] []
                 ]
@@ -106,7 +106,7 @@ view shared { toggledItems } =
                 []
                 [ Header.header options [] [ text "Overlayable Section" ]
                 , div [] <|
-                    List.repeat 1 (smallImage [ src "/static/images/wireframe/image.png" ] [])
+                    List.repeat 1 (smallImage [ src "/images/wireframe/image.png" ] [])
                 , wireframeMediaParagraph
                 , dimmer { isActive = List.member "contentDimmer" toggledItems, theme = Light }
                     [ onClick (Toggle "contentDimmer") ]
