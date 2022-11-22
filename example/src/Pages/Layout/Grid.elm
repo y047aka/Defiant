@@ -2,10 +2,12 @@ module Pages.Layout.Grid exposing (Model, Msg, page)
 
 import Config
 import Css exposing (..)
+import Effect
 import Html.Styled as Html exposing (Html)
 import Html.Styled.Attributes exposing (css, src)
-import Page
-import Request exposing (Request)
+import Layouts.Default exposing (layout)
+import Page exposing (Page)
+import Route exposing (Route)
 import Shared
 import UI.Grid as Grid exposing (eightWideColumn, fourWideColumn, grid, sixWideColumn, threeColumnsGrid, twoWideColumn)
 import UI.Image exposing (smallImage)
@@ -13,16 +15,18 @@ import UI.Segment exposing (segment)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page.With Model Msg
-page shared _ =
-    Page.sandbox
-        { init = init
-        , update = update
+page : Shared.Model -> Route () -> Page Model Msg
+page shared route =
+    Page.new
+        { init = \() -> ( init, Effect.none )
+        , update = \msg model -> ( update msg model, Effect.none )
+        , subscriptions = \_ -> Sub.none
         , view =
             \_ ->
                 { title = "Grid"
                 , body = view shared
                 }
+                    |> layout shared route
         }
 
 
@@ -134,7 +138,7 @@ view { theme } =
                 imageSegment =
                     segment { theme = theme }
                         []
-                        [ smallImage [ src "/static/images/wireframe/image.png" ] [] ]
+                        [ smallImage [ src "/images/wireframe/image.png" ] [] ]
               in
               threeColumnsGrid []
                 [ Grid.column [] [ imageSegment ]

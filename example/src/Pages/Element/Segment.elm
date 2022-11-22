@@ -2,10 +2,11 @@ module Pages.Element.Segment exposing (Model, Msg, page)
 
 import Config
 import Data.Theme exposing (Theme(..))
-import Effect exposing (Effect)
+import Effect
 import Html.Styled as Html exposing (Html, p, text)
-import Page
-import Request exposing (Request)
+import Layouts.Default exposing (layout)
+import Page exposing (Page)
+import Route exposing (Route)
 import Shared
 import UI.Example exposing (wireframeShortParagraph)
 import UI.Segment exposing (Padding(..), basicSegment, paddingFromString, paddingToString, segment, segmentWithProps, verticalSegment)
@@ -13,17 +14,18 @@ import View.ConfigAndPreview exposing (configAndPreview)
 import View.Playground exposing (playground)
 
 
-page : Shared.Model -> Request -> Page.With Model Msg
-page shared _ =
-    Page.advanced
-        { init = init
-        , update = update
+page : Shared.Model -> Route () -> Page Model Msg
+page shared route =
+    Page.new
+        { init = \() -> ( init, Effect.none )
+        , update = \msg model -> ( update msg model, Effect.none )
+        , subscriptions = \_ -> Sub.none
         , view =
             \model ->
                 { title = "Segment"
                 , body = view shared model
                 }
-        , subscriptions = \_ -> Sub.none
+                    |> layout shared route
         }
 
 
@@ -39,15 +41,13 @@ type alias Model =
     }
 
 
-init : ( Model, Effect Msg )
+init : Model
 init =
-    ( { vertical = True
-      , disabled = False
-      , inverted = False
-      , padding = Default
-      }
-    , Effect.none
-    )
+    { vertical = True
+    , disabled = False
+    , inverted = False
+    , padding = Default
+    }
 
 
 
@@ -58,11 +58,11 @@ type Msg
     = UpdateConfig (Config.Msg Model)
 
 
-update : Msg -> Model -> ( Model, Effect Msg )
+update : Msg -> Model -> Model
 update msg model =
     case msg of
         UpdateConfig configMsg ->
-            ( Config.update configMsg model, Effect.none )
+            Config.update configMsg model
 
 
 view : Shared.Model -> Model -> List (Html Msg)

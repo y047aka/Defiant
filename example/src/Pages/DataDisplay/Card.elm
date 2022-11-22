@@ -2,10 +2,12 @@ module Pages.DataDisplay.Card exposing (Model, Msg, page)
 
 import Config
 import Data.Theme exposing (Theme(..))
+import Effect
 import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Attributes exposing (src)
-import Page
-import Request exposing (Request)
+import Layouts.Default exposing (layout)
+import Page exposing (Page)
+import Route exposing (Route)
 import Shared
 import UI.Card as Card exposing (cards, extraContent)
 import UI.Icon exposing (icon)
@@ -13,16 +15,18 @@ import UI.Image exposing (image)
 import View.Playground exposing (playground)
 
 
-page : Shared.Model -> Request -> Page.With Model Msg
-page shared _ =
-    Page.sandbox
-        { init = init
-        , update = update
+page : Shared.Model -> Route () -> Page Model Msg
+page shared route =
+    Page.new
+        { init = \() -> ( init, Effect.none )
+        , update = \msg model -> ( update msg model, Effect.none )
+        , subscriptions = \_ -> Sub.none
         , view =
             \model ->
                 { title = "Card"
                 , body = view shared model
                 }
+                    |> layout shared route
         }
 
 
@@ -134,25 +138,25 @@ view shared model =
                       , metadata = "Friends"
                       , description_ = "Matthew is an interior designer living in New York."
                       , friends = 75
-                      , imageUrl = "/static/images/avatar/matthew.png"
+                      , imageUrl = "/images/avatar/matthew.png"
                       }
                     , { header = "Molly"
                       , metadata = "Coworker"
                       , description_ = "Molly is a personal assistant living in Paris."
                       , friends = 35
-                      , imageUrl = "/static/images/avatar/molly.png"
+                      , imageUrl = "/images/avatar/molly.png"
                       }
                     , { header = "Elyse"
                       , metadata = "Coworker"
                       , description_ = "Elyse is a copywriter working in New York."
                       , friends = 151
-                      , imageUrl = "/static/images/avatar/elyse.png"
+                      , imageUrl = "/images/avatar/elyse.png"
                       }
                     , { header = "Kristy"
                       , metadata = "Friends"
                       , description_ = "Kristy is an art director living in New York."
                       , friends = 22
-                      , imageUrl = "/static/images/avatar/kristy.png"
+                      , imageUrl = "/images/avatar/kristy.png"
                       }
                     ]
             ]

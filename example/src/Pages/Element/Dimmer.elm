@@ -2,11 +2,13 @@ module Pages.Element.Dimmer exposing (Model, Msg, page)
 
 import Config
 import Data.Theme exposing (Theme(..))
+import Effect
 import Html.Styled as Html exposing (Html, div, text)
 import Html.Styled.Attributes exposing (src)
 import Html.Styled.Events exposing (onClick)
-import Page
-import Request exposing (Request)
+import Layouts.Default exposing (layout)
+import Page exposing (Page)
+import Route exposing (Route)
 import Shared
 import UI.Button exposing (button)
 import UI.Dimmer as Dimmer exposing (dimmer, pageDimmer)
@@ -18,16 +20,18 @@ import UI.Segment exposing (segment)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page.With Model Msg
-page shared _ =
-    Page.sandbox
-        { init = init
-        , update = update
+page : Shared.Model -> Route () -> Page Model Msg
+page shared route =
+    Page.new
+        { init = \() -> ( init, Effect.none )
+        , update = \msg model -> ( update msg model, Effect.none )
+        , subscriptions = \_ -> Sub.none
         , view =
             \model ->
                 { title = "Dimmer"
                 , body = view shared model
                 }
+                    |> layout shared route
         }
 
 
@@ -87,7 +91,7 @@ view shared { toggledItems } =
                 []
                 [ Header.header options [] [ text "Overlayable Section" ]
                 , div [] <|
-                    List.repeat 1 (smallImage [ src "/static/images/wireframe/image.png" ] [])
+                    List.repeat 1 (smallImage [ src "/images/wireframe/image.png" ] [])
                 , wireframeMediaParagraph
                 , dimmer { isActive = List.member "dimmer" toggledItems, theme = Light } [ onClick (Toggle "dimmer") ] []
                 ]
@@ -102,7 +106,7 @@ view shared { toggledItems } =
                 []
                 [ Header.header options [] [ text "Overlayable Section" ]
                 , div [] <|
-                    List.repeat 1 (smallImage [ src "/static/images/wireframe/image.png" ] [])
+                    List.repeat 1 (smallImage [ src "/images/wireframe/image.png" ] [])
                 , wireframeMediaParagraph
                 , dimmer { isActive = List.member "contentDimmer" toggledItems, theme = Light }
                     [ onClick (Toggle "contentDimmer") ]

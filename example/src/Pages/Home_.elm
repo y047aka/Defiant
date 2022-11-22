@@ -1,35 +1,67 @@
-module Pages.Home_ exposing (page)
+module Pages.Home_ exposing (Model, Msg, page)
 
 import Data.PageSummary as PageSummary exposing (categoryToString)
 import Data.Theme exposing (Theme)
-import Gen.Route as Route
+import Effect
 import Html.Styled as Html exposing (Html, a, text)
 import Html.Styled.Attributes exposing (href)
+import Layouts.Default exposing (layout)
 import Page exposing (Page)
-import Request exposing (Request)
+import Route exposing (Route)
+import Route.Path as Path
 import Shared
 import UI.Card as Card exposing (card, cards)
 import UI.Header as Header
 import UI.Segment exposing (basicSegment)
 
 
-page : Shared.Model -> Request -> Page
-page shared _ =
-    Page.static
-        { view =
-            { title = "Homepage"
-            , body = view { theme = shared.theme }
-            }
+page : Shared.Model -> Route () -> Page Model Msg
+page shared route =
+    Page.new
+        { init = \() -> ( init, Effect.none )
+        , update = \_ model -> ( model, Effect.none )
+        , subscriptions = \_ -> Sub.none
+        , view =
+            \_ ->
+                { title = "Homepage"
+                , body = view { theme = shared.theme }
+                }
+                    |> layout shared route
         }
+
+
+
+-- INIT
+
+
+type alias Model =
+    {}
+
+
+init : Model
+init =
+    {}
+
+
+
+-- UPDATE
+
+
+type Msg
+    = NoOp
+
+
+
+-- VIEW
 
 
 view : { theme : Theme } -> List (Html msg)
 view options =
     let
-        item { title, description, route } =
+        item { title, description, path } =
             card options
                 []
-                [ a [ href (Route.toHref route) ]
+                [ a [ href (Path.toString path) ]
                     [ Card.content options
                         []
                         { header = [ text title ]

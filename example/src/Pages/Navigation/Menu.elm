@@ -2,10 +2,12 @@ module Pages.Navigation.Menu exposing (Model, Msg, page)
 
 import Config
 import Data.Theme exposing (Theme(..))
+import Effect
 import Html.Styled as Html exposing (Html, input, text)
 import Html.Styled.Attributes as Attributes exposing (href, placeholder, rel, type_)
-import Page
-import Request exposing (Request)
+import Layouts.Default exposing (layout)
+import Page exposing (Page)
+import Route exposing (Route)
 import Shared
 import UI.Input as Input
 import UI.Menu as Menu exposing (..)
@@ -13,16 +15,18 @@ import UI.Segment exposing (invertedSegment)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
-page : Shared.Model -> Request -> Page.With Model Msg
-page shared _ =
-    Page.sandbox
-        { init = init
-        , update = update
+page : Shared.Model -> Route () -> Page Model Msg
+page shared route =
+    Page.new
+        { init = \() -> ( init, Effect.none )
+        , update = \_ model -> ( model, Effect.none )
+        , subscriptions = \_ -> Sub.none
         , view =
             \_ ->
                 { title = "Menu"
                 , body = view shared
                 }
+                    |> layout shared route
         }
 
 
@@ -45,11 +49,6 @@ init =
 
 type Msg
     = UpdateConfig (Config.Msg Model)
-
-
-update : Msg -> Model -> Model
-update _ model =
-    model
 
 
 
