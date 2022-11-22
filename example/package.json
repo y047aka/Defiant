@@ -1,4 +1,7 @@
 {
+  "engines": {
+		"node": ">=14.0.0"
+	},
   "scripts": {
     "build": "elm-land build",
     "start": "elm-land server"
