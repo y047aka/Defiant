@@ -1,11 +1,11 @@
 module Pages.Home_ exposing (Model, Msg, page)
 
+import Components.Default exposing (layout)
 import Data.PageSummary as PageSummary exposing (categoryToString)
 import Data.Theme exposing (Theme)
 import Effect
 import Html.Styled as Html exposing (Html, a, text)
 import Html.Styled.Attributes exposing (href)
-import Layouts.Default exposing (layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Route.Path as Path

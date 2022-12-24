@@ -20,6 +20,8 @@ import Html.Styled.Events exposing (onInput)
 import Json.Decode
 import Route exposing (Route)
 import Route.Path
+import Shared.Model
+import Shared.Msg
 
 
 
@@ -40,7 +42,7 @@ decoder =
 
 
 type alias Model =
-    { theme : Theme }
+    Shared.Model.Model
 
 
 init : Result Json.Decode.Error Flags -> Route () -> ( Model, Effect Msg )
@@ -54,14 +56,14 @@ init flagsResult route =
 -- UPDATE
 
 
-type Msg
-    = ChangeTheme Theme
+type alias Msg =
+    Shared.Msg.Msg
 
 
 update : Route () -> Msg -> Model -> ( Model, Effect Msg )
 update route msg model =
     case msg of
-        ChangeTheme theme ->
+        Shared.Msg.ChangeTheme theme ->
             ( { model | theme = theme }
             , Effect.none
             )
@@ -82,7 +84,7 @@ subscriptions route model =
 
 themeSelector : Model -> List (Html Msg)
 themeSelector shared =
-    [ select [ onInput (Theme.fromString >> Maybe.withDefault shared.theme >> (\theme -> ChangeTheme theme)) ] <|
+    [ select [ onInput (Theme.fromString >> Maybe.withDefault shared.theme >> (\theme -> Shared.Msg.ChangeTheme theme)) ] <|
         List.map (\theme -> option [ value (Theme.toString theme), selected (shared.theme == theme) ] [ text (Theme.toString theme) ])
             [ System, Light, Dark ]
     ]

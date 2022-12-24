@@ -1,10 +1,10 @@
 module Pages.Element.Label exposing (Model, Msg, page)
 
+import Components.Default exposing (layout)
 import Config
 import Data.PalettesByState as PalettesByState
 import Effect
 import Html.Styled as Html exposing (Html, text)
-import Layouts.Default exposing (layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared

@@ -1,10 +1,10 @@
 module Pages.Layout.Container exposing (Model, Msg, page)
 
+import Components.Default exposing (layout)
 import Config
 import Effect
 import Html.Styled as Html exposing (Html, a, h2, p, strong, text)
 import Html.Styled.Attributes exposing (href)
-import Layouts.Default exposing (layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared

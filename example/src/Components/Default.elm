@@ -1,4 +1,4 @@
-module Layouts.Default exposing (layout)
+module Components.Default exposing (layout)
 
 import Css exposing (..)
 import Css.FontAwesome exposing (fontAwesome)
@@ -91,6 +91,7 @@ siteHeader shared page =
         ]
         [ breadcrumbWithProps { divider = Slash, size = Nothing, theme = shared.theme }
             (breadcrumbItems page)
+
         -- , div []
         --     [ select [ onInput (Theme.fromString >> Maybe.withDefault shared.theme >> (\theme -> Shared (Shared.ChangeTheme theme))) ] <|
         --         List.map (\theme -> option [ value (Theme.toString theme), selected (shared.theme == theme) ] [ text (Theme.toString theme) ])

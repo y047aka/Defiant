@@ -82,7 +82,7 @@ sitePage =
     { title = "Site"
     , description = "A site is a set of global constraints that define the basic parameters of all UI elements"
     , category = Global
-    , path = Global__Site
+    , path = Global_Site
     }
 
 
@@ -91,7 +91,7 @@ containerPage =
     { title = "Container"
     , description = "A container limits content to a maximum width"
     , category = Layout
-    , path = Layout__Container
+    , path = Layout_Container
     }
 
 
@@ -100,7 +100,7 @@ gridPage =
     { title = "Grid"
     , description = "A grid is used to harmonize negative space in a layout"
     , category = Layout
-    , path = Layout__Grid
+    , path = Layout_Grid
     }
 
 
@@ -109,7 +109,7 @@ holyGrailPage =
     { title = "HolyGrail"
     , description = "Holy grail layout."
     , category = Layout
-    , path = Layout__HolyGrail
+    , path = Layout_HolyGrail
     }
 
 
@@ -118,7 +118,7 @@ modalPage =
     { title = "Modal"
     , description = "A modal displays content that temporarily blocks interactions with the main view of a site"
     , category = Layout
-    , path = Layout__Modal
+    , path = Layout_Modal
     }
 
 
@@ -127,7 +127,7 @@ railPage =
     { title = "Rail"
     , description = "A rail is used to show accompanying content outside the boundaries of the main view of a site"
     , category = Layout
-    , path = Layout__Rail
+    , path = Layout_Rail
     }
 
 
@@ -136,7 +136,7 @@ buttonPage =
     { title = "Button"
     , description = "A button indicates a possible user action"
     , category = Element
-    , path = Element__Button
+    , path = Element_Button
     }
 
 
@@ -145,7 +145,7 @@ dimmerPage =
     { title = "Dimmer"
     , description = "A dimmer hides distractions to focus attention on particular content"
     , category = Element
-    , path = Element__Dimmer
+    , path = Element_Dimmer
     }
 
 
@@ -154,7 +154,7 @@ dividerPage =
     { title = "Divider"
     , description = "A divider visually segments content into groups"
     , category = Element
-    , path = Element__Divider
+    , path = Element_Divider
     }
 
 
@@ -163,7 +163,7 @@ headerPage =
     { title = "Header"
     , description = "A header provides a short summary of content"
     , category = Element
-    , path = Element__Header
+    , path = Element_Header
     }
 
 
@@ -172,7 +172,7 @@ iconPage =
     { title = "Icon"
     , description = "An icon is a glyph used to represent something else"
     , category = Element
-    , path = Element__Icon
+    , path = Element_Icon
     }
 
 
@@ -181,7 +181,7 @@ imagePage =
     { title = "Image"
     , description = "An image is a graphic representation of something"
     , category = Element
-    , path = Element__Image
+    , path = Element_Image
     }
 
 
@@ -190,7 +190,7 @@ labelPage =
     { title = "Label"
     , description = "A label displays content classification"
     , category = Element
-    , path = Element__Label
+    , path = Element_Label
     }
 
 
@@ -199,7 +199,7 @@ loaderPage =
     { title = "Loader"
     , description = "A loader alerts a user to wait for an activity to complete"
     , category = Element
-    , path = Element__Loader
+    , path = Element_Loader
     }
 
 
@@ -208,7 +208,7 @@ messagePage =
     { title = "Message"
     , description = "A message displays information that explains nearby content"
     , category = Element
-    , path = Element__Message
+    , path = Element_Message
     }
 
 
@@ -217,7 +217,7 @@ placeholderPage =
     { title = "Placeholder"
     , description = "A placeholder is used to reserve splace for content that soon will appear in a layout"
     , category = Element
-    , path = Element__Placeholder
+    , path = Element_Placeholder
     }
 
 
@@ -226,7 +226,7 @@ segmentPage =
     { title = "Segment"
     , description = "A segment is used to create a grouping of related content"
     , category = Element
-    , path = Element__Segment
+    , path = Element_Segment
     }
 
 
@@ -235,7 +235,7 @@ textPage =
     { title = "Text"
     , description = "A text is used to style some inline text with a simple color"
     , category = Element
-    , path = Element__Text
+    , path = Element_Text
     }
 
 
@@ -244,7 +244,7 @@ accordionPage =
     { title = "Accordion"
     , description = "An accordion allows users to toggle the display of sections of content"
     , category = Navigation
-    , path = Navigation__Accordion
+    , path = Navigation_Accordion
     }
 
 
@@ -253,7 +253,7 @@ breadcrumbPage =
     { title = "Breadcrumb"
     , description = "A breadcrumb is used to show hierarchy between content"
     , category = Navigation
-    , path = Navigation__Breadcrumb
+    , path = Navigation_Breadcrumb
     }
 
 
@@ -262,7 +262,7 @@ menuPage =
     { title = "Menu"
     , description = "A menu displays grouped navigation actions"
     , category = Navigation
-    , path = Navigation__Menu
+    , path = Navigation_Menu
     }
 
 
@@ -271,7 +271,7 @@ stepPage =
     { title = "Step"
     , description = "A step shows the completion status of an activity in a series of activities"
     , category = Navigation
-    , path = Navigation__Step
+    , path = Navigation_Step
     }
 
 
@@ -280,7 +280,7 @@ progressPage =
     { title = "Progress"
     , description = "A progress bar shows the progression of a task"
     , category = Navigation
-    , path = Navigation__Progress
+    , path = Navigation_Progress
     }
 
 
@@ -289,7 +289,7 @@ tabPage =
     { title = "Tab"
     , description = "A tab is a hidden section of content activated by a menu"
     , category = Navigation
-    , path = Navigation__Tab
+    , path = Navigation_Tab
     }
 
 
@@ -298,7 +298,7 @@ checkboxPage =
     { title = "Checkbox"
     , description = "A checkbox allows a user to select a value from a small set of options, often binary"
     , category = Form
-    , path = Form__Checkbox
+    , path = Form_Checkbox
     }
 
 
@@ -307,7 +307,7 @@ inputPage =
     { title = "Input"
     , description = "An input is a field used to elicit a response from a user"
     , category = Form
-    , path = Form__Input
+    , path = Form_Input
     }
 
 
@@ -316,7 +316,7 @@ formPage =
     { title = "Form"
     , description = "A form displays a set of related user input fields in a structured way"
     , category = Form
-    , path = Form__Form
+    , path = Form_Form
     }
 
 
@@ -325,7 +325,7 @@ cardPage =
     { title = "Card"
     , description = "A card displays site content in a manner similar to a playing card"
     , category = DataDisplay
-    , path = DataDisplay__Card
+    , path = DataDisplay_Card
     }
 
 
@@ -334,7 +334,7 @@ itemPage =
     { title = "Item"
     , description = "An item view presents large collections of site content for display"
     , category = DataDisplay
-    , path = DataDisplay__Item
+    , path = DataDisplay_Item
     }
 
 
@@ -343,7 +343,7 @@ sortableDataPage =
     { title = "SortableData"
     , description = "Sortable data"
     , category = DataDisplay
-    , path = DataDisplay__SortableData
+    , path = DataDisplay_SortableData
     }
 
 
@@ -352,7 +352,7 @@ tablePage =
     { title = "Table"
     , description = "A table displays a collections of data grouped into rows"
     , category = DataDisplay
-    , path = DataDisplay__Table
+    , path = DataDisplay_Table
     }
 
 

@@ -13,31 +13,38 @@ module View exposing
 -}
 
 import Browser
-import Html.Styled as Html exposing (Html)
+import Html.Styled
+import Route exposing (Route)
+import Shared.Model
 
 
 type alias View msg =
     { title : String
-    , body : List (Html msg)
+    , body : List (Html.Styled.Html msg)
     }
 
 
 {-| Used internally by Elm Land to create your application
 so it works with Elm's expected `Browser.Document msg` type.
 -}
-toBrowserDocument : View msg -> Browser.Document msg
-toBrowserDocument view =
+toBrowserDocument :
+    { shared : Shared.Model.Model
+    , route : Route ()
+    , view : View msg
+    }
+    -> Browser.Document msg
+toBrowserDocument { view } =
     { title = view.title
-    , body = List.map Html.toUnstyled view.body
+    , body = List.map Html.Styled.toUnstyled view.body
     }
 
 
-{-| Used internally by Elm Land to wire up your pages together.
+{-| Used internally by Elm Land to connect your pages together.
 -}
 map : (msg1 -> msg2) -> View msg1 -> View msg2
 map fn view =
     { title = view.title
-    , body = List.map (Html.map fn) view.body
+    , body = List.map (Html.Styled.map fn) view.body
     }
 
 
@@ -61,5 +68,5 @@ the new page working in the web browser!
 fromString : String -> View msg
 fromString moduleName =
     { title = moduleName
-    , body = [ Html.text moduleName ]
+    , body = [ Html.Styled.text moduleName ]
     }

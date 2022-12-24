@@ -1,11 +1,11 @@
 module Pages.Layout.Modal exposing (Model, Msg, page)
 
+import Components.Default exposing (layout)
 import Config
 import Effect
 import Html.Styled as Html exposing (Html, a, p, text)
 import Html.Styled.Attributes as Attributes exposing (href)
 import Html.Styled.Events exposing (onClick)
-import Layouts.Default exposing (layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared

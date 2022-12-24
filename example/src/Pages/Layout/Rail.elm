@@ -1,10 +1,10 @@
 module Pages.Layout.Rail exposing (Model, Msg, page)
 
+import Components.Default exposing (layout)
 import Css exposing (..)
 import Effect
 import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Attributes exposing (css)
-import Layouts.Default exposing (layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared

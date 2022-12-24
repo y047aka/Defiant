@@ -1,11 +1,11 @@
 module Pages.Layout.Grid exposing (Model, Msg, page)
 
+import Components.Default exposing (layout)
 import Config
 import Css exposing (..)
 import Effect
 import Html.Styled as Html exposing (Html)
 import Html.Styled.Attributes exposing (css, src)
-import Layouts.Default exposing (layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared

@@ -1,13 +1,13 @@
 {
   "engines": {
-		"node": ">=14.18.0"
-	},
+    "node": ">=14.18.0"
+  },
   "scripts": {
     "build": "elm-land build",
     "start": "elm-land server"
   },
   "devDependencies": {
     "elm-format": "^0.8.5",
-    "elm-land": "^0.17.3"
+    "elm-land": "^0.18.0"
   }
 }

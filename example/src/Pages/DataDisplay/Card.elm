@@ -1,11 +1,11 @@
 module Pages.DataDisplay.Card exposing (Model, Msg, page)
 
+import Components.Default exposing (layout)
 import Config
 import Data.Theme exposing (Theme(..))
 import Effect
 import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Attributes exposing (src)
-import Layouts.Default exposing (layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared

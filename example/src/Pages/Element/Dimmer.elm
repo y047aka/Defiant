@@ -1,12 +1,12 @@
 module Pages.Element.Dimmer exposing (Model, Msg, page)
 
+import Components.Default exposing (layout)
 import Config
 import Data.Theme exposing (Theme(..))
 import Effect
 import Html.Styled as Html exposing (Html, div, text)
 import Html.Styled.Attributes exposing (src)
 import Html.Styled.Events exposing (onClick)
-import Layouts.Default exposing (layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared

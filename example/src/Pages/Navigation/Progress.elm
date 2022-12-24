@@ -1,10 +1,10 @@
 module Pages.Navigation.Progress exposing (Model, Msg, page)
 
+import Components.Default exposing (layout)
 import Config
 import Effect exposing (Effect)
 import Html.Styled as Html exposing (Html)
 import Html.Styled.Attributes exposing (value)
-import Layouts.Default exposing (layout)
 import Page exposing (Page)
 import Random
 import Route exposing (Route)
@@ -49,7 +49,7 @@ init () =
       , indicating = False
       , state = Default
       }
-    , Effect.fromCmd <| Random.generate NewProgress (Random.int 10 50)
+    , Effect.sendCmd <| Random.generate NewProgress (Random.int 10 50)
     )
 
 
@@ -91,10 +91,10 @@ update msg model =
                     ( updater model, Effect.none )
 
                 Config.CounterPlus ->
-                    ( model, Effect.fromCmd <| Random.generate NewProgress (Random.int 10 15) )
+                    ( model, Effect.sendCmd <| Random.generate NewProgress (Random.int 10 15) )
 
                 Config.CounterMinus ->
-                    ( model, Effect.fromCmd <| Random.generate NewProgress (Random.int -15 -10) )
+                    ( model, Effect.sendCmd <| Random.generate NewProgress (Random.int -15 -10) )
 
 
 updatelabelOnIndicating : Model -> Model

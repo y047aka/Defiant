@@ -1,12 +1,12 @@
 module Pages.DataDisplay.SortableData exposing (Model, Msg, page)
 
+import Components.Default exposing (layout)
 import Config
 import Data.Theme exposing (Theme(..))
 import Effect
 import Html.Styled as Html exposing (Html, div, input, strong, text)
 import Html.Styled.Attributes exposing (placeholder, value)
 import Html.Styled.Events exposing (onInput)
-import Layouts.Default exposing (layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared
