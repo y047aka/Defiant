@@ -1,11 +1,11 @@
 module Pages.Layout.Grid exposing (Model, Msg, page)
 
-import Components.Default exposing (layout)
 import Config
 import Css exposing (..)
 import Effect
 import Html.Styled as Html exposing (Html)
 import Html.Styled.Attributes exposing (css, src)
+import Layouts exposing (Layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared
@@ -13,6 +13,11 @@ import UI.Grid as Grid exposing (eightWideColumn, fourWideColumn, grid, sixWideC
 import UI.Image exposing (smallImage)
 import UI.Segment exposing (segment)
 import View.ConfigAndPreview exposing (configAndPreview)
+
+
+layout : Model -> Layout
+layout model =
+    Layouts.Default { default = () }
 
 
 page : Shared.Model -> Route () -> Page Model Msg
@@ -26,8 +31,8 @@ page shared route =
                 { title = "Grid"
                 , body = view shared
                 }
-                    |> layout shared route
         }
+        |> Page.withLayout layout
 
 
 

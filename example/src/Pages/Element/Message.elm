@@ -1,9 +1,9 @@
 module Pages.Element.Message exposing (Model, Msg, page)
 
-import Components.Default exposing (layout)
 import Config
 import Effect
 import Html.Styled as Html exposing (Html, div, p, text)
+import Layouts exposing (Layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared
@@ -11,6 +11,11 @@ import UI.Header as Header
 import UI.Icon exposing (icon)
 import UI.Message exposing (message)
 import View.ConfigAndPreview exposing (configAndPreview)
+
+
+layout : Model -> Layout
+layout model =
+    Layouts.Default { default = () }
 
 
 page : Shared.Model -> Route () -> Page Model Msg
@@ -24,8 +29,8 @@ page shared route =
                 { title = "Message"
                 , body = view shared
                 }
-                    |> layout shared route
         }
+        |> Page.withLayout layout
 
 
 

@@ -1,4 +1,4 @@
-module Components.Default exposing (layout)
+module Layouts.Default exposing (Model, Msg, Settings, layout)
 
 import Css exposing (..)
 import Css.FontAwesome exposing (fontAwesome)
@@ -8,8 +8,10 @@ import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
 import Data.PageSummary as PageSummary exposing (categoryToString)
 import Data.Theme exposing (Theme(..))
+import Effect exposing (Effect)
 import Html.Styled as Html exposing (Html, a, footer, header, li, main_, text, ul)
 import Html.Styled.Attributes exposing (css, href)
+import Layout exposing (Layout)
 import Route exposing (Route)
 import Route.Path as Path
 import Shared
@@ -21,50 +23,108 @@ import Url exposing (Url)
 import View exposing (View)
 
 
-layout : Shared.Model -> Route () -> View msg -> View msg
-layout shared route page =
+type alias Settings =
+    ()
+
+
+layout : Settings -> Shared.Model -> Route () -> Layout Model Msg mainMsg
+layout settings shared route =
+    Layout.new
+        { init = init
+        , update = update
+        , view = view settings route shared
+        , subscriptions = subscriptions
+        }
+
+
+
+-- MODEL
+
+
+type alias Model =
+    {}
+
+
+init : () -> ( Model, Effect Msg )
+init _ =
+    ( {}, Effect.none )
+
+
+
+-- UPDATE
+
+
+type Msg
+    = NoOp
+
+
+update : Msg -> Model -> ( Model, Effect Msg )
+update msg model =
+    ( model, Effect.none )
+
+
+
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.none
+
+
+
+-- VIEW
+
+
+view :
+    Settings
+    -> Route ()
+    -> Shared.Model
+    ->
+        { fromMsg : Msg -> mainMsg
+        , content : View mainMsg
+        , model : Model
+        }
+    -> View mainMsg
+view settings route shared { fromMsg, model, content } =
     { title =
         case route.url.path of
             "/" ->
                 "Defiant"
 
             _ ->
-                page.title ++ " | Defiant"
-    , body = skeleton shared route page
-    }
-
-
-skeleton : Shared.Model -> Route () -> View msg -> List (Html msg)
-skeleton shared route { title, body } =
-    [ global (normalize ++ additionalReset ++ globalCustomize ++ fontAwesome)
-    , global
-        [ Css.Global.body
-            [ property "display" "grid"
-            , property "grid-template-rows" "auto 1fr auto"
-            , palette Palette.init
-            , darkPalette shared.theme
-                (Palette.init
-                    |> setBackground (hex "#1B1C1D")
-                    |> setColor (rgba 255 255 255 0.9)
-                )
-            ]
-        ]
-    , siteHeader shared { title = title, url = route.url }
-    , main_ []
-        [ basicSegment { theme = Light }
-            []
-            [ container
-                [ css
-                    [ displayFlex
-                    , flexDirection column
-                    , property "gap" "50px"
-                    ]
+                content.title ++ " | Defiant"
+    , body =
+        [ global (normalize ++ additionalReset ++ globalCustomize ++ fontAwesome)
+        , global
+            [ Css.Global.body
+                [ property "display" "grid"
+                , property "grid-template-rows" "auto 1fr auto"
+                , palette Palette.init
+                , darkPalette shared.theme
+                    (Palette.init
+                        |> setBackground (hex "#1B1C1D")
+                        |> setColor (rgba 255 255 255 0.9)
+                    )
                 ]
-                body
             ]
+        , siteHeader shared { title = content.title, url = route.url }
+        , main_ []
+            [ basicSegment { theme = Light }
+                []
+                [ container
+                    [ css
+                        [ displayFlex
+                        , flexDirection column
+                        , property "gap" "50px"
+                        ]
+                    ]
+                    content.body
+                ]
+            ]
+        , siteFooter shared
         ]
-    , siteFooter shared
-    ]
+    }
 
 
 siteHeader : Shared.Model -> { title : String, url : Url } -> Html msg

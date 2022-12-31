@@ -1,9 +1,9 @@
 module Pages.Element.Header exposing (Model, Msg, page)
 
-import Components.Default exposing (layout)
 import Config
 import Effect
 import Html.Styled as Html exposing (Html, text)
+import Layouts exposing (Layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared
@@ -12,6 +12,11 @@ import UI.Example exposing (wireframeShortParagraph)
 import UI.Header exposing (..)
 import UI.Icon exposing (icon)
 import View.ConfigAndPreview exposing (configAndPreview)
+
+
+layout : Model -> Layout
+layout model =
+    Layouts.Default { default = () }
 
 
 page : Shared.Model -> Route () -> Page Model Msg
@@ -25,8 +30,8 @@ page shared route =
                 { title = "Header"
                 , body = view shared model
                 }
-                    |> layout shared route
         }
+        |> Page.withLayout layout
 
 
 

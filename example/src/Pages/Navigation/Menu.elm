@@ -1,11 +1,11 @@
 module Pages.Navigation.Menu exposing (Model, Msg, page)
 
-import Components.Default exposing (layout)
 import Config
 import Data.Theme exposing (Theme(..))
 import Effect
 import Html.Styled as Html exposing (Html, input, text)
 import Html.Styled.Attributes as Attributes exposing (href, placeholder, rel, type_)
+import Layouts exposing (Layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared
@@ -13,6 +13,11 @@ import UI.Input as Input
 import UI.Menu as Menu exposing (..)
 import UI.Segment exposing (invertedSegment)
 import View.ConfigAndPreview exposing (configAndPreview)
+
+
+layout : Model -> Layout
+layout model =
+    Layouts.Default { default = () }
 
 
 page : Shared.Model -> Route () -> Page Model Msg
@@ -26,8 +31,8 @@ page shared route =
                 { title = "Menu"
                 , body = view shared
                 }
-                    |> layout shared route
         }
+        |> Page.withLayout layout
 
 
 

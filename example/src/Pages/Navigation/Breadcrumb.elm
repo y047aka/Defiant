@@ -1,16 +1,21 @@
 module Pages.Navigation.Breadcrumb exposing (Model, Msg, page)
 
-import Components.Default exposing (layout)
 import Config
 import Data.Theme exposing (Theme(..))
 import Effect
 import Html.Styled as Html exposing (Html)
+import Layouts exposing (Layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared
 import Types exposing (Size(..), sizeFromString, sizeToString)
 import UI.Breadcrumb exposing (Divider(..), bigBreadCrumb, dividerFromString, dividerToString, hugeBreadCrumb, largeBreadCrumb, massiveBreadCrumb, mediumBreadCrumb, miniBreadCrumb, smallBreadCrumb, tinyBreadCrumb)
 import View.Playground exposing (playground)
+
+
+layout : Model -> Layout
+layout model =
+    Layouts.Default { default = () }
 
 
 page : Shared.Model -> Route () -> Page Model Msg
@@ -24,8 +29,8 @@ page shared route =
                 { title = "Breadcrumb"
                 , body = view shared model
                 }
-                    |> layout shared route
         }
+        |> Page.withLayout layout
 
 
 

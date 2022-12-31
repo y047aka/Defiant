@@ -1,16 +1,21 @@
 module Pages.Navigation.Progress exposing (Model, Msg, page)
 
-import Components.Default exposing (layout)
 import Config
 import Effect exposing (Effect)
 import Html.Styled as Html exposing (Html)
 import Html.Styled.Attributes exposing (value)
+import Layouts exposing (Layout)
 import Page exposing (Page)
 import Random
 import Route exposing (Route)
 import Shared
 import UI.Progress as Progress exposing (State(..))
 import View.ConfigAndPreview exposing (configAndPreview)
+
+
+layout : Model -> Layout
+layout model =
+    Layouts.Default { default = () }
 
 
 page : Shared.Model -> Route () -> Page Model Msg
@@ -24,8 +29,8 @@ page shared route =
                 { title = "Progress"
                 , body = view shared model
                 }
-                    |> layout shared route
         }
+        |> Page.withLayout layout
 
 
 

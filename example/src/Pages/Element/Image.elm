@@ -1,15 +1,20 @@
 module Pages.Element.Image exposing (Model, Msg, page)
 
-import Components.Default exposing (layout)
 import Config
 import Effect
 import Html.Styled as Html exposing (Html)
 import Html.Styled.Attributes exposing (src)
+import Layouts exposing (Layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared
 import UI.Image exposing (smallImage)
 import View.ConfigAndPreview exposing (configAndPreview)
+
+
+layout : Model -> Layout
+layout model =
+    Layouts.Default { default = () }
 
 
 page : Shared.Model -> Route () -> Page Model Msg
@@ -23,8 +28,8 @@ page shared route =
                 { title = "Image"
                 , body = view shared
                 }
-                    |> layout shared route
         }
+        |> Page.withLayout layout
 
 
 

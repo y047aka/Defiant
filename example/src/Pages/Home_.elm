@@ -1,11 +1,11 @@
 module Pages.Home_ exposing (Model, Msg, page)
 
-import Components.Default exposing (layout)
 import Data.PageSummary as PageSummary exposing (categoryToString)
 import Data.Theme exposing (Theme)
 import Effect
 import Html.Styled as Html exposing (Html, a, text)
 import Html.Styled.Attributes exposing (href)
+import Layouts exposing (Layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Route.Path as Path
@@ -13,6 +13,11 @@ import Shared
 import UI.Card as Card exposing (card, cards)
 import UI.Header as Header
 import UI.Segment exposing (basicSegment)
+
+
+layout : Model -> Layout
+layout model =
+    Layouts.Default { default = () }
 
 
 page : Shared.Model -> Route () -> Page Model Msg
@@ -26,8 +31,8 @@ page shared route =
                 { title = "Homepage"
                 , body = view { theme = shared.theme }
                 }
-                    |> layout shared route
         }
+        |> Page.withLayout layout
 
 
 

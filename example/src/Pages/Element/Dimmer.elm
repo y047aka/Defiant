@@ -1,12 +1,12 @@
 module Pages.Element.Dimmer exposing (Model, Msg, page)
 
-import Components.Default exposing (layout)
 import Config
 import Data.Theme exposing (Theme(..))
 import Effect
 import Html.Styled as Html exposing (Html, div, text)
 import Html.Styled.Attributes exposing (src)
 import Html.Styled.Events exposing (onClick)
+import Layouts exposing (Layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared
@@ -20,6 +20,11 @@ import UI.Segment exposing (segment)
 import View.ConfigAndPreview exposing (configAndPreview)
 
 
+layout : Model -> Layout
+layout model =
+    Layouts.Default { default = () }
+
+
 page : Shared.Model -> Route () -> Page Model Msg
 page shared route =
     Page.new
@@ -31,8 +36,8 @@ page shared route =
                 { title = "Dimmer"
                 , body = view shared model
                 }
-                    |> layout shared route
         }
+        |> Page.withLayout layout
 
 
 

@@ -1,10 +1,10 @@
 module Pages.Element.Segment exposing (Model, Msg, page)
 
-import Components.Default exposing (layout)
 import Config
 import Data.Theme exposing (Theme(..))
 import Effect
 import Html.Styled as Html exposing (Html, p, text)
+import Layouts exposing (Layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared
@@ -12,6 +12,11 @@ import UI.Example exposing (wireframeShortParagraph)
 import UI.Segment exposing (Padding(..), basicSegment, paddingFromString, paddingToString, segment, segmentWithProps, verticalSegment)
 import View.ConfigAndPreview exposing (configAndPreview)
 import View.Playground exposing (playground)
+
+
+layout : Model -> Layout
+layout model =
+    Layouts.Default { default = () }
 
 
 page : Shared.Model -> Route () -> Page Model Msg
@@ -25,8 +30,8 @@ page shared route =
                 { title = "Segment"
                 , body = view shared model
                 }
-                    |> layout shared route
         }
+        |> Page.withLayout layout
 
 
 

@@ -1,10 +1,10 @@
 module Pages.Element.Loader exposing (Model, Msg, page)
 
-import Components.Default exposing (layout)
 import Config
 import Data.Theme exposing (Theme(..))
 import Effect
 import Html.Styled as Html exposing (Html, text)
+import Layouts exposing (Layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared
@@ -13,6 +13,11 @@ import UI.Example exposing (wireframeShortParagraph)
 import UI.Loader exposing (loader, textLoader)
 import UI.Segment exposing (segment)
 import View.ConfigAndPreview exposing (configAndPreview)
+
+
+layout : Model -> Layout
+layout model =
+    Layouts.Default { default = () }
 
 
 page : Shared.Model -> Route () -> Page Model Msg
@@ -26,8 +31,8 @@ page shared route =
                 { title = "Loader"
                 , body = view shared
                 }
-                    |> layout shared route
         }
+        |> Page.withLayout layout
 
 
 

@@ -1,11 +1,11 @@
 module Pages.DataDisplay.Card exposing (Model, Msg, page)
 
-import Components.Default exposing (layout)
 import Config
 import Data.Theme exposing (Theme(..))
 import Effect
 import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Attributes exposing (src)
+import Layouts exposing (Layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared
@@ -13,6 +13,11 @@ import UI.Card as Card exposing (cards, extraContent)
 import UI.Icon exposing (icon)
 import UI.Image exposing (image)
 import View.Playground exposing (playground)
+
+
+layout : Model -> Layout
+layout model =
+    Layouts.Default { default = () }
 
 
 page : Shared.Model -> Route () -> Page Model Msg
@@ -26,8 +31,8 @@ page shared route =
                 { title = "Card"
                 , body = view shared model
                 }
-                    |> layout shared route
         }
+        |> Page.withLayout layout
 
 
 

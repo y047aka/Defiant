@@ -1,10 +1,10 @@
 module Pages.DataDisplay.Item exposing (Model, Msg, page)
 
-import Components.Default exposing (layout)
 import Config
 import Effect
 import Html.Styled as Html exposing (Html, span, text)
 import Html.Styled.Attributes exposing (src)
+import Layouts exposing (Layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared
@@ -12,6 +12,11 @@ import UI.Example exposing (wireframeShortParagraph)
 import UI.Image exposing (image)
 import UI.Item as Item exposing (..)
 import View.ConfigAndPreview exposing (configAndPreview)
+
+
+layout : Model -> Layout
+layout model =
+    Layouts.Default { default = () }
 
 
 page : Shared.Model -> Route () -> Page Model Msg
@@ -25,8 +30,8 @@ page shared route =
                 { title = "Item"
                 , body = view shared model
                 }
-                    |> layout shared route
         }
+        |> Page.withLayout layout
 
 
 

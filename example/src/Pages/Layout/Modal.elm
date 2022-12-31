@@ -1,11 +1,11 @@
 module Pages.Layout.Modal exposing (Model, Msg, page)
 
-import Components.Default exposing (layout)
 import Config
 import Effect
 import Html.Styled as Html exposing (Html, a, p, text)
 import Html.Styled.Attributes as Attributes exposing (href)
 import Html.Styled.Events exposing (onClick)
+import Layouts exposing (Layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared
@@ -13,6 +13,11 @@ import UI.Button exposing (blackButton, button, greenButton, redButton)
 import UI.Icon exposing (icon)
 import UI.Modal as Modal exposing (basicModal, dialog, modal)
 import View.ConfigAndPreview exposing (configAndPreview)
+
+
+layout : Model -> Layout
+layout model =
+    Layouts.Default { default = () }
 
 
 page : Shared.Model -> Route () -> Page Model Msg
@@ -26,8 +31,8 @@ page shared route =
                 { title = "Modal"
                 , body = view shared model
                 }
-                    |> layout shared route
         }
+        |> Page.withLayout layout
 
 
 

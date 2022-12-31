@@ -1,15 +1,20 @@
 module Pages.Navigation.Step exposing (Model, Msg, Progress(..), page, progressFromString, progressToString)
 
-import Components.Default exposing (layout)
 import Config
 import Effect
 import Html.Styled as Html exposing (Html)
+import Layouts exposing (Layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared
 import UI.CircleStep as CircleStep
 import UI.Step as Step exposing (State(..))
 import View.ConfigAndPreview exposing (configAndPreview)
+
+
+layout : Model -> Layout
+layout model =
+    Layouts.Default { default = () }
 
 
 page : Shared.Model -> Route () -> Page Model Msg
@@ -23,8 +28,8 @@ page shared route =
                 { title = "Step"
                 , body = view shared model
                 }
-                    |> layout shared route
         }
+        |> Page.withLayout layout
 
 
 

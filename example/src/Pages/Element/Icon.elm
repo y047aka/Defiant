@@ -1,17 +1,22 @@
 module Pages.Element.Icon exposing (Model, Msg, page)
 
-import Components.Default exposing (layout)
 import Config
 import Css exposing (..)
 import Effect
 import Html.Styled as Html exposing (Attribute, Html, text)
 import Html.Styled.Attributes exposing (css)
+import Layouts exposing (Layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared
 import UI.Grid as Grid exposing (fiveColumnsGrid)
 import UI.Icon exposing (icon)
 import View.ConfigAndPreview exposing (configAndPreview)
+
+
+layout : Model -> Layout
+layout model =
+    Layouts.Default { default = () }
 
 
 page : Shared.Model -> Route () -> Page Model Msg
@@ -25,8 +30,8 @@ page shared route =
                 { title = "Icon"
                 , body = view shared
                 }
-                    |> layout shared route
         }
+        |> Page.withLayout layout
 
 
 

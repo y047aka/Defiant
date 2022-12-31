@@ -1,10 +1,10 @@
 module Pages.Element.Label exposing (Model, Msg, page)
 
-import Components.Default exposing (layout)
 import Config
 import Data.PalettesByState as PalettesByState
 import Effect
 import Html.Styled as Html exposing (Html, text)
+import Layouts exposing (Layout)
 import Page exposing (Page)
 import Route exposing (Route)
 import Shared
@@ -12,6 +12,11 @@ import Types exposing (PresetColor(..))
 import UI.Icon exposing (icon)
 import UI.Label as Label exposing (..)
 import View.ConfigAndPreview exposing (configAndPreview)
+
+
+layout : Model -> Layout
+layout model =
+    Layouts.Default { default = () }
 
 
 page : Shared.Model -> Route () -> Page Model Msg
@@ -25,8 +30,8 @@ page shared route =
                 { title = "Label"
                 , body = view shared model
                 }
-                    |> layout shared route
         }
+        |> Page.withLayout layout
 
 
 
