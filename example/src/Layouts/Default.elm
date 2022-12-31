@@ -7,14 +7,16 @@ import Css.Palette as Palette exposing (darkPalette, palette, paletteWith, setBa
 import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
 import Data.PageSummary as PageSummary exposing (categoryToString)
-import Data.Theme exposing (Theme(..))
+import Data.Theme as Theme exposing (Theme(..))
 import Effect exposing (Effect)
-import Html.Styled as Html exposing (Html, a, footer, header, li, main_, text, ul)
-import Html.Styled.Attributes exposing (css, href)
+import Html.Styled as Html exposing (Html, a, div, footer, header, li, main_, option, select, text, ul)
+import Html.Styled.Attributes exposing (css, href, selected, value)
+import Html.Styled.Events exposing (onInput)
 import Layout exposing (Layout)
 import Route exposing (Route)
 import Route.Path as Path
 import Shared
+import Shared.Msg
 import UI.Breadcrumb exposing (BreadcrumbItem, Divider(..), breadcrumbWithProps)
 import UI.Container exposing (container)
 import UI.Header as Header
@@ -33,7 +35,7 @@ layout settings shared route =
         { init = init
         , update = update
         , view = view settings route shared
-        , subscriptions = subscriptions
+        , subscriptions = \_ -> Sub.none
         }
 
 
@@ -42,34 +44,25 @@ layout settings shared route =
 
 
 type alias Model =
-    {}
+    ()
 
 
 init : () -> ( Model, Effect Msg )
 init _ =
-    ( {}, Effect.none )
+    ( (), Effect.none )
 
 
 
 -- UPDATE
 
 
-type Msg
-    = NoOp
+type alias Msg =
+    Shared.Msg.Msg
 
 
 update : Msg -> Model -> ( Model, Effect Msg )
 update msg model =
-    ( model, Effect.none )
-
-
-
--- SUBSCRIPTIONS
-
-
-subscriptions : Model -> Sub Msg
-subscriptions model =
-    Sub.none
+    ( model, Effect.sendSharedMsg msg )
 
 
 
@@ -108,7 +101,8 @@ view settings route shared { fromMsg, model, content } =
                     )
                 ]
             ]
-        , siteHeader shared { title = content.title, url = route.url }
+        , Html.map fromMsg <|
+            siteHeader shared { title = content.title, url = route.url }
         , main_ []
             [ basicSegment { theme = Light }
                 []
@@ -127,7 +121,7 @@ view settings route shared { fromMsg, model, content } =
     }
 
 
-siteHeader : Shared.Model -> { title : String, url : Url } -> Html msg
+siteHeader : Shared.Model -> { title : String, url : Url } -> Html Msg
 siteHeader shared page =
     header
         [ css
@@ -151,12 +145,11 @@ siteHeader shared page =
         ]
         [ breadcrumbWithProps { divider = Slash, size = Nothing, theme = shared.theme }
             (breadcrumbItems page)
-
-        -- , div []
-        --     [ select [ onInput (Theme.fromString >> Maybe.withDefault shared.theme >> (\theme -> Shared (Shared.ChangeTheme theme))) ] <|
-        --         List.map (\theme -> option [ value (Theme.toString theme), selected (shared.theme == theme) ] [ text (Theme.toString theme) ])
-        --             [ System, Light, Dark ]
-        --     ]
+        , div []
+            [ select [ onInput (Theme.fromString >> Maybe.withDefault shared.theme >> (\theme -> Shared.Msg.ChangeTheme theme)) ] <|
+                List.map (\theme -> option [ value (Theme.toString theme), selected (shared.theme == theme) ] [ text (Theme.toString theme) ])
+                    [ System, Light, Dark ]
+            ]
         ]
 
 
