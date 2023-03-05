@@ -1,6 +1,7 @@
 module Pages.DataDisplay.Card exposing (Model, Msg, page)
 
 import Config
+import Data.DummyData as DummyData
 import Data.Theme exposing (Theme(..))
 import Effect
 import Html.Styled as Html exposing (Html, text)
@@ -46,6 +47,14 @@ type alias Model =
     , hasMetadata : Bool
     , hasDescription : Bool
     , hasExtraContent : Bool
+    , people :
+        List
+            { header : String
+            , metadata : String
+            , description : String
+            , friends : Int
+            , imageUrl : String
+            }
     }
 
 
@@ -57,6 +66,17 @@ init =
     , hasMetadata = True
     , hasDescription = True
     , hasExtraContent = True
+    , people =
+        List.map
+            (\p ->
+                { header = p.name
+                , metadata = p.relation
+                , description = p.introduction
+                , friends = p.friends
+                , imageUrl = p.imageUrl
+                }
+            )
+            DummyData.people
     }
 
 
@@ -91,7 +111,7 @@ view shared model =
                     shared.theme
             }
 
-        card { header, metadata, description_, friends, imageUrl } =
+        card { header, metadata, description, friends, imageUrl } =
             Card.card options
                 []
                 [ if model.hasImage then
@@ -115,7 +135,7 @@ view shared model =
                             []
                     , description =
                         if model.hasDescription then
-                            [ text description_ ]
+                            [ text description ]
 
                         else
                             []
@@ -136,35 +156,7 @@ view shared model =
         , toMsg = UpdateConfig
         , theme = shared.theme
         , inverted = model.inverted
-        , preview =
-            [ cards [] <|
-                List.map card
-                    [ { header = "Matt Giampietro"
-                      , metadata = "Friends"
-                      , description_ = "Matthew is an interior designer living in New York."
-                      , friends = 75
-                      , imageUrl = "/images/avatar/matthew.png"
-                      }
-                    , { header = "Molly"
-                      , metadata = "Coworker"
-                      , description_ = "Molly is a personal assistant living in Paris."
-                      , friends = 35
-                      , imageUrl = "/images/avatar/molly.png"
-                      }
-                    , { header = "Elyse"
-                      , metadata = "Coworker"
-                      , description_ = "Elyse is a copywriter working in New York."
-                      , friends = 151
-                      , imageUrl = "/images/avatar/elyse.png"
-                      }
-                    , { header = "Kristy"
-                      , metadata = "Friends"
-                      , description_ = "Kristy is an art director living in New York."
-                      , friends = 22
-                      , imageUrl = "/images/avatar/kristy.png"
-                      }
-                    ]
-            ]
+        , preview = [ cards [] (List.map card model.people) ]
         , configSections =
             [ { label = "Content"
               , configs =
