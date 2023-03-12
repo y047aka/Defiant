@@ -58,14 +58,14 @@ init =
 
 
 type Msg
-    = UpdateConfig (Config.Msg Model)
+    = UpdateConfig (Model -> Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        UpdateConfig configMsg ->
-            Config.update configMsg model
+        UpdateConfig updater ->
+            updater model
 
 
 
@@ -74,8 +74,10 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    [ configAndPreview
         { title = "Steps"
+        , theme = theme
+        , inverted = False
         , preview =
             [ let
                 considerOptions { icon, title, description } =
@@ -177,57 +179,47 @@ view { theme } model =
         , configSections =
             [ { label = "Type"
               , configs =
-                    [ { label = ""
-                      , config =
-                            Config.select
-                                { value = model.type_
-                                , options = [ Step, CircleStep ]
-                                , fromString = stepTypeFromString
-                                , toString = stepTypeToString
-                                , setter = \type_ m -> { m | type_ = type_ }
-                                }
-                      , note = ""
-                      }
+                    [ Config.select
+                        { label = ""
+                        , value = model.type_
+                        , options = [ Step, CircleStep ]
+                        , fromString = stepTypeFromString
+                        , toString = stepTypeToString
+                        , onChange = (\type_ c -> { c | type_ = type_ }) >> UpdateConfig
+                        , note = ""
+                        }
                     ]
               }
             , { label = "Progress"
               , configs =
-                    [ { label = ""
-                      , config =
-                            Config.radio
-                                { name = "progress"
-                                , value = model.progress
-                                , options = [ Shipping, Billing, ConfirmOrder ]
-                                , fromString = progressFromString
-                                , toString = progressToString
-                                , setter = \progress m -> { m | progress = progress }
-                                }
-                      , note = ""
-                      }
+                    [ Config.radio
+                        { label = ""
+                        , name = "progress"
+                        , value = model.progress
+                        , options = [ Shipping, Billing, ConfirmOrder ]
+                        , fromString = progressFromString
+                        , toString = progressToString
+                        , onChange = (\progress c -> { c | progress = progress }) >> UpdateConfig
+                        , note = ""
+                        }
                     ]
               }
             , { label = "Content"
               , configs =
-                    [ { label = ""
-                      , config =
-                            Config.bool
-                                { id = "icon"
-                                , label = "Icon"
-                                , bool = model.hasIcon
-                                , setter = \m -> { m | hasIcon = not m.hasIcon }
-                                }
-                      , note = "A step can contain an icon"
-                      }
-                    , { label = ""
-                      , config =
-                            Config.bool
-                                { id = "description"
-                                , label = "Description"
-                                , bool = model.hasDescription
-                                , setter = \m -> { m | hasDescription = not m.hasDescription }
-                                }
-                      , note = "A step can contain a description"
-                      }
+                    [ Config.bool
+                        { label = "Icon"
+                        , id = "icon"
+                        , bool = model.hasIcon
+                        , onClick = (\c -> { c | hasIcon = not c.hasIcon }) |> UpdateConfig
+                        , note = "A step can contain an icon"
+                        }
+                    , Config.bool
+                        { label = "Description"
+                        , id = "description"
+                        , bool = model.hasDescription
+                        , onClick = (\c -> { c | hasDescription = not c.hasDescription }) |> UpdateConfig
+                        , note = "A step can contain a description"
+                        }
                     ]
               }
             ]

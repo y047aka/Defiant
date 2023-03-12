@@ -69,7 +69,7 @@ init =
 type Msg
     = Increment
     | Decrement
-    | UpdateConfig (Config.Msg Model)
+    | UpdateConfig (Model -> Model)
 
 
 update : Msg -> Model -> Model
@@ -81,8 +81,8 @@ update msg model =
         Decrement ->
             { model | counter = model.counter - 1 }
 
-        UpdateConfig configMsg ->
-            Config.update configMsg model
+        UpdateConfig updater ->
+            updater model
 
 
 
@@ -91,8 +91,10 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    [ configAndPreview
         { title = "Button"
+        , theme = theme
+        , inverted = False
         , preview =
             [ buttonWithProps
                 { palettesByState =
@@ -117,44 +119,43 @@ view { theme } model =
         , configSections =
             [ { label = "Content"
               , configs =
-                    [ { label = "Label"
-                      , config =
-                            Config.string
-                                { label = ""
-                                , value = model.label
-                                , setter = \string m -> { m | label = string }
-                                }
-                      , note = ""
-                      }
+                    [ Config.string
+                        { label = "Label"
+                        , value = model.label
+                        , onInput = (\string c -> { c | label = string }) >> UpdateConfig
+                        , note = ""
+                        }
                     ]
               }
             , { label = "Variations"
               , configs =
-                    [ { label = "Color"
-                      , config =
-                            Config.select
-                                { value = model.color
-                                , options = [ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ]
-                                , fromString = colorFromString
-                                , toString = colorToString
-                                , setter = \color m -> { m | color = color }
-                                }
-                      , note = "A button can have different colors"
-                      }
+                    [ Config.select
+                        { label = "Color"
+                        , value = model.color
+                        , options = [ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ]
+                        , fromString = colorFromString
+                        , toString = colorToString
+                        , onChange = (\color c -> { c | color = color }) >> UpdateConfig
+                        , note = "A button can have different colors"
+                        }
                     ]
               }
             ]
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = ""
+        , theme = theme
+        , inverted = False
         , preview =
             [ button [] [ text "Button" ]
             , button [] [ text "Focusable" ]
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = "Labeled"
+        , theme = theme
+        , inverted = False
         , preview =
             [ labeledButton []
                 [ button [] [ icon [] "fas fa-heart", text "Like" ]
@@ -168,13 +169,17 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = "Icon"
+        , theme = theme
+        , inverted = False
         , preview = [ button [] [ icon [] "fas fa-cloud" ] ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = "Basic"
+        , theme = theme
+        , inverted = False
         , preview = [ basicButton [] [ icon [] "fas fa-user", text "Add Friend" ] ]
         , configSections = []
         }

@@ -63,7 +63,7 @@ init =
 type Msg
     = SetQuery String
     | SetTableState State
-    | UpdateConfig (Config.Msg Model)
+    | UpdateConfig (Model -> Model)
 
 
 update : Msg -> Model -> Model
@@ -75,8 +75,8 @@ update msg model =
         SetTableState newState ->
             { model | tableState = newState }
 
-        UpdateConfig configMsg ->
-            Config.update configMsg model
+        UpdateConfig updater ->
+            updater model
 
 
 
@@ -113,8 +113,10 @@ view { theme } ({ people, tableState, query } as model) =
         acceptablePeople =
             List.filter (String.contains lowerQuery << String.toLower << .name) people
     in
-    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    [ configAndPreview
         { title = "List"
+        , theme = theme
+        , inverted = False
         , preview =
             [ input [ value query, placeholder "Search by Name", onInput SetQuery ] []
             , case model.mode of
@@ -127,17 +129,15 @@ view { theme } ({ people, tableState, query } as model) =
         , configSections =
             [ { label = "Types"
               , configs =
-                    [ { label = ""
-                      , config =
-                            Config.select
-                                { value = model.mode
-                                , options = [ List, Table ]
-                                , fromString = modeFromString
-                                , toString = modeToString
-                                , setter = \mode m -> { m | mode = mode }
-                                }
-                      , note = ""
-                      }
+                    [ Config.select
+                        { label = ""
+                        , value = model.mode
+                        , options = [ List, Table ]
+                        , fromString = modeFromString
+                        , toString = modeToString
+                        , onChange = (\mode c -> { c | mode = mode }) >> UpdateConfig
+                        , note = ""
+                        }
                     ]
               }
             ]

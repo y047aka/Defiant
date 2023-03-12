@@ -53,14 +53,14 @@ init =
 
 
 type Msg
-    = UpdateConfig (Config.Msg Model)
+    = UpdateConfig (Model -> Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        UpdateConfig configMsg ->
-            Config.update configMsg model
+        UpdateConfig updater ->
+            updater model
 
 
 
@@ -69,8 +69,10 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    [ configAndPreview
         { title = "Table"
+        , theme = theme
+        , inverted = False
         , preview =
             [ tableWithProps { border = True, striped = model.striped, celled = model.celled, thead = True }
                 []
@@ -95,32 +97,28 @@ view { theme } model =
         , configSections =
             [ { label = "Variations"
               , configs =
-                    [ { label = ""
-                      , config =
-                            Config.bool
-                                { id = "striped"
-                                , label = "Striped"
-                                , bool = model.striped
-                                , setter = \m -> { m | striped = not m.striped }
-                                }
-                      , note = "A table can stripe alternate rows of content with a darker color to increase contrast"
-                      }
-                    , { label = ""
-                      , config =
-                            Config.bool
-                                { id = "celled"
-                                , label = "Celled"
-                                , bool = model.celled
-                                , setter = \m -> { m | celled = not m.celled }
-                                }
-                      , note = "A table may be divided each row into separate cells"
-                      }
+                    [ Config.bool
+                        { label = "Striped"
+                        , id = "striped"
+                        , bool = model.striped
+                        , onClick = (\c -> { c | striped = not c.striped }) |> UpdateConfig
+                        , note = "A table can stripe alternate rows of content with a darker color to increase contrast"
+                        }
+                    , Config.bool
+                        { label = "Celled"
+                        , id = "celled"
+                        , bool = model.celled
+                        , onClick = (\c -> { c | celled = not c.celled }) |> UpdateConfig
+                        , note = "A table may be divided each row into separate cells"
+                        }
                     ]
               }
             ]
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = "Basic"
+        , theme = theme
+        , inverted = False
         , preview =
             [ basicTable []
                 [ thead []
@@ -138,8 +136,10 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = ""
+        , theme = theme
+        , inverted = False
         , preview =
             [ veryBasicTable []
                 [ thead []

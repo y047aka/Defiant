@@ -1,6 +1,5 @@
 module Pages.Navigation.Menu exposing (Model, Msg, page)
 
-import Config
 import Data.Theme exposing (Theme(..))
 import Effect
 import Html.Styled as Html exposing (Html, input, text)
@@ -24,7 +23,7 @@ page : Shared.Model -> Route () -> Page Model Msg
 page shared route =
     Page.new
         { init = \() -> ( init, Effect.none )
-        , update = \_ model -> ( model, Effect.none )
+        , update = \msg model -> ( update msg model, Effect.none )
         , subscriptions = \_ -> Sub.none
         , view =
             \_ ->
@@ -53,7 +52,14 @@ init =
 
 
 type Msg
-    = UpdateConfig (Config.Msg Model)
+    = NoOp
+
+
+update : Msg -> Model -> Model
+update msg model =
+    case msg of
+        NoOp ->
+            model
 
 
 
@@ -62,8 +68,10 @@ type Msg
 
 view : Shared.Model -> List (Html Msg)
 view shared =
-    [ configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
+    [ configAndPreview
         { title = "Secondary Menu"
+        , theme = shared.theme
+        , inverted = False
         , preview =
             [ secondaryMenu { theme = Light } [] <|
                 [ secondaryMenuActiveItem [] [ text "Home" ]
@@ -80,8 +88,10 @@ view shared =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
+    , configAndPreview
         { title = "Vertical Menu"
+        , theme = shared.theme
+        , inverted = False
         , preview =
             [ verticalMenu { theme = shared.theme, additionalStyles = [] } [] <|
                 [ verticalMenuActiveItem { theme = shared.theme } [] <|
@@ -101,8 +111,10 @@ view shared =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
+    , configAndPreview
         { title = "Link Item"
+        , theme = shared.theme
+        , inverted = False
         , preview =
             [ verticalMenu { theme = shared.theme, additionalStyles = [] } [] <|
                 [ verticalMenuLinkItem { theme = shared.theme, additionalStyles = [] } [ href "http://www.google.com", Attributes.target "_blank", rel "noopener" ] [ text "Visit Google" ]
@@ -111,8 +123,10 @@ view shared =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
+    , configAndPreview
         { title = "Inverted"
+        , theme = shared.theme
+        , inverted = False
         , preview =
             [ Menu.menu { theme = Dark } [] <|
                 [ linkItem { theme = Dark } [] [ text "Home" ]
@@ -122,8 +136,10 @@ view shared =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
+    , configAndPreview
         { title = ""
+        , theme = shared.theme
+        , inverted = False
         , preview =
             [ invertedSegment []
                 [ secondaryMenu { theme = Light } [] <|

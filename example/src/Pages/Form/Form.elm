@@ -58,7 +58,7 @@ init =
 
 type Msg
     = ToggleChecked
-    | UpdateConfig (Config.Msg Model)
+    | UpdateConfig (Model -> Model)
 
 
 update : Msg -> Model -> Model
@@ -67,8 +67,8 @@ update msg model =
         ToggleChecked ->
             { model | checked = not model.checked }
 
-        UpdateConfig configMsg ->
-            Config.update configMsg model
+        UpdateConfig updater ->
+            updater model
 
 
 
@@ -77,8 +77,10 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    [ configAndPreview
         { title = "Form"
+        , theme = theme
+        , inverted = False
         , preview =
             [ form []
                 [ twoFields []
@@ -118,16 +120,14 @@ view { theme } model =
         , configSections =
             [ { label = "Form States"
               , configs =
-                    [ { label = ""
-                      , config =
-                            Config.select
-                                { value = model.state
-                                , options = [ Default, Error, Warning, Success, Info ]
-                                , fromString = formStateFromString
-                                , toString = formStateToString
-                                , setter = \state m -> { m | state = state }
-                                }
-                      , note =
+                    [ Config.select
+                        { label = ""
+                        , value = model.state
+                        , options = [ Default, Error, Warning, Success, Info ]
+                        , fromString = formStateFromString
+                        , toString = formStateToString
+                        , onChange = (\state c -> { c | state = state }) >> UpdateConfig
+                        , note =
                             case model.state of
                                 Error ->
                                     "Individual fields may display an error state"
@@ -143,13 +143,15 @@ view { theme } model =
 
                                 Default ->
                                     ""
-                      }
+                        }
                     ]
               }
             ]
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = "Field"
+        , theme = theme
+        , inverted = False
         , preview =
             [ form []
                 [ field
@@ -163,8 +165,10 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = "Fields"
+        , theme = theme
+        , inverted = False
         , preview =
             [ form []
                 [ fields []
@@ -194,8 +198,10 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = ""
+        , theme = theme
+        , inverted = False
         , preview =
             [ form []
                 [ threeFields []
@@ -225,8 +231,10 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = "Text Area"
+        , theme = theme
+        , inverted = False
         , preview =
             [ form []
                 [ field
@@ -247,8 +255,10 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = "Checkbox"
+        , theme = theme
+        , inverted = False
         , preview =
             [ form []
                 [ field

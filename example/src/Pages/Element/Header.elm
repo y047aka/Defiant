@@ -58,14 +58,14 @@ init =
 
 
 type Msg
-    = UpdateConfig (Config.Msg Model)
+    = UpdateConfig (Model -> Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        UpdateConfig configMsg ->
-            Config.update configMsg model
+        UpdateConfig updater ->
+            updater model
 
 
 
@@ -78,8 +78,10 @@ view { theme } model =
         options =
             { theme = theme }
     in
-    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    [ configAndPreview
         { title = "Content Headers"
+        , theme = theme
+        , inverted = False
         , preview =
             [ headerWithProps { size = model.size, theme = theme }
                 []
@@ -91,45 +93,39 @@ view { theme } model =
         , configSections =
             [ { label = "Content"
               , configs =
-                    [ { label = "Header"
-                      , config =
-                            Config.string
-                                { label = ""
-                                , value = model.header
-                                , setter = \string m -> { m | header = string }
-                                }
-                      , note = ""
-                      }
-                    , { label = "Subheader"
-                      , config =
-                            Config.string
-                                { label = ""
-                                , value = model.subHeader
-                                , setter = \string m -> { m | subHeader = string }
-                                }
-                      , note = ""
-                      }
+                    [ Config.string
+                        { label = "Header"
+                        , value = model.header
+                        , onInput = (\string c -> { c | header = string }) >> UpdateConfig
+                        , note = ""
+                        }
+                    , Config.string
+                        { label = "Subheader"
+                        , value = model.subHeader
+                        , onInput = (\string c -> { c | subHeader = string }) >> UpdateConfig
+                        , note = ""
+                        }
                     ]
               }
             , { label = "Variations"
               , configs =
-                    [ { label = "Size"
-                      , config =
-                            Config.select
-                                { value = model.size
-                                , options = [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
-                                , fromString = sizeFromString
-                                , toString = sizeToString
-                                , setter = \size m -> { m | size = size }
-                                }
-                      , note = "Text can vary in the same sizes as icons"
-                      }
+                    [ Config.select
+                        { label = "Size"
+                        , value = model.size
+                        , options = [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
+                        , fromString = sizeFromString
+                        , toString = sizeToString
+                        , onChange = (\size c -> { c | size = size }) >> UpdateConfig
+                        , note = "Text can vary in the same sizes as icons"
+                        }
                     ]
               }
             ]
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = "Icon Headers"
+        , theme = theme
+        , inverted = False
         , preview =
             [ iconHeader options
                 []

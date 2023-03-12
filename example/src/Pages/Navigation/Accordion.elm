@@ -55,14 +55,14 @@ init =
 
 
 type Msg
-    = UpdateConfig (Config.Msg Model)
+    = UpdateConfig (Model -> Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        UpdateConfig configMsg ->
-            Config.update configMsg model
+        UpdateConfig updater ->
+            updater model
 
 
 
@@ -126,16 +126,14 @@ view shared { toggleMethod, inverted } =
         , configSections =
             [ { label = "Toggle Method"
               , configs =
-                    [ { label = ""
-                      , config =
-                            Config.select
-                                { value = toggleMethod
-                                , options = [ SummaryDetails, TargetUrl, Checkbox, Radio ]
-                                , fromString = Accordion.toggleMethodFromString
-                                , toString = Accordion.toggleMethodToString
-                                , setter = \method m -> { m | toggleMethod = method }
-                                }
-                      , note =
+                    [ Config.select
+                        { label = ""
+                        , value = toggleMethod
+                        , options = [ SummaryDetails, TargetUrl, Checkbox, Radio ]
+                        , fromString = Accordion.toggleMethodFromString
+                        , toString = Accordion.toggleMethodToString
+                        , onChange = (\method m -> { m | toggleMethod = method }) >> UpdateConfig
+                        , note =
                             case toggleMethod of
                                 SummaryDetails ->
                                     "A standard accordion with summary/details tag"
@@ -148,7 +146,7 @@ view shared { toggleMethod, inverted } =
 
                                 Radio ->
                                     "A standard accordion with radio button"
-                      }
+                        }
                     ]
               }
             ]

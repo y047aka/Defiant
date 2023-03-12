@@ -1,6 +1,5 @@
 module Pages.Element.Icon exposing (Model, Msg, page)
 
-import Config
 import Css exposing (..)
 import Effect
 import Html.Styled as Html exposing (Attribute, Html, text)
@@ -52,12 +51,14 @@ init =
 
 
 type Msg
-    = UpdateConfig (Config.Msg Model)
+    = NoOp
 
 
 update : Msg -> Model -> Model
-update _ model =
-    model
+update msg model =
+    case msg of
+        NoOp ->
+            model
 
 
 
@@ -97,8 +98,10 @@ view { theme } =
                     ]
                 ]
     in
-    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    [ configAndPreview
         { title = "Accessibility"
+        , theme = theme
+        , inverted = False
         , preview =
             [ fiveColumnsGrid []
                 [ -- row 1

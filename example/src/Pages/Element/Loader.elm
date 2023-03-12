@@ -1,6 +1,5 @@
 module Pages.Element.Loader exposing (Model, Msg, page)
 
-import Config
 import Data.Theme exposing (Theme(..))
 import Effect
 import Html.Styled as Html exposing (Html, text)
@@ -53,12 +52,14 @@ init =
 
 
 type Msg
-    = UpdateConfig (Config.Msg Model)
+    = NoOp
 
 
 update : Msg -> Model -> Model
-update _ model =
-    model
+update msg model =
+    case msg of
+        NoOp ->
+            model
 
 
 
@@ -67,8 +68,10 @@ update _ model =
 
 view : Shared.Model -> List (Html Msg)
 view shared =
-    [ configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
+    [ configAndPreview
         { title = "Loader"
+        , theme = shared.theme
+        , inverted = False
         , preview =
             [ segment { theme = shared.theme }
                 []
@@ -80,8 +83,10 @@ view shared =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
+    , configAndPreview
         { title = "Text Loader"
+        , theme = shared.theme
+        , inverted = False
         , preview =
             [ segment { theme = shared.theme }
                 []

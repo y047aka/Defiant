@@ -1,6 +1,5 @@
 module Pages.Navigation.Tab exposing (Model, Msg, page)
 
-import Config
 import Effect
 import Html.Styled as Html exposing (Html)
 import Layouts exposing (Layout)
@@ -50,12 +49,14 @@ init =
 
 
 type Msg
-    = UpdateConfig (Config.Msg Model)
+    = NoOp
 
 
 update : Msg -> Model -> Model
-update _ model =
-    model
+update msg model =
+    case msg of
+        NoOp ->
+            model
 
 
 
@@ -64,8 +65,10 @@ update _ model =
 
 view : Shared.Model -> List (Html Msg)
 view { theme } =
-    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    [ configAndPreview
         { title = "Tab"
+        , theme = theme
+        , inverted = False
         , preview =
             [ tab { state = Inactive }
                 []
@@ -75,8 +78,10 @@ view { theme } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = "Active"
+        , theme = theme
+        , inverted = False
         , preview =
             [ tab { state = Active }
                 []
@@ -86,8 +91,10 @@ view { theme } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = "Loading"
+        , theme = theme
+        , inverted = False
         , preview =
             [ tab { state = Loading }
                 []

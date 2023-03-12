@@ -1,6 +1,5 @@
 module Pages.Element.Message exposing (Model, Msg, page)
 
-import Config
 import Effect
 import Html.Styled as Html exposing (Html, div, p, text)
 import Layouts exposing (Layout)
@@ -51,12 +50,14 @@ init =
 
 
 type Msg
-    = UpdateConfig (Config.Msg Model)
+    = NoOp
 
 
 update : Msg -> Model -> Model
-update _ model =
-    model
+update msg model =
+    case msg of
+        NoOp ->
+            model
 
 
 
@@ -69,8 +70,10 @@ view shared =
         options =
             { theme = shared.theme }
     in
-    [ configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
+    [ configAndPreview
         { title = "Message"
+        , theme = shared.theme
+        , inverted = False
         , preview =
             [ message []
                 [ div []
@@ -81,8 +84,10 @@ view shared =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
+    , configAndPreview
         { title = "Icon Message"
+        , theme = shared.theme
+        , inverted = False
         , preview =
             [ message []
                 [ icon [] "fas fa-inbox"

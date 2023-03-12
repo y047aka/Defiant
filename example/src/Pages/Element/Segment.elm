@@ -60,14 +60,14 @@ init =
 
 
 type Msg
-    = UpdateConfig (Config.Msg Model)
+    = UpdateConfig (Model -> Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        UpdateConfig configMsg ->
-            Config.update configMsg model
+        UpdateConfig updater ->
+            updater model
 
 
 view : Shared.Model -> Model -> List (Html Msg)
@@ -101,37 +101,34 @@ view shared model =
         , configSections =
             [ { label = "States"
               , configs =
-                    [ { label = ""
-                      , config =
-                            Config.bool
-                                { id = "disabled"
-                                , label = "Disabled"
-                                , bool = model.disabled
-                                , setter = \m -> { m | disabled = not m.disabled }
-                                }
-                      , note = "A segment may show its content is disabled"
-                      }
+                    [ Config.bool
+                        { label = "Disabled"
+                        , id = "disabled"
+                        , bool = model.disabled
+                        , onClick = (\c -> { c | disabled = not c.disabled }) |> UpdateConfig
+                        , note = "A segment may show its content is disabled"
+                        }
                     ]
               }
             , { label = "Variations"
               , configs =
-                    [ { label = "Padding"
-                      , config =
-                            Config.select
-                                { value = model.padding
-                                , options = [ Default, Padded, VeryPadded ]
-                                , fromString = paddingFromString
-                                , toString = paddingToString
-                                , setter = \padding m -> { m | padding = padding }
-                                }
-                      , note = "A segment can increase its padding"
-                      }
+                    [ Config.select
+                        { label = "Padding"
+                        , value = model.padding
+                        , options = [ Default, Padded, VeryPadded ]
+                        , fromString = paddingFromString
+                        , toString = paddingToString
+                        , onChange = (\padding c -> { c | padding = padding }) >> UpdateConfig
+                        , note = "A segment can increase its padding"
+                        }
                     ]
               }
             ]
         }
-    , configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
+    , configAndPreview
         { title = "Vertical Segment"
+        , theme = shared.theme
+        , inverted = False
         , preview =
             if model.vertical then
                 [ verticalSegment options [] [ wireframeShortParagraph ]
@@ -147,22 +144,21 @@ view shared model =
         , configSections =
             [ { label = ""
               , configs =
-                    [ { label = "Vertical Segment"
-                      , config =
-                            Config.bool
-                                { id = "vertical"
-                                , label = "Vertical"
-                                , bool = model.vertical
-                                , setter = \m -> { m | vertical = not m.vertical }
-                                }
-                      , note = "A vertical segment formats content to be aligned as part of a vertical group"
-                      }
+                    [ Config.bool
+                        { label = "Vertical Segment"
+                        , id = "vertical"
+                        , bool = model.vertical
+                        , onClick = (\c -> { c | vertical = not c.vertical }) |> UpdateConfig
+                        , note = "A vertical segment formats content to be aligned as part of a vertical group"
+                        }
                     ]
               }
             ]
         }
-    , configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
+    , configAndPreview
         { title = "Basic"
+        , theme = shared.theme
+        , inverted = False
         , preview =
             [ basicSegment options
                 []

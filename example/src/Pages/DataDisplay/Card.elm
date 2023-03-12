@@ -85,14 +85,14 @@ init =
 
 
 type Msg
-    = UpdateConfig (Config.Msg Model)
+    = UpdateConfig (Model -> Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        UpdateConfig configMsg ->
-            Config.update configMsg model
+        UpdateConfig updater ->
+            updater model
 
 
 
@@ -160,56 +160,41 @@ view shared model =
         , configSections =
             [ { label = "Content"
               , configs =
-                    [ { label = ""
-                      , config =
-                            Config.bool
-                                { id = "image"
-                                , label = "Image"
-                                , bool = model.hasImage
-                                , setter = \m -> { m | hasImage = not m.hasImage }
-                                }
-                      , note = "A card can contain an image"
-                      }
-                    , { label = ""
-                      , config =
-                            Config.bool
-                                { id = "header"
-                                , label = "Header"
-                                , bool = model.hasHeader
-                                , setter = \m -> { m | hasHeader = not m.hasHeader }
-                                }
-                      , note = "A card can contain a header"
-                      }
-                    , { label = ""
-                      , config =
-                            Config.bool
-                                { id = "metadata"
-                                , label = "Metadata"
-                                , bool = model.hasMetadata
-                                , setter = \m -> { m | hasMetadata = not m.hasMetadata }
-                                }
-                      , note = "A card can contain content metadata"
-                      }
-                    , { label = ""
-                      , config =
-                            Config.bool
-                                { id = "description"
-                                , label = "Description"
-                                , bool = model.hasDescription
-                                , setter = \m -> { m | hasDescription = not m.hasDescription }
-                                }
-                      , note = "A card can contain a description with one or more paragraphs"
-                      }
-                    , { label = ""
-                      , config =
-                            Config.bool
-                                { id = "extra_content"
-                                , label = "Extra Content"
-                                , bool = model.hasExtraContent
-                                , setter = \m -> { m | hasExtraContent = not m.hasExtraContent }
-                                }
-                      , note = "A card can contain extra content meant to be formatted separately from the main content"
-                      }
+                    [ Config.bool
+                        { label = "Image"
+                        , id = "image"
+                        , bool = model.hasImage
+                        , onClick = (\c -> { c | hasImage = not c.hasImage }) |> UpdateConfig
+                        , note = "A card can contain an image"
+                        }
+                    , Config.bool
+                        { label = "Header"
+                        , id = "header"
+                        , bool = model.hasHeader
+                        , onClick = (\c -> { c | hasHeader = not c.hasHeader }) |> UpdateConfig
+                        , note = "A card can contain a header"
+                        }
+                    , Config.bool
+                        { label = "Metadata"
+                        , id = "metadata"
+                        , bool = model.hasMetadata
+                        , onClick = (\c -> { c | hasMetadata = not c.hasMetadata }) |> UpdateConfig
+                        , note = "A card can contain content metadata"
+                        }
+                    , Config.bool
+                        { label = "Description"
+                        , id = "description"
+                        , bool = model.hasDescription
+                        , onClick = (\c -> { c | hasDescription = not c.hasDescription }) |> UpdateConfig
+                        , note = "A card can contain a description with one or more paragraphs"
+                        }
+                    , Config.bool
+                        { label = "Extra Content"
+                        , id = "extra_content"
+                        , bool = model.hasExtraContent
+                        , onClick = (\c -> { c | hasExtraContent = not c.hasExtraContent }) |> UpdateConfig
+                        , note = "A card can contain extra content meant to be formatted separately from the main content"
+                        }
                     ]
               }
             ]

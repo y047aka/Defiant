@@ -59,14 +59,14 @@ init =
 
 
 type Msg
-    = UpdateConfig (Config.Msg Model)
+    = UpdateConfig (Model -> Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        UpdateConfig configMsg ->
-            Config.update configMsg model
+        UpdateConfig updater ->
+            updater model
 
 
 
@@ -75,8 +75,10 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    [ configAndPreview
         { title = "Label"
+        , theme = theme
+        , inverted = False
         , preview =
             [ let
                 label_ =
@@ -102,23 +104,23 @@ view { theme } model =
         , configSections =
             [ { label = "Variations"
               , configs =
-                    [ { label = "Color"
-                      , config =
-                            Config.select
-                                { value = model.color
-                                , options = [ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ]
-                                , fromString = colorFromString
-                                , toString = colorToString
-                                , setter = \color m -> { m | color = color }
-                                }
-                      , note = "A label can have different colors"
-                      }
+                    [ Config.select
+                        { label = "Color"
+                        , value = model.color
+                        , options = [ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ]
+                        , fromString = colorFromString
+                        , toString = colorToString
+                        , onChange = (\color c -> { c | color = color }) >> UpdateConfig
+                        , note = "A label can have different colors"
+                        }
                     ]
               }
             ]
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = "Icon"
+        , theme = theme
+        , inverted = False
         , preview =
             [ Label.label [] [ icon [] "fas fa-envelope", text "Mail" ]
             , Label.label [] [ icon [] "fas fa-check", text "Test Passed" ]
@@ -127,8 +129,10 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = ""
+        , theme = theme
+        , inverted = False
         , preview =
             [ Label.label [] [ text "Mail", icon [] "fas fa-envelope" ]
             , Label.label [] [ text "Test Passed", icon [] "fas fa-check" ]
@@ -137,8 +141,10 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = ""
+        , theme = theme
+        , inverted = False
         , preview =
             [ Label.label [] [ icon [] "fas fa-envelope" ]
             , Label.label [] [ icon [] "fas fa-dog" ]
@@ -146,8 +152,10 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = "Basic"
+        , theme = theme
+        , inverted = False
         , preview = [ basicLabel [] [ text "Basic" ] ]
         , configSections = []
         }

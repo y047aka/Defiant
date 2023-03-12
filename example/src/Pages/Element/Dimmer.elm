@@ -1,6 +1,5 @@
 module Pages.Element.Dimmer exposing (Model, Msg, page)
 
-import Config
 import Data.Theme exposing (Theme(..))
 import Effect
 import Html.Styled as Html exposing (Html, div, text)
@@ -59,7 +58,7 @@ init =
 
 type Msg
     = Toggle String
-    | UpdateConfig (Config.Msg Model)
+    | UpdateConfig (Model -> Model)
 
 
 update : Msg -> Model -> Model
@@ -75,8 +74,8 @@ update msg model =
                         newItem :: model.toggledItems
             }
 
-        UpdateConfig configMsg ->
-            Config.update configMsg model
+        UpdateConfig updater ->
+            updater model
 
 
 
@@ -89,8 +88,10 @@ view shared { toggledItems } =
         options =
             { theme = shared.theme }
     in
-    [ configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
+    [ configAndPreview
         { title = "Dimmer"
+        , theme = shared.theme
+        , inverted = False
         , preview =
             [ segment options
                 []
@@ -104,8 +105,10 @@ view shared { toggledItems } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
+    , configAndPreview
         { title = "Content Dimmer"
+        , theme = shared.theme
+        , inverted = False
         , preview =
             [ segment options
                 []
@@ -126,8 +129,10 @@ view shared { toggledItems } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
+    , configAndPreview
         { title = "Page Dimmer"
+        , theme = shared.theme
+        , inverted = False
         , preview =
             [ button [ onClick (Toggle "pageDimmer") ] [ icon [] "fas fa-plus", text "Show" ]
             , pageDimmer { isActive = List.member "pageDimmer" toggledItems, toggle = Toggle "pageDimmer" }
@@ -144,8 +149,10 @@ view shared { toggledItems } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
+    , configAndPreview
         { title = "Inverted Dimmer"
+        , theme = shared.theme
+        , inverted = False
         , preview =
             [ segment options
                 []

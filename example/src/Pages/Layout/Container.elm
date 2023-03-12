@@ -1,6 +1,5 @@
 module Pages.Layout.Container exposing (Model, Msg, page)
 
-import Config
 import Effect
 import Html.Styled as Html exposing (Html, a, h2, p, strong, text)
 import Html.Styled.Attributes exposing (href)
@@ -50,12 +49,14 @@ init =
 
 
 type Msg
-    = UpdateConfig (Config.Msg Model)
+    = NoOp
 
 
 update : Msg -> Model -> Model
-update _ model =
-    model
+update msg model =
+    case msg of
+        NoOp ->
+            model
 
 
 
@@ -74,13 +75,17 @@ view { theme } =
                 , text " mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi."
                 ]
     in
-    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    [ configAndPreview
         { title = "Container"
+        , theme = theme
+        , inverted = False
         , preview = [ container [] [ content ] ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = "Text Container"
+        , theme = theme
+        , inverted = False
         , preview =
             [ textContainer []
                 [ h2 [] [ text "Header" ]

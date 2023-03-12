@@ -1,6 +1,5 @@
 module Pages.Layout.Grid exposing (Model, Msg, page)
 
-import Config
 import Css exposing (..)
 import Effect
 import Html.Styled as Html exposing (Html)
@@ -53,12 +52,14 @@ init =
 
 
 type Msg
-    = UpdateConfig (Config.Msg Model)
+    = NoOp
 
 
 update : Msg -> Model -> Model
-update _ model =
-    model
+update msg model =
+    case msg of
+        NoOp ->
+            model
 
 
 
@@ -93,8 +94,10 @@ view { theme } =
                     ]
                 ]
     in
-    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    [ configAndPreview
         { title = "Grids"
+        , theme = theme
+        , inverted = False
         , preview =
             [ grid [ css additionalStyles ]
                 [ fourWideColumn [ dummyContent ] []
@@ -105,8 +108,10 @@ view { theme } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = "Columns"
+        , theme = theme
+        , inverted = False
         , preview =
             [ grid [ css additionalStyles ]
                 [ fourWideColumn [ dummyContent ] []
@@ -120,8 +125,10 @@ view { theme } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = "Automatic Flow"
+        , theme = theme
+        , inverted = False
         , preview =
             [ grid [ css additionalStyles ]
                 [ fourWideColumn [ dummyContent ] []
@@ -136,8 +143,10 @@ view { theme } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = "Column Content"
+        , theme = theme
+        , inverted = False
         , preview =
             [ let
                 imageSegment =

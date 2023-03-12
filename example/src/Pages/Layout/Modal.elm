@@ -1,6 +1,5 @@
 module Pages.Layout.Modal exposing (Model, Msg, page)
 
-import Config
 import Effect
 import Html.Styled as Html exposing (Html, a, p, text)
 import Html.Styled.Attributes as Attributes exposing (href)
@@ -54,7 +53,6 @@ init =
 
 type Msg
     = Toggle String
-    | UpdateConfig (Config.Msg Model)
 
 
 update : Msg -> Model -> Model
@@ -70,9 +68,6 @@ update msg model =
                         newItem :: model.toggledItems
             }
 
-        UpdateConfig configMsg ->
-            Config.update configMsg model
-
 
 
 -- VIEW
@@ -80,8 +75,10 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view shared { toggledItems } =
-    [ configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
+    [ configAndPreview
         { title = "Modal"
+        , theme = shared.theme
+        , inverted = False
         , preview =
             [ button [ onClick (Toggle "modal") ] [ icon [] "fas fa-plus", text "Show" ]
             , modal
@@ -109,8 +106,10 @@ view shared { toggledItems } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
+    , configAndPreview
         { title = "Basic"
+        , theme = shared.theme
+        , inverted = False
         , preview =
             [ button [ onClick (Toggle "basicModal") ] [ icon [] "fas fa-plus", text "Show" ]
             , basicModal
@@ -132,8 +131,10 @@ view shared { toggledItems } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = shared.theme, inverted = False } <|
+    , configAndPreview
         { title = "Dialog"
+        , theme = shared.theme
+        , inverted = False
         , preview =
             [ button [ onClick (Toggle "dialog") ] [ icon [] "fas fa-plus", text "Show" ]
             , dialog

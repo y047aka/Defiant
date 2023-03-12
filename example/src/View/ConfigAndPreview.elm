@@ -1,30 +1,28 @@
 module View.ConfigAndPreview exposing (configAndPreview)
 
-import Config
 import Css exposing (..)
 import Css.Palette as Palette exposing (darkPalette, palette, setBackground, setColor)
 import Data.Theme exposing (Theme(..))
-import Html.Styled as Html exposing (Html, aside, div, label, p, text)
+import Html.Styled as Html exposing (Html, aside, div, text)
 import Html.Styled.Attributes exposing (css)
 import UI.Header as Header
 
 
-type alias ConfigSection model =
+type alias ConfigSection msg =
     { label : String
-    , configs : List { label : String, config : Html (Config.Msg model), note : String }
+    , configs : List (Html msg)
     }
 
 
 configAndPreview :
-    (Config.Msg model -> msg)
-    -> { theme : Theme, inverted : Bool }
-    ->
-        { title : String
-        , preview : List (Html msg)
-        , configSections : List (ConfigSection model)
-        }
+    { title : String
+    , theme : Theme
+    , inverted : Bool
+    , preview : List (Html msg)
+    , configSections : List (ConfigSection msg)
+    }
     -> Html msg
-configAndPreview msg { theme, inverted } { title, preview, configSections } =
+configAndPreview { title, theme, inverted, preview, configSections } =
     let
         title_ =
             if title == "" then
@@ -45,7 +43,7 @@ configAndPreview msg { theme, inverted } { title, preview, configSections } =
                 ]
             ]
             [ previewPanel { inverted = inverted } preview
-            , configPanel msg configSections
+            , configPanel configSections
             ]
         ]
 
@@ -77,47 +75,38 @@ previewPanel { inverted } previewSections =
         previewSections
 
 
-configPanel : (Config.Msg model -> msg) -> List (ConfigSection model) -> Html msg
-configPanel msg configSections =
-    Html.map msg <|
-        aside
-            [ css
-                [ padding (em 1)
-                , borderLeft3 (px 1) solid (hex "#DDD")
-                ]
+configPanel : List (ConfigSection msg) -> Html msg
+configPanel configSections =
+    aside
+        [ css
+            [ padding (em 1)
+            , borderLeft3 (px 1) solid (hex "#DDD")
             ]
-            (List.map
-                (\configSection ->
-                    div
+        ]
+        (List.map
+            (\configSection ->
+                div
+                    [ css
+                        [ displayFlex
+                        , flexDirection column
+                        , property "gap" "15px"
+                        , paddingBottom (px 15)
+                        , nthChild "n+2"
+                            [ paddingTop (px 15)
+                            , borderTop3 (px 1) solid (hex "#DDD")
+                            ]
+                        , lastChild [ paddingBottom zero ]
+                        ]
+                    ]
+                    (div
                         [ css
-                            [ displayFlex
-                            , flexDirection column
-                            , property "gap" "15px"
-                            , paddingBottom (px 15)
-                            , nthChild "n+2"
-                                [ paddingTop (px 15)
-                                , borderTop3 (px 1) solid (hex "#DDD")
-                                ]
-                            , lastChild [ paddingBottom zero ]
+                            [ fontWeight bold
+                            , empty [ display none ]
                             ]
                         ]
-                        (div
-                            [ css
-                                [ fontWeight bold
-                                , empty [ display none ]
-                                ]
-                            ]
-                            [ text configSection.label ]
-                            :: List.map
-                                (\field ->
-                                    div [ css [ displayFlex, flexDirection column, property "gap" "5px" ] ]
-                                        [ label [] [ text field.label ]
-                                        , field.config
-                                        , p [ css [ color (hex "#999") ] ] [ text field.note ]
-                                        ]
-                                )
-                                configSection.configs
-                        )
-                )
-                configSections
+                        [ text configSection.label ]
+                        :: configSection.configs
+                    )
             )
+            configSections
+        )

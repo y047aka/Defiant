@@ -1,6 +1,5 @@
 module Pages.Form.Input exposing (Model, Msg, page)
 
-import Config
 import Effect
 import Html.Styled as Html exposing (Html, input, text)
 import Html.Styled.Attributes exposing (placeholder, type_)
@@ -50,12 +49,14 @@ init =
 
 
 type Msg
-    = UpdateConfig (Config.Msg Model)
+    = NoOp
 
 
 update : Msg -> Model -> Model
-update _ model =
-    model
+update msg model =
+    case msg of
+        NoOp ->
+            model
 
 
 
@@ -64,16 +65,20 @@ update _ model =
 
 view : Shared.Model -> List (Html Msg)
 view { theme } =
-    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    [ configAndPreview
         { title = "Input"
+        , theme = theme
+        , inverted = False
         , preview =
             [ Input.input []
                 [ input [ type_ "text", placeholder "Search..." ] [] ]
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = "Labeled"
+        , theme = theme
+        , inverted = False
         , preview =
             [ Input.input []
                 [ Input.label [] [ text "http://" ]
@@ -82,8 +87,10 @@ view { theme } =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = ""
+        , theme = theme
+        , inverted = False
         , preview =
             [ Input.input []
                 [ input [ type_ "text", placeholder "Enter weight.." ] []

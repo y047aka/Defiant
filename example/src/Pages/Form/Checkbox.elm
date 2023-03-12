@@ -51,7 +51,7 @@ init =
 
 type Msg
     = ToggleChecked
-    | UpdateConfig (Config.Msg Model)
+    | UpdateConfig (Model -> Model)
 
 
 update : Msg -> Model -> Model
@@ -60,8 +60,8 @@ update msg model =
         ToggleChecked ->
             { model | checked = not model.checked }
 
-        UpdateConfig configMsg ->
-            Config.update configMsg model
+        UpdateConfig updater ->
+            updater model
 
 
 
@@ -70,8 +70,10 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    [ configAndPreview
         { title = "Checkbox"
+        , theme = theme
+        , inverted = False
         , preview =
             [ checkbox
                 { id = "checkbox_example"
@@ -84,22 +86,21 @@ view { theme } model =
         , configSections =
             [ { label = "Disabled"
               , configs =
-                    [ { label = ""
-                      , config =
-                            Config.bool
-                                { id = "disabled"
-                                , label = "Disabled"
-                                , bool = model.disabled
-                                , setter = \m -> { m | disabled = not m.disabled }
-                                }
-                      , note = "A checkbox can show it is currently unable to be interacted with"
-                      }
+                    [ Config.bool
+                        { label = "Disabled"
+                        , id = "disabled"
+                        , bool = model.disabled
+                        , onClick = (\c -> { c | disabled = not c.disabled }) |> UpdateConfig
+                        , note = "A checkbox can show it is currently unable to be interacted with"
+                        }
                     ]
               }
             ]
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = "Toggle"
+        , theme = theme
+        , inverted = False
         , preview =
             [ toggleCheckbox
                 { id = "toggle_example"

@@ -56,14 +56,14 @@ init =
 
 
 type Msg
-    = UpdateConfig (Config.Msg Model)
+    = UpdateConfig (Model -> Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        UpdateConfig configMsg ->
-            Config.update configMsg model
+        UpdateConfig updater ->
+            updater model
 
 
 
@@ -111,8 +111,10 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview UpdateConfig { theme = theme, inverted = False } <|
+    , configAndPreview
         { title = "Size"
+        , theme = theme
+        , inverted = False
         , preview =
             [ p [] <|
                 case model.size of
@@ -143,17 +145,15 @@ view { theme } model =
         , configSections =
             [ { label = "Size"
               , configs =
-                    [ { label = ""
-                      , config =
-                            Config.select
-                                { value = model.size
-                                , options = [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
-                                , fromString = sizeFromString
-                                , toString = sizeToString
-                                , setter = \size m -> { m | size = size }
-                                }
-                      , note = "Text can vary in the same sizes as icons"
-                      }
+                    [ Config.select
+                        { label = ""
+                        , value = model.size
+                        , options = [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
+                        , fromString = sizeFromString
+                        , toString = sizeToString
+                        , onChange = (\size c -> { c | size = size }) >> UpdateConfig
+                        , note = "Text can vary in the same sizes as icons"
+                        }
                     ]
               }
             ]
