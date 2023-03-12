@@ -1,17 +1,15 @@
 module Pages.Element.Segment exposing (Model, Msg, page)
 
-import Config
 import Data.Theme exposing (Theme(..))
 import Effect
 import Html.Styled as Html exposing (Html, p, text)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Route exposing (Route)
 import Shared
 import UI.Example exposing (wireframeShortParagraph)
 import UI.Segment exposing (Padding(..), basicSegment, paddingFromString, paddingToString, segment, segmentWithProps, verticalSegment)
-import View.ConfigAndPreview exposing (configAndPreview)
-import View.Playground exposing (playground)
 
 
 layout : Model -> Layout
@@ -78,7 +76,6 @@ view shared model =
     in
     [ playground
         { title = "Segment"
-        , toMsg = UpdateConfig
         , theme = shared.theme
         , inverted = model.inverted
         , preview =
@@ -99,9 +96,20 @@ view shared model =
                 [ wireframeShortParagraph ]
             ]
         , configSections =
-            [ { label = "States"
+            [ { label = ""
               , configs =
-                    [ Config.bool
+                    [ Playground.bool
+                        { id = "inverted"
+                        , label = "Inverted"
+                        , bool = model.inverted
+                        , onClick = (\c -> { c | inverted = not c.inverted }) |> UpdateConfig
+                        , note = ""
+                        }
+                    ]
+              }
+            , { label = "States"
+              , configs =
+                    [ Playground.bool
                         { label = "Disabled"
                         , id = "disabled"
                         , bool = model.disabled
@@ -112,7 +120,7 @@ view shared model =
               }
             , { label = "Variations"
               , configs =
-                    [ Config.select
+                    [ Playground.select
                         { label = "Padding"
                         , value = model.padding
                         , options = [ Default, Padded, VeryPadded ]
@@ -125,7 +133,7 @@ view shared model =
               }
             ]
         }
-    , configAndPreview
+    , playground
         { title = "Vertical Segment"
         , theme = shared.theme
         , inverted = False
@@ -144,7 +152,7 @@ view shared model =
         , configSections =
             [ { label = ""
               , configs =
-                    [ Config.bool
+                    [ Playground.bool
                         { label = "Vertical Segment"
                         , id = "vertical"
                         , bool = model.vertical
@@ -155,7 +163,7 @@ view shared model =
               }
             ]
         }
-    , configAndPreview
+    , playground
         { title = "Basic"
         , theme = shared.theme
         , inverted = False

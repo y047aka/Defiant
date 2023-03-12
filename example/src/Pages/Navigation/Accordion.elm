@@ -1,16 +1,15 @@
 module Pages.Navigation.Accordion exposing (Model, Msg, page)
 
-import Config
 import Data.Theme exposing (Theme(..))
 import Effect
 import Html.Styled as Html exposing (Html, p, text)
 import Html.Styled.Attributes exposing (id)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Route exposing (Route)
 import Shared
 import UI.Accordion as Accordion exposing (ToggleMethod(..), accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl)
-import View.Playground exposing (playground)
 
 
 layout : Model -> Layout
@@ -106,7 +105,6 @@ view shared { toggleMethod, inverted } =
     in
     [ playground
         { title = "Accordion"
-        , toMsg = UpdateConfig
         , theme = shared.theme
         , inverted = inverted
         , preview =
@@ -124,9 +122,20 @@ view shared { toggleMethod, inverted } =
                     accordion_Radio { theme = theme } [] items
             ]
         , configSections =
-            [ { label = "Toggle Method"
+            [ { label = ""
               , configs =
-                    [ Config.select
+                    [ Playground.bool
+                        { id = "inverted"
+                        , label = "Inverted"
+                        , bool = inverted
+                        , onClick = (\c -> { c | inverted = not c.inverted }) |> UpdateConfig
+                        , note = ""
+                        }
+                    ]
+              }
+            , { label = "Toggle Method"
+              , configs =
+                    [ Playground.select
                         { label = ""
                         , value = toggleMethod
                         , options = [ SummaryDetails, TargetUrl, Checkbox, Radio ]

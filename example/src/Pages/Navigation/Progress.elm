@@ -1,16 +1,15 @@
 module Pages.Navigation.Progress exposing (Model, Msg, page)
 
-import Config
 import Effect exposing (Effect)
 import Html.Styled as Html exposing (Html)
 import Html.Styled.Attributes exposing (value)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Random
 import Route exposing (Route)
 import Shared
 import UI.Progress as Progress exposing (State(..))
-import View.ConfigAndPreview exposing (configAndPreview)
 
 
 layout : Model -> Layout
@@ -124,7 +123,7 @@ updatelabelOnIndicating model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ configAndPreview
+    [ playground
         { title = "Progress"
         , theme = theme
         , inverted = False
@@ -140,7 +139,7 @@ view { theme } model =
         , configSections =
             [ { label = "Bar"
               , configs =
-                    [ Config.counter
+                    [ Playground.counter
                         { label = ""
                         , value = model.progressValue
                         , toString = \value -> String.fromFloat value ++ "%"
@@ -152,7 +151,7 @@ view { theme } model =
               }
             , { label = "Types"
               , configs =
-                    [ Config.bool
+                    [ Playground.bool
                         { id = "indicating"
                         , label = "Indicating"
                         , bool = model.indicating
@@ -180,7 +179,7 @@ view { theme } model =
               }
             , { label = "States"
               , configs =
-                    [ Config.select
+                    [ Playground.select
                         { label = ""
                         , value = model.state
                         , options = [ Default, Active, Success, Warning, Error, Disabled ]
@@ -230,13 +229,13 @@ view { theme } model =
               }
             , { label = "Content"
               , configs =
-                    [ Config.string
+                    [ Playground.string
                         { label = "Progress"
                         , value = model.progressLabel
                         , onInput = (\string c -> { c | progressLabel = string }) >> UpdateConfig
                         , note = "A progress bar can contain a text value indicating current progress"
                         }
-                    , Config.string
+                    , Playground.string
                         { label = "Label"
                         , value = model.label
                         , onInput = (\string c -> { c | label = string }) >> UpdateConfig

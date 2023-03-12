@@ -1,17 +1,16 @@
 module Pages.DataDisplay.Item exposing (Model, Msg, page)
 
-import Config
 import Effect
 import Html.Styled as Html exposing (Html, span, text)
 import Html.Styled.Attributes exposing (src)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Route exposing (Route)
 import Shared
 import UI.Example exposing (wireframeShortParagraph)
 import UI.Image exposing (image)
 import UI.Item as Item exposing (..)
-import View.ConfigAndPreview exposing (configAndPreview)
 
 
 layout : Model -> Layout
@@ -78,7 +77,7 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ configAndPreview
+    [ playground
         { title = "Items"
         , theme = theme
         , inverted = False
@@ -137,35 +136,35 @@ view { theme } model =
         , configSections =
             [ { label = "Content"
               , configs =
-                    [ Config.bool
+                    [ Playground.bool
                         { label = "Image"
                         , id = "image"
                         , bool = model.hasImage
                         , onClick = (\c -> { c | hasImage = not c.hasImage }) |> UpdateConfig
                         , note = "An item can contain an image"
                         }
-                    , Config.bool
+                    , Playground.bool
                         { label = "Header"
                         , id = "header"
                         , bool = model.hasHeader
                         , onClick = (\c -> { c | hasHeader = not c.hasHeader }) |> UpdateConfig
                         , note = "An item can contain a header"
                         }
-                    , Config.bool
+                    , Playground.bool
                         { label = "Metadata"
                         , id = "metadata"
                         , bool = model.hasMetadata
                         , onClick = (\c -> { c | hasMetadata = not c.hasMetadata }) |> UpdateConfig
                         , note = "An item can contain content metadata"
                         }
-                    , Config.bool
+                    , Playground.bool
                         { label = "Description"
                         , id = "description"
                         , bool = model.hasDescription
                         , onClick = (\c -> { c | hasDescription = not c.hasDescription }) |> UpdateConfig
                         , note = "An item can contain a description with a single or multiple paragraphs"
                         }
-                    , Config.bool
+                    , Playground.bool
                         { label = "Extra Content"
                         , id = "extra_content"
                         , bool = model.hasExtraContent

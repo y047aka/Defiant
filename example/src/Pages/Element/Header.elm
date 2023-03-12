@@ -1,17 +1,16 @@
 module Pages.Element.Header exposing (Model, Msg, page)
 
-import Config
 import Effect
 import Html.Styled as Html exposing (Html, text)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Route exposing (Route)
 import Shared
 import Types exposing (PresetColor(..), Size(..), sizeFromString, sizeToString)
 import UI.Example exposing (wireframeShortParagraph)
 import UI.Header exposing (..)
 import UI.Icon exposing (icon)
-import View.ConfigAndPreview exposing (configAndPreview)
 
 
 layout : Model -> Layout
@@ -78,7 +77,7 @@ view { theme } model =
         options =
             { theme = theme }
     in
-    [ configAndPreview
+    [ playground
         { title = "Content Headers"
         , theme = theme
         , inverted = False
@@ -93,13 +92,13 @@ view { theme } model =
         , configSections =
             [ { label = "Content"
               , configs =
-                    [ Config.string
+                    [ Playground.string
                         { label = "Header"
                         , value = model.header
                         , onInput = (\string c -> { c | header = string }) >> UpdateConfig
                         , note = ""
                         }
-                    , Config.string
+                    , Playground.string
                         { label = "Subheader"
                         , value = model.subHeader
                         , onInput = (\string c -> { c | subHeader = string }) >> UpdateConfig
@@ -109,7 +108,7 @@ view { theme } model =
               }
             , { label = "Variations"
               , configs =
-                    [ Config.select
+                    [ Playground.select
                         { label = "Size"
                         , value = model.size
                         , options = [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
@@ -122,7 +121,7 @@ view { theme } model =
               }
             ]
         }
-    , configAndPreview
+    , playground
         { title = "Icon Headers"
         , theme = theme
         , inverted = False

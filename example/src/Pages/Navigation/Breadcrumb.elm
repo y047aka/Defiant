@@ -1,16 +1,15 @@
 module Pages.Navigation.Breadcrumb exposing (Model, Msg, page)
 
-import Config
 import Data.Theme exposing (Theme(..))
 import Effect
 import Html.Styled as Html exposing (Html)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Route exposing (Route)
 import Shared
 import Types exposing (Size(..), sizeFromString, sizeToString)
 import UI.Breadcrumb exposing (Divider(..), bigBreadCrumb, dividerFromString, dividerToString, hugeBreadCrumb, largeBreadCrumb, massiveBreadCrumb, mediumBreadCrumb, miniBreadCrumb, smallBreadCrumb, tinyBreadCrumb)
-import View.Playground exposing (playground)
 
 
 layout : Model -> Layout
@@ -106,7 +105,6 @@ view { theme } model =
       in
       playground
         { title = "Breadcrumb"
-        , toMsg = UpdateConfig
         , theme = theme
         , inverted = model.inverted
         , preview =
@@ -117,9 +115,20 @@ view { theme } model =
                 ]
             ]
         , configSections =
-            [ { label = "Content"
+            [ { label = ""
               , configs =
-                    [ Config.select
+                    [ Playground.bool
+                        { id = "inverted"
+                        , label = "Inverted"
+                        , bool = model.inverted
+                        , onClick = (\c -> { c | inverted = not c.inverted }) |> UpdateConfig
+                        , note = ""
+                        }
+                    ]
+              }
+            , { label = "Content"
+              , configs =
+                    [ Playground.select
                         { label = "Divider"
                         , value = model.divider
                         , options = [ Slash, RightChevron ]
@@ -132,7 +141,7 @@ view { theme } model =
               }
             , { label = "Variations"
               , configs =
-                    [ Config.select
+                    [ Playground.select
                         { label = "Size"
                         , value = model.size
                         , options = [ Mini, Tiny, Small, Medium, Large, Big, Huge, Massive ]

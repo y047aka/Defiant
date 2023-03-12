@@ -1,15 +1,14 @@
 module Pages.Navigation.Step exposing (Model, Msg, Progress(..), page, progressFromString, progressToString)
 
-import Config
 import Effect
 import Html.Styled as Html exposing (Html)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Route exposing (Route)
 import Shared
 import UI.CircleStep as CircleStep
 import UI.Step as Step exposing (State(..))
-import View.ConfigAndPreview exposing (configAndPreview)
 
 
 layout : Model -> Layout
@@ -74,7 +73,7 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ configAndPreview
+    [ playground
         { title = "Steps"
         , theme = theme
         , inverted = False
@@ -179,7 +178,7 @@ view { theme } model =
         , configSections =
             [ { label = "Type"
               , configs =
-                    [ Config.select
+                    [ Playground.select
                         { label = ""
                         , value = model.type_
                         , options = [ Step, CircleStep ]
@@ -192,7 +191,7 @@ view { theme } model =
               }
             , { label = "Progress"
               , configs =
-                    [ Config.radio
+                    [ Playground.radio
                         { label = ""
                         , name = "progress"
                         , value = model.progress
@@ -206,14 +205,14 @@ view { theme } model =
               }
             , { label = "Content"
               , configs =
-                    [ Config.bool
+                    [ Playground.bool
                         { label = "Icon"
                         , id = "icon"
                         , bool = model.hasIcon
                         , onClick = (\c -> { c | hasIcon = not c.hasIcon }) |> UpdateConfig
                         , note = "A step can contain an icon"
                         }
-                    , Config.bool
+                    , Playground.bool
                         { label = "Description"
                         , id = "description"
                         , bool = model.hasDescription

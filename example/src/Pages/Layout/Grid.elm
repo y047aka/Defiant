@@ -6,12 +6,12 @@ import Html.Styled as Html exposing (Html)
 import Html.Styled.Attributes exposing (css, src)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Route exposing (Route)
 import Shared
 import UI.Grid as Grid exposing (eightWideColumn, fourWideColumn, grid, sixWideColumn, threeColumnsGrid, twoWideColumn)
 import UI.Image exposing (smallImage)
 import UI.Segment exposing (segment)
-import View.ConfigAndPreview exposing (configAndPreview)
 
 
 layout : Model -> Layout
@@ -94,7 +94,7 @@ view { theme } =
                     ]
                 ]
     in
-    [ configAndPreview
+    [ playground
         { title = "Grids"
         , theme = theme
         , inverted = False
@@ -108,7 +108,7 @@ view { theme } =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = "Columns"
         , theme = theme
         , inverted = False
@@ -125,7 +125,7 @@ view { theme } =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = "Automatic Flow"
         , theme = theme
         , inverted = False
@@ -143,7 +143,7 @@ view { theme } =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = "Column Content"
         , theme = theme
         , inverted = False

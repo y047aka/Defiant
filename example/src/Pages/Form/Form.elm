@@ -1,18 +1,17 @@
 module Pages.Form.Form exposing (Model, Msg, page)
 
-import Config
 import Effect
 import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Attributes exposing (placeholder, rows, type_)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Route exposing (Route)
 import Shared
 import Types exposing (FormState(..), formStateFromString, formStateToString)
 import UI.Button exposing (button)
 import UI.Checkbox as Checkbox
 import UI.Form as Form exposing (field, fields, form, textarea, threeFields, twoFields)
-import View.ConfigAndPreview exposing (configAndPreview)
 
 
 layout : Model -> Layout
@@ -77,7 +76,7 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ configAndPreview
+    [ playground
         { title = "Form"
         , theme = theme
         , inverted = False
@@ -120,7 +119,7 @@ view { theme } model =
         , configSections =
             [ { label = "Form States"
               , configs =
-                    [ Config.select
+                    [ Playground.select
                         { label = ""
                         , value = model.state
                         , options = [ Default, Error, Warning, Success, Info ]
@@ -148,7 +147,7 @@ view { theme } model =
               }
             ]
         }
-    , configAndPreview
+    , playground
         { title = "Field"
         , theme = theme
         , inverted = False
@@ -165,7 +164,7 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = "Fields"
         , theme = theme
         , inverted = False
@@ -198,7 +197,7 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = ""
         , theme = theme
         , inverted = False
@@ -231,7 +230,7 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = "Text Area"
         , theme = theme
         , inverted = False
@@ -255,7 +254,7 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = "Checkbox"
         , theme = theme
         , inverted = False

@@ -1,17 +1,15 @@
 module Pages.Element.Text exposing (Model, Msg, page)
 
-import Config
 import Data.Theme exposing (Theme(..))
 import Effect
 import Html.Styled as Html exposing (Html, p, text)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Route exposing (Route)
 import Shared
 import Types exposing (PresetColor(..), Size(..), sizeFromString, sizeToString)
 import UI.Text exposing (..)
-import View.ConfigAndPreview exposing (configAndPreview)
-import View.Playground exposing (playground)
 
 
 layout : Model -> Layout
@@ -84,7 +82,6 @@ view { theme } model =
     in
     [ playground
         { title = "Text"
-        , toMsg = UpdateConfig
         , theme = theme
         , inverted = model.inverted
         , preview =
@@ -109,9 +106,21 @@ view { theme } model =
                 , text " inline text"
                 ]
             ]
-        , configSections = []
+        , configSections =
+            [ { label = ""
+              , configs =
+                    [ Playground.bool
+                        { id = "inverted"
+                        , label = "Inverted"
+                        , bool = model.inverted
+                        , onClick = (\c -> { c | inverted = not c.inverted }) |> UpdateConfig
+                        , note = ""
+                        }
+                    ]
+              }
+            ]
         }
-    , configAndPreview
+    , playground
         { title = "Size"
         , theme = theme
         , inverted = False
@@ -145,7 +154,7 @@ view { theme } model =
         , configSections =
             [ { label = "Size"
               , configs =
-                    [ Config.select
+                    [ Playground.select
                         { label = ""
                         , value = model.size
                         , options = [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]

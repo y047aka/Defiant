@@ -5,10 +5,10 @@ import Html.Styled as Html exposing (Html, input, text)
 import Html.Styled.Attributes exposing (placeholder, type_)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Route exposing (Route)
 import Shared
 import UI.Input as Input
-import View.ConfigAndPreview exposing (configAndPreview)
 
 
 layout : Model -> Layout
@@ -65,7 +65,7 @@ update msg model =
 
 view : Shared.Model -> List (Html Msg)
 view { theme } =
-    [ configAndPreview
+    [ playground
         { title = "Input"
         , theme = theme
         , inverted = False
@@ -75,7 +75,7 @@ view { theme } =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = "Labeled"
         , theme = theme
         , inverted = False
@@ -87,7 +87,7 @@ view { theme } =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = ""
         , theme = theme
         , inverted = False

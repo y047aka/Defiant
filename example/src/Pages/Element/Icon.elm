@@ -6,11 +6,11 @@ import Html.Styled as Html exposing (Attribute, Html, text)
 import Html.Styled.Attributes exposing (css)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Route exposing (Route)
 import Shared
 import UI.Grid as Grid exposing (fiveColumnsGrid)
 import UI.Icon exposing (icon)
-import View.ConfigAndPreview exposing (configAndPreview)
 
 
 layout : Model -> Layout
@@ -98,7 +98,7 @@ view { theme } =
                     ]
                 ]
     in
-    [ configAndPreview
+    [ playground
         { title = "Accessibility"
         , theme = theme
         , inverted = False

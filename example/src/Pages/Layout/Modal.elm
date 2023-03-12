@@ -6,12 +6,12 @@ import Html.Styled.Attributes as Attributes exposing (href)
 import Html.Styled.Events exposing (onClick)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Route exposing (Route)
 import Shared
 import UI.Button exposing (blackButton, button, greenButton, redButton)
 import UI.Icon exposing (icon)
 import UI.Modal as Modal exposing (basicModal, dialog, modal)
-import View.ConfigAndPreview exposing (configAndPreview)
 
 
 layout : Model -> Layout
@@ -75,7 +75,7 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view shared { toggledItems } =
-    [ configAndPreview
+    [ playground
         { title = "Modal"
         , theme = shared.theme
         , inverted = False
@@ -106,7 +106,7 @@ view shared { toggledItems } =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = "Basic"
         , theme = shared.theme
         , inverted = False
@@ -131,7 +131,7 @@ view shared { toggledItems } =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = "Dialog"
         , theme = shared.theme
         , inverted = False

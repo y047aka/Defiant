@@ -1,15 +1,14 @@
 module Pages.Form.Checkbox exposing (Model, Msg, page)
 
-import Config
 import Effect
 import Html.Styled as Html exposing (Html)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Route exposing (Route)
 import Shared
 import Types exposing (FormState(..))
 import UI.Checkbox exposing (checkbox, toggleCheckbox)
-import View.ConfigAndPreview exposing (configAndPreview)
 
 
 layout : Model -> Layout
@@ -70,7 +69,7 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ configAndPreview
+    [ playground
         { title = "Checkbox"
         , theme = theme
         , inverted = False
@@ -86,7 +85,7 @@ view { theme } model =
         , configSections =
             [ { label = "Disabled"
               , configs =
-                    [ Config.bool
+                    [ Playground.bool
                         { label = "Disabled"
                         , id = "disabled"
                         , bool = model.disabled
@@ -97,7 +96,7 @@ view { theme } model =
               }
             ]
         }
-    , configAndPreview
+    , playground
         { title = "Toggle"
         , theme = theme
         , inverted = False

@@ -5,13 +5,13 @@ import Effect
 import Html.Styled as Html exposing (Html, text)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Route exposing (Route)
 import Shared
 import UI.Dimmer exposing (dimmer)
 import UI.Example exposing (wireframeShortParagraph)
 import UI.Loader exposing (loader, textLoader)
 import UI.Segment exposing (segment)
-import View.ConfigAndPreview exposing (configAndPreview)
 
 
 layout : Model -> Layout
@@ -68,7 +68,7 @@ update msg model =
 
 view : Shared.Model -> List (Html Msg)
 view shared =
-    [ configAndPreview
+    [ playground
         { title = "Loader"
         , theme = shared.theme
         , inverted = False
@@ -83,7 +83,7 @@ view shared =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = "Text Loader"
         , theme = shared.theme
         , inverted = False

@@ -1,20 +1,123 @@
-module Config exposing (string, bool, radio, select, counter)
+module Playground exposing
+    ( playground
+    , string, bool, radio, select, counter
+    )
 
 {-|
 
+@docs playground
 @docs string, bool, radio, select, counter
 
 -}
 
-import Css exposing (color, column, displayFlex, flexDirection, hex, property)
-import Html.Styled as Html exposing (Html, div, input, p, text)
-import Html.Styled.Attributes exposing (checked, css, for, id, name, selected, type_, value)
+import Css exposing (..)
+import Css.Palette as Palette exposing (darkPalette, palette, setBackground, setColor)
+import Data.Theme exposing (Theme(..))
+import Html.Styled as Html exposing (Html, aside, div, input, p, text)
+import Html.Styled.Attributes as Attributes exposing (css, for, id, name, selected, type_, value)
 import Html.Styled.Events exposing (onClick, onInput)
 import Types exposing (FormState(..))
 import UI.Button exposing (button, labeledButton)
 import UI.Checkbox as Checkbox
+import UI.Header as Header
 import UI.Input as Input
 import UI.Label exposing (basicLabel)
+
+
+type alias ConfigSection msg =
+    { label : String
+    , configs : List (Html msg)
+    }
+
+
+playground :
+    { title : String
+    , theme : Theme
+    , inverted : Bool
+    , preview : List (Html msg)
+    , configSections : List (ConfigSection msg)
+    }
+    -> Html msg
+playground { title, theme, inverted, preview, configSections } =
+    div []
+        [ Header.header { theme = theme } [] [ text title ]
+        , div
+            [ css
+                [ property "display" "grid"
+                , property "grid-template-columns" "1fr 300px"
+                , border3 (px 1) solid (hex "#DDD")
+                , borderRadius (px 15)
+                , overflow hidden
+                ]
+            ]
+            [ previewPanel { inverted = inverted } preview
+            , configPanel configSections
+            ]
+        ]
+
+
+previewPanel : { inverted : Bool } -> List (Html msg) -> Html msg
+previewPanel { inverted } previewSections =
+    let
+        theme =
+            if inverted then
+                Dark
+
+            else
+                Light
+    in
+    div
+        [ css
+            [ displayFlex
+            , flexDirection column
+            , justifyContent center
+            , padding (em 2)
+            , palette (Palette.init |> setBackground (hex "#FFFFFF"))
+            , darkPalette theme
+                (Palette.init
+                    |> setBackground (hex "#1B1C1D")
+                    |> setColor (rgba 255 255 255 0.9)
+                )
+            ]
+        ]
+        previewSections
+
+
+configPanel : List (ConfigSection msg) -> Html msg
+configPanel configSections =
+    aside
+        [ css
+            [ padding (em 1)
+            , borderLeft3 (px 1) solid (hex "#DDD")
+            ]
+        ]
+        (List.map
+            (\configSection ->
+                div
+                    [ css
+                        [ displayFlex
+                        , flexDirection column
+                        , property "gap" "15px"
+                        , paddingBottom (px 15)
+                        , nthChild "n+2"
+                            [ paddingTop (px 15)
+                            , borderTop3 (px 1) solid (hex "#DDD")
+                            ]
+                        , lastChild [ paddingBottom zero ]
+                        ]
+                    ]
+                    (div
+                        [ css
+                            [ fontWeight bold
+                            , empty [ display none ]
+                            ]
+                        ]
+                        [ text configSection.label ]
+                        :: configSection.configs
+                    )
+            )
+            configSections
+        )
 
 
 field : { label : String, note : String } -> Html msg -> Html msg
@@ -102,7 +205,7 @@ radio p =
                             , type_ "radio"
                             , name p.name
                             , value (p.toString option)
-                            , checked (p.value == option)
+                            , Attributes.checked (p.value == option)
                             , onInput (p.fromString >> Maybe.withDefault p.value >> p.onChange)
                             ]
                             []

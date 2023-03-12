@@ -6,12 +6,12 @@ import Html.Styled as Html exposing (Html, input, text)
 import Html.Styled.Attributes as Attributes exposing (href, placeholder, rel, type_)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Route exposing (Route)
 import Shared
 import UI.Input as Input
 import UI.Menu as Menu exposing (..)
 import UI.Segment exposing (invertedSegment)
-import View.ConfigAndPreview exposing (configAndPreview)
 
 
 layout : Model -> Layout
@@ -68,7 +68,7 @@ update msg model =
 
 view : Shared.Model -> List (Html Msg)
 view shared =
-    [ configAndPreview
+    [ playground
         { title = "Secondary Menu"
         , theme = shared.theme
         , inverted = False
@@ -88,7 +88,7 @@ view shared =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = "Vertical Menu"
         , theme = shared.theme
         , inverted = False
@@ -111,7 +111,7 @@ view shared =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = "Link Item"
         , theme = shared.theme
         , inverted = False
@@ -123,7 +123,7 @@ view shared =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = "Inverted"
         , theme = shared.theme
         , inverted = False
@@ -136,7 +136,7 @@ view shared =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = ""
         , theme = shared.theme
         , inverted = False

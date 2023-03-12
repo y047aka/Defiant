@@ -4,12 +4,12 @@ import Effect
 import Html.Styled as Html exposing (Html, div, p, text)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Route exposing (Route)
 import Shared
 import UI.Header as Header
 import UI.Icon exposing (icon)
 import UI.Message exposing (message)
-import View.ConfigAndPreview exposing (configAndPreview)
 
 
 layout : Model -> Layout
@@ -70,7 +70,7 @@ view shared =
         options =
             { theme = shared.theme }
     in
-    [ configAndPreview
+    [ playground
         { title = "Message"
         , theme = shared.theme
         , inverted = False
@@ -84,7 +84,7 @@ view shared =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = "Icon Message"
         , theme = shared.theme
         , inverted = False

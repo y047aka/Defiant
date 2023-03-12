@@ -4,10 +4,10 @@ import Effect
 import Html.Styled as Html exposing (Html)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Route exposing (Route)
 import Shared
 import UI.Placeholder as Placeholder exposing (line)
-import View.ConfigAndPreview exposing (configAndPreview)
 
 
 layout : Model -> Layout
@@ -64,7 +64,7 @@ update msg model =
 
 view : Shared.Model -> List (Html Msg)
 view { theme } =
-    [ configAndPreview
+    [ playground
         { title = "Lines"
         , theme = theme
         , inverted = False

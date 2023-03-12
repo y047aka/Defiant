@@ -5,10 +5,10 @@ import Html.Styled as Html exposing (Html)
 import Html.Styled.Attributes exposing (src)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Route exposing (Route)
 import Shared
 import UI.Image exposing (smallImage)
-import View.ConfigAndPreview exposing (configAndPreview)
 
 
 layout : Model -> Layout
@@ -65,7 +65,7 @@ update msg model =
 
 view : Shared.Model -> List (Html Msg)
 view { theme } =
-    [ configAndPreview
+    [ playground
         { title = "Image"
         , theme = theme
         , inverted = False

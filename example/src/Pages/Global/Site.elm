@@ -4,9 +4,9 @@ import Effect
 import Html.Styled as Html exposing (Html, h1, h2, h3, h4, h5, p, text)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Route exposing (Route)
 import Shared
-import View.ConfigAndPreview exposing (configAndPreview)
 
 
 layout : Model -> Layout
@@ -63,7 +63,7 @@ update msg model =
 
 view : Shared.Model -> List (Html Msg)
 view { theme } =
-    [ configAndPreview
+    [ playground
         { title = "Headers"
         , theme = theme
         , inverted = False
@@ -76,7 +76,7 @@ view { theme } =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = "Page Font"
         , theme = theme
         , inverted = False
@@ -87,14 +87,14 @@ view { theme } =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = "Text Selection"
         , theme = theme
         , inverted = False
         , preview = [ p [] [ text "Fusce mollis sagittis elit ut maximus. Nullam blandit lacus sit amet luctus euismod. Duis luctus leo vel consectetur consequat. Phasellus ex ligula, pellentesque et neque vitae, elementum placerat eros. Proin eleifend odio nec velit lacinia suscipit. Morbi mollis ante nec dapibus gravida. In tincidunt augue eu elit porta, vel condimentum purus posuere. Maecenas tincidunt, erat sed elementum sagittis, tortor erat faucibus tellus, nec molestie mi purus sit amet tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris a tincidunt metus. Fusce congue metus aliquam ex auctor eleifend." ] ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = "Spacing"
         , theme = theme
         , inverted = False

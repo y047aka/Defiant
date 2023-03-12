@@ -1,17 +1,16 @@
 module Pages.Element.Label exposing (Model, Msg, page)
 
-import Config
 import Data.PalettesByState as PalettesByState
 import Effect
 import Html.Styled as Html exposing (Html, text)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Route exposing (Route)
 import Shared
 import Types exposing (PresetColor(..))
 import UI.Icon exposing (icon)
 import UI.Label as Label exposing (..)
-import View.ConfigAndPreview exposing (configAndPreview)
 
 
 layout : Model -> Layout
@@ -75,7 +74,7 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ configAndPreview
+    [ playground
         { title = "Label"
         , theme = theme
         , inverted = False
@@ -104,7 +103,7 @@ view { theme } model =
         , configSections =
             [ { label = "Variations"
               , configs =
-                    [ Config.select
+                    [ Playground.select
                         { label = "Color"
                         , value = model.color
                         , options = [ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ]
@@ -117,7 +116,7 @@ view { theme } model =
               }
             ]
         }
-    , configAndPreview
+    , playground
         { title = "Icon"
         , theme = theme
         , inverted = False
@@ -129,7 +128,7 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = ""
         , theme = theme
         , inverted = False
@@ -141,7 +140,7 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = ""
         , theme = theme
         , inverted = False
@@ -152,7 +151,7 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = "Basic"
         , theme = theme
         , inverted = False

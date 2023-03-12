@@ -7,6 +7,7 @@ import Html.Styled.Attributes exposing (src)
 import Html.Styled.Events exposing (onClick)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Route exposing (Route)
 import Shared
 import UI.Button exposing (button)
@@ -16,7 +17,6 @@ import UI.Header as Header exposing (iconHeader, subHeader)
 import UI.Icon exposing (icon)
 import UI.Image exposing (smallImage)
 import UI.Segment exposing (segment)
-import View.ConfigAndPreview exposing (configAndPreview)
 
 
 layout : Model -> Layout
@@ -88,7 +88,7 @@ view shared { toggledItems } =
         options =
             { theme = shared.theme }
     in
-    [ configAndPreview
+    [ playground
         { title = "Dimmer"
         , theme = shared.theme
         , inverted = False
@@ -105,7 +105,7 @@ view shared { toggledItems } =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = "Content Dimmer"
         , theme = shared.theme
         , inverted = False
@@ -129,7 +129,7 @@ view shared { toggledItems } =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = "Page Dimmer"
         , theme = shared.theme
         , inverted = False
@@ -149,7 +149,7 @@ view shared { toggledItems } =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = "Inverted Dimmer"
         , theme = shared.theme
         , inverted = False

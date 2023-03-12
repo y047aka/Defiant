@@ -1,6 +1,5 @@
 module Pages.DataDisplay.Card exposing (Model, Msg, page)
 
-import Config
 import Data.DummyData as DummyData
 import Data.Theme exposing (Theme(..))
 import Effect
@@ -8,12 +7,12 @@ import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Attributes exposing (src)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Route exposing (Route)
 import Shared
 import UI.Card as Card exposing (cards, extraContent)
 import UI.Icon exposing (icon)
 import UI.Image exposing (image)
-import View.Playground exposing (playground)
 
 
 layout : Model -> Layout
@@ -153,42 +152,52 @@ view shared model =
     in
     [ playground
         { title = "Cards"
-        , toMsg = UpdateConfig
         , theme = shared.theme
         , inverted = model.inverted
         , preview = [ cards [] (List.map card model.people) ]
         , configSections =
-            [ { label = "Content"
+            [ { label = ""
               , configs =
-                    [ Config.bool
+                    [ Playground.bool
+                        { id = "inverted"
+                        , label = "Inverted"
+                        , bool = model.inverted
+                        , onClick = (\c -> { c | inverted = not c.inverted }) |> UpdateConfig
+                        , note = ""
+                        }
+                    ]
+              }
+            , { label = "Content"
+              , configs =
+                    [ Playground.bool
                         { label = "Image"
                         , id = "image"
                         , bool = model.hasImage
                         , onClick = (\c -> { c | hasImage = not c.hasImage }) |> UpdateConfig
                         , note = "A card can contain an image"
                         }
-                    , Config.bool
+                    , Playground.bool
                         { label = "Header"
                         , id = "header"
                         , bool = model.hasHeader
                         , onClick = (\c -> { c | hasHeader = not c.hasHeader }) |> UpdateConfig
                         , note = "A card can contain a header"
                         }
-                    , Config.bool
+                    , Playground.bool
                         { label = "Metadata"
                         , id = "metadata"
                         , bool = model.hasMetadata
                         , onClick = (\c -> { c | hasMetadata = not c.hasMetadata }) |> UpdateConfig
                         , note = "A card can contain content metadata"
                         }
-                    , Config.bool
+                    , Playground.bool
                         { label = "Description"
                         , id = "description"
                         , bool = model.hasDescription
                         , onClick = (\c -> { c | hasDescription = not c.hasDescription }) |> UpdateConfig
                         , note = "A card can contain a description with one or more paragraphs"
                         }
-                    , Config.bool
+                    , Playground.bool
                         { label = "Extra Content"
                         , id = "extra_content"
                         , bool = model.hasExtraContent

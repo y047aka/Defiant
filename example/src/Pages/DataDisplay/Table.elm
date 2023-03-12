@@ -1,14 +1,13 @@
 module Pages.DataDisplay.Table exposing (Model, Msg, page)
 
-import Config
 import Effect
 import Html.Styled as Html exposing (Html, text)
 import Layouts exposing (Layout)
 import Page exposing (Page)
+import Playground exposing (playground)
 import Route exposing (Route)
 import Shared
 import UI.Table exposing (basicTable, tableWithProps, tbody, td, th, thead, tr, veryBasicTable)
-import View.ConfigAndPreview exposing (configAndPreview)
 
 
 layout : Model -> Layout
@@ -69,7 +68,7 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ configAndPreview
+    [ playground
         { title = "Table"
         , theme = theme
         , inverted = False
@@ -97,14 +96,14 @@ view { theme } model =
         , configSections =
             [ { label = "Variations"
               , configs =
-                    [ Config.bool
+                    [ Playground.bool
                         { label = "Striped"
                         , id = "striped"
                         , bool = model.striped
                         , onClick = (\c -> { c | striped = not c.striped }) |> UpdateConfig
                         , note = "A table can stripe alternate rows of content with a darker color to increase contrast"
                         }
-                    , Config.bool
+                    , Playground.bool
                         { label = "Celled"
                         , id = "celled"
                         , bool = model.celled
@@ -115,7 +114,7 @@ view { theme } model =
               }
             ]
         }
-    , configAndPreview
+    , playground
         { title = "Basic"
         , theme = theme
         , inverted = False
@@ -136,7 +135,7 @@ view { theme } model =
             ]
         , configSections = []
         }
-    , configAndPreview
+    , playground
         { title = ""
         , theme = theme
         , inverted = False
