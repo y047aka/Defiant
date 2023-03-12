@@ -7,7 +7,7 @@
     "start": "elm-land server"
   },
   "devDependencies": {
-    "elm-format": "^0.8.5",
-    "elm-land": "^0.18.0"
+    "elm-format": "^0.8.6",
+    "elm-land": "^0.18.1"
   }
 }
