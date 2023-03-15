@@ -87,8 +87,7 @@ configPanel : List (ConfigSection msg) -> Html msg
 configPanel configSections =
     aside
         [ css
-            [ padding (em 1)
-            , borderLeft3 (px 1) solid (hex "#DDD")
+            [ borderLeft3 (px 1) solid (hex "#DDD")
             ]
         ]
         (List.map
@@ -98,12 +97,9 @@ configPanel configSections =
                         [ displayFlex
                         , flexDirection column
                         , property "gap" "15px"
-                        , paddingBottom (px 15)
+                        , padding (px 15)
                         , nthChild "n+2"
-                            [ paddingTop (px 15)
-                            , borderTop3 (px 1) solid (hex "#DDD")
-                            ]
-                        , lastChild [ paddingBottom zero ]
+                            [ borderTop3 (px 1) solid (hex "#DDD") ]
                         ]
                     ]
                     (div
