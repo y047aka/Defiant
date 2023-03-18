@@ -1,12 +1,14 @@
 module Playground exposing
     ( playground
     , string, bool, radio, select, counter
+    , boolAndString
     )
 
 {-|
 
 @docs playground
 @docs string, bool, radio, select, counter
+@docs boolAndString
 
 -}
 
@@ -235,3 +237,31 @@ counter p =
             , basicLabel [] [ text (p.toString p.value) ]
             , button [ onClick p.onClickPlus ] [ text "+" ]
             ]
+
+
+boolAndString :
+    { label : String
+    , id : String
+    , data : { visible : Bool, value : String }
+    , onUpdate : { visible : Bool, value : String } -> msg
+    , placeholder : String
+    , note : String
+    }
+    -> Html msg
+boolAndString { label, id, data, onUpdate, placeholder, note } =
+    div []
+        [ bool
+            { label = label
+            , id = id
+            , bool = data.visible
+            , onClick = onUpdate { data | visible = not data.visible }
+            , note = ""
+            }
+        , string
+            { label = ""
+            , value = data.value
+            , onInput = \string_ -> onUpdate { data | value = string_ }
+            , placeholder = placeholder
+            , note = note
+            }
+        ]

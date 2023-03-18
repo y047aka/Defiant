@@ -3,7 +3,7 @@ module Pages.DataDisplay.Card exposing (Model, Msg, page)
 import Data.DummyData as DummyData
 import Data.Theme exposing (Theme(..))
 import Effect
-import Html.Styled as Html exposing (Html, div, text)
+import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Attributes exposing (src)
 import Layouts exposing (Layout)
 import Page exposing (Page)
@@ -55,10 +55,10 @@ type alias Model =
 type alias Config =
     { inverted : Bool
     , hasImage : Bool
-    , header : Bool
-    , hasMetadata : Bool
-    , hasDescription : Bool
-    , hasExtraContent : Bool
+    , header : { visible : Bool, value : String }
+    , metadata : { visible : Bool, value : String }
+    , description : { visible : Bool, value : String }
+    , extraContent : { visible : Bool, value : String }
     }
 
 
@@ -67,10 +67,10 @@ init =
     { config =
         { inverted = False
         , hasImage = True
-        , hasHeader = True
-        , hasMetadata = True
-        , hasDescription = True
-        , hasExtraContent = True
+        , header = { visible = True, value = "" }
+        , metadata = { visible = True, value = "" }
+        , description = { visible = True, value = "" }
+        , extraContent = { visible = True, value = "" }
         }
     , people =
         List.map
@@ -128,33 +128,49 @@ view shared { config, people } =
                 , Card.content options
                     []
                     { header =
-                        if config.hasHeader then
-                            [ text header ]
+                        case ( config.header.visible, config.header.value ) of
+                            ( True, "" ) ->
+                                [ text header ]
 
-                        else
-                            []
+                            ( True, value ) ->
+                                [ text value ]
+
+                            ( False, _ ) ->
+                                []
                     , meta =
-                        if config.hasMetadata then
-                            [ text metadata ]
+                        case ( config.metadata.visible, config.metadata.value ) of
+                            ( True, "" ) ->
+                                [ text metadata ]
 
-                        else
-                            []
+                            ( True, value ) ->
+                                [ text value ]
+
+                            ( False, _ ) ->
+                                []
                     , description =
-                        if config.hasDescription then
-                            [ text description ]
+                        case ( config.description.visible, config.description.value ) of
+                            ( True, "" ) ->
+                                [ text description ]
 
-                        else
-                            []
+                            ( True, value ) ->
+                                [ text value ]
+
+                            ( False, _ ) ->
+                                []
                     }
-                , if config.hasExtraContent then
-                    extraContent options
-                        []
-                        [ icon [] "fas fa-user"
-                        , text (String.fromInt friends ++ " Friends")
-                        ]
+                , case ( config.extraContent.visible, config.extraContent.value ) of
+                    ( True, "" ) ->
+                        extraContent options
+                            []
+                            [ icon [] "fas fa-user"
+                            , text (String.fromInt friends ++ " Friends")
+                            ]
 
-                  else
-                    text ""
+                    ( True, value ) ->
+                        extraContent options [] [ text value ]
+
+                    ( False, _ ) ->
+                        text ""
                 ]
     in
     [ playground
@@ -183,32 +199,36 @@ view shared { config, people } =
                         , onClick = (\c -> { c | hasImage = not c.hasImage }) |> UpdateConfig
                         , note = "A card can contain an image"
                         }
-                    , Playground.bool
+                    , Playground.boolAndString
                         { label = "Header"
                         , id = "header"
-                        , bool = config.header
-                        , onClick = (\c -> { c | hasHeader = not c.hasHeader }) |> UpdateConfig
-                        , note = "A card can contain a header"
+                        , data = config.header
+                        , onUpdate = (\data -> \c -> { c | header = data }) >> UpdateConfig
+                        , placeholder = "Matt Giampietro"
+                        , note = ""
                         }
-                    , Playground.bool
+                    , Playground.boolAndString
                         { label = "Metadata"
                         , id = "metadata"
-                        , bool = config.hasMetadata
-                        , onClick = (\c -> { c | hasMetadata = not c.hasMetadata }) |> UpdateConfig
-                        , note = "A card can contain content metadata"
+                        , data = config.metadata
+                        , onUpdate = (\data -> \c -> { c | metadata = data }) >> UpdateConfig
+                        , placeholder = "Friends"
+                        , note = ""
                         }
-                    , Playground.bool
+                    , Playground.boolAndString
                         { label = "Description"
                         , id = "description"
-                        , bool = config.hasDescription
-                        , onClick = (\c -> { c | hasDescription = not c.hasDescription }) |> UpdateConfig
+                        , data = config.description
+                        , onUpdate = (\data -> \c -> { c | description = data }) >> UpdateConfig
+                        , placeholder = "Matthew is an interior designer living in New York."
                         , note = "A card can contain a description with one or more paragraphs"
                         }
-                    , Playground.bool
+                    , Playground.boolAndString
                         { label = "Extra Content"
                         , id = "extra_content"
-                        , bool = config.hasExtraContent
-                        , onClick = (\c -> { c | hasExtraContent = not c.hasExtraContent }) |> UpdateConfig
+                        , data = config.extraContent
+                        , onUpdate = (\data -> \c -> { c | extraContent = data }) >> UpdateConfig
+                        , placeholder = "75 Friends"
                         , note = "A card can contain extra content meant to be formatted separately from the main content"
                         }
                     ]
