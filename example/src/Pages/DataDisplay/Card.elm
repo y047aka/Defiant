@@ -3,7 +3,7 @@ module Pages.DataDisplay.Card exposing (Model, Msg, page)
 import Data.DummyData as DummyData
 import Data.Theme exposing (Theme(..))
 import Effect
-import Html.Styled as Html exposing (Html, text)
+import Html.Styled as Html exposing (Html, div, text)
 import Html.Styled.Attributes exposing (src)
 import Layouts exposing (Layout)
 import Page exposing (Page)
@@ -40,12 +40,7 @@ page shared route =
 
 
 type alias Model =
-    { inverted : Bool
-    , hasImage : Bool
-    , hasHeader : Bool
-    , hasMetadata : Bool
-    , hasDescription : Bool
-    , hasExtraContent : Bool
+    { config : Config
     , people :
         List
             { header : String
@@ -57,14 +52,26 @@ type alias Model =
     }
 
 
+type alias Config =
+    { inverted : Bool
+    , hasImage : Bool
+    , header : Bool
+    , hasMetadata : Bool
+    , hasDescription : Bool
+    , hasExtraContent : Bool
+    }
+
+
 init : Model
 init =
-    { inverted = False
-    , hasImage = True
-    , hasHeader = True
-    , hasMetadata = True
-    , hasDescription = True
-    , hasExtraContent = True
+    { config =
+        { inverted = False
+        , hasImage = True
+        , hasHeader = True
+        , hasMetadata = True
+        , hasDescription = True
+        , hasExtraContent = True
+        }
     , people =
         List.map
             (\p ->
@@ -84,14 +91,14 @@ init =
 
 
 type Msg
-    = UpdateConfig (Model -> Model)
+    = UpdateConfig (Config -> Config)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
         UpdateConfig updater ->
-            updater model
+            { model | config = updater model.config }
 
 
 
@@ -99,11 +106,11 @@ update msg model =
 
 
 view : Shared.Model -> Model -> List (Html Msg)
-view shared model =
+view shared { config, people } =
     let
         options =
             { theme =
-                if model.inverted then
+                if config.inverted then
                     Dark
 
                 else
@@ -113,7 +120,7 @@ view shared model =
         card { header, metadata, description, friends, imageUrl } =
             Card.card options
                 []
-                [ if model.hasImage then
+                [ if config.hasImage then
                     image [ src imageUrl ] []
 
                   else
@@ -121,25 +128,25 @@ view shared model =
                 , Card.content options
                     []
                     { header =
-                        if model.hasHeader then
+                        if config.hasHeader then
                             [ text header ]
 
                         else
                             []
                     , meta =
-                        if model.hasMetadata then
+                        if config.hasMetadata then
                             [ text metadata ]
 
                         else
                             []
                     , description =
-                        if model.hasDescription then
+                        if config.hasDescription then
                             [ text description ]
 
                         else
                             []
                     }
-                , if model.hasExtraContent then
+                , if config.hasExtraContent then
                     extraContent options
                         []
                         [ icon [] "fas fa-user"
@@ -153,15 +160,15 @@ view shared model =
     [ playground
         { title = "Cards"
         , theme = shared.theme
-        , inverted = model.inverted
-        , preview = [ cards [] (List.map card model.people) ]
+        , inverted = config.inverted
+        , preview = [ cards [] (List.map card people) ]
         , configSections =
             [ { label = ""
               , configs =
                     [ Playground.bool
                         { id = "inverted"
                         , label = "Inverted"
-                        , bool = model.inverted
+                        , bool = config.inverted
                         , onClick = (\c -> { c | inverted = not c.inverted }) |> UpdateConfig
                         , note = ""
                         }
@@ -172,35 +179,35 @@ view shared model =
                     [ Playground.bool
                         { label = "Image"
                         , id = "image"
-                        , bool = model.hasImage
+                        , bool = config.hasImage
                         , onClick = (\c -> { c | hasImage = not c.hasImage }) |> UpdateConfig
                         , note = "A card can contain an image"
                         }
                     , Playground.bool
                         { label = "Header"
                         , id = "header"
-                        , bool = model.hasHeader
+                        , bool = config.header
                         , onClick = (\c -> { c | hasHeader = not c.hasHeader }) |> UpdateConfig
                         , note = "A card can contain a header"
                         }
                     , Playground.bool
                         { label = "Metadata"
                         , id = "metadata"
-                        , bool = model.hasMetadata
+                        , bool = config.hasMetadata
                         , onClick = (\c -> { c | hasMetadata = not c.hasMetadata }) |> UpdateConfig
                         , note = "A card can contain content metadata"
                         }
                     , Playground.bool
                         { label = "Description"
                         , id = "description"
-                        , bool = model.hasDescription
+                        , bool = config.hasDescription
                         , onClick = (\c -> { c | hasDescription = not c.hasDescription }) |> UpdateConfig
                         , note = "A card can contain a description with one or more paragraphs"
                         }
                     , Playground.bool
                         { label = "Extra Content"
                         , id = "extra_content"
-                        , bool = model.hasExtraContent
+                        , bool = config.hasExtraContent
                         , onClick = (\c -> { c | hasExtraContent = not c.hasExtraContent }) |> UpdateConfig
                         , note = "A card can contain extra content meant to be formatted separately from the main content"
                         }
