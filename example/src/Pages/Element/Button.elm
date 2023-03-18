@@ -122,6 +122,7 @@ view { theme } model =
                         { label = "Label"
                         , value = model.label
                         , onInput = (\string c -> { c | label = string }) >> UpdateConfig
+                        , placeholder = ""
                         , note = ""
                         }
                     ]

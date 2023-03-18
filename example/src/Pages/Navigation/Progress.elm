@@ -233,12 +233,14 @@ view { theme } model =
                         { label = "Progress"
                         , value = model.progressLabel
                         , onInput = (\string c -> { c | progressLabel = string }) >> UpdateConfig
+                        , placeholder = ""
                         , note = "A progress bar can contain a text value indicating current progress"
                         }
                     , Playground.string
                         { label = "Label"
                         , value = model.label
                         , onInput = (\string c -> { c | label = string }) >> UpdateConfig
+                        , placeholder = ""
                         , note = "A progress element can contain a label"
                         }
                     ]

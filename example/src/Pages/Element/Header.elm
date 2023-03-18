@@ -96,12 +96,14 @@ view { theme } model =
                         { label = "Header"
                         , value = model.header
                         , onInput = (\string c -> { c | header = string }) >> UpdateConfig
+                        , placeholder = ""
                         , note = ""
                         }
                     , Playground.string
                         { label = "Subheader"
                         , value = model.subHeader
                         , onInput = (\string c -> { c | subHeader = string }) >> UpdateConfig
+                        , placeholder = ""
                         , note = ""
                         }
                     ]

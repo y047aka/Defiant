@@ -14,7 +14,7 @@ import Css exposing (..)
 import Css.Palette as Palette exposing (darkPalette, palette, setBackground, setColor)
 import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Html, aside, div, input, p, text)
-import Html.Styled.Attributes as Attributes exposing (css, for, id, name, selected, type_, value)
+import Html.Styled.Attributes as Attributes exposing (css, for, id, name, placeholder, selected, type_, value)
 import Html.Styled.Events exposing (onClick, onInput)
 import Types exposing (FormState(..))
 import UI.Button exposing (button, labeledButton)
@@ -129,13 +129,21 @@ string :
     { label : String
     , value : String
     , onInput : String -> msg
+    , placeholder : String
     , note : String
     }
     -> Html msg
 string p =
     field { label = p.label, note = p.note } <|
         Input.input []
-            [ input [ type_ "text", value p.value, onInput p.onInput ] [] ]
+            [ input
+                [ type_ "text"
+                , value p.value
+                , onInput p.onInput
+                , placeholder p.placeholder
+                ]
+                []
+            ]
 
 
 bool :
