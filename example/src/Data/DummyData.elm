@@ -1,4 +1,18 @@
-module Data.DummyData exposing (people)
+module Data.DummyData exposing (movies, people)
+
+
+movies : List { title : String, cinema : String }
+movies =
+    [ { title = "12 Years a Slave"
+      , cinema = "Union Square 14"
+      }
+    , { title = "My Neighbor Totoro"
+      , cinema = "IFC Cinema"
+      }
+    , { title = "Watchmen"
+      , cinema = "IFC"
+      }
+    ]
 
 
 people :

@@ -1,5 +1,6 @@
 module Pages.DataDisplay.Item exposing (Model, Msg, page)
 
+import Data.DummyData as DummyData
 import Effect
 import Html.Styled as Html exposing (Html, span, text)
 import Html.Styled.Attributes exposing (src)
@@ -38,21 +39,37 @@ page shared route =
 
 
 type alias Model =
-    { hasImage : Bool
-    , hasHeader : Bool
-    , hasMetadata : Bool
-    , hasDescription : Bool
-    , hasExtraContent : Bool
+    { config : Config
+    , movies : List { header : String, metadata : String }
+    }
+
+
+type alias Config =
+    { header : { visible : Bool, value : String }
+    , metadata : { visible : Bool, value : String }
+    , description : { visible : Bool, value : String }
+    , extraContent : { visible : Bool, value : String }
+    , hasImage : Bool
     }
 
 
 init : Model
 init =
-    { hasImage = True
-    , hasHeader = True
-    , hasMetadata = True
-    , hasDescription = True
-    , hasExtraContent = True
+    { config =
+        { header = { visible = True, value = "" }
+        , metadata = { visible = True, value = "" }
+        , description = { visible = True, value = "" }
+        , extraContent = { visible = True, value = "Extra Content" }
+        , hasImage = True
+        }
+    , movies =
+        List.map
+            (\{ title, cinema } ->
+                { header = title
+                , metadata = cinema
+                }
+            )
+            DummyData.movies
     }
 
 
@@ -61,14 +78,14 @@ init =
 
 
 type Msg
-    = UpdateConfig (Model -> Model)
+    = UpdateConfig (Config -> Config)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
         UpdateConfig updater ->
-            updater model
+            { model | config = updater model.config }
 
 
 
@@ -76,7 +93,7 @@ update msg model =
 
 
 view : Shared.Model -> Model -> List (Html Msg)
-view { theme } model =
+view { theme } { config, movies } =
     [ playground
         { title = "Items"
         , theme = theme
@@ -85,53 +102,52 @@ view { theme } model =
             [ let
                 item { header, metadata } =
                     Item.item []
-                        [ if model.hasImage then
+                        [ if config.hasImage then
                             image [ src "/images/wireframe/image.png" ] []
 
                           else
                             text ""
                         , Item.content []
                             { header =
-                                if model.hasHeader then
-                                    [ text header ]
+                                case ( config.header.visible, config.header.value ) of
+                                    ( True, "" ) ->
+                                        [ text header ]
 
-                                else
-                                    []
+                                    ( True, value ) ->
+                                        [ text value ]
+
+                                    ( False, _ ) ->
+                                        []
                             , meta =
-                                if model.hasMetadata then
-                                    [ span [] [ text metadata ] ]
+                                case ( config.metadata.visible, config.metadata.value ) of
+                                    ( True, "" ) ->
+                                        [ span [] [ text metadata ] ]
 
-                                else
-                                    []
+                                    ( True, value ) ->
+                                        [ text value ]
+
+                                    ( False, _ ) ->
+                                        []
                             , description =
-                                if model.hasDescription then
-                                    [ wireframeShortParagraph ]
+                                case ( config.description.visible, config.description.value ) of
+                                    ( True, "" ) ->
+                                        [ wireframeShortParagraph ]
 
-                                else
-                                    []
+                                    ( True, value ) ->
+                                        [ text value ]
+
+                                    ( False, _ ) ->
+                                        []
                             , extra =
-                                if model.hasExtraContent then
-                                    [ text "Extra Content" ]
+                                if config.extraContent.visible then
+                                    [ text config.extraContent.value ]
 
                                 else
                                     []
                             }
                         ]
               in
-              items []
-                [ item
-                    { header = "12 Years a Slave"
-                    , metadata = "Union Square 14"
-                    }
-                , item
-                    { header = "My Neighbor Totoro"
-                    , metadata = "IFC Cinema"
-                    }
-                , item
-                    { header = "Watchmen"
-                    , metadata = "IFC"
-                    }
-                ]
+              items [] <| List.map item movies
             ]
         , configSections =
             [ { label = "Content"
@@ -139,37 +155,41 @@ view { theme } model =
                     [ Playground.bool
                         { label = "Image"
                         , id = "image"
-                        , bool = model.hasImage
+                        , bool = config.hasImage
                         , onClick = (\c -> { c | hasImage = not c.hasImage }) |> UpdateConfig
                         , note = "An item can contain an image"
                         }
-                    , Playground.bool
+                    , Playground.boolAndString
                         { label = "Header"
                         , id = "header"
-                        , bool = model.hasHeader
-                        , onClick = (\c -> { c | hasHeader = not c.hasHeader }) |> UpdateConfig
-                        , note = "An item can contain a header"
+                        , data = config.header
+                        , onUpdate = (\data -> \c -> { c | header = data }) >> UpdateConfig
+                        , placeholder = "12 Years a Slave"
+                        , note = ""
                         }
-                    , Playground.bool
+                    , Playground.boolAndString
                         { label = "Metadata"
                         , id = "metadata"
-                        , bool = model.hasMetadata
-                        , onClick = (\c -> { c | hasMetadata = not c.hasMetadata }) |> UpdateConfig
-                        , note = "An item can contain content metadata"
+                        , data = config.metadata
+                        , onUpdate = (\data -> \c -> { c | metadata = data }) >> UpdateConfig
+                        , placeholder = "Union Square 14"
+                        , note = ""
                         }
-                    , Playground.bool
+                    , Playground.boolAndString
                         { label = "Description"
                         , id = "description"
-                        , bool = model.hasDescription
-                        , onClick = (\c -> { c | hasDescription = not c.hasDescription }) |> UpdateConfig
-                        , note = "An item can contain a description with a single or multiple paragraphs"
+                        , data = config.description
+                        , onUpdate = (\data -> \c -> { c | description = data }) >> UpdateConfig
+                        , placeholder = "An item can contain a description"
+                        , note = ""
                         }
-                    , Playground.bool
+                    , Playground.boolAndString
                         { label = "Extra Content"
                         , id = "extra_content"
-                        , bool = model.hasExtraContent
-                        , onClick = (\c -> { c | hasExtraContent = not c.hasExtraContent }) |> UpdateConfig
-                        , note = "An item can contain content ExtraContent"
+                        , data = config.extraContent
+                        , onUpdate = (\data -> \c -> { c | extraContent = data }) >> UpdateConfig
+                        , placeholder = "Extra Content"
+                        , note = ""
                         }
                     ]
               }
