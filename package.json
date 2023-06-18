@@ -2,6 +2,16 @@
   "name": "defiant",
   "workspaces": [
     "example",
-    "package"
-  ]
+    "package",
+    "review"
+  ],
+  "scripts": {
+    "start": "npm start -w example",
+    "build": "npm run build -w example",
+    "lint": "npm run lint -w review"
+  },
+  "devDependencies": {
+    "elm": "^0.19.1-5",
+    "elm-format": "^0.8.7"
+  }
 }
