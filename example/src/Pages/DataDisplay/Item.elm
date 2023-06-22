@@ -14,9 +14,9 @@ import UI.Image exposing (image)
 import UI.Item as Item exposing (..)
 
 
-layout : Model -> Layout
+layout : Model -> Layout msg
 layout model =
-    Layouts.Default { default = () }
+    Layouts.Default {}
 
 
 page : Shared.Model -> Route () -> Page Model Msg

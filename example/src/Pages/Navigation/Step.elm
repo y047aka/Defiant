@@ -11,9 +11,9 @@ import UI.CircleStep as CircleStep
 import UI.Step as Step exposing (State(..))
 
 
-layout : Model -> Layout
+layout : Model -> Layout msg
 layout model =
-    Layouts.Default { default = () }
+    Layouts.Default {}
 
 
 page : Shared.Model -> Route () -> Page Model Msg

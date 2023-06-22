@@ -12,9 +12,9 @@ import UI.Icon exposing (icon)
 import UI.Message exposing (message)
 
 
-layout : Model -> Layout
+layout : Model -> Layout msg
 layout model =
-    Layouts.Default { default = () }
+    Layouts.Default {}
 
 
 page : Shared.Model -> Route () -> Page Model Msg

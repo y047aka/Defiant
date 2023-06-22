@@ -11,9 +11,9 @@ import Types exposing (FormState(..))
 import UI.Checkbox exposing (checkbox, toggleCheckbox)
 
 
-layout : Model -> Layout
+layout : Model -> Layout msg
 layout model =
-    Layouts.Default { default = () }
+    Layouts.Default {}
 
 
 page : Shared.Model -> Route () -> Page Model Msg

@@ -14,9 +14,9 @@ import UI.Loader exposing (loader, textLoader)
 import UI.Segment exposing (segment)
 
 
-layout : Model -> Layout
+layout : Model -> Layout msg
 layout model =
-    Layouts.Default { default = () }
+    Layouts.Default {}
 
 
 page : Shared.Model -> Route () -> Page Model Msg

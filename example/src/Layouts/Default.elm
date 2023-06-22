@@ -1,4 +1,4 @@
-module Layouts.Default exposing (Model, Msg, Settings, layout)
+module Layouts.Default exposing (Model, Msg, Props, layout)
 
 import Css exposing (..)
 import Css.FontAwesome exposing (fontAwesome)
@@ -25,16 +25,16 @@ import Url exposing (Url)
 import View exposing (View)
 
 
-type alias Settings =
-    ()
+type alias Props =
+    {}
 
 
-layout : Settings -> Shared.Model -> Route () -> Layout Model Msg mainMsg
-layout settings shared route =
+layout : Props -> Shared.Model -> Route () -> Layout () Model Msg contentMsg
+layout props shared route =
     Layout.new
         { init = init
         , update = update
-        , view = view settings route shared
+        , view = view props route shared
         , subscriptions = \_ -> Sub.none
         }
 
@@ -70,16 +70,16 @@ update msg model =
 
 
 view :
-    Settings
+    Props
     -> Route ()
     -> Shared.Model
     ->
-        { fromMsg : Msg -> mainMsg
-        , content : View mainMsg
+        { toContentMsg : Msg -> contentMsg
+        , content : View contentMsg
         , model : Model
         }
-    -> View mainMsg
-view settings route shared { fromMsg, model, content } =
+    -> View contentMsg
+view props route shared { toContentMsg, model, content } =
     { title =
         case route.url.path of
             "/" ->
@@ -101,7 +101,7 @@ view settings route shared { fromMsg, model, content } =
                     )
                 ]
             ]
-        , Html.map fromMsg <|
+        , Html.map toContentMsg <|
             siteHeader shared { title = content.title, url = route.url }
         , main_ []
             [ basicSegment { theme = Light }

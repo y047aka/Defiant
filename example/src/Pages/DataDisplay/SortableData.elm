@@ -14,9 +14,9 @@ import UI.Segment exposing (segment)
 import UI.SortableData exposing (State, initialSort, intColumn, list, stringColumn, table)
 
 
-layout : Model -> Layout
+layout : Model -> Layout msg
 layout model =
-    Layouts.Default { default = () }
+    Layouts.Default {}
 
 
 page : Shared.Model -> Route () -> Page Model Msg
