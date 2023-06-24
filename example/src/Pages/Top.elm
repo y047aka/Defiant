@@ -1,38 +1,14 @@
-module Pages.Home_ exposing (Model, Msg, page)
+module Pages.Top exposing (Model, Msg, init, update, view)
 
 import Data.PageSummary as PageSummary exposing (categoryToString)
 import Data.Theme exposing (Theme)
 import Effect
 import Html.Styled exposing (Html, a, text)
 import Html.Styled.Attributes exposing (href)
-import Layouts exposing (Layout)
-import Page exposing (Page)
-import Route exposing (Route)
-import Route.Path as Path
-import Shared
 import UI.Card as Card exposing (card, cards)
 import UI.Header as Header
 import UI.Segment exposing (basicSegment)
-
-
-layout : Model -> Layout msg
-layout model =
-    Layouts.Default {}
-
-
-page : Shared.Model -> Route () -> Page Model Msg
-page shared route =
-    Page.new
-        { init = \() -> ( init, Effect.none )
-        , update = \_ model -> ( model, Effect.none )
-        , subscriptions = \_ -> Sub.none
-        , view =
-            \_ ->
-                { title = "Homepage"
-                , body = view { theme = shared.theme }
-                }
-        }
-        |> Page.withLayout layout
+import Url.Builder
 
 
 
@@ -56,6 +32,11 @@ type Msg
     = NoOp
 
 
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    ( model, Cmd.none )
+
+
 
 -- VIEW
 
@@ -63,10 +44,10 @@ type Msg
 view : { theme : Theme } -> List (Html msg)
 view options =
     let
-        item { title, description, path } =
+        item { title, description, route } =
             card options
                 []
-                [ a [ href (Path.toString path) ]
+                [ a [ href (Url.Builder.absolute route []) ]
                     [ Card.content options
                         []
                         { header = [ text title ]
