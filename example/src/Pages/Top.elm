@@ -2,7 +2,6 @@ module Pages.Top exposing (Model, Msg, init, update, view)
 
 import Data.PageSummary as PageSummary exposing (categoryToString)
 import Data.Theme exposing (Theme)
-import Effect
 import Html.Styled exposing (Html, a, text)
 import Html.Styled.Attributes exposing (href)
 import UI.Card as Card exposing (card, cards)
@@ -28,13 +27,13 @@ init =
 -- UPDATE
 
 
-type Msg
-    = NoOp
+type alias Msg =
+    ()
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    ( model, Cmd.none )
+update : Msg -> Model -> Model
+update _ model =
+    model
 
 
 

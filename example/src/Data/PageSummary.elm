@@ -1,11 +1,11 @@
 module Data.PageSummary exposing
-    ( PageSummary, summariesByCagetgory
-    , Category, categoryToString
+    ( PageSummary, all, summariesByCagetgory
+    , Category(..), categoryToString
     )
 
 {-|
 
-@docs PageSummary, summariesByCagetgory
+@docs PageSummary, all, summariesByCagetgory
 @docs Category, categoryToString
 
 -}
@@ -58,14 +58,14 @@ all =
     , accordionPage
     , breadcrumbPage
     , menuPage
-    , stepPage
     , progressPage
+    , stepPage
     , tabPage
 
     -- Form
     , checkboxPage
-    , inputPage
     , formPage
+    , inputPage
 
     -- DataDisplay
     , cardPage
@@ -104,7 +104,7 @@ gridPage =
 
 holyGrailPage : PageSummary
 holyGrailPage =
-    { title = "HolyGrail"
+    { title = "Holy Grail"
     , description = "Holy grail layout."
     , category = Layout
     , route = [ "layout", "holy-grail" ]
@@ -264,21 +264,21 @@ menuPage =
     }
 
 
-stepPage : PageSummary
-stepPage =
-    { title = "Step"
-    , description = "A step shows the completion status of an activity in a series of activities"
-    , category = Navigation
-    , route = [ "navigation", "step" ]
-    }
-
-
 progressPage : PageSummary
 progressPage =
     { title = "Progress"
     , description = "A progress bar shows the progression of a task"
     , category = Navigation
     , route = [ "navigation", "progress" ]
+    }
+
+
+stepPage : PageSummary
+stepPage =
+    { title = "Step"
+    , description = "A step shows the completion status of an activity in a series of activities"
+    , category = Navigation
+    , route = [ "navigation", "step" ]
     }
 
 
@@ -300,21 +300,21 @@ checkboxPage =
     }
 
 
-inputPage : PageSummary
-inputPage =
-    { title = "Input"
-    , description = "An input is a field used to elicit a response from a user"
-    , category = Form
-    , route = [ "form", "input" ]
-    }
-
-
 formPage : PageSummary
 formPage =
     { title = "Form"
     , description = "A form displays a set of related user input fields in a structured way"
     , category = Form
     , route = [ "form", "form" ]
+    }
+
+
+inputPage : PageSummary
+inputPage =
+    { title = "Input"
+    , description = "An input is a field used to elicit a response from a user"
+    , category = Form
+    , route = [ "form", "input" ]
     }
 
 
@@ -338,7 +338,7 @@ itemPage =
 
 sortableDataPage : PageSummary
 sortableDataPage =
-    { title = "SortableData"
+    { title = "Sortable Data"
     , description = "Sortable data"
     , category = DataDisplay
     , route = [ "data-display", "sortable-data" ]

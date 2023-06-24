@@ -1,36 +1,12 @@
-module Pages.Layout.Rail exposing (Model, Msg, page)
+module Pages.Layout.Rail exposing (Model, Msg, init, update, view)
 
 import Css exposing (..)
-import Effect
 import Html.Styled exposing (Html, text)
 import Html.Styled.Attributes exposing (css)
-import Layouts exposing (Layout)
-import Page exposing (Page)
-import Route exposing (Route)
 import Shared
 import UI.Example exposing (example, wireframeParagraph)
 import UI.Rail exposing (leftRail, rightRail)
 import UI.Segment exposing (segment)
-
-
-layout : Model -> Layout msg
-layout model =
-    Layouts.Default {}
-
-
-page : Shared.Model -> Route () -> Page Model Msg
-page shared route =
-    Page.new
-        { init = \() -> ( init, Effect.none )
-        , update = \_ model -> ( model, Effect.none )
-        , subscriptions = \_ -> Sub.none
-        , view =
-            \_ ->
-                { title = "Rail"
-                , body = view shared
-                }
-        }
-        |> Page.withLayout layout
 
 
 
@@ -50,8 +26,13 @@ init =
 -- UPDATE
 
 
-type Msg
-    = NoOp
+type alias Msg =
+    ()
+
+
+update : Msg -> Model -> Model
+update _ model =
+    model
 
 
 

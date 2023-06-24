@@ -1,37 +1,13 @@
-module Pages.DataDisplay.SortableData exposing (Model, Msg, page)
+module Pages.DataDisplay.SortableData exposing (Model, Msg, init, update, view)
 
 import Data.Theme exposing (Theme(..))
-import Effect
 import Html.Styled exposing (Html, div, input, strong, text)
 import Html.Styled.Attributes exposing (placeholder, value)
 import Html.Styled.Events exposing (onInput)
-import Layouts exposing (Layout)
-import Page exposing (Page)
 import Playground exposing (playground)
-import Route exposing (Route)
 import Shared
 import UI.Segment exposing (segment)
 import UI.SortableData exposing (State, initialSort, intColumn, list, stringColumn, table)
-
-
-layout : Model -> Layout msg
-layout model =
-    Layouts.Default {}
-
-
-page : Shared.Model -> Route () -> Page Model Msg
-page shared route =
-    Page.new
-        { init = \() -> ( init, Effect.none )
-        , update = \msg model -> ( update msg model, Effect.none )
-        , subscriptions = \_ -> Sub.none
-        , view =
-            \model ->
-                { title = "Sortable Data"
-                , body = view shared model
-                }
-        }
-        |> Page.withLayout layout
 
 
 

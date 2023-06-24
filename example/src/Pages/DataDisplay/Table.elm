@@ -1,33 +1,9 @@
-module Pages.DataDisplay.Table exposing (Model, Msg, page)
+module Pages.DataDisplay.Table exposing (Model, Msg, init, update, view)
 
-import Effect
 import Html.Styled exposing (Html, text)
-import Layouts exposing (Layout)
-import Page exposing (Page)
 import Playground exposing (playground)
-import Route exposing (Route)
 import Shared
 import UI.Table exposing (basicTable, tableWithProps, tbody, td, th, thead, tr, veryBasicTable)
-
-
-layout : Model -> Layout msg
-layout model =
-    Layouts.Default {}
-
-
-page : Shared.Model -> Route () -> Page Model Msg
-page shared route =
-    Page.new
-        { init = \() -> ( init, Effect.none )
-        , update = \msg model -> ( update msg model, Effect.none )
-        , subscriptions = \_ -> Sub.none
-        , view =
-            \model ->
-                { title = "Table"
-                , body = view shared model
-                }
-        }
-        |> Page.withLayout layout
 
 
 

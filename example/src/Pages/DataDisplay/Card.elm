@@ -1,38 +1,14 @@
-module Pages.DataDisplay.Card exposing (Model, Msg, page)
+module Pages.DataDisplay.Card exposing (Model, Msg, init, update, view)
 
 import Data.DummyData as DummyData
 import Data.Theme exposing (Theme(..))
-import Effect
 import Html.Styled exposing (Html, text)
 import Html.Styled.Attributes exposing (src)
-import Layouts exposing (Layout)
-import Page exposing (Page)
 import Playground exposing (playground)
-import Route exposing (Route)
 import Shared
 import UI.Card as Card exposing (cards, extraContent)
 import UI.Icon exposing (icon)
 import UI.Image exposing (image)
-
-
-layout : Model -> Layout msg
-layout model =
-    Layouts.Default {}
-
-
-page : Shared.Model -> Route () -> Page Model Msg
-page shared route =
-    Page.new
-        { init = \() -> ( init, Effect.none )
-        , update = \msg model -> ( update msg model, Effect.none )
-        , subscriptions = \_ -> Sub.none
-        , view =
-            \model ->
-                { title = "Card"
-                , body = view shared model
-                }
-        }
-        |> Page.withLayout layout
 
 
 
