@@ -12,16 +12,33 @@ when inside the directory containing this file.
 -}
 
 import NoExposingEverything
+import NoMissingSubscriptionsCall
+import NoMissingTypeAnnotation
+import NoPrematureLetComputation
+import NoRecursiveUpdate
 import NoUnused.Dependencies
-import NoUnused.Parameters
+import NoUnused.Exports
+import NoUnused.Modules
 import NoUnused.Variables
+import NoUselessSubscriptions
 import Review.Rule exposing (Rule)
 
 
 config : List Rule
 config =
-    [ NoExposingEverything.rule
+    [ -- jfmengels/elm-review-common
+      NoExposingEverything.rule
+    , NoMissingTypeAnnotation.rule
+    , NoPrematureLetComputation.rule
+
+    -- jfmengels/elm-review-unused
     , NoUnused.Dependencies.rule
-    , NoUnused.Parameters.rule
+    , NoUnused.Exports.rule
+    , NoUnused.Modules.rule
     , NoUnused.Variables.rule
+
+    -- jfmengels/elm-review-the-elm-architecture
+    , NoMissingSubscriptionsCall.rule
+    , NoRecursiveUpdate.rule
+    , NoUselessSubscriptions.rule
     ]
