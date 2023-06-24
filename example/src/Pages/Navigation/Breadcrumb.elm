@@ -2,7 +2,7 @@ module Pages.Navigation.Breadcrumb exposing (Model, Msg, page)
 
 import Data.Theme exposing (Theme(..))
 import Effect
-import Html.Styled as Html exposing (Html)
+import Html.Styled exposing (Html)
 import Layouts exposing (Layout)
 import Page exposing (Page)
 import Playground exposing (playground)
@@ -72,11 +72,10 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    let
+    [ let
         options =
             { divider = model.divider, theme = theme }
-    in
-    [ let
+
         breadcrumb_ =
             case model.size of
                 Mini ->

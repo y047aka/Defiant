@@ -2,7 +2,7 @@ module Pages.Element.Segment exposing (Model, Msg, page)
 
 import Data.Theme exposing (Theme(..))
 import Effect
-import Html.Styled as Html exposing (Html, p, text)
+import Html.Styled exposing (Html, p, text)
 import Layouts exposing (Layout)
 import Page exposing (Page)
 import Playground exposing (playground)

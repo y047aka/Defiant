@@ -2,7 +2,7 @@ module Pages.Element.Dimmer exposing (Model, Msg, page)
 
 import Data.Theme exposing (Theme(..))
 import Effect
-import Html.Styled as Html exposing (Html, div, text)
+import Html.Styled exposing (Html, div, text)
 import Html.Styled.Attributes exposing (src)
 import Html.Styled.Events exposing (onClick)
 import Layouts exposing (Layout)

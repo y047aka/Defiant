@@ -1,7 +1,7 @@
 module Pages.Layout.Container exposing (Model, Msg, page)
 
 import Effect
-import Html.Styled as Html exposing (Html, a, h2, p, strong, text)
+import Html.Styled exposing (Html, a, h2, p, strong, text)
 import Html.Styled.Attributes exposing (href)
 import Layouts exposing (Layout)
 import Page exposing (Page)

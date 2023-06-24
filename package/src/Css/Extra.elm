@@ -1,4 +1,4 @@
-module Css.Extra exposing (none, orNone, prefixed, when)
+module Css.Extra exposing (orNone, prefixed, when)
 
 import Css exposing (..)
 

@@ -2,8 +2,7 @@ module Pages.Navigation.Accordion exposing (Model, Msg, page)
 
 import Data.Theme exposing (Theme(..))
 import Effect
-import Html.Styled as Html exposing (Html, p, text)
-import Html.Styled.Attributes exposing (id)
+import Html.Styled exposing (Html, p, text)
 import Layouts exposing (Layout)
 import Page exposing (Page)
 import Playground exposing (playground)

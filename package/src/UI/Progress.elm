@@ -238,40 +238,40 @@ bar :
     }
     -> Html msg
 bar options =
-    let
-        progress_ =
-            Html.styled Html.div
-                [ -- .ui.progress .bar > .progress
-                  whiteSpace noWrap
-                , position absolute
-                , width auto
-                , top (pct 50)
-                , right (em 0.5)
-                , left auto
-                , bottom auto
-                , typography
-                    (Typography.init
-                        |> setFontSize (em 0.92857143)
-                        |> setFontWeight bold
-                    )
-                , color <|
-                    if options.value == 0 then
-                        -- .ui.progress[data-percent="0"] .bar .progress
-                        rgba 0 0 0 0.87
-
-                    else
-                        rgba 255 255 255 0.7
-                , textShadow none
-                , marginTop (em -0.5)
-                , textAlign left
-                ]
-    in
     barBasis options [] <|
         case options.progress of
             "" ->
                 []
 
             _ ->
+                let
+                    progress_ =
+                        Html.styled Html.div
+                            [ -- .ui.progress .bar > .progress
+                              whiteSpace noWrap
+                            , position absolute
+                            , width auto
+                            , top (pct 50)
+                            , right (em 0.5)
+                            , left auto
+                            , bottom auto
+                            , typography
+                                (Typography.init
+                                    |> setFontSize (em 0.92857143)
+                                    |> setFontWeight bold
+                                )
+                            , color <|
+                                if options.value == 0 then
+                                    -- .ui.progress[data-percent="0"] .bar .progress
+                                    rgba 0 0 0 0.87
+
+                                else
+                                    rgba 255 255 255 0.7
+                            , textShadow none
+                            , marginTop (em -0.5)
+                            , textAlign left
+                            ]
+                in
                 [ progress_ [] [ text options.progress ] ]
 
 

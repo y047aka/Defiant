@@ -1,7 +1,7 @@
 module Pages.Navigation.Step exposing (Model, Msg, Progress(..), page, progressFromString, progressToString)
 
 import Effect
-import Html.Styled as Html exposing (Html)
+import Html.Styled exposing (Html)
 import Layouts exposing (Layout)
 import Page exposing (Page)
 import Playground exposing (playground)

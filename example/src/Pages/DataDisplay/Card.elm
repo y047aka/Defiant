@@ -3,7 +3,7 @@ module Pages.DataDisplay.Card exposing (Model, Msg, page)
 import Data.DummyData as DummyData
 import Data.Theme exposing (Theme(..))
 import Effect
-import Html.Styled as Html exposing (Html, text)
+import Html.Styled exposing (Html, text)
 import Html.Styled.Attributes exposing (src)
 import Layouts exposing (Layout)
 import Page exposing (Page)

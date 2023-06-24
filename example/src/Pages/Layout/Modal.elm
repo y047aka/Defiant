@@ -1,7 +1,7 @@
 module Pages.Layout.Modal exposing (Model, Msg, page)
 
 import Effect
-import Html.Styled as Html exposing (Html, a, p, text)
+import Html.Styled exposing (Html, a, p, text)
 import Html.Styled.Attributes as Attributes exposing (href)
 import Html.Styled.Events exposing (onClick)
 import Layouts exposing (Layout)

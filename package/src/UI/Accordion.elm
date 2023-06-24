@@ -78,20 +78,6 @@ accordionItem { toggleMethod, wrapper, label } attributes { id, title, content }
                 ]
             ]
 
-        targetStyles =
-            [ children
-                [ Css.Global.div [ display none ] ]
-            , target
-                [ children
-                    [ Css.Global.div [ display block ]
-                    , Css.Global.a
-                        [ children
-                            [ Css.Global.i [ iconTransitionStyle ] ]
-                        ]
-                    ]
-                ]
-            ]
-
         iconTransitionStyle =
             -- .ui.accordion .active.title .dropdown.icon
             -- .ui.accordion .accordion .active.title .dropdown.icon
@@ -124,6 +110,21 @@ accordionItem { toggleMethod, wrapper, label } attributes { id, title, content }
                     ++ content
 
         TargetUrl ->
+            let
+                targetStyles =
+                    [ children
+                        [ Css.Global.div [ display none ] ]
+                    , target
+                        [ children
+                            [ Css.Global.div [ display block ]
+                            , Css.Global.a
+                                [ children
+                                    [ Css.Global.i [ iconTransitionStyle ] ]
+                                ]
+                            ]
+                        ]
+                    ]
+            in
             Html.styled (wrapper Html.div) targetStyles (Attributes.id id :: attributes) <|
                 label Html.a [ href ("#" ++ id) ] iconAndTitle
                     :: content

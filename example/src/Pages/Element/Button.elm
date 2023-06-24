@@ -2,7 +2,7 @@ module Pages.Element.Button exposing (Model, Msg, page)
 
 import Data.PalettesByState as PalettesByState
 import Effect
-import Html.Styled as Html exposing (Html, text)
+import Html.Styled exposing (Html, text)
 import Html.Styled.Events exposing (onClick)
 import Layouts exposing (Layout)
 import Page exposing (Page)

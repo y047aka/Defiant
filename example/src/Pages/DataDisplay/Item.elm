@@ -2,7 +2,7 @@ module Pages.DataDisplay.Item exposing (Model, Msg, page)
 
 import Data.DummyData as DummyData
 import Effect
-import Html.Styled as Html exposing (Html, span, text)
+import Html.Styled exposing (Html, span, text)
 import Html.Styled.Attributes exposing (src)
 import Layouts exposing (Layout)
 import Page exposing (Page)

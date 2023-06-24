@@ -2,7 +2,7 @@ module Pages.Navigation.Menu exposing (Model, Msg, page)
 
 import Data.Theme exposing (Theme(..))
 import Effect
-import Html.Styled as Html exposing (Html, input, text)
+import Html.Styled exposing (Html, input, text)
 import Html.Styled.Attributes as Attributes exposing (href, placeholder, rel, type_)
 import Layouts exposing (Layout)
 import Page exposing (Page)

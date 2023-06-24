@@ -2,7 +2,7 @@ module Pages.Layout.Grid exposing (Model, Msg, page)
 
 import Css exposing (..)
 import Effect
-import Html.Styled as Html exposing (Html)
+import Html.Styled exposing (Html)
 import Html.Styled.Attributes exposing (css, src)
 import Layouts exposing (Layout)
 import Page exposing (Page)

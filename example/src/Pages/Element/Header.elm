@@ -1,7 +1,7 @@
 module Pages.Element.Header exposing (Model, Msg, page)
 
 import Effect
-import Html.Styled as Html exposing (Html, text)
+import Html.Styled exposing (Html, text)
 import Layouts exposing (Layout)
 import Page exposing (Page)
 import Playground exposing (playground)

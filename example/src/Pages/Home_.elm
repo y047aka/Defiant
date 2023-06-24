@@ -3,7 +3,7 @@ module Pages.Home_ exposing (Model, Msg, page)
 import Data.PageSummary as PageSummary exposing (categoryToString)
 import Data.Theme exposing (Theme)
 import Effect
-import Html.Styled as Html exposing (Html, a, text)
+import Html.Styled exposing (Html, a, text)
 import Html.Styled.Attributes exposing (href)
 import Layouts exposing (Layout)
 import Page exposing (Page)

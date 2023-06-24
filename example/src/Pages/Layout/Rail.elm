@@ -2,7 +2,7 @@ module Pages.Layout.Rail exposing (Model, Msg, page)
 
 import Css exposing (..)
 import Effect
-import Html.Styled as Html exposing (Html, text)
+import Html.Styled exposing (Html, text)
 import Html.Styled.Attributes exposing (css)
 import Layouts exposing (Layout)
 import Page exposing (Page)

@@ -106,11 +106,12 @@ modal { open, toggle, theme } attributes hca =
 
                 nonEmpty ->
                     f nonEmpty
-
-        options =
-            { theme = theme }
     in
     if open then
+        let
+            options =
+                { theme = theme }
+        in
         modalBasis
             { toggle = toggle
             , shadow = True

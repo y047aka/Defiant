@@ -2,7 +2,7 @@ module Pages.Element.Icon exposing (Model, Msg, page)
 
 import Css exposing (..)
 import Effect
-import Html.Styled as Html exposing (Attribute, Html, text)
+import Html.Styled exposing (Attribute, Html, text)
 import Html.Styled.Attributes exposing (css)
 import Layouts exposing (Layout)
 import Page exposing (Page)

@@ -1,8 +1,7 @@
 module Pages.Navigation.Progress exposing (Model, Msg, page)
 
 import Effect exposing (Effect)
-import Html.Styled as Html exposing (Html)
-import Html.Styled.Attributes exposing (value)
+import Html.Styled exposing (Html)
 import Layouts exposing (Layout)
 import Page exposing (Page)
 import Playground exposing (playground)

@@ -1,7 +1,7 @@
 module Pages.Global.Site exposing (Model, Msg, page)
 
 import Effect
-import Html.Styled as Html exposing (Html, h1, h2, h3, h4, h5, p, text)
+import Html.Styled exposing (Html, h1, h2, h3, h4, h5, p, text)
 import Layouts exposing (Layout)
 import Page exposing (Page)
 import Playground exposing (playground)

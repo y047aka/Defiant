@@ -1,7 +1,7 @@
 module Pages.Element.Image exposing (Model, Msg, page)
 
 import Effect
-import Html.Styled as Html exposing (Html)
+import Html.Styled exposing (Html)
 import Html.Styled.Attributes exposing (src)
 import Layouts exposing (Layout)
 import Page exposing (Page)

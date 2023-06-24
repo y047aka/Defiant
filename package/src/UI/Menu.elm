@@ -171,23 +171,23 @@ itemBasis { tag, vertical, borderAndShadows, theme } additionalStyles =
             ]
 
         -- Link
-        , let
-            defaultPaletteOnHover =
-                Palette.init
-                    |> setBackground (rgba 0 0 0 0.03)
-                    |> setColor (rgba 0 0 0 0.95)
-
-            darkPaletteOnHover =
-                -- .ui.link.inverted.menu .item:hover
-                -- .ui.inverted.menu .dropdown.item:hover
-                -- .ui.inverted.menu .link.item:hover
-                -- .ui.inverted.menu a.item:hover
-                Palette.init
-                    |> setBackground (rgba 255 255 255 0.08)
-                    |> setColor (hex "#ffffff")
-          in
-          batch <|
+        , batch <|
             if tag [] [] == Html.a [] [] then
+                let
+                    defaultPaletteOnHover =
+                        Palette.init
+                            |> setBackground (rgba 0 0 0 0.03)
+                            |> setColor (rgba 0 0 0 0.95)
+
+                    darkPaletteOnHover =
+                        -- .ui.link.inverted.menu .item:hover
+                        -- .ui.inverted.menu .dropdown.item:hover
+                        -- .ui.inverted.menu .link.item:hover
+                        -- .ui.inverted.menu a.item:hover
+                        Palette.init
+                            |> setBackground (rgba 255 255 255 0.08)
+                            |> setColor (hex "#ffffff")
+                in
                 [ -- .ui.link.menu .item:hover
                   -- .ui.menu .dropdown.item:hover
                   -- .ui.menu .link.item:hover
@@ -214,16 +214,16 @@ itemBasis { tag, vertical, borderAndShadows, theme } additionalStyles =
                 []
 
         -- Vertical
-        , let
-            defaultPalette =
-                Palette.init |> setBackground (rgba 34 36 38 0.1)
-
-            darkPalette_ =
-                -- .ui.vertical.inverted.menu .item:before
-                Palette.init |> setBackground (rgba 255 255 255 0.08)
-          in
-          batch <|
+        , batch <|
             if vertical then
+                let
+                    defaultPalette =
+                        Palette.init |> setBackground (rgba 34 36 38 0.1)
+
+                    darkPalette_ =
+                        -- .ui.vertical.inverted.menu .item:before
+                        Palette.init |> setBackground (rgba 255 255 255 0.08)
+                in
                 [ -- .ui.vertical.menu .item
                   display block
                 , property "background" "none"
