@@ -224,7 +224,7 @@ iconHeader props =
                 , typography
                     (Typography.init
                         |> setFontSize (em 3)
-                        |> setLineHeight (int 1)
+                        |> setLineHeight (num 1)
                     )
                 , margin3 zero auto (rem 0.5)
                 , opacity (int 1)

@@ -140,7 +140,7 @@ itemBasis { tag, vertical, borderAndShadows, theme } additionalStyles =
         , typography
             (Typography.init
                 |> setFontWeight normal
-                |> setLineHeight (int 1)
+                |> setLineHeight (num 1)
                 |> setTextDecoration none
                 |> setTextTransform none
             )

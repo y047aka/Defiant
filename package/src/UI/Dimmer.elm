@@ -41,7 +41,7 @@ basis { isActive, theme } additionalStyles =
                 [ display none
                 , opacity zero
                 ]
-        , lineHeight (int 1)
+        , lineHeight (num 1)
         , prefixed [] "animation-fill-mode" "both"
         , prefixed [] "animation-duration" "0.5s"
         , property "-webkit-transition" "background-color 0.5s linear"

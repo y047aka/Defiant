@@ -81,7 +81,7 @@ basis additionalStyles =
                 , typography
                     (Typography.init
                         |> setFontSize (em 3)
-                        |> setLineHeight (int 1)
+                        |> setLineHeight (num 1)
                     )
                 , opacity (num 0.8)
                 ]

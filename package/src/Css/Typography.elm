@@ -15,7 +15,7 @@ module Css.Typography exposing
 
 -}
 
-import Css exposing (FontSize, FontStyle, FontWeight, Length, LengthOrNumber, Style, TextDecorationLine, TextTransform, batch, fontFamilies, fontSize, fontStyle, fontWeight, letterSpacing, lineHeight, qt, textDecoration, textTransform)
+import Css exposing (FontSize, FontStyle, FontWeight, Length, LengthOrNumber, Style, TextDecorationLine, TextTransform, batch, fontFamilies, fontSize, fontStyle, fontWeight, letterSpacing, property, qt, textDecoration, textTransform)
 
 
 type alias Typography =
@@ -60,7 +60,7 @@ typography t =
         |> Maybe.map fontWeight
         |> Maybe.withDefault (batch [])
     , t.lineHeight
-        |> Maybe.map lineHeight
+        |> Maybe.map (.value >> property "line-height")
         |> Maybe.withDefault (batch [])
     , t.letterSpacing
         |> Maybe.map letterSpacing

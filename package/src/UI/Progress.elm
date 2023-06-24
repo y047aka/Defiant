@@ -99,7 +99,7 @@ barBasis { value, indicating, state } =
     Html.styled Html.div
         [ -- .ui.progress .bar
           display block
-        , lineHeight (int 1)
+        , lineHeight (num 1)
         , position relative
         , width (pct value)
         , minWidth (em 2)

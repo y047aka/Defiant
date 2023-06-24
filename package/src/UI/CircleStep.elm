@@ -275,7 +275,7 @@ icon { state } =
               typography
                 (Typography.init
                     |> setFontSize (em 2.5)
-                    |> setLineHeight (int 1)
+                    |> setLineHeight (num 1)
                 )
             , margin4 zero (rem 1) zero zero
 

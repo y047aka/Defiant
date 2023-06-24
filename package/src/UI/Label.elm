@@ -47,7 +47,7 @@ basis options additionalStyles =
             (Typography.init
                 |> setFontSize (rem 0.85714286)
                 |> setFontWeight bold
-                |> setLineHeight (int 1)
+                |> setLineHeight (num 1)
                 |> setTextTransform none
             )
         , margin2 zero (em 0.14285714)

@@ -117,7 +117,7 @@ fontAwesome =
         , boxSizing borderBox
         , color (hex "#fff")
         , height (em 1.5)
-        , lineHeight (int 1)
+        , lineHeight (num 1)
         , maxWidth (em 5)
         , minWidth (em 1.5)
         , overflow hidden

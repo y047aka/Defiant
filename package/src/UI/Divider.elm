@@ -15,7 +15,7 @@ basis additionalStyles =
         , typography
             (Typography.init
                 |> setFontWeight bold
-                |> setLineHeight (int 1)
+                |> setLineHeight (num 1)
                 |> setTextTransform uppercase
                 |> setLetterSpacing (em 0.05)
             )
