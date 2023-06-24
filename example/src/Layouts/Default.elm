@@ -1,5 +1,6 @@
-module Layouts.Default exposing (Model, Msg, Props, layout)
+module Layouts.Default exposing (Model, Msg, view)
 
+import Browser exposing (Document)
 import Css exposing (..)
 import Css.FontAwesome exposing (fontAwesome)
 import Css.Global exposing (global)
@@ -12,9 +13,6 @@ import Effect exposing (Effect)
 import Html.Styled as Html exposing (Html, a, div, footer, header, li, main_, option, select, text, ul)
 import Html.Styled.Attributes exposing (css, href, selected, value)
 import Html.Styled.Events exposing (onInput)
-import Layout exposing (Layout)
-import Route exposing (Route)
-import Route.Path as Path
 import Shared
 import Shared.Msg
 import UI.Breadcrumb exposing (BreadcrumbItem, Divider(..), breadcrumbWithProps)
@@ -22,21 +20,7 @@ import UI.Container exposing (container)
 import UI.Header as Header
 import UI.Segment exposing (basicSegment)
 import Url exposing (Url)
-import View exposing (View)
-
-
-type alias Props =
-    {}
-
-
-layout : Props -> Shared.Model -> Route () -> Layout () Model Msg contentMsg
-layout props shared route =
-    Layout.new
-        { init = init
-        , update = update
-        , view = view props route shared
-        , subscriptions = \_ -> Sub.none
-        }
+import Url.Builder
 
 
 
@@ -47,11 +31,6 @@ type alias Model =
     ()
 
 
-init : () -> ( Model, Effect Msg )
-init _ =
-    ( (), Effect.none )
-
-
 
 -- UPDATE
 
@@ -60,69 +39,54 @@ type alias Msg =
     Shared.Msg.Msg
 
 
-update : Msg -> Model -> ( Model, Effect Msg )
-update msg model =
-    ( model, Effect.sendSharedMsg msg )
-
-
 
 -- VIEW
 
 
 view :
-    Props
-    -> Route ()
-    -> Shared.Model
-    ->
-        { toContentMsg : Msg -> contentMsg
-        , content : View contentMsg
-        , model : Model
-        }
-    -> View contentMsg
-view props route shared { toContentMsg, model, content } =
-    { title =
-        case route.url.path of
-            "/" ->
-                "Defiant"
-
-            _ ->
-                content.title ++ " | Defiant"
+    { theme : Theme }
+    -> { toContentMsg : Msg -> contentMsg }
+    -> { title : String, body : List (Html contentMsg) }
+    -> Document contentMsg
+view shared { toContentMsg } page =
+    { title = page.title
     , body =
-        [ global (normalize ++ additionalReset ++ globalCustomize ++ fontAwesome)
-        , global
-            [ Css.Global.body
-                [ property "display" "grid"
-                , property "grid-template-rows" "auto 1fr auto"
-                , palette Palette.init
-                , darkPalette shared.theme
-                    (Palette.init
-                        |> setBackground (hex "#1B1C1D")
-                        |> setColor (rgba 255 255 255 0.9)
-                    )
-                ]
-            ]
-        , Html.map toContentMsg <|
-            siteHeader shared { title = content.title, url = route.url }
-        , main_ []
-            [ basicSegment { theme = Light }
-                []
-                [ container
-                    [ css
-                        [ displayFlex
-                        , flexDirection column
-                        , property "gap" "50px"
-                        ]
+        List.map Html.toUnstyled <|
+            [ global (normalize ++ additionalReset ++ globalCustomize ++ fontAwesome)
+            , global
+                [ Css.Global.body
+                    [ property "display" "grid"
+                    , property "grid-template-rows" "auto 1fr auto"
+                    , palette Palette.init
+                    , darkPalette shared.theme
+                        (Palette.init
+                            |> setBackground (hex "#1B1C1D")
+                            |> setColor (rgba 255 255 255 0.9)
+                        )
                     ]
-                    content.body
                 ]
+            , Html.map toContentMsg <|
+                siteHeader shared Shared.Msg.ChangeTheme
+            , main_ []
+                [ basicSegment { theme = Light }
+                    []
+                    [ container
+                        [ css
+                            [ displayFlex
+                            , flexDirection column
+                            , property "gap" "50px"
+                            ]
+                        ]
+                        page.body
+                    ]
+                ]
+            , siteFooter shared
             ]
-        , siteFooter shared
-        ]
     }
 
 
-siteHeader : Shared.Model -> { title : String, url : Url } -> Html Msg
-siteHeader shared page =
+siteHeader : Shared.Model -> (Theme -> msg) -> Html msg
+siteHeader shared toMsg =
     header
         [ css
             [ position sticky
@@ -181,7 +145,7 @@ siteFooter options =
                     []
                     [ Header.header options [] [ text (categoryToString category) ]
                     , ul [ css [ padding zero, listStyle none ] ] <|
-                        List.map (\{ title, path } -> li [] [ a [ href (Path.toString path) ] [ text title ] ])
+                        List.map (\{ title, route } -> li [] [ a [ href (Url.Builder.absolute route []) ] [ text title ] ])
                             pages
                     ]
             )

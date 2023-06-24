@@ -3,7 +3,7 @@ module Main exposing (main)
 import Browser exposing (Document)
 import Browser.Navigation as Nav exposing (Key)
 import Data.Theme exposing (Theme(..))
-import Html.Styled
+import Layouts.Default
 import Pages.Top as Top
 import Url exposing (Url)
 import Url.Parser exposing (Parser, s)
@@ -78,13 +78,17 @@ routing url model =
 
 
 type Msg
-    = UrlRequested Browser.UrlRequest
+    = NoOp
+    | UrlRequested Browser.UrlRequest
     | UrlChanged Url
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case ( model.subModel, msg ) of
+        ( _, NoOp ) ->
+            ( model, Cmd.none )
+
         ( _, UrlRequested urlRequest ) ->
             case urlRequest of
                 Browser.Internal url ->
@@ -110,13 +114,13 @@ updateWith toModel toMsg model ( subModel, subCmd ) =
 
 view : Model -> Document Msg
 view model =
-    { title = "Defiant"
-    , body =
-        List.map Html.Styled.toUnstyled <|
+    Layouts.Default.view { theme = System } { toContentMsg = always NoOp } <|
+        { title = "Defiant"
+        , body =
             case model.subModel of
                 None ->
                     []
 
                 TopModel ->
                     Top.view { theme = System }
-    }
+        }
