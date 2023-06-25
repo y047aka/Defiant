@@ -107,10 +107,10 @@ siteHeader shared toMsg =
                 )
             ]
         ]
-        [ breadcrumbWithProps { divider = Slash, size = Nothing, theme = shared.theme }
-            (breadcrumbItems page)
-        , div []
-            [ select [ onInput (Theme.fromString >> Maybe.withDefault shared.theme >> (\theme -> Shared.Msg.ChangeTheme theme)) ] <|
+        [ -- breadcrumbWithProps { divider = Slash, size = Nothing, theme = shared.theme }
+          -- (breadcrumbItems page)
+          div []
+            [ select [ onInput (Theme.fromString >> Maybe.withDefault shared.theme >> (\theme -> toMsg theme)) ] <|
                 List.map (\theme -> option [ value (Theme.toString theme), selected (shared.theme == theme) ] [ text (Theme.toString theme) ])
                     [ System, Light, Dark ]
             ]
