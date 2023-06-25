@@ -60,7 +60,8 @@ main =
 
 
 type alias Model =
-    { key : Key
+    { url : Url
+    , key : Key
     , subModel : SubModel
     , shared : Shared.Model
     }
@@ -110,7 +111,8 @@ type SubModel
 
 init : () -> Url -> Key -> ( Model, Cmd Msg )
 init _ url key =
-    { key = key
+    { url = url
+    , key = key
     , subModel = TopModel
     , shared = Shared.init
     }
@@ -324,7 +326,8 @@ update msg model =
                     ( model, Nav.load url )
 
         ( _, UrlChanged url ) ->
-            routing url model
+            { model | url = url }
+                |> routing url
 
         ( _, Shared sharedMsg ) ->
             ( { model | shared = Shared.update sharedMsg model.shared }, Cmd.none )
@@ -446,8 +449,11 @@ map toModel toMsg model ( subModel, subCmd ) =
 
 view : Model -> Document Msg
 view model =
-    Layouts.Default.view model.shared { toContentMsg = Shared } <|
-        { title = "Defiant"
+    Layouts.Default.view model Shared <|
+        { title =
+            Url.Parser.parse parser model.url
+                |> Maybe.withDefault notFoundPage
+                |> .title
         , body =
             case model.subModel of
                 None ->

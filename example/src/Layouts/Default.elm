@@ -1,4 +1,4 @@
-module Layouts.Default exposing (Model, Msg, view)
+module Layouts.Default exposing (view)
 
 import Browser exposing (Document)
 import Css exposing (..)
@@ -21,33 +21,19 @@ import Url exposing (Url)
 import Url.Builder
 
 
-
--- MODEL
-
-
-type alias Model =
-    ()
-
-
-
--- UPDATE
-
-
-type alias Msg =
-    Shared.Msg
-
-
-
--- VIEW
-
-
 view :
-    Shared.Model
-    -> { toContentMsg : Msg -> contentMsg }
+    { a | url : Url, shared : Shared.Model }
+    -> (Shared.Msg -> contentMsg)
     -> { title : String, body : List (Html contentMsg) }
     -> Document contentMsg
-view shared { toContentMsg } page =
-    { title = page.title
+view { url, shared } toContentMsg page =
+    { title =
+        case url.path of
+            "/" ->
+                "Defiant"
+
+            _ ->
+                page.title ++ " | Defiant"
     , body =
         List.map Html.toUnstyled <|
             [ global (normalize ++ additionalReset ++ globalCustomize ++ fontAwesome)
@@ -64,7 +50,7 @@ view shared { toContentMsg } page =
                     ]
                 ]
             , Html.map toContentMsg <|
-                siteHeader shared Shared.ChangeTheme
+                siteHeader shared Shared.ChangeTheme { title = page.title, url = url }
             , main_ []
                 [ basicSegment { theme = Light }
                     []
@@ -83,8 +69,8 @@ view shared { toContentMsg } page =
     }
 
 
-siteHeader : Shared.Model -> (Theme -> msg) -> Html msg
-siteHeader shared toMsg =
+siteHeader : Shared.Model -> (Theme -> msg) -> { title : String, url : Url } -> Html msg
+siteHeader shared toMsg page =
     header
         [ css
             [ position sticky
@@ -105,9 +91,9 @@ siteHeader shared toMsg =
                 )
             ]
         ]
-        [ -- breadcrumbWithProps { divider = Slash, size = Nothing, theme = shared.theme }
-          -- (breadcrumbItems page)
-          div []
+        [ breadcrumbWithProps { divider = Slash, size = Nothing, theme = shared.theme }
+            (breadcrumbItems page)
+        , div []
             [ select [ onInput (Theme.fromString >> Maybe.withDefault shared.theme >> (\theme -> toMsg theme)) ] <|
                 List.map (\theme -> option [ value (Theme.toString theme), selected (shared.theme == theme) ] [ text (Theme.toString theme) ])
                     [ System, Light, Dark ]
