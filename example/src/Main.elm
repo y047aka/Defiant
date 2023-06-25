@@ -38,6 +38,7 @@ import Pages.Navigation.Progress as Progress
 import Pages.Navigation.Step as Step
 import Pages.Navigation.Tab as Tab
 import Pages.Top as Top
+import Shared
 import Url exposing (Url)
 import Url.Parser exposing ((</>), Parser, s)
 
@@ -61,6 +62,7 @@ main =
 type alias Model =
     { key : Key
     , subModel : SubModel
+    , shared : Shared.Model
     }
 
 
@@ -110,6 +112,7 @@ init : () -> Url -> Key -> ( Model, Cmd Msg )
 init _ url key =
     { key = key
     , subModel = TopModel
+    , shared = Shared.init
     }
         |> routing url
 
@@ -267,9 +270,9 @@ topPage =
 
 
 type Msg
-    = NoOp
-    | UrlRequested Browser.UrlRequest
+    = UrlRequested Browser.UrlRequest
     | UrlChanged Url
+    | Shared Shared.Msg
       -- Globals
     | SiteMsg Site.Msg
       -- Layouts
@@ -312,19 +315,19 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case ( model.subModel, msg ) of
-        ( _, NoOp ) ->
-            ( model, Cmd.none )
-
         ( _, UrlRequested urlRequest ) ->
             case urlRequest of
                 Browser.Internal url ->
                     ( model, Nav.pushUrl model.key (Url.toString url) )
 
-                Browser.External href ->
-                    ( model, Nav.load href )
+                Browser.External url ->
+                    ( model, Nav.load url )
 
         ( _, UrlChanged url ) ->
             routing url model
+
+        ( _, Shared sharedMsg ) ->
+            ( { model | shared = Shared.update sharedMsg model.shared }, Cmd.none )
 
         ( None, _ ) ->
             ( model, Cmd.none )
@@ -443,7 +446,7 @@ map toModel toMsg model ( subModel, subCmd ) =
 
 view : Model -> Document Msg
 view model =
-    Layouts.Default.view { theme = System } { toContentMsg = always NoOp } <|
+    Layouts.Default.view model.shared { toContentMsg = Shared } <|
         { title = "Defiant"
         , body =
             case model.subModel of
@@ -451,129 +454,129 @@ view model =
                     []
 
                 TopModel ->
-                    Top.view { theme = System }
+                    Top.view model.shared
 
                 SiteModel subModel ->
-                    Site.view { theme = System }
+                    Site.view model.shared
                         |> List.map (Html.Styled.map SiteMsg)
 
                 ContainerModel subModel ->
-                    Container.view { theme = System }
+                    Container.view model.shared
                         |> List.map (Html.Styled.map ContainerMsg)
 
                 GridModel subModel ->
-                    Grid.view { theme = System }
+                    Grid.view model.shared
                         |> List.map (Html.Styled.map GridMsg)
 
                 HolyGrailModel subModel ->
-                    HolyGrail.view { theme = System }
+                    HolyGrail.view model.shared
                         |> List.map (Html.Styled.map HolyGrailMsg)
 
                 ModalModel subModel ->
-                    Modal.view { theme = System } subModel
+                    Modal.view model.shared subModel
                         |> List.map (Html.Styled.map ModalMsg)
 
                 RailModel subModel ->
-                    Rail.view { theme = System }
+                    Rail.view model.shared
                         |> List.map (Html.Styled.map RailMsg)
 
                 ButtonModel subModel ->
-                    Button.view { theme = System } subModel
+                    Button.view model.shared subModel
                         |> List.map (Html.Styled.map ButtonMsg)
 
                 DimmerModel subModel ->
-                    Dimmer.view { theme = System } subModel
+                    Dimmer.view model.shared subModel
                         |> List.map (Html.Styled.map DimmerMsg)
 
                 DividerModel subModel ->
-                    Divider.view { theme = System }
+                    Divider.view model.shared
                         |> List.map (Html.Styled.map DividerMsg)
 
                 HeaderModel subModel ->
-                    Header.view { theme = System } subModel
+                    Header.view model.shared subModel
                         |> List.map (Html.Styled.map HeaderMsg)
 
                 IconModel subModel ->
-                    Icon.view { theme = System }
+                    Icon.view model.shared
                         |> List.map (Html.Styled.map IconMsg)
 
                 ImageModel subModel ->
-                    Image.view { theme = System }
+                    Image.view model.shared
                         |> List.map (Html.Styled.map ImageMsg)
 
                 LabelModel subModel ->
-                    Label.view { theme = System } subModel
+                    Label.view model.shared subModel
                         |> List.map (Html.Styled.map LabelMsg)
 
                 LoaderModel subModel ->
-                    Loader.view { theme = System }
+                    Loader.view model.shared
                         |> List.map (Html.Styled.map LoaderMsg)
 
                 MessageModel subModel ->
-                    Message.view { theme = System }
+                    Message.view model.shared
                         |> List.map (Html.Styled.map MessageMsg)
 
                 PlaceholderModel subModel ->
-                    Placeholder.view { theme = System }
+                    Placeholder.view model.shared
                         |> List.map (Html.Styled.map PlaceholderMsg)
 
                 SegmentModel subModel ->
-                    Segment.view { theme = System } subModel
+                    Segment.view model.shared subModel
                         |> List.map (Html.Styled.map SegmentMsg)
 
                 TextModel subModel ->
-                    Text.view { theme = System } subModel
+                    Text.view model.shared subModel
                         |> List.map (Html.Styled.map TextMsg)
 
                 AccordionModel subModel ->
-                    Accordion.view { theme = System } subModel
+                    Accordion.view model.shared subModel
                         |> List.map (Html.Styled.map AccordionMsg)
 
                 BreadcrumbModel subModel ->
-                    Breadcrumb.view { theme = System } subModel
+                    Breadcrumb.view model.shared subModel
                         |> List.map (Html.Styled.map BreadcrumbMsg)
 
                 MenuModel subModel ->
-                    Menu.view { theme = System }
+                    Menu.view model.shared
                         |> List.map (Html.Styled.map MenuMsg)
 
                 ProgressModel subModel ->
-                    Progress.view { theme = System } subModel
+                    Progress.view model.shared subModel
                         |> List.map (Html.Styled.map ProgressMsg)
 
                 StepModel subModel ->
-                    Step.view { theme = System } subModel
+                    Step.view model.shared subModel
                         |> List.map (Html.Styled.map StepMsg)
 
                 TabModel subModel ->
-                    Tab.view { theme = System }
+                    Tab.view model.shared
                         |> List.map (Html.Styled.map TabMsg)
 
                 CheckboxModel subModel ->
-                    Checkbox.view { theme = System } subModel
+                    Checkbox.view model.shared subModel
                         |> List.map (Html.Styled.map CheckboxMsg)
 
                 FormModel subModel ->
-                    Form.view { theme = System } subModel
+                    Form.view model.shared subModel
                         |> List.map (Html.Styled.map FormMsg)
 
                 InputModel subModel ->
-                    Input.view { theme = System }
+                    Input.view model.shared
                         |> List.map (Html.Styled.map InputMsg)
 
                 CardModel subModel ->
-                    Card.view { theme = System } subModel
+                    Card.view model.shared subModel
                         |> List.map (Html.Styled.map CardMsg)
 
                 ItemModel subModel ->
-                    Item.view { theme = System } subModel
+                    Item.view model.shared subModel
                         |> List.map (Html.Styled.map ItemMsg)
 
                 SortableDataModel subModel ->
-                    SortableData.view { theme = System } subModel
+                    SortableData.view model.shared subModel
                         |> List.map (Html.Styled.map SortableDataMsg)
 
                 TableModel subModel ->
-                    Table.view { theme = System } subModel
+                    Table.view model.shared subModel
                         |> List.map (Html.Styled.map TableMsg)
         }

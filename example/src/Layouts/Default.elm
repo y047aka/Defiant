@@ -9,12 +9,10 @@ import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
 import Data.PageSummary as PageSummary exposing (categoryToString)
 import Data.Theme as Theme exposing (Theme(..))
-import Effect exposing (Effect)
 import Html.Styled as Html exposing (Html, a, div, footer, header, li, main_, option, select, text, ul)
 import Html.Styled.Attributes exposing (css, href, selected, value)
 import Html.Styled.Events exposing (onInput)
 import Shared
-import Shared.Msg
 import UI.Breadcrumb exposing (BreadcrumbItem, Divider(..), breadcrumbWithProps)
 import UI.Container exposing (container)
 import UI.Header as Header
@@ -36,7 +34,7 @@ type alias Model =
 
 
 type alias Msg =
-    Shared.Msg.Msg
+    Shared.Msg
 
 
 
@@ -44,7 +42,7 @@ type alias Msg =
 
 
 view :
-    { theme : Theme }
+    Shared.Model
     -> { toContentMsg : Msg -> contentMsg }
     -> { title : String, body : List (Html contentMsg) }
     -> Document contentMsg
@@ -66,7 +64,7 @@ view shared { toContentMsg } page =
                     ]
                 ]
             , Html.map toContentMsg <|
-                siteHeader shared Shared.Msg.ChangeTheme
+                siteHeader shared Shared.ChangeTheme
             , main_ []
                 [ basicSegment { theme = Light }
                     []
