@@ -1,11 +1,23 @@
 module Data.PageSummary exposing
     ( PageSummary, all, summariesByCagetgory
+    , sitePage
+    , containerPage, gridPage, holyGrailPage, modalPage, railPage
+    , buttonPage, dimmerPage, dividerPage, headerPage, iconPage, imagePage, labelPage, loaderPage, messagePage, placeholderPage, segmentPage, textPage
+    , accordionPage, breadcrumbPage, menuPage, progressPage, stepPage, tabPage
+    , checkboxPage, formPage, inputPage
+    , cardPage, itemPage, sortableDataPage, tablePage
     , Category(..), categoryToString
     )
 
 {-|
 
 @docs PageSummary, all, summariesByCagetgory
+@docs sitePage
+@docs containerPage, gridPage, holyGrailPage, modalPage, railPage
+@docs buttonPage, dimmerPage, dividerPage, headerPage, iconPage, imagePage, labelPage, loaderPage, messagePage, placeholderPage, segmentPage, textPage
+@docs accordionPage, breadcrumbPage, menuPage, progressPage, stepPage, tabPage
+@docs checkboxPage, formPage, inputPage
+@docs cardPage, itemPage, sortableDataPage, tablePage
 @docs Category, categoryToString
 
 -}

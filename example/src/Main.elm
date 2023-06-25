@@ -2,7 +2,7 @@ module Main exposing (main)
 
 import Browser exposing (Document)
 import Browser.Navigation as Nav exposing (Key)
-import Data.PageSummary as PageSummary exposing (PageSummary)
+import Data.PageSummary as PageSummary exposing (..)
 import Data.Theme exposing (Theme(..))
 import Html.Styled
 import Layouts.Default
@@ -123,10 +123,16 @@ init _ url key =
 -- ROUTER
 
 
-parser : Parser (PageSummary -> a) a
-parser =
+routing : Url -> Model -> ( Model, Cmd Msg )
+routing url model =
+    Url.Parser.parse (parser model) url
+        |> Maybe.withDefault ( { model | subModel = None }, Cmd.none )
+
+
+parser : Model -> Parser (( Model, Cmd Msg ) -> a) a
+parser model =
     let
-        pageParser route =
+        fromPageSummary { route } =
             case route of
                 [] ->
                     Url.Parser.top
@@ -137,125 +143,52 @@ parser =
                 _ ->
                     Url.Parser.top
     in
-    Url.Parser.oneOf <|
-        List.map (\page -> Url.Parser.map page (pageParser page.route)) (topPage :: PageSummary.all)
+    Url.Parser.oneOf
+        [ fromPageSummary topPage |> Url.Parser.map ( { model | subModel = TopModel }, Cmd.none )
 
+        -- Globals
+        , fromPageSummary sitePage |> Url.Parser.map ( { model | subModel = SiteModel Site.init }, Cmd.none )
 
-routing : Url -> Model -> ( Model, Cmd Msg )
-routing url model =
-    Url.Parser.parse parser url
-        |> Maybe.withDefault notFoundPage
-        |> (\{ title } ->
-                case title of
-                    "Top" ->
-                        ( { model | subModel = TopModel }, Cmd.none )
+        -- Layouts
+        , fromPageSummary containerPage |> Url.Parser.map ( { model | subModel = ContainerModel Container.init }, Cmd.none )
+        , fromPageSummary gridPage |> Url.Parser.map ( { model | subModel = GridModel Grid.init }, Cmd.none )
+        , fromPageSummary holyGrailPage |> Url.Parser.map ( { model | subModel = HolyGrailModel HolyGrail.init }, Cmd.none )
+        , fromPageSummary modalPage |> Url.Parser.map ( { model | subModel = ModalModel Modal.init }, Cmd.none )
+        , fromPageSummary railPage |> Url.Parser.map ( { model | subModel = RailModel Rail.init }, Cmd.none )
 
-                    "Site" ->
-                        ( { model | subModel = SiteModel Site.init }, Cmd.none )
+        -- Elements
+        , fromPageSummary buttonPage |> Url.Parser.map ( { model | subModel = ButtonModel Button.init }, Cmd.none )
+        , fromPageSummary dimmerPage |> Url.Parser.map ( { model | subModel = DimmerModel Dimmer.init }, Cmd.none )
+        , fromPageSummary dividerPage |> Url.Parser.map ( { model | subModel = DividerModel Divider.init }, Cmd.none )
+        , fromPageSummary headerPage |> Url.Parser.map ( { model | subModel = HeaderModel Header.init }, Cmd.none )
+        , fromPageSummary iconPage |> Url.Parser.map ( { model | subModel = IconModel Icon.init }, Cmd.none )
+        , fromPageSummary imagePage |> Url.Parser.map ( { model | subModel = ImageModel Image.init }, Cmd.none )
+        , fromPageSummary labelPage |> Url.Parser.map ( { model | subModel = LabelModel Label.init }, Cmd.none )
+        , fromPageSummary loaderPage |> Url.Parser.map ( { model | subModel = LoaderModel Loader.init }, Cmd.none )
+        , fromPageSummary messagePage |> Url.Parser.map ( { model | subModel = MessageModel Message.init }, Cmd.none )
+        , fromPageSummary placeholderPage |> Url.Parser.map ( { model | subModel = PlaceholderModel Placeholder.init }, Cmd.none )
+        , fromPageSummary segmentPage |> Url.Parser.map ( { model | subModel = SegmentModel Segment.init }, Cmd.none )
+        , fromPageSummary textPage |> Url.Parser.map ( { model | subModel = TextModel Text.init }, Cmd.none )
 
-                    "Container" ->
-                        ( { model | subModel = ContainerModel Container.init }, Cmd.none )
+        -- Navigations
+        , fromPageSummary accordionPage |> Url.Parser.map ( { model | subModel = AccordionModel Accordion.init }, Cmd.none )
+        , fromPageSummary breadcrumbPage |> Url.Parser.map ( { model | subModel = BreadcrumbModel Breadcrumb.init }, Cmd.none )
+        , fromPageSummary menuPage |> Url.Parser.map ( { model | subModel = MenuModel Menu.init }, Cmd.none )
+        , fromPageSummary progressPage |> Url.Parser.map (Progress.init |> updateWith ProgressModel ProgressMsg model)
+        , fromPageSummary stepPage |> Url.Parser.map ( { model | subModel = StepModel Step.init }, Cmd.none )
+        , fromPageSummary tabPage |> Url.Parser.map ( { model | subModel = TabModel Tab.init }, Cmd.none )
 
-                    "Grid" ->
-                        ( { model | subModel = GridModel Grid.init }, Cmd.none )
+        -- Forms
+        , fromPageSummary checkboxPage |> Url.Parser.map ( { model | subModel = CheckboxModel Checkbox.init }, Cmd.none )
+        , fromPageSummary formPage |> Url.Parser.map ( { model | subModel = FormModel Form.init }, Cmd.none )
+        , fromPageSummary inputPage |> Url.Parser.map ( { model | subModel = InputModel Input.init }, Cmd.none )
 
-                    "Holy Grail" ->
-                        ( { model | subModel = HolyGrailModel HolyGrail.init }, Cmd.none )
-
-                    "Modal" ->
-                        ( { model | subModel = ModalModel Modal.init }, Cmd.none )
-
-                    "Rail" ->
-                        ( { model | subModel = RailModel Rail.init }, Cmd.none )
-
-                    "Button" ->
-                        ( { model | subModel = ButtonModel Button.init }, Cmd.none )
-
-                    "Dimmer" ->
-                        ( { model | subModel = DimmerModel Dimmer.init }, Cmd.none )
-
-                    "Divider" ->
-                        ( { model | subModel = DividerModel Divider.init }, Cmd.none )
-
-                    "Header" ->
-                        ( { model | subModel = HeaderModel Header.init }, Cmd.none )
-
-                    "Icon" ->
-                        ( { model | subModel = IconModel Icon.init }, Cmd.none )
-
-                    "Image" ->
-                        ( { model | subModel = ImageModel Image.init }, Cmd.none )
-
-                    "Label" ->
-                        ( { model | subModel = LabelModel Label.init }, Cmd.none )
-
-                    "Loader" ->
-                        ( { model | subModel = LoaderModel Loader.init }, Cmd.none )
-
-                    "Message" ->
-                        ( { model | subModel = MessageModel Message.init }, Cmd.none )
-
-                    "Placeholder" ->
-                        ( { model | subModel = PlaceholderModel Placeholder.init }, Cmd.none )
-
-                    "Segment" ->
-                        ( { model | subModel = SegmentModel Segment.init }, Cmd.none )
-
-                    "Text" ->
-                        ( { model | subModel = TextModel Text.init }, Cmd.none )
-
-                    "Accordion" ->
-                        ( { model | subModel = AccordionModel Accordion.init }, Cmd.none )
-
-                    "Breadcrumb" ->
-                        ( { model | subModel = BreadcrumbModel Breadcrumb.init }, Cmd.none )
-
-                    "Menu" ->
-                        ( { model | subModel = MenuModel Menu.init }, Cmd.none )
-
-                    "Progress" ->
-                        Progress.init
-                            |> updateWith ProgressModel ProgressMsg model
-
-                    "Step" ->
-                        ( { model | subModel = StepModel Step.init }, Cmd.none )
-
-                    "Tab" ->
-                        ( { model | subModel = TabModel Tab.init }, Cmd.none )
-
-                    "Checkbox" ->
-                        ( { model | subModel = CheckboxModel Checkbox.init }, Cmd.none )
-
-                    "Form" ->
-                        ( { model | subModel = FormModel Form.init }, Cmd.none )
-
-                    "Input" ->
-                        ( { model | subModel = InputModel Input.init }, Cmd.none )
-
-                    "Card" ->
-                        ( { model | subModel = CardModel Card.init }, Cmd.none )
-
-                    "Item" ->
-                        ( { model | subModel = ItemModel Item.init }, Cmd.none )
-
-                    "Sortable Data" ->
-                        ( { model | subModel = SortableDataModel SortableData.init }, Cmd.none )
-
-                    "Table" ->
-                        ( { model | subModel = TableModel Table.init }, Cmd.none )
-
-                    _ ->
-                        ( { model | subModel = None }, Cmd.none )
-           )
-
-
-notFoundPage : PageSummary
-notFoundPage =
-    { title = "Not Found"
-    , description = ""
-    , category = PageSummary.None
-    , route = [ "404" ]
-    }
+        -- Data Display
+        , fromPageSummary cardPage |> Url.Parser.map ( { model | subModel = CardModel Card.init }, Cmd.none )
+        , fromPageSummary itemPage |> Url.Parser.map ( { model | subModel = ItemModel Item.init }, Cmd.none )
+        , fromPageSummary sortableDataPage |> Url.Parser.map ( { model | subModel = SortableDataModel SortableData.init }, Cmd.none )
+        , fromPageSummary tablePage |> Url.Parser.map ( { model | subModel = TableModel Table.init }, Cmd.none )
+        ]
 
 
 topPage : PageSummary
@@ -449,11 +382,27 @@ updateWith toModel toMsg model ( subModel, subCmd ) =
 
 view : Model -> Document Msg
 view model =
+    let
+        fromPageSummary route =
+            case route of
+                [] ->
+                    Url.Parser.top
+
+                [ category, page ] ->
+                    s category </> s page
+
+                _ ->
+                    Url.Parser.top
+
+        parser_ =
+            Url.Parser.oneOf <|
+                List.map (\page -> Url.Parser.map page (fromPageSummary page.route)) (topPage :: PageSummary.all)
+    in
     Layouts.Default.view model Shared <|
         { title =
-            Url.Parser.parse parser model.url
-                |> Maybe.withDefault notFoundPage
-                |> .title
+            Url.Parser.parse parser_ model.url
+                |> Maybe.map .title
+                |> Maybe.withDefault "Not Found"
         , body =
             case model.subModel of
                 None ->
