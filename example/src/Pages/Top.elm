@@ -1,9 +1,9 @@
 module Pages.Top exposing (Model, Msg, init, update, view)
 
 import Data.PageSummary as PageSummary exposing (categoryToString)
-import Data.Theme exposing (Theme)
 import Html.Styled exposing (Html, a, text)
 import Html.Styled.Attributes exposing (href)
+import Shared
 import UI.Card as Card exposing (card, cards)
 import UI.Header as Header
 import UI.Segment exposing (basicSegment)
@@ -40,14 +40,14 @@ update _ model =
 -- VIEW
 
 
-view : { theme : Theme } -> List (Html msg)
-view options =
+view : Shared.Model -> List (Html msg)
+view shared =
     let
         item { title, description, route } =
-            card options
+            card shared
                 []
                 [ a [ href (Url.Builder.absolute route []) ]
-                    [ Card.content options
+                    [ Card.content shared
                         []
                         { header = [ text title ]
                         , meta = []
@@ -58,9 +58,9 @@ view options =
     in
     List.map
         (\( category, pages ) ->
-            basicSegment options
+            basicSegment shared
                 []
-                [ Header.header options [] [ text (categoryToString category) ]
+                [ Header.header shared [] [ text (categoryToString category) ]
                 , cards [] (List.map item pages)
                 ]
         )
