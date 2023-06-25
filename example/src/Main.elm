@@ -215,7 +215,7 @@ routing url model =
 
                     "Progress" ->
                         Progress.init
-                            |> map ProgressModel ProgressMsg model
+                            |> updateWith ProgressModel ProgressMsg model
 
                     "Step" ->
                         ( { model | subModel = StepModel Step.init }, Cmd.none )
@@ -403,7 +403,7 @@ update msg model =
 
         ( ProgressModel subModel, ProgressMsg subMsg ) ->
             Progress.update subMsg subModel
-                |> map ProgressModel ProgressMsg model
+                |> updateWith ProgressModel ProgressMsg model
 
         ( StepModel subModel, StepMsg subMsg ) ->
             ( { model | subModel = StepModel (Step.update subMsg subModel) }, Cmd.none )
@@ -436,8 +436,8 @@ update msg model =
             ( model, Cmd.none )
 
 
-map : (subModel -> SubModel) -> (subMsg -> Msg) -> Model -> ( subModel, Cmd subMsg ) -> ( Model, Cmd Msg )
-map toModel toMsg model ( subModel, subCmd ) =
+updateWith : (subModel -> SubModel) -> (subMsg -> Msg) -> Model -> ( subModel, Cmd subMsg ) -> ( Model, Cmd Msg )
+updateWith toModel toMsg model ( subModel, subCmd ) =
     ( { model | subModel = toModel subModel }
     , Cmd.map toMsg subCmd
     )
