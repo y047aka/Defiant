@@ -174,7 +174,7 @@ parser model =
         , fromPageSummary accordionPage |> Url.Parser.map ( { model | subModel = AccordionModel Accordion.init }, Cmd.none )
         , fromPageSummary breadcrumbPage |> Url.Parser.map ( { model | subModel = BreadcrumbModel Breadcrumb.init }, Cmd.none )
         , fromPageSummary menuPage |> Url.Parser.map ( { model | subModel = MenuModel Menu.init }, Cmd.none )
-        , fromPageSummary progressPage |> Url.Parser.map (Progress.init |> updateWith ProgressModel ProgressMsg model)
+        , fromPageSummary progressPage |> Url.Parser.map (Progress.init |> updateWith ProgressModel (ProgressMsg >> Page) model)
         , fromPageSummary stepPage |> Url.Parser.map ( { model | subModel = StepModel Step.init }, Cmd.none )
         , fromPageSummary tabPage |> Url.Parser.map ( { model | subModel = TabModel Tab.init }, Cmd.none )
 
@@ -207,9 +207,12 @@ topPage =
 type Msg
     = UrlRequested Browser.UrlRequest
     | UrlChanged Url
+    | Page PageMsg
     | Shared Shared.Msg
-      -- Globals
-    | SiteMsg Site.Msg
+
+
+type PageMsg
+    = SiteMsg Site.Msg
       -- Layouts
     | ContainerMsg Container.Msg
     | GridMsg Grid.Msg
@@ -249,8 +252,8 @@ type Msg
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    case ( model.subModel, msg ) of
-        ( _, UrlRequested urlRequest ) ->
+    case msg of
+        UrlRequested urlRequest ->
             case urlRequest of
                 Browser.Internal url ->
                     ( model, Nav.pushUrl model.key (Url.toString url) )
@@ -258,115 +261,117 @@ update msg model =
                 Browser.External url ->
                     ( model, Nav.load url )
 
-        ( _, UrlChanged url ) ->
+        UrlChanged url ->
             { model | url = url }
                 |> routing url
 
-        ( _, Shared sharedMsg ) ->
+        Shared sharedMsg ->
             ( { model | shared = Shared.update sharedMsg model.shared }, Cmd.none )
 
-        ( None, _ ) ->
-            ( model, Cmd.none )
+        Page pageMsg ->
+            case ( model.subModel, pageMsg ) of
+                ( None, _ ) ->
+                    ( model, Cmd.none )
 
-        ( TopModel, _ ) ->
-            ( model, Cmd.none )
+                ( TopModel, _ ) ->
+                    ( model, Cmd.none )
 
-        ( SiteModel _, _ ) ->
-            ( model, Cmd.none )
+                ( SiteModel _, _ ) ->
+                    ( model, Cmd.none )
 
-        ( ContainerModel _, _ ) ->
-            ( model, Cmd.none )
+                ( ContainerModel _, _ ) ->
+                    ( model, Cmd.none )
 
-        ( GridModel _, _ ) ->
-            ( model, Cmd.none )
+                ( GridModel _, _ ) ->
+                    ( model, Cmd.none )
 
-        ( HolyGrailModel _, _ ) ->
-            ( model, Cmd.none )
+                ( HolyGrailModel _, _ ) ->
+                    ( model, Cmd.none )
 
-        ( ModalModel subModel, ModalMsg subMsg ) ->
-            ( { model | subModel = ModalModel (Modal.update subMsg subModel) }, Cmd.none )
+                ( ModalModel subModel, ModalMsg subMsg ) ->
+                    ( { model | subModel = ModalModel (Modal.update subMsg subModel) }, Cmd.none )
 
-        ( RailModel _, _ ) ->
-            ( model, Cmd.none )
+                ( RailModel _, _ ) ->
+                    ( model, Cmd.none )
 
-        ( ButtonModel subModel, ButtonMsg subMsg ) ->
-            ( { model | subModel = ButtonModel (Button.update subMsg subModel) }, Cmd.none )
+                ( ButtonModel subModel, ButtonMsg subMsg ) ->
+                    ( { model | subModel = ButtonModel (Button.update subMsg subModel) }, Cmd.none )
 
-        ( DimmerModel subModel, DimmerMsg subMsg ) ->
-            ( { model | subModel = DimmerModel (Dimmer.update subMsg subModel) }, Cmd.none )
+                ( DimmerModel subModel, DimmerMsg subMsg ) ->
+                    ( { model | subModel = DimmerModel (Dimmer.update subMsg subModel) }, Cmd.none )
 
-        ( DividerModel subModel, DividerMsg subMsg ) ->
-            ( { model | subModel = DividerModel (Divider.update subMsg subModel) }, Cmd.none )
+                ( DividerModel subModel, DividerMsg subMsg ) ->
+                    ( { model | subModel = DividerModel (Divider.update subMsg subModel) }, Cmd.none )
 
-        ( HeaderModel subModel, HeaderMsg subMsg ) ->
-            ( { model | subModel = HeaderModel (Header.update subMsg subModel) }, Cmd.none )
+                ( HeaderModel subModel, HeaderMsg subMsg ) ->
+                    ( { model | subModel = HeaderModel (Header.update subMsg subModel) }, Cmd.none )
 
-        ( IconModel subModel, IconMsg subMsg ) ->
-            ( { model | subModel = IconModel (Icon.update subMsg subModel) }, Cmd.none )
+                ( IconModel subModel, IconMsg subMsg ) ->
+                    ( { model | subModel = IconModel (Icon.update subMsg subModel) }, Cmd.none )
 
-        ( ImageModel subModel, ImageMsg subMsg ) ->
-            ( { model | subModel = ImageModel (Image.update subMsg subModel) }, Cmd.none )
+                ( ImageModel subModel, ImageMsg subMsg ) ->
+                    ( { model | subModel = ImageModel (Image.update subMsg subModel) }, Cmd.none )
 
-        ( LabelModel subModel, LabelMsg subMsg ) ->
-            ( { model | subModel = LabelModel (Label.update subMsg subModel) }, Cmd.none )
+                ( LabelModel subModel, LabelMsg subMsg ) ->
+                    ( { model | subModel = LabelModel (Label.update subMsg subModel) }, Cmd.none )
 
-        ( LoaderModel subModel, LoaderMsg subMsg ) ->
-            ( { model | subModel = LoaderModel (Loader.update subMsg subModel) }, Cmd.none )
+                ( LoaderModel subModel, LoaderMsg subMsg ) ->
+                    ( { model | subModel = LoaderModel (Loader.update subMsg subModel) }, Cmd.none )
 
-        ( MessageModel subModel, MessageMsg subMsg ) ->
-            ( { model | subModel = MessageModel (Message.update subMsg subModel) }, Cmd.none )
+                ( MessageModel subModel, MessageMsg subMsg ) ->
+                    ( { model | subModel = MessageModel (Message.update subMsg subModel) }, Cmd.none )
 
-        ( PlaceholderModel subModel, PlaceholderMsg subMsg ) ->
-            ( { model | subModel = PlaceholderModel (Placeholder.update subMsg subModel) }, Cmd.none )
+                ( PlaceholderModel subModel, PlaceholderMsg subMsg ) ->
+                    ( { model | subModel = PlaceholderModel (Placeholder.update subMsg subModel) }, Cmd.none )
 
-        ( SegmentModel subModel, SegmentMsg subMsg ) ->
-            ( { model | subModel = SegmentModel (Segment.update subMsg subModel) }, Cmd.none )
+                ( SegmentModel subModel, SegmentMsg subMsg ) ->
+                    ( { model | subModel = SegmentModel (Segment.update subMsg subModel) }, Cmd.none )
 
-        ( TextModel subModel, TextMsg subMsg ) ->
-            ( { model | subModel = TextModel (Text.update subMsg subModel) }, Cmd.none )
+                ( TextModel subModel, TextMsg subMsg ) ->
+                    ( { model | subModel = TextModel (Text.update subMsg subModel) }, Cmd.none )
 
-        ( AccordionModel subModel, AccordionMsg subMsg ) ->
-            ( { model | subModel = AccordionModel (Accordion.update subMsg subModel) }, Cmd.none )
+                ( AccordionModel subModel, AccordionMsg subMsg ) ->
+                    ( { model | subModel = AccordionModel (Accordion.update subMsg subModel) }, Cmd.none )
 
-        ( BreadcrumbModel subModel, BreadcrumbMsg subMsg ) ->
-            ( { model | subModel = BreadcrumbModel (Breadcrumb.update subMsg subModel) }, Cmd.none )
+                ( BreadcrumbModel subModel, BreadcrumbMsg subMsg ) ->
+                    ( { model | subModel = BreadcrumbModel (Breadcrumb.update subMsg subModel) }, Cmd.none )
 
-        ( MenuModel subModel, MenuMsg subMsg ) ->
-            ( { model | subModel = MenuModel (Menu.update subMsg subModel) }, Cmd.none )
+                ( MenuModel subModel, MenuMsg subMsg ) ->
+                    ( { model | subModel = MenuModel (Menu.update subMsg subModel) }, Cmd.none )
 
-        ( ProgressModel subModel, ProgressMsg subMsg ) ->
-            Progress.update subMsg subModel
-                |> updateWith ProgressModel ProgressMsg model
+                ( ProgressModel subModel, ProgressMsg subMsg ) ->
+                    Progress.update subMsg subModel
+                        |> updateWith ProgressModel (ProgressMsg >> Page) model
 
-        ( StepModel subModel, StepMsg subMsg ) ->
-            ( { model | subModel = StepModel (Step.update subMsg subModel) }, Cmd.none )
+                ( StepModel subModel, StepMsg subMsg ) ->
+                    ( { model | subModel = StepModel (Step.update subMsg subModel) }, Cmd.none )
 
-        ( TabModel subModel, TabMsg subMsg ) ->
-            ( { model | subModel = TabModel (Tab.update subMsg subModel) }, Cmd.none )
+                ( TabModel subModel, TabMsg subMsg ) ->
+                    ( { model | subModel = TabModel (Tab.update subMsg subModel) }, Cmd.none )
 
-        ( CheckboxModel subModel, CheckboxMsg subMsg ) ->
-            ( { model | subModel = CheckboxModel (Checkbox.update subMsg subModel) }, Cmd.none )
+                ( CheckboxModel subModel, CheckboxMsg subMsg ) ->
+                    ( { model | subModel = CheckboxModel (Checkbox.update subMsg subModel) }, Cmd.none )
 
-        ( FormModel subModel, FormMsg subMsg ) ->
-            ( { model | subModel = FormModel (Form.update subMsg subModel) }, Cmd.none )
+                ( FormModel subModel, FormMsg subMsg ) ->
+                    ( { model | subModel = FormModel (Form.update subMsg subModel) }, Cmd.none )
 
-        ( InputModel subModel, InputMsg subMsg ) ->
-            ( { model | subModel = InputModel (Input.update subMsg subModel) }, Cmd.none )
+                ( InputModel subModel, InputMsg subMsg ) ->
+                    ( { model | subModel = InputModel (Input.update subMsg subModel) }, Cmd.none )
 
-        ( CardModel subModel, CardMsg subMsg ) ->
-            ( { model | subModel = CardModel (Card.update subMsg subModel) }, Cmd.none )
+                ( CardModel subModel, CardMsg subMsg ) ->
+                    ( { model | subModel = CardModel (Card.update subMsg subModel) }, Cmd.none )
 
-        ( ItemModel subModel, ItemMsg subMsg ) ->
-            ( { model | subModel = ItemModel (Item.update subMsg subModel) }, Cmd.none )
+                ( ItemModel subModel, ItemMsg subMsg ) ->
+                    ( { model | subModel = ItemModel (Item.update subMsg subModel) }, Cmd.none )
 
-        ( SortableDataModel subModel, SortableDataMsg subMsg ) ->
-            ( { model | subModel = SortableDataModel (SortableData.update subMsg subModel) }, Cmd.none )
+                ( SortableDataModel subModel, SortableDataMsg subMsg ) ->
+                    ( { model | subModel = SortableDataModel (SortableData.update subMsg subModel) }, Cmd.none )
 
-        ( TableModel subModel, TableMsg subMsg ) ->
-            ( { model | subModel = TableModel (Table.update subMsg subModel) }, Cmd.none )
+                ( TableModel subModel, TableMsg subMsg ) ->
+                    ( { model | subModel = TableModel (Table.update subMsg subModel) }, Cmd.none )
 
-        _ ->
-            ( model, Cmd.none )
+                _ ->
+                    ( model, Cmd.none )
 
 
 updateWith : (subModel -> SubModel) -> (subMsg -> Msg) -> Model -> ( subModel, Cmd subMsg ) -> ( Model, Cmd Msg )
@@ -413,125 +418,125 @@ view model =
 
                 SiteModel subModel ->
                     Site.view model.shared
-                        |> List.map (Html.Styled.map SiteMsg)
+                        |> List.map (Html.Styled.map (SiteMsg >> Page))
 
                 ContainerModel subModel ->
                     Container.view model.shared
-                        |> List.map (Html.Styled.map ContainerMsg)
+                        |> List.map (Html.Styled.map (ContainerMsg >> Page))
 
                 GridModel subModel ->
                     Grid.view model.shared
-                        |> List.map (Html.Styled.map GridMsg)
+                        |> List.map (Html.Styled.map (GridMsg >> Page))
 
                 HolyGrailModel subModel ->
                     HolyGrail.view model.shared
-                        |> List.map (Html.Styled.map HolyGrailMsg)
+                        |> List.map (Html.Styled.map (HolyGrailMsg >> Page))
 
                 ModalModel subModel ->
                     Modal.view model.shared subModel
-                        |> List.map (Html.Styled.map ModalMsg)
+                        |> List.map (Html.Styled.map (ModalMsg >> Page))
 
                 RailModel subModel ->
                     Rail.view model.shared
-                        |> List.map (Html.Styled.map RailMsg)
+                        |> List.map (Html.Styled.map (RailMsg >> Page))
 
                 ButtonModel subModel ->
                     Button.view model.shared subModel
-                        |> List.map (Html.Styled.map ButtonMsg)
+                        |> List.map (Html.Styled.map (ButtonMsg >> Page))
 
                 DimmerModel subModel ->
                     Dimmer.view model.shared subModel
-                        |> List.map (Html.Styled.map DimmerMsg)
+                        |> List.map (Html.Styled.map (DimmerMsg >> Page))
 
                 DividerModel subModel ->
                     Divider.view model.shared
-                        |> List.map (Html.Styled.map DividerMsg)
+                        |> List.map (Html.Styled.map (DividerMsg >> Page))
 
                 HeaderModel subModel ->
                     Header.view model.shared subModel
-                        |> List.map (Html.Styled.map HeaderMsg)
+                        |> List.map (Html.Styled.map (HeaderMsg >> Page))
 
                 IconModel subModel ->
                     Icon.view model.shared
-                        |> List.map (Html.Styled.map IconMsg)
+                        |> List.map (Html.Styled.map (IconMsg >> Page))
 
                 ImageModel subModel ->
                     Image.view model.shared
-                        |> List.map (Html.Styled.map ImageMsg)
+                        |> List.map (Html.Styled.map (ImageMsg >> Page))
 
                 LabelModel subModel ->
                     Label.view model.shared subModel
-                        |> List.map (Html.Styled.map LabelMsg)
+                        |> List.map (Html.Styled.map (LabelMsg >> Page))
 
                 LoaderModel subModel ->
                     Loader.view model.shared
-                        |> List.map (Html.Styled.map LoaderMsg)
+                        |> List.map (Html.Styled.map (LoaderMsg >> Page))
 
                 MessageModel subModel ->
                     Message.view model.shared
-                        |> List.map (Html.Styled.map MessageMsg)
+                        |> List.map (Html.Styled.map (MessageMsg >> Page))
 
                 PlaceholderModel subModel ->
                     Placeholder.view model.shared
-                        |> List.map (Html.Styled.map PlaceholderMsg)
+                        |> List.map (Html.Styled.map (PlaceholderMsg >> Page))
 
                 SegmentModel subModel ->
                     Segment.view model.shared subModel
-                        |> List.map (Html.Styled.map SegmentMsg)
+                        |> List.map (Html.Styled.map (SegmentMsg >> Page))
 
                 TextModel subModel ->
                     Text.view model.shared subModel
-                        |> List.map (Html.Styled.map TextMsg)
+                        |> List.map (Html.Styled.map (TextMsg >> Page))
 
                 AccordionModel subModel ->
                     Accordion.view model.shared subModel
-                        |> List.map (Html.Styled.map AccordionMsg)
+                        |> List.map (Html.Styled.map (AccordionMsg >> Page))
 
                 BreadcrumbModel subModel ->
                     Breadcrumb.view model.shared subModel
-                        |> List.map (Html.Styled.map BreadcrumbMsg)
+                        |> List.map (Html.Styled.map (BreadcrumbMsg >> Page))
 
                 MenuModel subModel ->
                     Menu.view model.shared
-                        |> List.map (Html.Styled.map MenuMsg)
+                        |> List.map (Html.Styled.map (MenuMsg >> Page))
 
                 ProgressModel subModel ->
                     Progress.view model.shared subModel
-                        |> List.map (Html.Styled.map ProgressMsg)
+                        |> List.map (Html.Styled.map (ProgressMsg >> Page))
 
                 StepModel subModel ->
                     Step.view model.shared subModel
-                        |> List.map (Html.Styled.map StepMsg)
+                        |> List.map (Html.Styled.map (StepMsg >> Page))
 
                 TabModel subModel ->
                     Tab.view model.shared
-                        |> List.map (Html.Styled.map TabMsg)
+                        |> List.map (Html.Styled.map (TabMsg >> Page))
 
                 CheckboxModel subModel ->
                     Checkbox.view model.shared subModel
-                        |> List.map (Html.Styled.map CheckboxMsg)
+                        |> List.map (Html.Styled.map (CheckboxMsg >> Page))
 
                 FormModel subModel ->
                     Form.view model.shared subModel
-                        |> List.map (Html.Styled.map FormMsg)
+                        |> List.map (Html.Styled.map (FormMsg >> Page))
 
                 InputModel subModel ->
                     Input.view model.shared
-                        |> List.map (Html.Styled.map InputMsg)
+                        |> List.map (Html.Styled.map (InputMsg >> Page))
 
                 CardModel subModel ->
                     Card.view model.shared subModel
-                        |> List.map (Html.Styled.map CardMsg)
+                        |> List.map (Html.Styled.map (CardMsg >> Page))
 
                 ItemModel subModel ->
                     Item.view model.shared subModel
-                        |> List.map (Html.Styled.map ItemMsg)
+                        |> List.map (Html.Styled.map (ItemMsg >> Page))
 
                 SortableDataModel subModel ->
                     SortableData.view model.shared subModel
-                        |> List.map (Html.Styled.map SortableDataMsg)
+                        |> List.map (Html.Styled.map (SortableDataMsg >> Page))
 
                 TableModel subModel ->
                     Table.view model.shared subModel
-                        |> List.map (Html.Styled.map TableMsg)
+                        |> List.map (Html.Styled.map (TableMsg >> Page))
         }
