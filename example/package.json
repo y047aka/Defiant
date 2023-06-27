@@ -1,13 +1,11 @@
 {
   "name": "example",
-  "engines": {
-    "node": ">=14.18.0"
-  },
   "scripts": {
-    "build": "elm-land build",
-    "start": "elm-land server"
+    "start": "parcel index.html",
+    "build": "parcel build index.html --no-source-maps"
   },
   "devDependencies": {
-    "elm-land": "^0.19.0"
+    "@parcel/transformer-elm": "^2.9.2",
+    "parcel": "^2.9.2"
   }
 }

@@ -1,34 +1,10 @@
-module Pages.Navigation.Progress exposing (Model, Msg, page)
+module Pages.Navigation.Progress exposing (Model, Msg, init, update, view)
 
-import Effect exposing (Effect)
 import Html.Styled exposing (Html)
-import Layouts exposing (Layout)
-import Page exposing (Page)
 import Playground exposing (playground)
 import Random
-import Route exposing (Route)
 import Shared
 import UI.Progress as Progress exposing (State(..))
-
-
-layout : Model -> Layout msg
-layout model =
-    Layouts.Default {}
-
-
-page : Shared.Model -> Route () -> Page Model Msg
-page shared route =
-    Page.new
-        { init = init
-        , update = update
-        , subscriptions = \_ -> Sub.none
-        , view =
-            \model ->
-                { title = "Progress"
-                , body = view shared model
-                }
-        }
-        |> Page.withLayout layout
 
 
 
@@ -44,15 +20,15 @@ type alias Model =
     }
 
 
-init : () -> ( Model, Effect Msg )
-init () =
+init : ( Model, Cmd Msg )
+init =
     ( { progressValue = 0
       , progressLabel = "%"
       , label = "Uploading Files"
       , indicating = False
       , state = Default
       }
-    , Effect.sendCmd <| Random.generate NewProgress (Random.int 10 50)
+    , Random.generate NewProgress (Random.int 10 50)
     )
 
 
@@ -67,7 +43,7 @@ type Msg
     | UpdateConfig (Model -> Model)
 
 
-update : Msg -> Model -> ( Model, Effect Msg )
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         NewProgress int ->
@@ -87,17 +63,17 @@ update msg model =
             in
             ( { model | progressValue = newProgress }
                 |> updatelabelOnIndicating
-            , Effect.none
+            , Cmd.none
             )
 
         CounterPlus ->
-            ( model, Effect.sendCmd <| Random.generate NewProgress (Random.int 10 15) )
+            ( model, Random.generate NewProgress (Random.int 10 15) )
 
         CounterMinus ->
-            ( model, Effect.sendCmd <| Random.generate NewProgress (Random.int -15 -10) )
+            ( model, Random.generate NewProgress (Random.int -15 -10) )
 
         UpdateConfig updater ->
-            ( updater model, Effect.none )
+            ( updater model, Cmd.none )
 
 
 updatelabelOnIndicating : Model -> Model

@@ -1,34 +1,10 @@
-module Pages.Navigation.Step exposing (Model, Msg, Progress(..), page, progressFromString, progressToString)
+module Pages.Navigation.Step exposing (Model, Msg, Progress(..), init, progressFromString, progressToString, update, view)
 
-import Effect
 import Html.Styled exposing (Html)
-import Layouts exposing (Layout)
-import Page exposing (Page)
 import Playground exposing (playground)
-import Route exposing (Route)
 import Shared
 import UI.CircleStep as CircleStep
 import UI.Step as Step exposing (State(..))
-
-
-layout : Model -> Layout msg
-layout model =
-    Layouts.Default {}
-
-
-page : Shared.Model -> Route () -> Page Model Msg
-page shared route =
-    Page.new
-        { init = \() -> ( init, Effect.none )
-        , update = \msg model -> ( update msg model, Effect.none )
-        , subscriptions = \_ -> Sub.none
-        , view =
-            \model ->
-                { title = "Step"
-                , body = view shared model
-                }
-        }
-        |> Page.withLayout layout
 
 
 

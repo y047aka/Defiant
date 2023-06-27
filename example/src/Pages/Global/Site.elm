@@ -1,32 +1,8 @@
-module Pages.Global.Site exposing (Model, Msg, page)
+module Pages.Global.Site exposing (Model, Msg, init, update, view)
 
-import Effect
 import Html.Styled exposing (Html, h1, h2, h3, h4, h5, p, text)
-import Layouts exposing (Layout)
-import Page exposing (Page)
 import Playground exposing (playground)
-import Route exposing (Route)
 import Shared
-
-
-layout : Model -> Layout msg
-layout model =
-    Layouts.Default {}
-
-
-page : Shared.Model -> Route () -> Page Model Msg
-page shared route =
-    Page.new
-        { init = \() -> ( init, Effect.none )
-        , update = \msg model -> ( update msg model, Effect.none )
-        , subscriptions = \_ -> Sub.none
-        , view =
-            \_ ->
-                { title = "Site"
-                , body = view shared
-                }
-        }
-        |> Page.withLayout layout
 
 
 
@@ -46,15 +22,13 @@ init =
 -- UPDATE
 
 
-type Msg
-    = NoOp
+type alias Msg =
+    ()
 
 
 update : Msg -> Model -> Model
-update msg model =
-    case msg of
-        NoOp ->
-            model
+update _ model =
+    model
 
 
 

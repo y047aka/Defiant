@@ -1,36 +1,12 @@
-module Pages.Element.Header exposing (Model, Msg, page)
+module Pages.Element.Header exposing (Model, Msg, init, update, view)
 
-import Effect
 import Html.Styled exposing (Html, text)
-import Layouts exposing (Layout)
-import Page exposing (Page)
 import Playground exposing (playground)
-import Route exposing (Route)
 import Shared
 import Types exposing (PresetColor(..), Size(..), sizeFromString, sizeToString)
 import UI.Example exposing (wireframeShortParagraph)
 import UI.Header exposing (..)
 import UI.Icon exposing (icon)
-
-
-layout : Model -> Layout msg
-layout model =
-    Layouts.Default {}
-
-
-page : Shared.Model -> Route () -> Page Model Msg
-page shared route =
-    Page.new
-        { init = \() -> ( init, Effect.none )
-        , update = \msg model -> ( update msg model, Effect.none )
-        , subscriptions = \_ -> Sub.none
-        , view =
-            \model ->
-                { title = "Header"
-                , body = view shared model
-                }
-        }
-        |> Page.withLayout layout
 
 
 

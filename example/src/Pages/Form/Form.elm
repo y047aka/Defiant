@@ -1,37 +1,13 @@
-module Pages.Form.Form exposing (Model, Msg, page)
+module Pages.Form.Form exposing (Model, Msg, init, update, view)
 
-import Effect
 import Html.Styled exposing (Html, text)
 import Html.Styled.Attributes exposing (placeholder, rows, type_)
-import Layouts exposing (Layout)
-import Page exposing (Page)
 import Playground exposing (playground)
-import Route exposing (Route)
 import Shared
 import Types exposing (FormState(..), formStateFromString, formStateToString)
 import UI.Button exposing (button)
 import UI.Checkbox as Checkbox
 import UI.Form as Form exposing (field, fields, form, textarea, threeFields, twoFields)
-
-
-layout : Model -> Layout msg
-layout model =
-    Layouts.Default {}
-
-
-page : Shared.Model -> Route () -> Page Model Msg
-page shared route =
-    Page.new
-        { init = \() -> ( init, Effect.none )
-        , update = \msg model -> ( update msg model, Effect.none )
-        , subscriptions = \_ -> Sub.none
-        , view =
-            \model ->
-                { title = "Form"
-                , body = view shared model
-                }
-        }
-        |> Page.withLayout layout
 
 
 

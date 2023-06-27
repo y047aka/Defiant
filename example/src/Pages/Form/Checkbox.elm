@@ -1,34 +1,10 @@
-module Pages.Form.Checkbox exposing (Model, Msg, page)
+module Pages.Form.Checkbox exposing (Model, Msg, init, update, view)
 
-import Effect
 import Html.Styled exposing (Html)
-import Layouts exposing (Layout)
-import Page exposing (Page)
 import Playground exposing (playground)
-import Route exposing (Route)
 import Shared
 import Types exposing (FormState(..))
 import UI.Checkbox exposing (checkbox, toggleCheckbox)
-
-
-layout : Model -> Layout msg
-layout model =
-    Layouts.Default {}
-
-
-page : Shared.Model -> Route () -> Page Model Msg
-page shared route =
-    Page.new
-        { init = \() -> ( init, Effect.none )
-        , update = \msg model -> ( update msg model, Effect.none )
-        , subscriptions = \_ -> Sub.none
-        , view =
-            \model ->
-                { title = "Checkbox"
-                , body = view shared model
-                }
-        }
-        |> Page.withLayout layout
 
 
 

@@ -1,6 +1,11 @@
-/dist
-/.elm-land
-/elm-stuff
-/node_modules
-.DS_Store
-*.pem
+# Dependency directories
+node_modules
+
+# parcel generated files
+.parcel-cache
+
+# elm-package generated files
+elm-stuff
+
+# Distribution
+dist

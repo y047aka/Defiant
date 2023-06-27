@@ -1,23 +1,33 @@
 module Data.PageSummary exposing
-    ( PageSummary, summariesByCagetgory
-    , Category, categoryToString
+    ( PageSummary, all, summariesByCagetgory
+    , sitePage
+    , containerPage, gridPage, holyGrailPage, modalPage, railPage
+    , buttonPage, dimmerPage, dividerPage, headerPage, iconPage, imagePage, labelPage, loaderPage, messagePage, placeholderPage, segmentPage, textPage
+    , accordionPage, breadcrumbPage, menuPage, progressPage, stepPage, tabPage
+    , checkboxPage, formPage, inputPage
+    , cardPage, itemPage, sortableDataPage, tablePage
+    , Category(..), categoryToString
     )
 
 {-|
 
-@docs PageSummary, summariesByCagetgory
+@docs PageSummary, all, summariesByCagetgory
+@docs sitePage
+@docs containerPage, gridPage, holyGrailPage, modalPage, railPage
+@docs buttonPage, dimmerPage, dividerPage, headerPage, iconPage, imagePage, labelPage, loaderPage, messagePage, placeholderPage, segmentPage, textPage
+@docs accordionPage, breadcrumbPage, menuPage, progressPage, stepPage, tabPage
+@docs checkboxPage, formPage, inputPage
+@docs cardPage, itemPage, sortableDataPage, tablePage
 @docs Category, categoryToString
 
 -}
-
-import Route.Path exposing (Path(..))
 
 
 type alias PageSummary =
     { title : String
     , description : String
     , category : Category
-    , path : Path
+    , route : List String
     }
 
 
@@ -60,14 +70,14 @@ all =
     , accordionPage
     , breadcrumbPage
     , menuPage
-    , stepPage
     , progressPage
+    , stepPage
     , tabPage
 
     -- Form
     , checkboxPage
-    , inputPage
     , formPage
+    , inputPage
 
     -- DataDisplay
     , cardPage
@@ -82,7 +92,7 @@ sitePage =
     { title = "Site"
     , description = "A site is a set of global constraints that define the basic parameters of all UI elements"
     , category = Global
-    , path = Global_Site
+    , route = [ "global", "site" ]
     }
 
 
@@ -91,7 +101,7 @@ containerPage =
     { title = "Container"
     , description = "A container limits content to a maximum width"
     , category = Layout
-    , path = Layout_Container
+    , route = [ "layout", "container" ]
     }
 
 
@@ -100,16 +110,16 @@ gridPage =
     { title = "Grid"
     , description = "A grid is used to harmonize negative space in a layout"
     , category = Layout
-    , path = Layout_Grid
+    , route = [ "layout", "grid" ]
     }
 
 
 holyGrailPage : PageSummary
 holyGrailPage =
-    { title = "HolyGrail"
+    { title = "Holy Grail"
     , description = "Holy grail layout."
     , category = Layout
-    , path = Layout_HolyGrail
+    , route = [ "layout", "holy-grail" ]
     }
 
 
@@ -118,7 +128,7 @@ modalPage =
     { title = "Modal"
     , description = "A modal displays content that temporarily blocks interactions with the main view of a site"
     , category = Layout
-    , path = Layout_Modal
+    , route = [ "layout", "modal" ]
     }
 
 
@@ -127,7 +137,7 @@ railPage =
     { title = "Rail"
     , description = "A rail is used to show accompanying content outside the boundaries of the main view of a site"
     , category = Layout
-    , path = Layout_Rail
+    , route = [ "layout", "rail" ]
     }
 
 
@@ -136,7 +146,7 @@ buttonPage =
     { title = "Button"
     , description = "A button indicates a possible user action"
     , category = Element
-    , path = Element_Button
+    , route = [ "element", "button" ]
     }
 
 
@@ -145,7 +155,7 @@ dimmerPage =
     { title = "Dimmer"
     , description = "A dimmer hides distractions to focus attention on particular content"
     , category = Element
-    , path = Element_Dimmer
+    , route = [ "element", "dimmer" ]
     }
 
 
@@ -154,7 +164,7 @@ dividerPage =
     { title = "Divider"
     , description = "A divider visually segments content into groups"
     , category = Element
-    , path = Element_Divider
+    , route = [ "element", "divider" ]
     }
 
 
@@ -163,7 +173,7 @@ headerPage =
     { title = "Header"
     , description = "A header provides a short summary of content"
     , category = Element
-    , path = Element_Header
+    , route = [ "element", "header" ]
     }
 
 
@@ -172,7 +182,7 @@ iconPage =
     { title = "Icon"
     , description = "An icon is a glyph used to represent something else"
     , category = Element
-    , path = Element_Icon
+    , route = [ "element", "icon" ]
     }
 
 
@@ -181,7 +191,7 @@ imagePage =
     { title = "Image"
     , description = "An image is a graphic representation of something"
     , category = Element
-    , path = Element_Image
+    , route = [ "element", "image" ]
     }
 
 
@@ -190,7 +200,7 @@ labelPage =
     { title = "Label"
     , description = "A label displays content classification"
     , category = Element
-    , path = Element_Label
+    , route = [ "element", "label" ]
     }
 
 
@@ -199,7 +209,7 @@ loaderPage =
     { title = "Loader"
     , description = "A loader alerts a user to wait for an activity to complete"
     , category = Element
-    , path = Element_Loader
+    , route = [ "element", "loader" ]
     }
 
 
@@ -208,7 +218,7 @@ messagePage =
     { title = "Message"
     , description = "A message displays information that explains nearby content"
     , category = Element
-    , path = Element_Message
+    , route = [ "element", "message" ]
     }
 
 
@@ -217,7 +227,7 @@ placeholderPage =
     { title = "Placeholder"
     , description = "A placeholder is used to reserve splace for content that soon will appear in a layout"
     , category = Element
-    , path = Element_Placeholder
+    , route = [ "element", "placeholder" ]
     }
 
 
@@ -226,7 +236,7 @@ segmentPage =
     { title = "Segment"
     , description = "A segment is used to create a grouping of related content"
     , category = Element
-    , path = Element_Segment
+    , route = [ "element", "segment" ]
     }
 
 
@@ -235,7 +245,7 @@ textPage =
     { title = "Text"
     , description = "A text is used to style some inline text with a simple color"
     , category = Element
-    , path = Element_Text
+    , route = [ "element", "text" ]
     }
 
 
@@ -244,7 +254,7 @@ accordionPage =
     { title = "Accordion"
     , description = "An accordion allows users to toggle the display of sections of content"
     , category = Navigation
-    , path = Navigation_Accordion
+    , route = [ "navigation", "accordion" ]
     }
 
 
@@ -253,7 +263,7 @@ breadcrumbPage =
     { title = "Breadcrumb"
     , description = "A breadcrumb is used to show hierarchy between content"
     , category = Navigation
-    , path = Navigation_Breadcrumb
+    , route = [ "navigation", "breadcrumb" ]
     }
 
 
@@ -262,16 +272,7 @@ menuPage =
     { title = "Menu"
     , description = "A menu displays grouped navigation actions"
     , category = Navigation
-    , path = Navigation_Menu
-    }
-
-
-stepPage : PageSummary
-stepPage =
-    { title = "Step"
-    , description = "A step shows the completion status of an activity in a series of activities"
-    , category = Navigation
-    , path = Navigation_Step
+    , route = [ "navigation", "menu" ]
     }
 
 
@@ -280,7 +281,16 @@ progressPage =
     { title = "Progress"
     , description = "A progress bar shows the progression of a task"
     , category = Navigation
-    , path = Navigation_Progress
+    , route = [ "navigation", "progress" ]
+    }
+
+
+stepPage : PageSummary
+stepPage =
+    { title = "Step"
+    , description = "A step shows the completion status of an activity in a series of activities"
+    , category = Navigation
+    , route = [ "navigation", "step" ]
     }
 
 
@@ -289,7 +299,7 @@ tabPage =
     { title = "Tab"
     , description = "A tab is a hidden section of content activated by a menu"
     , category = Navigation
-    , path = Navigation_Tab
+    , route = [ "navigation", "tab" ]
     }
 
 
@@ -298,16 +308,7 @@ checkboxPage =
     { title = "Checkbox"
     , description = "A checkbox allows a user to select a value from a small set of options, often binary"
     , category = Form
-    , path = Form_Checkbox
-    }
-
-
-inputPage : PageSummary
-inputPage =
-    { title = "Input"
-    , description = "An input is a field used to elicit a response from a user"
-    , category = Form
-    , path = Form_Input
+    , route = [ "form", "checkbox" ]
     }
 
 
@@ -316,7 +317,16 @@ formPage =
     { title = "Form"
     , description = "A form displays a set of related user input fields in a structured way"
     , category = Form
-    , path = Form_Form
+    , route = [ "form", "form" ]
+    }
+
+
+inputPage : PageSummary
+inputPage =
+    { title = "Input"
+    , description = "An input is a field used to elicit a response from a user"
+    , category = Form
+    , route = [ "form", "input" ]
     }
 
 
@@ -325,7 +335,7 @@ cardPage =
     { title = "Card"
     , description = "A card displays site content in a manner similar to a playing card"
     , category = DataDisplay
-    , path = DataDisplay_Card
+    , route = [ "data-display", "card" ]
     }
 
 
@@ -334,16 +344,16 @@ itemPage =
     { title = "Item"
     , description = "An item view presents large collections of site content for display"
     , category = DataDisplay
-    , path = DataDisplay_Item
+    , route = [ "data-display", "item" ]
     }
 
 
 sortableDataPage : PageSummary
 sortableDataPage =
-    { title = "SortableData"
+    { title = "Sortable Data"
     , description = "Sortable data"
     , category = DataDisplay
-    , path = DataDisplay_SortableData
+    , route = [ "data-display", "sortable-data" ]
     }
 
 
@@ -352,7 +362,7 @@ tablePage =
     { title = "Table"
     , description = "A table displays a collections of data grouped into rows"
     , category = DataDisplay
-    , path = DataDisplay_Table
+    , route = [ "data-display", "table" ]
     }
 
 

@@ -1,34 +1,10 @@
-module Pages.Navigation.Accordion exposing (Model, Msg, page)
+module Pages.Navigation.Accordion exposing (Model, Msg, init, update, view)
 
 import Data.Theme exposing (Theme(..))
-import Effect
 import Html.Styled exposing (Html, p, text)
-import Layouts exposing (Layout)
-import Page exposing (Page)
 import Playground exposing (playground)
-import Route exposing (Route)
 import Shared
 import UI.Accordion as Accordion exposing (ToggleMethod(..), accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl)
-
-
-layout : Model -> Layout msg
-layout model =
-    Layouts.Default {}
-
-
-page : Shared.Model -> Route () -> Page Model Msg
-page shared route =
-    Page.new
-        { init = \() -> ( init, Effect.none )
-        , update = \msg model -> ( update msg model, Effect.none )
-        , subscriptions = \_ -> Sub.none
-        , view =
-            \model ->
-                { title = "Accordion"
-                , body = view shared model
-                }
-        }
-        |> Page.withLayout layout
 
 
 
