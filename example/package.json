@@ -1,11 +1,11 @@
 {
   "name": "example",
   "scripts": {
-    "start": "parcel index.html",
-    "build": "parcel build index.html --no-source-maps"
+    "start": "vite --open",
+    "build": "vite build"
   },
   "devDependencies": {
-    "@parcel/transformer-elm": "^2.9.2",
-    "parcel": "^2.9.2"
+    "vite": "^4.3.9",
+    "vite-plugin-elm": "^2.8.0"
   }
 }

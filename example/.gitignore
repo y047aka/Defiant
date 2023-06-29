@@ -1,9 +1,6 @@
 # Dependency directories
 node_modules
 
-# parcel generated files
-.parcel-cache
-
 # elm-package generated files
 elm-stuff
 
