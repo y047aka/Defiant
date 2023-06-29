@@ -7,7 +7,7 @@ import Html.Styled.Events exposing (onInput)
 import Playground exposing (playground)
 import Shared
 import UI.Segment exposing (segment)
-import UI.SortableData exposing (State, initialSort, intColumn, list, stringColumn, table)
+import UI.SortableData as SortableData exposing (initialSort, list, table)
 
 
 
@@ -16,18 +16,27 @@ import UI.SortableData exposing (State, initialSort, intColumn, list, stringColu
 
 type alias Model =
     { mode : Mode
-    , people : List Person
-    , tableState : State
-    , query : String
+    , tableState : SortableData.Model Person Msg
     }
 
 
 init : Model
 init =
     { mode = Table
-    , people = presidents
-    , tableState = initialSort "Year"
-    , query = ""
+    , tableState = SortableData.init tableConfig presidents (initialSort "Year")
+    }
+
+
+tableConfig : SortableData.Config Person Msg
+tableConfig =
+    { toId = .name
+    , toMsg = SortableData.SetState >> TableMsg
+    , columns =
+        [ SortableData.stringColumn { label = "Name", getter = .name }
+        , SortableData.intColumn { label = "Year", getter = .year }
+        , SortableData.stringColumn { label = "City", getter = .city }
+        , SortableData.stringColumn { label = "State", getter = .state }
+        ]
     }
 
 
@@ -36,19 +45,15 @@ init =
 
 
 type Msg
-    = SetQuery String
-    | SetTableState State
+    = TableMsg SortableData.Msg
     | UpdateConfig (Model -> Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        SetQuery newQuery ->
-            { model | query = newQuery }
-
-        SetTableState newState ->
-            { model | tableState = newState }
+        TableMsg tableMsg ->
+            { model | tableState = SortableData.update tableMsg model.tableState }
 
         UpdateConfig updater ->
             updater model
@@ -59,19 +64,8 @@ update msg model =
 
 
 view : Shared.Model -> Model -> List (Html Msg)
-view { theme } ({ people, tableState, query } as model) =
+view { theme } ({ tableState } as model) =
     let
-        config =
-            { toId = .name
-            , toMsg = SetTableState
-            , columns =
-                [ stringColumn { label = "Name", getter = .name }
-                , intColumn { label = "Year", getter = .year }
-                , stringColumn { label = "City", getter = .city }
-                , stringColumn { label = "State", getter = .state }
-                ]
-            }
-
         toListItem =
             \{ name, year, city, state } ->
                 [ segment { theme = Light } [] <|
@@ -83,23 +77,23 @@ view { theme } ({ people, tableState, query } as model) =
                 ]
 
         lowerQuery =
-            String.toLower query
+            String.toLower tableState.query
 
         acceptablePeople =
-            List.filter (String.contains lowerQuery << String.toLower << .name) people
+            List.filter (String.contains lowerQuery << String.toLower << .name) tableState.data
     in
     [ playground
         { title = "List"
         , theme = theme
         , inverted = False
         , preview =
-            [ input [ value query, placeholder "Search by Name", onInput SetQuery ] []
+            [ input [ value tableState.query, placeholder "Search by Name", onInput (SortableData.SetQuery >> TableMsg) ] []
             , case model.mode of
                 List ->
-                    list config tableState toListItem acceptablePeople
+                    list tableState toListItem acceptablePeople
 
                 Table ->
-                    table config tableState acceptablePeople
+                    table tableState acceptablePeople
             ]
         , configSections =
             [ { label = "Types"

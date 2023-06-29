@@ -1,5 +1,7 @@
 module UI.SortableData exposing
-    ( list, table
+    ( Model, Msg(..)
+    , init, update
+    , list, table
     , stringColumn, intColumn, floatColumn
     , State, initialSort
     , Config
@@ -14,6 +16,9 @@ truth is pretty great!
 I recommend checking out the [examples] to get a feel for how it works.
 
 [examples]: https://github.com/evancz/elm-sortable-table/tree/master/examples
+
+@docs Model, Msg
+@docs init, update
 
 
 # View
@@ -45,6 +50,50 @@ import Html.Styled.Keyed as Keyed
 import Html.Styled.Lazy exposing (lazy2)
 import Json.Decode as Json
 import UI.Table as Table exposing (td, th, thead, tr)
+
+
+
+-- INIT
+
+
+type alias Model data msg =
+    { toId : data -> String
+    , columns : List (Column data msg)
+    , data : List data
+    , toMsg : State -> msg
+    , state : State
+    , query : String
+    }
+
+
+init : Config data msg -> List data -> State -> Model data msg
+init { toId, columns, toMsg } data state =
+    { toId = toId
+    , columns = columns
+    , data = data
+    , toMsg = toMsg
+    , state = state
+    , query = ""
+    }
+
+
+
+-- UPDATE
+
+
+type Msg
+    = SetState State
+    | SetQuery String
+
+
+update : Msg -> Model data msg -> Model data msg
+update msg model =
+    case msg of
+        SetState state ->
+            { model | state = state }
+
+        SetQuery query ->
+            { model | query = query }
 
 
 
@@ -154,8 +203,8 @@ floatColumn { label, getter } =
 -- VIEW
 
 
-list : Config data msg -> State -> (data -> List (Html msg)) -> List data -> Html msg
-list { columns } state toListItem data =
+list : Model data msg -> (data -> List (Html msg)) -> List data -> Html msg
+list { columns, state } toListItem data =
     let
         sortedData =
             sort state columns data
@@ -166,8 +215,8 @@ list { columns } state toListItem data =
     ul [] <| List.map listItem sortedData
 
 
-table : Config data msg -> State -> List data -> Html msg
-table { toId, toMsg, columns } state data =
+table : Model data msg -> List data -> Html msg
+table { toId, columns, toMsg, state } data =
     let
         sortedData =
             sort state columns data
