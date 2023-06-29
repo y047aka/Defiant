@@ -30,7 +30,7 @@ init =
 tableConfig : SortableData.Config Person Msg
 tableConfig =
     { toId = .name
-    , toMsg = SortableData.SetState >> TableMsg
+    , toMsg = TableMsg
     , columns =
         [ SortableData.stringColumn { label = "Name", getter = .name }
         , SortableData.intColumn { label = "Year", getter = .year }

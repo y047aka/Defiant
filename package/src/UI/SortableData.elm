@@ -60,7 +60,7 @@ type alias Model data msg =
     { toId : data -> String
     , columns : List (Column data msg)
     , data : List data
-    , toMsg : State -> msg
+    , toMsg : Msg -> msg
     , state : State
     , query : String
     }
@@ -132,7 +132,7 @@ It should only appear in `view` code.
 -}
 type alias Config data msg =
     { toId : data -> String
-    , toMsg : State -> msg
+    , toMsg : Msg -> msg
     , columns : List (Column data msg)
     }
 
@@ -224,7 +224,7 @@ table { toId, columns, toMsg, state } data =
     Table.table []
         [ thead []
             [ tr [] <|
-                List.map (toHeaderInfo state toMsg >> simpleTheadHelp) columns
+                List.map (toHeaderInfo state (SetState >> toMsg) >> simpleTheadHelp) columns
             ]
         , Keyed.node "tbody" [] <|
             List.map (tableRow toId columns) sortedData
