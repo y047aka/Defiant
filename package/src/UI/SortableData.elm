@@ -4,7 +4,7 @@ module UI.SortableData exposing
     , stringColumn, intColumn, floatColumn
     , State(..), initialSort
     , Column
-    , Config, Sorter(..), Status(..), sort
+    , Sorter(..), Status(..), sort
     )
 
 {-| This library helps you create sortable tables. The crucial feature is that it
@@ -41,21 +41,26 @@ I recommend checking out the [examples] to get a feel for how it works.
 
 
 type alias Model data view =
-    { toId : data -> String
-    , columns : List (Column data view)
+    { columns : List (Column data view)
     , data : List data
     , state : State
     , query : String
+    , toId : data -> String
     }
 
 
-init : Config data view -> List data -> State -> Model data view
-init { toId, columns } data state =
-    { toId = toId
-    , columns = columns
+init :
+    (data -> String)
+    -> List (Column data view)
+    -> List data
+    -> State
+    -> Model data view
+init toId columns data state =
+    { columns = columns
     , data = data
     , state = state
     , query = ""
+    , toId = toId
     }
 
 
@@ -100,22 +105,6 @@ yachts to be sorted by length by default, you might say:
 initialSort : String -> State
 initialSort header =
     State header False
-
-
-
--- CONFIG
-
-
-{-| Configuration for your table, describing your columns.
-
-**Note:** Your `Config` should _never_ be held in your model.
-It should only appear in `view` code.
-
--}
-type alias Config data view =
-    { toId : data -> String
-    , columns : List (Column data view)
-    }
 
 
 {-| The status of a particular column, for use in the `thead` field of your

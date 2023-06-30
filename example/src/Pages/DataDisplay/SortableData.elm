@@ -24,20 +24,17 @@ type alias Model =
 init : Model
 init =
     { mode = Table
-    , tableState = SortableData.init tableConfig presidents (initialSort "Year")
+    , tableState = SortableData.init .name columns presidents (initialSort "Year")
     }
 
 
-tableConfig : SortableData.Config Person (Html Msg)
-tableConfig =
-    { toId = .name
-    , columns =
-        [ SortableData.stringColumn { label = "Name", getter = .name, renderer = text }
-        , SortableData.intColumn { label = "Year", getter = .year, renderer = text }
-        , SortableData.stringColumn { label = "City", getter = .city, renderer = text }
-        , SortableData.stringColumn { label = "State", getter = .state, renderer = text }
-        ]
-    }
+columns : List (SortableData.Column Person (Html Msg))
+columns =
+    [ SortableData.stringColumn { label = "Name", getter = .name, renderer = text }
+    , SortableData.intColumn { label = "Year", getter = .year, renderer = text }
+    , SortableData.stringColumn { label = "City", getter = .city, renderer = text }
+    , SortableData.stringColumn { label = "State", getter = .state, renderer = text }
+    ]
 
 
 
