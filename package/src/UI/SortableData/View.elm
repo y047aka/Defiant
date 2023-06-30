@@ -11,7 +11,7 @@ import UI.SortableData as SortableData exposing (Column, Sorter(..), State(..), 
 import UI.Table as Table exposing (td, th, thead, tr)
 
 
-list : SortableData.Model data msg -> (data -> List (Html msg)) -> List data -> Html msg
+list : SortableData.Model data msg (Html msg) -> (data -> List (Html msg)) -> List data -> Html msg
 list { columns, state } toListItem data =
     let
         sortedData =
@@ -23,7 +23,7 @@ list { columns, state } toListItem data =
     ul [] <| List.map listItem sortedData
 
 
-table : SortableData.Model data msg -> List data -> Html msg
+table : SortableData.Model data msg (Html msg) -> List data -> Html msg
 table { toId, columns, toMsg, state } data =
     let
         sortedData =
@@ -39,7 +39,7 @@ table { toId, columns, toMsg, state } data =
         ]
 
 
-toHeaderInfo : State -> (State -> msg) -> Column data msg -> ( String, Status, Attribute msg )
+toHeaderInfo : State -> (State -> msg) -> Column data view -> ( String, Status, Attribute msg )
 toHeaderInfo (State sortName isReversed) toMsg { name, sorter } =
     case sorter of
         None ->
@@ -116,7 +116,7 @@ lightGrey symbol =
     span [ css [ color (hex "#ccc") ] ] [ text symbol ]
 
 
-tableRow : (data -> String) -> List (Column data msg) -> data -> ( String, Html msg )
+tableRow : (data -> String) -> List (Column data (Html msg)) -> data -> ( String, Html msg )
 tableRow toId columns data =
     ( toId data
     , lazy2 tr [] <| List.map (\{ view } -> td [] [ view data ]) columns

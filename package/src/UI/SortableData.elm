@@ -37,16 +37,12 @@ I recommend checking out the [examples] to get a feel for how it works.
 
 -}
 
-import Html.Styled exposing (Html, text)
-
-
-
 -- INIT
 
 
-type alias Model data msg =
+type alias Model data msg view =
     { toId : data -> String
-    , columns : List (Column data msg)
+    , columns : List (Column data view)
     , data : List data
     , toMsg : Msg -> msg
     , state : State
@@ -54,7 +50,7 @@ type alias Model data msg =
     }
 
 
-init : Config data msg -> List data -> State -> Model data msg
+init : Config data msg view -> List data -> State -> Model data msg view
 init { toId, columns, toMsg } data state =
     { toId = toId
     , columns = columns
@@ -74,7 +70,7 @@ type Msg
     | SetQuery String
 
 
-update : Msg -> Model data msg -> Model data msg
+update : Msg -> Model data msg view -> Model data msg view
 update msg model =
     case msg of
         SetState state ->
@@ -118,10 +114,10 @@ initialSort header =
 It should only appear in `view` code.
 
 -}
-type alias Config data msg =
+type alias Config data msg view =
     { toId : data -> String
     , toMsg : Msg -> msg
-    , columns : List (Column data msg)
+    , columns : List (Column data view)
     }
 
 
@@ -153,36 +149,36 @@ type Status
 
 {-| Describes how to turn `data` into a column in your table.
 -}
-type alias Column data msg =
+type alias Column data view =
     { name : String
-    , view : data -> Html msg
+    , view : data -> view
     , sorter : Sorter data
     }
 
 
 {-| -}
-stringColumn : { label : String, getter : data -> String } -> Column data msg
-stringColumn { label, getter } =
+stringColumn : { label : String, getter : data -> String, renderer : String -> view } -> Column data view
+stringColumn { label, getter, renderer } =
     { name = label
-    , view = getter >> text
+    , view = getter >> renderer
     , sorter = increasingOrDecreasingBy getter
     }
 
 
 {-| -}
-intColumn : { label : String, getter : data -> Int } -> Column data msg
-intColumn { label, getter } =
+intColumn : { label : String, getter : data -> Int, renderer : String -> view } -> Column data view
+intColumn { label, getter, renderer } =
     { name = label
-    , view = getter >> String.fromInt >> text
+    , view = getter >> String.fromInt >> renderer
     , sorter = increasingOrDecreasingBy getter
     }
 
 
 {-| -}
-floatColumn : { label : String, getter : data -> Float } -> Column data msg
-floatColumn { label, getter } =
+floatColumn : { label : String, getter : data -> Float, renderer : String -> view } -> Column data view
+floatColumn { label, getter, renderer } =
     { name = label
-    , view = getter >> String.fromFloat >> text
+    , view = getter >> String.fromFloat >> renderer
     , sorter = increasingOrDecreasingBy getter
     }
 
