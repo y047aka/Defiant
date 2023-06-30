@@ -7,7 +7,8 @@ import Html.Styled.Events exposing (onInput)
 import Playground exposing (playground)
 import Shared
 import UI.Segment exposing (segment)
-import UI.SortableData as SortableData exposing (initialSort, list, table)
+import UI.SortableData as SortableData exposing (initialSort)
+import UI.SortableData.View exposing (list, table)
 
 
 

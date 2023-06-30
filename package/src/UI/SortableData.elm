@@ -1,10 +1,10 @@
 module UI.SortableData exposing
     ( Model, Msg(..)
     , init, update
-    , list, table
     , stringColumn, intColumn, floatColumn
-    , State, initialSort
-    , Config
+    , State(..), initialSort
+    , Column
+    , Config, Sorter(..), Status(..), sort
     )
 
 {-| This library helps you create sortable tables. The crucial feature is that it
@@ -19,11 +19,6 @@ I recommend checking out the [examples] to get a feel for how it works.
 
 @docs Model, Msg
 @docs init, update
-
-
-# View
-
-@docs list, table
 
 
 # Configuration
@@ -42,14 +37,7 @@ I recommend checking out the [examples] to get a feel for how it works.
 
 -}
 
-import Css exposing (color, hex)
-import Html.Styled exposing (Attribute, Html, li, span, text, ul)
-import Html.Styled.Attributes exposing (css)
-import Html.Styled.Events as Events
-import Html.Styled.Keyed as Keyed
-import Html.Styled.Lazy exposing (lazy2)
-import Json.Decode as Json
-import UI.Table as Table exposing (td, th, thead, tr)
+import Html.Styled exposing (Html, text)
 
 
 
@@ -197,122 +185,6 @@ floatColumn { label, getter } =
     , view = getter >> String.fromFloat >> text
     , sorter = increasingOrDecreasingBy getter
     }
-
-
-
--- VIEW
-
-
-list : Model data msg -> (data -> List (Html msg)) -> List data -> Html msg
-list { columns, state } toListItem data =
-    let
-        sortedData =
-            sort state columns data
-
-        listItem d =
-            li [] (toListItem d)
-    in
-    ul [] <| List.map listItem sortedData
-
-
-table : Model data msg -> List data -> Html msg
-table { toId, columns, toMsg, state } data =
-    let
-        sortedData =
-            sort state columns data
-    in
-    Table.table []
-        [ thead []
-            [ tr [] <|
-                List.map (toHeaderInfo state (SetState >> toMsg) >> simpleTheadHelp) columns
-            ]
-        , Keyed.node "tbody" [] <|
-            List.map (tableRow toId columns) sortedData
-        ]
-
-
-toHeaderInfo : State -> (State -> msg) -> Column data msg -> ( String, Status, Attribute msg )
-toHeaderInfo (State sortName isReversed) toMsg { name, sorter } =
-    case sorter of
-        None ->
-            ( name, Unsortable, onClick sortName isReversed toMsg )
-
-        Increasing _ ->
-            ( name, Sortable (name == sortName), onClick name False toMsg )
-
-        Decreasing _ ->
-            ( name, Sortable (name == sortName), onClick name False toMsg )
-
-        IncOrDec _ ->
-            if name == sortName then
-                ( name, Reversible (Just isReversed), onClick name (not isReversed) toMsg )
-
-            else
-                ( name, Reversible Nothing, onClick name False toMsg )
-
-        DecOrInc _ ->
-            if name == sortName then
-                ( name, Reversible (Just isReversed), onClick name (not isReversed) toMsg )
-
-            else
-                ( name, Reversible Nothing, onClick name False toMsg )
-
-
-onClick : String -> Bool -> (State -> msg) -> Attribute msg
-onClick name isReversed toMsg =
-    Events.on "click" <|
-        Json.map toMsg <|
-            Json.map2 State (Json.succeed name) (Json.succeed isReversed)
-
-
-simpleTheadHelp : ( String, Status, Attribute msg ) -> Html msg
-simpleTheadHelp ( name, status, onClick_ ) =
-    let
-        symbol =
-            case status of
-                Unsortable ->
-                    []
-
-                Sortable selected ->
-                    [ if selected then
-                        darkGrey "↓"
-
-                      else
-                        lightGrey "↓"
-                    ]
-
-                Reversible Nothing ->
-                    [ lightGrey "↕" ]
-
-                Reversible (Just isReversed) ->
-                    [ if isReversed then
-                        darkGrey "↑"
-
-                      else
-                        darkGrey "↓"
-                    ]
-
-        content =
-            text (name ++ " ") :: symbol
-    in
-    th [ onClick_ ] content
-
-
-darkGrey : String -> Html msg
-darkGrey symbol =
-    span [ css [ color (hex "#555") ] ] [ text symbol ]
-
-
-lightGrey : String -> Html msg
-lightGrey symbol =
-    span [ css [ color (hex "#ccc") ] ] [ text symbol ]
-
-
-tableRow : (data -> String) -> List (Column data msg) -> data -> ( String, Html msg )
-tableRow toId columns data =
-    ( toId data
-    , lazy2 tr [] <| List.map (\{ view } -> td [] [ view data ]) columns
-    )
 
 
 
