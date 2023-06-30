@@ -40,22 +40,20 @@ I recommend checking out the [examples] to get a feel for how it works.
 -- INIT
 
 
-type alias Model data msg view =
+type alias Model data view =
     { toId : data -> String
     , columns : List (Column data view)
     , data : List data
-    , toMsg : Msg -> msg
     , state : State
     , query : String
     }
 
 
-init : Config data msg view -> List data -> State -> Model data msg view
-init { toId, columns, toMsg } data state =
+init : Config data view -> List data -> State -> Model data view
+init { toId, columns } data state =
     { toId = toId
     , columns = columns
     , data = data
-    , toMsg = toMsg
     , state = state
     , query = ""
     }
@@ -70,7 +68,7 @@ type Msg
     | SetQuery String
 
 
-update : Msg -> Model data msg view -> Model data msg view
+update : Msg -> Model data view -> Model data view
 update msg model =
     case msg of
         SetState state ->
@@ -114,9 +112,8 @@ initialSort header =
 It should only appear in `view` code.
 
 -}
-type alias Config data msg view =
+type alias Config data view =
     { toId : data -> String
-    , toMsg : Msg -> msg
     , columns : List (Column data view)
     }
 

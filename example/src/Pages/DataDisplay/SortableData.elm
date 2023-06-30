@@ -17,7 +17,7 @@ import UI.SortableData.View exposing (list, table)
 
 type alias Model =
     { mode : Mode
-    , tableState : SortableData.Model Person Msg (Html Msg)
+    , tableState : SortableData.Model Person (Html Msg)
     }
 
 
@@ -28,10 +28,9 @@ init =
     }
 
 
-tableConfig : SortableData.Config Person Msg (Html Msg)
+tableConfig : SortableData.Config Person (Html Msg)
 tableConfig =
     { toId = .name
-    , toMsg = TableMsg
     , columns =
         [ SortableData.stringColumn { label = "Name", getter = .name, renderer = text }
         , SortableData.intColumn { label = "Year", getter = .year, renderer = text }
@@ -94,7 +93,7 @@ view { theme } ({ tableState } as model) =
                     list tableState toListItem acceptablePeople
 
                 Table ->
-                    table tableState acceptablePeople
+                    table tableState TableMsg acceptablePeople
             ]
         , configSections =
             [ { label = "Types"

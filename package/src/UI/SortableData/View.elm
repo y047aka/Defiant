@@ -11,7 +11,7 @@ import UI.SortableData as SortableData exposing (Column, Sorter(..), State(..), 
 import UI.Table as Table exposing (td, th, thead, tr)
 
 
-list : SortableData.Model data msg (Html msg) -> (data -> List (Html msg)) -> List data -> Html msg
+list : SortableData.Model data (Html msg) -> (data -> List (Html msg)) -> List data -> Html msg
 list { columns, state } toListItem data =
     let
         sortedData =
@@ -23,8 +23,8 @@ list { columns, state } toListItem data =
     ul [] <| List.map listItem sortedData
 
 
-table : SortableData.Model data msg (Html msg) -> List data -> Html msg
-table { toId, columns, toMsg, state } data =
+table : SortableData.Model data (Html msg) -> (SortableData.Msg -> msg) -> List data -> Html msg
+table { toId, columns, state } toMsg data =
     let
         sortedData =
             sort state columns data
