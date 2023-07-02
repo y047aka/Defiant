@@ -1,6 +1,6 @@
 module UI.SortableData exposing
     ( Model, Msg(..)
-    , init, update
+    , init, update, filter
     , stringColumn, intColumn, floatColumn
     , State(..), initialSort
     , Column
@@ -18,7 +18,7 @@ I recommend checking out the [examples] to get a feel for how it works.
 [examples]: https://github.com/evancz/elm-sortable-table/tree/master/examples
 
 @docs Model, Msg
-@docs init, update
+@docs init, update, filter
 
 
 # Configuration
@@ -37,14 +37,17 @@ I recommend checking out the [examples] to get a feel for how it works.
 
 -}
 
+import Html.Styled exposing (Html)
+
+
+
 -- INIT
 
 
 type alias Model data view =
     { columns : List (Column data view)
-    , data : List data
     , state : State
-    , query : String
+    , filter : { key : String, query : String }
     , toId : data -> String
     }
 
@@ -52,14 +55,12 @@ type alias Model data view =
 init :
     (data -> String)
     -> List (Column data view)
-    -> List data
     -> State
     -> Model data view
-init toId columns data state =
+init toId columns state =
     { columns = columns
-    , data = data
     , state = state
-    , query = ""
+    , filter = { key = "", query = "" }
     , toId = toId
     }
 
@@ -70,7 +71,7 @@ init toId columns data state =
 
 type Msg
     = SetState State
-    | SetQuery String
+    | Filter String String
 
 
 update : Msg -> Model data view -> Model data view
@@ -79,8 +80,26 @@ update msg model =
         SetState state ->
             { model | state = state }
 
-        SetQuery query ->
-            { model | query = query }
+        Filter key query ->
+            { model | filter = { key = key, query = query } }
+
+
+
+-- VIEW MODEL
+
+
+filter : Model data (Html msg) -> List data -> List data
+filter m data =
+    let
+        filter_ =
+            findColumn m.columns m.filter.key
+                |> Maybe.map (\c -> c.filter m.filter.query)
+                |> Maybe.withDefault (\_ -> True)
+
+        findColumn columns key =
+            List.head <| List.filter (\c -> c.name == key) columns
+    in
+    List.filter filter_ data
 
 
 
@@ -139,6 +158,7 @@ type alias Column data view =
     { name : String
     , view : data -> view
     , sorter : Sorter data
+    , filter : String -> data -> Bool
     }
 
 
@@ -148,6 +168,7 @@ stringColumn { label, getter, renderer } =
     { name = label
     , view = getter >> renderer
     , sorter = increasingOrDecreasingBy getter
+    , filter = \query data -> String.contains (String.toLower query) (String.toLower <| getter data)
     }
 
 
@@ -157,6 +178,7 @@ intColumn { label, getter, renderer } =
     { name = label
     , view = getter >> String.fromInt >> renderer
     , sorter = increasingOrDecreasingBy getter
+    , filter = \query data -> getter data |> String.fromInt |> String.startsWith query
     }
 
 
@@ -166,6 +188,7 @@ floatColumn { label, getter, renderer } =
     { name = label
     , view = getter >> String.fromFloat >> renderer
     , sorter = increasingOrDecreasingBy getter
+    , filter = \query data -> getter data |> String.fromFloat |> String.startsWith query
     }
 
 

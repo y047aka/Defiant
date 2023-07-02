@@ -7,7 +7,7 @@ import Html.Styled.Events exposing (onInput)
 import Playground exposing (playground)
 import Shared
 import UI.Segment exposing (segment)
-import UI.SortableData as SortableData exposing (initialSort)
+import UI.SortableData as SortableData exposing (initialSort, intColumn, stringColumn)
 import UI.SortableData.View exposing (list, table)
 
 
@@ -17,6 +17,7 @@ import UI.SortableData.View exposing (list, table)
 
 type alias Model =
     { mode : Mode
+    , presidents : List Person
     , tableState : SortableData.Model Person (Html Msg)
     }
 
@@ -24,16 +25,17 @@ type alias Model =
 init : Model
 init =
     { mode = Table
-    , tableState = SortableData.init .name columns presidents (initialSort "Year")
+    , presidents = presidents
+    , tableState = SortableData.init .name columns (initialSort "Year")
     }
 
 
 columns : List (SortableData.Column Person (Html Msg))
 columns =
-    [ SortableData.stringColumn { label = "Name", getter = .name, renderer = text }
-    , SortableData.intColumn { label = "Year", getter = .year, renderer = text }
-    , SortableData.stringColumn { label = "City", getter = .city, renderer = text }
-    , SortableData.stringColumn { label = "State", getter = .state, renderer = text }
+    [ stringColumn { label = "Name", getter = .name, renderer = text }
+    , intColumn { label = "Year", getter = .year, renderer = text }
+    , stringColumn { label = "City", getter = .city, renderer = text }
+    , stringColumn { label = "State", getter = .state, renderer = text }
     ]
 
 
@@ -61,7 +63,7 @@ update msg model =
 
 
 view : Shared.Model -> Model -> List (Html Msg)
-view { theme } ({ tableState } as model) =
+view { theme } m =
     let
         toListItem =
             \{ name, year, city, state } ->
@@ -72,32 +74,26 @@ view { theme } ({ tableState } as model) =
                     , div [] [ strong [] [ text "State : " ], text state ]
                     ]
                 ]
-
-        lowerQuery =
-            String.toLower tableState.query
-
-        acceptablePeople =
-            List.filter (String.contains lowerQuery << String.toLower << .name) tableState.data
     in
     [ playground
         { title = "List"
         , theme = theme
         , inverted = False
         , preview =
-            [ input [ value tableState.query, placeholder "Search by Name", onInput (SortableData.SetQuery >> TableMsg) ] []
-            , case model.mode of
+            [ input [ value m.tableState.filter.query, placeholder "Search by Name", onInput (SortableData.Filter "Name" >> TableMsg) ] []
+            , case m.mode of
                 List ->
-                    list tableState toListItem acceptablePeople
+                    list m.tableState toListItem (SortableData.filter m.tableState m.presidents)
 
                 Table ->
-                    table tableState TableMsg acceptablePeople
+                    table m.tableState TableMsg (SortableData.filter m.tableState m.presidents)
             ]
         , configSections =
             [ { label = "Types"
               , configs =
                     [ Playground.select
                         { label = ""
-                        , value = model.mode
+                        , value = m.mode
                         , options = [ List, Table ]
                         , fromString = modeFromString
                         , toString = modeToString
