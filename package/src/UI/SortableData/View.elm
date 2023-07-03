@@ -7,35 +7,24 @@ import Html.Styled.Events as Events
 import Html.Styled.Keyed as Keyed
 import Html.Styled.Lazy exposing (lazy2)
 import Json.Decode as Json
-import UI.SortableData as SortableData exposing (Column, Sorter(..), State(..), Status(..), sort)
+import UI.SortableData as SortableData exposing (Column, Sorter(..), State(..), Status(..))
 import UI.Table as Table exposing (td, th, thead, tr)
 
 
-list : SortableData.Model data (Html msg) -> (data -> List (Html msg)) -> List data -> Html msg
-list { columns, state } toListItem data =
-    let
-        sortedData =
-            sort state columns data
-
-        listItem d =
-            li [] (toListItem d)
-    in
-    ul [] <| List.map listItem sortedData
+list : (data -> List (Html msg)) -> List data -> Html msg
+list toListItem data =
+    ul [] <| List.map (\d -> li [] (toListItem d)) data
 
 
 table : SortableData.Model data (Html msg) -> (SortableData.Msg -> msg) -> List data -> Html msg
 table { toId, columns, state } toMsg data =
-    let
-        sortedData =
-            sort state columns data
-    in
     Table.table []
         [ thead []
             [ tr [] <|
                 List.map (toHeaderInfo state (SortableData.SetState >> toMsg) >> simpleTheadHelp) columns
             ]
         , Keyed.node "tbody" [] <|
-            List.map (tableRow toId columns) sortedData
+            List.map (tableRow toId columns) data
         ]
 
 

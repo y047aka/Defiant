@@ -1,6 +1,6 @@
 module UI.SortableData exposing
     ( Model, Msg(..)
-    , init, update, filter
+    , init, update, render, filter
     , stringColumn, intColumn, floatColumn
     , State(..), initialSort
     , Column
@@ -18,7 +18,7 @@ I recommend checking out the [examples] to get a feel for how it works.
 [examples]: https://github.com/evancz/elm-sortable-table/tree/master/examples
 
 @docs Model, Msg
-@docs init, update, filter
+@docs init, update, render, filter
 
 
 # Configuration
@@ -86,6 +86,13 @@ update msg model =
 
 
 -- VIEW MODEL
+
+
+render : Model data (Html msg) -> List data -> List data
+render ({ columns, state } as tableState) data =
+    data
+        |> filter tableState
+        |> sort state columns
 
 
 filter : Model data (Html msg) -> List data -> List data

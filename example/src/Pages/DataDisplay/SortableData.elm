@@ -83,10 +83,10 @@ view { theme } m =
             [ input [ value m.tableState.filter.query, placeholder "Search by Name", onInput (SortableData.Filter "Name" >> TableMsg) ] []
             , case m.mode of
                 List ->
-                    list m.tableState toListItem (SortableData.filter m.tableState m.presidents)
+                    list toListItem (SortableData.render m.tableState m.presidents)
 
                 Table ->
-                    table m.tableState TableMsg (SortableData.filter m.tableState m.presidents)
+                    table m.tableState TableMsg (SortableData.render m.tableState m.presidents)
             ]
         , configSections =
             [ { label = "Types"
