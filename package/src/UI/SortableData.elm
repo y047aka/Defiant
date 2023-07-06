@@ -135,22 +135,6 @@ render model data =
         |> sort model
 
 
-filter : Model data (Html msg) -> List data -> List data
-filter m data =
-    let
-        filter_ =
-            findColumn m.filter.key m.columns
-                |> Maybe.map (\c -> c.filter m.filter.query)
-                |> Maybe.withDefault (\_ -> True)
-    in
-    List.filter filter_ data
-
-
-findColumn : String -> List (Column data view) -> Maybe (Column data view)
-findColumn key columns =
-    List.head <| List.filter (\c -> c.name == key) columns
-
-
 
 -- COLUMNS
 
@@ -193,6 +177,26 @@ floatColumn { label, getter, renderer } =
     , sort = getter >> String.fromFloat
     , filter = \query data -> getter data |> String.fromFloat |> String.startsWith query
     }
+
+
+
+-- FILTER
+
+
+filter : Model data (Html msg) -> List data -> List data
+filter m data =
+    let
+        filter_ =
+            findColumn m.filter.key m.columns
+                |> Maybe.map (\c -> c.filter m.filter.query)
+                |> Maybe.withDefault (\_ -> True)
+    in
+    List.filter filter_ data
+
+
+findColumn : String -> List (Column data view) -> Maybe (Column data view)
+findColumn key columns =
+    List.head <| List.filter (\c -> c.name == key) columns
 
 
 
