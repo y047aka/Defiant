@@ -1,10 +1,9 @@
 module UI.SortableData exposing
     ( Model, Msg(..)
-    , init, update, render, filter
+    , init, update, render
     , stringColumn, intColumn, floatColumn
-    , State(..), initialSort
     , Column
-    , Sorter(..), Status(..), sort
+    , Direction(..), Sorting, findSorting
     )
 
 {-| This library helps you create sortable tables. The crucial feature is that it
@@ -18,17 +17,12 @@ I recommend checking out the [examples] to get a feel for how it works.
 [examples]: https://github.com/evancz/elm-sortable-table/tree/master/examples
 
 @docs Model, Msg
-@docs init, update, render, filter
+@docs init, update, render
 
 
 # Configuration
 
 @docs stringColumn, intColumn, floatColumn
-
-
-# State
-
-@docs State, initialSort
 
 
 ## Custom Columns
@@ -38,6 +32,7 @@ I recommend checking out the [examples] to get a feel for how it works.
 -}
 
 import Html.Styled exposing (Html)
+import List.Extra
 
 
 
@@ -46,20 +41,29 @@ import Html.Styled exposing (Html)
 
 type alias Model data view =
     { columns : List (Column data view)
-    , state : State
+    , sorting : List Sorting
     , filter : { key : String, query : String }
     , toId : data -> String
     }
 
 
+type alias Sorting =
+    ( String, Direction )
+
+
+type Direction
+    = Ascending
+    | Descending
+    | None
+
+
 init :
     (data -> String)
     -> List (Column data view)
-    -> State
     -> Model data view
-init toId columns state =
+init toId columns =
     { columns = columns
-    , state = state
+    , sorting = []
     , filter = { key = "", query = "" }
     , toId = toId
     }
@@ -70,18 +74,54 @@ init toId columns state =
 
 
 type Msg
-    = SetState State
+    = Sort String
     | Filter String String
 
 
 update : Msg -> Model data view -> Model data view
 update msg model =
     case msg of
-        SetState state ->
-            { model | state = state }
+        Sort key ->
+            let
+                newDirection =
+                    findSorting key model.sorting |> stepDirection
+
+                sorting =
+                    case newDirection of
+                        None ->
+                            List.filter (\s -> Tuple.first s /= key) model.sorting
+
+                        _ ->
+                            let
+                                newSorting =
+                                    List.filter (\s -> Tuple.first s /= key) model.sorting
+                            in
+                            List.append newSorting [ ( key, newDirection ) ]
+            in
+            { model | sorting = sorting }
 
         Filter key query ->
             { model | filter = { key = key, query = query } }
+
+
+stepDirection : Direction -> Direction
+stepDirection direction =
+    case direction of
+        Ascending ->
+            Descending
+
+        Descending ->
+            None
+
+        None ->
+            Ascending
+
+
+findSorting : String -> List Sorting -> Direction
+findSorting key sorting =
+    List.Extra.find (\( key_, _ ) -> key_ == key) sorting
+        |> Maybe.map (\( _, direction ) -> direction)
+        |> Maybe.withDefault None
 
 
 
@@ -89,70 +129,26 @@ update msg model =
 
 
 render : Model data (Html msg) -> List data -> List data
-render ({ columns, state } as tableState) data =
+render model data =
     data
-        |> filter tableState
-        |> sort state columns
+        |> filter model
+        |> sort model
 
 
 filter : Model data (Html msg) -> List data -> List data
 filter m data =
     let
         filter_ =
-            findColumn m.columns m.filter.key
+            findColumn m.filter.key m.columns
                 |> Maybe.map (\c -> c.filter m.filter.query)
                 |> Maybe.withDefault (\_ -> True)
-
-        findColumn columns key =
-            List.head <| List.filter (\c -> c.name == key) columns
     in
     List.filter filter_ data
 
 
-
--- STATE
-
-
-{-| Tracks which column to sort by.
--}
-type State
-    = State String Bool
-
-
-{-| Create a table state. By providing a column name, you determine which
-column should be used for sorting by default. So if you want your table of
-yachts to be sorted by length by default, you might say:
-
-    import Table
-
-    Table.initialSort "Length"
-
--}
-initialSort : String -> State
-initialSort header =
-    State header False
-
-
-{-| The status of a particular column, for use in the `thead` field of your
-`Customizations`.
-
-  - If the column is unsortable, the status will always be `Unsortable`.
-  - If the column can be sorted in one direction, the status will be `Sortable`.
-    The associated boolean represents whether this column is selected. So it is
-    `True` if the table is currently sorted by this column, and `False` otherwise.
-  - If the column can be sorted in either direction, the status will be `Reversible`.
-    The associated maybe tells you whether this column is selected. It is
-    `Just isReversed` if the table is currently sorted by this column, and
-    `Nothing` otherwise. The `isReversed` boolean lets you know which way it
-    is sorted.
-
-This information lets you do custom header decorations for each scenario.
-
--}
-type Status
-    = Unsortable
-    | Sortable Bool
-    | Reversible (Maybe Bool)
+findColumn : String -> List (Column data view) -> Maybe (Column data view)
+findColumn key columns =
+    List.head <| List.filter (\c -> c.name == key) columns
 
 
 
@@ -164,7 +160,7 @@ type Status
 type alias Column data view =
     { name : String
     , view : data -> view
-    , sorter : Sorter data
+    , sort : data -> String
     , filter : String -> data -> Bool
     }
 
@@ -174,7 +170,7 @@ stringColumn : { label : String, getter : data -> String, renderer : String -> v
 stringColumn { label, getter, renderer } =
     { name = label
     , view = getter >> renderer
-    , sorter = increasingOrDecreasingBy getter
+    , sort = getter
     , filter = \query data -> String.contains (String.toLower query) (String.toLower <| getter data)
     }
 
@@ -184,7 +180,7 @@ intColumn : { label : String, getter : data -> Int, renderer : String -> view } 
 intColumn { label, getter, renderer } =
     { name = label
     , view = getter >> String.fromInt >> renderer
-    , sorter = increasingOrDecreasingBy getter
+    , sort = getter >> String.fromInt
     , filter = \query data -> getter data |> String.fromInt |> String.startsWith query
     }
 
@@ -194,7 +190,7 @@ floatColumn : { label : String, getter : data -> Float, renderer : String -> vie
 floatColumn { label, getter, renderer } =
     { name = label
     , view = getter >> String.fromFloat >> renderer
-    , sorter = increasingOrDecreasingBy getter
+    , sort = getter >> String.fromFloat
     , filter = \query data -> getter data |> String.fromFloat |> String.startsWith query
     }
 
@@ -203,80 +199,31 @@ floatColumn { label, getter, renderer } =
 -- SORTING
 
 
-sort : State -> List (Column data msg) -> List data -> List data
-sort (State selectedColumn isReversed) columns data =
-    case findSorter selectedColumn columns of
-        Nothing ->
-            data
-
-        Just sorter ->
-            applySorter isReversed sorter data
-
-
-findSorter : String -> List (Column data msg) -> Maybe (Sorter data)
-findSorter selectedColumn columns =
-    case columns of
-        [] ->
-            Nothing
-
-        { name, sorter } :: remainingColumns ->
-            if name == selectedColumn then
-                Just sorter
-
-            else
-                findSorter selectedColumn remainingColumns
+sort : Model data view -> List data -> List data
+sort m prevData =
+    List.foldl
+        (\( key, direction ) data ->
+            findSorter key m.columns
+                |> Maybe.map (\sorter -> applySorter direction sorter data)
+                |> Maybe.withDefault data
+        )
+        prevData
+        m.sorting
 
 
-applySorter : Bool -> Sorter data -> List data -> List data
-applySorter isReversed sorter data =
-    case sorter of
-        None ->
-            data
-
-        Increasing sort_ ->
-            sort_ data
-
-        Decreasing sort_ ->
-            List.reverse (sort_ data)
-
-        IncOrDec sort_ ->
-            if isReversed then
-                List.reverse (sort_ data)
-
-            else
-                sort_ data
-
-        DecOrInc sort_ ->
-            if isReversed then
-                sort_ data
-
-            else
-                List.reverse (sort_ data)
+findSorter : String -> List (Column data view) -> Maybe (data -> String)
+findSorter key columns =
+    columns
+        |> List.Extra.find (\c -> c.name == key)
+        |> Maybe.map .sort
 
 
+applySorter : Direction -> (data -> comparable) -> List data -> List data
+applySorter direction sorter data =
+    case direction of
+        Descending ->
+            List.sortBy sorter data
+                |> List.reverse
 
--- SORTERS
-
-
-{-| Specifies a particular way of sorting data.
--}
-type Sorter data
-    = None
-    | Increasing (List data -> List data)
-    | Decreasing (List data -> List data)
-    | IncOrDec (List data -> List data)
-    | DecOrInc (List data -> List data)
-
-
-{-| Sometimes you want to be able to sort data in increasing _or_ decreasing
-order. Maybe you have race times for the 100 meter sprint. This function lets
-sort by best time by default, but also see the other order.
-
-    sorter : Sorter { a | time : comparable }
-    sorter =
-        increasingOrDecreasingBy .time
-
--}
-increasingOrDecreasingBy : (data -> comparable) -> Sorter data
-increasingOrDecreasingBy toComparable =
-    IncOrDec (List.sortBy toComparable)
+        _ ->
+            List.sortBy sorter data

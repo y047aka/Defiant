@@ -7,7 +7,7 @@ import Html.Styled.Events exposing (onInput)
 import Playground exposing (playground)
 import Shared
 import UI.Segment exposing (segment)
-import UI.SortableData as SortableData exposing (initialSort, intColumn, stringColumn)
+import UI.SortableData as SortableData exposing (intColumn, stringColumn)
 import UI.SortableData.View exposing (list, table)
 
 
@@ -26,7 +26,7 @@ init : Model
 init =
     { mode = Table
     , presidents = presidents
-    , tableState = SortableData.init .name columns (initialSort "Year")
+    , tableState = SortableData.init .name columns
     }
 
 
