@@ -31,6 +31,7 @@ import Pages.Layout.Grid as Grid
 import Pages.Layout.HolyGrail as HolyGrail
 import Pages.Layout.Modal as Modal
 import Pages.Layout.Rail as Rail
+import Pages.Layout.Stack as Stack
 import Pages.Navigation.Accordion as Accordion
 import Pages.Navigation.Breadcrumb as Breadcrumb
 import Pages.Navigation.Menu as Menu
@@ -78,6 +79,7 @@ type PageModel
     | HolyGrailModel HolyGrail.Model
     | ModalModel Modal.Model
     | RailModel Rail.Model
+    | StackModel Stack.Model
       -- Elements
     | ButtonModel Button.Model
     | DimmerModel Dimmer.Model
@@ -155,6 +157,7 @@ parser model =
         , fromPageSummary holyGrailPage |> Url.Parser.map ( { model | page = HolyGrailModel HolyGrail.init }, Cmd.none )
         , fromPageSummary modalPage |> Url.Parser.map ( { model | page = ModalModel Modal.init }, Cmd.none )
         , fromPageSummary railPage |> Url.Parser.map ( { model | page = RailModel Rail.init }, Cmd.none )
+        , fromPageSummary stackPage |> Url.Parser.map ( { model | page = StackModel Stack.init }, Cmd.none )
 
         -- Elements
         , fromPageSummary buttonPage |> Url.Parser.map ( { model | page = ButtonModel Button.init }, Cmd.none )
@@ -219,6 +222,7 @@ type PageMsg
     | HolyGrailMsg HolyGrail.Msg
     | ModalMsg Modal.Msg
     | RailMsg Rail.Msg
+    | StackMsg Stack.Msg
       -- Elements
     | ButtonMsg Button.Msg
     | DimmerMsg Dimmer.Msg
@@ -293,6 +297,9 @@ update msg model =
 
                 ( RailModel _, _ ) ->
                     ( model, Cmd.none )
+
+                ( StackModel pageModel, StackMsg pageMsg_ ) ->
+                    ( { model | page = StackModel (Stack.update pageMsg_ pageModel) }, Cmd.none )
 
                 ( ButtonModel pageModel, ButtonMsg pageMsg_ ) ->
                     ( { model | page = ButtonModel (Button.update pageMsg_ pageModel) }, Cmd.none )
@@ -439,6 +446,10 @@ view model =
                 RailModel pageModel ->
                     Rail.view model.shared
                         |> List.map (Html.Styled.map (RailMsg >> Page))
+
+                StackModel pageModel ->
+                    Stack.view model.shared pageModel
+                        |> List.map (Html.Styled.map (StackMsg >> Page))
 
                 ButtonModel pageModel ->
                     Button.view model.shared pageModel

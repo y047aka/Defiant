@@ -1,7 +1,7 @@
 module Data.PageSummary exposing
     ( PageSummary, all, summariesByCagetgory
     , sitePage
-    , containerPage, gridPage, holyGrailPage, modalPage, railPage
+    , containerPage, gridPage, holyGrailPage, modalPage, railPage, stackPage
     , buttonPage, dimmerPage, dividerPage, headerPage, iconPage, imagePage, labelPage, loaderPage, messagePage, placeholderPage, segmentPage, textPage
     , accordionPage, breadcrumbPage, menuPage, progressPage, stepPage, tabPage
     , checkboxPage, formPage, inputPage
@@ -13,7 +13,7 @@ module Data.PageSummary exposing
 
 @docs PageSummary, all, summariesByCagetgory
 @docs sitePage
-@docs containerPage, gridPage, holyGrailPage, modalPage, railPage
+@docs containerPage, gridPage, holyGrailPage, modalPage, railPage, stackPage
 @docs buttonPage, dimmerPage, dividerPage, headerPage, iconPage, imagePage, labelPage, loaderPage, messagePage, placeholderPage, segmentPage, textPage
 @docs accordionPage, breadcrumbPage, menuPage, progressPage, stepPage, tabPage
 @docs checkboxPage, formPage, inputPage
@@ -51,6 +51,7 @@ all =
     , holyGrailPage
     , modalPage
     , railPage
+    , stackPage
 
     -- Elements
     , buttonPage
@@ -138,6 +139,15 @@ railPage =
     , description = "A rail is used to show accompanying content outside the boundaries of the main view of a site"
     , category = Layout
     , route = [ "layout", "rail" ]
+    }
+
+
+stackPage : PageSummary
+stackPage =
+    { title = "Stack"
+    , description = "Inspired by \"EVERY LAYOUT\""
+    , category = Layout
+    , route = [ "layout", "stack" ]
     }
 
 

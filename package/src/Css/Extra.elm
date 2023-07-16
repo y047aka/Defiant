@@ -1,4 +1,18 @@
-module Css.Extra exposing (orNone, prefixed, when)
+module Css.Extra exposing
+    ( orNone, when
+    , rowGap, columnGap
+    , prefixed
+    )
+
+{-|
+
+@docs orNone, when
+
+@docs rowGap, columnGap
+
+@docs prefixed
+
+-}
 
 import Css exposing (..)
 
@@ -26,6 +40,20 @@ orNone maybe f =
     maybe
         |> Maybe.map f
         |> Maybe.withDefault none
+
+
+
+-- PROPERTIES
+
+
+rowGap : Length compatible units -> Style
+rowGap { value } =
+    property "row-gap" value
+
+
+columnGap : Length compatible units -> Style
+columnGap { value } =
+    property "column-gap" value
 
 
 
