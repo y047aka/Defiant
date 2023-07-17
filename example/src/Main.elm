@@ -30,7 +30,6 @@ import Page.Layout.Box as Box
 import Page.Layout.Center as Center
 import Page.Layout.Cluster as Cluster
 import Page.Layout.Grid as Grid
-import Page.Layout.HolyGrail as HolyGrail
 import Page.Layout.Modal as Modal
 import Page.Layout.Rail as Rail
 import Page.Layout.Stack as Stack
@@ -77,7 +76,6 @@ type PageModel
     | SiteModel Site.Model
       -- Layouts
     | GridModel Grid.Model
-    | HolyGrailModel HolyGrail.Model
     | ModalModel Modal.Model
     | RailModel Rail.Model
     | BoxModel Box.Model
@@ -157,7 +155,6 @@ parser model =
 
         -- Layouts
         , fromPageSummary gridPage |> Url.Parser.map ( { model | page = GridModel Grid.init }, Cmd.none )
-        , fromPageSummary holyGrailPage |> Url.Parser.map ( { model | page = HolyGrailModel HolyGrail.init }, Cmd.none )
         , fromPageSummary modalPage |> Url.Parser.map ( { model | page = ModalModel Modal.init }, Cmd.none )
         , fromPageSummary railPage |> Url.Parser.map ( { model | page = RailModel Rail.init }, Cmd.none )
         , fromPageSummary boxPage |> Url.Parser.map ( { model | page = BoxModel Box.init }, Cmd.none )
@@ -224,7 +221,6 @@ type PageMsg
     = SiteMsg Site.Msg
       -- Layouts
     | GridMsg Grid.Msg
-    | HolyGrailMsg HolyGrail.Msg
     | ModalMsg Modal.Msg
     | RailMsg Rail.Msg
     | BoxMsg Box.Msg
@@ -292,9 +288,6 @@ update msg model =
                     ( model, Cmd.none )
 
                 ( GridModel _, _ ) ->
-                    ( model, Cmd.none )
-
-                ( HolyGrailModel _, _ ) ->
                     ( model, Cmd.none )
 
                 ( ModalModel pageModel, ModalMsg pageMsg_ ) ->
@@ -444,10 +437,6 @@ view model =
                 GridModel _ ->
                     Grid.view model.shared
                         |> List.map (Html.Styled.map (GridMsg >> Page))
-
-                HolyGrailModel _ ->
-                    HolyGrail.view model.shared
-                        |> List.map (Html.Styled.map (HolyGrailMsg >> Page))
 
                 ModalModel pageModel ->
                     Modal.view model.shared pageModel

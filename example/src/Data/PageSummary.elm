@@ -1,7 +1,7 @@
 module Data.PageSummary exposing
     ( PageSummary, all, summariesByCagetgory
     , sitePage
-    , gridPage, holyGrailPage, modalPage, railPage, boxPage, centerPage, clusterPage, stackPage
+    , gridPage, modalPage, railPage, boxPage, centerPage, clusterPage, stackPage
     , buttonPage, dimmerPage, dividerPage, headerPage, iconPage, imagePage, labelPage, loaderPage, messagePage, placeholderPage, segmentPage, textPage
     , accordionPage, breadcrumbPage, menuPage, progressPage, stepPage, tabPage
     , checkboxPage, formPage, inputPage
@@ -13,7 +13,7 @@ module Data.PageSummary exposing
 
 @docs PageSummary, all, summariesByCagetgory
 @docs sitePage
-@docs gridPage, holyGrailPage, modalPage, railPage, boxPage, centerPage, clusterPage, stackPage
+@docs gridPage, modalPage, railPage, boxPage, centerPage, clusterPage, stackPage
 @docs buttonPage, dimmerPage, dividerPage, headerPage, iconPage, imagePage, labelPage, loaderPage, messagePage, placeholderPage, segmentPage, textPage
 @docs accordionPage, breadcrumbPage, menuPage, progressPage, stepPage, tabPage
 @docs checkboxPage, formPage, inputPage
@@ -47,7 +47,6 @@ all =
 
     -- Layout
     , gridPage
-    , holyGrailPage
     , modalPage
     , railPage
     , boxPage
@@ -105,15 +104,6 @@ gridPage =
     , description = "A grid is used to harmonize negative space in a layout"
     , category = Layout
     , route = [ "layout", "grid" ]
-    }
-
-
-holyGrailPage : PageSummary
-holyGrailPage =
-    { title = "Holy Grail"
-    , description = "Holy grail layout."
-    , category = Layout
-    , route = [ "layout", "holy-grail" ]
     }
 
 
