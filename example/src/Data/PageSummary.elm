@@ -1,7 +1,7 @@
 module Data.PageSummary exposing
     ( PageSummary, all, summariesByCagetgory
     , sitePage
-    , containerPage, gridPage, holyGrailPage, modalPage, railPage, boxPage, stackPage
+    , containerPage, gridPage, holyGrailPage, modalPage, railPage, boxPage, centerPage, stackPage
     , buttonPage, dimmerPage, dividerPage, headerPage, iconPage, imagePage, labelPage, loaderPage, messagePage, placeholderPage, segmentPage, textPage
     , accordionPage, breadcrumbPage, menuPage, progressPage, stepPage, tabPage
     , checkboxPage, formPage, inputPage
@@ -13,7 +13,7 @@ module Data.PageSummary exposing
 
 @docs PageSummary, all, summariesByCagetgory
 @docs sitePage
-@docs containerPage, gridPage, holyGrailPage, modalPage, railPage, boxPage, stackPage
+@docs containerPage, gridPage, holyGrailPage, modalPage, railPage, boxPage, centerPage, stackPage
 @docs buttonPage, dimmerPage, dividerPage, headerPage, iconPage, imagePage, labelPage, loaderPage, messagePage, placeholderPage, segmentPage, textPage
 @docs accordionPage, breadcrumbPage, menuPage, progressPage, stepPage, tabPage
 @docs checkboxPage, formPage, inputPage
@@ -52,6 +52,7 @@ all =
     , modalPage
     , railPage
     , boxPage
+    , centerPage
     , stackPage
 
     -- Elements
@@ -149,6 +150,15 @@ boxPage =
     , description = "Inspired by \"EVERY LAYOUT\""
     , category = Layout
     , route = [ "layout", "box" ]
+    }
+
+
+centerPage : PageSummary
+centerPage =
+    { title = "Center"
+    , description = "Inspired by \"EVERY LAYOUT\""
+    , category = Layout
+    , route = [ "layout", "center" ]
     }
 
 
