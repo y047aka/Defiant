@@ -1,5 +1,6 @@
 module Css.Extra exposing
     ( orNone, when
+    , marginBlock, marginInline, paddingBlock, paddingInline
     , rowGap, columnGap
     , prefixed
     )
@@ -8,6 +9,7 @@ module Css.Extra exposing
 
 @docs orNone, when
 
+@docs marginBlock, marginInline, paddingBlock, paddingInline
 @docs rowGap, columnGap
 
 @docs prefixed
@@ -44,6 +46,26 @@ orNone maybe f =
 
 
 -- PROPERTIES
+
+
+marginBlock : LengthOrAuto compatible -> Style
+marginBlock { value } =
+    property "margin-block" value
+
+
+marginInline : LengthOrAuto compatible -> Style
+marginInline { value } =
+    property "margin-inline" value
+
+
+paddingBlock : LengthOrAuto compatible -> Style
+paddingBlock { value } =
+    property "padding-block" value
+
+
+paddingInline : LengthOrAuto compatible -> Style
+paddingInline { value } =
+    property "padding-inline" value
 
 
 rowGap : Length compatible units -> Style

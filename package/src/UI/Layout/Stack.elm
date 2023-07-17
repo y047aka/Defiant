@@ -1,7 +1,7 @@
 module UI.Layout.Stack exposing (Props, defaultProps, stack)
 
 import Css exposing (..)
-import Css.Extra exposing (rowGap)
+import Css.Extra exposing (marginBlock, rowGap)
 import Css.Global exposing (children, everything)
 import Html.Styled as Html exposing (Attribute, Html, div)
 
@@ -15,7 +15,7 @@ defaultProps =
     { gap = 1.5 }
 
 
-stack : { gap : Float } -> List (Attribute msg) -> List (Html msg) -> Html msg
+stack : Props -> List (Attribute msg) -> List (Html msg) -> Html msg
 stack props atributes items =
     Html.styled div
         [ displayFlex
@@ -24,9 +24,7 @@ stack props atributes items =
         , rowGap (rem props.gap)
         , children
             [ everything
-                [ marginTop zero
-                , marginBottom zero
-                ]
+                [ marginBlock zero ]
             ]
         ]
         atributes
