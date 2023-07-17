@@ -26,6 +26,7 @@ import Page.Form.Checkbox as Checkbox
 import Page.Form.Form as Form
 import Page.Form.Input as Input
 import Page.Global.Site as Site
+import Page.Layout.Box as Box
 import Page.Layout.Container as Container
 import Page.Layout.Grid as Grid
 import Page.Layout.HolyGrail as HolyGrail
@@ -79,6 +80,7 @@ type PageModel
     | HolyGrailModel HolyGrail.Model
     | ModalModel Modal.Model
     | RailModel Rail.Model
+    | BoxModel Box.Model
     | StackModel Stack.Model
       -- Elements
     | ButtonModel Button.Model
@@ -157,6 +159,7 @@ parser model =
         , fromPageSummary holyGrailPage |> Url.Parser.map ( { model | page = HolyGrailModel HolyGrail.init }, Cmd.none )
         , fromPageSummary modalPage |> Url.Parser.map ( { model | page = ModalModel Modal.init }, Cmd.none )
         , fromPageSummary railPage |> Url.Parser.map ( { model | page = RailModel Rail.init }, Cmd.none )
+        , fromPageSummary boxPage |> Url.Parser.map ( { model | page = BoxModel Box.init }, Cmd.none )
         , fromPageSummary stackPage |> Url.Parser.map ( { model | page = StackModel Stack.init }, Cmd.none )
 
         -- Elements
@@ -222,6 +225,7 @@ type PageMsg
     | HolyGrailMsg HolyGrail.Msg
     | ModalMsg Modal.Msg
     | RailMsg Rail.Msg
+    | BoxMsg Box.Msg
     | StackMsg Stack.Msg
       -- Elements
     | ButtonMsg Button.Msg
@@ -297,6 +301,9 @@ update msg model =
 
                 ( RailModel _, _ ) ->
                     ( model, Cmd.none )
+
+                ( BoxModel pageModel, BoxMsg pageMsg_ ) ->
+                    ( { model | page = BoxModel (Box.update pageMsg_ pageModel) }, Cmd.none )
 
                 ( StackModel pageModel, StackMsg pageMsg_ ) ->
                     ( { model | page = StackModel (Stack.update pageMsg_ pageModel) }, Cmd.none )
@@ -446,6 +453,10 @@ view model =
                 RailModel pageModel ->
                     Rail.view model.shared
                         |> List.map (Html.Styled.map (RailMsg >> Page))
+
+                BoxModel pageModel ->
+                    Box.view model.shared pageModel
+                        |> List.map (Html.Styled.map (BoxMsg >> Page))
 
                 StackModel pageModel ->
                     Stack.view model.shared pageModel

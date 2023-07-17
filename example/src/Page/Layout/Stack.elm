@@ -85,7 +85,7 @@ view { theme } { props } =
                 ]
             ]
         , configSections =
-            [ { label = "Bar"
+            [ { label = "Gap"
               , configs =
                     [ Playground.counter
                         { label = ""
