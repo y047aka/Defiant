@@ -28,6 +28,7 @@ import Page.Form.Input as Input
 import Page.Global.Site as Site
 import Page.Layout.Box as Box
 import Page.Layout.Center as Center
+import Page.Layout.Cluster as Cluster
 import Page.Layout.Container as Container
 import Page.Layout.Grid as Grid
 import Page.Layout.HolyGrail as HolyGrail
@@ -83,6 +84,7 @@ type PageModel
     | RailModel Rail.Model
     | BoxModel Box.Model
     | CenterModel Center.Model
+    | ClusterModel Cluster.Model
     | StackModel Stack.Model
       -- Elements
     | ButtonModel Button.Model
@@ -163,6 +165,7 @@ parser model =
         , fromPageSummary railPage |> Url.Parser.map ( { model | page = RailModel Rail.init }, Cmd.none )
         , fromPageSummary boxPage |> Url.Parser.map ( { model | page = BoxModel Box.init }, Cmd.none )
         , fromPageSummary centerPage |> Url.Parser.map ( { model | page = CenterModel Center.init }, Cmd.none )
+        , fromPageSummary clusterPage |> Url.Parser.map ( { model | page = ClusterModel Cluster.init }, Cmd.none )
         , fromPageSummary stackPage |> Url.Parser.map ( { model | page = StackModel Stack.init }, Cmd.none )
 
         -- Elements
@@ -230,6 +233,7 @@ type PageMsg
     | RailMsg Rail.Msg
     | BoxMsg Box.Msg
     | CenterMsg Center.Msg
+    | ClusterMsg Cluster.Msg
     | StackMsg Stack.Msg
       -- Elements
     | ButtonMsg Button.Msg
@@ -311,6 +315,9 @@ update msg model =
 
                 ( CenterModel pageModel, CenterMsg pageMsg_ ) ->
                     ( { model | page = CenterModel (Center.update pageMsg_ pageModel) }, Cmd.none )
+
+                ( ClusterModel pageModel, ClusterMsg pageMsg_ ) ->
+                    ( { model | page = ClusterModel (Cluster.update pageMsg_ pageModel) }, Cmd.none )
 
                 ( StackModel pageModel, StackMsg pageMsg_ ) ->
                     ( { model | page = StackModel (Stack.update pageMsg_ pageModel) }, Cmd.none )
@@ -468,6 +475,10 @@ view model =
                 CenterModel pageModel ->
                     Center.view model.shared pageModel
                         |> List.map (Html.Styled.map (CenterMsg >> Page))
+
+                ClusterModel pageModel ->
+                    Cluster.view model.shared pageModel
+                        |> List.map (Html.Styled.map (ClusterMsg >> Page))
 
                 StackModel pageModel ->
                     Stack.view model.shared pageModel

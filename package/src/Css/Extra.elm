@@ -1,7 +1,7 @@
 module Css.Extra exposing
     ( batchIf, orNone
     , marginBlock, marginInline, paddingBlock, paddingInline
-    , rowGap, columnGap
+    , gap, rowGap, columnGap
     , prefixed
     )
 
@@ -10,7 +10,7 @@ module Css.Extra exposing
 @docs batchIf, orNone
 
 @docs marginBlock, marginInline, paddingBlock, paddingInline
-@docs rowGap, columnGap
+@docs gap, rowGap, columnGap
 
 @docs prefixed
 
@@ -66,6 +66,11 @@ paddingBlock { value } =
 paddingInline : LengthOrAuto compatible -> Style
 paddingInline { value } =
     property "padding-inline" value
+
+
+gap : Length compatible units -> Style
+gap { value } =
+    property "gap" value
 
 
 rowGap : Length compatible units -> Style
