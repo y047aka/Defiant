@@ -1,5 +1,6 @@
 module Page.Layout.Box exposing (Model, Msg, init, update, view)
 
+import Basics.Extra exposing (decrementIfPositive)
 import Html.Styled exposing (Html, a, h2, p, strong, text)
 import Html.Styled.Attributes exposing (href)
 import Playground exposing (playground)
@@ -58,15 +59,6 @@ update msg m =
 
         BorderMinus ->
             { m | props = Box.setBorderWidth (decrementIfPositive 1 p.borderWidth) p }
-
-
-decrementIfPositive : Float -> Float -> Float
-decrementIfPositive step value =
-    if value > 0 then
-        ((value * 10) - (step * 10)) / 10
-
-    else
-        value
 
 
 

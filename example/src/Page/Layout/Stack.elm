@@ -1,5 +1,6 @@
 module Page.Layout.Stack exposing (Model, Msg, init, update, view)
 
+import Basics.Extra exposing (decrementIfPositive)
 import Html.Styled exposing (Html, a, h2, p, strong, text)
 import Html.Styled.Attributes exposing (href)
 import Playground exposing (playground)
@@ -41,15 +42,6 @@ update msg m =
 
         CounterMinus ->
             { m | props = Stack.setGap (decrementIfPositive 0.1 p.gap) p }
-
-
-decrementIfPositive : Float -> Float -> Float
-decrementIfPositive step value =
-    if value > 0 then
-        ((value * 10) - (step * 10)) / 10
-
-    else
-        value
 
 
 

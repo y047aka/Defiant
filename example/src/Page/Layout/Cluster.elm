@@ -1,5 +1,6 @@
 module Page.Layout.Cluster exposing (Model, Msg, init, update, view)
 
+import Basics.Extra exposing (decrementIfPositive)
 import Html.Styled exposing (Html, p, text)
 import Playground exposing (playground)
 import Shared
@@ -45,15 +46,6 @@ update msg m =
 
         CounterMinus ->
             { m | props = Cluster.setGap (decrementIfPositive 0.1 p.gap) p }
-
-
-decrementIfPositive : Float -> Float -> Float
-decrementIfPositive step value =
-    if value > 0 then
-        ((value * 10) - (step * 10)) / 10
-
-    else
-        value
 
 
 
