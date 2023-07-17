@@ -19,7 +19,7 @@ module Css.Layout exposing
 -}
 
 import Css exposing (Style, batch, property)
-import Css.Extra exposing (when)
+import Css.Extra exposing (batchIf)
 
 
 type alias Layout =
@@ -32,7 +32,7 @@ layout : Layout -> Style
 layout t =
     let
         setUnlessBlank p v =
-            when (v /= "") <| property p v
+            batchIf (v /= "") [ property p v ]
     in
     batch
         [ setUnlessBlank "text-align" t.textAlign

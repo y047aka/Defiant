@@ -1,5 +1,5 @@
 module Css.Extra exposing
-    ( orNone, when
+    ( batchIf, orNone
     , marginBlock, marginInline, paddingBlock, paddingInline
     , rowGap, columnGap
     , prefixed
@@ -7,7 +7,7 @@ module Css.Extra exposing
 
 {-|
 
-@docs orNone, when
+@docs batchIf, orNone
 
 @docs marginBlock, marginInline, paddingBlock, paddingInline
 @docs rowGap, columnGap
@@ -28,10 +28,10 @@ none =
     batch []
 
 
-when : Bool -> Style -> Style
-when condition style =
+batchIf : Bool -> List Style -> Style
+batchIf condition styles =
     if condition then
-        style
+        batch styles
 
     else
         none
