@@ -1,7 +1,7 @@
 module Data.PageSummary exposing
     ( PageSummary, all, summariesByCagetgory
     , sitePage
-    , containerPage, gridPage, holyGrailPage, modalPage, railPage, boxPage, centerPage, clusterPage, stackPage
+    , gridPage, holyGrailPage, modalPage, railPage, boxPage, centerPage, clusterPage, stackPage
     , buttonPage, dimmerPage, dividerPage, headerPage, iconPage, imagePage, labelPage, loaderPage, messagePage, placeholderPage, segmentPage, textPage
     , accordionPage, breadcrumbPage, menuPage, progressPage, stepPage, tabPage
     , checkboxPage, formPage, inputPage
@@ -13,7 +13,7 @@ module Data.PageSummary exposing
 
 @docs PageSummary, all, summariesByCagetgory
 @docs sitePage
-@docs containerPage, gridPage, holyGrailPage, modalPage, railPage, boxPage, centerPage, clusterPage, stackPage
+@docs gridPage, holyGrailPage, modalPage, railPage, boxPage, centerPage, clusterPage, stackPage
 @docs buttonPage, dimmerPage, dividerPage, headerPage, iconPage, imagePage, labelPage, loaderPage, messagePage, placeholderPage, segmentPage, textPage
 @docs accordionPage, breadcrumbPage, menuPage, progressPage, stepPage, tabPage
 @docs checkboxPage, formPage, inputPage
@@ -46,7 +46,6 @@ all =
       sitePage
 
     -- Layout
-    , containerPage
     , gridPage
     , holyGrailPage
     , modalPage
@@ -97,15 +96,6 @@ sitePage =
     , description = "A site is a set of global constraints that define the basic parameters of all UI elements"
     , category = Global
     , route = [ "global", "site" ]
-    }
-
-
-containerPage : PageSummary
-containerPage =
-    { title = "Container"
-    , description = "A container limits content to a maximum width"
-    , category = Layout
-    , route = [ "layout", "container" ]
     }
 
 

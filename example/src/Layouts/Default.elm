@@ -14,8 +14,10 @@ import Html.Styled.Attributes exposing (css, href, selected, value)
 import Html.Styled.Events exposing (onInput)
 import Shared
 import UI.Breadcrumb exposing (BreadcrumbItem, Divider(..), breadcrumbWithProps)
-import UI.Container exposing (container)
 import UI.Header as Header
+import UI.Layout.Box as Box exposing (box)
+import UI.Layout.Center as Center
+import UI.Layout.Stack as Stack exposing (stack)
 import UI.Segment exposing (basicSegment)
 import Url exposing (Url)
 import Url.Builder
@@ -52,16 +54,14 @@ view { url, shared } toContentMsg page =
             , Html.map toContentMsg <|
                 siteHeader shared Shared.ChangeTheme { title = page.title, url = url }
             , main_ []
-                [ basicSegment { theme = Light }
+                [ box (Box.defaultProps |> Box.setBorderWidth 0)
                     []
-                    [ container
-                        [ css
-                            [ displayFlex
-                            , flexDirection column
-                            , property "gap" "50px"
-                            ]
+                    [ Center.center (Center.defaultProps |> Center.setMax 150)
+                        []
+                        [ stack (Stack.defaultProps |> Stack.setGap 3)
+                            []
+                            page.body
                         ]
-                        page.body
                     ]
                 ]
             , siteFooter shared

@@ -29,7 +29,6 @@ import Page.Global.Site as Site
 import Page.Layout.Box as Box
 import Page.Layout.Center as Center
 import Page.Layout.Cluster as Cluster
-import Page.Layout.Container as Container
 import Page.Layout.Grid as Grid
 import Page.Layout.HolyGrail as HolyGrail
 import Page.Layout.Modal as Modal
@@ -77,7 +76,6 @@ type PageModel
       -- Globals
     | SiteModel Site.Model
       -- Layouts
-    | ContainerModel Container.Model
     | GridModel Grid.Model
     | HolyGrailModel HolyGrail.Model
     | ModalModel Modal.Model
@@ -158,7 +156,6 @@ parser model =
         , fromPageSummary sitePage |> Url.Parser.map ( { model | page = SiteModel Site.init }, Cmd.none )
 
         -- Layouts
-        , fromPageSummary containerPage |> Url.Parser.map ( { model | page = ContainerModel Container.init }, Cmd.none )
         , fromPageSummary gridPage |> Url.Parser.map ( { model | page = GridModel Grid.init }, Cmd.none )
         , fromPageSummary holyGrailPage |> Url.Parser.map ( { model | page = HolyGrailModel HolyGrail.init }, Cmd.none )
         , fromPageSummary modalPage |> Url.Parser.map ( { model | page = ModalModel Modal.init }, Cmd.none )
@@ -226,7 +223,6 @@ type Msg
 type PageMsg
     = SiteMsg Site.Msg
       -- Layouts
-    | ContainerMsg Container.Msg
     | GridMsg Grid.Msg
     | HolyGrailMsg HolyGrail.Msg
     | ModalMsg Modal.Msg
@@ -293,9 +289,6 @@ update msg model =
                     ( model, Cmd.none )
 
                 ( SiteModel _, _ ) ->
-                    ( model, Cmd.none )
-
-                ( ContainerModel _, _ ) ->
                     ( model, Cmd.none )
 
                 ( GridModel _, _ ) ->
@@ -447,10 +440,6 @@ view model =
                 SiteModel pageModel ->
                     Site.view model.shared
                         |> List.map (Html.Styled.map (SiteMsg >> Page))
-
-                ContainerModel pageModel ->
-                    Container.view model.shared
-                        |> List.map (Html.Styled.map (ContainerMsg >> Page))
 
                 GridModel pageModel ->
                     Grid.view model.shared
