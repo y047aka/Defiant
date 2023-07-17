@@ -43,36 +43,21 @@ update msg m =
             { m | props = updater m.props }
 
         PaddingPlus ->
-            { m | props = setPadding (((p.padding * 10) + 1) / 10) p }
+            { m | props = Box.setPadding (((p.padding * 10) + 1) / 10) p }
 
         PaddingMinus ->
             { m
                 | props =
                     p.padding
                         |> decrementIfPositive 0.1
-                        |> (\v -> setPadding v p)
+                        |> (\v -> Box.setPadding v p)
             }
 
         BorderPlus ->
-            { m | props = setBorderWidth (p.borderWidth + 1) p }
+            { m | props = Box.setBorderWidth (p.borderWidth + 1) p }
 
         BorderMinus ->
-            { m
-                | props =
-                    p.borderWidth
-                        |> decrementIfPositive 1
-                        |> (\v -> setBorderWidth v p)
-            }
-
-
-setPadding : Float -> Box.Props -> Box.Props
-setPadding padding props =
-    { props | padding = padding }
-
-
-setBorderWidth : Float -> Box.Props -> Box.Props
-setBorderWidth borderWidth props =
-    { props | borderWidth = borderWidth }
+            { m | props = Box.setBorderWidth (decrementIfPositive 1 p.borderWidth) p }
 
 
 decrementIfPositive : Float -> Float -> Float
@@ -143,7 +128,7 @@ view { theme } { props } =
                         { id = "invert"
                         , label = "Invert"
                         , bool = props.invert
-                        , onClick = (\c -> { c | invert = not c.invert }) |> UpdateProps
+                        , onClick = Box.setInvert (not props.invert) |> UpdateProps
                         , note = ""
                         }
                     ]

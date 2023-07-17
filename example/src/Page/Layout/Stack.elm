@@ -37,23 +37,19 @@ update msg m =
     in
     case msg of
         CounterPlus ->
-            { m | props = setGap (((p.gap * 10) + 1) / 10) p }
+            { m | props = Stack.setGap (((p.gap * 10) + 1) / 10) p }
 
         CounterMinus ->
-            let
-                newGap =
-                    if p.gap > 0 then
-                        ((p.gap * 10) - 1) / 10
-
-                    else
-                        p.gap
-            in
-            { m | props = setGap newGap p }
+            { m | props = Stack.setGap (decrementIfPositive 0.1 p.gap) p }
 
 
-setGap : Float -> Stack.Props -> Stack.Props
-setGap gap props =
-    { props | gap = gap }
+decrementIfPositive : Float -> Float -> Float
+decrementIfPositive step value =
+    if value > 0 then
+        ((value * 10) - (step * 10)) / 10
+
+    else
+        value
 
 
 

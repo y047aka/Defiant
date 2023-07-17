@@ -41,15 +41,10 @@ update msg m =
             { m | props = updater m.props }
 
         CounterPlus ->
-            { m | props = setGap (((p.gap * 10) + 1) / 10) p }
+            { m | props = Cluster.setGap (((p.gap * 10) + 1) / 10) p }
 
         CounterMinus ->
-            { m | props = setGap (decrementIfPositive 0.1 p.gap) p }
-
-
-setGap : Float -> Cluster.Props -> Cluster.Props
-setGap gap props =
-    { props | gap = gap }
+            { m | props = Cluster.setGap (decrementIfPositive 0.1 p.gap) p }
 
 
 decrementIfPositive : Float -> Float -> Float
@@ -85,7 +80,7 @@ view { theme } { props } =
                         , options = [ "start", "end", "flex-start", "flex-end", "center", "space-between", "space-around", "space-evenly" ]
                         , fromString = identity >> Just
                         , toString = identity
-                        , onChange = (\justify p -> { p | justify = justify }) >> UpdateProps
+                        , onChange = Cluster.setJustify >> UpdateProps
                         , note = "https://developer.mozilla.org/ja/docs/Web/CSS/justify-content"
                         }
                     ]
@@ -98,7 +93,7 @@ view { theme } { props } =
                         , options = [ "start", "end", "flex-start", "flex-end", "center", "stretch" ]
                         , fromString = identity >> Just
                         , toString = identity
-                        , onChange = (\align p -> { p | align = align }) >> UpdateProps
+                        , onChange = Cluster.setAlign >> UpdateProps
                         , note = "https://developer.mozilla.org/ja/docs/Web/CSS/align-items"
                         }
                     ]

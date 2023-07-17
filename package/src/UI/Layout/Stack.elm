@@ -1,4 +1,4 @@
-module UI.Layout.Stack exposing (Props, defaultProps, stack)
+module UI.Layout.Stack exposing (Props, defaultProps, setGap, stack)
 
 import Css exposing (..)
 import Css.Extra exposing (marginBlock, rowGap)
@@ -29,3 +29,12 @@ stack props atributes items =
         ]
         atributes
         items
+
+
+
+-- HELPERS
+
+
+setGap : Float -> Props -> Props
+setGap gap props =
+    { props | gap = gap }

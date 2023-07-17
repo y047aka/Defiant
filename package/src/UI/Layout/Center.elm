@@ -1,4 +1,16 @@
-module UI.Layout.Center exposing (Props, center, defaultProps)
+module UI.Layout.Center exposing
+    ( Props, defaultProps
+    , center
+    , setMax, setAndText, setGutters, setIntrinsic
+    )
+
+{-|
+
+@docs Props, defaultProps
+@docs center
+@docs setMax, setAndText, setGutters, setIntrinsic
+
+-}
 
 import Css exposing (..)
 import Css.Extra exposing (batchIf, marginInline, paddingInline)
@@ -39,3 +51,27 @@ center props atributes items =
         ]
         atributes
         items
+
+
+
+-- HELPERS
+
+
+setMax : Float -> Props -> Props
+setMax val props =
+    { props | max = val }
+
+
+setAndText : Bool -> Props -> Props
+setAndText bool props =
+    { props | andText = bool }
+
+
+setGutters : Float -> Props -> Props
+setGutters val props =
+    { props | gutters = val }
+
+
+setIntrinsic : Bool -> Props -> Props
+setIntrinsic bool props =
+    { props | intrinsic = bool }

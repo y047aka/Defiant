@@ -1,4 +1,16 @@
-module UI.Layout.Box exposing (Props, box, defaultProps)
+module UI.Layout.Box exposing
+    ( Props, defaultProps
+    , box
+    , setPadding, setBorderWidth, setPalette, setInvert
+    )
+
+{-|
+
+@docs Props, defaultProps
+@docs box
+@docs setPadding, setBorderWidth, setPalette, setInvert
+
+-}
 
 import Css exposing (..)
 import Css.Global exposing (descendants, everything)
@@ -44,3 +56,27 @@ box props atributes items =
 invert : Palette -> Palette
 invert p =
     { p | background = p.color, color = p.background }
+
+
+
+-- HELPERS
+
+
+setPadding : Float -> Props -> Props
+setPadding val props =
+    { props | padding = val }
+
+
+setBorderWidth : Float -> Props -> Props
+setBorderWidth val props =
+    { props | borderWidth = val }
+
+
+setPalette : Palette -> Props -> Props
+setPalette palette props =
+    { props | palette = palette }
+
+
+setInvert : Bool -> Props -> Props
+setInvert bool props =
+    { props | invert = bool }

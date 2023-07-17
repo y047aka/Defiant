@@ -43,26 +43,16 @@ update msg m =
             { m | props = updater m.props }
 
         MaxPlus ->
-            { m | props = setMax (p.max + 1) p }
+            { m | props = Center.setMax (p.max + 1) p }
 
         MaxMinus ->
-            { m | props = setMax (decrementIfPositive 1 p.max) p }
+            { m | props = Center.setMax (decrementIfPositive 1 p.max) p }
 
         GuttersPlus ->
-            { m | props = setGutters (((p.gutters * 10) + 1) / 10) p }
+            { m | props = Center.setGutters (((p.gutters * 10) + 1) / 10) p }
 
         GuttersMinus ->
-            { m | props = setGutters (decrementIfPositive 0.1 p.gutters) p }
-
-
-setMax : Float -> Center.Props -> Center.Props
-setMax max props =
-    { props | max = max }
-
-
-setGutters : Float -> Center.Props -> Center.Props
-setGutters gutters props =
-    { props | gutters = gutters }
+            { m | props = Center.setGutters (decrementIfPositive 0.1 p.gutters) p }
 
 
 decrementIfPositive : Float -> Float -> Float
@@ -121,7 +111,7 @@ view { theme } { props } =
                         { id = "andText"
                         , label = "andText"
                         , bool = props.andText
-                        , onClick = (\c -> { c | andText = not c.andText }) |> UpdateProps
+                        , onClick = Center.setAndText (not props.andText) |> UpdateProps
                         , note = ""
                         }
                     ]
@@ -144,7 +134,7 @@ view { theme } { props } =
                         { id = "intrinsic"
                         , label = "intrinsic"
                         , bool = props.intrinsic
-                        , onClick = (\c -> { c | intrinsic = not c.intrinsic }) |> UpdateProps
+                        , onClick = Center.setIntrinsic (not props.intrinsic) |> UpdateProps
                         , note = ""
                         }
                     ]
