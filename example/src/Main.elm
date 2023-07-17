@@ -437,15 +437,15 @@ view model =
                 TopModel ->
                     Top.view model.shared
 
-                SiteModel pageModel ->
+                SiteModel _ ->
                     Site.view model.shared
                         |> List.map (Html.Styled.map (SiteMsg >> Page))
 
-                GridModel pageModel ->
+                GridModel _ ->
                     Grid.view model.shared
                         |> List.map (Html.Styled.map (GridMsg >> Page))
 
-                HolyGrailModel pageModel ->
+                HolyGrailModel _ ->
                     HolyGrail.view model.shared
                         |> List.map (Html.Styled.map (HolyGrailMsg >> Page))
 
@@ -453,7 +453,7 @@ view model =
                     Modal.view model.shared pageModel
                         |> List.map (Html.Styled.map (ModalMsg >> Page))
 
-                RailModel pageModel ->
+                RailModel _ ->
                     Rail.view model.shared
                         |> List.map (Html.Styled.map (RailMsg >> Page))
 
@@ -481,7 +481,7 @@ view model =
                     Dimmer.view model.shared pageModel
                         |> List.map (Html.Styled.map (DimmerMsg >> Page))
 
-                DividerModel pageModel ->
+                DividerModel _ ->
                     Divider.view model.shared
                         |> List.map (Html.Styled.map (DividerMsg >> Page))
 
@@ -489,11 +489,11 @@ view model =
                     Header.view model.shared pageModel
                         |> List.map (Html.Styled.map (HeaderMsg >> Page))
 
-                IconModel pageModel ->
+                IconModel _ ->
                     Icon.view model.shared
                         |> List.map (Html.Styled.map (IconMsg >> Page))
 
-                ImageModel pageModel ->
+                ImageModel _ ->
                     Image.view model.shared
                         |> List.map (Html.Styled.map (ImageMsg >> Page))
 
@@ -501,15 +501,15 @@ view model =
                     Label.view model.shared pageModel
                         |> List.map (Html.Styled.map (LabelMsg >> Page))
 
-                LoaderModel pageModel ->
+                LoaderModel _ ->
                     Loader.view model.shared
                         |> List.map (Html.Styled.map (LoaderMsg >> Page))
 
-                MessageModel pageModel ->
+                MessageModel _ ->
                     Message.view model.shared
                         |> List.map (Html.Styled.map (MessageMsg >> Page))
 
-                PlaceholderModel pageModel ->
+                PlaceholderModel _ ->
                     Placeholder.view model.shared
                         |> List.map (Html.Styled.map (PlaceholderMsg >> Page))
 
@@ -529,7 +529,7 @@ view model =
                     Breadcrumb.view model.shared pageModel
                         |> List.map (Html.Styled.map (BreadcrumbMsg >> Page))
 
-                MenuModel pageModel ->
+                MenuModel _ ->
                     Menu.view model.shared
                         |> List.map (Html.Styled.map (MenuMsg >> Page))
 
@@ -541,7 +541,7 @@ view model =
                     Step.view model.shared pageModel
                         |> List.map (Html.Styled.map (StepMsg >> Page))
 
-                TabModel pageModel ->
+                TabModel _ ->
                     Tab.view model.shared
                         |> List.map (Html.Styled.map (TabMsg >> Page))
 
@@ -553,7 +553,7 @@ view model =
                     Form.view model.shared pageModel
                         |> List.map (Html.Styled.map (FormMsg >> Page))
 
-                InputModel pageModel ->
+                InputModel _ ->
                     Input.view model.shared
                         |> List.map (Html.Styled.map (InputMsg >> Page))
 
