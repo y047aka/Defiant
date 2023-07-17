@@ -31,7 +31,6 @@ import Page.Layout.Center as Center
 import Page.Layout.Cluster as Cluster
 import Page.Layout.Grid as Grid
 import Page.Layout.Modal as Modal
-import Page.Layout.Rail as Rail
 import Page.Layout.Stack as Stack
 import Page.Navigation.Accordion as Accordion
 import Page.Navigation.Breadcrumb as Breadcrumb
@@ -77,7 +76,6 @@ type PageModel
       -- Layouts
     | GridModel Grid.Model
     | ModalModel Modal.Model
-    | RailModel Rail.Model
     | BoxModel Box.Model
     | CenterModel Center.Model
     | ClusterModel Cluster.Model
@@ -156,7 +154,6 @@ parser model =
         -- Layouts
         , fromPageSummary gridPage |> Url.Parser.map ( { model | page = GridModel Grid.init }, Cmd.none )
         , fromPageSummary modalPage |> Url.Parser.map ( { model | page = ModalModel Modal.init }, Cmd.none )
-        , fromPageSummary railPage |> Url.Parser.map ( { model | page = RailModel Rail.init }, Cmd.none )
         , fromPageSummary boxPage |> Url.Parser.map ( { model | page = BoxModel Box.init }, Cmd.none )
         , fromPageSummary centerPage |> Url.Parser.map ( { model | page = CenterModel Center.init }, Cmd.none )
         , fromPageSummary clusterPage |> Url.Parser.map ( { model | page = ClusterModel Cluster.init }, Cmd.none )
@@ -222,7 +219,6 @@ type PageMsg
       -- Layouts
     | GridMsg Grid.Msg
     | ModalMsg Modal.Msg
-    | RailMsg Rail.Msg
     | BoxMsg Box.Msg
     | CenterMsg Center.Msg
     | ClusterMsg Cluster.Msg
@@ -292,9 +288,6 @@ update msg model =
 
                 ( ModalModel pageModel, ModalMsg pageMsg_ ) ->
                     ( { model | page = ModalModel (Modal.update pageMsg_ pageModel) }, Cmd.none )
-
-                ( RailModel _, _ ) ->
-                    ( model, Cmd.none )
 
                 ( BoxModel pageModel, BoxMsg pageMsg_ ) ->
                     ( { model | page = BoxModel (Box.update pageMsg_ pageModel) }, Cmd.none )
@@ -441,10 +434,6 @@ view model =
                 ModalModel pageModel ->
                     Modal.view model.shared pageModel
                         |> List.map (Html.Styled.map (ModalMsg >> Page))
-
-                RailModel _ ->
-                    Rail.view model.shared
-                        |> List.map (Html.Styled.map (RailMsg >> Page))
 
                 BoxModel pageModel ->
                     Box.view model.shared pageModel

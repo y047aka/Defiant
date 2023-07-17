@@ -1,7 +1,7 @@
 module Data.PageSummary exposing
     ( PageSummary, all, summariesByCagetgory
     , sitePage
-    , gridPage, modalPage, railPage, boxPage, centerPage, clusterPage, stackPage
+    , gridPage, modalPage, boxPage, centerPage, clusterPage, stackPage
     , buttonPage, dimmerPage, dividerPage, headerPage, iconPage, imagePage, labelPage, loaderPage, messagePage, placeholderPage, segmentPage, textPage
     , accordionPage, breadcrumbPage, menuPage, progressPage, stepPage, tabPage
     , checkboxPage, formPage, inputPage
@@ -13,7 +13,7 @@ module Data.PageSummary exposing
 
 @docs PageSummary, all, summariesByCagetgory
 @docs sitePage
-@docs gridPage, modalPage, railPage, boxPage, centerPage, clusterPage, stackPage
+@docs gridPage, modalPage, boxPage, centerPage, clusterPage, stackPage
 @docs buttonPage, dimmerPage, dividerPage, headerPage, iconPage, imagePage, labelPage, loaderPage, messagePage, placeholderPage, segmentPage, textPage
 @docs accordionPage, breadcrumbPage, menuPage, progressPage, stepPage, tabPage
 @docs checkboxPage, formPage, inputPage
@@ -48,7 +48,6 @@ all =
     -- Layout
     , gridPage
     , modalPage
-    , railPage
     , boxPage
     , centerPage
     , clusterPage
@@ -113,15 +112,6 @@ modalPage =
     , description = "A modal displays content that temporarily blocks interactions with the main view of a site"
     , category = Layout
     , route = [ "layout", "modal" ]
-    }
-
-
-railPage : PageSummary
-railPage =
-    { title = "Rail"
-    , description = "A rail is used to show accompanying content outside the boundaries of the main view of a site"
-    , category = Layout
-    , route = [ "layout", "rail" ]
     }
 
 
