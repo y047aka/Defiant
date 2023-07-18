@@ -31,6 +31,7 @@ import Page.Layout.Center as Center
 import Page.Layout.Cluster as Cluster
 import Page.Layout.Grid as Grid
 import Page.Layout.Modal as Modal
+import Page.Layout.Sidebar as Sidebar
 import Page.Layout.Stack as Stack
 import Page.Navigation.Accordion as Accordion
 import Page.Navigation.Breadcrumb as Breadcrumb
@@ -79,6 +80,7 @@ type PageModel
     | BoxModel Box.Model
     | CenterModel Center.Model
     | ClusterModel Cluster.Model
+    | SidebarModel Sidebar.Model
     | StackModel Stack.Model
       -- Elements
     | ButtonModel Button.Model
@@ -157,6 +159,7 @@ parser model =
         , fromPageSummary boxPage |> Url.Parser.map ( { model | page = BoxModel Box.init }, Cmd.none )
         , fromPageSummary centerPage |> Url.Parser.map ( { model | page = CenterModel Center.init }, Cmd.none )
         , fromPageSummary clusterPage |> Url.Parser.map ( { model | page = ClusterModel Cluster.init }, Cmd.none )
+        , fromPageSummary sidebarPage |> Url.Parser.map ( { model | page = SidebarModel Sidebar.init }, Cmd.none )
         , fromPageSummary stackPage |> Url.Parser.map ( { model | page = StackModel Stack.init }, Cmd.none )
 
         -- Elements
@@ -222,6 +225,7 @@ type PageMsg
     | BoxMsg Box.Msg
     | CenterMsg Center.Msg
     | ClusterMsg Cluster.Msg
+    | SidebarMsg Sidebar.Msg
     | StackMsg Stack.Msg
       -- Elements
     | ButtonMsg Button.Msg
@@ -297,6 +301,9 @@ update msg model =
 
                 ( ClusterModel pageModel, ClusterMsg pageMsg_ ) ->
                     ( { model | page = ClusterModel (Cluster.update pageMsg_ pageModel) }, Cmd.none )
+
+                ( SidebarModel pageModel, SidebarMsg pageMsg_ ) ->
+                    ( { model | page = SidebarModel (Sidebar.update pageMsg_ pageModel) }, Cmd.none )
 
                 ( StackModel pageModel, StackMsg pageMsg_ ) ->
                     ( { model | page = StackModel (Stack.update pageMsg_ pageModel) }, Cmd.none )
@@ -446,6 +453,10 @@ view model =
                 ClusterModel pageModel ->
                     Cluster.view model.shared pageModel
                         |> List.map (Html.Styled.map (ClusterMsg >> Page))
+
+                SidebarModel pageModel ->
+                    Sidebar.view model.shared pageModel
+                        |> List.map (Html.Styled.map (SidebarMsg >> Page))
 
                 StackModel pageModel ->
                     Stack.view model.shared pageModel

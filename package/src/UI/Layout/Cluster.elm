@@ -36,7 +36,7 @@ cluster : Props -> List (Attribute msg) -> List (Html msg) -> Html msg
 cluster props atributes items =
     Html.styled div
         [ displayFlex
-        , property "flex-wrap" "wrap"
+        , flexWrap wrap
         , gap (rem props.gap)
         , property "justify-content" props.justify
         , property "align-items" props.align

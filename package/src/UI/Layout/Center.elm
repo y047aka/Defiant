@@ -14,6 +14,7 @@ module UI.Layout.Center exposing
 
 import Css exposing (..)
 import Css.Extra exposing (batchIf, marginInline, paddingInline)
+import Css.Global exposing (descendants, everything)
 import Html.Styled as Html exposing (Attribute, Html, div)
 
 
@@ -48,6 +49,8 @@ center props atributes items =
             , flexDirection column
             , alignItems Css.center
             ]
+        , descendants
+            [ everything [ boxSizing borderBox ] ]
         ]
         atributes
         items
