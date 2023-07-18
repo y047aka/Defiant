@@ -90,7 +90,7 @@ view { theme } { props } =
                 ]
             ]
         , configSections =
-            [ { label = "Padding"
+            [ { label = "padding"
               , configs =
                     [ Playground.counter
                         { label = ""
@@ -102,7 +102,7 @@ view { theme } { props } =
                         }
                     ]
               }
-            , { label = "Border width"
+            , { label = "borderWidth"
               , configs =
                     [ Playground.counter
                         { label = ""
@@ -114,11 +114,11 @@ view { theme } { props } =
                         }
                     ]
               }
-            , { label = "Invert"
+            , { label = "invert"
               , configs =
                     [ Playground.bool
                         { id = "invert"
-                        , label = "Invert"
+                        , label = "invert"
                         , bool = props.invert
                         , onClick = Box.setInvert (not props.invert) |> UpdateProps
                         , note = ""
