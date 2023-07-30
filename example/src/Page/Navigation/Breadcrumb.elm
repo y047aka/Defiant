@@ -1,11 +1,12 @@
 module Page.Navigation.Breadcrumb exposing (Model, Msg, init, update, view)
 
 import Data.Theme exposing (Theme(..))
-import Html.Styled exposing (Html)
+import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
 import Shared
 import Types exposing (Size(..), sizeFromString, sizeToString)
 import UI.Breadcrumb exposing (Divider(..), bigBreadCrumb, dividerFromString, dividerToString, hugeBreadCrumb, largeBreadCrumb, massiveBreadCrumb, mediumBreadCrumb, miniBreadCrumb, smallBreadCrumb, tinyBreadCrumb)
+import UI.Header as Header
 
 
 
@@ -48,7 +49,7 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ let
+    let
         options =
             { divider = model.divider, theme = theme }
 
@@ -77,10 +78,10 @@ view { theme } model =
 
                 Massive ->
                     massiveBreadCrumb
-      in
-      playground
-        { title = "Breadcrumb"
-        , theme = theme
+    in
+    [ Header.header { theme = theme } [] [ text "Breadcrumb" ]
+    , playground
+        { theme = theme
         , inverted = model.inverted
         , preview =
             [ breadcrumb_ options

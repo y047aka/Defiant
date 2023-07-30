@@ -58,7 +58,7 @@ view { url, shared } toContentMsg page =
                     []
                     [ Center.center (Center.defaultProps |> Center.setMax 150)
                         []
-                        [ stack (Stack.defaultProps |> Stack.setGap 3)
+                        [ stack (Stack.defaultProps |> Stack.setGap 1)
                             []
                             page.body
                         ]

@@ -1,8 +1,9 @@
 module Page.Element.Placeholder exposing (Model, Msg, init, update, view)
 
-import Html.Styled exposing (Html)
+import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
 import Shared
+import UI.Header as Header
 import UI.Placeholder as Placeholder exposing (line)
 
 
@@ -38,9 +39,9 @@ update _ model =
 
 view : Shared.Model -> List (Html Msg)
 view { theme } =
-    [ playground
-        { title = "Lines"
-        , theme = theme
+    [ Header.header { theme = theme } [] [ text "Lines" ]
+    , playground
+        { theme = theme
         , inverted = False
         , preview =
             [ Placeholder.placeholder []

@@ -44,9 +44,9 @@ view shared =
         options =
             { theme = shared.theme }
     in
-    [ playground
-        { title = "Message"
-        , theme = shared.theme
+    [ Header.header options [] [ text "Message" ]
+    , playground
+        { theme = shared.theme
         , inverted = False
         , preview =
             [ message []
@@ -58,9 +58,9 @@ view shared =
             ]
         , configSections = []
         }
+    , Header.header options [] [ text "Icon Message" ]
     , playground
-        { title = "Icon Message"
-        , theme = shared.theme
+        { theme = shared.theme
         , inverted = False
         , preview =
             [ message []

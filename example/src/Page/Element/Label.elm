@@ -5,6 +5,7 @@ import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
 import Shared
 import Types exposing (PresetColor(..))
+import UI.Header as Header
 import UI.Icon exposing (icon)
 import UI.Label as Label exposing (..)
 
@@ -50,9 +51,9 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ playground
-        { title = "Label"
-        , theme = theme
+    [ Header.header { theme = theme } [] [ text "Label" ]
+    , playground
+        { theme = theme
         , inverted = False
         , preview =
             [ let
@@ -92,9 +93,9 @@ view { theme } model =
               }
             ]
         }
+    , Header.header { theme = theme } [] [ text "Icon" ]
     , playground
-        { title = "Icon"
-        , theme = theme
+        { theme = theme
         , inverted = False
         , preview =
             [ Label.label [] [ icon [] "fas fa-envelope", text "Mail" ]
@@ -105,8 +106,7 @@ view { theme } model =
         , configSections = []
         }
     , playground
-        { title = ""
-        , theme = theme
+        { theme = theme
         , inverted = False
         , preview =
             [ Label.label [] [ text "Mail", icon [] "fas fa-envelope" ]
@@ -117,8 +117,7 @@ view { theme } model =
         , configSections = []
         }
     , playground
-        { title = ""
-        , theme = theme
+        { theme = theme
         , inverted = False
         , preview =
             [ Label.label [] [ icon [] "fas fa-envelope" ]
@@ -127,9 +126,9 @@ view { theme } model =
             ]
         , configSections = []
         }
+    , Header.header { theme = theme } [] [ text "Basic" ]
     , playground
-        { title = "Basic"
-        , theme = theme
+        { theme = theme
         , inverted = False
         , preview = [ basicLabel [] [ text "Basic" ] ]
         , configSections = []

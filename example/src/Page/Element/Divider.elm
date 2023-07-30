@@ -1,10 +1,11 @@
 module Page.Element.Divider exposing (Model, Msg, init, update, view)
 
-import Html.Styled exposing (Html)
+import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
 import Shared
 import UI.Divider exposing (divider)
 import UI.Example exposing (wireframeShortParagraph)
+import UI.Header as Header
 
 
 
@@ -39,9 +40,9 @@ update _ model =
 
 view : Shared.Model -> List (Html Msg)
 view { theme } =
-    [ playground
-        { title = "Divider"
-        , theme = theme
+    [ Header.header { theme = theme } [] [ text "Divider" ]
+    , playground
+        { theme = theme
         , inverted = False
         , preview =
             [ wireframeShortParagraph

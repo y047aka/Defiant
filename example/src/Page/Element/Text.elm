@@ -5,6 +5,7 @@ import Html.Styled exposing (Html, p, text)
 import Playground exposing (playground)
 import Shared
 import Types exposing (PresetColor(..), Size(..), sizeFromString, sizeToString)
+import UI.Header as Header
 import UI.Text exposing (..)
 
 
@@ -56,9 +57,9 @@ view { theme } model =
                     theme
             }
     in
-    [ playground
-        { title = "Text"
-        , theme = theme
+    [ Header.header options [] [ text "Text" ]
+    , playground
+        { theme = theme
         , inverted = model.inverted
         , preview =
             [ p []
@@ -96,9 +97,9 @@ view { theme } model =
               }
             ]
         }
+    , Header.header options [] [ text "Size" ]
     , playground
-        { title = "Size"
-        , theme = theme
+        { theme = theme
         , inverted = False
         , preview =
             [ p [] <|

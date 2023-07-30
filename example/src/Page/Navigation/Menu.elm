@@ -5,6 +5,7 @@ import Html.Styled exposing (Html, input, text)
 import Html.Styled.Attributes as Attributes exposing (href, placeholder, rel, type_)
 import Playground exposing (playground)
 import Shared
+import UI.Header as Header
 import UI.Input as Input
 import UI.Menu as Menu exposing (..)
 import UI.Segment exposing (invertedSegment)
@@ -42,9 +43,9 @@ update _ model =
 
 view : Shared.Model -> List (Html Msg)
 view shared =
-    [ playground
-        { title = "Secondary Menu"
-        , theme = shared.theme
+    [ Header.header { theme = shared.theme } [] [ text "Secondary Menu" ]
+    , playground
+        { theme = shared.theme
         , inverted = False
         , preview =
             [ secondaryMenu { theme = Light } [] <|
@@ -62,9 +63,9 @@ view shared =
             ]
         , configSections = []
         }
+    , Header.header { theme = shared.theme } [] [ text "Vertical Menu" ]
     , playground
-        { title = "Vertical Menu"
-        , theme = shared.theme
+        { theme = shared.theme
         , inverted = False
         , preview =
             [ verticalMenu { theme = shared.theme, additionalStyles = [] } [] <|
@@ -85,9 +86,9 @@ view shared =
             ]
         , configSections = []
         }
+    , Header.header { theme = shared.theme } [] [ text "Link Item" ]
     , playground
-        { title = "Link Item"
-        , theme = shared.theme
+        { theme = shared.theme
         , inverted = False
         , preview =
             [ verticalMenu { theme = shared.theme, additionalStyles = [] } [] <|
@@ -97,9 +98,9 @@ view shared =
             ]
         , configSections = []
         }
+    , Header.header { theme = shared.theme } [] [ text "Inverted" ]
     , playground
-        { title = "Inverted"
-        , theme = shared.theme
+        { theme = shared.theme
         , inverted = False
         , preview =
             [ Menu.menu { theme = Dark } [] <|
@@ -111,8 +112,7 @@ view shared =
         , configSections = []
         }
     , playground
-        { title = ""
-        , theme = shared.theme
+        { theme = shared.theme
         , inverted = False
         , preview =
             [ invertedSegment []

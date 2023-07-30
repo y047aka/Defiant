@@ -4,6 +4,7 @@ import Basics.Extra exposing (decrementIfPositive)
 import Html.Styled exposing (Html, p, text)
 import Playground exposing (playground)
 import Shared
+import UI.Header as Header
 import UI.Layout.Box as Box exposing (box)
 import UI.Layout.Sidebar as Sidebar exposing (withSidebar)
 
@@ -70,9 +71,9 @@ update msg m =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } { props } =
-    [ playground
-        { title = "Stack"
-        , theme = theme
+    [ Header.header { theme = theme } [] [ text "Sidebar" ]
+    , playground
+        { theme = theme
         , inverted = False
         , preview =
             [ withSidebar props

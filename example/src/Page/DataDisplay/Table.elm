@@ -3,6 +3,7 @@ module Page.DataDisplay.Table exposing (Model, Msg, init, update, view)
 import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
 import Shared
+import UI.Header as Header
 import UI.Table exposing (basicTable, tableWithProps, tbody, td, th, thead, tr, veryBasicTable)
 
 
@@ -44,9 +45,9 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ playground
-        { title = "Table"
-        , theme = theme
+    [ Header.header { theme = theme } [] [ text "Table" ]
+    , playground
+        { theme = theme
         , inverted = False
         , preview =
             [ tableWithProps { border = True, striped = model.striped, celled = model.celled, thead = True }
@@ -90,9 +91,9 @@ view { theme } model =
               }
             ]
         }
+    , Header.header { theme = theme } [] [ text "Basic" ]
     , playground
-        { title = "Basic"
-        , theme = theme
+        { theme = theme
         , inverted = False
         , preview =
             [ basicTable []
@@ -112,8 +113,7 @@ view { theme } model =
         , configSections = []
         }
     , playground
-        { title = ""
-        , theme = theme
+        { theme = theme
         , inverted = False
         , preview =
             [ veryBasicTable []

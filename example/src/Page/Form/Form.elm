@@ -8,6 +8,7 @@ import Types exposing (FormState(..), formStateFromString, formStateToString)
 import UI.Button exposing (button)
 import UI.Checkbox as Checkbox
 import UI.Form as Form exposing (field, fields, form, textarea, threeFields, twoFields)
+import UI.Header as Header
 
 
 
@@ -52,9 +53,9 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ playground
-        { title = "Form"
-        , theme = theme
+    [ Header.header { theme = theme } [] [ text "Form" ]
+    , playground
+        { theme = theme
         , inverted = False
         , preview =
             [ form []
@@ -123,9 +124,9 @@ view { theme } model =
               }
             ]
         }
+    , Header.header { theme = theme } [] [ text "Field" ]
     , playground
-        { title = "Field"
-        , theme = theme
+        { theme = theme
         , inverted = False
         , preview =
             [ form []
@@ -140,9 +141,9 @@ view { theme } model =
             ]
         , configSections = []
         }
+    , Header.header { theme = theme } [] [ text "Fields" ]
     , playground
-        { title = "Fields"
-        , theme = theme
+        { theme = theme
         , inverted = False
         , preview =
             [ form []
@@ -174,8 +175,7 @@ view { theme } model =
         , configSections = []
         }
     , playground
-        { title = ""
-        , theme = theme
+        { theme = theme
         , inverted = False
         , preview =
             [ form []
@@ -206,9 +206,9 @@ view { theme } model =
             ]
         , configSections = []
         }
+    , Header.header { theme = theme } [] [ text "Text Area" ]
     , playground
-        { title = "Text Area"
-        , theme = theme
+        { theme = theme
         , inverted = False
         , preview =
             [ form []
@@ -230,9 +230,9 @@ view { theme } model =
             ]
         , configSections = []
         }
+    , Header.header { theme = theme } [] [ text "Checkbox" ]
     , playground
-        { title = "Checkbox"
-        , theme = theme
+        { theme = theme
         , inverted = False
         , preview =
             [ form []

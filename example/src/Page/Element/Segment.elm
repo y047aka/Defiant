@@ -5,6 +5,7 @@ import Html.Styled exposing (Html, p, text)
 import Playground exposing (playground)
 import Shared
 import UI.Example exposing (wireframeShortParagraph)
+import UI.Header as Header
 import UI.Segment exposing (Padding(..), basicSegment, paddingFromString, paddingToString, segment, segmentWithProps, verticalSegment)
 
 
@@ -50,9 +51,9 @@ view shared model =
         options =
             { theme = shared.theme }
     in
-    [ playground
-        { title = "Segment"
-        , theme = shared.theme
+    [ Header.header options [] [ text "Segment" ]
+    , playground
+        { theme = shared.theme
         , inverted = model.inverted
         , preview =
             [ segmentWithProps
@@ -109,9 +110,9 @@ view shared model =
               }
             ]
         }
+    , Header.header options [] [ text "Vertical Segment" ]
     , playground
-        { title = "Vertical Segment"
-        , theme = shared.theme
+        { theme = shared.theme
         , inverted = False
         , preview =
             if model.vertical then
@@ -139,9 +140,9 @@ view shared model =
               }
             ]
         }
+    , Header.header options [] [ text "Basic" ]
     , playground
-        { title = "Basic"
-        , theme = shared.theme
+        { theme = shared.theme
         , inverted = False
         , preview =
             [ basicSegment options

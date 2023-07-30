@@ -1,10 +1,11 @@
 module Page.Form.Checkbox exposing (Model, Msg, init, update, view)
 
-import Html.Styled exposing (Html)
+import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
 import Shared
 import Types exposing (FormState(..))
 import UI.Checkbox exposing (checkbox, toggleCheckbox)
+import UI.Header as Header
 
 
 
@@ -45,9 +46,9 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ playground
-        { title = "Checkbox"
-        , theme = theme
+    [ Header.header { theme = theme } [] [ text "Checkbox" ]
+    , playground
+        { theme = theme
         , inverted = False
         , preview =
             [ checkbox
@@ -72,9 +73,9 @@ view { theme } model =
               }
             ]
         }
+    , Header.header { theme = theme } [] [ text "Toggle" ]
     , playground
-        { title = "Toggle"
-        , theme = theme
+        { theme = theme
         , inverted = False
         , preview =
             [ toggleCheckbox

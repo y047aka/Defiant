@@ -6,6 +6,7 @@ import Html.Styled.Attributes exposing (src)
 import Playground exposing (playground)
 import Shared
 import UI.Example exposing (wireframeShortParagraph)
+import UI.Header as Header
 import UI.Image exposing (image)
 import UI.Item as Item exposing (..)
 
@@ -70,9 +71,9 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } { config, movies } =
-    [ playground
-        { title = "Items"
-        , theme = theme
+    [ Header.header { theme = theme } [] [ text "Items" ]
+    , playground
+        { theme = theme
         , inverted = False
         , preview =
             [ let

@@ -7,6 +7,7 @@ import Playground exposing (playground)
 import Shared
 import Types exposing (PresetColor(..))
 import UI.Button as Button exposing (..)
+import UI.Header as Header
 import UI.Icon exposing (icon)
 import UI.Label exposing (basicLabel)
 
@@ -66,9 +67,9 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ playground
-        { title = "Button"
-        , theme = theme
+    [ Header.header { theme = theme } [] [ text "Button" ]
+    , playground
+        { theme = theme
         , inverted = False
         , preview =
             [ buttonWithProps
@@ -119,8 +120,7 @@ view { theme } model =
             ]
         }
     , playground
-        { title = ""
-        , theme = theme
+        { theme = theme
         , inverted = False
         , preview =
             [ button [] [ text "Button" ]
@@ -128,9 +128,9 @@ view { theme } model =
             ]
         , configSections = []
         }
+    , Header.header { theme = theme } [] [ text "Labeled" ]
     , playground
-        { title = "Labeled"
-        , theme = theme
+        { theme = theme
         , inverted = False
         , preview =
             [ labeledButton []
@@ -145,16 +145,16 @@ view { theme } model =
             ]
         , configSections = []
         }
+    , Header.header { theme = theme } [] [ text "Icon" ]
     , playground
-        { title = "Icon"
-        , theme = theme
+        { theme = theme
         , inverted = False
         , preview = [ button [] [ icon [] "fas fa-cloud" ] ]
         , configSections = []
         }
+    , Header.header { theme = theme } [] [ text "Basic" ]
     , playground
-        { title = "Basic"
-        , theme = theme
+        { theme = theme
         , inverted = False
         , preview = [ basicButton [] [ icon [] "fas fa-user", text "Add Friend" ] ]
         , configSections = []

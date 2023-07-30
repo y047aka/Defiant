@@ -6,6 +6,7 @@ import Playground exposing (playground)
 import Shared
 import UI.Dimmer exposing (dimmer)
 import UI.Example exposing (wireframeShortParagraph)
+import UI.Header as Header
 import UI.Loader exposing (loader, textLoader)
 import UI.Segment exposing (segment)
 
@@ -42,9 +43,9 @@ update _ model =
 
 view : Shared.Model -> List (Html Msg)
 view shared =
-    [ playground
-        { title = "Loader"
-        , theme = shared.theme
+    [ Header.header { theme = shared.theme } [] [ text "Loader" ]
+    , playground
+        { theme = shared.theme
         , inverted = False
         , preview =
             [ segment { theme = shared.theme }
@@ -57,9 +58,9 @@ view shared =
             ]
         , configSections = []
         }
+    , Header.header { theme = shared.theme } [] [ text "Text Loader" ]
     , playground
-        { title = "Text Loader"
-        , theme = shared.theme
+        { theme = shared.theme
         , inverted = False
         , preview =
             [ segment { theme = shared.theme }

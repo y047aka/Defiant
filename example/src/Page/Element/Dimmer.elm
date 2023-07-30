@@ -64,9 +64,9 @@ view shared { toggledItems } =
         options =
             { theme = shared.theme }
     in
-    [ playground
-        { title = "Dimmer"
-        , theme = shared.theme
+    [ Header.header options [] [ text "Dimmer" ]
+    , playground
+        { theme = shared.theme
         , inverted = False
         , preview =
             [ segment options
@@ -81,9 +81,9 @@ view shared { toggledItems } =
             ]
         , configSections = []
         }
+    , Header.header options [] [ text "Content Dimmer" ]
     , playground
-        { title = "Content Dimmer"
-        , theme = shared.theme
+        { theme = shared.theme
         , inverted = False
         , preview =
             [ segment options
@@ -105,9 +105,9 @@ view shared { toggledItems } =
             ]
         , configSections = []
         }
+    , Header.header options [] [ text "Page Dimmer" ]
     , playground
-        { title = "Page Dimmer"
-        , theme = shared.theme
+        { theme = shared.theme
         , inverted = False
         , preview =
             [ button [ onClick (Toggle "pageDimmer") ] [ icon [] "fas fa-plus", text "Show" ]
@@ -125,9 +125,9 @@ view shared { toggledItems } =
             ]
         , configSections = []
         }
+    , Header.header options [] [ text "Inverted Dimmer" ]
     , playground
-        { title = "Inverted Dimmer"
-        , theme = shared.theme
+        { theme = shared.theme
         , inverted = False
         , preview =
             [ segment options

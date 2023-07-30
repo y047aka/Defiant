@@ -1,9 +1,10 @@
 module Page.Navigation.Progress exposing (Model, Msg, init, update, view)
 
-import Html.Styled exposing (Html)
+import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
 import Random
 import Shared
+import UI.Header as Header
 import UI.Progress as Progress exposing (State(..))
 
 
@@ -98,9 +99,9 @@ updatelabelOnIndicating model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ playground
-        { title = "Progress"
-        , theme = theme
+    [ Header.header { theme = theme } [] [ text "Progress" ]
+    , playground
+        { theme = theme
         , inverted = False
         , preview =
             [ Progress.progressWithProps

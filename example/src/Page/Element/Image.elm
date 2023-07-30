@@ -1,9 +1,10 @@
 module Page.Element.Image exposing (Model, Msg, init, update, view)
 
-import Html.Styled exposing (Html)
+import Html.Styled exposing (Html, text)
 import Html.Styled.Attributes exposing (src)
 import Playground exposing (playground)
 import Shared
+import UI.Header as Header
 import UI.Image exposing (smallImage)
 
 
@@ -39,9 +40,9 @@ update _ model =
 
 view : Shared.Model -> List (Html Msg)
 view { theme } =
-    [ playground
-        { title = "Image"
-        , theme = theme
+    [ Header.header { theme = theme } [] [ text "Image" ]
+    , playground
+        { theme = theme
         , inverted = False
         , preview = [ smallImage [ src "/images/wireframe/image.png" ] [] ]
         , configSections = []

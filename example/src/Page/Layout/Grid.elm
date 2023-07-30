@@ -1,11 +1,12 @@
 module Page.Layout.Grid exposing (Model, Msg, init, update, view)
 
 import Css exposing (..)
-import Html.Styled exposing (Html)
+import Html.Styled exposing (Html, text)
 import Html.Styled.Attributes exposing (css, src)
 import Playground exposing (playground)
 import Shared
 import UI.Grid as Grid exposing (eightWideColumn, fourWideColumn, grid, sixWideColumn, threeColumnsGrid, twoWideColumn)
+import UI.Header as Header
 import UI.Image exposing (smallImage)
 import UI.Segment exposing (segment)
 
@@ -68,9 +69,9 @@ view { theme } =
                     ]
                 ]
     in
-    [ playground
-        { title = "Grids"
-        , theme = theme
+    [ Header.header { theme = theme } [] [ text "Grids" ]
+    , playground
+        { theme = theme
         , inverted = False
         , preview =
             [ grid [ css additionalStyles ]
@@ -82,9 +83,9 @@ view { theme } =
             ]
         , configSections = []
         }
+    , Header.header { theme = theme } [] [ text "Columns" ]
     , playground
-        { title = "Columns"
-        , theme = theme
+        { theme = theme
         , inverted = False
         , preview =
             [ grid [ css additionalStyles ]
@@ -99,9 +100,9 @@ view { theme } =
             ]
         , configSections = []
         }
+    , Header.header { theme = theme } [] [ text "Automatic Flow" ]
     , playground
-        { title = "Automatic Flow"
-        , theme = theme
+        { theme = theme
         , inverted = False
         , preview =
             [ grid [ css additionalStyles ]
@@ -117,9 +118,9 @@ view { theme } =
             ]
         , configSections = []
         }
+    , Header.header { theme = theme } [] [ text "Column Content" ]
     , playground
-        { title = "Column Content"
-        , theme = theme
+        { theme = theme
         , inverted = False
         , preview =
             [ let

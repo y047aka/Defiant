@@ -4,6 +4,7 @@ import Html.Styled exposing (Html, input, text)
 import Html.Styled.Attributes exposing (placeholder, type_)
 import Playground exposing (playground)
 import Shared
+import UI.Header as Header
 import UI.Input as Input
 
 
@@ -39,9 +40,9 @@ update _ model =
 
 view : Shared.Model -> List (Html Msg)
 view { theme } =
-    [ playground
-        { title = "Input"
-        , theme = theme
+    [ Header.header { theme = theme } [] [ text "Input" ]
+    , playground
+        { theme = theme
         , inverted = False
         , preview =
             [ Input.input []
@@ -49,9 +50,9 @@ view { theme } =
             ]
         , configSections = []
         }
+    , Header.header { theme = theme } [] [ text "Labeled" ]
     , playground
-        { title = "Labeled"
-        , theme = theme
+        { theme = theme
         , inverted = False
         , preview =
             [ Input.input []
@@ -62,8 +63,7 @@ view { theme } =
         , configSections = []
         }
     , playground
-        { title = ""
-        , theme = theme
+        { theme = theme
         , inverted = False
         , preview =
             [ Input.input []

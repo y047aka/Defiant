@@ -6,6 +6,7 @@ import Html.Styled.Attributes exposing (css)
 import Playground exposing (playground)
 import Shared
 import UI.Grid as Grid exposing (fiveColumnsGrid)
+import UI.Header as Header
 import UI.Icon exposing (icon)
 
 
@@ -72,9 +73,9 @@ view { theme } =
                     ]
                 ]
     in
-    [ playground
-        { title = "Accessibility"
-        , theme = theme
+    [ Header.header { theme = theme } [] [ text "Accessibility" ]
+    , playground
+        { theme = theme
         , inverted = False
         , preview =
             [ fiveColumnsGrid []

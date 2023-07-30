@@ -6,6 +6,7 @@ import Html.Styled.Events exposing (onClick)
 import Playground exposing (playground)
 import Shared
 import UI.Button exposing (blackButton, button, greenButton, redButton)
+import UI.Header as Header
 import UI.Icon exposing (icon)
 import UI.Modal as Modal exposing (basicModal, dialog, modal)
 
@@ -51,9 +52,9 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view shared { toggledItems } =
-    [ playground
-        { title = "Modal"
-        , theme = shared.theme
+    [ Header.header { theme = shared.theme } [] [ text "Modal" ]
+    , playground
+        { theme = shared.theme
         , inverted = False
         , preview =
             [ button [ onClick (Toggle "modal") ] [ icon [] "fas fa-plus", text "Show" ]
@@ -82,9 +83,9 @@ view shared { toggledItems } =
             ]
         , configSections = []
         }
+    , Header.header { theme = shared.theme } [] [ text "Basic" ]
     , playground
-        { title = "Basic"
-        , theme = shared.theme
+        { theme = shared.theme
         , inverted = False
         , preview =
             [ button [ onClick (Toggle "basicModal") ] [ icon [] "fas fa-plus", text "Show" ]
@@ -107,9 +108,9 @@ view shared { toggledItems } =
             ]
         , configSections = []
         }
+    , Header.header { theme = shared.theme } [] [ text "Dialog" ]
     , playground
-        { title = "Dialog"
-        , theme = shared.theme
+        { theme = shared.theme
         , inverted = False
         , preview =
             [ button [ onClick (Toggle "dialog") ] [ icon [] "fas fa-plus", text "Show" ]

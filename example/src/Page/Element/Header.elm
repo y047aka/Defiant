@@ -5,7 +5,7 @@ import Playground exposing (playground)
 import Shared
 import Types exposing (PresetColor(..), Size(..), sizeFromString, sizeToString)
 import UI.Example exposing (wireframeShortParagraph)
-import UI.Header exposing (..)
+import UI.Header as Header exposing (..)
 import UI.Icon exposing (icon)
 
 
@@ -53,9 +53,9 @@ view { theme } model =
         options =
             { theme = theme }
     in
-    [ playground
-        { title = "Content Headers"
-        , theme = theme
+    [ Header.header { theme = theme } [] [ text "Content Headers" ]
+    , playground
+        { theme = theme
         , inverted = False
         , preview =
             [ headerWithProps { size = model.size, theme = theme }
@@ -99,9 +99,9 @@ view { theme } model =
               }
             ]
         }
+    , Header.header { theme = theme } [] [ text "Icon Headers" ]
     , playground
-        { title = "Icon Headers"
-        , theme = theme
+        { theme = theme
         , inverted = False
         , preview =
             [ iconHeader options

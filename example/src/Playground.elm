@@ -13,17 +13,20 @@ module Playground exposing
 -}
 
 import Css exposing (..)
+import Css.Global exposing (children, selector)
 import Css.Palette as Palette exposing (darkPalette, palette, setBackground, setColor)
 import Data.Theme exposing (Theme(..))
-import Html.Styled as Html exposing (Html, aside, div, input, p, text)
+import Html.Styled as Html exposing (Html, div, input, p, text)
 import Html.Styled.Attributes as Attributes exposing (css, for, id, name, placeholder, selected, type_, value)
 import Html.Styled.Events exposing (onClick, onInput)
 import Types exposing (FormState(..))
 import UI.Button exposing (button, labeledButton)
 import UI.Checkbox as Checkbox
-import UI.Header as Header
 import UI.Input as Input
 import UI.Label exposing (basicLabel)
+import UI.Layout.Box as Box exposing (box, setPadding)
+import UI.Layout.Sidebar exposing (withSidebar)
+import UI.Layout.Stack as Stack exposing (stack)
 
 
 type alias ConfigSection msg =
@@ -33,23 +36,38 @@ type alias ConfigSection msg =
 
 
 playground :
-    { title : String
-    , theme : Theme
+    { theme : Theme
     , inverted : Bool
     , preview : List (Html msg)
     , configSections : List (ConfigSection msg)
     }
     -> Html msg
-playground { title, theme, inverted, preview, configSections } =
-    div []
-        [ Header.header { theme = theme } [] [ text title ]
-        , div
+playground { theme, inverted, preview, configSections } =
+    let
+        palette_ =
+            Palette.init
+                |> (\p ->
+                        { p
+                            | background = Just (hex "FFF")
+                            , color = Just (hex "000")
+                            , border = Just (hex "DDD")
+                        }
+                   )
+    in
+    box (Box.defaultProps |> Box.setPadding 0 |> Box.setPalette palette_)
+        [ css [ borderRadius (px 15), overflow hidden ] ]
+        [ withSidebar
+            { side = "right"
+            , sideWith = 25
+            , contentMin = 50
+            , space = 0
+            , noStretch = False
+            }
             [ css
-                [ property "display" "grid"
-                , property "grid-template-columns" "1fr 300px"
-                , border3 (px 1) solid (hex "#DDD")
-                , borderRadius (px 15)
-                , overflow hidden
+                [ children
+                    [ selector ":nth-child(n+2)"
+                        [ borderLeft3 (px 1) solid (hex "#DDD") ]
+                    ]
                 ]
             ]
             [ previewPanel { inverted = inverted } preview
@@ -87,32 +105,30 @@ previewPanel { inverted } previewSections =
 
 configPanel : List (ConfigSection msg) -> Html msg
 configPanel configSections =
-    aside
+    box (Box.defaultProps |> Box.setBorderWidth 0 |> Box.setPadding 0)
         [ css
-            [ borderLeft3 (px 1) solid (hex "#DDD")
+            [ children
+                [ selector ":nth-child(n+2)"
+                    [ borderTop3 (px 1) solid (hex "#DDD") ]
+                ]
             ]
         ]
         (List.map
             (\configSection ->
-                div
-                    [ css
-                        [ displayFlex
-                        , flexDirection column
-                        , property "gap" "15px"
-                        , padding (px 15)
-                        , nthChild "n+2"
-                            [ borderTop3 (px 1) solid (hex "#DDD") ]
-                        ]
-                    ]
-                    (div
-                        [ css
-                            [ fontWeight bold
-                            , empty [ display none ]
+                box (Box.defaultProps |> Box.setBorderWidth 0 |> setPadding 1)
+                    []
+                    [ stack Stack.defaultProps
+                        []
+                        (div
+                            [ css
+                                [ fontWeight bold
+                                , empty [ display none ]
+                                ]
                             ]
-                        ]
-                        [ text configSection.label ]
-                        :: configSection.configs
-                    )
+                            [ text configSection.label ]
+                            :: configSection.configs
+                        )
+                    ]
             )
             configSections
         )
@@ -120,10 +136,17 @@ configPanel configSections =
 
 field : { label : String, note : String } -> Html msg -> Html msg
 field { label, note } child =
-    div [ css [ displayFlex, flexDirection column, property "gap" "5px" ] ]
-        [ Html.label [] [ text label ]
+    stack (Stack.defaultProps |> Stack.setGap 0.5)
+        []
+        [ Html.label [ css [ empty [ display none ] ] ] [ text label ]
         , child
-        , p [ css [ color (hex "#999") ] ] [ text note ]
+        , p
+            [ css
+                [ color (hex "#999")
+                , empty [ display none ]
+                ]
+            ]
+            [ text note ]
         ]
 
 
@@ -249,7 +272,8 @@ boolAndString :
     }
     -> Html msg
 boolAndString { label, id, data, onUpdate, placeholder, note } =
-    div []
+    stack (Stack.defaultProps |> Stack.setGap 0.5)
+        []
         [ bool
             { label = label
             , id = id

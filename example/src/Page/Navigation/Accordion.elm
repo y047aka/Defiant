@@ -5,6 +5,7 @@ import Html.Styled exposing (Html, p, text)
 import Playground exposing (playground)
 import Shared
 import UI.Accordion as Accordion exposing (ToggleMethod(..), accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl)
+import UI.Header as Header
 
 
 
@@ -78,9 +79,9 @@ view shared { toggleMethod, inverted } =
                         }
                     )
     in
-    [ playground
-        { title = "Accordion"
-        , theme = shared.theme
+    [ Header.header { theme = theme } [] [ text "Accordion" ]
+    , playground
+        { theme = shared.theme
         , inverted = inverted
         , preview =
             [ case toggleMethod of

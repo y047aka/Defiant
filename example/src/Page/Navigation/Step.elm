@@ -1,9 +1,10 @@
 module Page.Navigation.Step exposing (Model, Msg, Progress(..), init, progressFromString, progressToString, update, view)
 
-import Html.Styled exposing (Html)
+import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
 import Shared
 import UI.CircleStep as CircleStep
+import UI.Header as Header
 import UI.Step as Step exposing (State(..))
 
 
@@ -49,9 +50,9 @@ update msg model =
 
 view : Shared.Model -> Model -> List (Html Msg)
 view { theme } model =
-    [ playground
-        { title = "Steps"
-        , theme = theme
+    [ Header.header { theme = theme } [] [ text "Steps" ]
+    , playground
+        { theme = theme
         , inverted = False
         , preview =
             [ let

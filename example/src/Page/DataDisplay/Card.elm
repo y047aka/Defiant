@@ -7,6 +7,7 @@ import Html.Styled.Attributes exposing (src)
 import Playground exposing (playground)
 import Shared
 import UI.Card as Card exposing (cards, extraContent)
+import UI.Header as Header
 import UI.Icon exposing (icon)
 import UI.Image exposing (image)
 
@@ -149,9 +150,9 @@ view shared { config, people } =
                         text ""
                 ]
     in
-    [ playground
-        { title = "Cards"
-        , theme = shared.theme
+    [ Header.header { theme = shared.theme } [] [ text "Cards" ]
+    , playground
+        { theme = shared.theme
         , inverted = config.inverted
         , preview = [ cards [] (List.map card people) ]
         , configSections =

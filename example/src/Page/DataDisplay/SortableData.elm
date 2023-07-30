@@ -6,6 +6,7 @@ import Html.Styled.Attributes exposing (placeholder, value)
 import Html.Styled.Events exposing (onInput)
 import Playground exposing (playground)
 import Shared
+import UI.Header as Header
 import UI.Segment exposing (segment)
 import UI.SortableData as SortableData exposing (intColumn, stringColumn)
 import UI.SortableData.View exposing (list, table)
@@ -75,9 +76,9 @@ view { theme } m =
                     ]
                 ]
     in
-    [ playground
-        { title = "List"
-        , theme = theme
+    [ Header.header { theme = theme } [] [ text "List" ]
+    , playground
+        { theme = theme
         , inverted = False
         , preview =
             [ input [ value m.tableState.filter.query, placeholder "Search by Name", onInput (SortableData.Filter "Name" >> TableMsg) ] []
