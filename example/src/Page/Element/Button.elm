@@ -4,6 +4,7 @@ import Data.PalettesByState as PalettesByState
 import Html.Styled exposing (Html, text)
 import Html.Styled.Events exposing (onClick)
 import Playground exposing (playground)
+import Props
 import Shared
 import Types exposing (PresetColor(..))
 import UI.Button as Button exposing (..)
@@ -95,24 +96,34 @@ view { theme } model =
         , configSections =
             [ { label = "Content"
               , configs =
-                    [ Playground.string
+                    [ Props.field
                         { label = "Label"
-                        , value = model.label
-                        , onInput = (\string c -> { c | label = string }) >> UpdateConfig
-                        , placeholder = ""
+                        , props =
+                            Props.string
+                                { value = model.label
+                                , onInput = (\string ps -> { ps | label = string }) >> UpdateConfig
+                                , placeholder = ""
+                                }
                         , note = ""
                         }
                     ]
               }
             , { label = "Variations"
               , configs =
-                    [ Playground.select
+                    [ Props.field
                         { label = "Color"
-                        , value = model.color
-                        , options = [ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ]
-                        , fromString = colorFromString
-                        , toString = colorToString
-                        , onChange = (\color c -> { c | color = color }) >> UpdateConfig
+                        , props =
+                            Props.select
+                                { value = colorToString model.color
+                                , options = List.map colorToString <| [ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ]
+                                , onChange =
+                                    (\color ps ->
+                                        colorFromString color
+                                            |> Maybe.map (\c -> { ps | color = c })
+                                            |> Maybe.withDefault ps
+                                    )
+                                        >> UpdateConfig
+                                }
                         , note = "A button can have different colors"
                         }
                     ]

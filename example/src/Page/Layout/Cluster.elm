@@ -3,6 +3,7 @@ module Page.Layout.Cluster exposing (Model, Msg, init, update, view)
 import Basics.Extra exposing (decrementIfPositive)
 import Html.Styled exposing (Html, p, text)
 import Playground exposing (playground)
+import Props
 import Shared
 import UI.Header as Header
 import UI.Layout.Box as Box exposing (box)
@@ -67,39 +68,39 @@ view { theme } { props } =
         , configSections =
             [ { label = "justify"
               , configs =
-                    [ Playground.select
+                    [ Props.field
                         { label = ""
-                        , value = props.justify
-                        , options = [ "start", "end", "flex-start", "flex-end", "center", "space-between", "space-around", "space-evenly" ]
-                        , fromString = identity >> Just
-                        , toString = identity
-                        , onChange = Cluster.setJustify >> UpdateProps
+                        , props =
+                            Props.select
+                                { value = props.justify
+                                , options = [ "start", "end", "flex-start", "flex-end", "center", "space-between", "space-around", "space-evenly" ]
+                                , onChange = Cluster.setJustify >> UpdateProps
+                                }
                         , note = "https://developer.mozilla.org/ja/docs/Web/CSS/justify-content"
                         }
                     ]
               }
             , { label = "align"
               , configs =
-                    [ Playground.select
+                    [ Props.field
                         { label = ""
-                        , value = props.align
-                        , options = [ "start", "end", "flex-start", "flex-end", "center", "stretch" ]
-                        , fromString = identity >> Just
-                        , toString = identity
-                        , onChange = Cluster.setAlign >> UpdateProps
+                        , props =
+                            Props.select
+                                { value = props.align
+                                , options = [ "start", "end", "flex-start", "flex-end", "center", "stretch" ]
+                                , onChange = Cluster.setAlign >> UpdateProps
+                                }
                         , note = "https://developer.mozilla.org/ja/docs/Web/CSS/align-items"
                         }
                     ]
               }
             , { label = "gap"
               , configs =
-                    [ Playground.counter
-                        { label = ""
-                        , value = props.gap
+                    [ Props.counter
+                        { value = props.gap
                         , toString = \value -> String.fromFloat value ++ " rem"
                         , onClickPlus = CounterPlus
                         , onClickMinus = CounterMinus
-                        , note = ""
                         }
                     ]
               }

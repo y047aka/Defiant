@@ -4,6 +4,7 @@ import Basics.Extra exposing (decrementIfPositive)
 import Html.Styled exposing (Html, a, h2, p, strong, text)
 import Html.Styled.Attributes exposing (href)
 import Playground exposing (playground)
+import Props
 import Shared
 import UI.Header as Header
 import UI.Layout.Box as Box exposing (box)
@@ -93,36 +94,30 @@ view { theme } { props } =
         , configSections =
             [ { label = "padding"
               , configs =
-                    [ Playground.counter
-                        { label = ""
-                        , value = props.padding
+                    [ Props.counter
+                        { value = props.padding
                         , toString = \value -> String.fromFloat value ++ " rem"
                         , onClickPlus = PaddingPlus
                         , onClickMinus = PaddingMinus
-                        , note = ""
                         }
                     ]
               }
             , { label = "borderWidth"
               , configs =
-                    [ Playground.counter
-                        { label = ""
-                        , value = props.borderWidth
+                    [ Props.counter
+                        { value = props.borderWidth
                         , toString = \value -> String.fromFloat value ++ " px"
                         , onClickPlus = BorderPlus
                         , onClickMinus = BorderMinus
-                        , note = ""
                         }
                     ]
               }
             , { label = "invert"
               , configs =
-                    [ Playground.bool
-                        { id = "invert"
-                        , label = "invert"
-                        , bool = props.invert
+                    [ Props.bool
+                        { label = "invert"
+                        , value = props.invert
                         , onClick = Box.setInvert (not props.invert) |> UpdateProps
-                        , note = ""
                         }
                     ]
               }

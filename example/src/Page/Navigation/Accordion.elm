@@ -3,6 +3,7 @@ module Page.Navigation.Accordion exposing (Model, Msg, init, update, view)
 import Data.Theme exposing (Theme(..))
 import Html.Styled exposing (Html, p, text)
 import Playground exposing (playground)
+import Props
 import Shared
 import UI.Accordion as Accordion exposing (ToggleMethod(..), accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl)
 import UI.Header as Header
@@ -100,24 +101,29 @@ view shared { toggleMethod, inverted } =
         , configSections =
             [ { label = ""
               , configs =
-                    [ Playground.bool
-                        { id = "inverted"
-                        , label = "Inverted"
-                        , bool = inverted
-                        , onClick = (\c -> { c | inverted = not c.inverted }) |> UpdateConfig
-                        , note = ""
+                    [ Props.bool
+                        { label = "Inverted"
+                        , value = inverted
+                        , onClick = (\ps -> { ps | inverted = not ps.inverted }) |> UpdateConfig
                         }
                     ]
               }
             , { label = "Toggle Method"
               , configs =
-                    [ Playground.select
+                    [ Props.field
                         { label = ""
-                        , value = toggleMethod
-                        , options = [ SummaryDetails, TargetUrl, Checkbox, Radio ]
-                        , fromString = Accordion.toggleMethodFromString
-                        , toString = Accordion.toggleMethodToString
-                        , onChange = (\method m -> { m | toggleMethod = method }) >> UpdateConfig
+                        , props =
+                            Props.select
+                                { value = Accordion.toggleMethodToString toggleMethod
+                                , options = List.map Accordion.toggleMethodToString [ SummaryDetails, TargetUrl, Checkbox, Radio ]
+                                , onChange =
+                                    (\method ps ->
+                                        Accordion.toggleMethodFromString method
+                                            |> Maybe.map (\tm -> { ps | toggleMethod = tm })
+                                            |> Maybe.withDefault ps
+                                    )
+                                        >> UpdateConfig
+                                }
                         , note =
                             case toggleMethod of
                                 SummaryDetails ->

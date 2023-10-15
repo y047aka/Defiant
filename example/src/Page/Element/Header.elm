@@ -2,6 +2,7 @@ module Page.Element.Header exposing (Model, Msg, init, update, view)
 
 import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
+import Props
 import Shared
 import Types exposing (PresetColor(..), Size(..), sizeFromString, sizeToString)
 import UI.Example exposing (wireframeShortParagraph)
@@ -68,31 +69,44 @@ view { theme } model =
         , configSections =
             [ { label = "Content"
               , configs =
-                    [ Playground.string
+                    [ Props.field
                         { label = "Header"
-                        , value = model.header
-                        , onInput = (\string c -> { c | header = string }) >> UpdateConfig
-                        , placeholder = ""
+                        , props =
+                            Props.string
+                                { value = model.header
+                                , onInput = (\string ps -> { ps | header = string }) >> UpdateConfig
+                                , placeholder = ""
+                                }
                         , note = ""
                         }
-                    , Playground.string
+                    , Props.field
                         { label = "Subheader"
-                        , value = model.subHeader
-                        , onInput = (\string c -> { c | subHeader = string }) >> UpdateConfig
-                        , placeholder = ""
+                        , props =
+                            Props.string
+                                { value = model.subHeader
+                                , onInput = (\string ps -> { ps | subHeader = string }) >> UpdateConfig
+                                , placeholder = ""
+                                }
                         , note = ""
                         }
                     ]
               }
             , { label = "Variations"
               , configs =
-                    [ Playground.select
+                    [ Props.field
                         { label = "Size"
-                        , value = model.size
-                        , options = [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
-                        , fromString = sizeFromString
-                        , toString = sizeToString
-                        , onChange = (\size c -> { c | size = size }) >> UpdateConfig
+                        , props =
+                            Props.select
+                                { value = sizeToString model.size
+                                , options = List.map sizeToString [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
+                                , onChange =
+                                    (\size ps ->
+                                        sizeFromString size
+                                            |> Maybe.map (\s -> { ps | size = s })
+                                            |> Maybe.withDefault ps
+                                    )
+                                        >> UpdateConfig
+                                }
                         , note = "Text can vary in the same sizes as icons"
                         }
                     ]

@@ -3,6 +3,7 @@ module Page.Element.Text exposing (Model, Msg, init, update, view)
 import Data.Theme exposing (Theme(..))
 import Html.Styled exposing (Html, p, text)
 import Playground exposing (playground)
+import Props
 import Shared
 import Types exposing (PresetColor(..), Size(..), sizeFromString, sizeToString)
 import UI.Header as Header
@@ -86,12 +87,10 @@ view { theme } model =
         , configSections =
             [ { label = ""
               , configs =
-                    [ Playground.bool
-                        { id = "inverted"
-                        , label = "Inverted"
-                        , bool = model.inverted
-                        , onClick = (\c -> { c | inverted = not c.inverted }) |> UpdateConfig
-                        , note = ""
+                    [ Props.bool
+                        { label = "Inverted"
+                        , value = model.inverted
+                        , onClick = (\ps -> { ps | inverted = not ps.inverted }) |> UpdateConfig
                         }
                     ]
               }
@@ -131,13 +130,20 @@ view { theme } model =
         , configSections =
             [ { label = "Size"
               , configs =
-                    [ Playground.select
+                    [ Props.field
                         { label = ""
-                        , value = model.size
-                        , options = [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
-                        , fromString = sizeFromString
-                        , toString = sizeToString
-                        , onChange = (\size c -> { c | size = size }) >> UpdateConfig
+                        , props =
+                            Props.select
+                                { value = sizeToString model.size
+                                , options = List.map sizeToString [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
+                                , onChange =
+                                    (\size ps ->
+                                        sizeFromString size
+                                            |> Maybe.map (\s -> { ps | size = s })
+                                            |> Maybe.withDefault ps
+                                    )
+                                        >> UpdateConfig
+                                }
                         , note = "Text can vary in the same sizes as icons"
                         }
                     ]

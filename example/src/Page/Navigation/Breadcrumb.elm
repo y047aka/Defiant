@@ -3,6 +3,7 @@ module Page.Navigation.Breadcrumb exposing (Model, Msg, init, update, view)
 import Data.Theme exposing (Theme(..))
 import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
+import Props
 import Shared
 import Types exposing (Size(..), sizeFromString, sizeToString)
 import UI.Breadcrumb exposing (Divider(..), bigBreadCrumb, dividerFromString, dividerToString, hugeBreadCrumb, largeBreadCrumb, massiveBreadCrumb, mediumBreadCrumb, miniBreadCrumb, smallBreadCrumb, tinyBreadCrumb)
@@ -93,37 +94,49 @@ view { theme } model =
         , configSections =
             [ { label = ""
               , configs =
-                    [ Playground.bool
-                        { id = "inverted"
-                        , label = "Inverted"
-                        , bool = model.inverted
-                        , onClick = (\c -> { c | inverted = not c.inverted }) |> UpdateConfig
-                        , note = ""
+                    [ Props.bool
+                        { label = "Inverted"
+                        , value = model.inverted
+                        , onClick = (\ps -> { ps | inverted = not ps.inverted }) |> UpdateConfig
                         }
                     ]
               }
             , { label = "Content"
               , configs =
-                    [ Playground.select
+                    [ Props.field
                         { label = "Divider"
-                        , value = model.divider
-                        , options = [ Slash, RightChevron ]
-                        , fromString = dividerFromString
-                        , toString = dividerToString
-                        , onChange = (\divider c -> { c | divider = divider }) >> UpdateConfig
+                        , props =
+                            Props.select
+                                { value = dividerToString model.divider
+                                , options = List.map dividerToString [ Slash, RightChevron ]
+                                , onChange =
+                                    (\divider ps ->
+                                        dividerFromString divider
+                                            |> Maybe.map (\d -> { ps | divider = d })
+                                            |> Maybe.withDefault ps
+                                    )
+                                        >> UpdateConfig
+                                }
                         , note = "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text."
                         }
                     ]
               }
             , { label = "Variations"
               , configs =
-                    [ Playground.select
+                    [ Props.field
                         { label = "Size"
-                        , value = model.size
-                        , options = [ Mini, Tiny, Small, Medium, Large, Big, Huge, Massive ]
-                        , fromString = sizeFromString
-                        , toString = sizeToString
-                        , onChange = (\size c -> { c | size = size }) >> UpdateConfig
+                        , props =
+                            Props.select
+                                { value = sizeToString model.size
+                                , options = List.map sizeToString [ Mini, Tiny, Small, Medium, Large, Big, Huge, Massive ]
+                                , onChange =
+                                    (\size ps ->
+                                        sizeFromString size
+                                            |> Maybe.map (\s -> { ps | size = s })
+                                            |> Maybe.withDefault ps
+                                    )
+                                        >> UpdateConfig
+                                }
                         , note = "A breadcrumb can vary in size"
                         }
                     ]

@@ -2,6 +2,7 @@ module Page.Navigation.Step exposing (Model, Msg, Progress(..), init, progressFr
 
 import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
+import Props
 import Shared
 import UI.CircleStep as CircleStep
 import UI.Header as Header
@@ -155,45 +156,54 @@ view { theme } model =
         , configSections =
             [ { label = "Type"
               , configs =
-                    [ Playground.select
-                        { label = ""
-                        , value = model.type_
-                        , options = [ Step, CircleStep ]
-                        , fromString = stepTypeFromString
-                        , toString = stepTypeToString
-                        , onChange = (\type_ c -> { c | type_ = type_ }) >> UpdateConfig
-                        , note = ""
+                    [ Props.select
+                        { value = stepTypeToString model.type_
+                        , options = List.map stepTypeToString [ Step, CircleStep ]
+                        , onChange =
+                            (\type_ ps ->
+                                stepTypeFromString type_
+                                    |> Maybe.map (\t -> { ps | type_ = t })
+                                    |> Maybe.withDefault ps
+                            )
+                                >> UpdateConfig
                         }
                     ]
               }
             , { label = "Progress"
               , configs =
-                    [ Playground.radio
-                        { label = ""
-                        , name = "progress"
-                        , value = model.progress
-                        , options = [ Shipping, Billing, ConfirmOrder ]
-                        , fromString = progressFromString
-                        , toString = progressToString
-                        , onChange = (\progress c -> { c | progress = progress }) >> UpdateConfig
-                        , note = ""
+                    [ Props.radio
+                        { value = progressToString model.progress
+                        , options = List.map progressToString [ Shipping, Billing, ConfirmOrder ]
+                        , onChange =
+                            (\progress ps ->
+                                progressFromString progress
+                                    |> Maybe.map (\p -> { ps | progress = p })
+                                    |> Maybe.withDefault ps
+                            )
+                                >> UpdateConfig
                         }
                     ]
               }
             , { label = "Content"
               , configs =
-                    [ Playground.bool
-                        { label = "Icon"
-                        , id = "icon"
-                        , bool = model.hasIcon
-                        , onClick = (\c -> { c | hasIcon = not c.hasIcon }) |> UpdateConfig
+                    [ Props.field
+                        { label = ""
+                        , props =
+                            Props.bool
+                                { label = "Icon"
+                                , value = model.hasIcon
+                                , onClick = (\ps -> { ps | hasIcon = not ps.hasIcon }) |> UpdateConfig
+                                }
                         , note = "A step can contain an icon"
                         }
-                    , Playground.bool
-                        { label = "Description"
-                        , id = "description"
-                        , bool = model.hasDescription
-                        , onClick = (\c -> { c | hasDescription = not c.hasDescription }) |> UpdateConfig
+                    , Props.field
+                        { label = ""
+                        , props =
+                            Props.bool
+                                { label = "Description"
+                                , value = model.hasDescription
+                                , onClick = (\ps -> { ps | hasDescription = not ps.hasDescription }) |> UpdateConfig
+                                }
                         , note = "A step can contain a description"
                         }
                     ]

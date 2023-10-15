@@ -4,6 +4,7 @@ import Basics.Extra exposing (decrementIfPositive)
 import Html.Styled exposing (Html, a, h2, p, strong, text)
 import Html.Styled.Attributes exposing (href)
 import Playground exposing (playground)
+import Props
 import Shared
 import UI.Header as Header
 import UI.Layout.Center as Center exposing (center)
@@ -88,47 +89,39 @@ view { theme } { props } =
         , configSections =
             [ { label = "max"
               , configs =
-                    [ Playground.counter
-                        { label = ""
-                        , value = props.max
+                    [ Props.counter
+                        { value = props.max
                         , toString = \value -> String.fromFloat value ++ " ch"
                         , onClickPlus = MaxPlus
                         , onClickMinus = MaxMinus
-                        , note = ""
                         }
                     ]
               }
             , { label = "andText"
               , configs =
-                    [ Playground.bool
-                        { id = "andText"
-                        , label = "andText"
-                        , bool = props.andText
+                    [ Props.bool
+                        { label = "andText"
+                        , value = props.andText
                         , onClick = Center.setAndText (not props.andText) |> UpdateProps
-                        , note = ""
                         }
                     ]
               }
             , { label = "gutters"
               , configs =
-                    [ Playground.counter
-                        { label = ""
-                        , value = props.gutters
+                    [ Props.counter
+                        { value = props.gutters
                         , toString = \value -> String.fromFloat value ++ " rem"
                         , onClickPlus = GuttersPlus
                         , onClickMinus = GuttersMinus
-                        , note = ""
                         }
                     ]
               }
             , { label = "intrinsic"
               , configs =
-                    [ Playground.bool
-                        { id = "intrinsic"
-                        , label = "intrinsic"
-                        , bool = props.intrinsic
+                    [ Props.bool
+                        { label = "intrinsic"
+                        , value = props.intrinsic
                         , onClick = Center.setIntrinsic (not props.intrinsic) |> UpdateProps
-                        , note = ""
                         }
                     ]
               }

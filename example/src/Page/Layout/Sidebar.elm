@@ -3,6 +3,7 @@ module Page.Layout.Sidebar exposing (Model, Msg, init, update, view)
 import Basics.Extra exposing (decrementIfPositive)
 import Html.Styled exposing (Html, p, text)
 import Playground exposing (playground)
+import Props
 import Shared
 import UI.Header as Header
 import UI.Layout.Box as Box exposing (box)
@@ -85,61 +86,49 @@ view { theme } { props } =
         , configSections =
             [ { label = "side"
               , configs =
-                    [ Playground.select
-                        { label = ""
-                        , value = props.side
+                    [ Props.select
+                        { value = props.side
                         , options = [ "left", "right" ]
-                        , fromString = identity >> Just
-                        , toString = identity
                         , onChange = Sidebar.setSide >> UpdateProps
-                        , note = ""
                         }
                     ]
               }
             , { label = "sideWith"
               , configs =
-                    [ Playground.counter
-                        { label = ""
-                        , value = props.sideWith
+                    [ Props.counter
+                        { value = props.sideWith
                         , toString = \value -> String.fromFloat value ++ " rem"
                         , onClickPlus = SideWithPlus
                         , onClickMinus = SideWithMinus
-                        , note = ""
                         }
                     ]
               }
             , { label = "contentMin"
               , configs =
-                    [ Playground.counter
-                        { label = ""
-                        , value = props.contentMin
+                    [ Props.counter
+                        { value = props.contentMin
                         , toString = \value -> String.fromFloat value ++ " %"
                         , onClickPlus = ContentMinPlus
                         , onClickMinus = ContentMinMinus
-                        , note = ""
                         }
                     ]
               }
             , { label = "space"
               , configs =
-                    [ Playground.counter
-                        { label = ""
-                        , value = props.space
+                    [ Props.counter
+                        { value = props.space
                         , toString = \value -> String.fromFloat value ++ " rem"
                         , onClickPlus = SpacePlus
                         , onClickMinus = SpaceMinus
-                        , note = ""
                         }
                     ]
               }
             , { label = "noStretch"
               , configs =
-                    [ Playground.bool
-                        { id = "noStretch"
-                        , label = "noStretch"
-                        , bool = props.noStretch
+                    [ Props.bool
+                        { label = "noStretch"
+                        , value = props.noStretch
                         , onClick = Sidebar.setNoStretch (not props.noStretch) |> UpdateProps
-                        , note = ""
                         }
                     ]
               }

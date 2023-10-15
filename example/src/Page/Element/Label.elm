@@ -3,6 +3,7 @@ module Page.Element.Label exposing (Model, Msg, init, update, view)
 import Data.PalettesByState as PalettesByState
 import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
+import Props
 import Shared
 import Types exposing (PresetColor(..))
 import UI.Header as Header
@@ -80,13 +81,20 @@ view { theme } model =
         , configSections =
             [ { label = "Variations"
               , configs =
-                    [ Playground.select
+                    [ Props.field
                         { label = "Color"
-                        , value = model.color
-                        , options = [ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ]
-                        , fromString = colorFromString
-                        , toString = colorToString
-                        , onChange = (\color c -> { c | color = color }) >> UpdateConfig
+                        , props =
+                            Props.select
+                                { value = colorToString model.color
+                                , options = List.map colorToString <| [ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ]
+                                , onChange =
+                                    (\color ps ->
+                                        colorFromString color
+                                            |> Maybe.map (\c -> { ps | color = c })
+                                            |> Maybe.withDefault ps
+                                    )
+                                        >> UpdateConfig
+                                }
                         , note = "A label can have different colors"
                         }
                     ]

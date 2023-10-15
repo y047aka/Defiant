@@ -5,6 +5,7 @@ import Html.Styled exposing (Html, div, input, strong, text)
 import Html.Styled.Attributes exposing (placeholder, value)
 import Html.Styled.Events exposing (onInput)
 import Playground exposing (playground)
+import Props
 import Shared
 import UI.Header as Header
 import UI.Segment exposing (segment)
@@ -92,14 +93,16 @@ view { theme } m =
         , configSections =
             [ { label = "Types"
               , configs =
-                    [ Playground.select
-                        { label = ""
-                        , value = m.mode
-                        , options = [ List, Table ]
-                        , fromString = modeFromString
-                        , toString = modeToString
-                        , onChange = (\mode c -> { c | mode = mode }) >> UpdateConfig
-                        , note = ""
+                    [ Props.select
+                        { value = modeToString m.mode
+                        , options = List.map modeToString [ List, Table ]
+                        , onChange =
+                            (\mode ps ->
+                                modeFromString mode
+                                    |> Maybe.map (\mode_ -> { ps | mode = mode_ })
+                                    |> Maybe.withDefault ps
+                            )
+                                >> UpdateConfig
                         }
                     ]
               }

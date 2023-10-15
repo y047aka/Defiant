@@ -3,6 +3,7 @@ module Page.Element.Segment exposing (Model, Msg, init, update, view)
 import Data.Theme exposing (Theme(..))
 import Html.Styled exposing (Html, p, text)
 import Playground exposing (playground)
+import Props
 import Shared
 import UI.Example exposing (wireframeShortParagraph)
 import UI.Header as Header
@@ -75,35 +76,43 @@ view shared model =
         , configSections =
             [ { label = ""
               , configs =
-                    [ Playground.bool
-                        { id = "inverted"
-                        , label = "Inverted"
-                        , bool = model.inverted
-                        , onClick = (\c -> { c | inverted = not c.inverted }) |> UpdateConfig
-                        , note = ""
+                    [ Props.bool
+                        { label = "Inverted"
+                        , value = model.inverted
+                        , onClick = (\ps -> { ps | inverted = not ps.inverted }) |> UpdateConfig
                         }
                     ]
               }
             , { label = "States"
               , configs =
-                    [ Playground.bool
-                        { label = "Disabled"
-                        , id = "disabled"
-                        , bool = model.disabled
-                        , onClick = (\c -> { c | disabled = not c.disabled }) |> UpdateConfig
+                    [ Props.field
+                        { label = ""
+                        , props =
+                            Props.bool
+                                { label = "Disabled"
+                                , value = model.disabled
+                                , onClick = (\ps -> { ps | disabled = not ps.disabled }) |> UpdateConfig
+                                }
                         , note = "A segment may show its content is disabled"
                         }
                     ]
               }
             , { label = "Variations"
               , configs =
-                    [ Playground.select
+                    [ Props.field
                         { label = "Padding"
-                        , value = model.padding
-                        , options = [ Default, Padded, VeryPadded ]
-                        , fromString = paddingFromString
-                        , toString = paddingToString
-                        , onChange = (\padding c -> { c | padding = padding }) >> UpdateConfig
+                        , props =
+                            Props.select
+                                { value = paddingToString model.padding
+                                , options = List.map paddingToString [ Default, Padded, VeryPadded ]
+                                , onChange =
+                                    (\padding ps ->
+                                        paddingFromString padding
+                                            |> Maybe.map (\p -> { ps | padding = p })
+                                            |> Maybe.withDefault ps
+                                    )
+                                        >> UpdateConfig
+                                }
                         , note = "A segment can increase its padding"
                         }
                     ]
@@ -129,11 +138,14 @@ view shared model =
         , configSections =
             [ { label = ""
               , configs =
-                    [ Playground.bool
-                        { label = "Vertical Segment"
-                        , id = "vertical"
-                        , bool = model.vertical
-                        , onClick = (\c -> { c | vertical = not c.vertical }) |> UpdateConfig
+                    [ Props.field
+                        { label = ""
+                        , props =
+                            Props.bool
+                                { label = "Vertical Segment"
+                                , value = model.vertical
+                                , onClick = (\ps -> { ps | vertical = not ps.vertical }) |> UpdateConfig
+                                }
                         , note = "A vertical segment formats content to be aligned as part of a vertical group"
                         }
                     ]

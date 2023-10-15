@@ -4,6 +4,7 @@ import Data.DummyData as DummyData
 import Html.Styled exposing (Html, span, text)
 import Html.Styled.Attributes exposing (src)
 import Playground exposing (playground)
+import Props
 import Shared
 import UI.Example exposing (wireframeShortParagraph)
 import UI.Header as Header
@@ -129,44 +130,43 @@ view { theme } { config, movies } =
         , configSections =
             [ { label = "Content"
               , configs =
-                    [ Playground.bool
-                        { label = "Image"
-                        , id = "image"
-                        , bool = config.hasImage
-                        , onClick = (\c -> { c | hasImage = not c.hasImage }) |> UpdateConfig
+                    [ Props.field
+                        { label = ""
+                        , props =
+                            Props.bool
+                                { label = "Image"
+                                , value = config.hasImage
+                                , onClick = (\ps -> { ps | hasImage = not ps.hasImage }) |> UpdateConfig
+                                }
                         , note = "An item can contain an image"
                         }
-                    , Playground.boolAndString
+                    , Props.boolAndString
                         { label = "Header"
                         , id = "header"
                         , data = config.header
-                        , onUpdate = (\data -> \c -> { c | header = data }) >> UpdateConfig
+                        , onUpdate = (\data -> \ps -> { ps | header = data }) >> UpdateConfig
                         , placeholder = "12 Years a Slave"
-                        , note = ""
                         }
-                    , Playground.boolAndString
+                    , Props.boolAndString
                         { label = "Metadata"
                         , id = "metadata"
                         , data = config.metadata
-                        , onUpdate = (\data -> \c -> { c | metadata = data }) >> UpdateConfig
+                        , onUpdate = (\data -> \ps -> { ps | metadata = data }) >> UpdateConfig
                         , placeholder = "Union Square 14"
-                        , note = ""
                         }
-                    , Playground.boolAndString
+                    , Props.boolAndString
                         { label = "Description"
                         , id = "description"
                         , data = config.description
-                        , onUpdate = (\data -> \c -> { c | description = data }) >> UpdateConfig
+                        , onUpdate = (\data -> \ps -> { ps | description = data }) >> UpdateConfig
                         , placeholder = "An item can contain a description"
-                        , note = ""
                         }
-                    , Playground.boolAndString
+                    , Props.boolAndString
                         { label = "Extra Content"
                         , id = "extra_content"
                         , data = config.extraContent
-                        , onUpdate = (\data -> \c -> { c | extraContent = data }) >> UpdateConfig
+                        , onUpdate = (\data -> \ps -> { ps | extraContent = data }) >> UpdateConfig
                         , placeholder = "Extra Content"
-                        , note = ""
                         }
                     ]
               }

@@ -3,6 +3,7 @@ module Page.Form.Form exposing (Model, Msg, init, update, view)
 import Html.Styled exposing (Html, text)
 import Html.Styled.Attributes exposing (placeholder, rows, type_)
 import Playground exposing (playground)
+import Props
 import Shared
 import Types exposing (FormState(..), formStateFromString, formStateToString)
 import UI.Button exposing (button)
@@ -96,13 +97,20 @@ view { theme } model =
         , configSections =
             [ { label = "Form States"
               , configs =
-                    [ Playground.select
+                    [ Props.field
                         { label = ""
-                        , value = model.state
-                        , options = [ Default, Error, Warning, Success, Info ]
-                        , fromString = formStateFromString
-                        , toString = formStateToString
-                        , onChange = (\state c -> { c | state = state }) >> UpdateConfig
+                        , props =
+                            Props.select
+                                { value = formStateToString model.state
+                                , options = List.map formStateToString [ Default, Error, Warning, Success, Info ]
+                                , onChange =
+                                    (\state ps ->
+                                        formStateFromString state
+                                            |> Maybe.map (\s -> { ps | state = s })
+                                            |> Maybe.withDefault ps
+                                    )
+                                        >> UpdateConfig
+                                }
                         , note =
                             case model.state of
                                 Error ->
