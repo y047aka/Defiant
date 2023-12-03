@@ -16,7 +16,8 @@ module UI.Modal exposing
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, each, selector)
-import Css.Palette as Palette exposing (darkPalette, darkPaletteWith, palette, paletteWith, setBackground, setBorder, setColor)
+import Css.Palette as Palette exposing (palette, paletteWithBorder, setBackground, setBorder, setColor)
+import Css.Palette.Extra as Palette exposing (darkPalette, darkPaletteWith)
 import Css.Typography as Typography exposing (setFontSize, setLineHeight, typography)
 import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Attribute, Html, text)
@@ -184,7 +185,7 @@ headerBasis { theme, additionalStyles } =
                 |> setFontSize (rem 1.42857143)
                 |> setLineHeight (em 1.28571429)
             )
-        , paletteWith { border = borderBottom3 (px 1) solid }
+        , paletteWithBorder (borderBottom3 (px 1) solid)
             (Palette.init
                 |> setBackground (hex "#FFFFFF")
                 |> setColor (rgba 0 0 0 0.85)
@@ -279,12 +280,12 @@ actionsBasis { theme } additionalStyles =
         , textAlign right
 
         -- Palette
-        , paletteWith { border = borderTop3 (px 1) solid }
+        , paletteWithBorder (borderTop3 (px 1) solid)
             (Palette.init
                 |> setBackground (hex "#F9FAFB")
                 |> setBorder (rgba 34 36 38 0.15)
             )
-        , darkPaletteWith theme { border = borderTop3 (px 1) solid } <|
+        , darkPaletteWith theme (borderTop3 (px 1) solid) <|
             -- .ui.inverted.modal > .actions
             (Palette.init
                 |> setBackground (hex "#191A1B")

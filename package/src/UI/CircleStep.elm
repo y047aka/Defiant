@@ -17,7 +17,8 @@ module UI.CircleStep exposing
 
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
-import Css.Palette as Palette exposing (palette, paletteWith, setBackground, setBorder, setColor)
+import Css.Palette as Palette exposing (palette, paletteWithBorder, setBackground, setBorder, setColor)
+import Css.Palette.Extra as Palette
 import Css.Typography as Typography exposing (setFontSize, setFontWeight, setLineHeight, typography)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import Html.Styled.Attributes exposing (css)
@@ -128,7 +129,7 @@ stepBasis { state } =
             , width (em 1.14285714)
             , height (em 1.14285714)
             , borderRadius (pct 50)
-            , paletteWith { border = border3 (px 2) solid } <|
+            , paletteWithBorder (border3 (px 2) solid) <|
                 let
                     default =
                         Palette.init

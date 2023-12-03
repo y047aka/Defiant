@@ -3,7 +3,7 @@ module UI.Input exposing (input, label)
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (adjacentSiblings, children)
-import Css.Palette as Palette exposing (palette, paletteWith, setBackground, setBorder, setColor)
+import Css.Palette as Palette exposing (palette, paletteWithBorder, setBackground, setBorder, setColor)
 import Css.Typography as Typography exposing (setFontStyle, setFontWeight, setLineHeight, typography)
 import Html.Styled as Html exposing (Attribute, Html)
 import UI.Label as Label
@@ -33,7 +33,7 @@ input =
                 , textAlign left
                 , typography (Typography.default |> setLineHeight (em 1.21428571))
                 , padding2 (em 0.67857143) (em 1)
-                , paletteWith { border = border3 (px 1) solid }
+                , paletteWithBorder (border3 (px 1) solid)
                     (Palette.init
                         |> setBackground (hex "#FFFFFF")
                         |> setColor (rgba 0 0 0 0.87)

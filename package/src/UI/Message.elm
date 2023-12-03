@@ -3,7 +3,7 @@ module UI.Message exposing (message)
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, selector)
-import Css.Palette exposing (paletteWith)
+import Css.Palette exposing (paletteWithBorder)
 import Css.Typography as Typography exposing (setFontSize, setLineHeight, typography)
 import Html.Styled as Html exposing (Attribute, Html)
 
@@ -14,11 +14,10 @@ basis additionalStyles =
         [ position relative
         , margin2 (em 1) zero
         , padding2 (em 1) (em 1.5)
-        , paletteWith { border = border3 (px 1) solid }
+        , paletteWithBorder (border3 (px 1) solid)
             { background = Just (hex "#F8F8F9")
             , color = Just (rgba 0 0 0 0.87)
             , border = Just (rgba 34 36 38 0.22)
-            , shadow = Nothing
             }
         , borderRadius (rem 0.28571429)
 

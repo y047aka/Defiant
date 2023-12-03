@@ -16,7 +16,8 @@ module UI.Accordion exposing
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (adjacentSiblings, children, generalSiblings)
-import Css.Palette as Palette exposing (darkPalette, palette, paletteWith, setBackground, setColor)
+import Css.Palette as Palette exposing (palette, paletteWithBorder, setBackground, setColor)
+import Css.Palette.Extra as Palette exposing (darkPalette)
 import Css.Typography as Typography exposing (setFontSize, typography)
 import Data.Theme exposing (Theme)
 import Html.Styled as Html exposing (Attribute, Html)
@@ -214,7 +215,7 @@ accordion { toggleMethod, theme } attributes items =
     in
     accordionBasis itemProps
         [ borderRadius (rem 0.28571429)
-        , paletteWith { border = border3 (px 1) solid }
+        , paletteWithBorder (border3 (px 1) solid)
             (Palette.init
                 |> Palette.setBackground (hex "#FFFFFF")
                 |> Palette.setBorder (rgba 34 36 38 0.15)

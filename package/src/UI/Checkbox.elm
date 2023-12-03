@@ -3,7 +3,7 @@ module UI.Checkbox exposing (checkbox, checkboxWithProps, toggleCheckbox)
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (generalSiblings)
-import Css.Palette as Palette exposing (palette, paletteWith, setBackground, setBorder)
+import Css.Palette as Palette exposing (palette, paletteWithBorder, setBackground, setBorder)
 import Css.Typography as Typography exposing (setFontSize, setFontStyle, setLineHeight, typography)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import Html.Styled.Attributes as Attributes exposing (for, id, type_)
@@ -188,7 +188,7 @@ labelBasis additionalStyles =
             , property "transition" "border 0.1s ease, opacity 0.1s ease, -webkit-transform 0.1s ease, -webkit-box-shadow 0.1s ease"
             , property "transition" "border 0.1s ease, opacity 0.1s ease, transform 0.1s ease, box-shadow 0.1s ease"
             , property "transition" "border 0.1s ease, opacity 0.1s ease, transform 0.1s ease, box-shadow 0.1s ease, -webkit-transform 0.1s ease, -webkit-box-shadow 0.1s ease"
-            , paletteWith { border = border3 (px 1) solid }
+            , paletteWithBorder (border3 (px 1) solid)
                 (Palette.init
                     |> setBackground (hex "#FFFFFF")
                     |> setBorder (hex "#D4D4D5")

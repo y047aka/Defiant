@@ -17,7 +17,7 @@ module UI.Step exposing
 
 import Css exposing (..)
 import Css.Extra exposing (prefixed)
-import Css.Palette as Palette exposing (paletteWith, setBackground, setBorder, setColor)
+import Css.Palette as Palette exposing (paletteWithBorder, setBackground, setBorder, setColor)
 import Css.Typography as Typography exposing (setFontSize, setFontWeight, setLineHeight, typography)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import Html.Styled.Attributes exposing (css)
@@ -45,7 +45,7 @@ steps =
         , prefixed [] "box-shadow" "none"
         , lineHeight (em 1.14285714)
         , borderRadius (rem 0.28571429)
-        , paletteWith { border = border3 (px 1) solid }
+        , paletteWithBorder (border3 (px 1) solid)
             (Palette.init |> setBorder (rgba 34 36 38 0.15))
 
         -- .ui.steps:not(.unstackable)
@@ -80,7 +80,7 @@ stepBasis { state } =
         , prefixed [] "box-shadow" "none"
         , borderRadius zero
         , property "border" "none"
-        , paletteWith { border = borderRight3 (px 1) solid }
+        , paletteWithBorder (borderRight3 (px 1) solid)
             (Palette.init
                 |> setBackground (hex "#FFFFFF")
                 |> setColor (rgba 0 0 0 0.87)
@@ -101,15 +101,14 @@ stepBasis { state } =
             , right zero
             , width (em 1.14285714)
             , height (em 1.14285714)
-            , paletteWith
-                { border =
-                    \color ->
-                        batch
-                            [ borderStyle solid
-                            , borderWidth4 zero (px 1) (px 1) zero
-                            , borderColor color
-                            ]
-                }
+            , paletteWithBorder
+                (\color ->
+                    batch
+                        [ borderStyle solid
+                        , borderWidth4 zero (px 1) (px 1) zero
+                        , borderColor color
+                        ]
+                )
                 (Palette.init
                     |> setBackground (hex "#FFFFFF")
                     |> setBorder (rgba 34 36 38 0.15)

@@ -18,7 +18,8 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children)
 import Css.Layout as Layout exposing (layout)
-import Css.Palette as Palette exposing (Palette, palette, setBackground, setColor, textColor)
+import Css.Palette as Palette exposing (Palette, palette, setBackground, setColor)
+import Css.Palette.Extra as Palette exposing (textColor)
 import Css.Typography as Typography exposing (setFontSize, setFontWeight, setLineHeight, setTextTransform, typography)
 import Data.PalettesByState as PalettesByState exposing (black, blue)
 import Html.Styled as Html exposing (Attribute, Html)
@@ -210,5 +211,4 @@ basis_ =
     { background = Just (hex "#E8E8E8")
     , color = Just textColor
     , border = Just Palette.transparent
-    , shadow = Nothing
     }

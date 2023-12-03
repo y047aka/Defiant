@@ -18,7 +18,8 @@ module UI.Segment exposing
 -}
 
 import Css exposing (..)
-import Css.Palette as Palette exposing (darkPalette, paletteWith, setBackground, setBackgroundIf, setBorderIf, setColor, setShadowIf)
+import Css.Palette as Palette exposing (paletteWithBorder, setBackground, setColor)
+import Css.Palette.Extra exposing (darkPalette, setBackgroundIf, setBorderIf)
 import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Attribute, Html)
 
@@ -90,12 +91,16 @@ basis { border, shadow, theme } additionalStyles =
 
           else
             batch []
-        , paletteWith { border = border3 (px 1) solid }
+        , paletteWithBorder (border3 (px 1) solid)
             (Palette.init
                 |> setBackgroundIf shadow (hex "#FFF")
                 |> setBorderIf border (rgba 34 36 38 0.15)
-                |> setShadowIf shadow (boxShadow5 zero (px 1) (px 2) zero (rgba 34 36 38 0.15))
             )
+        , if shadow then
+            boxShadow5 zero (px 1) (px 2) zero (rgba 34 36 38 0.15)
+
+          else
+            batch []
         , darkPalette theme
             (Palette.init
                 |> setBackground (hex "#1B1C1D")

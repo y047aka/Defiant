@@ -16,6 +16,7 @@
             "elm-community/list-extra": "8.7.0",
             "lattyware/elm-fontawesome": "5.0.0",
             "rtfeldman/elm-css": "18.0.0",
+            "y047aka/elm-css-palette": "1.0.0",
             "y047aka/elm-reset-css": "2.8.0"
         },
         "indirect": {

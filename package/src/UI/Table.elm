@@ -16,7 +16,8 @@ import Css exposing (..)
 import Css.Extra exposing (prefixed)
 import Css.Global exposing (children, descendants, each)
 import Css.Layout as Layout exposing (layout)
-import Css.Palette as Palette exposing (paletteWith, setBackground, setBorderIf, setColor)
+import Css.Palette as Palette exposing (paletteWithBorder, setBackground, setColor)
+import Css.Palette.Extra exposing (setBorderIf)
 import Css.Typography as Typography exposing (setFontWeight, setTextTransform, typography)
 import Css.Typography_Outdated as Typography_
 import Html.Styled as Html exposing (Attribute, Html)
@@ -44,7 +45,7 @@ basis options additionalStyles =
     in
     Html.styled Html.table
         [ margin2 (em 1) zero
-        , paletteWith { border = border3 (px 1) solid }
+        , paletteWithBorder (border3 (px 1) solid)
             (Palette.init
                 |> setBackground (hex "#FFF")
                 |> setColor (rgba 0 0 0 0.87)

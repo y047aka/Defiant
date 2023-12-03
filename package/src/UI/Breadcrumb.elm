@@ -17,7 +17,8 @@ module UI.Breadcrumb exposing
 
 import Css exposing (..)
 import Css.Extra exposing (orNone)
-import Css.Palette as Palette exposing (darkPalette, setColor)
+import Css.Palette as Palette exposing (setColor)
+import Css.Palette.Extra exposing (darkPalette)
 import Css.Typography as Typography exposing (setFontWeight, typography)
 import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Html, text)

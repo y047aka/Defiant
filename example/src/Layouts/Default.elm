@@ -4,7 +4,8 @@ import Browser exposing (Document)
 import Css exposing (..)
 import Css.FontAwesome exposing (fontAwesome)
 import Css.Global exposing (global)
-import Css.Palette as Palette exposing (darkPalette, palette, paletteWith, setBackground, setColor)
+import Css.Palette as Palette exposing (palette, paletteWithBorder, setBackground, setColor)
+import Css.Palette.Extra exposing (darkPalette)
 import Css.Reset exposing (normalize)
 import Css.ResetAndCustomize exposing (additionalReset, globalCustomize)
 import Data.PageSummary as PageSummary exposing (categoryToString)
@@ -79,7 +80,7 @@ siteHeader shared toMsg page =
             , displayFlex
             , justifyContent spaceBetween
             , padding (px 20)
-            , paletteWith { border = borderBottom3 (px 1) solid }
+            , paletteWithBorder (borderBottom3 (px 1) solid)
                 (Palette.init
                     |> setBackground (hex "#FFF")
                     |> Palette.setBorder (hex "#DDD")

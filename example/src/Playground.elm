@@ -1,7 +1,8 @@
 module Playground exposing (playground)
 
 import Css exposing (..)
-import Css.Palette as Palette exposing (darkPalette, palette, setBackground, setBorder, setColor)
+import Css.Palette as Palette exposing (palette, setBackground, setBorder, setColor)
+import Css.Palette.Extra exposing (darkPalette)
 import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Html, div, input, p, text)
 import Html.Styled.Attributes as Attributes exposing (css, id, placeholder, selected, type_, value)
