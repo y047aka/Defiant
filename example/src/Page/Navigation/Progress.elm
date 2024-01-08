@@ -14,23 +14,13 @@ import UI.Progress as Progress exposing (State(..))
 
 
 type alias Model =
-    { progressValue : Float
-    , progressLabel : String
-    , label : String
-    , indicating : Bool
-    , state : State
-    }
+    Progress.Model
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( { progressValue = 0
-      , progressLabel = "%"
-      , label = "Uploading Files"
-      , indicating = False
-      , state = Default
-      }
-    , Random.generate NewProgress (Random.int 10 50)
+    ( Progress.init
+    , Random.generate (Progress.SetValue >> ProgressMsg) (Random.int 10 50)
     )
 
 
@@ -39,59 +29,30 @@ init =
 
 
 type Msg
-    = NewProgress Int
-    | CounterPlus
+    = CounterPlus
     | CounterMinus
+    | ProgressMsg Progress.Msg
     | UpdateConfig (Model -> Model)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        NewProgress int ->
-            let
-                calculated =
-                    model.progressValue + toFloat int
-
-                newProgress =
-                    if calculated > 100 then
-                        100
-
-                    else if calculated < 0 then
-                        0
-
-                    else
-                        calculated
-            in
-            ( { model | progressValue = newProgress }
-                |> updatelabelOnIndicating
-            , Cmd.none
-            )
-
         CounterPlus ->
-            ( model, Random.generate NewProgress (Random.int 10 15) )
+            ( model, Random.generate (Progress.SetValue >> ProgressMsg) (Random.int 10 15) )
 
         CounterMinus ->
-            ( model, Random.generate NewProgress (Random.int -15 -10) )
+            ( model, Random.generate (Progress.SetValue >> ProgressMsg) (Random.int -15 -10) )
+
+        ProgressMsg progressMsg ->
+            let
+                ( progressModel, progressCmd ) =
+                    Progress.update progressMsg model
+            in
+            ( progressModel, Cmd.map ProgressMsg progressCmd )
 
         UpdateConfig updater ->
             ( updater model, Cmd.none )
-
-
-updatelabelOnIndicating : Model -> Model
-updatelabelOnIndicating model =
-    { model
-        | label =
-            case ( model.indicating, model.progressValue == 100 ) of
-                ( True, True ) ->
-                    "Project Funded!"
-
-                ( True, False ) ->
-                    String.fromFloat model.progressValue ++ "% Funded"
-
-                ( False, _ ) ->
-                    model.label
-    }
 
 
 
@@ -104,15 +65,7 @@ view { theme } model =
     , playground
         { theme = theme
         , inverted = False
-        , preview =
-            [ Progress.progressWithProps
-                { value = model.progressValue
-                , progress = String.fromFloat model.progressValue ++ model.progressLabel
-                , label = model.label
-                , indicating = model.indicating
-                , state = model.state
-                }
-            ]
+        , preview = [ Progress.progressWithProps model ]
         , configSections =
             [ { label = "Bar"
               , configs =
@@ -120,7 +73,7 @@ view { theme } model =
                         { label = ""
                         , props =
                             Props.counter
-                                { value = model.progressValue
+                                { value = model.value
                                 , toString = \value -> String.fromFloat value ++ "%"
                                 , onClickPlus = CounterPlus
                                 , onClickMinus = CounterMinus
@@ -145,14 +98,14 @@ view { theme } model =
                                         in
                                         { ps
                                             | indicating = newIndicating
-                                            , label =
+                                            , caption =
                                                 if newIndicating then
-                                                    ps.label
+                                                    ps.caption
 
                                                 else
                                                     "Uploading Files"
                                         }
-                                            |> updatelabelOnIndicating
+                                            |> Progress.updateCaptionOnIndicating
                                     )
                                         |> UpdateConfig
                                 }
@@ -175,7 +128,7 @@ view { theme } model =
                                                 (\s ->
                                                     { ps
                                                         | state = s
-                                                        , label =
+                                                        , caption =
                                                             case s of
                                                                 Success ->
                                                                     "Everything worked, your file is all ready."
@@ -187,7 +140,7 @@ view { theme } model =
                                                                     "There was an error."
 
                                                                 _ ->
-                                                                    ps.label
+                                                                    ps.caption
                                                     }
                                                 )
                                             |> Maybe.withDefault ps
@@ -219,21 +172,21 @@ view { theme } model =
             , { label = "Content"
               , configs =
                     [ Props.field
-                        { label = "Progress"
+                        { label = "Unit"
                         , props =
                             Props.string
-                                { value = model.progressLabel
-                                , onInput = (\string ps -> { ps | progressLabel = string }) >> UpdateConfig
+                                { value = model.unit
+                                , onInput = (\string ps -> { ps | unit = string }) >> UpdateConfig
                                 , placeholder = ""
                                 }
                         , note = "A progress bar can contain a text value indicating current progress"
                         }
                     , Props.field
-                        { label = "Label"
+                        { label = "Caption"
                         , props =
                             Props.string
-                                { value = model.label
-                                , onInput = (\string ps -> { ps | label = string }) >> UpdateConfig
+                                { value = model.caption
+                                , onInput = (\string ps -> { ps | caption = string }) >> UpdateConfig
                                 , placeholder = ""
                                 }
                         , note = "A progress element can contain a label"

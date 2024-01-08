@@ -1,10 +1,37 @@
-module UI.Progress exposing (State(..), progressWithProps, stateFromString, stateToString)
+module UI.Progress exposing
+    ( Model, State(..), init
+    , Msg(..), update
+    , updateCaptionOnIndicating
+    , progressWithProps, stateFromString, stateToString
+    )
+
+{-|
+
+@docs Model, State, init
+@docs Msg, update
+@docs updateCaptionOnIndicating
+@docs progressWithProps, stateFromString, stateToString
+
+-}
 
 import Css exposing (..)
 import Css.Animations as Animations exposing (keyframes)
 import Css.Extra exposing (prefixed)
 import Css.Typography as Typography exposing (setFontSize, setFontWeight, typography)
 import Html.Styled as Html exposing (Attribute, Html, text)
+
+
+
+-- MODEL
+
+
+type alias Model =
+    { value : Float
+    , unit : String
+    , indicating : Bool
+    , state : State
+    , caption : String
+    }
 
 
 type State
@@ -16,38 +43,93 @@ type State
     | Disabled
 
 
-progressWithProps :
-    { value : Float
-    , progress : String
-    , label : String
-    , indicating : Bool
-    , state : State
+init : Model
+init =
+    { value = 0
+    , unit = "%"
+    , indicating = False
+    , state = Default
+    , caption = "Uploading Files"
     }
-    -> Html msg
+
+
+
+-- UPDATE
+
+
+type Msg
+    = SetValue Int
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        SetValue int ->
+            let
+                sum =
+                    model.value + toFloat int
+
+                clamped =
+                    if sum > 100 then
+                        100
+
+                    else if sum < 0 then
+                        0
+
+                    else
+                        sum
+            in
+            ( { model | value = clamped }
+                |> updateCaptionOnIndicating
+            , Cmd.none
+            )
+
+
+updateCaptionOnIndicating : Model -> Model
+updateCaptionOnIndicating m =
+    { m
+        | caption =
+            case ( m.indicating, m.value == 100 ) of
+                ( True, True ) ->
+                    "Project Funded!"
+
+                ( True, False ) ->
+                    String.fromFloat m.value ++ "% Funded"
+
+                ( False, _ ) ->
+                    m.caption
+    }
+
+
+
+-- VIEW
+
+
+progressWithProps : Model -> Html msg
 progressWithProps props =
     progressInternal
         { wrapper = basis { disabled = props.state == Disabled }
         , bar = bar props
-        , label =
-            case props.label of
+        , caption =
+            case props.caption of
                 "" ->
                     text ""
 
                 _ ->
-                    label props [] [ text props.label ]
+                    label props [] [ text props.caption ]
         }
 
 
 progressInternal :
     { wrapper : List (Attribute msg) -> List (Html msg) -> Html msg
     , bar : Html msg
-    , label : Html msg
+    , caption : Html msg
     }
     -> Html msg
 progressInternal options =
     options.wrapper []
         [ options.bar
-        , options.label
+        , options.caption
         ]
 
 
@@ -210,8 +292,8 @@ barBasis { value, indicating, state } =
                         , bottom zero
                         , property "background" "#FFFFFF"
                         , borderRadius (rem 0.28571429)
-                        , prefixed [] "animation" "progress-active 2s ease infinite;"
-                        , prefixed [] "transform-origin" "left"
+                        , property "animation" "progress-active 2s ease infinite;"
+                        , property "transform-origin" "left"
                         , animationName progress_active
                         ]
                     ]
@@ -229,17 +311,14 @@ barBasis { value, indicating, state } =
         ]
 
 
-bar :
-    { a
-        | value : Float
-        , progress : String
-        , indicating : Bool
-        , state : State
-    }
-    -> Html msg
+bar : Model -> Html msg
 bar options =
+    let
+        progress =
+            String.fromFloat options.value ++ options.unit
+    in
     barBasis options [] <|
-        case options.progress of
+        case progress of
             "" ->
                 []
 
@@ -255,11 +334,8 @@ bar options =
                             , right (em 0.5)
                             , left auto
                             , bottom auto
-                            , typography
-                                (Typography.init
-                                    |> setFontSize (em 0.92857143)
-                                    |> setFontWeight bold
-                                )
+                            , fontSize (em 0.92857143)
+                            , fontWeight bold
                             , color <|
                                 if options.value == 0 then
                                     -- .ui.progress[data-percent="0"] .bar .progress
@@ -272,7 +348,7 @@ bar options =
                             , textAlign left
                             ]
                 in
-                [ progress_ [] [ text options.progress ] ]
+                [ progress_ [] [ text progress ] ]
 
 
 label : { a | value : Float, indicating : Bool, state : State } -> List (Attribute msg) -> List (Html msg) -> Html msg
