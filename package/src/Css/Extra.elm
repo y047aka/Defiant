@@ -1,7 +1,9 @@
 module Css.Extra exposing
     ( batchIf, orNone
     , marginBlock, marginInline, paddingBlock, paddingInline
+    , fr
     , gap, rowGap, columnGap
+    , grid, gridTemplateColumns, gridTemplateRows, gridAutoColumns, gridAutoRows, gridColumn, gridRow
     , prefixed
     )
 
@@ -10,7 +12,10 @@ module Css.Extra exposing
 @docs batchIf, orNone
 
 @docs marginBlock, marginInline, paddingBlock, paddingInline
+
+@docs fr
 @docs gap, rowGap, columnGap
+@docs grid, gridTemplateColumns, gridTemplateRows, gridAutoColumns, gridAutoRows, gridColumn, gridRow
 
 @docs prefixed
 
@@ -45,7 +50,61 @@ orNone maybe f =
 
 
 
+-- COMPATIBLE
+
+
+dummyCompatible : Compatible
+dummyCompatible =
+    Css.initial.all
+
+
+
+-- LENGTHS
+
+
+type alias Fr =
+    ExplicitLength FrUnits
+
+
+fr : Float -> Fr
+fr =
+    lengthConverter_ FrUnits "fr"
+
+
+type FrUnits
+    = FrUnits
+
+
+lengthConverter_ : units -> String -> Float -> ExplicitLength units
+lengthConverter_ units unitLabel numericValue =
+    { value = String.fromFloat numericValue ++ unitLabel
+    , numericValue = numericValue
+    , units = units
+    , unitLabel = unitLabel
+    , length = dummyCompatible
+    , lengthOrAuto = dummyCompatible
+    , lengthOrNumber = dummyCompatible
+    , lengthOrNone = dummyCompatible
+    , lengthOrMinMaxDimension = dummyCompatible
+    , lengthOrNoneOrMinMaxDimension = dummyCompatible
+    , textIndent = dummyCompatible
+    , flexBasis = dummyCompatible
+    , lengthOrNumberOrAutoOrNoneOrContent = dummyCompatible
+    , fontSize = dummyCompatible
+    , absoluteLength = dummyCompatible
+    , lengthOrAutoOrCoverOrContain = dummyCompatible
+    , lineHeight = dummyCompatible
+    , calc = dummyCompatible
+    }
+
+
+
 -- PROPERTIES
+
+
+prop1 : String -> Value a -> Style
+prop1 key arg =
+    property key arg.value
 
 
 marginBlock : LengthOrAuto compatible -> Style
@@ -81,6 +140,45 @@ rowGap { value } =
 columnGap : Length compatible units -> Style
 columnGap { value } =
     property "column-gap" value
+
+
+
+-- GRID LAYOUT
+
+
+grid : Display {}
+grid =
+    { value = "grid", display = dummyCompatible }
+
+
+gridTemplateColumns : List (Length compatible units) -> Style
+gridTemplateColumns units =
+    property "grid-template-columns" (String.join " " <| List.map .value units)
+
+
+gridTemplateRows : List (Length compatible units) -> Style
+gridTemplateRows units =
+    property "grid-template-rows" (String.join " " <| List.map .value units)
+
+
+gridAutoColumns : Length compatible units -> Style
+gridAutoColumns =
+    prop1 "grid-auto-columns"
+
+
+gridAutoRows : Length compatible units -> Style
+gridAutoRows =
+    prop1 "grid-auto-rows"
+
+
+gridColumn : String -> Style
+gridColumn =
+    property "grid-column"
+
+
+gridRow : String -> Style
+gridRow =
+    property "grid-row"
 
 
 

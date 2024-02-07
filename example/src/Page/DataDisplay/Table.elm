@@ -74,26 +74,22 @@ view { theme } model =
         , configSections =
             [ { label = "Variations"
               , configs =
-                    [ Props.field
-                        { label = ""
-                        , props =
-                            Props.bool
-                                { label = "Striped"
-                                , value = model.striped
-                                , onClick = (\ps -> { ps | striped = not ps.striped }) |> UpdateConfig
-                                }
-                        , note = "A table can stripe alternate rows of content with a darker color to increase contrast"
-                        }
-                    , Props.field
-                        { label = ""
-                        , props =
-                            Props.bool
-                                { label = "Celled"
-                                , value = model.celled
-                                , onClick = (\ps -> { ps | celled = not ps.celled }) |> UpdateConfig
-                                }
-                        , note = "A table may be divided each row into separate cells"
-                        }
+                    [ Props.field "Striped"
+                        (Props.bool
+                            { id = "striped"
+                            , value = model.striped
+                            , onClick = (\ps -> { ps | striped = not ps.striped }) |> UpdateConfig
+                            }
+                        )
+                    , Props.comment "A table can stripe alternate rows of content with a darker color to increase contrast"
+                    , Props.field "Celled"
+                        (Props.bool
+                            { id = "celled"
+                            , value = model.celled
+                            , onClick = (\ps -> { ps | celled = not ps.celled }) |> UpdateConfig
+                            }
+                        )
+                    , Props.comment "A table may be divided each row into separate cells"
                     ]
               }
             ]

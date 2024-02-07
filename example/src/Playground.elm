@@ -4,15 +4,10 @@ import Css exposing (..)
 import Css.Palette as Palette exposing (palette, setBackground, setBorder, setColor)
 import Css.Palette.Extra exposing (darkPalette)
 import Data.Theme exposing (Theme(..))
-import Html.Styled as Html exposing (Html, div, input, p, text)
-import Html.Styled.Attributes as Attributes exposing (css, id, placeholder, selected, type_, value)
-import Html.Styled.Events exposing (onClick, onInput)
-import Props exposing (BoolAndStringProps, BoolProps, CounterProps, Props(..), RadioProps, SelectProps, StringProps)
+import Html.Styled as Html exposing (Html, div, p, text)
+import Html.Styled.Attributes exposing (css)
+import Props exposing (Props)
 import Types exposing (FormState(..))
-import UI.Button exposing (button, labeledButton)
-import UI.Checkbox as Checkbox
-import UI.Input as Input
-import UI.Label exposing (basicLabel)
 import UI.Layout.Box as Box exposing (box)
 import UI.Layout.Sidebar exposing (withSidebar)
 import UI.Layout.Stack as Stack exposing (stack)
@@ -126,135 +121,5 @@ configPanel configSections =
 
 
 render : Props msg -> Html msg
-render props =
-    case props of
-        String ps ->
-            string ps
-
-        Bool ps ->
-            bool ps
-
-        Select ps ->
-            select ps
-
-        Radio ps ->
-            radio ps
-
-        Counter ps ->
-            counter ps
-
-        BoolAndString ps ->
-            boolAndString ps
-
-        List childProps ->
-            div [] (List.map render childProps)
-
-        FieldSet label childProps ->
-            Html.fieldset [] <|
-                Html.legend [] [ text label ]
-                    :: List.map render childProps
-
-        Field labelAndNote ps ->
-            field labelAndNote ps
-
-        Customize view ->
-            view
-
-
-field : { label : String, note : String } -> Props msg -> Html msg
-field { label, note } ps =
-    stack (Stack.defaultProps |> Stack.setGap 0.5)
-        []
-        [ Html.label [ css [ empty [ display none ] ] ] [ text label ]
-        , render ps
-        , p
-            [ css
-                [ color (hex "#999")
-                , empty [ display none ]
-                ]
-            ]
-            [ text note ]
-        ]
-
-
-string : StringProps msg -> Html msg
-string ps =
-    Input.input []
-        [ input
-            [ type_ "text"
-            , value ps.value
-            , onInput ps.onInput
-            , placeholder ps.placeholder
-            ]
-            []
-        ]
-
-
-bool : BoolProps msg -> Html msg
-bool ps =
-    Checkbox.toggleCheckbox
-        { id = ps.label
-        , label = ps.label
-        , checked = ps.value
-        , disabled = False
-        , onClick = ps.onClick
-        }
-
-
-select : SelectProps msg -> Html msg
-select ps =
-    Html.select [ onInput ps.onChange ]
-        (List.map (\option -> Html.option [ value option, selected (ps.value == option) ] [ text option ])
-            ps.options
-        )
-
-
-radio : RadioProps msg -> Html msg
-radio ps =
-    div [] <|
-        List.map
-            (\option ->
-                Html.label []
-                    [ input
-                        [ type_ "radio"
-                        , value option
-                        , Attributes.checked (ps.value == option)
-                        , onInput ps.onChange
-                        ]
-                        []
-                    , text option
-                    ]
-            )
-            ps.options
-
-
-counter : CounterProps msg -> Html msg
-counter ps =
-    labeledButton []
-        [ button [ onClick ps.onClickMinus ] [ text "-" ]
-        , basicLabel [] [ text (ps.toString ps.value) ]
-        , button [ onClick ps.onClickPlus ] [ text "+" ]
-        ]
-
-
-boolAndString : BoolAndStringProps msg -> Html msg
-boolAndString { label, id, data, onUpdate, placeholder } =
-    stack (Stack.defaultProps |> Stack.setGap 0.5)
-        []
-        [ Checkbox.toggleCheckbox
-            { id = id
-            , label = label
-            , checked = data.visible
-            , disabled = False
-            , onClick = onUpdate { data | visible = not data.visible }
-            }
-        , Input.input []
-            [ input
-                [ type_ "text"
-                , value data.value
-                , onInput (\string_ -> onUpdate { data | value = string_ })
-                , Attributes.placeholder placeholder
-                ]
-                []
-            ]
-        ]
+render =
+    Props.render

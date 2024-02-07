@@ -125,11 +125,13 @@ view { theme } { props } =
               }
             , { label = "noStretch"
               , configs =
-                    [ Props.bool
-                        { label = "noStretch"
-                        , value = props.noStretch
-                        , onClick = Sidebar.setNoStretch (not props.noStretch) |> UpdateProps
-                        }
+                    [ Props.field "noStretch"
+                        (Props.bool
+                            { id = "noStretch"
+                            , value = props.noStretch
+                            , onClick = Sidebar.setNoStretch (not props.noStretch) |> UpdateProps
+                            }
+                        )
                     ]
               }
             ]

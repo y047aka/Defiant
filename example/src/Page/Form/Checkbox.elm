@@ -63,16 +63,14 @@ view { theme } model =
         , configSections =
             [ { label = "Disabled"
               , configs =
-                    [ Props.field
-                        { label = ""
-                        , props =
-                            Props.bool
-                                { label = "Disabled"
-                                , value = model.disabled
-                                , onClick = (\ps -> { ps | disabled = not ps.disabled }) |> UpdateConfig
-                                }
-                        , note = "A checkbox can show it is currently unable to be interacted with"
-                        }
+                    [ Props.field "Disabled"
+                        (Props.bool
+                            { id = "disabled"
+                            , value = model.disabled
+                            , onClick = (\ps -> { ps | disabled = not ps.disabled }) |> UpdateConfig
+                            }
+                        )
+                    , Props.comment "A checkbox can show it is currently unable to be interacted with"
                     ]
               }
             ]

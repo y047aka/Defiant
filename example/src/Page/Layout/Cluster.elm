@@ -68,30 +68,22 @@ view { theme } { props } =
         , configSections =
             [ { label = "justify"
               , configs =
-                    [ Props.field
-                        { label = ""
-                        , props =
-                            Props.select
-                                { value = props.justify
-                                , options = [ "start", "end", "flex-start", "flex-end", "center", "space-between", "space-around", "space-evenly" ]
-                                , onChange = Cluster.setJustify >> UpdateProps
-                                }
-                        , note = "https://developer.mozilla.org/ja/docs/Web/CSS/justify-content"
+                    [ Props.select
+                        { value = props.justify
+                        , options = [ "start", "end", "flex-start", "flex-end", "center", "space-between", "space-around", "space-evenly" ]
+                        , onChange = Cluster.setJustify >> UpdateProps
                         }
+                    , Props.comment "https://developer.mozilla.org/ja/docs/Web/CSS/justify-content"
                     ]
               }
             , { label = "align"
               , configs =
-                    [ Props.field
-                        { label = ""
-                        , props =
-                            Props.select
-                                { value = props.align
-                                , options = [ "start", "end", "flex-start", "flex-end", "center", "stretch" ]
-                                , onChange = Cluster.setAlign >> UpdateProps
-                                }
-                        , note = "https://developer.mozilla.org/ja/docs/Web/CSS/align-items"
+                    [ Props.select
+                        { value = props.align
+                        , options = [ "start", "end", "flex-start", "flex-end", "center", "stretch" ]
+                        , onChange = Cluster.setAlign >> UpdateProps
                         }
+                    , Props.comment "https://developer.mozilla.org/ja/docs/Web/CSS/align-items"
                     ]
               }
             , { label = "gap"

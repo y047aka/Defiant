@@ -112,13 +112,15 @@ view { theme } { props } =
                         }
                     ]
               }
-            , { label = "invert"
+            , { label = "Invert"
               , configs =
-                    [ Props.bool
-                        { label = "invert"
-                        , value = props.invert
-                        , onClick = Box.setInvert (not props.invert) |> UpdateProps
-                        }
+                    [ Props.field "Invert"
+                        (Props.bool
+                            { id = "invert"
+                            , value = props.invert
+                            , onClick = Box.setInvert (not props.invert) |> UpdateProps
+                            }
+                        )
                     ]
               }
             ]

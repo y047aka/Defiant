@@ -87,11 +87,13 @@ view { theme } model =
         , configSections =
             [ { label = ""
               , configs =
-                    [ Props.bool
-                        { label = "Inverted"
-                        , value = model.inverted
-                        , onClick = (\ps -> { ps | inverted = not ps.inverted }) |> UpdateConfig
-                        }
+                    [ Props.field "Inverted"
+                        (Props.bool
+                            { id = "inverted"
+                            , value = model.inverted
+                            , onClick = (\ps -> { ps | inverted = not ps.inverted }) |> UpdateConfig
+                            }
+                        )
                     ]
               }
             ]
@@ -130,22 +132,18 @@ view { theme } model =
         , configSections =
             [ { label = "Size"
               , configs =
-                    [ Props.field
-                        { label = ""
-                        , props =
-                            Props.select
-                                { value = sizeToString model.size
-                                , options = List.map sizeToString [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
-                                , onChange =
-                                    (\size ps ->
-                                        sizeFromString size
-                                            |> Maybe.map (\s -> { ps | size = s })
-                                            |> Maybe.withDefault ps
-                                    )
-                                        >> UpdateConfig
-                                }
-                        , note = "Text can vary in the same sizes as icons"
+                    [ Props.select
+                        { value = sizeToString model.size
+                        , options = List.map sizeToString [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
+                        , onChange =
+                            (\size ps ->
+                                sizeFromString size
+                                    |> Maybe.map (\s -> { ps | size = s })
+                                    |> Maybe.withDefault ps
+                            )
+                                >> UpdateConfig
                         }
+                    , Props.comment "Text can vary in the same sizes as icons"
                     ]
               }
             ]

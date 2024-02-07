@@ -99,11 +99,13 @@ view { theme } { props } =
               }
             , { label = "andText"
               , configs =
-                    [ Props.bool
-                        { label = "andText"
-                        , value = props.andText
-                        , onClick = Center.setAndText (not props.andText) |> UpdateProps
-                        }
+                    [ Props.field "andText"
+                        (Props.bool
+                            { id = "andText"
+                            , value = props.andText
+                            , onClick = Center.setAndText (not props.andText) |> UpdateProps
+                            }
+                        )
                     ]
               }
             , { label = "gutters"
@@ -118,11 +120,13 @@ view { theme } { props } =
               }
             , { label = "intrinsic"
               , configs =
-                    [ Props.bool
-                        { label = "intrinsic"
-                        , value = props.intrinsic
-                        , onClick = Center.setIntrinsic (not props.intrinsic) |> UpdateProps
-                        }
+                    [ Props.field "intrinsic"
+                        (Props.bool
+                            { id = "intrinsic"
+                            , value = props.intrinsic
+                            , onClick = Center.setIntrinsic (not props.intrinsic) |> UpdateProps
+                            }
+                        )
                     ]
               }
             ]

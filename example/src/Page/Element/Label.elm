@@ -81,22 +81,20 @@ view { theme } model =
         , configSections =
             [ { label = "Variations"
               , configs =
-                    [ Props.field
-                        { label = "Color"
-                        , props =
-                            Props.select
-                                { value = colorToString model.color
-                                , options = List.map colorToString <| [ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ]
-                                , onChange =
-                                    (\color ps ->
-                                        colorFromString color
-                                            |> Maybe.map (\c -> { ps | color = c })
-                                            |> Maybe.withDefault ps
-                                    )
-                                        >> UpdateConfig
-                                }
-                        , note = "A label can have different colors"
-                        }
+                    [ Props.field "Color"
+                        (Props.select
+                            { value = colorToString model.color
+                            , options = List.map colorToString <| [ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ]
+                            , onChange =
+                                (\color ps ->
+                                    colorFromString color
+                                        |> Maybe.map (\c -> { ps | color = c })
+                                        |> Maybe.withDefault ps
+                                )
+                                    >> UpdateConfig
+                            }
+                        )
+                    , Props.comment "A label can have different colors"
                     ]
               }
             ]

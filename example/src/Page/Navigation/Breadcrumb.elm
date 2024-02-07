@@ -94,51 +94,49 @@ view { theme } model =
         , configSections =
             [ { label = ""
               , configs =
-                    [ Props.bool
-                        { label = "Inverted"
-                        , value = model.inverted
-                        , onClick = (\ps -> { ps | inverted = not ps.inverted }) |> UpdateConfig
-                        }
+                    [ Props.field "Inverted"
+                        (Props.bool
+                            { id = "inverted"
+                            , value = model.inverted
+                            , onClick = (\ps -> { ps | inverted = not ps.inverted }) |> UpdateConfig
+                            }
+                        )
                     ]
               }
             , { label = "Content"
               , configs =
-                    [ Props.field
-                        { label = "Divider"
-                        , props =
-                            Props.select
-                                { value = dividerToString model.divider
-                                , options = List.map dividerToString [ Slash, RightChevron ]
-                                , onChange =
-                                    (\divider ps ->
-                                        dividerFromString divider
-                                            |> Maybe.map (\d -> { ps | divider = d })
-                                            |> Maybe.withDefault ps
-                                    )
-                                        >> UpdateConfig
-                                }
-                        , note = "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text."
-                        }
+                    [ Props.field "Divider"
+                        (Props.select
+                            { value = dividerToString model.divider
+                            , options = List.map dividerToString [ Slash, RightChevron ]
+                            , onChange =
+                                (\divider ps ->
+                                    dividerFromString divider
+                                        |> Maybe.map (\d -> { ps | divider = d })
+                                        |> Maybe.withDefault ps
+                                )
+                                    >> UpdateConfig
+                            }
+                        )
+                    , Props.comment "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text."
                     ]
               }
             , { label = "Variations"
               , configs =
-                    [ Props.field
-                        { label = "Size"
-                        , props =
-                            Props.select
-                                { value = sizeToString model.size
-                                , options = List.map sizeToString [ Mini, Tiny, Small, Medium, Large, Big, Huge, Massive ]
-                                , onChange =
-                                    (\size ps ->
-                                        sizeFromString size
-                                            |> Maybe.map (\s -> { ps | size = s })
-                                            |> Maybe.withDefault ps
-                                    )
-                                        >> UpdateConfig
-                                }
-                        , note = "A breadcrumb can vary in size"
-                        }
+                    [ Props.field "Size"
+                        (Props.select
+                            { value = sizeToString model.size
+                            , options = List.map sizeToString [ Mini, Tiny, Small, Medium, Large, Big, Huge, Massive ]
+                            , onChange =
+                                (\size ps ->
+                                    sizeFromString size
+                                        |> Maybe.map (\s -> { ps | size = s })
+                                        |> Maybe.withDefault ps
+                                )
+                                    >> UpdateConfig
+                            }
+                        )
+                    , Props.comment "A breadcrumb can vary in size"
                     ]
               }
             ]

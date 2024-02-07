@@ -186,26 +186,22 @@ view { theme } model =
               }
             , { label = "Content"
               , configs =
-                    [ Props.field
-                        { label = ""
-                        , props =
-                            Props.bool
-                                { label = "Icon"
-                                , value = model.hasIcon
-                                , onClick = (\ps -> { ps | hasIcon = not ps.hasIcon }) |> UpdateConfig
-                                }
-                        , note = "A step can contain an icon"
-                        }
-                    , Props.field
-                        { label = ""
-                        , props =
-                            Props.bool
-                                { label = "Description"
-                                , value = model.hasDescription
-                                , onClick = (\ps -> { ps | hasDescription = not ps.hasDescription }) |> UpdateConfig
-                                }
-                        , note = "A step can contain a description"
-                        }
+                    [ Props.field "Icon"
+                        (Props.bool
+                            { id = "icon"
+                            , value = model.hasIcon
+                            , onClick = (\ps -> { ps | hasIcon = not ps.hasIcon }) |> UpdateConfig
+                            }
+                        )
+                    , Props.comment "A step can contain an icon"
+                    , Props.field "Description"
+                        (Props.bool
+                            { id = "description"
+                            , value = model.hasDescription
+                            , onClick = (\ps -> { ps | hasDescription = not ps.hasDescription }) |> UpdateConfig
+                            }
+                        )
+                    , Props.comment "A step can contain a description"
                     ]
               }
             ]

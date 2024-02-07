@@ -96,36 +96,31 @@ view { theme } model =
         , configSections =
             [ { label = "Content"
               , configs =
-                    [ Props.field
-                        { label = "Label"
-                        , props =
-                            Props.string
-                                { value = model.label
-                                , onInput = (\string ps -> { ps | label = string }) >> UpdateConfig
-                                , placeholder = ""
-                                }
-                        , note = ""
-                        }
+                    [ Props.field "Label"
+                        (Props.string
+                            { value = model.label
+                            , onInput = (\string ps -> { ps | label = string }) >> UpdateConfig
+                            , placeholder = ""
+                            }
+                        )
                     ]
               }
             , { label = "Variations"
               , configs =
-                    [ Props.field
-                        { label = "Color"
-                        , props =
-                            Props.select
-                                { value = colorToString model.color
-                                , options = List.map colorToString <| [ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ]
-                                , onChange =
-                                    (\color ps ->
-                                        colorFromString color
-                                            |> Maybe.map (\c -> { ps | color = c })
-                                            |> Maybe.withDefault ps
-                                    )
-                                        >> UpdateConfig
-                                }
-                        , note = "A button can have different colors"
-                        }
+                    [ Props.field "Color"
+                        (Props.select
+                            { value = colorToString model.color
+                            , options = List.map colorToString <| [ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ]
+                            , onChange =
+                                (\color ps ->
+                                    colorFromString color
+                                        |> Maybe.map (\c -> { ps | color = c })
+                                        |> Maybe.withDefault ps
+                                )
+                                    >> UpdateConfig
+                            }
+                        )
+                    , Props.comment "A button can have different colors"
                     ]
               }
             ]

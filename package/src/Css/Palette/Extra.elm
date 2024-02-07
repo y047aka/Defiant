@@ -1,11 +1,13 @@
 module Css.Palette.Extra exposing
-    ( darkPalette, darkPaletteWith
+    ( paletteByState
+    , darkPalette, darkPaletteWith
     , setBackgroundIf, setColorIf, setBorderIf
     , transparent, textColor, hoverColor
     )
 
 {-|
 
+@docs paletteByState
 @docs darkPalette, darkPaletteWith
 @docs setBackgroundIf, setColorIf, setBorderIf
 
@@ -15,8 +17,15 @@ module Css.Palette.Extra exposing
 
 import Css exposing (Color, ColorValue, Style, backgroundColor, batch, borderColor, boxShadow, color, rgba, unset)
 import Css.Media exposing (withMediaQuery)
-import Css.Palette exposing (Palette, paletteWithBorder, setBackground, setBorder, setColor)
+import Css.Palette exposing (Palette, palette, paletteWithBorder, setBackground, setBorder, setColor)
 import Data.Theme exposing (Theme(..))
+
+
+paletteByState : ( Palette (ColorValue c), List ( List Style -> Style, Palette (ColorValue c) ) ) -> Style
+paletteByState ( default, palettes ) =
+    List.map (\( pseudoClass, p ) -> pseudoClass [ palette p ]) palettes
+        |> (::) (palette default)
+        |> Css.batch
 
 
 darkPalette : Theme -> Palette (ColorValue c) -> Style

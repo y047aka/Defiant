@@ -76,45 +76,43 @@ view shared model =
         , configSections =
             [ { label = ""
               , configs =
-                    [ Props.bool
-                        { label = "Inverted"
-                        , value = model.inverted
-                        , onClick = (\ps -> { ps | inverted = not ps.inverted }) |> UpdateConfig
-                        }
+                    [ Props.field "Inverted"
+                        (Props.bool
+                            { id = "inverted"
+                            , value = model.inverted
+                            , onClick = (\ps -> { ps | inverted = not ps.inverted }) |> UpdateConfig
+                            }
+                        )
                     ]
               }
             , { label = "States"
               , configs =
-                    [ Props.field
-                        { label = ""
-                        , props =
-                            Props.bool
-                                { label = "Disabled"
-                                , value = model.disabled
-                                , onClick = (\ps -> { ps | disabled = not ps.disabled }) |> UpdateConfig
-                                }
-                        , note = "A segment may show its content is disabled"
-                        }
+                    [ Props.field "Disabled"
+                        (Props.bool
+                            { id = "disabled"
+                            , value = model.disabled
+                            , onClick = (\ps -> { ps | disabled = not ps.disabled }) |> UpdateConfig
+                            }
+                        )
+                    , Props.comment "A segment may show its content is disabled"
                     ]
               }
             , { label = "Variations"
               , configs =
-                    [ Props.field
-                        { label = "Padding"
-                        , props =
-                            Props.select
-                                { value = paddingToString model.padding
-                                , options = List.map paddingToString [ Default, Padded, VeryPadded ]
-                                , onChange =
-                                    (\padding ps ->
-                                        paddingFromString padding
-                                            |> Maybe.map (\p -> { ps | padding = p })
-                                            |> Maybe.withDefault ps
-                                    )
-                                        >> UpdateConfig
-                                }
-                        , note = "A segment can increase its padding"
-                        }
+                    [ Props.field "Padding"
+                        (Props.select
+                            { value = paddingToString model.padding
+                            , options = List.map paddingToString [ Default, Padded, VeryPadded ]
+                            , onChange =
+                                (\padding ps ->
+                                    paddingFromString padding
+                                        |> Maybe.map (\p -> { ps | padding = p })
+                                        |> Maybe.withDefault ps
+                                )
+                                    >> UpdateConfig
+                            }
+                        )
+                    , Props.comment "A segment can increase its padding"
                     ]
               }
             ]
@@ -138,16 +136,14 @@ view shared model =
         , configSections =
             [ { label = ""
               , configs =
-                    [ Props.field
-                        { label = ""
-                        , props =
-                            Props.bool
-                                { label = "Vertical Segment"
-                                , value = model.vertical
-                                , onClick = (\ps -> { ps | vertical = not ps.vertical }) |> UpdateConfig
-                                }
-                        , note = "A vertical segment formats content to be aligned as part of a vertical group"
-                        }
+                    [ Props.field "Vertical Segment"
+                        (Props.bool
+                            { id = "vertical_segment"
+                            , value = model.vertical
+                            , onClick = (\ps -> { ps | vertical = not ps.vertical }) |> UpdateConfig
+                            }
+                        )
+                    , Props.comment "A vertical segment formats content to be aligned as part of a vertical group"
                     ]
               }
             ]

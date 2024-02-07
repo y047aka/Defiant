@@ -69,46 +69,38 @@ view { theme } model =
         , configSections =
             [ { label = "Content"
               , configs =
-                    [ Props.field
-                        { label = "Header"
-                        , props =
-                            Props.string
-                                { value = model.header
-                                , onInput = (\string ps -> { ps | header = string }) >> UpdateConfig
-                                , placeholder = ""
-                                }
-                        , note = ""
-                        }
-                    , Props.field
-                        { label = "Subheader"
-                        , props =
-                            Props.string
-                                { value = model.subHeader
-                                , onInput = (\string ps -> { ps | subHeader = string }) >> UpdateConfig
-                                , placeholder = ""
-                                }
-                        , note = ""
-                        }
+                    [ Props.field "Header"
+                        (Props.string
+                            { value = model.header
+                            , onInput = (\string ps -> { ps | header = string }) >> UpdateConfig
+                            , placeholder = ""
+                            }
+                        )
+                    , Props.field "Subheader"
+                        (Props.string
+                            { value = model.subHeader
+                            , onInput = (\string ps -> { ps | subHeader = string }) >> UpdateConfig
+                            , placeholder = ""
+                            }
+                        )
                     ]
               }
             , { label = "Variations"
               , configs =
-                    [ Props.field
-                        { label = "Size"
-                        , props =
-                            Props.select
-                                { value = sizeToString model.size
-                                , options = List.map sizeToString [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
-                                , onChange =
-                                    (\size ps ->
-                                        sizeFromString size
-                                            |> Maybe.map (\s -> { ps | size = s })
-                                            |> Maybe.withDefault ps
-                                    )
-                                        >> UpdateConfig
-                                }
-                        , note = "Text can vary in the same sizes as icons"
-                        }
+                    [ Props.field "Size"
+                        (Props.select
+                            { value = sizeToString model.size
+                            , options = List.map sizeToString [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
+                            , onChange =
+                                (\size ps ->
+                                    sizeFromString size
+                                        |> Maybe.map (\s -> { ps | size = s })
+                                        |> Maybe.withDefault ps
+                                )
+                                    >> UpdateConfig
+                            }
+                        )
+                    , Props.comment "Text can vary in the same sizes as icons"
                     ]
               }
             ]

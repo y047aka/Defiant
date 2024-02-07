@@ -130,16 +130,14 @@ view { theme } { config, movies } =
         , configSections =
             [ { label = "Content"
               , configs =
-                    [ Props.field
-                        { label = ""
-                        , props =
-                            Props.bool
-                                { label = "Image"
-                                , value = config.hasImage
-                                , onClick = (\ps -> { ps | hasImage = not ps.hasImage }) |> UpdateConfig
-                                }
-                        , note = "An item can contain an image"
-                        }
+                    [ Props.field "Image"
+                        (Props.bool
+                            { id = "image"
+                            , value = config.hasImage
+                            , onClick = (\ps -> { ps | hasImage = not ps.hasImage }) |> UpdateConfig
+                            }
+                        )
+                    , Props.comment "An item can contain an image"
                     , Props.boolAndString
                         { label = "Header"
                         , id = "header"

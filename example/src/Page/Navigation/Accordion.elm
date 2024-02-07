@@ -101,43 +101,42 @@ view shared { toggleMethod, inverted } =
         , configSections =
             [ { label = ""
               , configs =
-                    [ Props.bool
-                        { label = "Inverted"
-                        , value = inverted
-                        , onClick = (\ps -> { ps | inverted = not ps.inverted }) |> UpdateConfig
-                        }
+                    [ Props.field "Inverted"
+                        (Props.bool
+                            { id = "inverted"
+                            , value = inverted
+                            , onClick = (\ps -> { ps | inverted = not ps.inverted }) |> UpdateConfig
+                            }
+                        )
                     ]
               }
             , { label = "Toggle Method"
               , configs =
-                    [ Props.field
-                        { label = ""
-                        , props =
-                            Props.select
-                                { value = Accordion.toggleMethodToString toggleMethod
-                                , options = List.map Accordion.toggleMethodToString [ SummaryDetails, TargetUrl, Checkbox, Radio ]
-                                , onChange =
-                                    (\method ps ->
-                                        Accordion.toggleMethodFromString method
-                                            |> Maybe.map (\tm -> { ps | toggleMethod = tm })
-                                            |> Maybe.withDefault ps
-                                    )
-                                        >> UpdateConfig
-                                }
-                        , note =
-                            case toggleMethod of
-                                SummaryDetails ->
-                                    "A standard accordion with summary/details tag"
-
-                                TargetUrl ->
-                                    "A standard accordion with target URL"
-
-                                Checkbox ->
-                                    "A standard accordion with checkbox"
-
-                                Radio ->
-                                    "A standard accordion with radio button"
+                    [ Props.select
+                        { value = Accordion.toggleMethodToString toggleMethod
+                        , options = List.map Accordion.toggleMethodToString [ SummaryDetails, TargetUrl, Checkbox, Radio ]
+                        , onChange =
+                            (\method ps ->
+                                Accordion.toggleMethodFromString method
+                                    |> Maybe.map (\tm -> { ps | toggleMethod = tm })
+                                    |> Maybe.withDefault ps
+                            )
+                                >> UpdateConfig
                         }
+                    , Props.comment
+                        (case toggleMethod of
+                            SummaryDetails ->
+                                "A standard accordion with summary/details tag"
+
+                            TargetUrl ->
+                                "A standard accordion with target URL"
+
+                            Checkbox ->
+                                "A standard accordion with checkbox"
+
+                            Radio ->
+                                "A standard accordion with radio button"
+                        )
                     ]
               }
             ]
