@@ -21,7 +21,7 @@ import Html.Styled as Html exposing (Attribute, Html, div)
 type alias Props =
     { padding : Float
     , borderWidth : Float
-    , palette : Palette
+    , palette : Palette Color
     , invert : Bool
     }
 
@@ -53,7 +53,7 @@ box props atributes items =
         items
 
 
-invert : Palette -> Palette
+invert : Palette color -> Palette color
 invert p =
     { p | background = p.color, color = p.background }
 
@@ -72,7 +72,7 @@ setBorderWidth val props =
     { props | borderWidth = val }
 
 
-setPalette : Palette -> Props -> Props
+setPalette : Palette Color -> Props -> Props
 setPalette palette props =
     { props | palette = palette }
 

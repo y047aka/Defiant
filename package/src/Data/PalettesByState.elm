@@ -12,16 +12,16 @@ module Data.PalettesByState exposing
 
 -}
 
-import Css exposing (Style, active, batch, focus, hex, hover)
+import Css exposing (Color, Style, active, batch, focus, hex, hover)
 import Css.Palette as Palette exposing (Palette, palette, setBackground, setBorder, setColor)
 import Types exposing (PresetColor(..))
 
 
 type alias PalettesByState =
-    { default : Palette
-    , onHover : Palette
-    , onFocus : Palette
-    , onActive : Palette
+    { default : Palette Color
+    , onHover : Palette Color
+    , onFocus : Palette Color
+    , onActive : Palette Color
     }
 
 

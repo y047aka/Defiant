@@ -13,18 +13,18 @@ module Css.Palette.Extra exposing
 
 -}
 
-import Css exposing (Color, Style, backgroundColor, batch, borderColor, boxShadow, color, rgba, unset)
+import Css exposing (Color, ColorValue, Style, backgroundColor, batch, borderColor, boxShadow, color, rgba, unset)
 import Css.Media exposing (withMediaQuery)
 import Css.Palette exposing (Palette, paletteWithBorder, setBackground, setBorder, setColor)
 import Data.Theme exposing (Theme(..))
 
 
-darkPalette : Theme -> Palette -> Style
+darkPalette : Theme -> Palette (ColorValue c) -> Style
 darkPalette theme =
     darkPaletteWith theme borderColor
 
 
-darkPaletteWith : Theme -> (Color -> Style) -> Palette -> Style
+darkPaletteWith : Theme -> (ColorValue c -> Style) -> Palette (ColorValue c) -> Style
 darkPaletteWith theme fn p =
     let
         unset_ =
@@ -47,7 +47,7 @@ darkPaletteWith theme fn p =
                 [ unset_, paletteWithBorder fn p ]
 
 
-setIf : Bool -> (Color -> Palette -> Palette) -> Color -> Palette -> Palette
+setIf : Bool -> (color -> Palette color -> Palette color) -> color -> Palette color -> Palette color
 setIf bool setter c p =
     if bool then
         setter c p
@@ -56,17 +56,17 @@ setIf bool setter c p =
         p
 
 
-setBackgroundIf : Bool -> Color -> Palette -> Palette
+setBackgroundIf : Bool -> color -> Palette color -> Palette color
 setBackgroundIf bool c p =
     setIf bool setBackground c p
 
 
-setColorIf : Bool -> Color -> Palette -> Palette
+setColorIf : Bool -> color -> Palette color -> Palette color
 setColorIf bool c p =
     setIf bool setColor c p
 
 
-setBorderIf : Bool -> Color -> Palette -> Palette
+setBorderIf : Bool -> color -> Palette color -> Palette color
 setBorderIf bool c p =
     setIf bool setBorder c p
 

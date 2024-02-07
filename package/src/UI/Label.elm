@@ -28,7 +28,7 @@ import Types exposing (PresetColor(..))
 
 type alias Props =
     { border : Bool
-    , palette : Maybe Palette
+    , palette : Maybe (Palette Color)
     , additionalStyles : List Style
     }
 
@@ -38,7 +38,7 @@ labelWithProps { border, palette, additionalStyles } =
     basis { border = border, palette = palette } additionalStyles
 
 
-basis : { border : Bool, palette : Maybe Palette } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
+basis : { border : Bool, palette : Maybe (Palette Color) } -> List Style -> List (Attribute msg) -> List (Html msg) -> Html msg
 basis options additionalStyles =
     Html.styled Html.div
         [ -- .ui.label
@@ -206,7 +206,7 @@ blackLabel =
 -- PALETTE
 
 
-basis_ : Palette
+basis_ : Palette Color
 basis_ =
     { background = Just (hex "#E8E8E8")
     , color = Just textColor

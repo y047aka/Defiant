@@ -57,7 +57,7 @@ disabledText =
         }
 
 
-coloredText : Theme -> { defaultPalette : Palette, darkPalette : Palette } -> String -> Html msg
+coloredText : Theme -> { defaultPalette : Palette Color, darkPalette : Palette Color } -> String -> Html msg
 coloredText theme palettes =
     basis
         { size = Nothing
@@ -164,7 +164,7 @@ errorText =
     coloredText Light { defaultPalette = Palette.init |> setColor Color.error, darkPalette = Palette.init }
 
 
-paletteSelector : PresetColor -> { defaultPalette : Palette, darkPalette : Palette }
+paletteSelector : PresetColor -> { defaultPalette : Palette Color, darkPalette : Palette Color }
 paletteSelector presetColor =
     let
         ( default, dark ) =
