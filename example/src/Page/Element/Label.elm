@@ -36,13 +36,13 @@ init =
 
 
 type Msg
-    = UpdateConfig (Model -> Model)
+    = UpdateProps (Model -> Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        UpdateConfig updater ->
+        UpdateProps updater ->
             updater model
 
 
@@ -91,7 +91,7 @@ view { theme } model =
                                         |> Maybe.map (\c -> { ps | color = c })
                                         |> Maybe.withDefault ps
                                 )
-                                    >> UpdateConfig
+                                    >> UpdateProps
                             }
                         )
                     , Control.comment "A label can have different colors"

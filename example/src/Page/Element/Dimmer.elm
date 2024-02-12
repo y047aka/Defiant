@@ -34,7 +34,7 @@ init =
 
 type Msg
     = Toggle String
-    | UpdateConfig (Model -> Model)
+    | UpdateProps (Model -> Model)
 
 
 update : Msg -> Model -> Model
@@ -50,7 +50,7 @@ update msg model =
                         newItem :: model.toggledItems
             }
 
-        UpdateConfig updater ->
+        UpdateProps updater ->
             updater model
 
 

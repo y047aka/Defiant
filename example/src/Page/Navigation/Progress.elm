@@ -32,7 +32,7 @@ type Msg
     = CounterPlus
     | CounterMinus
     | ProgressMsg Progress.Msg
-    | UpdateConfig (Model -> Model)
+    | UpdateProps (Model -> Model)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -51,7 +51,7 @@ update msg model =
             in
             ( progressModel, Cmd.map ProgressMsg progressCmd )
 
-        UpdateConfig updater ->
+        UpdateProps updater ->
             ( updater model, Cmd.none )
 
 
@@ -101,7 +101,7 @@ view { theme } model =
                                     }
                                         |> Progress.updateCaptionOnIndicating
                                 )
-                                    |> UpdateConfig
+                                    |> UpdateProps
                             }
                         )
                     , Control.comment "An indicating progress bar visually indicates the current level of progress of a task"
@@ -136,7 +136,7 @@ view { theme } model =
                                         )
                                     |> Maybe.withDefault ps
                             )
-                                >> UpdateConfig
+                                >> UpdateProps
                         }
                     , Control.comment
                         (case model.state of
@@ -165,7 +165,7 @@ view { theme } model =
                     [ Control.field "Unit"
                         (Control.string
                             { value = model.unit
-                            , onInput = (\string ps -> { ps | unit = string }) >> UpdateConfig
+                            , onInput = (\string ps -> { ps | unit = string }) >> UpdateProps
                             , placeholder = ""
                             }
                         )
@@ -173,7 +173,7 @@ view { theme } model =
                     , Control.field "Caption"
                         (Control.string
                             { value = model.caption
-                            , onInput = (\string ps -> { ps | caption = string }) >> UpdateConfig
+                            , onInput = (\string ps -> { ps | caption = string }) >> UpdateProps
                             , placeholder = ""
                             }
                         )

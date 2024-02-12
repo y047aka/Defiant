@@ -47,7 +47,7 @@ columns =
 
 type Msg
     = TableMsg SortableData.Msg
-    | UpdateConfig (Model -> Model)
+    | UpdateProps (Model -> Model)
 
 
 update : Msg -> Model -> Model
@@ -56,7 +56,7 @@ update msg model =
         TableMsg tableMsg ->
             { model | tableState = SortableData.update tableMsg model.tableState }
 
-        UpdateConfig updater ->
+        UpdateProps updater ->
             updater model
 
 
@@ -102,7 +102,7 @@ view { theme } m =
                                     |> Maybe.map (\mode_ -> { ps | mode = mode_ })
                                     |> Maybe.withDefault ps
                             )
-                                >> UpdateConfig
+                                >> UpdateProps
                         }
                     ]
               }

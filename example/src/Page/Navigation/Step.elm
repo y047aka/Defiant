@@ -35,13 +35,13 @@ init =
 
 
 type Msg
-    = UpdateConfig (Model -> Model)
+    = UpdateProps (Model -> Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        UpdateConfig updater ->
+        UpdateProps updater ->
             updater model
 
 
@@ -165,7 +165,7 @@ view { theme } model =
                                     |> Maybe.map (\t -> { ps | type_ = t })
                                     |> Maybe.withDefault ps
                             )
-                                >> UpdateConfig
+                                >> UpdateProps
                         }
                     ]
               }
@@ -180,7 +180,7 @@ view { theme } model =
                                     |> Maybe.map (\p -> { ps | progress = p })
                                     |> Maybe.withDefault ps
                             )
-                                >> UpdateConfig
+                                >> UpdateProps
                         }
                     ]
               }
@@ -190,7 +190,7 @@ view { theme } model =
                         (Control.bool
                             { id = "icon"
                             , value = model.hasIcon
-                            , onClick = (\ps -> { ps | hasIcon = not ps.hasIcon }) |> UpdateConfig
+                            , onClick = (\ps -> { ps | hasIcon = not ps.hasIcon }) |> UpdateProps
                             }
                         )
                     , Control.comment "A step can contain an icon"
@@ -198,7 +198,7 @@ view { theme } model =
                         (Control.bool
                             { id = "description"
                             , value = model.hasDescription
-                            , onClick = (\ps -> { ps | hasDescription = not ps.hasDescription }) |> UpdateConfig
+                            , onClick = (\ps -> { ps | hasDescription = not ps.hasDescription }) |> UpdateProps
                             }
                         )
                     , Control.comment "A step can contain a description"

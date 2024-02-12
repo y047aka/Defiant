@@ -30,13 +30,13 @@ init =
 
 
 type Msg
-    = UpdateConfig (Model -> Model)
+    = UpdateProps (Model -> Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        UpdateConfig updater ->
+        UpdateProps updater ->
             updater model
 
 
@@ -78,7 +78,7 @@ view { theme } model =
                         (Control.bool
                             { id = "striped"
                             , value = model.striped
-                            , onClick = (\ps -> { ps | striped = not ps.striped }) |> UpdateConfig
+                            , onClick = (\ps -> { ps | striped = not ps.striped }) |> UpdateProps
                             }
                         )
                     , Control.comment "A table can stripe alternate rows of content with a darker color to increase contrast"
@@ -86,7 +86,7 @@ view { theme } model =
                         (Control.bool
                             { id = "celled"
                             , value = model.celled
-                            , onClick = (\ps -> { ps | celled = not ps.celled }) |> UpdateConfig
+                            , onClick = (\ps -> { ps | celled = not ps.celled }) |> UpdateProps
                             }
                         )
                     , Control.comment "A table may be divided each row into separate cells"

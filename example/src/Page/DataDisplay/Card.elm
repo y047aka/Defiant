@@ -18,7 +18,7 @@ import UI.Image exposing (image)
 
 
 type alias Model =
-    { config : Config
+    { props : Props
     , people :
         List
             { header : String
@@ -30,7 +30,7 @@ type alias Model =
     }
 
 
-type alias Config =
+type alias Props =
     { inverted : Bool
     , hasImage : Bool
     , header : { visible : Bool, value : String }
@@ -42,7 +42,7 @@ type alias Config =
 
 init : Model
 init =
-    { config =
+    { props =
         { inverted = False
         , hasImage = True
         , header = { visible = True, value = "" }
@@ -69,14 +69,14 @@ init =
 
 
 type Msg
-    = UpdateConfig (Config -> Config)
+    = UpdateProps (Props -> Props)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        UpdateConfig updater ->
-            { model | config = updater model.config }
+        UpdateProps updater ->
+            { model | props = updater model.props }
 
 
 
@@ -84,11 +84,11 @@ update msg model =
 
 
 view : Shared.Model -> Model -> List (Html Msg)
-view shared { config, people } =
+view shared { props, people } =
     let
         options =
             { theme =
-                if config.inverted then
+                if props.inverted then
                     Dark
 
                 else
@@ -98,7 +98,7 @@ view shared { config, people } =
         card { header, metadata, description, friends, imageUrl } =
             Card.card options
                 []
-                [ if config.hasImage then
+                [ if props.hasImage then
                     image [ src imageUrl ] []
 
                   else
@@ -106,7 +106,7 @@ view shared { config, people } =
                 , Card.content options
                     []
                     { header =
-                        case ( config.header.visible, config.header.value ) of
+                        case ( props.header.visible, props.header.value ) of
                             ( True, "" ) ->
                                 [ text header ]
 
@@ -116,7 +116,7 @@ view shared { config, people } =
                             ( False, _ ) ->
                                 []
                     , meta =
-                        case ( config.metadata.visible, config.metadata.value ) of
+                        case ( props.metadata.visible, props.metadata.value ) of
                             ( True, "" ) ->
                                 [ text metadata ]
 
@@ -126,7 +126,7 @@ view shared { config, people } =
                             ( False, _ ) ->
                                 []
                     , description =
-                        case ( config.description.visible, config.description.value ) of
+                        case ( props.description.visible, props.description.value ) of
                             ( True, "" ) ->
                                 [ text description ]
 
@@ -136,7 +136,7 @@ view shared { config, people } =
                             ( False, _ ) ->
                                 []
                     }
-                , case ( config.extraContent.visible, config.extraContent.value ) of
+                , case ( props.extraContent.visible, props.extraContent.value ) of
                     ( True, "" ) ->
                         extraContent options
                             []
@@ -154,7 +154,7 @@ view shared { config, people } =
     [ Header.header { theme = shared.theme } [] [ text "Cards" ]
     , playground
         { theme = shared.theme
-        , inverted = config.inverted
+        , inverted = props.inverted
         , preview = [ cards [] (List.map card people) ]
         , controlSections =
             [ { heading = ""
@@ -162,8 +162,8 @@ view shared { config, people } =
                     [ Control.field "Inverted"
                         (Control.bool
                             { id = "inverted"
-                            , value = config.inverted
-                            , onClick = (\ps -> { ps | inverted = not ps.inverted }) |> UpdateConfig
+                            , value = props.inverted
+                            , onClick = (\ps -> { ps | inverted = not ps.inverted }) |> UpdateProps
                             }
                         )
                     ]
@@ -173,38 +173,38 @@ view shared { config, people } =
                     [ Control.field "Image"
                         (Control.bool
                             { id = "image"
-                            , value = config.hasImage
-                            , onClick = (\ps -> { ps | hasImage = not ps.hasImage }) |> UpdateConfig
+                            , value = props.hasImage
+                            , onClick = (\ps -> { ps | hasImage = not ps.hasImage }) |> UpdateProps
                             }
                         )
                     , Control.comment "A card can contain an image"
                     , Control.boolAndString
                         { label = "Header"
                         , id = "header"
-                        , data = config.header
-                        , onUpdate = (\data -> \ps -> { ps | header = data }) >> UpdateConfig
+                        , data = props.header
+                        , onUpdate = (\data -> \ps -> { ps | header = data }) >> UpdateProps
                         , placeholder = "Matt Giampietro"
                         }
                     , Control.boolAndString
                         { label = "Metadata"
                         , id = "metadata"
-                        , data = config.metadata
-                        , onUpdate = (\data -> \ps -> { ps | metadata = data }) >> UpdateConfig
+                        , data = props.metadata
+                        , onUpdate = (\data -> \ps -> { ps | metadata = data }) >> UpdateProps
                         , placeholder = "Friends"
                         }
                     , Control.boolAndString
                         { label = "Description"
                         , id = "description"
-                        , data = config.description
-                        , onUpdate = (\data -> \ps -> { ps | description = data }) >> UpdateConfig
+                        , data = props.description
+                        , onUpdate = (\data -> \ps -> { ps | description = data }) >> UpdateProps
                         , placeholder = "Matthew is an interior designer living in New York."
                         }
                     , Control.comment "A card can contain a description with one or more paragraphs"
                     , Control.boolAndString
                         { label = "Extra Content"
                         , id = "extra_content"
-                        , data = config.extraContent
-                        , onUpdate = (\data -> \ps -> { ps | extraContent = data }) >> UpdateConfig
+                        , data = props.extraContent
+                        , onUpdate = (\data -> \ps -> { ps | extraContent = data }) >> UpdateProps
                         , placeholder = "75 Friends"
                         }
                     , Control.comment "A card can contain extra content meant to be formatted separately from the main content"

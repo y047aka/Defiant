@@ -46,7 +46,7 @@ init =
 type Msg
     = Increment
     | Decrement
-    | UpdateConfig (Model -> Model)
+    | UpdateProps (Model -> Model)
 
 
 update : Msg -> Model -> Model
@@ -58,7 +58,7 @@ update msg model =
         Decrement ->
             { model | counter = model.counter - 1 }
 
-        UpdateConfig updater ->
+        UpdateProps updater ->
             updater model
 
 
@@ -99,7 +99,7 @@ view { theme } model =
                     [ Control.field "Label"
                         (Control.string
                             { value = model.label
-                            , onInput = (\string ps -> { ps | label = string }) >> UpdateConfig
+                            , onInput = (\string ps -> { ps | label = string }) >> UpdateProps
                             , placeholder = ""
                             }
                         )
@@ -117,7 +117,7 @@ view { theme } model =
                                         |> Maybe.map (\c -> { ps | color = c })
                                         |> Maybe.withDefault ps
                                 )
-                                    >> UpdateConfig
+                                    >> UpdateProps
                             }
                         )
                     , Control.comment "A button can have different colors"

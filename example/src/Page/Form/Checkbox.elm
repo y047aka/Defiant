@@ -28,7 +28,7 @@ init =
 
 type Msg
     = ToggleChecked
-    | UpdateConfig (Model -> Model)
+    | UpdateProps (Model -> Model)
 
 
 update : Msg -> Model -> Model
@@ -37,7 +37,7 @@ update msg model =
         ToggleChecked ->
             { model | checked = not model.checked }
 
-        UpdateConfig updater ->
+        UpdateProps updater ->
             updater model
 
 
@@ -67,7 +67,7 @@ view { theme } model =
                         (Control.bool
                             { id = "disabled"
                             , value = model.disabled
-                            , onClick = (\ps -> { ps | disabled = not ps.disabled }) |> UpdateConfig
+                            , onClick = (\ps -> { ps | disabled = not ps.disabled }) |> UpdateProps
                             }
                         )
                     , Control.comment "A checkbox can show it is currently unable to be interacted with"

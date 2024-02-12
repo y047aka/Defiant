@@ -36,13 +36,13 @@ init =
 
 
 type Msg
-    = UpdateConfig (Model -> Model)
+    = UpdateProps (Model -> Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        UpdateConfig updater ->
+        UpdateProps updater ->
             updater model
 
 
@@ -80,7 +80,7 @@ view shared model =
                         (Control.bool
                             { id = "inverted"
                             , value = model.inverted
-                            , onClick = (\ps -> { ps | inverted = not ps.inverted }) |> UpdateConfig
+                            , onClick = (\ps -> { ps | inverted = not ps.inverted }) |> UpdateProps
                             }
                         )
                     ]
@@ -91,7 +91,7 @@ view shared model =
                         (Control.bool
                             { id = "disabled"
                             , value = model.disabled
-                            , onClick = (\ps -> { ps | disabled = not ps.disabled }) |> UpdateConfig
+                            , onClick = (\ps -> { ps | disabled = not ps.disabled }) |> UpdateProps
                             }
                         )
                     , Control.comment "A segment may show its content is disabled"
@@ -109,7 +109,7 @@ view shared model =
                                         |> Maybe.map (\p -> { ps | padding = p })
                                         |> Maybe.withDefault ps
                                 )
-                                    >> UpdateConfig
+                                    >> UpdateProps
                             }
                         )
                     , Control.comment "A segment can increase its padding"
@@ -140,7 +140,7 @@ view shared model =
                         (Control.bool
                             { id = "vertical_segment"
                             , value = model.vertical
-                            , onClick = (\ps -> { ps | vertical = not ps.vertical }) |> UpdateConfig
+                            , onClick = (\ps -> { ps | vertical = not ps.vertical }) |> UpdateProps
                             }
                         )
                     , Control.comment "A vertical segment formats content to be aligned as part of a vertical group"

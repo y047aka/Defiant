@@ -31,13 +31,13 @@ init =
 
 
 type Msg
-    = UpdateConfig (Model -> Model)
+    = UpdateProps (Model -> Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        UpdateConfig updater ->
+        UpdateProps updater ->
             updater model
 
 
@@ -105,7 +105,7 @@ view shared { toggleMethod, inverted } =
                         (Control.bool
                             { id = "inverted"
                             , value = inverted
-                            , onClick = (\ps -> { ps | inverted = not ps.inverted }) |> UpdateConfig
+                            , onClick = (\ps -> { ps | inverted = not ps.inverted }) |> UpdateProps
                             }
                         )
                     ]
@@ -121,7 +121,7 @@ view shared { toggleMethod, inverted } =
                                     |> Maybe.map (\tm -> { ps | toggleMethod = tm })
                                     |> Maybe.withDefault ps
                             )
-                                >> UpdateConfig
+                                >> UpdateProps
                         }
                     , Control.comment
                         (case toggleMethod of

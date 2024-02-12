@@ -35,7 +35,7 @@ init =
 
 type Msg
     = ToggleChecked
-    | UpdateConfig (Model -> Model)
+    | UpdateProps (Model -> Model)
 
 
 update : Msg -> Model -> Model
@@ -44,7 +44,7 @@ update msg model =
         ToggleChecked ->
             { model | checked = not model.checked }
 
-        UpdateConfig updater ->
+        UpdateProps updater ->
             updater model
 
 
@@ -107,7 +107,7 @@ view { theme } model =
                                         |> Maybe.map (\s -> { ps | state = s })
                                         |> Maybe.withDefault ps
                                 )
-                                    >> UpdateConfig
+                                    >> UpdateProps
                             }
                         )
                     , Control.comment

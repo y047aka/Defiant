@@ -34,13 +34,13 @@ init =
 
 
 type Msg
-    = UpdateConfig (Model -> Model)
+    = UpdateProps (Model -> Model)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        UpdateConfig updater ->
+        UpdateProps updater ->
             updater model
 
 
@@ -72,14 +72,14 @@ view { theme } model =
                     [ Control.field "Header"
                         (Control.string
                             { value = model.header
-                            , onInput = (\string ps -> { ps | header = string }) >> UpdateConfig
+                            , onInput = (\string ps -> { ps | header = string }) >> UpdateProps
                             , placeholder = ""
                             }
                         )
                     , Control.field "Subheader"
                         (Control.string
                             { value = model.subHeader
-                            , onInput = (\string ps -> { ps | subHeader = string }) >> UpdateConfig
+                            , onInput = (\string ps -> { ps | subHeader = string }) >> UpdateProps
                             , placeholder = ""
                             }
                         )
@@ -97,7 +97,7 @@ view { theme } model =
                                         |> Maybe.map (\s -> { ps | size = s })
                                         |> Maybe.withDefault ps
                                 )
-                                    >> UpdateConfig
+                                    >> UpdateProps
                             }
                         )
                     , Control.comment "Text can vary in the same sizes as icons"

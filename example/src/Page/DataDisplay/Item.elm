@@ -17,12 +17,12 @@ import UI.Item as Item exposing (..)
 
 
 type alias Model =
-    { config : Config
+    { props : Props
     , movies : List { header : String, metadata : String }
     }
 
 
-type alias Config =
+type alias Props =
     { header : { visible : Bool, value : String }
     , metadata : { visible : Bool, value : String }
     , description : { visible : Bool, value : String }
@@ -33,7 +33,7 @@ type alias Config =
 
 init : Model
 init =
-    { config =
+    { props =
         { header = { visible = True, value = "" }
         , metadata = { visible = True, value = "" }
         , description = { visible = True, value = "" }
@@ -56,14 +56,14 @@ init =
 
 
 type Msg
-    = UpdateConfig (Config -> Config)
+    = UpdateProps (Props -> Props)
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        UpdateConfig updater ->
-            { model | config = updater model.config }
+        UpdateProps updater ->
+            { model | props = updater model.props }
 
 
 
@@ -71,7 +71,7 @@ update msg model =
 
 
 view : Shared.Model -> Model -> List (Html Msg)
-view { theme } { config, movies } =
+view { theme } { props, movies } =
     [ Header.header { theme = theme } [] [ text "Items" ]
     , playground
         { theme = theme
@@ -80,14 +80,14 @@ view { theme } { config, movies } =
             [ let
                 item { header, metadata } =
                     Item.item []
-                        [ if config.hasImage then
+                        [ if props.hasImage then
                             image [ src "/images/wireframe/image.png" ] []
 
                           else
                             text ""
                         , Item.content []
                             { header =
-                                case ( config.header.visible, config.header.value ) of
+                                case ( props.header.visible, props.header.value ) of
                                     ( True, "" ) ->
                                         [ text header ]
 
@@ -97,7 +97,7 @@ view { theme } { config, movies } =
                                     ( False, _ ) ->
                                         []
                             , meta =
-                                case ( config.metadata.visible, config.metadata.value ) of
+                                case ( props.metadata.visible, props.metadata.value ) of
                                     ( True, "" ) ->
                                         [ span [] [ text metadata ] ]
 
@@ -107,7 +107,7 @@ view { theme } { config, movies } =
                                     ( False, _ ) ->
                                         []
                             , description =
-                                case ( config.description.visible, config.description.value ) of
+                                case ( props.description.visible, props.description.value ) of
                                     ( True, "" ) ->
                                         [ wireframeShortParagraph ]
 
@@ -117,8 +117,8 @@ view { theme } { config, movies } =
                                     ( False, _ ) ->
                                         []
                             , extra =
-                                if config.extraContent.visible then
-                                    [ text config.extraContent.value ]
+                                if props.extraContent.visible then
+                                    [ text props.extraContent.value ]
 
                                 else
                                     []
@@ -133,37 +133,37 @@ view { theme } { config, movies } =
                     [ Control.field "Image"
                         (Control.bool
                             { id = "image"
-                            , value = config.hasImage
-                            , onClick = (\ps -> { ps | hasImage = not ps.hasImage }) |> UpdateConfig
+                            , value = props.hasImage
+                            , onClick = (\ps -> { ps | hasImage = not ps.hasImage }) |> UpdateProps
                             }
                         )
                     , Control.comment "An item can contain an image"
                     , Control.boolAndString
                         { label = "Header"
                         , id = "header"
-                        , data = config.header
-                        , onUpdate = (\data -> \ps -> { ps | header = data }) >> UpdateConfig
+                        , data = props.header
+                        , onUpdate = (\data -> \ps -> { ps | header = data }) >> UpdateProps
                         , placeholder = "12 Years a Slave"
                         }
                     , Control.boolAndString
                         { label = "Metadata"
                         , id = "metadata"
-                        , data = config.metadata
-                        , onUpdate = (\data -> \ps -> { ps | metadata = data }) >> UpdateConfig
+                        , data = props.metadata
+                        , onUpdate = (\data -> \ps -> { ps | metadata = data }) >> UpdateProps
                         , placeholder = "Union Square 14"
                         }
                     , Control.boolAndString
                         { label = "Description"
                         , id = "description"
-                        , data = config.description
-                        , onUpdate = (\data -> \ps -> { ps | description = data }) >> UpdateConfig
+                        , data = props.description
+                        , onUpdate = (\data -> \ps -> { ps | description = data }) >> UpdateProps
                         , placeholder = "An item can contain a description"
                         }
                     , Control.boolAndString
                         { label = "Extra Content"
                         , id = "extra_content"
-                        , data = config.extraContent
-                        , onUpdate = (\data -> \ps -> { ps | extraContent = data }) >> UpdateConfig
+                        , data = props.extraContent
+                        , onUpdate = (\data -> \ps -> { ps | extraContent = data }) >> UpdateProps
                         , placeholder = "Extra Content"
                         }
                     ]
