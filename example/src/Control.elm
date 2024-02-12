@@ -3,7 +3,6 @@ module Control exposing
     , StringProps, BoolProps, SelectProps, RadioProps, CounterProps, BoolAndStringProps
     , render
     , comment, string, bool, select, radio, counter, boolAndString
-    , list, fieldset
     , field
     , customize
     )
@@ -14,18 +13,17 @@ module Control exposing
 @docs StringProps, BoolProps, SelectProps, RadioProps, CounterProps, BoolAndStringProps
 @docs render
 @docs comment, string, bool, select, radio, counter, boolAndString
-@docs list, fieldset
 @docs field
 @docs customize
 
 -}
 
 import Css exposing (..)
-import Css.Extra exposing (columnGap, fr, grid, gridColumn, gridRow, gridTemplateColumns, rowGap)
+import Css.Extra exposing (columnGap, fr, grid, gridColumn, gridRow, gridTemplateColumns)
 import Css.Global exposing (children, everything, generalSiblings, selector, typeSelector)
 import Css.Palette as Palette exposing (Palette, palette, paletteWithBorder, setBackground, setBorder, setColor)
 import Css.Palette.Extra exposing (paletteByState)
-import Html.Styled as Html exposing (Attribute, Html, div, input, legend, text)
+import Html.Styled as Html exposing (Attribute, Html, div, input, text)
 import Html.Styled.Attributes as Attributes exposing (css, for, id, placeholder, selected, type_, value)
 import Html.Styled.Events exposing (onClick, onInput)
 import UI.Checkbox as Checkbox
@@ -41,8 +39,6 @@ type Control msg
     | Radio (RadioProps msg)
     | Counter (CounterProps msg)
     | BoolAndString (BoolAndStringProps msg)
-    | List (List (Control msg))
-    | FieldSet String (List (Control msg))
     | Field String (Control msg)
     | Customize (Html msg)
 
@@ -125,16 +121,6 @@ counter =
 boolAndString : BoolAndStringProps msg -> Control msg
 boolAndString =
     BoolAndString
-
-
-list : List (Control msg) -> Control msg
-list =
-    List
-
-
-fieldset : String -> List (Control msg) -> Control msg
-fieldset =
-    FieldSet
 
 
 field : String -> Control msg -> Control msg
@@ -303,23 +289,6 @@ render control =
                         []
                     ]
                 ]
-
-        List childControls ->
-            div [ css [ displayFlex, flexDirection column, rowGap (Css.em 1) ] ]
-                (List.map render childControls)
-
-        FieldSet label childControls ->
-            Html.div
-                [ css
-                    [ displayFlex
-                    , flexDirection column
-                    , rowGap (Css.em 1)
-                    , borderWidth zero
-                    ]
-                ]
-            <|
-                legend [ css [ padding zero, fontWeight bold, empty [ display none ] ] ] [ text label ]
-                    :: List.map render childControls
 
         Field label cntl ->
             div
