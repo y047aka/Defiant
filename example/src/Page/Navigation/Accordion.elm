@@ -3,7 +3,7 @@ module Page.Navigation.Accordion exposing (Model, Msg, init, update, view)
 import Data.Theme exposing (Theme(..))
 import Html.Styled exposing (Html, p, text)
 import Playground exposing (playground)
-import Props
+import Control
 import Shared
 import UI.Accordion as Accordion exposing (ToggleMethod(..), accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl)
 import UI.Header as Header
@@ -101,8 +101,8 @@ view shared { toggleMethod, inverted } =
         , configSections =
             [ { label = ""
               , configs =
-                    [ Props.field "Inverted"
-                        (Props.bool
+                    [ Control.field "Inverted"
+                        (Control.bool
                             { id = "inverted"
                             , value = inverted
                             , onClick = (\ps -> { ps | inverted = not ps.inverted }) |> UpdateConfig
@@ -112,7 +112,7 @@ view shared { toggleMethod, inverted } =
               }
             , { label = "Toggle Method"
               , configs =
-                    [ Props.select
+                    [ Control.select
                         { value = Accordion.toggleMethodToString toggleMethod
                         , options = List.map Accordion.toggleMethodToString [ SummaryDetails, TargetUrl, Checkbox, Radio ]
                         , onChange =
@@ -123,7 +123,7 @@ view shared { toggleMethod, inverted } =
                             )
                                 >> UpdateConfig
                         }
-                    , Props.comment
+                    , Control.comment
                         (case toggleMethod of
                             SummaryDetails ->
                                 "A standard accordion with summary/details tag"

@@ -3,7 +3,7 @@ module Page.Element.Text exposing (Model, Msg, init, update, view)
 import Data.Theme exposing (Theme(..))
 import Html.Styled exposing (Html, p, text)
 import Playground exposing (playground)
-import Props
+import Control
 import Shared
 import Types exposing (PresetColor(..), Size(..), sizeFromString, sizeToString)
 import UI.Header as Header
@@ -87,8 +87,8 @@ view { theme } model =
         , configSections =
             [ { label = ""
               , configs =
-                    [ Props.field "Inverted"
-                        (Props.bool
+                    [ Control.field "Inverted"
+                        (Control.bool
                             { id = "inverted"
                             , value = model.inverted
                             , onClick = (\ps -> { ps | inverted = not ps.inverted }) |> UpdateConfig
@@ -132,7 +132,7 @@ view { theme } model =
         , configSections =
             [ { label = "Size"
               , configs =
-                    [ Props.select
+                    [ Control.select
                         { value = sizeToString model.size
                         , options = List.map sizeToString [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
                         , onChange =
@@ -143,7 +143,7 @@ view { theme } model =
                             )
                                 >> UpdateConfig
                         }
-                    , Props.comment "Text can vary in the same sizes as icons"
+                    , Control.comment "Text can vary in the same sizes as icons"
                     ]
               }
             ]

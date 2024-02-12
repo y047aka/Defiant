@@ -4,7 +4,7 @@ import Basics.Extra exposing (decrementIfPositive)
 import Html.Styled exposing (Html, a, h2, p, strong, text)
 import Html.Styled.Attributes exposing (href)
 import Playground exposing (playground)
-import Props
+import Control
 import Shared
 import UI.Header as Header
 import UI.Layout.Stack as Stack exposing (stack)
@@ -77,7 +77,7 @@ view { theme } { props } =
         , configSections =
             [ { label = "gap"
               , configs =
-                    [ Props.counter
+                    [ Control.counter
                         { value = props.gap
                         , toString = \value -> String.fromFloat value ++ " rem"
                         , onClickPlus = CounterPlus

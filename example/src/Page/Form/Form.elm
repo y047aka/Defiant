@@ -3,7 +3,7 @@ module Page.Form.Form exposing (Model, Msg, init, update, view)
 import Html.Styled exposing (Html, text)
 import Html.Styled.Attributes exposing (placeholder, rows, type_)
 import Playground exposing (playground)
-import Props
+import Control
 import Shared
 import Types exposing (FormState(..), formStateFromString, formStateToString)
 import UI.Button exposing (button)
@@ -97,8 +97,8 @@ view { theme } model =
         , configSections =
             [ { label = "Form States"
               , configs =
-                    [ Props.field "Form States"
-                        (Props.select
+                    [ Control.field "Form States"
+                        (Control.select
                             { value = formStateToString model.state
                             , options = List.map formStateToString [ Default, Error, Warning, Success, Info ]
                             , onChange =
@@ -110,7 +110,7 @@ view { theme } model =
                                     >> UpdateConfig
                             }
                         )
-                    , Props.comment
+                    , Control.comment
                         (case model.state of
                             Error ->
                                 "Individual fields may display an error state"

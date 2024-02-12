@@ -3,7 +3,7 @@ module Page.Layout.Sidebar exposing (Model, Msg, init, update, view)
 import Basics.Extra exposing (decrementIfPositive)
 import Html.Styled exposing (Html, p, text)
 import Playground exposing (playground)
-import Props
+import Control
 import Shared
 import UI.Header as Header
 import UI.Layout.Box as Box exposing (box)
@@ -86,7 +86,7 @@ view { theme } { props } =
         , configSections =
             [ { label = "side"
               , configs =
-                    [ Props.select
+                    [ Control.select
                         { value = props.side
                         , options = [ "left", "right" ]
                         , onChange = Sidebar.setSide >> UpdateProps
@@ -95,7 +95,7 @@ view { theme } { props } =
               }
             , { label = "sideWith"
               , configs =
-                    [ Props.counter
+                    [ Control.counter
                         { value = props.sideWith
                         , toString = \value -> String.fromFloat value ++ " rem"
                         , onClickPlus = SideWithPlus
@@ -105,7 +105,7 @@ view { theme } { props } =
               }
             , { label = "contentMin"
               , configs =
-                    [ Props.counter
+                    [ Control.counter
                         { value = props.contentMin
                         , toString = \value -> String.fromFloat value ++ " %"
                         , onClickPlus = ContentMinPlus
@@ -115,7 +115,7 @@ view { theme } { props } =
               }
             , { label = "space"
               , configs =
-                    [ Props.counter
+                    [ Control.counter
                         { value = props.space
                         , toString = \value -> String.fromFloat value ++ " rem"
                         , onClickPlus = SpacePlus
@@ -125,8 +125,8 @@ view { theme } { props } =
               }
             , { label = "noStretch"
               , configs =
-                    [ Props.field "noStretch"
-                        (Props.bool
+                    [ Control.field "noStretch"
+                        (Control.bool
                             { id = "noStretch"
                             , value = props.noStretch
                             , onClick = Sidebar.setNoStretch (not props.noStretch) |> UpdateProps

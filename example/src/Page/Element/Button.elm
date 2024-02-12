@@ -4,7 +4,7 @@ import Data.PalettesByState as PalettesByState
 import Html.Styled exposing (Html, text)
 import Html.Styled.Events exposing (onClick)
 import Playground exposing (playground)
-import Props
+import Control
 import Shared
 import Types exposing (PresetColor(..))
 import UI.Button as Button exposing (..)
@@ -96,8 +96,8 @@ view { theme } model =
         , configSections =
             [ { label = "Content"
               , configs =
-                    [ Props.field "Label"
-                        (Props.string
+                    [ Control.field "Label"
+                        (Control.string
                             { value = model.label
                             , onInput = (\string ps -> { ps | label = string }) >> UpdateConfig
                             , placeholder = ""
@@ -107,8 +107,8 @@ view { theme } model =
               }
             , { label = "Variations"
               , configs =
-                    [ Props.field "Color"
-                        (Props.select
+                    [ Control.field "Color"
+                        (Control.select
                             { value = colorToString model.color
                             , options = List.map colorToString <| [ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ]
                             , onChange =
@@ -120,7 +120,7 @@ view { theme } model =
                                     >> UpdateConfig
                             }
                         )
-                    , Props.comment "A button can have different colors"
+                    , Control.comment "A button can have different colors"
                     ]
               }
             ]

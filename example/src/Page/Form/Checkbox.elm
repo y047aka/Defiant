@@ -2,7 +2,7 @@ module Page.Form.Checkbox exposing (Model, Msg, init, update, view)
 
 import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
-import Props
+import Control
 import Shared
 import Types exposing (FormState(..))
 import UI.Checkbox exposing (checkbox, toggleCheckbox)
@@ -63,14 +63,14 @@ view { theme } model =
         , configSections =
             [ { label = "Disabled"
               , configs =
-                    [ Props.field "Disabled"
-                        (Props.bool
+                    [ Control.field "Disabled"
+                        (Control.bool
                             { id = "disabled"
                             , value = model.disabled
                             , onClick = (\ps -> { ps | disabled = not ps.disabled }) |> UpdateConfig
                             }
                         )
-                    , Props.comment "A checkbox can show it is currently unable to be interacted with"
+                    , Control.comment "A checkbox can show it is currently unable to be interacted with"
                     ]
               }
             ]

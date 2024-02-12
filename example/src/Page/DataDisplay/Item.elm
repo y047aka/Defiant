@@ -4,7 +4,7 @@ import Data.DummyData as DummyData
 import Html.Styled exposing (Html, span, text)
 import Html.Styled.Attributes exposing (src)
 import Playground exposing (playground)
-import Props
+import Control
 import Shared
 import UI.Example exposing (wireframeShortParagraph)
 import UI.Header as Header
@@ -130,36 +130,36 @@ view { theme } { config, movies } =
         , configSections =
             [ { label = "Content"
               , configs =
-                    [ Props.field "Image"
-                        (Props.bool
+                    [ Control.field "Image"
+                        (Control.bool
                             { id = "image"
                             , value = config.hasImage
                             , onClick = (\ps -> { ps | hasImage = not ps.hasImage }) |> UpdateConfig
                             }
                         )
-                    , Props.comment "An item can contain an image"
-                    , Props.boolAndString
+                    , Control.comment "An item can contain an image"
+                    , Control.boolAndString
                         { label = "Header"
                         , id = "header"
                         , data = config.header
                         , onUpdate = (\data -> \ps -> { ps | header = data }) >> UpdateConfig
                         , placeholder = "12 Years a Slave"
                         }
-                    , Props.boolAndString
+                    , Control.boolAndString
                         { label = "Metadata"
                         , id = "metadata"
                         , data = config.metadata
                         , onUpdate = (\data -> \ps -> { ps | metadata = data }) >> UpdateConfig
                         , placeholder = "Union Square 14"
                         }
-                    , Props.boolAndString
+                    , Control.boolAndString
                         { label = "Description"
                         , id = "description"
                         , data = config.description
                         , onUpdate = (\data -> \ps -> { ps | description = data }) >> UpdateConfig
                         , placeholder = "An item can contain a description"
                         }
-                    , Props.boolAndString
+                    , Control.boolAndString
                         { label = "Extra Content"
                         , id = "extra_content"
                         , data = config.extraContent

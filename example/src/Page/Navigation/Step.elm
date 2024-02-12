@@ -2,7 +2,7 @@ module Page.Navigation.Step exposing (Model, Msg, Progress(..), init, progressFr
 
 import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
-import Props
+import Control
 import Shared
 import UI.CircleStep as CircleStep
 import UI.Header as Header
@@ -156,7 +156,7 @@ view { theme } model =
         , configSections =
             [ { label = "Type"
               , configs =
-                    [ Props.select
+                    [ Control.select
                         { value = stepTypeToString model.type_
                         , options = List.map stepTypeToString [ Step, CircleStep ]
                         , onChange =
@@ -171,7 +171,7 @@ view { theme } model =
               }
             , { label = "Progress"
               , configs =
-                    [ Props.radio
+                    [ Control.radio
                         { value = progressToString model.progress
                         , options = List.map progressToString [ Shipping, Billing, ConfirmOrder ]
                         , onChange =
@@ -186,22 +186,22 @@ view { theme } model =
               }
             , { label = "Content"
               , configs =
-                    [ Props.field "Icon"
-                        (Props.bool
+                    [ Control.field "Icon"
+                        (Control.bool
                             { id = "icon"
                             , value = model.hasIcon
                             , onClick = (\ps -> { ps | hasIcon = not ps.hasIcon }) |> UpdateConfig
                             }
                         )
-                    , Props.comment "A step can contain an icon"
-                    , Props.field "Description"
-                        (Props.bool
+                    , Control.comment "A step can contain an icon"
+                    , Control.field "Description"
+                        (Control.bool
                             { id = "description"
                             , value = model.hasDescription
                             , onClick = (\ps -> { ps | hasDescription = not ps.hasDescription }) |> UpdateConfig
                             }
                         )
-                    , Props.comment "A step can contain a description"
+                    , Control.comment "A step can contain a description"
                     ]
               }
             ]

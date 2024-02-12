@@ -5,7 +5,7 @@ import Data.Theme exposing (Theme(..))
 import Html.Styled exposing (Html, text)
 import Html.Styled.Attributes exposing (src)
 import Playground exposing (playground)
-import Props
+import Control
 import Shared
 import UI.Card as Card exposing (cards, extraContent)
 import UI.Header as Header
@@ -159,8 +159,8 @@ view shared { config, people } =
         , configSections =
             [ { label = ""
               , configs =
-                    [ Props.field "Inverted"
-                        (Props.bool
+                    [ Control.field "Inverted"
+                        (Control.bool
                             { id = "inverted"
                             , value = config.inverted
                             , onClick = (\ps -> { ps | inverted = not ps.inverted }) |> UpdateConfig
@@ -170,44 +170,44 @@ view shared { config, people } =
               }
             , { label = "Content"
               , configs =
-                    [ Props.field "Image"
-                        (Props.bool
+                    [ Control.field "Image"
+                        (Control.bool
                             { id = "image"
                             , value = config.hasImage
                             , onClick = (\ps -> { ps | hasImage = not ps.hasImage }) |> UpdateConfig
                             }
                         )
-                    , Props.comment "A card can contain an image"
-                    , Props.boolAndString
+                    , Control.comment "A card can contain an image"
+                    , Control.boolAndString
                         { label = "Header"
                         , id = "header"
                         , data = config.header
                         , onUpdate = (\data -> \ps -> { ps | header = data }) >> UpdateConfig
                         , placeholder = "Matt Giampietro"
                         }
-                    , Props.boolAndString
+                    , Control.boolAndString
                         { label = "Metadata"
                         , id = "metadata"
                         , data = config.metadata
                         , onUpdate = (\data -> \ps -> { ps | metadata = data }) >> UpdateConfig
                         , placeholder = "Friends"
                         }
-                    , Props.boolAndString
+                    , Control.boolAndString
                         { label = "Description"
                         , id = "description"
                         , data = config.description
                         , onUpdate = (\data -> \ps -> { ps | description = data }) >> UpdateConfig
                         , placeholder = "Matthew is an interior designer living in New York."
                         }
-                    , Props.comment "A card can contain a description with one or more paragraphs"
-                    , Props.boolAndString
+                    , Control.comment "A card can contain a description with one or more paragraphs"
+                    , Control.boolAndString
                         { label = "Extra Content"
                         , id = "extra_content"
                         , data = config.extraContent
                         , onUpdate = (\data -> \ps -> { ps | extraContent = data }) >> UpdateConfig
                         , placeholder = "75 Friends"
                         }
-                    , Props.comment "A card can contain extra content meant to be formatted separately from the main content"
+                    , Control.comment "A card can contain extra content meant to be formatted separately from the main content"
                     ]
               }
             ]

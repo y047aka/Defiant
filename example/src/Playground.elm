@@ -1,12 +1,12 @@
 module Playground exposing (playground)
 
+import Control exposing (Control)
 import Css exposing (..)
 import Css.Palette as Palette exposing (palette, setBackground, setBorder, setColor)
 import Css.Palette.Extra exposing (darkPalette)
 import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Html, div, p, text)
 import Html.Styled.Attributes exposing (css)
-import Props exposing (Props)
 import Types exposing (FormState(..))
 import UI.Layout.Box as Box exposing (box)
 import UI.Layout.Sidebar exposing (withSidebar)
@@ -15,7 +15,7 @@ import UI.Layout.Stack as Stack exposing (stack)
 
 type alias ConfigSection msg =
     { label : String
-    , configs : List (Props msg)
+    , configs : List (Control msg)
     }
 
 
@@ -120,6 +120,6 @@ configPanel configSections =
         ]
 
 
-render : Props msg -> Html msg
+render : Control msg -> Html msg
 render =
-    Props.render
+    Control.render

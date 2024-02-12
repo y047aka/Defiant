@@ -1,5 +1,5 @@
-module Props exposing
-    ( Props(..)
+module Control exposing
+    ( Control(..)
     , StringProps, BoolProps, SelectProps, RadioProps, CounterProps, BoolAndStringProps
     , render
     , comment, string, bool, select, radio, counter, boolAndString
@@ -10,7 +10,7 @@ module Props exposing
 
 {-|
 
-@docs Props
+@docs Control
 @docs StringProps, BoolProps, SelectProps, RadioProps, CounterProps, BoolAndStringProps
 @docs render
 @docs comment, string, bool, select, radio, counter, boolAndString
@@ -21,7 +21,7 @@ module Props exposing
 -}
 
 import Css exposing (..)
-import Css.Extra exposing (fr, grid, gridColumn, gridRow, gridTemplateColumns, rowGap)
+import Css.Extra exposing (columnGap, fr, grid, gridColumn, gridRow, gridTemplateColumns, rowGap)
 import Css.Global exposing (children, everything, generalSiblings, selector, typeSelector)
 import Css.Palette as Palette exposing (Palette, palette, paletteWithBorder, setBackground, setBorder, setColor)
 import Css.Palette.Extra exposing (paletteByState)
@@ -33,7 +33,7 @@ import UI.Input as Input
 import UI.Layout.Stack as Stack exposing (stack)
 
 
-type Props msg
+type Control msg
     = Comment String
     | String (StringProps msg)
     | Bool (BoolProps msg)
@@ -41,9 +41,9 @@ type Props msg
     | Radio (RadioProps msg)
     | Counter (CounterProps msg)
     | BoolAndString (BoolAndStringProps msg)
-    | List (List (Props msg))
-    | FieldSet String (List (Props msg))
-    | Field String (Props msg)
+    | List (List (Control msg))
+    | FieldSet String (List (Control msg))
+    | Field String (Control msg)
     | Customize (Html msg)
 
 
@@ -92,57 +92,57 @@ type alias BoolAndStringProps msg =
     }
 
 
-comment : String -> Props msg
+comment : String -> Control msg
 comment =
     Comment
 
 
-string : StringProps msg -> Props msg
+string : StringProps msg -> Control msg
 string =
     String
 
 
-bool : BoolProps msg -> Props msg
+bool : BoolProps msg -> Control msg
 bool =
     Bool
 
 
-select : SelectProps msg -> Props msg
+select : SelectProps msg -> Control msg
 select =
     Select
 
 
-radio : RadioProps msg -> Props msg
+radio : RadioProps msg -> Control msg
 radio =
     Radio
 
 
-counter : CounterProps msg -> Props msg
+counter : CounterProps msg -> Control msg
 counter =
     Counter
 
 
-boolAndString : BoolAndStringProps msg -> Props msg
+boolAndString : BoolAndStringProps msg -> Control msg
 boolAndString =
     BoolAndString
 
 
-list : List (Props msg) -> Props msg
+list : List (Control msg) -> Control msg
 list =
     List
 
 
-fieldset : String -> List (Props msg) -> Props msg
+fieldset : String -> List (Control msg) -> Control msg
 fieldset =
     FieldSet
 
 
-field : String -> Props msg -> Props msg
-field label props =
-    Field label props
+field : String -> Control msg -> Control msg
+field label control =
+    Field label control
 
 
-customize : Html msg -> Props msg
+customize : Html msg -> Control msg
 customize =
     Customize
 
@@ -171,9 +171,9 @@ formField =
 -- VIEW
 
 
-render : Props msg -> Html msg
-render props =
-    case props of
+render : Control msg -> Html msg
+render control =
+    case control of
         Comment str ->
             Html.div
                 [ css
@@ -304,11 +304,11 @@ render props =
                     ]
                 ]
 
-        List childProps ->
+        List childControls ->
             div [ css [ displayFlex, flexDirection column, rowGap (Css.em 1) ] ]
-                (List.map render childProps)
+                (List.map render childControls)
 
-        FieldSet label childProps ->
+        FieldSet label childControls ->
             Html.div
                 [ css
                     [ displayFlex
@@ -319,18 +319,19 @@ render props =
                 ]
             <|
                 legend [ css [ padding zero, fontWeight bold, empty [ display none ] ] ] [ text label ]
-                    :: List.map render childProps
+                    :: List.map render childControls
 
-        Field label ps ->
+        Field label cntl ->
             div
                 [ css
                     [ display grid
                     , gridTemplateColumns [ fr 1, fr 1 ]
                     , alignItems center
+                    , columnGap (em 0.25)
                     ]
                 ]
                 [ Html.label [] [ text label ]
-                , render ps
+                , render cntl
                 ]
 
         Customize view ->

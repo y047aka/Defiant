@@ -4,7 +4,7 @@ import Basics.Extra exposing (decrementIfPositive)
 import Html.Styled exposing (Html, a, h2, p, strong, text)
 import Html.Styled.Attributes exposing (href)
 import Playground exposing (playground)
-import Props
+import Control
 import Shared
 import UI.Header as Header
 import UI.Layout.Center as Center exposing (center)
@@ -89,7 +89,7 @@ view { theme } { props } =
         , configSections =
             [ { label = "max"
               , configs =
-                    [ Props.counter
+                    [ Control.counter
                         { value = props.max
                         , toString = \value -> String.fromFloat value ++ " ch"
                         , onClickPlus = MaxPlus
@@ -99,8 +99,8 @@ view { theme } { props } =
               }
             , { label = "andText"
               , configs =
-                    [ Props.field "andText"
-                        (Props.bool
+                    [ Control.field "andText"
+                        (Control.bool
                             { id = "andText"
                             , value = props.andText
                             , onClick = Center.setAndText (not props.andText) |> UpdateProps
@@ -110,7 +110,7 @@ view { theme } { props } =
               }
             , { label = "gutters"
               , configs =
-                    [ Props.counter
+                    [ Control.counter
                         { value = props.gutters
                         , toString = \value -> String.fromFloat value ++ " rem"
                         , onClickPlus = GuttersPlus
@@ -120,8 +120,8 @@ view { theme } { props } =
               }
             , { label = "intrinsic"
               , configs =
-                    [ Props.field "intrinsic"
-                        (Props.bool
+                    [ Control.field "intrinsic"
+                        (Control.bool
                             { id = "intrinsic"
                             , value = props.intrinsic
                             , onClick = Center.setIntrinsic (not props.intrinsic) |> UpdateProps

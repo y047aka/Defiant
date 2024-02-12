@@ -5,7 +5,7 @@ import Html.Styled exposing (Html, div, input, strong, text)
 import Html.Styled.Attributes exposing (placeholder, value)
 import Html.Styled.Events exposing (onInput)
 import Playground exposing (playground)
-import Props
+import Control
 import Shared
 import UI.Header as Header
 import UI.Segment exposing (segment)
@@ -93,7 +93,7 @@ view { theme } m =
         , configSections =
             [ { label = "Types"
               , configs =
-                    [ Props.select
+                    [ Control.select
                         { value = modeToString m.mode
                         , options = List.map modeToString [ List, Table ]
                         , onChange =

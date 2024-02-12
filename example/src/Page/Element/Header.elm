@@ -2,7 +2,7 @@ module Page.Element.Header exposing (Model, Msg, init, update, view)
 
 import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
-import Props
+import Control
 import Shared
 import Types exposing (PresetColor(..), Size(..), sizeFromString, sizeToString)
 import UI.Example exposing (wireframeShortParagraph)
@@ -69,15 +69,15 @@ view { theme } model =
         , configSections =
             [ { label = "Content"
               , configs =
-                    [ Props.field "Header"
-                        (Props.string
+                    [ Control.field "Header"
+                        (Control.string
                             { value = model.header
                             , onInput = (\string ps -> { ps | header = string }) >> UpdateConfig
                             , placeholder = ""
                             }
                         )
-                    , Props.field "Subheader"
-                        (Props.string
+                    , Control.field "Subheader"
+                        (Control.string
                             { value = model.subHeader
                             , onInput = (\string ps -> { ps | subHeader = string }) >> UpdateConfig
                             , placeholder = ""
@@ -87,8 +87,8 @@ view { theme } model =
               }
             , { label = "Variations"
               , configs =
-                    [ Props.field "Size"
-                        (Props.select
+                    [ Control.field "Size"
+                        (Control.select
                             { value = sizeToString model.size
                             , options = List.map sizeToString [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]
                             , onChange =
@@ -100,7 +100,7 @@ view { theme } model =
                                     >> UpdateConfig
                             }
                         )
-                    , Props.comment "Text can vary in the same sizes as icons"
+                    , Control.comment "Text can vary in the same sizes as icons"
                     ]
               }
             ]

@@ -3,7 +3,7 @@ module Page.Element.Label exposing (Model, Msg, init, update, view)
 import Data.PalettesByState as PalettesByState
 import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
-import Props
+import Control
 import Shared
 import Types exposing (PresetColor(..))
 import UI.Header as Header
@@ -81,8 +81,8 @@ view { theme } model =
         , configSections =
             [ { label = "Variations"
               , configs =
-                    [ Props.field "Color"
-                        (Props.select
+                    [ Control.field "Color"
+                        (Control.select
                             { value = colorToString model.color
                             , options = List.map colorToString <| [ Default, Primary, Secondary ] ++ List.map Colored [ Red, Orange, Yellow, Olive, Green, Teal, Blue, Violet, Purple, Pink, Brown, Grey, Black ]
                             , onChange =
@@ -94,7 +94,7 @@ view { theme } model =
                                     >> UpdateConfig
                             }
                         )
-                    , Props.comment "A label can have different colors"
+                    , Control.comment "A label can have different colors"
                     ]
               }
             ]

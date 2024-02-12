@@ -3,7 +3,7 @@ module Page.Element.Segment exposing (Model, Msg, init, update, view)
 import Data.Theme exposing (Theme(..))
 import Html.Styled exposing (Html, p, text)
 import Playground exposing (playground)
-import Props
+import Control
 import Shared
 import UI.Example exposing (wireframeShortParagraph)
 import UI.Header as Header
@@ -76,8 +76,8 @@ view shared model =
         , configSections =
             [ { label = ""
               , configs =
-                    [ Props.field "Inverted"
-                        (Props.bool
+                    [ Control.field "Inverted"
+                        (Control.bool
                             { id = "inverted"
                             , value = model.inverted
                             , onClick = (\ps -> { ps | inverted = not ps.inverted }) |> UpdateConfig
@@ -87,20 +87,20 @@ view shared model =
               }
             , { label = "States"
               , configs =
-                    [ Props.field "Disabled"
-                        (Props.bool
+                    [ Control.field "Disabled"
+                        (Control.bool
                             { id = "disabled"
                             , value = model.disabled
                             , onClick = (\ps -> { ps | disabled = not ps.disabled }) |> UpdateConfig
                             }
                         )
-                    , Props.comment "A segment may show its content is disabled"
+                    , Control.comment "A segment may show its content is disabled"
                     ]
               }
             , { label = "Variations"
               , configs =
-                    [ Props.field "Padding"
-                        (Props.select
+                    [ Control.field "Padding"
+                        (Control.select
                             { value = paddingToString model.padding
                             , options = List.map paddingToString [ Default, Padded, VeryPadded ]
                             , onChange =
@@ -112,7 +112,7 @@ view shared model =
                                     >> UpdateConfig
                             }
                         )
-                    , Props.comment "A segment can increase its padding"
+                    , Control.comment "A segment can increase its padding"
                     ]
               }
             ]
@@ -136,14 +136,14 @@ view shared model =
         , configSections =
             [ { label = ""
               , configs =
-                    [ Props.field "Vertical Segment"
-                        (Props.bool
+                    [ Control.field "Vertical Segment"
+                        (Control.bool
                             { id = "vertical_segment"
                             , value = model.vertical
                             , onClick = (\ps -> { ps | vertical = not ps.vertical }) |> UpdateConfig
                             }
                         )
-                    , Props.comment "A vertical segment formats content to be aligned as part of a vertical group"
+                    , Control.comment "A vertical segment formats content to be aligned as part of a vertical group"
                     ]
               }
             ]

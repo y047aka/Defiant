@@ -3,7 +3,7 @@ module Page.Navigation.Breadcrumb exposing (Model, Msg, init, update, view)
 import Data.Theme exposing (Theme(..))
 import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
-import Props
+import Control
 import Shared
 import Types exposing (Size(..), sizeFromString, sizeToString)
 import UI.Breadcrumb exposing (Divider(..), bigBreadCrumb, dividerFromString, dividerToString, hugeBreadCrumb, largeBreadCrumb, massiveBreadCrumb, mediumBreadCrumb, miniBreadCrumb, smallBreadCrumb, tinyBreadCrumb)
@@ -94,8 +94,8 @@ view { theme } model =
         , configSections =
             [ { label = ""
               , configs =
-                    [ Props.field "Inverted"
-                        (Props.bool
+                    [ Control.field "Inverted"
+                        (Control.bool
                             { id = "inverted"
                             , value = model.inverted
                             , onClick = (\ps -> { ps | inverted = not ps.inverted }) |> UpdateConfig
@@ -105,8 +105,8 @@ view { theme } model =
               }
             , { label = "Content"
               , configs =
-                    [ Props.field "Divider"
-                        (Props.select
+                    [ Control.field "Divider"
+                        (Control.select
                             { value = dividerToString model.divider
                             , options = List.map dividerToString [ Slash, RightChevron ]
                             , onChange =
@@ -118,13 +118,13 @@ view { theme } model =
                                     >> UpdateConfig
                             }
                         )
-                    , Props.comment "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text."
+                    , Control.comment "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text."
                     ]
               }
             , { label = "Variations"
               , configs =
-                    [ Props.field "Size"
-                        (Props.select
+                    [ Control.field "Size"
+                        (Control.select
                             { value = sizeToString model.size
                             , options = List.map sizeToString [ Mini, Tiny, Small, Medium, Large, Big, Huge, Massive ]
                             , onChange =
@@ -136,7 +136,7 @@ view { theme } model =
                                     >> UpdateConfig
                             }
                         )
-                    , Props.comment "A breadcrumb can vary in size"
+                    , Control.comment "A breadcrumb can vary in size"
                     ]
               }
             ]

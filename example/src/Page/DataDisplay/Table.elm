@@ -2,7 +2,7 @@ module Page.DataDisplay.Table exposing (Model, Msg, init, update, view)
 
 import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
-import Props
+import Control
 import Shared
 import UI.Header as Header
 import UI.Table exposing (basicTable, tableWithProps, tbody, td, th, thead, tr, veryBasicTable)
@@ -74,22 +74,22 @@ view { theme } model =
         , configSections =
             [ { label = "Variations"
               , configs =
-                    [ Props.field "Striped"
-                        (Props.bool
+                    [ Control.field "Striped"
+                        (Control.bool
                             { id = "striped"
                             , value = model.striped
                             , onClick = (\ps -> { ps | striped = not ps.striped }) |> UpdateConfig
                             }
                         )
-                    , Props.comment "A table can stripe alternate rows of content with a darker color to increase contrast"
-                    , Props.field "Celled"
-                        (Props.bool
+                    , Control.comment "A table can stripe alternate rows of content with a darker color to increase contrast"
+                    , Control.field "Celled"
+                        (Control.bool
                             { id = "celled"
                             , value = model.celled
                             , onClick = (\ps -> { ps | celled = not ps.celled }) |> UpdateConfig
                             }
                         )
-                    , Props.comment "A table may be divided each row into separate cells"
+                    , Control.comment "A table may be divided each row into separate cells"
                     ]
               }
             ]

@@ -4,7 +4,7 @@ import Basics.Extra exposing (decrementIfPositive)
 import Html.Styled exposing (Html, a, h2, p, strong, text)
 import Html.Styled.Attributes exposing (href)
 import Playground exposing (playground)
-import Props
+import Control
 import Shared
 import UI.Header as Header
 import UI.Layout.Box as Box exposing (box)
@@ -94,7 +94,7 @@ view { theme } { props } =
         , configSections =
             [ { label = "padding"
               , configs =
-                    [ Props.counter
+                    [ Control.counter
                         { value = props.padding
                         , toString = \value -> String.fromFloat value ++ " rem"
                         , onClickPlus = PaddingPlus
@@ -104,7 +104,7 @@ view { theme } { props } =
               }
             , { label = "borderWidth"
               , configs =
-                    [ Props.counter
+                    [ Control.counter
                         { value = props.borderWidth
                         , toString = \value -> String.fromFloat value ++ " px"
                         , onClickPlus = BorderPlus
@@ -114,8 +114,8 @@ view { theme } { props } =
               }
             , { label = "Invert"
               , configs =
-                    [ Props.field "Invert"
-                        (Props.bool
+                    [ Control.field "Invert"
+                        (Control.bool
                             { id = "invert"
                             , value = props.invert
                             , onClick = Box.setInvert (not props.invert) |> UpdateProps

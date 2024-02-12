@@ -2,7 +2,7 @@ module Page.Navigation.Progress exposing (Model, Msg, init, update, view)
 
 import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
-import Props
+import Control
 import Random
 import Shared
 import UI.Header as Header
@@ -69,19 +69,19 @@ view { theme } model =
         , configSections =
             [ { label = "Bar"
               , configs =
-                    [ Props.counter
+                    [ Control.counter
                         { value = model.value
                         , toString = \value -> String.fromFloat value ++ "%"
                         , onClickPlus = CounterPlus
                         , onClickMinus = CounterMinus
                         }
-                    , Props.comment "A progress element can contain a bar visually indicating progress"
+                    , Control.comment "A progress element can contain a bar visually indicating progress"
                     ]
               }
             , { label = "Types"
               , configs =
-                    [ Props.field "Indicating"
-                        (Props.bool
+                    [ Control.field "Indicating"
+                        (Control.bool
                             { id = "indicating"
                             , value = model.indicating
                             , onClick =
@@ -104,12 +104,12 @@ view { theme } model =
                                     |> UpdateConfig
                             }
                         )
-                    , Props.comment "An indicating progress bar visually indicates the current level of progress of a task"
+                    , Control.comment "An indicating progress bar visually indicates the current level of progress of a task"
                     ]
               }
             , { label = "States"
               , configs =
-                    [ Props.select
+                    [ Control.select
                         { value = Progress.stateToString model.state
                         , options = List.map Progress.stateToString [ Default, Active, Success, Warning, Error, Disabled ]
                         , onChange =
@@ -138,7 +138,7 @@ view { theme } model =
                             )
                                 >> UpdateConfig
                         }
-                    , Props.comment
+                    , Control.comment
                         (case model.state of
                             Active ->
                                 "A progress bar can show activity"
@@ -162,22 +162,22 @@ view { theme } model =
               }
             , { label = "Content"
               , configs =
-                    [ Props.field "Unit"
-                        (Props.string
+                    [ Control.field "Unit"
+                        (Control.string
                             { value = model.unit
                             , onInput = (\string ps -> { ps | unit = string }) >> UpdateConfig
                             , placeholder = ""
                             }
                         )
-                    , Props.comment "A progress bar can contain a text value indicating current progress"
-                    , Props.field "Caption"
-                        (Props.string
+                    , Control.comment "A progress bar can contain a text value indicating current progress"
+                    , Control.field "Caption"
+                        (Control.string
                             { value = model.caption
                             , onInput = (\string ps -> { ps | caption = string }) >> UpdateConfig
                             , placeholder = ""
                             }
                         )
-                    , Props.comment "A progress element can contain a label"
+                    , Control.comment "A progress element can contain a label"
                     ]
               }
             ]
