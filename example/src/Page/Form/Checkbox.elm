@@ -1,8 +1,8 @@
 module Page.Form.Checkbox exposing (Model, Msg, init, update, view)
 
+import Control
 import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
-import Control
 import Shared
 import Types exposing (FormState(..))
 import UI.Checkbox exposing (checkbox, toggleCheckbox)
@@ -60,7 +60,7 @@ view { theme } model =
                 , onClick = ToggleChecked
                 }
             ]
-        , configSections =
+        , controlSections =
             [ { label = "Disabled"
               , configs =
                     [ Control.field "Disabled"
@@ -88,6 +88,6 @@ view { theme } model =
                 , onClick = ToggleChecked
                 }
             ]
-        , configSections = []
+        , controlSections = []
         }
     ]

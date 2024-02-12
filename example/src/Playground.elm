@@ -13,7 +13,7 @@ import UI.Layout.Sidebar exposing (withSidebar)
 import UI.Layout.Stack as Stack exposing (stack)
 
 
-type alias ConfigSection msg =
+type alias ControlSection msg =
     { label : String
     , configs : List (Control msg)
     }
@@ -23,10 +23,10 @@ playground :
     { theme : Theme
     , inverted : Bool
     , preview : List (Html msg)
-    , configSections : List (ConfigSection msg)
+    , controlSections : List (ControlSection msg)
     }
     -> Html msg
-playground { theme, inverted, preview, configSections } =
+playground { theme, inverted, preview, controlSections } =
     let
         palette_ =
             Palette.init
@@ -49,7 +49,7 @@ playground { theme, inverted, preview, configSections } =
             }
             []
             [ previewPanel { inverted = inverted } preview
-            , configPanel configSections
+            , configPanel controlSections
             ]
         ]
 
@@ -81,8 +81,8 @@ previewPanel { inverted } previewSections =
         previewSections
 
 
-configPanel : List (ConfigSection msg) -> Html msg
-configPanel configSections =
+configPanel : List (ControlSection msg) -> Html msg
+configPanel controlSections =
     box
         (Box.defaultProps
             |> Box.setPadding 0.5
@@ -115,7 +115,7 @@ configPanel configSections =
                             )
                         ]
                 )
-                configSections
+                controlSections
             )
         ]
 

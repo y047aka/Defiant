@@ -1,9 +1,9 @@
 module Page.Element.Text exposing (Model, Msg, init, update, view)
 
+import Control
 import Data.Theme exposing (Theme(..))
 import Html.Styled exposing (Html, p, text)
 import Playground exposing (playground)
-import Control
 import Shared
 import Types exposing (PresetColor(..), Size(..), sizeFromString, sizeToString)
 import UI.Header as Header
@@ -84,7 +84,7 @@ view { theme } model =
                 , text " inline text"
                 ]
             ]
-        , configSections =
+        , controlSections =
             [ { label = ""
               , configs =
                     [ Control.field "Inverted"
@@ -129,7 +129,7 @@ view { theme } model =
                     Mini ->
                         [ text "Starting with ", miniText "mini", text " text" ]
             ]
-        , configSections =
+        , controlSections =
             [ { label = "Size"
               , configs =
                     [ Control.select

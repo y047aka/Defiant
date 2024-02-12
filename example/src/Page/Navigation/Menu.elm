@@ -61,7 +61,7 @@ view shared =
                     ]
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , Header.header { theme = shared.theme } [] [ text "Vertical Menu" ]
     , playground
@@ -84,7 +84,7 @@ view shared =
                 , verticalMenuItem { theme = shared.theme, additionalStyles = [] } [] [ text "Search mail..." ]
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , Header.header { theme = shared.theme } [] [ text "Link Item" ]
     , playground
@@ -96,7 +96,7 @@ view shared =
                 , verticalMenuLinkItem { theme = shared.theme, additionalStyles = [] } [] [ text "Javascript Link" ]
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , Header.header { theme = shared.theme } [] [ text "Inverted" ]
     , playground
@@ -109,7 +109,7 @@ view shared =
                 , linkItem { theme = Dark } [] [ text "Friends" ]
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , playground
         { theme = shared.theme
@@ -123,6 +123,6 @@ view shared =
                     ]
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     ]

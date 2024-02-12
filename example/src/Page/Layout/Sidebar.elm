@@ -1,9 +1,9 @@
 module Page.Layout.Sidebar exposing (Model, Msg, init, update, view)
 
 import Basics.Extra exposing (decrementIfPositive)
+import Control
 import Html.Styled exposing (Html, p, text)
 import Playground exposing (playground)
-import Control
 import Shared
 import UI.Header as Header
 import UI.Layout.Box as Box exposing (box)
@@ -83,7 +83,7 @@ view { theme } { props } =
                 , box Box.defaultProps [] [ text "Search" ]
                 ]
             ]
-        , configSections =
+        , controlSections =
             [ { label = "side"
               , configs =
                     [ Control.select

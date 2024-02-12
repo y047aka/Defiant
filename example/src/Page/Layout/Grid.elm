@@ -81,7 +81,7 @@ view { theme } =
                 , fourWideColumn [ dummyContent ] []
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , Header.header { theme = theme } [] [ text "Columns" ]
     , playground
@@ -98,7 +98,7 @@ view { theme } =
                 , sixWideColumn [ dummyContent ] []
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , Header.header { theme = theme } [] [ text "Automatic Flow" ]
     , playground
@@ -116,7 +116,7 @@ view { theme } =
                 , fourWideColumn [ dummyContent ] []
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , Header.header { theme = theme } [] [ text "Column Content" ]
     , playground
@@ -135,6 +135,6 @@ view { theme } =
                 , Grid.column [] [ imageSegment ]
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     ]

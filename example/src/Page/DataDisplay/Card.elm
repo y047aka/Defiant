@@ -1,11 +1,11 @@
 module Page.DataDisplay.Card exposing (Model, Msg, init, update, view)
 
+import Control
 import Data.DummyData as DummyData
 import Data.Theme exposing (Theme(..))
 import Html.Styled exposing (Html, text)
 import Html.Styled.Attributes exposing (src)
 import Playground exposing (playground)
-import Control
 import Shared
 import UI.Card as Card exposing (cards, extraContent)
 import UI.Header as Header
@@ -156,7 +156,7 @@ view shared { config, people } =
         { theme = shared.theme
         , inverted = config.inverted
         , preview = [ cards [] (List.map card people) ]
-        , configSections =
+        , controlSections =
             [ { label = ""
               , configs =
                     [ Control.field "Inverted"

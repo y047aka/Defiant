@@ -49,6 +49,6 @@ view { theme } =
             , divider [] []
             , wireframeShortParagraph
             ]
-        , configSections = []
+        , controlSections = []
         }
     ]

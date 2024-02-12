@@ -1,8 +1,8 @@
 module Page.Navigation.Step exposing (Model, Msg, Progress(..), init, progressFromString, progressToString, update, view)
 
+import Control
 import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
-import Control
 import Shared
 import UI.CircleStep as CircleStep
 import UI.Header as Header
@@ -153,7 +153,7 @@ view { theme } model =
                         }
                 ]
             ]
-        , configSections =
+        , controlSections =
             [ { label = "Type"
               , configs =
                     [ Control.select

@@ -56,7 +56,7 @@ view shared =
                     [ loader { theme = Light } [] [] ]
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , Header.header { theme = shared.theme } [] [ text "Text Loader" ]
     , playground
@@ -78,6 +78,6 @@ view shared =
                     [ textLoader { theme = Dark } [] [ text "Loading" ] ]
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     ]

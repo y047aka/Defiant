@@ -1,8 +1,8 @@
 module Page.Element.Header exposing (Model, Msg, init, update, view)
 
+import Control
 import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
-import Control
 import Shared
 import Types exposing (PresetColor(..), Size(..), sizeFromString, sizeToString)
 import UI.Example exposing (wireframeShortParagraph)
@@ -66,7 +66,7 @@ view { theme } model =
                 ]
             , wireframeShortParagraph
             ]
-        , configSections =
+        , controlSections =
             [ { label = "Content"
               , configs =
                     [ Control.field "Header"
@@ -119,6 +119,6 @@ view { theme } model =
                     ]
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     ]

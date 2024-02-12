@@ -52,6 +52,6 @@ view { theme } =
                 , line [] []
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     ]

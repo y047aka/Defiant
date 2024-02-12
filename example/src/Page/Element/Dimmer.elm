@@ -79,7 +79,7 @@ view shared { toggledItems } =
                 ]
             , button [ onClick (Toggle "dimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , Header.header options [] [ text "Content Dimmer" ]
     , playground
@@ -103,7 +103,7 @@ view shared { toggledItems } =
                 ]
             , button [ onClick (Toggle "contentDimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , Header.header options [] [ text "Page Dimmer" ]
     , playground
@@ -123,7 +123,7 @@ view shared { toggledItems } =
                     ]
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , Header.header options [] [ text "Inverted Dimmer" ]
     , playground
@@ -140,6 +140,6 @@ view shared { toggledItems } =
                 ]
             , button [ onClick (Toggle "invertedDimmer") ] [ icon [] "fas fa-plus", text "Toggle" ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     ]

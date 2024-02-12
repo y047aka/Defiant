@@ -1,10 +1,10 @@
 module Page.DataDisplay.Item exposing (Model, Msg, init, update, view)
 
+import Control
 import Data.DummyData as DummyData
 import Html.Styled exposing (Html, span, text)
 import Html.Styled.Attributes exposing (src)
 import Playground exposing (playground)
-import Control
 import Shared
 import UI.Example exposing (wireframeShortParagraph)
 import UI.Header as Header
@@ -127,7 +127,7 @@ view { theme } { config, movies } =
               in
               items [] <| List.map item movies
             ]
-        , configSections =
+        , controlSections =
             [ { label = "Content"
               , configs =
                     [ Control.field "Image"

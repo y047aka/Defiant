@@ -1,9 +1,9 @@
 module Page.Element.Label exposing (Model, Msg, init, update, view)
 
+import Control
 import Data.PalettesByState as PalettesByState
 import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
-import Control
 import Shared
 import Types exposing (PresetColor(..))
 import UI.Header as Header
@@ -78,7 +78,7 @@ view { theme } model =
               in
               label_ [] [ icon [] "fas fa-envelope", text "23" ]
             ]
-        , configSections =
+        , controlSections =
             [ { label = "Variations"
               , configs =
                     [ Control.field "Color"
@@ -109,7 +109,7 @@ view { theme } model =
             , Label.label [] [ icon [] "fas fa-dog", text "Dog" ]
             , Label.label [] [ icon [] "fas fa-cat", text "Cat" ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , playground
         { theme = theme
@@ -120,7 +120,7 @@ view { theme } model =
             , Label.label [] [ text "Dog", icon [] "fas fa-dog" ]
             , Label.label [] [ text "Cat", icon [] "fas fa-cat" ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , playground
         { theme = theme
@@ -130,14 +130,14 @@ view { theme } model =
             , Label.label [] [ icon [] "fas fa-dog" ]
             , Label.label [] [ icon [] "fas fa-cat" ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , Header.header { theme = theme } [] [ text "Basic" ]
     , playground
         { theme = theme
         , inverted = False
         , preview = [ basicLabel [] [ text "Basic" ] ]
-        , configSections = []
+        , controlSections = []
         }
     ]
 

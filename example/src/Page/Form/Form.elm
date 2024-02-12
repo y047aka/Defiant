@@ -1,9 +1,9 @@
 module Page.Form.Form exposing (Model, Msg, init, update, view)
 
+import Control
 import Html.Styled exposing (Html, text)
 import Html.Styled.Attributes exposing (placeholder, rows, type_)
 import Playground exposing (playground)
-import Control
 import Shared
 import Types exposing (FormState(..), formStateFromString, formStateToString)
 import UI.Button exposing (button)
@@ -94,7 +94,7 @@ view { theme } model =
                 , button [ type_ "submit" ] [ text "Submit" ]
                 ]
             ]
-        , configSections =
+        , controlSections =
             [ { label = "Form States"
               , configs =
                     [ Control.field "Form States"
@@ -146,7 +146,7 @@ view { theme } model =
                     [ Form.input { state = Default } [ type_ "text" ] [] ]
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , Header.header { theme = theme } [] [ text "Fields" ]
     , playground
@@ -179,7 +179,7 @@ view { theme } model =
                     ]
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , playground
         { theme = theme
@@ -211,7 +211,7 @@ view { theme } model =
                     ]
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , Header.header { theme = theme } [] [ text "Text Area" ]
     , playground
@@ -235,7 +235,7 @@ view { theme } model =
                     [ textarea { state = Default } [ rows 2 ] [] ]
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , Header.header { theme = theme } [] [ text "Checkbox" ]
     , playground
@@ -259,6 +259,6 @@ view { theme } model =
                     ]
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     ]

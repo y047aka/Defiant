@@ -1,10 +1,10 @@
 module Page.Layout.Box exposing (Model, Msg, init, update, view)
 
 import Basics.Extra exposing (decrementIfPositive)
+import Control
 import Html.Styled exposing (Html, a, h2, p, strong, text)
 import Html.Styled.Attributes exposing (href)
 import Playground exposing (playground)
-import Control
 import Shared
 import UI.Header as Header
 import UI.Layout.Box as Box exposing (box)
@@ -91,7 +91,7 @@ view { theme } { props } =
                 , content
                 ]
             ]
-        , configSections =
+        , controlSections =
             [ { label = "padding"
               , configs =
                     [ Control.counter

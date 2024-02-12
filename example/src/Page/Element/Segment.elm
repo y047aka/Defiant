@@ -1,9 +1,9 @@
 module Page.Element.Segment exposing (Model, Msg, init, update, view)
 
+import Control
 import Data.Theme exposing (Theme(..))
 import Html.Styled exposing (Html, p, text)
 import Playground exposing (playground)
-import Control
 import Shared
 import UI.Example exposing (wireframeShortParagraph)
 import UI.Header as Header
@@ -73,7 +73,7 @@ view shared model =
                 []
                 [ wireframeShortParagraph ]
             ]
-        , configSections =
+        , controlSections =
             [ { label = ""
               , configs =
                     [ Control.field "Inverted"
@@ -133,7 +133,7 @@ view shared model =
                 , segment options [] [ wireframeShortParagraph ]
                 , segment options [] [ wireframeShortParagraph ]
                 ]
-        , configSections =
+        , controlSections =
             [ { label = ""
               , configs =
                     [ Control.field "Vertical Segment"
@@ -157,6 +157,6 @@ view shared model =
                 []
                 [ p [] [ text "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo." ] ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     ]

@@ -1,9 +1,9 @@
 module Page.Navigation.Breadcrumb exposing (Model, Msg, init, update, view)
 
+import Control
 import Data.Theme exposing (Theme(..))
 import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
-import Control
 import Shared
 import Types exposing (Size(..), sizeFromString, sizeToString)
 import UI.Breadcrumb exposing (Divider(..), bigBreadCrumb, dividerFromString, dividerToString, hugeBreadCrumb, largeBreadCrumb, massiveBreadCrumb, mediumBreadCrumb, miniBreadCrumb, smallBreadCrumb, tinyBreadCrumb)
@@ -91,7 +91,7 @@ view { theme } model =
                 , { label = "T-Shirt", url = "" }
                 ]
             ]
-        , configSections =
+        , controlSections =
             [ { label = ""
               , configs =
                     [ Control.field "Inverted"

@@ -1,11 +1,11 @@
 module Page.DataDisplay.SortableData exposing (Model, Msg, init, update, view)
 
+import Control
 import Data.Theme exposing (Theme(..))
 import Html.Styled exposing (Html, div, input, strong, text)
 import Html.Styled.Attributes exposing (placeholder, value)
 import Html.Styled.Events exposing (onInput)
 import Playground exposing (playground)
-import Control
 import Shared
 import UI.Header as Header
 import UI.Segment exposing (segment)
@@ -90,7 +90,7 @@ view { theme } m =
                 Table ->
                     table m.tableState TableMsg (SortableData.render m.tableState m.presidents)
             ]
-        , configSections =
+        , controlSections =
             [ { label = "Types"
               , configs =
                     [ Control.select

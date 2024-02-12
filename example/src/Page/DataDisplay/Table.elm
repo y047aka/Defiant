@@ -1,8 +1,8 @@
 module Page.DataDisplay.Table exposing (Model, Msg, init, update, view)
 
+import Control
 import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
-import Control
 import Shared
 import UI.Header as Header
 import UI.Table exposing (basicTable, tableWithProps, tbody, td, th, thead, tr, veryBasicTable)
@@ -71,7 +71,7 @@ view { theme } model =
                         ]
                 ]
             ]
-        , configSections =
+        , controlSections =
             [ { label = "Variations"
               , configs =
                     [ Control.field "Striped"
@@ -113,7 +113,7 @@ view { theme } model =
                         ]
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , playground
         { theme = theme
@@ -133,6 +133,6 @@ view { theme } model =
                         ]
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     ]

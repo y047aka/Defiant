@@ -81,7 +81,7 @@ view shared { toggledItems } =
                     ]
                 }
             ]
-        , configSections = []
+        , controlSections = []
         }
     , Header.header { theme = shared.theme } [] [ text "Basic" ]
     , playground
@@ -106,7 +106,7 @@ view shared { toggledItems } =
                 }
                 []
             ]
-        , configSections = []
+        , controlSections = []
         }
     , Header.header { theme = shared.theme } [] [ text "Dialog" ]
     , playground
@@ -136,6 +136,6 @@ view shared { toggledItems } =
                     ]
                 }
             ]
-        , configSections = []
+        , controlSections = []
         }
     ]

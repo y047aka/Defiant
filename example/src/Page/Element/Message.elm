@@ -56,7 +56,7 @@ view shared =
                     ]
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , Header.header options [] [ text "Icon Message" ]
     , playground
@@ -71,6 +71,6 @@ view shared =
                     ]
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     ]

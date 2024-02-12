@@ -51,7 +51,7 @@ view { theme } =
                 , wireframeParagraph
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , Header.header { theme = theme } [] [ text "Active" ]
     , playground
@@ -64,7 +64,7 @@ view { theme } =
                 , wireframeParagraph
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , Header.header { theme = theme } [] [ text "Loading" ]
     , playground
@@ -77,6 +77,6 @@ view { theme } =
                 , wireframeParagraph
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     ]

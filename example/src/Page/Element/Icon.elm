@@ -105,6 +105,6 @@ view { theme } =
                 , column [] [ icon_ "fas fa-wheelchair", text "wheelchair" ]
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     ]

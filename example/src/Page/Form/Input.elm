@@ -48,7 +48,7 @@ view { theme } =
             [ Input.input []
                 [ input [ type_ "text", placeholder "Search..." ] [] ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , Header.header { theme = theme } [] [ text "Labeled" ]
     , playground
@@ -60,7 +60,7 @@ view { theme } =
                 , input [ type_ "text", placeholder "mysite.com" ] []
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , playground
         { theme = theme
@@ -71,6 +71,6 @@ view { theme } =
                 , Input.label [] [ text "kg" ]
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     ]

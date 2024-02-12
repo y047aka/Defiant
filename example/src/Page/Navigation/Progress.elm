@@ -1,8 +1,8 @@
 module Page.Navigation.Progress exposing (Model, Msg, init, update, view)
 
+import Control
 import Html.Styled exposing (Html, text)
 import Playground exposing (playground)
-import Control
 import Random
 import Shared
 import UI.Header as Header
@@ -66,7 +66,7 @@ view { theme } model =
         { theme = theme
         , inverted = False
         , preview = [ Progress.progressWithProps model ]
-        , configSections =
+        , controlSections =
             [ { label = "Bar"
               , configs =
                     [ Control.counter

@@ -1,9 +1,9 @@
 module Page.Layout.Cluster exposing (Model, Msg, init, update, view)
 
 import Basics.Extra exposing (decrementIfPositive)
+import Control
 import Html.Styled exposing (Html, p, text)
 import Playground exposing (playground)
-import Control
 import Shared
 import UI.Header as Header
 import UI.Layout.Box as Box exposing (box)
@@ -65,7 +65,7 @@ view { theme } { props } =
                 List.map (\item -> box Box.defaultProps [] [ text item ])
                     [ "Layout", "CSS", "Web Design", "Code", "Front-end", "Development" ]
             ]
-        , configSections =
+        , controlSections =
             [ { label = "justify"
               , configs =
                     [ Control.select

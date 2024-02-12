@@ -45,6 +45,6 @@ view { theme } =
         { theme = theme
         , inverted = False
         , preview = [ smallImage [ src "/images/wireframe/image.png" ] [] ]
-        , configSections = []
+        , controlSections = []
         }
     ]

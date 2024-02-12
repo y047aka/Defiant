@@ -1,9 +1,9 @@
 module Page.Navigation.Accordion exposing (Model, Msg, init, update, view)
 
+import Control
 import Data.Theme exposing (Theme(..))
 import Html.Styled exposing (Html, p, text)
 import Playground exposing (playground)
-import Control
 import Shared
 import UI.Accordion as Accordion exposing (ToggleMethod(..), accordion_Checkbox, accordion_Radio, accordion_SummaryDetails, accordion_TargetUrl)
 import UI.Header as Header
@@ -98,7 +98,7 @@ view shared { toggleMethod, inverted } =
                 Radio ->
                     accordion_Radio { theme = theme } [] items
             ]
-        , configSections =
+        , controlSections =
             [ { label = ""
               , configs =
                     [ Control.field "Inverted"

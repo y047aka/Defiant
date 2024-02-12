@@ -1,10 +1,10 @@
 module Page.Element.Button exposing (Model, Msg, init, update, view)
 
+import Control
 import Data.PalettesByState as PalettesByState
 import Html.Styled exposing (Html, text)
 import Html.Styled.Events exposing (onClick)
 import Playground exposing (playground)
-import Control
 import Shared
 import Types exposing (PresetColor(..))
 import UI.Button as Button exposing (..)
@@ -93,7 +93,7 @@ view { theme } model =
                 []
                 [ text model.label ]
             ]
-        , configSections =
+        , controlSections =
             [ { label = "Content"
               , configs =
                     [ Control.field "Label"
@@ -132,7 +132,7 @@ view { theme } model =
             [ button [] [ text "Button" ]
             , button [] [ text "Focusable" ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , Header.header { theme = theme } [] [ text "Labeled" ]
     , playground
@@ -149,21 +149,21 @@ view { theme } model =
                 , button [ onClick Increment ] [ text "+" ]
                 ]
             ]
-        , configSections = []
+        , controlSections = []
         }
     , Header.header { theme = theme } [] [ text "Icon" ]
     , playground
         { theme = theme
         , inverted = False
         , preview = [ button [] [ icon [] "fas fa-cloud" ] ]
-        , configSections = []
+        , controlSections = []
         }
     , Header.header { theme = theme } [] [ text "Basic" ]
     , playground
         { theme = theme
         , inverted = False
         , preview = [ basicButton [] [ icon [] "fas fa-user", text "Add Friend" ] ]
-        , configSections = []
+        , controlSections = []
         }
     ]
 

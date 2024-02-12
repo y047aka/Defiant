@@ -1,10 +1,10 @@
 module Page.Layout.Stack exposing (Model, Msg, init, update, view)
 
 import Basics.Extra exposing (decrementIfPositive)
+import Control
 import Html.Styled exposing (Html, a, h2, p, strong, text)
 import Html.Styled.Attributes exposing (href)
 import Playground exposing (playground)
-import Control
 import Shared
 import UI.Header as Header
 import UI.Layout.Stack as Stack exposing (stack)
@@ -74,7 +74,7 @@ view { theme } { props } =
                 , content
                 ]
             ]
-        , configSections =
+        , controlSections =
             [ { label = "gap"
               , configs =
                     [ Control.counter
