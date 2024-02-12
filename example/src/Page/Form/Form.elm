@@ -95,8 +95,8 @@ view { theme } model =
                 ]
             ]
         , controlSections =
-            [ { label = "Form States"
-              , configs =
+            [ { heading = "Form States"
+              , controls =
                     [ Control.field "Form States"
                         (Control.select
                             { value = formStateToString model.state

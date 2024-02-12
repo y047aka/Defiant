@@ -84,8 +84,8 @@ view { theme } { props } =
                 ]
             ]
         , controlSections =
-            [ { label = "side"
-              , configs =
+            [ { heading = "side"
+              , controls =
                     [ Control.select
                         { value = props.side
                         , options = [ "left", "right" ]
@@ -93,8 +93,8 @@ view { theme } { props } =
                         }
                     ]
               }
-            , { label = "sideWith"
-              , configs =
+            , { heading = "sideWith"
+              , controls =
                     [ Control.counter
                         { value = props.sideWith
                         , toString = \value -> String.fromFloat value ++ " rem"
@@ -103,8 +103,8 @@ view { theme } { props } =
                         }
                     ]
               }
-            , { label = "contentMin"
-              , configs =
+            , { heading = "contentMin"
+              , controls =
                     [ Control.counter
                         { value = props.contentMin
                         , toString = \value -> String.fromFloat value ++ " %"
@@ -113,8 +113,8 @@ view { theme } { props } =
                         }
                     ]
               }
-            , { label = "space"
-              , configs =
+            , { heading = "space"
+              , controls =
                     [ Control.counter
                         { value = props.space
                         , toString = \value -> String.fromFloat value ++ " rem"
@@ -123,8 +123,8 @@ view { theme } { props } =
                         }
                     ]
               }
-            , { label = "noStretch"
-              , configs =
+            , { heading = "noStretch"
+              , controls =
                     [ Control.field "noStretch"
                         (Control.bool
                             { id = "noStretch"

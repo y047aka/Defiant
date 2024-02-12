@@ -157,8 +157,8 @@ view shared { config, people } =
         , inverted = config.inverted
         , preview = [ cards [] (List.map card people) ]
         , controlSections =
-            [ { label = ""
-              , configs =
+            [ { heading = ""
+              , controls =
                     [ Control.field "Inverted"
                         (Control.bool
                             { id = "inverted"
@@ -168,8 +168,8 @@ view shared { config, people } =
                         )
                     ]
               }
-            , { label = "Content"
-              , configs =
+            , { heading = "Content"
+              , controls =
                     [ Control.field "Image"
                         (Control.bool
                             { id = "image"

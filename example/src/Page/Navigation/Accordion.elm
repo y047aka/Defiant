@@ -99,8 +99,8 @@ view shared { toggleMethod, inverted } =
                     accordion_Radio { theme = theme } [] items
             ]
         , controlSections =
-            [ { label = ""
-              , configs =
+            [ { heading = ""
+              , controls =
                     [ Control.field "Inverted"
                         (Control.bool
                             { id = "inverted"
@@ -110,8 +110,8 @@ view shared { toggleMethod, inverted } =
                         )
                     ]
               }
-            , { label = "Toggle Method"
-              , configs =
+            , { heading = "Toggle Method"
+              , controls =
                     [ Control.select
                         { value = Accordion.toggleMethodToString toggleMethod
                         , options = List.map Accordion.toggleMethodToString [ SummaryDetails, TargetUrl, Checkbox, Radio ]

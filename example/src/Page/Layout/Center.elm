@@ -87,8 +87,8 @@ view { theme } { props } =
                 ]
             ]
         , controlSections =
-            [ { label = "max"
-              , configs =
+            [ { heading = "max"
+              , controls =
                     [ Control.counter
                         { value = props.max
                         , toString = \value -> String.fromFloat value ++ " ch"
@@ -97,8 +97,8 @@ view { theme } { props } =
                         }
                     ]
               }
-            , { label = "andText"
-              , configs =
+            , { heading = "andText"
+              , controls =
                     [ Control.field "andText"
                         (Control.bool
                             { id = "andText"
@@ -108,8 +108,8 @@ view { theme } { props } =
                         )
                     ]
               }
-            , { label = "gutters"
-              , configs =
+            , { heading = "gutters"
+              , controls =
                     [ Control.counter
                         { value = props.gutters
                         , toString = \value -> String.fromFloat value ++ " rem"
@@ -118,8 +118,8 @@ view { theme } { props } =
                         }
                     ]
               }
-            , { label = "intrinsic"
-              , configs =
+            , { heading = "intrinsic"
+              , controls =
                     [ Control.field "intrinsic"
                         (Control.bool
                             { id = "intrinsic"

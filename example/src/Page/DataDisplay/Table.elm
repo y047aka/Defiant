@@ -72,8 +72,8 @@ view { theme } model =
                 ]
             ]
         , controlSections =
-            [ { label = "Variations"
-              , configs =
+            [ { heading = "Variations"
+              , controls =
                     [ Control.field "Striped"
                         (Control.bool
                             { id = "striped"

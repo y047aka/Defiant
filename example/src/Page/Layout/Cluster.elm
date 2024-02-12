@@ -66,8 +66,8 @@ view { theme } { props } =
                     [ "Layout", "CSS", "Web Design", "Code", "Front-end", "Development" ]
             ]
         , controlSections =
-            [ { label = "justify"
-              , configs =
+            [ { heading = "justify"
+              , controls =
                     [ Control.select
                         { value = props.justify
                         , options = [ "start", "end", "flex-start", "flex-end", "center", "space-between", "space-around", "space-evenly" ]
@@ -76,8 +76,8 @@ view { theme } { props } =
                     , Control.comment "https://developer.mozilla.org/ja/docs/Web/CSS/justify-content"
                     ]
               }
-            , { label = "align"
-              , configs =
+            , { heading = "align"
+              , controls =
                     [ Control.select
                         { value = props.align
                         , options = [ "start", "end", "flex-start", "flex-end", "center", "stretch" ]
@@ -86,8 +86,8 @@ view { theme } { props } =
                     , Control.comment "https://developer.mozilla.org/ja/docs/Web/CSS/align-items"
                     ]
               }
-            , { label = "gap"
-              , configs =
+            , { heading = "gap"
+              , controls =
                     [ Control.counter
                         { value = props.gap
                         , toString = \value -> String.fromFloat value ++ " rem"

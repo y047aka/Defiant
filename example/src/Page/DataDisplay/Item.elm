@@ -128,8 +128,8 @@ view { theme } { config, movies } =
               items [] <| List.map item movies
             ]
         , controlSections =
-            [ { label = "Content"
-              , configs =
+            [ { heading = "Content"
+              , controls =
                     [ Control.field "Image"
                         (Control.bool
                             { id = "image"

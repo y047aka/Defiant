@@ -85,8 +85,8 @@ view { theme } model =
                 ]
             ]
         , controlSections =
-            [ { label = ""
-              , configs =
+            [ { heading = ""
+              , controls =
                     [ Control.field "Inverted"
                         (Control.bool
                             { id = "inverted"
@@ -130,8 +130,8 @@ view { theme } model =
                         [ text "Starting with ", miniText "mini", text " text" ]
             ]
         , controlSections =
-            [ { label = "Size"
-              , configs =
+            [ { heading = "Size"
+              , controls =
                     [ Control.select
                         { value = sizeToString model.size
                         , options = List.map sizeToString [ Massive, Huge, Big, Large, Medium, Small, Tiny, Mini ]

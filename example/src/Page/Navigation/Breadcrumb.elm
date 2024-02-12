@@ -92,8 +92,8 @@ view { theme } model =
                 ]
             ]
         , controlSections =
-            [ { label = ""
-              , configs =
+            [ { heading = ""
+              , controls =
                     [ Control.field "Inverted"
                         (Control.bool
                             { id = "inverted"
@@ -103,8 +103,8 @@ view { theme } model =
                         )
                     ]
               }
-            , { label = "Content"
-              , configs =
+            , { heading = "Content"
+              , controls =
                     [ Control.field "Divider"
                         (Control.select
                             { value = dividerToString model.divider
@@ -121,8 +121,8 @@ view { theme } model =
                     , Control.comment "A breadcrumb can contain a divider to show the relationship between sections, this can be formatted as an icon or text."
                     ]
               }
-            , { label = "Variations"
-              , configs =
+            , { heading = "Variations"
+              , controls =
                     [ Control.field "Size"
                         (Control.select
                             { value = sizeToString model.size

@@ -154,8 +154,8 @@ view { theme } model =
                 ]
             ]
         , controlSections =
-            [ { label = "Type"
-              , configs =
+            [ { heading = "Type"
+              , controls =
                     [ Control.select
                         { value = stepTypeToString model.type_
                         , options = List.map stepTypeToString [ Step, CircleStep ]
@@ -169,8 +169,8 @@ view { theme } model =
                         }
                     ]
               }
-            , { label = "Progress"
-              , configs =
+            , { heading = "Progress"
+              , controls =
                     [ Control.radio
                         { value = progressToString model.progress
                         , options = List.map progressToString [ Shipping, Billing, ConfirmOrder ]
@@ -184,8 +184,8 @@ view { theme } model =
                         }
                     ]
               }
-            , { label = "Content"
-              , configs =
+            , { heading = "Content"
+              , controls =
                     [ Control.field "Icon"
                         (Control.bool
                             { id = "icon"

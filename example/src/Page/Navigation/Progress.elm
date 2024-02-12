@@ -67,8 +67,8 @@ view { theme } model =
         , inverted = False
         , preview = [ Progress.progressWithProps model ]
         , controlSections =
-            [ { label = "Bar"
-              , configs =
+            [ { heading = "Bar"
+              , controls =
                     [ Control.counter
                         { value = model.value
                         , toString = \value -> String.fromFloat value ++ "%"
@@ -78,8 +78,8 @@ view { theme } model =
                     , Control.comment "A progress element can contain a bar visually indicating progress"
                     ]
               }
-            , { label = "Types"
-              , configs =
+            , { heading = "Types"
+              , controls =
                     [ Control.field "Indicating"
                         (Control.bool
                             { id = "indicating"
@@ -107,8 +107,8 @@ view { theme } model =
                     , Control.comment "An indicating progress bar visually indicates the current level of progress of a task"
                     ]
               }
-            , { label = "States"
-              , configs =
+            , { heading = "States"
+              , controls =
                     [ Control.select
                         { value = Progress.stateToString model.state
                         , options = List.map Progress.stateToString [ Default, Active, Success, Warning, Error, Disabled ]
@@ -160,8 +160,8 @@ view { theme } model =
                         )
                     ]
               }
-            , { label = "Content"
-              , configs =
+            , { heading = "Content"
+              , controls =
                     [ Control.field "Unit"
                         (Control.string
                             { value = model.unit

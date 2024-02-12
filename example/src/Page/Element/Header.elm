@@ -67,8 +67,8 @@ view { theme } model =
             , wireframeShortParagraph
             ]
         , controlSections =
-            [ { label = "Content"
-              , configs =
+            [ { heading = "Content"
+              , controls =
                     [ Control.field "Header"
                         (Control.string
                             { value = model.header
@@ -85,8 +85,8 @@ view { theme } model =
                         )
                     ]
               }
-            , { label = "Variations"
-              , configs =
+            , { heading = "Variations"
+              , controls =
                     [ Control.field "Size"
                         (Control.select
                             { value = sizeToString model.size

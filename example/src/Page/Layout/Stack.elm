@@ -75,8 +75,8 @@ view { theme } { props } =
                 ]
             ]
         , controlSections =
-            [ { label = "gap"
-              , configs =
+            [ { heading = "gap"
+              , controls =
                     [ Control.counter
                         { value = props.gap
                         , toString = \value -> String.fromFloat value ++ " rem"

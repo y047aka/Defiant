@@ -61,8 +61,8 @@ view { theme } model =
                 }
             ]
         , controlSections =
-            [ { label = "Disabled"
-              , configs =
+            [ { heading = "Disabled"
+              , controls =
                     [ Control.field "Disabled"
                         (Control.bool
                             { id = "disabled"

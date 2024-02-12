@@ -74,8 +74,8 @@ view shared model =
                 [ wireframeShortParagraph ]
             ]
         , controlSections =
-            [ { label = ""
-              , configs =
+            [ { heading = ""
+              , controls =
                     [ Control.field "Inverted"
                         (Control.bool
                             { id = "inverted"
@@ -85,8 +85,8 @@ view shared model =
                         )
                     ]
               }
-            , { label = "States"
-              , configs =
+            , { heading = "States"
+              , controls =
                     [ Control.field "Disabled"
                         (Control.bool
                             { id = "disabled"
@@ -97,8 +97,8 @@ view shared model =
                     , Control.comment "A segment may show its content is disabled"
                     ]
               }
-            , { label = "Variations"
-              , configs =
+            , { heading = "Variations"
+              , controls =
                     [ Control.field "Padding"
                         (Control.select
                             { value = paddingToString model.padding
@@ -134,8 +134,8 @@ view shared model =
                 , segment options [] [ wireframeShortParagraph ]
                 ]
         , controlSections =
-            [ { label = ""
-              , configs =
+            [ { heading = ""
+              , controls =
                     [ Control.field "Vertical Segment"
                         (Control.bool
                             { id = "vertical_segment"

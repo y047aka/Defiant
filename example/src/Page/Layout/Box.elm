@@ -92,8 +92,8 @@ view { theme } { props } =
                 ]
             ]
         , controlSections =
-            [ { label = "padding"
-              , configs =
+            [ { heading = "padding"
+              , controls =
                     [ Control.counter
                         { value = props.padding
                         , toString = \value -> String.fromFloat value ++ " rem"
@@ -102,8 +102,8 @@ view { theme } { props } =
                         }
                     ]
               }
-            , { label = "borderWidth"
-              , configs =
+            , { heading = "borderWidth"
+              , controls =
                     [ Control.counter
                         { value = props.borderWidth
                         , toString = \value -> String.fromFloat value ++ " px"
@@ -112,8 +112,8 @@ view { theme } { props } =
                         }
                     ]
               }
-            , { label = "Invert"
-              , configs =
+            , { heading = "Invert"
+              , controls =
                     [ Control.field "Invert"
                         (Control.bool
                             { id = "invert"

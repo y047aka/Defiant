@@ -79,8 +79,8 @@ view { theme } model =
               label_ [] [ icon [] "fas fa-envelope", text "23" ]
             ]
         , controlSections =
-            [ { label = "Variations"
-              , configs =
+            [ { heading = "Variations"
+              , controls =
                     [ Control.field "Color"
                         (Control.select
                             { value = colorToString model.color

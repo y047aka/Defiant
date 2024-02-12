@@ -14,8 +14,8 @@ import UI.Layout.Stack as Stack exposing (stack)
 
 
 type alias ControlSection msg =
-    { label : String
-    , configs : List (Control msg)
+    { heading : String
+    , controls : List (Control msg)
     }
 
 
@@ -49,7 +49,7 @@ playground { theme, inverted, preview, controlSections } =
             }
             []
             [ previewPanel { inverted = inverted } preview
-            , configPanel controlSections
+            , controlPanel controlSections
             ]
         ]
 
@@ -81,8 +81,8 @@ previewPanel { inverted } previewSections =
         previewSections
 
 
-configPanel : List (ControlSection msg) -> Html msg
-configPanel controlSections =
+controlPanel : List (ControlSection msg) -> Html msg
+controlPanel controlSections =
     box
         (Box.defaultProps
             |> Box.setPadding 0.5
@@ -94,7 +94,7 @@ configPanel controlSections =
         [ stack (Stack.defaultProps |> Stack.setGap 0.5)
             []
             (List.map
-                (\configSection ->
+                (\controlSection ->
                     box
                         (Box.defaultProps
                             |> Box.setPadding 1
@@ -110,8 +110,8 @@ configPanel controlSections =
                                     , empty [ display none ]
                                     ]
                                 ]
-                                [ text configSection.label ]
-                                :: List.map render configSection.configs
+                                [ text controlSection.heading ]
+                                :: List.map render controlSection.controls
                             )
                         ]
                 )

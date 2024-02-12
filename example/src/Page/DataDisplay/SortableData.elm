@@ -91,8 +91,8 @@ view { theme } m =
                     table m.tableState TableMsg (SortableData.render m.tableState m.presidents)
             ]
         , controlSections =
-            [ { label = "Types"
-              , configs =
+            [ { heading = "Types"
+              , controls =
                     [ Control.select
                         { value = modeToString m.mode
                         , options = List.map modeToString [ List, Table ]

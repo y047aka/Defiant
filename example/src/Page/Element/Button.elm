@@ -94,8 +94,8 @@ view { theme } model =
                 [ text model.label ]
             ]
         , controlSections =
-            [ { label = "Content"
-              , configs =
+            [ { heading = "Content"
+              , controls =
                     [ Control.field "Label"
                         (Control.string
                             { value = model.label
@@ -105,8 +105,8 @@ view { theme } model =
                         )
                     ]
               }
-            , { label = "Variations"
-              , configs =
+            , { heading = "Variations"
+              , controls =
                     [ Control.field "Color"
                         (Control.select
                             { value = colorToString model.color
