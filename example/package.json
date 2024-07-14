@@ -1,12 +1,7 @@
 {
   "name": "example",
   "scripts": {
-    "start": "run-pty % elm-watch hot % vite --open",
-    "build": "elm-watch make --optimize && vite build"
   },
   "devDependencies": {
-    "elm-watch": "^1.1.2",
-    "run-pty": "^4.1.0",
-    "vite": "^5.0.12"
   }
 }
