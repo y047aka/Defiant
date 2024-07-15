@@ -1,5 +1,5 @@
 module Headless.Text exposing
-    ( TextProps, defaultTextProps
+    ( TextProps, TextAs(..), defaultTextProps
     , text
     )
 
