@@ -1,7 +1,10 @@
 {
   "name": "example",
   "scripts": {
+    "start": "elm-land server",
+    "build": "elm-land build"
   },
   "devDependencies": {
+    "elm-land": "^0.20.1"
   }
 }

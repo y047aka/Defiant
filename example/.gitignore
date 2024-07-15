@@ -1,9 +1,7 @@
-# Dependency directories
-node_modules
-
-# elm-package generated files
-elm-stuff
-
-# Distribution
-build
-dist
+/dist
+/.elm-land
+/.env
+/elm-stuff
+/node_modules
+.DS_Store
+*.pem
