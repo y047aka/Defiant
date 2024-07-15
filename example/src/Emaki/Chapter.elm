@@ -4,8 +4,7 @@ import Array
 import Emaki.Chapter.Control exposing (Control)
 import Emaki.Chapter.Control.Internal as ControlInternal
 import Emaki.Chapter.Internal as ChapterInternal
-import Html exposing (Html)
-import Html.Styled as Styled
+import Html.Styled as Styled exposing (Html)
 import Json.Decode as JD
 import Json.Encode as JE
 
@@ -43,7 +42,7 @@ chapter { init, view, controls } =
         chapterView : Model props -> Styled.Html Msg
         chapterView { viewState, controlsState } =
             Styled.div []
-                [ Styled.fromUnstyled (view viewState)
+                [ view viewState
                 , controlsState
                     |> JD.decodeValue (JD.list JD.value)
                     |> Result.withDefault controlInits

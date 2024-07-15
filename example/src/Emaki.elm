@@ -1,8 +1,8 @@
 module Emaki exposing (Model, Msg, runChapter)
 
-import Browser
 import Emaki.Chapter as Chapter exposing (Chapter)
-import Html.Styled as Styled
+import Html.Styled as Html
+import Page exposing (Page)
 
 
 type Model props
@@ -13,14 +13,18 @@ type Msg
     = ChapterMsg Chapter.Msg
 
 
-runChapter : Chapter props -> Program () (Model props) Msg
-runChapter { init, view, update } =
-    Browser.sandbox
+runChapter : String -> Chapter props -> Page (Model props) Msg
+runChapter title { init, view, update } =
+    Page.sandbox
         { init = ChapterModel init
         , update = \(ChapterMsg subMsg) (ChapterModel subModel) -> ChapterModel (update subMsg subModel)
         , view =
             \(ChapterModel chapterModel) ->
-                view chapterModel
-                    |> Styled.map ChapterMsg
-                    |> Styled.toUnstyled
+                { title = title
+                , body =
+                    [ view chapterModel
+                        |> Html.map ChapterMsg
+                        |> Html.toUnstyled
+                    ]
+                }
         }
