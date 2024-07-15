@@ -1,27 +1,19 @@
 module Control exposing
     ( Control
-    , StringControl, BoolControl, SelectControl, RadioControl, CounterControl, BoolAndStringControl
-    , render
-    , comment, header, string, bool, select, radio, counter, boolAndString
-    , list
-    , field
+    , string, bool, select, radio, counter, boolAndString
     , customize
     )
 
 {-|
 
 @docs Control
-@docs StringControl, BoolControl, SelectControl, RadioControl, CounterControl, BoolAndStringControl
-@docs render
-@docs comment, header, string, bool, select, radio, counter, boolAndString
-@docs list
-@docs field
+@docs string, bool, select, radio, counter, boolAndString
 @docs customize
 
 -}
 
 import Css exposing (..)
-import Css.Extra exposing (columnGap, fr, grid, gridColumn, gridRow, gridTemplateColumns, rowGap)
+import Css.Extra exposing (grid, gridColumn, gridRow)
 import Css.Global exposing (children, everything, generalSiblings, selector, typeSelector)
 import Css.Palette as Palette exposing (Palette, palette, paletteWithBorder, setBackground, setBorder, setColor)
 import Css.Palette.Extra exposing (paletteByState)
@@ -31,150 +23,93 @@ import Html.Styled.Attributes as Attributes exposing (css, for, id, placeholder,
 import Html.Styled.Events exposing (onClick, onInput)
 
 
-type Control msg
-    = Comment String
-    | Header String
-    | String (StringControl msg)
-    | Bool (BoolControl msg)
-    | Select (SelectControl msg)
-    | Radio (RadioControl msg)
-    | Counter (CounterControl msg)
-    | BoolAndString (BoolAndStringControl msg)
-    | List (List (Control msg))
-    | Field String (Control msg)
-    | Customize (Html msg)
-
-
-type alias StringControl msg =
-    { value : String
-    , onInput : String -> msg
-    , placeholder : String
-    }
-
-
-type alias BoolControl msg =
-    { id : String
-    , value : Bool
-    , onClick : msg
-    }
-
-
-type alias SelectControl msg =
-    { value : String
-    , options : List String
-    , onChange : String -> msg
-    }
-
-
-type alias RadioControl msg =
-    { value : String
-    , options : List String
-    , onChange : String -> msg
-    }
-
-
-type alias CounterControl msg =
-    { value : Float
-    , toString : Float -> String
-    , onClickPlus : msg
-    , onClickMinus : msg
-    }
-
-
-type alias BoolAndStringControl msg =
-    { label : String
-    , id : String
-    , data : { visible : Bool, value : String }
-    , onUpdate : { visible : Bool, value : String } -> msg
-    , placeholder : String
-    }
-
-
-comment : String -> Control msg
-comment =
-    Comment
-
-
-header : String -> Control msg
-header =
-    Header
-
-
-string : StringControl msg -> Control msg
-string =
-    String
-
-
-bool : BoolControl msg -> Control msg
-bool =
-    Bool
-
-
-select : SelectControl msg -> Control msg
-select =
-    Select
-
-
-radio : RadioControl msg -> Control msg
-radio =
-    Radio
-
-
-counter : CounterControl msg -> Control msg
-counter =
-    Counter
-
-
-boolAndString : BoolAndStringControl msg -> Control msg
-boolAndString =
-    BoolAndString
-
-
-list : List (Control msg) -> Control msg
-list =
-    List
-
-
-field : String -> Control msg -> Control msg
-field label props =
-    Field label props
-
-
-customize : Html msg -> Control msg
-customize =
-    Customize
+type alias Control props =
+    { view : Html (props -> props) }
 
 
 
 -- VIEW
 
 
-render : Control msg -> Html msg
-render props =
-    case props of
-        Comment str ->
-            div
-                [ css
-                    [ palette Palette.textOptional
-                    , empty [ display none ]
+string :
+    { value : String
+    , onInput : String -> props -> props
+    , placeholder : String
+    }
+    -> Control props
+string props =
+    { view =
+        input
+            [ type_ "text"
+            , value props.value
+            , onInput props.onInput
+            , placeholder props.placeholder
+            , css
+                [ property "appearance" "none"
+                , width (pct 100)
+                , padding (em 0.75)
+                , fontSize inherit
+                , lineHeight (em 1)
+                , borderRadius (em 0.25)
+                , paletteWithBorder (border3 (px 1) solid) Palette.formField
+                , focus
+                    [ palette
+                        { background = Nothing
+                        , color = Just (rgba 0 0 0 0.95)
+                        , border = Just (hex "#85b7d9")
+                        }
+                    , outline none
                     ]
                 ]
-                [ text str ]
+            ]
+            []
+    }
 
-        -- TODO: 消す
-        -- https://github.com/y047aka/elm-emaki/pull/29#issue-2128470533
-        Header str ->
-            Html.header [ css [ displayFlex, justifyContent spaceBetween, alignItems center, fontWeight bold ] ]
-                [ text str ]
 
-        String ps ->
-            input
-                [ type_ "text"
-                , value ps.value
-                , onInput ps.onInput
-                , placeholder ps.placeholder
+bool :
+    { id : String
+    , value : Bool
+    , onChange : Bool -> props -> props
+    }
+    -> Control props
+bool props =
+    { view =
+        toggleCheckbox
+            { id = props.id
+            , checked = props.value
+            , onClick = props.onChange props.value
+            }
+    }
+
+
+select :
+    { value : String
+    , options : List String
+    , onChange : String -> props -> props
+    }
+    -> Control props
+select props =
+    { view =
+        div
+            [ css
+                [ display grid
+                , property "grid-template-columns" "1fr auto"
+                , alignItems center
+                , before
+                    [ property "content" (qt "▼")
+                    , gridColumn "2"
+                    , gridRow "1"
+                    , padding (em 1)
+                    , fontSize (em 0.6)
+                    ]
+                ]
+            ]
+            [ Html.select
+                [ onInput props.onChange
                 , css
-                    [ property "appearance" "none"
+                    [ gridColumn "1 / -1"
+                    , gridRow "1"
+                    , property "appearance" "none"
                     , width (pct 100)
                     , padding (em 0.75)
                     , fontSize inherit
@@ -191,124 +126,94 @@ render props =
                         ]
                     ]
                 ]
-                []
-
-        Bool ps ->
-            toggleCheckbox
-                { id = ps.id
-                , checked = ps.value
-                , onClick = ps.onClick
-                }
-
-        Select ps ->
-            div
-                [ css
-                    [ display grid
-                    , property "grid-template-columns" "1fr auto"
-                    , alignItems center
-                    , before
-                        [ property "content" (qt "▼")
-                        , gridColumn "2"
-                        , gridRow "1"
-                        , padding (em 1)
-                        , fontSize (em 0.6)
-                        ]
-                    ]
-                ]
-                [ Html.select
-                    [ onInput ps.onChange
-                    , css
-                        [ gridColumn "1 / -1"
-                        , gridRow "1"
-                        , property "appearance" "none"
-                        , width (pct 100)
-                        , padding (em 0.75)
-                        , fontSize inherit
-                        , lineHeight (em 1)
-                        , borderRadius (em 0.25)
-                        , paletteWithBorder (border3 (px 1) solid) Palette.formField
-                        , focus
-                            [ palette
-                                { background = Nothing
-                                , color = Just (rgba 0 0 0 0.95)
-                                , border = Just (hex "#85b7d9")
-                                }
-                            , outline none
-                            ]
-                        ]
-                    ]
-                    (List.map (\option -> Html.option [ value option, selected (ps.value == option) ] [ text option ])
-                        ps.options
-                    )
-                ]
-
-        Radio ps ->
-            div []
-                (List.map
-                    (\option ->
-                        Html.label [ css [ display block ] ]
-                            [ input
-                                [ type_ "radio"
-                                , value option
-                                , Attributes.checked (ps.value == option)
-                                , onInput ps.onChange
-                                ]
-                                []
-                            , text option
-                            ]
-                    )
-                    ps.options
+                (List.map (\option -> Html.option [ value option, selected (props.value == option) ] [ text option ])
+                    props.options
                 )
+            ]
+    }
 
-        Counter ps ->
-            labeledButtons []
-                [ button_ [ onClick ps.onClickMinus ] [ text "-" ]
-                , basicLabel [] [ text (ps.toString ps.value) ]
-                , button_ [ onClick ps.onClickPlus ] [ text "+" ]
-                ]
 
-        BoolAndString ({ data } as ps) ->
-            div []
-                [ div []
-                    [ Html.label []
+radio :
+    { value : String
+    , options : List String
+    , onChange : String -> props -> props
+    }
+    -> Control props
+radio props =
+    { view =
+        div []
+            (List.map
+                (\option ->
+                    Html.label [ css [ display block ] ]
                         [ input
-                            [ type_ "checkbox"
-                            , Attributes.checked data.visible
-                            , Attributes.disabled False
-                            , onClick (ps.onUpdate { data | visible = not data.visible })
+                            [ type_ "radio"
+                            , value option
+                            , Attributes.checked (props.value == option)
+                            , onInput props.onChange
                             ]
                             []
-                        , text ps.label
+                        , text option
                         ]
-                    ]
-                , input
-                    [ type_ "text"
-                    , value data.value
-                    , onInput (\string_ -> ps.onUpdate { data | value = string_ })
-                    , placeholder ps.placeholder
-                    ]
-                    []
-                ]
+                )
+                props.options
+            )
+    }
 
-        List childControl ->
-            div [ css [ displayFlex, flexDirection column, rowGap (Css.em 1) ] ]
-                (List.map render childControl)
 
-        Field label ps ->
-            div
-                [ css
-                    [ display grid
-                    , gridTemplateColumns [ fr 1, fr 1 ]
-                    , alignItems center
-                    , columnGap (em 0.25)
+counter :
+    { value : Float
+    , toString : Float -> String
+    , onClickPlus : props -> props
+    , onClickMinus : props -> props
+    }
+    -> Control props
+counter props =
+    { view =
+        labeledButtons []
+            [ button_ [ onClick props.onClickMinus ] [ text "-" ]
+            , basicLabel [] [ text (props.toString props.value) ]
+            , button_ [ onClick props.onClickPlus ] [ text "+" ]
+            ]
+    }
+
+
+boolAndString :
+    { label : String
+    , id : String
+    , data : { visible : Bool, value : String }
+    , onUpdate : { visible : Bool, value : String } -> props -> props
+    , placeholder : String
+    }
+    -> Control props
+boolAndString ({ data } as props) =
+    { view =
+        div []
+            [ div []
+                [ Html.label []
+                    [ input
+                        [ type_ "checkbox"
+                        , Attributes.checked data.visible
+                        , Attributes.disabled False
+                        , onClick (props.onUpdate { data | visible = not data.visible })
+                        ]
+                        []
+                    , text props.label
                     ]
                 ]
-                [ Html.label [] [ text label ]
-                , render ps
+            , input
+                [ type_ "text"
+                , value data.value
+                , onInput (\string_ -> props.onUpdate { data | value = string_ })
+                , placeholder props.placeholder
                 ]
+                []
+            ]
+    }
 
-        Customize view ->
-            view
+
+customize : Html (props -> props) -> Control props
+customize view =
+    { view = view }
 
 
 

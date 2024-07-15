@@ -5,7 +5,7 @@ import Effect exposing (Effect)
 import Headless.Text exposing (TextAs(..), TextProps, defaultTextProps, text)
 import Html.Styled as Html exposing (Html)
 import Page exposing (Page)
-import Playground exposing (playground)
+import Playground exposing (Node(..), playground)
 import Route exposing (Route)
 import Shared
 import View exposing (View)
@@ -76,24 +76,27 @@ view model =
 
 
 textPlayground : Bool -> TextProps -> Html Msg
-textPlayground isDarkMode props =
+textPlayground isDarkMode state =
     playground
         { isDarkMode = isDarkMode
-        , preview = text props "Hello, World!"
-        , props =
-            [ Control.field "textAs"
-                (Control.select
-                    { value = textAsToString props.textAs
-                    , options = List.map textAsToString [ Span, Div, Label, P ]
-                    , onChange =
-                        (\textAs ps ->
-                            textAsFromString textAs
-                                |> Maybe.map (\textAs_ -> { ps | textAs = textAs_ })
-                                |> Maybe.withDefault ps
+        , toMsg = UpdateTextProps
+        , preview = text state "Hello, World!"
+        , controlSections =
+            [ { heading = "Typography"
+              , controls =
+                    [ Field "textAs"
+                        (Control.select
+                            { value = textAsToString state.textAs
+                            , options = List.map textAsToString [ Span, Div, Label, P ]
+                            , onChange =
+                                \textAs state_ ->
+                                    textAsFromString textAs
+                                        |> Maybe.map (\textAs_ -> { state_ | textAs = textAs_ })
+                                        |> Maybe.withDefault state_
+                            }
                         )
-                            >> UpdateTextProps
-                    }
-                )
+                    ]
+              }
             ]
         }
 
