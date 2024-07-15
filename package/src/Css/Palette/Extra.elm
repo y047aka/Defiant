@@ -3,6 +3,7 @@ module Css.Palette.Extra exposing
     , darkPalette, darkPaletteWith
     , setBackgroundIf, setColorIf, setBorderIf
     , transparent, textColor, hoverColor
+    , light_dark
     )
 
 {-|
@@ -26,6 +27,15 @@ paletteByState ( default, palettes ) =
     List.map (\( pseudoClass, p ) -> pseudoClass [ palette p ]) palettes
         |> (::) (palette default)
         |> Css.batch
+
+
+light_dark : Bool -> { light : palette, dark : palette } -> palette
+light_dark isDarkMode { light, dark } =
+    if isDarkMode then
+        dark
+
+    else
+        light
 
 
 darkPalette : Theme -> Palette (ColorValue c) -> Style

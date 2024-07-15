@@ -1,4 +1,4 @@
-module Css.Color exposing
+module Css.Color_ exposing
     ( info, success, warning, error
     , red, orange, yellow, olive, green, teal, blue, violet, purple, pink, brown, grey, black
     )

@@ -15,7 +15,7 @@ module UI.Text exposing
 -}
 
 import Css exposing (..)
-import Css.Color as Color exposing (..)
+import Css.Color_ as Color exposing (..)
 import Css.Extra exposing (orNone)
 import Css.Palette as Palette exposing (Palette, palette, setColor)
 import Css.Palette.Extra exposing (darkPalette)
