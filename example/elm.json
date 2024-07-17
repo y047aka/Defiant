@@ -3,7 +3,8 @@
     "source-directories": [
         "src",
         "app",
-        ".elm-pages"
+        ".elm-pages",
+        "../package/src"
     ],
     "elm-version": "0.19.1",
     "dependencies": {
@@ -38,7 +39,8 @@
             "rtfeldman/elm-css": "18.0.0",
             "the-sett/elm-syntax-dsl": "6.0.2",
             "turboMaCk/non-empty-list-alias": "1.4.0",
-            "vito/elm-ansi": "10.0.1"
+            "vito/elm-ansi": "10.0.1",
+            "y047aka/elm-css-palette": "3.0.0"
         },
         "indirect": {
             "Chadtech/elm-bool-extra": "2.4.2",
