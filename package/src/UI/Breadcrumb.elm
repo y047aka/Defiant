@@ -12,6 +12,7 @@ module UI.Breadcrumb exposing
 
 import Html.Styled as Html exposing (Attribute, Html, a, li, nav, ol)
 import Html.Styled.Attributes exposing (attribute, class, classList)
+import Svg.Styled.Attributes
 import UI.Icon.ChevronRight exposing (chevronRight)
 
 
@@ -45,7 +46,7 @@ breadcrumbList attributes children =
                         [ child
                         , chevronRight
                             [ attribute "aria-hidden" "true"
-                            , class (blockName ++ "-chevron")
+                            , Svg.Styled.Attributes.class (blockName ++ "-chevron")
                             ]
                         ]
                 )
