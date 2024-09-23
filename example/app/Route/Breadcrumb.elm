@@ -97,7 +97,7 @@ view :
 view app shared model =
     { title = "Breadcrumb"
     , body =
-        List.map (Html.map PagesMsg.fromMsg >> Html.toUnstyled)
+        List.map (Html.map PagesMsg.fromMsg)
             [ breadcrumbPlayground False model ]
     }
 

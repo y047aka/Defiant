@@ -96,7 +96,7 @@ view :
 view app shared model =
     { title = "Text"
     , body =
-        List.map (Html.map PagesMsg.fromMsg >> Html.toUnstyled)
+        List.map (Html.map PagesMsg.fromMsg)
             [ textPlayground False model ]
     }
 

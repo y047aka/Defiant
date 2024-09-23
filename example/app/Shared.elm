@@ -4,12 +4,13 @@ import BackendTask exposing (BackendTask)
 import Effect exposing (Effect)
 import FatalError exposing (FatalError)
 import Html exposing (Html)
-import Html.Events
+import Html.Styled
+import Html.Styled.Events
 import Pages.Flags
 import Pages.PageUrl exposing (PageUrl)
-import UrlPath exposing (UrlPath)
 import Route exposing (Route)
 import SharedTemplate exposing (SharedTemplate)
+import UrlPath exposing (UrlPath)
 import View exposing (View)
 
 
@@ -93,28 +94,29 @@ view :
     -> { body : List (Html msg), title : String }
 view sharedData page model toMsg pageView =
     { body =
-        [ Html.nav []
-            [ Html.button
-                [ Html.Events.onClick MenuClicked ]
-                [ Html.text
-                    (if model.showMenu then
-                        "Close Menu"
+        List.map Html.Styled.toUnstyled
+            [ Html.Styled.nav []
+                [ Html.Styled.button
+                    [ Html.Styled.Events.onClick MenuClicked ]
+                    [ Html.Styled.text
+                        (if model.showMenu then
+                            "Close Menu"
 
-                     else
-                        "Open Menu"
-                    )
-                ]
-            , if model.showMenu then
-                Html.ul []
-                    [ Html.li [] [ Html.text "Menu item 1" ]
-                    , Html.li [] [ Html.text "Menu item 2" ]
+                         else
+                            "Open Menu"
+                        )
                     ]
+                , if model.showMenu then
+                    Html.Styled.ul []
+                        [ Html.Styled.li [] [ Html.Styled.text "Menu item 1" ]
+                        , Html.Styled.li [] [ Html.Styled.text "Menu item 2" ]
+                        ]
 
-              else
-                Html.text ""
+                  else
+                    Html.Styled.text ""
+                ]
+                |> Html.Styled.map toMsg
+            , Html.Styled.main_ [] pageView.body
             ]
-            |> Html.map toMsg
-        , Html.main_ [] pageView.body
-        ]
     , title = pageView.title
     }
