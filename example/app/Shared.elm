@@ -1,15 +1,18 @@
 module Shared exposing (Data, Model, Msg(..), SharedMsg(..), template)
 
 import BackendTask exposing (BackendTask)
+import Css exposing (..)
+import Css.Extra exposing (marginInline)
 import Effect exposing (Effect)
 import FatalError exposing (FatalError)
 import Html exposing (Html)
-import Html.Styled
-import Html.Styled.Events
+import Html.Styled exposing (header, main_, text)
+import Html.Styled.Attributes exposing (css, href)
 import Pages.Flags
 import Pages.PageUrl exposing (PageUrl)
 import Route exposing (Route)
 import SharedTemplate exposing (SharedTemplate)
+import UI.Breadcrumb as Breadcrumb
 import UrlPath exposing (UrlPath)
 import View exposing (View)
 
@@ -27,7 +30,6 @@ template =
 
 type Msg
     = SharedMsg SharedMsg
-    | MenuClicked
 
 
 type alias Data =
@@ -39,8 +41,7 @@ type SharedMsg
 
 
 type alias Model =
-    { showMenu : Bool
-    }
+    {}
 
 
 init :
@@ -57,9 +58,7 @@ init :
             }
     -> ( Model, Effect Msg )
 init flags maybePagePath =
-    ( { showMenu = False }
-    , Effect.none
-    )
+    ( {}, Effect.none )
 
 
 update : Msg -> Model -> ( Model, Effect Msg )
@@ -67,9 +66,6 @@ update msg model =
     case msg of
         SharedMsg globalMsg ->
             ( model, Effect.none )
-
-        MenuClicked ->
-            ( { model | showMenu = not model.showMenu }, Effect.none )
 
 
 subscriptions : UrlPath -> Model -> Sub Msg
@@ -95,28 +91,15 @@ view :
 view sharedData page model toMsg pageView =
     { body =
         List.map Html.Styled.toUnstyled
-            [ Html.Styled.nav []
-                [ Html.Styled.button
-                    [ Html.Styled.Events.onClick MenuClicked ]
-                    [ Html.Styled.text
-                        (if model.showMenu then
-                            "Close Menu"
-
-                         else
-                            "Open Menu"
-                        )
+            [ header []
+                [ Breadcrumb.breadcrumbList []
+                    [ Breadcrumb.breadcrumbItem { current = False } [ href "/" ] [ text "Top" ]
+                    , Breadcrumb.breadcrumbItem { current = False } [ href "#" ] [ text "UI" ]
+                    , Breadcrumb.breadcrumbItem { current = True } [ href "#" ] [ text "Breadcrumb" ]
                     ]
-                , if model.showMenu then
-                    Html.Styled.ul []
-                        [ Html.Styled.li [] [ Html.Styled.text "Menu item 1" ]
-                        , Html.Styled.li [] [ Html.Styled.text "Menu item 2" ]
-                        ]
-
-                  else
-                    Html.Styled.text ""
                 ]
-                |> Html.Styled.map toMsg
-            , Html.Styled.main_ [] pageView.body
+            , main_ [ css [ maxWidth (em 50), marginInline auto ] ]
+                pageView.body
             ]
     , title = pageView.title
     }

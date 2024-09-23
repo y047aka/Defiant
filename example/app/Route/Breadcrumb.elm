@@ -109,7 +109,7 @@ breadcrumbPlayground isDarkMode state =
         , toMsg = UpdateTextProps
         , preview =
             Breadcrumb.breadcrumbList []
-                [ Breadcrumb.breadcrumbItem { current = False } [ href "/" ] [ text "Top" ]
+                [ Breadcrumb.breadcrumbItem { current = False } [ href "#" ] [ text "Top" ]
                 , Breadcrumb.breadcrumbItem { current = False } [ href "#" ] [ text "UI" ]
                 , Breadcrumb.breadcrumbItem { current = True } [ href "#" ] [ text "Breadcrumb" ]
                 ]
