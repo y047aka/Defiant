@@ -12,6 +12,7 @@ import FatalError
 import Head
 import Headless.Text exposing (TextProps)
 import Html.Styled as Html exposing (Html, text)
+import Html.Styled.Attributes exposing (href)
 import PagesMsg
 import Playground exposing (Node(..), playground)
 import RouteBuilder
@@ -108,9 +109,9 @@ breadcrumbPlayground isDarkMode state =
         , toMsg = UpdateTextProps
         , preview =
             Breadcrumb.breadcrumbList []
-                [ Breadcrumb.breadcrumbItem { current = False } [] [ text "Top" ]
-                , Breadcrumb.breadcrumbItem { current = False } [] []
-                , Breadcrumb.breadcrumbItem { current = True } [] []
+                [ Breadcrumb.breadcrumbItem { current = False } [ href "/" ] [ text "Top" ]
+                , Breadcrumb.breadcrumbItem { current = False } [ href "#" ] [ text "UI" ]
+                , Breadcrumb.breadcrumbItem { current = True } [ href "#" ] [ text "Breadcrumb" ]
                 ]
         , controlSections =
             []
