@@ -28,16 +28,8 @@ template =
     }
 
 
-type Msg
-    = SharedMsg SharedMsg
 
-
-type alias Data =
-    ()
-
-
-type SharedMsg
-    = NoOp
+-- MODEL
 
 
 type alias Model =
@@ -61,6 +53,18 @@ init flags maybePagePath =
     ( {}, Effect.none )
 
 
+
+-- UPDATE
+
+
+type Msg
+    = SharedMsg SharedMsg
+
+
+type SharedMsg
+    = NoOp
+
+
 update : Msg -> Model -> ( Model, Effect Msg )
 update msg model =
     case msg of
@@ -68,14 +72,30 @@ update msg model =
             ( model, Effect.none )
 
 
+
+-- SUBSCRIPTIONS
+
+
 subscriptions : UrlPath -> Model -> Sub Msg
 subscriptions _ _ =
     Sub.none
 
 
+
+-- DATA
+
+
+type alias Data =
+    ()
+
+
 data : BackendTask FatalError Data
 data =
     BackendTask.succeed ()
+
+
+
+-- VIEW
 
 
 view :

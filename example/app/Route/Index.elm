@@ -26,11 +26,6 @@ type alias RouteParams =
     {}
 
 
-type alias Data =
-    { message : String
-    }
-
-
 type alias ActionData =
     {}
 
@@ -42,6 +37,15 @@ route =
         , data = data
         }
         |> RouteBuilder.buildNoState { view = view }
+
+
+
+-- DATA
+
+
+type alias Data =
+    { message : String
+    }
 
 
 data : BackendTask FatalError Data
@@ -69,6 +73,10 @@ head app =
         , title = "elm-pages is running"
         }
         |> Seo.website
+
+
+
+-- VIEW
 
 
 view :

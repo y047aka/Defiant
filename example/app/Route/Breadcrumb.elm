@@ -7,9 +7,8 @@ module Route.Breadcrumb exposing (Model, Msg, RouteParams, route, Data, ActionDa
 -}
 
 import BackendTask
-import Effect
+import Effect exposing (Effect)
 import FatalError
-import Head
 import Headless.Text exposing (TextProps)
 import Html.Styled as Html exposing (Html, text)
 import Html.Styled.Attributes exposing (href)
@@ -18,16 +17,7 @@ import Playground exposing (Node(..), playground)
 import RouteBuilder
 import Shared
 import UI.Breadcrumb as Breadcrumb
-import UrlPath
 import View
-
-
-type alias Model =
-    TextProps
-
-
-type Msg
-    = UpdateTextProps (TextProps -> TextProps)
 
 
 type alias RouteParams =
@@ -37,21 +27,37 @@ type alias RouteParams =
 route : RouteBuilder.StatefulRoute RouteParams Data ActionData Model Msg
 route =
     RouteBuilder.single
-        { data = data, head = head }
+        { data = data, head = \_ -> [] }
         |> RouteBuilder.buildWithLocalState
             { view = view
             , init = init
             , update = update
-            , subscriptions = subscriptions
+            , subscriptions = \_ _ _ _ -> Sub.none
             }
+
+
+
+-- MODEL
+
+
+type alias Model =
+    TextProps
 
 
 init :
     RouteBuilder.App Data ActionData RouteParams
     -> Shared.Model
-    -> ( Model, Effect.Effect Msg )
+    -> ( Model, Effect Msg )
 init app shared =
     ( Headless.Text.defaultTextProps, Effect.none )
+
+
+
+-- UPDATE
+
+
+type Msg
+    = UpdateTextProps (TextProps -> TextProps)
 
 
 update :
@@ -59,16 +65,15 @@ update :
     -> Shared.Model
     -> Msg
     -> Model
-    -> ( Model, Effect.Effect Msg )
+    -> ( Model, Effect Msg )
 update app shared msg model =
     case msg of
         UpdateTextProps updater ->
             ( updater model, Effect.none )
 
 
-subscriptions : RouteParams -> UrlPath.UrlPath -> Shared.Model -> Model -> Sub Msg
-subscriptions routeParams path shared model =
-    Sub.none
+
+-- DATA
 
 
 type alias Data =
@@ -84,9 +89,8 @@ data =
     BackendTask.succeed {}
 
 
-head : RouteBuilder.App Data ActionData RouteParams -> List Head.Tag
-head app =
-    []
+
+-- VIEW
 
 
 view :
