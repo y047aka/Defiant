@@ -1,4 +1,4 @@
-module UI.Button exposing
+module UI.Button_Outdated exposing
     ( button, buttonWithProps, basicButton
     , defaultPalettes
     , labeledButton
