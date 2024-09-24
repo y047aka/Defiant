@@ -15,6 +15,7 @@ import Html.Styled.Attributes.Aria exposing (ariaHidden, ariaLabel)
 import UI.Icon.CrossBold exposing (crossBold)
 import UI.IconButton as IconButton exposing (iconButton)
 import UI.TextButton as TextButton
+import UI.TextLink as TextLink
 
 
 type Variant
@@ -127,18 +128,21 @@ textButton ({ variant } as props) children =
 
 
 textLink : InternalChildProps msg -> List (Html msg) -> Html msg
-textLink { variant } children =
-    let
-        defiantTextLink =
-            span
-    in
+textLink ({ variant } as props) children =
     div
         [ classList
             [ ( blockName ++ "-button", True )
             , ( blockName ++ "-button--" ++ variantToString variant, True )
             ]
         ]
-        [ defiantTextLink [] children ]
+        [ TextLink.textLink
+            { variant = Nothing
+            , icon = props.icon
+            , iconPosition = Nothing
+            , underline = Nothing
+            }
+            children
+        ]
 
 
 snockBarStyle : Html msg
