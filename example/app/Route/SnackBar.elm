@@ -15,6 +15,7 @@ import PagesMsg
 import Playground exposing (Node(..), playground)
 import RouteBuilder
 import Shared
+import UI.Icon.Information as Icon
 import UI.SnackBar as SnackBar exposing (Variant(..))
 import View
 
@@ -118,7 +119,7 @@ snackBarPlayground isDarkMode props =
         , toMsg = UpdateSnackBarProps
         , preview =
             SnackBar.frame props
-                [ SnackBar.icon []
+                [ SnackBar.icon [ Icon.information [] ]
                 , SnackBar.text [ text "「今日のランチは道玄坂で」の記事に新しいコメントが3件あります。" ]
                 , SnackBar.textButton { setIsShow = True, variant = SnackBar.Information, icon = text "" } [ text "取り消し" ]
                 ]
