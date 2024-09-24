@@ -1,12 +1,12 @@
-module UI.Icon.ChevronRight exposing (chevronRight)
+module UI.Icon.CrossBold exposing (crossBold)
 
 import Svg.Styled exposing (Attribute, Svg, path, svg)
 import Svg.Styled.Attributes exposing (d, fill, height, viewBox, width)
 import Svg.Styled.Extra exposing (role, xmlns)
 
 
-chevronRight : List (Attribute msg) -> Svg msg
-chevronRight attributes =
+crossBold : List (Attribute msg) -> Svg msg
+crossBold attributes =
     svg
         ([ xmlns "http://www.w3.org/2000/svg"
          , width "1em"
@@ -17,4 +17,4 @@ chevronRight attributes =
          ]
             ++ attributes
         )
-        [ path [ d "M9.41 21c-.26 0-.51-.1-.71-.29a.996.996 0 0 1 0-1.41L16 12 8.71 4.71a.996.996 0 1 1 1.41-1.41l7.29 7.29c.78.78.78 2.05 0 2.83l-7.29 7.29c-.19.19-.45.29-.71.29Z" ] [] ]
+        [ path [ d "M18.71 5.29a.996.996 0 0 0-1.41 0L12 10.59 7.71 6.29a.996.996 0 1 0-1.41 1.41L10.59 12 5.29 16.29a.996.996 0 1 0 1.41 1.41L12 13.41l4.29 4.29a.996.996 0 1 0 1.41-1.41L13.41 12l4.29-4.29a.996.996 0 0 0 0-1.42Z" ] [] ]
