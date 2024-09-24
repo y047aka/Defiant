@@ -14,7 +14,7 @@ import Html.Styled as Html exposing (Attribute, Html, a, li, nav, node, ol, text
 import Html.Styled.Attributes exposing (class, classList)
 import Html.Styled.Attributes.Aria exposing (ariaCurrent, ariaHidden, ariaLabel)
 import Svg.Styled.Attributes
-import UI.Icon.ChevronRight exposing (chevronRight)
+import UI.Icon exposing (chevronRight)
 
 
 

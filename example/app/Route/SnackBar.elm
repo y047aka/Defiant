@@ -15,7 +15,7 @@ import PagesMsg
 import Playground exposing (Node(..), playground)
 import RouteBuilder
 import Shared
-import UI.Icon.Information as Icon
+import UI.Icon as Icon
 import UI.SnackBar as SnackBar exposing (Variant(..))
 import View
 

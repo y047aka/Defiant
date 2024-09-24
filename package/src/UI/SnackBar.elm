@@ -12,7 +12,7 @@ module UI.SnackBar exposing
 import Html.Styled as Html exposing (Html, div, node, span)
 import Html.Styled.Attributes exposing (class, classList)
 import Html.Styled.Attributes.Aria exposing (ariaHidden, ariaLabel)
-import UI.Icon.CrossBold exposing (crossBold)
+import UI.Icon exposing (crossBold)
 import UI.IconButton as IconButton exposing (iconButton)
 import UI.TextButton as TextButton
 import UI.TextLink as TextLink
