@@ -9,8 +9,9 @@ module UI.SnackBar exposing
 
 -}
 
-import Html.Styled as Html exposing (Attribute, Html, button, div, node, span)
-import Html.Styled.Attributes exposing (attribute, class, classList)
+import Html.Styled as Html exposing (Html, button, div, node, span)
+import Html.Styled.Attributes exposing (class, classList)
+import Html.Styled.Attributes.Aria exposing (ariaHidden, ariaLabel)
 import UI.Icon.CrossBold exposing (crossBold)
 import UI.IconButton as IconButton exposing (iconButton)
 
@@ -86,7 +87,7 @@ frame { active, position, variant } children =
                         ]
                         [ iconButton { size = IconButton.ExSmall, variant = IconButton.Neutral }
                             []
-                            [ crossBold [ attribute "aria-label" "閉じる" ] ]
+                            [ crossBold [ ariaLabel "閉じる" ] ]
                         ]
                    ]
             )
@@ -411,16 +412,3 @@ variantToString variant =
 
         Error ->
             "error"
-
-
-ariaHidden : Bool -> Attribute msg
-ariaHidden isHidden =
-    let
-        boolToString condition =
-            if condition then
-                "true"
-
-            else
-                "false"
-    in
-    attribute "aria-hidden" (boolToString isHidden)

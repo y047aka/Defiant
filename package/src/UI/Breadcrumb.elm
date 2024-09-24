@@ -11,7 +11,8 @@ module UI.Breadcrumb exposing
 -}
 
 import Html.Styled as Html exposing (Attribute, Html, a, li, nav, node, ol, text)
-import Html.Styled.Attributes exposing (attribute, class, classList)
+import Html.Styled.Attributes exposing (class, classList)
+import Html.Styled.Attributes.Aria exposing (ariaCurrent, ariaHidden, ariaLabel)
 import Svg.Styled.Attributes
 import UI.Icon.ChevronRight exposing (chevronRight)
 
@@ -30,7 +31,7 @@ blockName =
 breadcrumbList : List (Attribute msg) -> List (Html msg) -> Html msg
 breadcrumbList attributes children =
     nav
-        ([ attribute "aria-label" "パンくずリスト"
+        ([ ariaLabel "パンくずリスト"
          , classList
             [ ( blockName, True )
             , ( blockName ++ "--standard", True )
@@ -46,7 +47,7 @@ breadcrumbList attributes children =
                     li [ class (blockName ++ "-item") ]
                         [ child
                         , chevronRight
-                            [ attribute "aria-hidden" "true"
+                            [ ariaHidden True
                             , Svg.Styled.Attributes.class (blockName ++ "-chevron")
                             ]
                         ]
@@ -219,7 +220,7 @@ type alias BreadcrumbItemProps =
 breadcrumbItem : BreadcrumbItemProps -> List (Attribute msg) -> List (Html msg) -> Html msg
 breadcrumbItem props attributes children =
     if props.current then
-        a (attribute "aria-current" "page" :: attributes)
+        a (ariaCurrent "page" :: attributes)
             children
 
     else
