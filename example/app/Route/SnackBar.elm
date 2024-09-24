@@ -115,7 +115,7 @@ snackBarPlayground isDarkMode state =
                 { active = True, position = { vertical = "topCenter" }, duration = 300, variant = SnackBar.Information }
                 [ SnackBar.icon []
                 , SnackBar.text [ text "「今日のランチは道玄坂で」の記事に新しいコメントが3件あります。" ]
-                , SnackBar.textButton { setIsShow = True, variant = SnackBar.Information } [ text "取り消し" ]
+                , SnackBar.textButton { setIsShow = True, variant = SnackBar.Information, icon = text "" } [ text "取り消し" ]
                 ]
         , controlSections =
             []

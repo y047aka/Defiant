@@ -9,11 +9,12 @@ module UI.SnackBar exposing
 
 -}
 
-import Html.Styled as Html exposing (Html, button, div, node, span)
+import Html.Styled as Html exposing (Html, div, node, span)
 import Html.Styled.Attributes exposing (class, classList)
 import Html.Styled.Attributes.Aria exposing (ariaHidden, ariaLabel)
 import UI.Icon.CrossBold exposing (crossBold)
 import UI.IconButton as IconButton exposing (iconButton)
+import UI.TextButton as TextButton
 
 
 type Variant
@@ -53,9 +54,12 @@ defaultVariant =
     Information
 
 
-type alias InternalChildProps =
+type alias InternalChildProps msg =
     { setIsShow : Bool
     , variant : Variant
+
+    --
+    , icon : Html msg
     }
 
 
@@ -104,22 +108,25 @@ text children =
     span [ class (blockName ++ "-text") ] children
 
 
-textButton : InternalChildProps -> List (Html msg) -> Html msg
-textButton { variant } children =
-    let
-        defiantTextButton =
-            button
-    in
+textButton : InternalChildProps msg -> List (Html msg) -> Html msg
+textButton ({ variant } as props) children =
     div
         [ classList
             [ ( blockName ++ "-button", True )
             , ( blockName ++ "-button--" ++ variantToString variant, True )
             ]
         ]
-        [ defiantTextButton [] children ]
+        [ TextButton.textButton
+            { variant = Nothing
+            , icon = props.icon
+            , iconPosition = Nothing
+            , underline = Nothing
+            }
+            children
+        ]
 
 
-textLink : InternalChildProps -> List (Html msg) -> Html msg
+textLink : InternalChildProps msg -> List (Html msg) -> Html msg
 textLink { variant } children =
     let
         defiantTextLink =
