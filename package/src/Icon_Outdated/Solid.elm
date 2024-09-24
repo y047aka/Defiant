@@ -1,4 +1,4 @@
-module Icon.Solid exposing (fromString)
+module Icon_Outdated.Solid exposing (fromString)
 
 import FontAwesome.Icon exposing (Icon)
 import FontAwesome.Solid exposing (..)

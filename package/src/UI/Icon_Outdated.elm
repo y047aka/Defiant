@@ -1,11 +1,11 @@
-module UI.Icon exposing (icon)
+module UI.Icon_Outdated exposing (icon)
 
 import Css exposing (..)
 import FontAwesome.Icon
 import Html.Styled as Html exposing (Attribute, Html, fromUnstyled)
-import Icon.Brands as Brands
-import Icon.Regular as Regular
-import Icon.Solid as Solid
+import Icon_Outdated.Brands as Brands
+import Icon_Outdated.Regular as Regular
+import Icon_Outdated.Solid as Solid
 
 
 icon : List (Attribute msg) -> String -> Html msg

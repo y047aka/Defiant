@@ -1,4 +1,4 @@
-module Icon.Brands exposing (fromString)
+module Icon_Outdated.Brands exposing (fromString)
 
 import FontAwesome.Brands exposing (..)
 import FontAwesome.Icon exposing (Icon)

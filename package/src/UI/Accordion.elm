@@ -22,7 +22,7 @@ import Css.Typography as Typography exposing (setFontSize, typography)
 import Data.Theme exposing (Theme)
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes as Attributes exposing (css, for, href, name, type_, value)
-import UI.Icon as Icon
+import UI.Icon_Outdated as Icon
 
 
 type ToggleMethod

@@ -1,4 +1,4 @@
-module Icon.Regular exposing (fromString)
+module Icon_Outdated.Regular exposing (fromString)
 
 import FontAwesome.Icon exposing (Icon)
 import FontAwesome.Regular exposing (..)

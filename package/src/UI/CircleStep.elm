@@ -22,7 +22,7 @@ import Css.Palette.Extra as Palette
 import Css.Typography as Typography exposing (setFontSize, setFontWeight, setLineHeight, typography)
 import Html.Styled as Html exposing (Attribute, Html, text)
 import Html.Styled.Attributes exposing (css)
-import UI.Icon as Icon
+import UI.Icon_Outdated as Icon
 
 
 type StepPosition
