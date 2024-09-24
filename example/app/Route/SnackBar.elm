@@ -146,25 +146,25 @@ variantToString : Variant -> String
 variantToString variant =
     case variant of
         Information ->
-            "information"
+            "Information"
 
         Confirmation ->
-            "confirmation"
+            "Confirmation"
 
         Error ->
-            "error"
+            "Error"
 
 
 variantFromString : String -> Maybe Variant
 variantFromString str =
     case str of
-        "information" ->
+        "Information" ->
             Just Information
 
-        "confirmation" ->
+        "Confirmation" ->
             Just Confirmation
 
-        "error" ->
+        "Error" ->
             Just Error
 
         _ ->
