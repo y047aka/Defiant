@@ -41,7 +41,14 @@ route =
 
 
 type alias Model =
-    SnackBar.Props
+    { icon : String
+
+    -- SnackBarProps
+    , active : Bool
+    , position : { vertical : String }
+    , duration : Float -- milliseconds to hide
+    , variant : Variant
+    }
 
 
 init :
@@ -49,7 +56,8 @@ init :
     -> Shared.Model
     -> ( Model, Effect Msg )
 init app shared =
-    ( { active = True
+    ( { icon = "information"
+      , active = True
       , position = { vertical = "topCenter" }
       , duration = 300
       , variant = SnackBar.Information
@@ -63,7 +71,7 @@ init app shared =
 
 
 type Msg
-    = UpdateSnackBarProps (SnackBar.Props -> SnackBar.Props)
+    = UpdateProps (Model -> Model)
 
 
 update :
@@ -74,7 +82,7 @@ update :
     -> ( Model, Effect Msg )
 update app shared msg model =
     case msg of
-        UpdateSnackBarProps updater ->
+        UpdateProps updater ->
             ( updater model, Effect.none )
 
 
@@ -112,23 +120,40 @@ view app shared model =
     }
 
 
-snackBarPlayground : Bool -> SnackBar.Props -> Html Msg
-snackBarPlayground isDarkMode props =
+snackBarPlayground : Bool -> Model -> Html Msg
+snackBarPlayground isDarkMode model =
     playground
         { isDarkMode = isDarkMode
-        , toMsg = UpdateSnackBarProps
+        , toMsg = UpdateProps
         , preview =
-            SnackBar.frame props
-                [ SnackBar.icon [ Icon.information [] ]
+            SnackBar.frame
+                { active = model.active
+                , position = model.position
+                , duration = model.duration
+                , variant = model.variant
+                }
+                [ SnackBar.icon [ iconFromString model.icon ]
                 , SnackBar.text [ text "「今日のランチは道玄坂で」の記事に新しいコメントが3件あります。" ]
                 , SnackBar.textButton { setIsShow = True, variant = SnackBar.Information, icon = text "" } [ text "取り消し" ]
                 ]
         , controlSections =
-            [ { heading = "Props"
+            [ { heading = ""
+              , controls =
+                    [ Field "icon"
+                        (Control.select
+                            { value = model.icon
+                            , options = [ "information", "checkCircleFill" ]
+                            , onChange =
+                                \icon props_ -> { props_ | icon = icon }
+                            }
+                        )
+                    ]
+              }
+            , { heading = "Props"
               , controls =
                     [ Field "variant"
                         (Control.select
-                            { value = variantToString props.variant
+                            { value = variantToString model.variant
                             , options = List.map variantToString [ Information, Confirmation, Error ]
                             , onChange =
                                 \string props_ ->
@@ -141,6 +166,19 @@ snackBarPlayground isDarkMode props =
               }
             ]
         }
+
+
+iconFromString : String -> Html msg
+iconFromString str =
+    case str of
+        "information" ->
+            Icon.information []
+
+        "checkCircleFill" ->
+            Icon.checkCircleFill []
+
+        _ ->
+            text ""
 
 
 variantToString : Variant -> String

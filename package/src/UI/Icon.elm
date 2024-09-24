@@ -1,4 +1,4 @@
-module UI.Icon exposing (chevronRight, crossBold, information)
+module UI.Icon exposing (checkCircleFill, chevronRight, crossBold, information)
 
 import Svg.Styled exposing (Attribute, Svg, path, svg)
 import Svg.Styled.Attributes exposing (d, fill, height, viewBox, width)
@@ -18,6 +18,11 @@ svgIcon attributes draw =
             ++ attributes
         )
         [ path [ d draw ] [] ]
+
+
+checkCircleFill : List (Attribute msg) -> Svg msg
+checkCircleFill attributes =
+    svgIcon attributes "M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2Zm5.23 8.18-5.35 5.79c-.39.43-.93.65-1.47.65-.46 0-.92-.16-1.3-.48l-2.77-2.37a.999.999 0 1 1 1.3-1.52l2.77 2.37 5.35-5.79a.997.997 0 0 1 1.41-.06c.41.37.44 1 .06 1.41Z"
 
 
 chevronRight : List (Attribute msg) -> Svg msg
