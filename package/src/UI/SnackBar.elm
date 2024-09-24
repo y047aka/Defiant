@@ -1,6 +1,6 @@
 module UI.SnackBar exposing
     ( frame, icon, text, textButton, textLink
-    , Variant(..)
+    , Props, Variant(..)
     )
 
 {-|

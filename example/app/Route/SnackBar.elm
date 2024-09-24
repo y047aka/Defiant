@@ -7,15 +7,15 @@ module Route.SnackBar exposing (Model, Msg, RouteParams, route, Data, ActionData
 -}
 
 import BackendTask
+import Control
 import Effect exposing (Effect)
 import FatalError
-import Headless.Text exposing (TextProps)
 import Html.Styled as Html exposing (Html, text)
 import PagesMsg
 import Playground exposing (Node(..), playground)
 import RouteBuilder
 import Shared
-import UI.SnackBar as SnackBar
+import UI.SnackBar as SnackBar exposing (Variant(..))
 import View
 
 
@@ -40,7 +40,7 @@ route =
 
 
 type alias Model =
-    TextProps
+    SnackBar.Props
 
 
 init :
@@ -48,7 +48,13 @@ init :
     -> Shared.Model
     -> ( Model, Effect Msg )
 init app shared =
-    ( Headless.Text.defaultTextProps, Effect.none )
+    ( { active = True
+      , position = { vertical = "topCenter" }
+      , duration = 300
+      , variant = SnackBar.Information
+      }
+    , Effect.none
+    )
 
 
 
@@ -56,7 +62,7 @@ init app shared =
 
 
 type Msg
-    = UpdateTextProps (TextProps -> TextProps)
+    = UpdateSnackBarProps (SnackBar.Props -> SnackBar.Props)
 
 
 update :
@@ -67,7 +73,7 @@ update :
     -> ( Model, Effect Msg )
 update app shared msg model =
     case msg of
-        UpdateTextProps updater ->
+        UpdateSnackBarProps updater ->
             ( updater model, Effect.none )
 
 
@@ -105,18 +111,61 @@ view app shared model =
     }
 
 
-snackBarPlayground : Bool -> TextProps -> Html Msg
-snackBarPlayground isDarkMode state =
+snackBarPlayground : Bool -> SnackBar.Props -> Html Msg
+snackBarPlayground isDarkMode props =
     playground
         { isDarkMode = isDarkMode
-        , toMsg = UpdateTextProps
+        , toMsg = UpdateSnackBarProps
         , preview =
-            SnackBar.frame
-                { active = True, position = { vertical = "topCenter" }, duration = 300, variant = SnackBar.Information }
+            SnackBar.frame props
                 [ SnackBar.icon []
                 , SnackBar.text [ text "「今日のランチは道玄坂で」の記事に新しいコメントが3件あります。" ]
                 , SnackBar.textButton { setIsShow = True, variant = SnackBar.Information, icon = text "" } [ text "取り消し" ]
                 ]
         , controlSections =
-            []
+            [ { heading = "Props"
+              , controls =
+                    [ Field "variant"
+                        (Control.select
+                            { value = variantToString props.variant
+                            , options = List.map variantToString [ Information, Confirmation, Error ]
+                            , onChange =
+                                \string props_ ->
+                                    variantFromString string
+                                        |> Maybe.map (\variant_ -> { props_ | variant = variant_ })
+                                        |> Maybe.withDefault props_
+                            }
+                        )
+                    ]
+              }
+            ]
         }
+
+
+variantToString : Variant -> String
+variantToString variant =
+    case variant of
+        Information ->
+            "information"
+
+        Confirmation ->
+            "confirmation"
+
+        Error ->
+            "error"
+
+
+variantFromString : String -> Maybe Variant
+variantFromString str =
+    case str of
+        "information" ->
+            Just Information
+
+        "confirmation" ->
+            Just Confirmation
+
+        "error" ->
+            Just Error
+
+        _ ->
+            Nothing
