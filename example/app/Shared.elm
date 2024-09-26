@@ -116,7 +116,7 @@ view sharedData page model toMsg pageView =
                 [ Breadcrumb.breadcrumbList []
                     [ Breadcrumb.breadcrumbItem { current = False } [ href "/" ] [ text "Top" ]
                     , Breadcrumb.breadcrumbItem { current = False } [ href "#" ] [ text "UI" ]
-                    , Breadcrumb.breadcrumbItem { current = True } [ href "#" ] [ text "Breadcrumb" ]
+                    , Breadcrumb.breadcrumbItem { current = True } [ href "#" ] [ text pageView.title ]
                     ]
                 ]
             , main_ [ css [ maxWidth (em 60), marginInline auto ] ]
