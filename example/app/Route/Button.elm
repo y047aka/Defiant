@@ -7,6 +7,7 @@ module Route.Button exposing (Model, Msg, RouteParams, route, Data, ActionData)
 -}
 
 import BackendTask
+import Control
 import Effect exposing (Effect)
 import FatalError
 import Html.Styled as Html exposing (Html, text)
@@ -63,7 +64,7 @@ init app shared =
 
 
 type Msg
-    = UpdateButtonProps (Button.Props Msg -> Button.Props Msg)
+    = UpdateProps (Button.Props Msg -> Button.Props Msg)
 
 
 update :
@@ -74,7 +75,7 @@ update :
     -> ( Model, Effect Msg )
 update app shared msg model =
     case msg of
-        UpdateButtonProps updater ->
+        UpdateProps updater ->
             ( updater model, Effect.none )
 
 
@@ -116,8 +117,104 @@ buttonPlayground : Bool -> Button.Props Msg -> Html Msg
 buttonPlayground isDarkMode props =
     playground
         { isDarkMode = isDarkMode
-        , toMsg = UpdateButtonProps
+        , toMsg = UpdateProps
         , preview = Button.button props [ text "Button" ]
         , controlSections =
-            []
+            [ { heading = "Props"
+              , controls =
+                    [ Field "size"
+                        (Control.select
+                            { value = sizeToString props.size
+                            , options = List.map sizeToString [ Large, Medium, Small ]
+                            , onChange =
+                                \string props_ ->
+                                    sizeFromString string
+                                        |> Maybe.map (\size_ -> { props_ | size = size_ })
+                                        |> Maybe.withDefault props_
+                            }
+                        )
+                    , Field "variant"
+                        (Control.select
+                            { value = variantToString props.variant
+                            , options = List.map variantToString [ Contained, Outlined, Lighted, Neutral, Danger ]
+                            , onChange =
+                                \string props_ ->
+                                    variantFromString string
+                                        |> Maybe.map (\variant_ -> { props_ | variant = variant_ })
+                                        |> Maybe.withDefault props_
+                            }
+                        )
+                    ]
+              }
+            ]
         }
+
+
+sizeToString : Size -> String
+sizeToString size =
+    case size of
+        Large ->
+            "Large"
+
+        Medium ->
+            "Medium"
+
+        Small ->
+            "Small"
+
+
+sizeFromString : String -> Maybe Size
+sizeFromString str =
+    case str of
+        "Large" ->
+            Just Large
+
+        "Medium" ->
+            Just Medium
+
+        "Small" ->
+            Just Small
+
+        _ ->
+            Nothing
+
+
+variantToString : Variant -> String
+variantToString variant =
+    case variant of
+        Contained ->
+            "Contained"
+
+        Outlined ->
+            "Outlined"
+
+        Lighted ->
+            "Lighted"
+
+        Neutral ->
+            "Neutral"
+
+        Danger ->
+            "Danger"
+
+
+variantFromString : String -> Maybe Variant
+variantFromString str =
+    case str of
+        "Contained" ->
+            Just Contained
+
+        "Outlined" ->
+            Just Outlined
+
+        "Lighted" ->
+            Just Lighted
+
+        "Neutral" ->
+            Just Neutral
+
+        "Danger" ->
+            Just Danger
+
+        _ ->
+            Nothing
