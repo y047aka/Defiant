@@ -24,7 +24,7 @@ import Css.Media as Media exposing (only, screen, withMedia)
 import Css.Palette as Palette exposing (palette, paletteWithBorder, setBackground, setBorder, setColor)
 import Css.Typography as Typography exposing (setFontSize, setFontWeight, setLineHeight, setTextTransform, typography)
 import Html.Styled as Html exposing (Attribute, Html, text)
-import Types exposing (FormState(..))
+import Types_Outdated exposing (FormState(..))
 
 
 type FieldType

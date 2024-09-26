@@ -23,7 +23,7 @@ import Css.Palette.Extra as Palette exposing (textColor)
 import Css.Typography as Typography exposing (setFontSize, setFontWeight, setLineHeight, setTextTransform, typography)
 import Data.PalettesByState as PalettesByState exposing (black, blue)
 import Html.Styled as Html exposing (Attribute, Html)
-import Types exposing (PresetColor(..))
+import Types_Outdated exposing (PresetColor(..))
 
 
 type alias Props =

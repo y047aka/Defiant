@@ -21,7 +21,7 @@ import Css.Palette as Palette exposing (Palette, palette, setColor)
 import Css.Palette.Extra exposing (darkPalette)
 import Data.Theme exposing (Theme(..))
 import Html.Styled as Html exposing (Html, text)
-import Types exposing (PresetColor(..), Size(..))
+import Types_Outdated exposing (PresetColor(..), Size(..))
 
 
 basis :

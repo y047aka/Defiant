@@ -1,4 +1,4 @@
-module Types exposing
+module Types_Outdated exposing
     ( Size(..), sizeFromString, sizeToString
     , PresetColor(..), colorFromString, colorToString
     , FormState(..), formStateFromString, formStateToString

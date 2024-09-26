@@ -27,7 +27,7 @@ import Css.Typography as Typography exposing (setFontStyle, setFontWeight, setLi
 import Data.PalettesByState as PalettesByState exposing (PalettesByState, palettesByState)
 import Html.Styled as Html exposing (Attribute, Html)
 import Html.Styled.Attributes exposing (css)
-import Types exposing (PresetColor(..))
+import Types_Outdated exposing (PresetColor(..))
 
 
 type alias Props =

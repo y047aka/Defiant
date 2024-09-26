@@ -23,7 +23,7 @@ import Css.Palette.Extra exposing (darkPalette)
 import Css.Typography as Typography exposing (setFontSize, setFontWeight, setLineHeight, setTextTransform, typography)
 import Data.Theme exposing (Theme)
 import Html.Styled as Html exposing (Attribute, Html)
-import Types exposing (Size(..))
+import Types_Outdated exposing (Size(..))
 
 
 type alias Props =

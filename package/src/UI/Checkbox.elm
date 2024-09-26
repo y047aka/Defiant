@@ -8,7 +8,7 @@ import Css.Typography as Typography exposing (setFontSize, setFontStyle, setLine
 import Html.Styled as Html exposing (Attribute, Html, text)
 import Html.Styled.Attributes as Attributes exposing (for, id, type_)
 import Html.Styled.Events exposing (onClick)
-import Types exposing (FormState(..))
+import Types_Outdated exposing (FormState(..))
 
 
 checkboxWithProps :
