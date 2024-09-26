@@ -6,13 +6,14 @@ module Route.Button exposing (Model, Msg, RouteParams, route, Data, ActionData)
 
 -}
 
+import ApiReference
 import BackendTask
 import Control
 import Effect exposing (Effect)
 import FatalError
-import Html.Styled as Html exposing (Html, text)
+import Html.Styled as Html exposing (Html, h2, section, text)
 import PagesMsg
-import Playground exposing (Node(..), playground)
+import Playground exposing (Node(..))
 import Route exposing (Route(..))
 import RouteBuilder
 import Shared
@@ -109,13 +110,15 @@ view app shared model =
     { title = "Button"
     , body =
         List.map (Html.map PagesMsg.fromMsg)
-            [ buttonPlayground False model ]
+            [ playground False model
+            , apiReferenceSection
+            ]
     }
 
 
-buttonPlayground : Bool -> Button.Props Msg -> Html Msg
-buttonPlayground isDarkMode props =
-    playground
+playground : Bool -> Button.Props Msg -> Html Msg
+playground isDarkMode props =
+    Playground.playground
         { isDarkMode = isDarkMode
         , toMsg = UpdateProps
         , preview = Button.button props [ text "Button" ]
@@ -148,6 +151,32 @@ buttonPlayground isDarkMode props =
               }
             ]
         }
+
+
+apiReferenceSection : Html msg
+apiReferenceSection =
+    section []
+        [ h2 [] [ text "API Reference" ]
+        , ApiReference.table
+            [ { prop = "layout", type_ = "Layout", variants = [ "Intrinsic", "FullWidth" ], default = "-" }
+            , { prop = "size"
+              , type_ = "Size"
+              , variants = List.map sizeToString [ Large, Medium, Small ]
+              , default = "-"
+              }
+            , { prop = "variant"
+              , type_ = "Variant"
+              , variants = List.map variantToString [ Contained, Outlined, Lighted, Neutral, Danger ]
+              , default = "-"
+              }
+            , { prop = "icon", type_ = "Maybe (Html msg)", variants = [], default = "Nothing" }
+            , { prop = "iconPosition"
+              , type_ = "IconPosition"
+              , variants = [ "Start", "End" ]
+              , default = "-"
+              }
+            ]
+        ]
 
 
 sizeToString : Size -> String
