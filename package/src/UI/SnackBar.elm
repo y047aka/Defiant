@@ -1,6 +1,6 @@
 module UI.SnackBar exposing
     ( frame, icon, text, textButton, textLink
-    , Props, Variant(..)
+    , Position(..), Props, Variant(..)
     )
 
 {-|
@@ -26,10 +26,19 @@ type Variant
 
 type alias Props =
     { active : Bool
-    , position : { vertical : String }
-    , duration : Float -- milliseconds to hide
+    , position : Position
+    , duration : Int -- milliseconds to hide
     , variant : Variant
     }
+
+
+type Position
+    = TopLeft
+    | TopCenter
+    | TopRight
+    | BottomLeft
+    | BottomCenter
+    | BottomRight
 
 
 blockName : String
@@ -37,7 +46,7 @@ blockName =
     "defiant-SnackBar"
 
 
-displayingTimeoutDuration : Float
+displayingTimeoutDuration : Int
 displayingTimeoutDuration =
     let
         -- Duration for css animation.
@@ -69,7 +78,7 @@ frame { active, position, variant } children =
     div
         [ classList
             [ ( blockName, True )
-            , ( blockName ++ "--" ++ position.vertical, True )
+            , ( blockName ++ "--" ++ positionToString_vertical position, True )
             , ( blockName ++ "--slide", True )
             , ( blockName ++ "-slide--in", True )
             , ( blockName ++ "--hidden", not active )
@@ -423,3 +432,25 @@ variantToString variant =
 
         Error ->
             "error"
+
+
+positionToString_vertical : Position -> String
+positionToString_vertical position =
+    case position of
+        TopLeft ->
+            "top"
+
+        TopCenter ->
+            "top"
+
+        TopRight ->
+            "top"
+
+        BottomLeft ->
+            "bottom"
+
+        BottomCenter ->
+            "bottom"
+
+        BottomRight ->
+            "bottom"

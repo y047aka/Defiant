@@ -6,17 +6,18 @@ module Route.SnackBar exposing (Model, Msg, RouteParams, route, Data, ActionData
 
 -}
 
+import ApiReference
 import BackendTask
 import Control
 import Effect exposing (Effect)
 import FatalError
-import Html.Styled as Html exposing (Html, text)
+import Html.Styled as Html exposing (Html, h2, section, text)
 import PagesMsg
-import Playground exposing (Node(..), playground)
+import Playground exposing (Node(..))
 import RouteBuilder
 import Shared
 import UI.Icon as Icon
-import UI.SnackBar as SnackBar exposing (Variant(..))
+import UI.SnackBar as SnackBar exposing (Position(..), Variant(..))
 import View
 
 
@@ -45,8 +46,8 @@ type alias Model =
 
     -- SnackBarProps
     , active : Bool
-    , position : { vertical : String }
-    , duration : Float -- milliseconds to hide
+    , position : Position
+    , duration : Int -- milliseconds to hide
     , variant : Variant
     }
 
@@ -58,7 +59,7 @@ init :
 init app shared =
     ( { icon = "information"
       , active = True
-      , position = { vertical = "topCenter" }
+      , position = TopCenter
       , duration = 300
       , variant = SnackBar.Information
       }
@@ -116,13 +117,15 @@ view app shared model =
     { title = "SnackBar"
     , body =
         List.map (Html.map PagesMsg.fromMsg)
-            [ snackBarPlayground False model ]
+            [ playground False model
+            , apiReferenceSection
+            ]
     }
 
 
-snackBarPlayground : Bool -> Model -> Html Msg
-snackBarPlayground isDarkMode model =
-    playground
+playground : Bool -> Model -> Html Msg
+playground isDarkMode model =
+    Playground.playground
         { isDarkMode = isDarkMode
         , toMsg = UpdateProps
         , preview =
@@ -168,6 +171,27 @@ snackBarPlayground isDarkMode model =
         }
 
 
+apiReferenceSection : Html msg
+apiReferenceSection =
+    section []
+        [ h2 [] [ text "API Reference" ]
+        , ApiReference.table
+            [ { prop = "active", type_ = "Bool", variants = [], default = "False" }
+            , { prop = "position"
+              , type_ = "Position"
+              , variants = List.map positionToString [ TopLeft, TopCenter, TopRight, BottomLeft, BottomCenter, BottomRight ]
+              , default = "-"
+              }
+            , { prop = "duration", type_ = "Int", variants = [], default = "300" }
+            , { prop = "variant"
+              , type_ = "Variant"
+              , variants = List.map variantToString [ Information, Confirmation, Error ]
+              , default = "-"
+              }
+            ]
+        ]
+
+
 iconFromString : String -> Html msg
 iconFromString str =
     case str of
@@ -179,6 +203,28 @@ iconFromString str =
 
         _ ->
             text ""
+
+
+positionToString : Position -> String
+positionToString position =
+    case position of
+        TopLeft ->
+            "TopLeft"
+
+        TopCenter ->
+            "TopCenter"
+
+        TopRight ->
+            "TopRight"
+
+        BottomLeft ->
+            "BottomLeft"
+
+        BottomCenter ->
+            "BottomCenter"
+
+        BottomRight ->
+            "BottomRight"
 
 
 variantToString : Variant -> String
