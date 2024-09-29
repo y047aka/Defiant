@@ -16,7 +16,7 @@ module DesignToken.Palette exposing
 -}
 
 import Css exposing (Color, rgba)
-import Css.Color exposing (Hsl360, hsla)
+import Css.Color exposing (Hsl360)
 import Css.Palette exposing (Palette, init, setBackground, setColor)
 import Css.Palette.Extra exposing (PalettesByState, initPalettes, light_dark)
 import DesignToken.Color exposing (black, grey020, grey030, grey060, grey070, grey085, grey090, grey095, white)
@@ -54,12 +54,12 @@ navigation : Bool -> Palette Hsl360
 navigation isDarkMode =
     light_dark isDarkMode
         { light =
-            { background = light.background |> Maybe.map (setAlpha_fixme 0.95)
+            { background = light.background
             , color = Just grey030
             , border = Nothing
             }
         , dark =
-            { background = dark.background |> Maybe.map (setAlpha_fixme 0.7)
+            { background = dark.background
             , color = Just grey095
             , border = Nothing
             }
@@ -109,12 +109,12 @@ playground isDarkMode =
     light_dark isDarkMode
         { light =
             { light
-                | background = light.background |> Maybe.map (setAlpha_fixme 0.95)
+                | background = light.background
                 , border = Nothing
             }
         , dark =
             { dark
-                | background = dark.background |> Maybe.map (setAlpha_fixme 0.7)
+                | background = dark.background
                 , border = Nothing
             }
         }
@@ -123,16 +123,16 @@ playground isDarkMode =
 controlPanel : Bool -> Palette Hsl360
 controlPanel isDarkMode =
     light_dark isDarkMode
-        { light = { init | background = dark.background |> Maybe.map (setAlpha_fixme 0.1) }
-        , dark = { init | background = light.background |> Maybe.map (setAlpha_fixme 0.1) }
+        { light = { init | background = dark.background }
+        , dark = { init | background = light.background }
         }
 
 
 controlSection : Bool -> Palette Hsl360
 controlSection isDarkMode =
     light_dark isDarkMode
-        { light = { init | background = light.background |> Maybe.map (setAlpha_fixme 0.7) }
-        , dark = { init | background = light.background |> Maybe.map (setAlpha_fixme 0.1) }
+        { light = { init | background = light.background }
+        , dark = { init | background = light.background }
         }
 
 
@@ -142,12 +142,3 @@ formField =
     , color = Just (rgba 0 0 0 0.87)
     , border = Just (rgba 34 36 38 0.15)
     }
-
-
-
--- HELPERS
-
-
-setAlpha_fixme : Float -> Hsl360 -> Hsl360
-setAlpha_fixme alpha { hue, saturation, lightness } =
-    hsla hue saturation lightness alpha
