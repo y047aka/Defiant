@@ -31,8 +31,8 @@ playground { isDarkMode, toMsg, preview, controlSections } =
                         , displayFlex
                         , flexDirection column
                         , rowGap (Css.em 1)
-                        , borderRadius (Css.em 0.5)
                         , palette (Palette.controlSection isDarkMode)
+                        , nthChild "n+2" [ paletteWithBorder (borderTop3 (px 1) solid) (Palette.controlSection isDarkMode) ]
                         ]
                     ]
                     (header
@@ -75,29 +75,30 @@ playground { isDarkMode, toMsg, preview, controlSections } =
     in
     section
         [ css
-            [ padding4 (Css.em 0.5) (Css.em 0.5) (Css.em 0.5) (Css.em 1.5)
+            [ padding (Css.em 0.8)
             , borderRadius (Css.em 1.5)
             , display grid
             , property "grid-template-columns" "1fr 25em"
             , columnGap (Css.em 1.5)
             , fontSize (px 14)
             , paletteWithBorder (border3 (px 1) solid) (Palette.playground isDarkMode)
-            , property "-webkit-backdrop-filter" "blur(300px)"
-            , property "backdrop-filter" "blur(300px)"
-            , property "box-shadow" "0 5px 20px hsl(0, 0%, 0%, 0.05)"
             ]
         ]
-        [ div [ css [ displayFlex, flexDirection column, justifyContent center ] ]
+        [ div
+            [ css
+                [ displayFlex
+                , flexDirection column
+                , justifyContent center
+                , property "transform" "translate3d(0, 0, 0)" -- SnackBarの表示位置をpreviewセクション内部に収めるためのhack
+                ]
+            ]
             [ preview ]
         , div
             [ css
                 [ alignSelf start
-                , padding (Css.em 0.5)
-                , displayFlex
-                , flexDirection column
-                , rowGap (Css.em 0.5)
                 , borderRadius (Css.em 1)
-                , palette (Palette.controlPanel isDarkMode)
+                , overflow hidden
+                , paletteWithBorder (border3 (px 1) solid) (Palette.controlSection isDarkMode)
                 ]
             ]
             (List.map controlSection controlSections)

@@ -2,7 +2,7 @@ module DesignToken.Palette exposing
     ( light, dark
     , textOptional
     , navigation, navItem
-    , playground, controlPanel, controlSection, formField
+    , playground, controlSection, formField
     )
 
 {-|
@@ -11,7 +11,7 @@ module DesignToken.Palette exposing
 @docs textOptional
 
 @docs navigation, navItem
-@docs playground, controlPanel, controlSection, formField
+@docs playground, controlSection, formField
 
 -}
 
@@ -19,14 +19,14 @@ import Css exposing (Color, rgba)
 import Css.Color exposing (Hsl360)
 import Css.Palette exposing (Palette, init, setBackground, setColor)
 import Css.Palette.Extra exposing (PalettesByState, initPalettes, light_dark)
-import DesignToken.Color exposing (black, grey020, grey030, grey060, grey070, grey085, grey090, grey095, white)
+import DesignToken.Color exposing (black, grey020, grey030, grey060, grey085, grey090, grey095, white)
 
 
 light : Palette Hsl360
 light =
     { background = Just white
     , color = Just grey030
-    , border = Just grey070
+    , border = Just grey090
     }
 
 
@@ -107,32 +107,16 @@ navItem { isDarkMode, isSelected } =
 playground : Bool -> Palette Hsl360
 playground isDarkMode =
     light_dark isDarkMode
-        { light =
-            { light
-                | background = light.background
-                , border = Nothing
-            }
-        , dark =
-            { dark
-                | background = dark.background
-                , border = Nothing
-            }
-        }
-
-
-controlPanel : Bool -> Palette Hsl360
-controlPanel isDarkMode =
-    light_dark isDarkMode
-        { light = { init | background = dark.background }
-        , dark = { init | background = light.background }
+        { light = { light | background = Just grey095 }
+        , dark = dark
         }
 
 
 controlSection : Bool -> Palette Hsl360
 controlSection isDarkMode =
     light_dark isDarkMode
-        { light = { init | background = light.background }
-        , dark = { init | background = light.background }
+        { light = light
+        , dark = dark
         }
 
 
