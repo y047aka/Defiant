@@ -154,7 +154,14 @@ playground isDarkMode model =
               }
             , { heading = "Props"
               , controls =
-                    [ Field "variant"
+                    [ Field "active"
+                        (Control.bool
+                            { id = "active"
+                            , value = model.active
+                            , onChange = \_ ps -> { ps | active = not ps.active }
+                            }
+                        )
+                    , Field "variant"
                         (Control.select
                             { value = variantToString model.variant
                             , options = List.map variantToString [ Information, Confirmation, Error ]
