@@ -109,16 +109,18 @@ view :
     -> View msg
     -> { body : List (Html msg), title : String }
 view sharedData page model toMsg pageView =
+    let
+        breadcrumb =
+            Breadcrumb.breadcrumbList []
+                [ Breadcrumb.breadcrumbItem { current = False } [ href "/" ] [ text "Top" ]
+                , Breadcrumb.breadcrumbItem { current = False } [ href "#" ] [ text "UI" ]
+                , Breadcrumb.breadcrumbItem { current = True } [ href "#" ] [ text pageView.title ]
+                ]
+    in
     { body =
         List.map Html.Styled.toUnstyled
             [ defiantColorPaletteStyle
-            , header []
-                [ Breadcrumb.breadcrumbList []
-                    [ Breadcrumb.breadcrumbItem { current = False } [ href "/" ] [ text "Top" ]
-                    , Breadcrumb.breadcrumbItem { current = False } [ href "#" ] [ text "UI" ]
-                    , Breadcrumb.breadcrumbItem { current = True } [ href "#" ] [ text pageView.title ]
-                    ]
-                ]
+            , header [] []
             , main_
                 [ css
                     [ maxWidth (em 60)
@@ -128,7 +130,7 @@ view sharedData page model toMsg pageView =
                     , property "row-gap" "3em"
                     ]
                 ]
-                pageView.body
+                (breadcrumb :: pageView.body)
             ]
     , title = pageView.title
     }
