@@ -161,6 +161,17 @@ playground isDarkMode model =
                             , onChange = \_ ps -> { ps | active = not ps.active }
                             }
                         )
+                    , Field "position"
+                        (Control.select
+                            { value = positionToString model.position
+                            , options = List.map positionToString [ TopLeft, TopCenter, TopRight, BottomLeft, BottomCenter, BottomRight ]
+                            , onChange =
+                                \string ps ->
+                                    positionFromString string
+                                        |> Maybe.map (\position -> { ps | position = position })
+                                        |> Maybe.withDefault ps
+                            }
+                        )
                     , Field "variant"
                         (Control.select
                             { value = variantToString model.variant
@@ -232,6 +243,31 @@ positionToString position =
 
         BottomRight ->
             "BottomRight"
+
+
+positionFromString : String -> Maybe Position
+positionFromString str =
+    case str of
+        "TopLeft" ->
+            Just TopLeft
+
+        "TopCenter" ->
+            Just TopCenter
+
+        "TopRight" ->
+            Just TopRight
+
+        "BottomLeft" ->
+            Just BottomLeft
+
+        "BottomCenter" ->
+            Just BottomCenter
+
+        "BottomRight" ->
+            Just BottomRight
+
+        _ ->
+            Nothing
 
 
 variantToString : Variant -> String

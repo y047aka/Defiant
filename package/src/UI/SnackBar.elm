@@ -9,8 +9,9 @@ module UI.SnackBar exposing
 
 -}
 
+import Css exposing (property)
 import Html.Styled as Html exposing (Html, div, node, span)
-import Html.Styled.Attributes exposing (class, classList)
+import Html.Styled.Attributes exposing (class, classList, css)
 import Html.Styled.Attributes.Aria exposing (ariaHidden, ariaLabel)
 import UI.Icon exposing (crossBold)
 import UI.IconButton as IconButton exposing (iconButton)
@@ -76,7 +77,8 @@ type alias InternalChildProps msg =
 frame : Props -> List (Html msg) -> Html msg
 frame { active, position, variant } children =
     div
-        [ classList
+        [ css [ property "--SnackBar--text-align" (positionToString_horizontal position) ]
+        , classList
             [ ( blockName, True )
             , ( blockName ++ "--" ++ positionToString_vertical position, True )
             , ( blockName ++ "--slide", True )
@@ -85,7 +87,7 @@ frame { active, position, variant } children =
             ]
         , ariaHidden active
         ]
-        [ snockBarStyle
+        [ snackBarStyle
         , div
             [ classList
                 [ ( blockName ++ "-content", True )
@@ -154,8 +156,8 @@ textLink ({ variant } as props) children =
         ]
 
 
-snockBarStyle : Html msg
-snockBarStyle =
+snackBarStyle : Html msg
+snackBarStyle =
     node "style"
         []
         [ Html.text """
@@ -454,3 +456,25 @@ positionToString_vertical position =
 
         BottomRight ->
             "bottom"
+
+
+positionToString_horizontal : Position -> String
+positionToString_horizontal position =
+    case position of
+        TopLeft ->
+            "left"
+
+        TopCenter ->
+            "center"
+
+        TopRight ->
+            "right"
+
+        BottomLeft ->
+            "left"
+
+        BottomCenter ->
+            "center"
+
+        BottomRight ->
+            "right"
