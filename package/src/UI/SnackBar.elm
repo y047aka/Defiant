@@ -74,10 +74,32 @@ type alias InternalChildProps msg =
     }
 
 
+initialHeight =
+    { top = "0", bottom = "0" }
+
+
+orderOffset =
+    { top = "0", bottom = "0" }
+
+
+offset =
+    { top = "0", bottom = "0", left = "0", right = "0" }
+
+
 frame : Props -> List (Html msg) -> Html msg
 frame { active, position, variant } children =
     div
-        [ css [ property "--SnackBar--text-align" (positionToString_horizontal position) ]
+        [ css
+            [ property "--SnackBar--initial-height-top" initialHeight.top
+            , property "--SnackBar--initial-height-bottom" initialHeight.bottom
+            , property "--SnackBar--order-offset-top" orderOffset.top
+            , property "--SnackBar--order-offset-bottom" orderOffset.bottom
+            , property "--SnackBar--offset-top" offset.top
+            , property "--SnackBar--offset-bottom" offset.bottom
+            , property "--SnackBar--offset-left" offset.left
+            , property "--SnackBar--offset-right" offset.right
+            , property "--SnackBar--text-align" (positionToString_horizontal position)
+            ]
         , classList
             [ ( blockName, True )
             , ( blockName ++ "--" ++ positionToString_vertical position, True )
