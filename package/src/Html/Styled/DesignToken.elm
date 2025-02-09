@@ -1,5 +1,5 @@
 module Html.Styled.DesignToken exposing
-    ( HtmlWithDesignToken
+    ( HtmlWithDesignToken, text
     , h1, h2, h3, h4, h5, h6
     , div, p, hr, pre, blockquote
     , span, a, code, em, strong, i, b, u, sub, sup, br
@@ -136,6 +136,10 @@ toStyle _ =
     Css.batch []
 
 
+
+-- PRIMITIVES
+
+
 node : String -> List (Attribute msg) -> List (HtmlWithDesignToken msg) -> HtmlWithDesignToken msg
 node tagName attributes children =
     \designToken ->
@@ -145,6 +149,15 @@ node tagName attributes children =
             children
                 |> List.map (\c -> c designToken)
                 |> List.map (\c -> c.tag c.attributes c.children)
+        }
+
+
+text : String -> HtmlWithDesignToken msg
+text string =
+    \designToken ->
+        { tag = Html.Styled.span
+        , attributes = [ css [ toStyle designToken ] ]
+        , children = [ Html.Styled.text string ]
         }
 
 
