@@ -11,7 +11,7 @@ import BackendTask
 import Control
 import Effect exposing (Effect)
 import FatalError
-import Html.Styled as Html exposing (Html, h2, section, text)
+import Html.Styled as Html exposing (Html, h2, text)
 import PagesMsg
 import Playground exposing (Node(..))
 import RouteBuilder
@@ -118,7 +118,8 @@ view app shared model =
     , body =
         List.map (Html.map PagesMsg.fromMsg)
             [ playground False model
-            , apiReferenceSection
+            , section "API Reference"
+                [ apiReferenceTable ]
             ]
     }
 
@@ -189,25 +190,28 @@ playground isDarkMode model =
         }
 
 
-apiReferenceSection : Html msg
-apiReferenceSection =
-    section []
-        [ h2 [] [ text "API Reference" ]
-        , ApiReference.table
-            [ { prop = "active", type_ = "Bool", variants = [], default = "False" }
-            , { prop = "position"
-              , type_ = "Position"
-              , variants = List.map positionToString [ TopLeft, TopCenter, TopRight, BottomLeft, BottomCenter, BottomRight ]
-              , default = "-"
-              }
-            , { prop = "duration", type_ = "Int", variants = [], default = "300" }
-            , { prop = "variant"
-              , type_ = "Variant"
-              , variants = List.map variantToString [ Information, Confirmation, Error ]
-              , default = "-"
-              }
-            ]
+apiReferenceTable : Html msg
+apiReferenceTable =
+    ApiReference.table
+        [ { prop = "active", type_ = "Bool", variants = [], default = "False" }
+        , { prop = "position"
+          , type_ = "Position"
+          , variants = List.map positionToString [ TopLeft, TopCenter, TopRight, BottomLeft, BottomCenter, BottomRight ]
+          , default = "-"
+          }
+        , { prop = "duration", type_ = "Int", variants = [], default = "300" }
+        , { prop = "variant"
+          , type_ = "Variant"
+          , variants = List.map variantToString [ Information, Confirmation, Error ]
+          , default = "-"
+          }
         ]
+
+
+section : String -> List (Html msg) -> Html msg
+section title children =
+    Html.section []
+        (h2 [] [ text title ] :: children)
 
 
 iconFromString : String -> Html msg
