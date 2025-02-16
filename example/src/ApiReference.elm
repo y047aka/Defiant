@@ -32,40 +32,40 @@ table props =
                         ]
                     ]
                     [ th [] [ text "Prop" ]
-                    , th [] [ text "Type" ]
+                    , th [] [ text "Description" ]
                     , th [] [ text "Default" ]
                     ]
                 ]
             , tbody []
                 (List.map
                     (\{ prop, type_, variants, default } ->
-                        let
-                            variants_ =
-                                if List.isEmpty variants then
-                                    []
-
-                                else
-                                    [ greyLabel [ text (String.join " | " variants) ] ]
-                        in
                         tr
                             [ css
                                 [ borderTop3 (px 1) solid (hsl 0 0 0.9)
                                 , children
                                     [ Css.Global.td
                                         [ padding (px 15)
+                                        , color (hsl 0 0 0.3)
                                         , nthChild "n+2" [ borderLeft3 (px 1) solid (hsl 0 0 0.9) ]
                                         ]
                                     ]
                                 ]
                             ]
                             [ td [] [ typeAnnotation ( prop, type_ ) ]
-                            , td [] variants_
+                            , td []
+                                (if List.isEmpty variants then
+                                    [ text "-" ]
+
+                                 else
+                                    List.map text variants
+                                        |> List.intersperse (span [ css [ color (hsl 0 0 0.8) ] ] [ text " | " ])
+                                )
                             , td []
                                 [ if default == "-" then
                                     text default
 
                                   else
-                                    greyLabel [ text default ]
+                                    label [ text default ]
                                 ]
                             ]
                     )
@@ -78,14 +78,14 @@ table props =
 typeAnnotation : ( String, String ) -> Html msg
 typeAnnotation ( name, type_ ) =
     span []
-        [ span [ css [ color (hsl 0 0 0.3) ] ] [ text name ]
+        [ text name
         , span [ css [ color (hsl 120 1 0.3) ] ]
             [ text (" : " ++ type_) ]
         ]
 
 
-greyLabel : List (Html msg) -> Html msg
-greyLabel children =
+label : List (Html msg) -> Html msg
+label children =
     span
         [ css
             [ padding2 (px 2) (px 5)
