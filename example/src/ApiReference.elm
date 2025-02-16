@@ -45,7 +45,7 @@ table props =
                                     []
 
                                 else
-                                    [ text " = ", greyLabel [ text (String.join " | " variants) ] ]
+                                    [ greyLabel [ text (String.join " | " variants) ] ]
                         in
                         tr
                             [ css
@@ -58,11 +58,8 @@ table props =
                                     ]
                                 ]
                             ]
-                            [ td [] [ label [ text prop ] ]
-                            , td []
-                                (greyLabel [ text type_ ]
-                                    :: variants_
-                                )
+                            [ td [] [ typeAnnotation ( prop, type_ ) ]
+                            , td [] variants_
                             , td []
                                 [ if default == "-" then
                                     text default
@@ -78,18 +75,13 @@ table props =
         ]
 
 
-label : List (Html msg) -> Html msg
-label children =
-    span
-        [ css
-            [ padding2 (px 2) (px 5)
-            , borderRadius (px 5)
-            , backgroundColor (hsla 120 1 0.5 0.05)
-            , color (hsl 120 1 0.3)
-            , border3 (px 1) solid (hsla 120 1 0.25 0.15)
-            ]
+typeAnnotation : ( String, String ) -> Html msg
+typeAnnotation ( name, type_ ) =
+    span []
+        [ span [ css [ color (hsl 0 0 0.3) ] ] [ text name ]
+        , span [ css [ color (hsl 120 1 0.3) ] ]
+            [ text (" : " ++ type_) ]
         ]
-        children
 
 
 greyLabel : List (Html msg) -> Html msg
