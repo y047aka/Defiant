@@ -11,7 +11,7 @@ import BackendTask
 import Control
 import Effect exposing (Effect)
 import FatalError
-import Html.Styled as Html exposing (Html, h2, section, text)
+import Html.Styled as Html exposing (Html, h2, text)
 import PagesMsg
 import Playground exposing (Node(..))
 import Route exposing (Route(..))
@@ -111,7 +111,8 @@ view app shared model =
     , body =
         List.map (Html.map PagesMsg.fromMsg)
             [ playground False model
-            , apiReferenceSection
+            , section "API Reference"
+                [ apiReferenceTable ]
             ]
     }
 
@@ -153,30 +154,33 @@ playground isDarkMode props =
         }
 
 
-apiReferenceSection : Html msg
-apiReferenceSection =
-    section []
-        [ h2 [] [ text "API Reference" ]
-        , ApiReference.table
-            [ { prop = "layout", type_ = "Layout", variants = [ "Intrinsic", "FullWidth" ], default = "-" }
-            , { prop = "size"
-              , type_ = "Size"
-              , variants = List.map sizeToString [ Large, Medium, Small ]
-              , default = "-"
-              }
-            , { prop = "variant"
-              , type_ = "Variant"
-              , variants = List.map variantToString [ Contained, Outlined, Lighted, Neutral, Danger ]
-              , default = "-"
-              }
-            , { prop = "icon", type_ = "Maybe (Html msg)", variants = [], default = "Nothing" }
-            , { prop = "iconPosition"
-              , type_ = "IconPosition"
-              , variants = [ "Start", "End" ]
-              , default = "-"
-              }
-            ]
+apiReferenceTable : Html msg
+apiReferenceTable =
+    ApiReference.table
+        [ { prop = "layout", type_ = "Layout", variants = [ "Intrinsic", "FullWidth" ], default = "-" }
+        , { prop = "size"
+          , type_ = "Size"
+          , variants = List.map sizeToString [ Large, Medium, Small ]
+          , default = "-"
+          }
+        , { prop = "variant"
+          , type_ = "Variant"
+          , variants = List.map variantToString [ Contained, Outlined, Lighted, Neutral, Danger ]
+          , default = "-"
+          }
+        , { prop = "icon", type_ = "Maybe (Html msg)", variants = [], default = "Nothing" }
+        , { prop = "iconPosition"
+          , type_ = "IconPosition"
+          , variants = [ "Start", "End" ]
+          , default = "-"
+          }
         ]
+
+
+section : String -> List (Html msg) -> Html msg
+section title children =
+    Html.section []
+        (h2 [] [ text title ] :: children)
 
 
 sizeToString : Size -> String
