@@ -715,7 +715,7 @@ md_sys_color_surfaceTint_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.surface-tint.light"
-    , value = "{md.sys.color.primary}"
+    , value = md_sys_color_primary.value
     , description = "Surface tint"
     , tags = [ "sys", "color", "light" ]
     }
@@ -726,7 +726,7 @@ md_sys_color_onErrorContainer_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-error-container.light"
-    , value = "{md.ref.palette.error10}"
+    , value = md.ref.palette.error10.value
     , description = "On error container"
     , tags = [ "sys", "color", "light" ]
     }
@@ -737,7 +737,7 @@ md_sys_color_onError_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-error.light"
-    , value = "{md.ref.palette.error100}"
+    , value = md.ref.palette.error100.value
     , description = "On error"
     , tags = [ "sys", "color", "light" ]
     }
@@ -748,7 +748,7 @@ md_sys_color_errorContainer_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.error-container.light"
-    , value = "{md.ref.palette.error90}"
+    , value = md.ref.palette.error90.value
     , description = "Error container"
     , tags = [ "sys", "color", "light" ]
     }
@@ -759,7 +759,7 @@ md_sys_color_onTertiaryContainer_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-tertiary-container.light"
-    , value = "{md.ref.palette.tertiary10}"
+    , value = md.ref.palette.tertiary10.value
     , description = "On tertiary container"
     , tags = [ "sys", "color", "light" ]
     }
@@ -770,7 +770,7 @@ md_sys_color_onTertiary_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-tertiary.light"
-    , value = "{md.ref.palette.tertiary100}"
+    , value = md.ref.palette.tertiary100.value
     , description = "On tertiary"
     , tags = [ "sys", "color", "light" ]
     }
@@ -781,7 +781,7 @@ md_sys_color_tertiaryContainer_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.tertiary-container.light"
-    , value = "{md.ref.palette.tertiary90}"
+    , value = md.ref.palette.tertiary90.value
     , description = "Tertiary container"
     , tags = [ "sys", "color", "light" ]
     }
@@ -792,7 +792,7 @@ md_sys_color_tertiary_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.tertiary.light"
-    , value = "{md.ref.palette.tertiary40}"
+    , value = md.ref.palette.tertiary40.value
     , description = "Tertiary"
     , tags = [ "sys", "color", "light" ]
     }
@@ -803,7 +803,7 @@ md_sys_color_shadow_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.shadow.light"
-    , value = "{md.ref.palette.neutral0}"
+    , value = md.ref.palette.neutral0.value
     , description = "Shadow"
     , tags = [ "sys", "color", "light" ]
     }
@@ -814,7 +814,7 @@ md_sys_color_error_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.error.light"
-    , value = "{md.ref.palette.error40}"
+    , value = md.ref.palette.error40.value
     , description = "Error"
     , tags = [ "sys", "color", "light" ]
     }
@@ -825,7 +825,7 @@ md_sys_color_outline_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.outline.light"
-    , value = "{md.ref.palette.neutral-variant50}"
+    , value = md.ref.palette.neutralVariant50.value
     , description = "Outline"
     , tags = [ "sys", "color", "light" ]
     }
@@ -836,7 +836,7 @@ md_sys_color_onBackground_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-background.light"
-    , value = "{md.ref.palette.neutral10}"
+    , value = md.ref.palette.neutral10.value
     , description = "On background"
     , tags = [ "sys", "color", "light" ]
     }
@@ -847,7 +847,7 @@ md_sys_color_background_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.background.light"
-    , value = "{md.ref.palette.neutral99}"
+    , value = md.ref.palette.neutral99.value
     , description = "Background"
     , tags = [ "sys", "color", "light" ]
     }
@@ -858,7 +858,7 @@ md_sys_color_inverseOnSurface_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.inverse-on-surface.light"
-    , value = "{md.ref.palette.neutral95}"
+    , value = md.ref.palette.neutral95.value
     , description = "Inverse on surface"
     , tags = [ "sys", "color", "light" ]
     }
@@ -869,7 +869,7 @@ md_sys_color_inverseSurface_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.inverse-surface.light"
-    , value = "{md.ref.palette.neutral20}"
+    , value = md.ref.palette.neutral20.value
     , description = "Inverse surface"
     , tags = [ "sys", "color", "light" ]
     }
@@ -880,7 +880,7 @@ md_sys_color_onSurfaceVariant_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-surface-variant.light"
-    , value = "{md.ref.palette.neutral-variant30}"
+    , value = md.ref.palette.neutralVariant30.value
     , description = "On surface variant"
     , tags = [ "sys", "color", "light" ]
     }
@@ -891,7 +891,7 @@ md_sys_color_onSurface_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-surface.light"
-    , value = "{md.ref.palette.neutral10}"
+    , value = md.ref.palette.neutral10.value
     , description = "On surface"
     , tags = [ "sys", "color", "light" ]
     }
@@ -902,7 +902,7 @@ md_sys_color_surfaceVariant_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.surface-variant.light"
-    , value = "{md.ref.palette.neutral-variant90}"
+    , value = md.ref.palette.neutralVariant90.value
     , description = "Surface variant"
     , tags = [ "sys", "color", "light" ]
     }
@@ -913,7 +913,7 @@ md_sys_color_surface_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.surface.light"
-    , value = "{md.ref.palette.neutral99}"
+    , value = md.ref.palette.neutral99.value
     , description = "Surface"
     , tags = [ "sys", "color", "light" ]
     }
@@ -924,7 +924,7 @@ md_sys_color_onSecondaryContainer_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-secondary-container.light"
-    , value = "{md.ref.palette.secondary10}"
+    , value = md.ref.palette.secondary10.value
     , description = "On secondary container"
     , tags = [ "sys", "color", "light" ]
     }
@@ -935,7 +935,7 @@ md_sys_color_onSecondary_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-secondary.light"
-    , value = "{md.ref.palette.secondary100}"
+    , value = md.ref.palette.secondary100.value
     , description = "On secondary"
     , tags = [ "sys", "color", "light" ]
     }
@@ -946,7 +946,7 @@ md_sys_color_secondaryContainer_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.secondary-container.light"
-    , value = "{md.ref.palette.secondary90}"
+    , value = md.ref.palette.secondary90.value
     , description = "Secondary container"
     , tags = [ "sys", "color", "light" ]
     }
@@ -957,7 +957,7 @@ md_sys_color_secondary_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.secondary.light"
-    , value = "{md.ref.palette.secondary40}"
+    , value = md.ref.palette.secondary40.value
     , description = "Secondary"
     , tags = [ "sys", "color", "light" ]
     }
@@ -968,7 +968,7 @@ md_sys_color_inversePrimary_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.inverse-primary.light"
-    , value = "{md.ref.palette.primary80}"
+    , value = md.ref.palette.primary80.value
     , description = "Inverse primary"
     , tags = [ "sys", "color", "light" ]
     }
@@ -979,7 +979,7 @@ md_sys_color_onPrimaryContainer_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-primary-container.light"
-    , value = "{md.ref.palette.primary10}"
+    , value = md.ref.palette.primary10.value
     , description = "On primary container"
     , tags = [ "sys", "color", "light" ]
     }
@@ -990,7 +990,7 @@ md_sys_color_onPrimary_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-primary.light"
-    , value = "{md.ref.palette.primary100}"
+    , value = md.ref.palette.primary100.value
     , description = "On primary"
     , tags = [ "sys", "color", "light" ]
     }
@@ -1001,7 +1001,7 @@ md_sys_color_primaryContainer_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.primary-container.light"
-    , value = "{md.ref.palette.primary90}"
+    , value = md.ref.palette.primary90.value
     , description = "Primary container"
     , tags = [ "sys", "color", "light" ]
     }
@@ -1012,7 +1012,7 @@ md_sys_color_primary_light =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.primary.light"
-    , value = "{md.ref.palette.primary40}"
+    , value = md.ref.palette.primary40.value
     , description = "Primary"
     , tags = [ "sys", "color", "light" ]
     }
@@ -1023,7 +1023,7 @@ md_sys_color_surfaceTint_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.surface-tint.dark"
-    , value = "{md.sys.color.primary}"
+    , value = md_sys_color_primary.value
     , description = "Surface tint"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1034,7 +1034,7 @@ md_sys_color_onErrorContainer_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-error-container.dark"
-    , value = "{md.ref.palette.error80}"
+    , value = md.ref.palette.error80.value
     , description = "On error container"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1045,7 +1045,7 @@ md_sys_color_onError_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-error.dark"
-    , value = "{md.ref.palette.error20}"
+    , value = md.ref.palette.error20.value
     , description = "On error"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1056,7 +1056,7 @@ md_sys_color_errorContainer_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.error-container.dark"
-    , value = "{md.ref.palette.error30}"
+    , value = md.ref.palette.error30.value
     , description = "Error container"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1067,7 +1067,7 @@ md_sys_color_onTertiaryContainer_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-tertiary-container.dark"
-    , value = "{md.ref.palette.tertiary90}"
+    , value = md.ref.palette.tertiary90.value
     , description = "On tertiary container"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1078,7 +1078,7 @@ md_sys_color_onTertiary_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-tertiary.dark"
-    , value = "{md.ref.palette.tertiary20}"
+    , value = md.ref.palette.tertiary20.value
     , description = "On tertiary"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1089,7 +1089,7 @@ md_sys_color_tertiaryContainer_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.tertiary-container.dark"
-    , value = "{md.ref.palette.tertiary30}"
+    , value = md.ref.palette.tertiary30.value
     , description = "Tertiary container"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1100,7 +1100,7 @@ md_sys_color_tertiary_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.tertiary.dark"
-    , value = "{md.ref.palette.tertiary80}"
+    , value = md.ref.palette.tertiary80.value
     , description = "Tertiary"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1111,7 +1111,7 @@ md_sys_color_shadow_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.shadow.dark"
-    , value = "{md.ref.palette.neutral0}"
+    , value = md.ref.palette.neutral0.value
     , description = "Shadow"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1122,7 +1122,7 @@ md_sys_color_error_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.error.dark"
-    , value = "{md.ref.palette.error80}"
+    , value = md.ref.palette.error80.value
     , description = "Error"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1133,7 +1133,7 @@ md_sys_color_outline_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.outline.dark"
-    , value = "{md.ref.palette.neutral-variant60}"
+    , value = md.ref.palette.neutralVariant60.value
     , description = "Outline"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1144,7 +1144,7 @@ md_sys_color_onBackground_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-background.dark"
-    , value = "{md.ref.palette.neutral90}"
+    , value = md.ref.palette.neutral90.value
     , description = "On background"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1155,7 +1155,7 @@ md_sys_color_background_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.background.dark"
-    , value = "{md.ref.palette.neutral10}"
+    , value = md.ref.palette.neutral10.value
     , description = "Background"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1166,7 +1166,7 @@ md_sys_color_inverseOnSurface_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.inverse-on-surface.dark"
-    , value = "{md.ref.palette.neutral20}"
+    , value = md.ref.palette.neutral20.value
     , description = "Inverse on surface"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1177,7 +1177,7 @@ md_sys_color_inverseSurface_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.inverse-surface.dark"
-    , value = "{md.ref.palette.neutral90}"
+    , value = md.ref.palette.neutral90.value
     , description = "Inverse surface"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1188,7 +1188,7 @@ md_sys_color_onSurfaceVariant_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-surface-variant.dark"
-    , value = "{md.ref.palette.neutral-variant80}"
+    , value = md.ref.palette.neutralVariant80.value
     , description = "On surface variant"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1199,7 +1199,7 @@ md_sys_color_onSurface_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-surface.dark"
-    , value = "{md.ref.palette.neutral90}"
+    , value = md.ref.palette.neutral90.value
     , description = "On surface"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1210,7 +1210,7 @@ md_sys_color_surfaceVariant_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.surface-variant.dark"
-    , value = "{md.ref.palette.neutral-variant30}"
+    , value = md.ref.palette.neutralVariant30.value
     , description = "Surface variant"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1221,7 +1221,7 @@ md_sys_color_surface_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.surface.dark"
-    , value = "{md.ref.palette.neutral10}"
+    , value = md.ref.palette.neutral10.value
     , description = "Surface"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1232,7 +1232,7 @@ md_sys_color_onSecondaryContainer_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-secondary-container.dark"
-    , value = "{md.ref.palette.secondary90}"
+    , value = md.ref.palette.secondary90.value
     , description = "On secondary container"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1243,7 +1243,7 @@ md_sys_color_onSecondary_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-secondary.dark"
-    , value = "{md.ref.palette.secondary20}"
+    , value = md.ref.palette.secondary20.value
     , description = "On secondary"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1254,7 +1254,7 @@ md_sys_color_secondaryContainer_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.secondary-container.dark"
-    , value = "{md.ref.palette.secondary30}"
+    , value = md.ref.palette.secondary30.value
     , description = "Secondary container"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1265,7 +1265,7 @@ md_sys_color_secondary_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.secondary.dark"
-    , value = "{md.ref.palette.secondary80}"
+    , value = md.ref.palette.secondary80.value
     , description = "Secondary"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1276,7 +1276,7 @@ md_sys_color_inversePrimary_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.inverse-primary.dark"
-    , value = "{md.ref.palette.primary40}"
+    , value = md.ref.palette.primary40.value
     , description = "Inverse primary"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1287,7 +1287,7 @@ md_sys_color_onPrimaryContainer_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-primary-container.dark"
-    , value = "{md.ref.palette.primary90}"
+    , value = md.ref.palette.primary90.value
     , description = "On primary container"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1298,7 +1298,7 @@ md_sys_color_onPrimary_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-primary.dark"
-    , value = "{md.ref.palette.primary20}"
+    , value = md.ref.palette.primary20.value
     , description = "On primary"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1309,7 +1309,7 @@ md_sys_color_primaryContainer_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.primary-container.dark"
-    , value = "{md.ref.palette.primary30}"
+    , value = md.ref.palette.primary30.value
     , description = "Primary container"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1320,7 +1320,7 @@ md_sys_color_primary_dark =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.primary.dark"
-    , value = "{md.ref.palette.primary80}"
+    , value = md.ref.palette.primary80.value
     , description = "Primary"
     , tags = [ "sys", "color", "dark" ]
     }
@@ -1331,7 +1331,7 @@ md_sys_color_surfaceTint =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.surface-tint"
-    , value = "{md.sys.color.surface-tint.light}"
+    , value = md_sys_color_surfaceTint_light.value
     , description = "Surface tint"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1342,7 +1342,7 @@ md_sys_color_onErrorContainer =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-error-container"
-    , value = "{md.sys.color.on-error-container.light}"
+    , value = md_sys_color_onErrorContainer_light.value
     , description = "On error container"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1353,7 +1353,7 @@ md_sys_color_onError =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-error"
-    , value = "{md.sys.color.on-error.light}"
+    , value = md_sys_color_onError_light.value
     , description = "On error"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1364,7 +1364,7 @@ md_sys_color_errorContainer =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.error-container"
-    , value = "{md.sys.color.error-container.light}"
+    , value = md_sys_color_errorContainer_light.value
     , description = "Error container"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1375,7 +1375,7 @@ md_sys_color_onTertiaryContainer =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-tertiary-container"
-    , value = "{md.sys.color.on-tertiary-container.light}"
+    , value = md_sys_color_onTertiaryContainer_light.value
     , description = "On tertiary container"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1386,7 +1386,7 @@ md_sys_color_onTertiary =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-tertiary"
-    , value = "{md.sys.color.on-tertiary.light}"
+    , value = md_sys_color_onTertiary_light.value
     , description = "On tertiary"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1397,7 +1397,7 @@ md_sys_color_tertiaryContainer =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.tertiary-container"
-    , value = "{md.sys.color.tertiary-container.light}"
+    , value = md_sys_color_tertiaryContainer_light.value
     , description = "Tertiary container"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1408,7 +1408,7 @@ md_sys_color_tertiary =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.tertiary"
-    , value = "{md.sys.color.tertiary.light}"
+    , value = md_sys_color_tertiary_light.value
     , description = "Tertiary"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1419,7 +1419,7 @@ md_sys_color_shadow =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.shadow"
-    , value = "{md.sys.color.shadow.light}"
+    , value = md_sys_color_shadow_light.value
     , description = "Shadow"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1430,7 +1430,7 @@ md_sys_color_error =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.error"
-    , value = "{md.sys.color.error.light}"
+    , value = md_sys_color_error_light.value
     , description = "Error"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1441,7 +1441,7 @@ md_sys_color_outline =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.outline"
-    , value = "{md.sys.color.outline.light}"
+    , value = md_sys_color_outline_light.value
     , description = "Outline"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1452,7 +1452,7 @@ md_sys_color_onBackground =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-background"
-    , value = "{md.sys.color.on-background.light}"
+    , value = md_sys_color_onBackground_light.value
     , description = "On background"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1463,7 +1463,7 @@ md_sys_color_background =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.background"
-    , value = "{md.sys.color.background.light}"
+    , value = md_sys_color_background_light.value
     , description = "Background"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1474,7 +1474,7 @@ md_sys_color_inverseOnSurface =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.inverse-on-surface"
-    , value = "{md.sys.color.inverse-on-surface.light}"
+    , value = md_sys_color_inverseOnSurface_light.value
     , description = "Inverse on surface"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1485,7 +1485,7 @@ md_sys_color_inverseSurface =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.inverse-surface"
-    , value = "{md.sys.color.inverse-surface.light}"
+    , value = md_sys_color_inverseSurface_light.value
     , description = "Inverse surface"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1496,7 +1496,7 @@ md_sys_color_onSurfaceVariant =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-surface-variant"
-    , value = "{md.sys.color.on-surface-variant.light}"
+    , value = md_sys_color_onSurfaceVariant_light.value
     , description = "On surface variant"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1507,7 +1507,7 @@ md_sys_color_onSurface =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-surface"
-    , value = "{md.sys.color.on-surface.light}"
+    , value = md_sys_color_onSurface_light.value
     , description = "On surface"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1518,7 +1518,7 @@ md_sys_color_surfaceVariant =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.surface-variant"
-    , value = "{md.sys.color.surface-variant.light}"
+    , value = md_sys_color_surfaceVariant_light.value
     , description = "Surface variant"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1529,7 +1529,7 @@ md_sys_color_surface =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.surface"
-    , value = "{md.sys.color.surface.light}"
+    , value = md_sys_color_surface_light.value
     , description = "Surface"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1540,7 +1540,7 @@ md_sys_color_onSecondaryContainer =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-secondary-container"
-    , value = "{md.sys.color.on-secondary-container.light}"
+    , value = md_sys_color_onSecondaryContainer_light.value
     , description = "On secondary container"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1551,7 +1551,7 @@ md_sys_color_onSecondary =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-secondary"
-    , value = "{md.sys.color.on-secondary.light}"
+    , value = md_sys_color_onSecondary_light.value
     , description = "On secondary"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1562,7 +1562,7 @@ md_sys_color_secondaryContainer =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.secondary-container"
-    , value = "{md.sys.color.secondary-container.light}"
+    , value = md_sys_color_secondaryContainer_light.value
     , description = "Secondary container"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1573,7 +1573,7 @@ md_sys_color_secondary =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.secondary"
-    , value = "{md.sys.color.secondary.light}"
+    , value = md_sys_color_secondary_light.value
     , description = "Secondary"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1584,7 +1584,7 @@ md_sys_color_inversePrimary =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.inverse-primary"
-    , value = "{md.sys.color.inverse-primary.light}"
+    , value = md_sys_color_inversePrimary_light.value
     , description = "Inverse primary"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1595,7 +1595,7 @@ md_sys_color_onPrimaryContainer =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-primary-container"
-    , value = "{md.sys.color.on-primary-container.light}"
+    , value = md_sys_color_onPrimaryContainer_light.value
     , description = "On primary container"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1606,7 +1606,7 @@ md_sys_color_onPrimary =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.on-primary"
-    , value = "{md.sys.color.on-primary.light}"
+    , value = md_sys_color_onPrimary_light.value
     , description = "On primary"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1617,7 +1617,7 @@ md_sys_color_primaryContainer =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.primary-container"
-    , value = "{md.sys.color.primary-container.light}"
+    , value = md_sys_color_primaryContainer_light.value
     , description = "Primary container"
     , tags = [ "sys", "color", "theme" ]
     }
@@ -1628,7 +1628,7 @@ md_sys_color_primary =
     { class = "token"
     , type_ = "alias"
     , id = "md.sys.color.primary"
-    , value = "{md.sys.color.primary.light}"
+    , value = md_sys_color_primary_light.value
     , description = "Primary"
     , tags = [ "sys", "color", "theme" ]
     }
