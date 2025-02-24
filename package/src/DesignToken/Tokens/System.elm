@@ -443,157 +443,315 @@ elevation =
 
 
 typography =
-    { display =
-        { small =
-            { type_ = "typography"
-            , value =
-                { fontSize = sd.reference.typography.scale.compact.fourExtraLarge
-                , fontWeight = sd.reference.typography.fontWeight.regular
-                , fontFamily = sd.reference.typography.fontFamily.primary
-                , lineHeight = sd.reference.typography.lineHeight.normal
+    { compact =
+        { display =
+            { small =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.compact.fourExtraLarge
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.normal
+                    }
+                }
+            , medium =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.compact.fiveExtraLarge
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.normal
+                    }
                 }
             }
-        , medium =
-            { type_ = "typography"
-            , value =
-                { fontSize = sd.reference.typography.scale.compact.fiveExtraLarge
-                , fontWeight = sd.reference.typography.fontWeight.regular
-                , fontFamily = sd.reference.typography.fontFamily.primary
-                , lineHeight = sd.reference.typography.lineHeight.normal
+        , headline =
+            { small =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.compact.threeExtraLarge
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.normal
+                    }
+                }
+            , medium =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.compact.fourExtraLarge
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.normal
+                    }
+                }
+            , large =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.compact.fiveExtraLarge
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.normal
+                    }
+                }
+            }
+        , title =
+            { small =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.compact.large
+                    , fontWeight = sd.reference.typography.fontWeight.bold
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.normal
+                    }
+                }
+            , medium =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.compact.extraLarge
+                    , fontWeight = sd.reference.typography.fontWeight.bold
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.normal
+                    }
+                }
+            , large =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.compact.twoExtraLarge
+                    , fontWeight = sd.reference.typography.fontWeight.bold
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.normal
+                    }
+                }
+            }
+        , body =
+            { extraSmall =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.compact.small
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.tight
+                    }
+                }
+            , small =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.compact.medium
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.normal
+                    }
+                }
+            , medium =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.compact.large
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.normal
+                    }
+                }
+            , large =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.compact.extraLarge
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.normal
+                    }
+                }
+            }
+        , label =
+            { small =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.compact.extraSmall
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.none
+                    }
+                }
+            , medium =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.compact.small
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.none
+                    }
+                }
+            , large =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.compact.medium
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.none
+                    }
+                }
+            , extraLarge =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.compact.large
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.none
+                    }
                 }
             }
         }
-    , headline =
-        { small =
-            { type_ = "typography"
-            , value =
-                { fontSize = sd.reference.typography.scale.compact.threeExtraLarge
-                , fontWeight = sd.reference.typography.fontWeight.regular
-                , fontFamily = sd.reference.typography.fontFamily.primary
-                , lineHeight = sd.reference.typography.lineHeight.normal
+    , expanded =
+        { display =
+            { small =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.expanded.fourExtraLarge
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.normal
+                    }
+                }
+            , medium =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.expanded.fiveExtraLarge
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.normal
+                    }
                 }
             }
-        , medium =
-            { type_ = "typography"
-            , value =
-                { fontSize = sd.reference.typography.scale.compact.fourExtraLarge
-                , fontWeight = sd.reference.typography.fontWeight.regular
-                , fontFamily = sd.reference.typography.fontFamily.primary
-                , lineHeight = sd.reference.typography.lineHeight.normal
+        , headline =
+            { small =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.expanded.extraLarge
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.normal
+                    }
+                }
+            , medium =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.expanded.twoExtraLarge
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.normal
+                    }
+                }
+            , large =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.expanded.threeExtraLarge
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.normal
+                    }
                 }
             }
-        , large =
-            { type_ = "typography"
-            , value =
-                { fontSize = sd.reference.typography.scale.compact.fiveExtraLarge
-                , fontWeight = sd.reference.typography.fontWeight.regular
-                , fontFamily = sd.reference.typography.fontFamily.primary
-                , lineHeight = sd.reference.typography.lineHeight.normal
+        , title =
+            { small =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.expanded.small
+                    , fontWeight = sd.reference.typography.fontWeight.bold
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.normal
+                    }
+                }
+            , medium =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.expanded.medium
+                    , fontWeight = sd.reference.typography.fontWeight.bold
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.normal
+                    }
+                }
+            , large =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.expanded.large
+                    , fontWeight = sd.reference.typography.fontWeight.bold
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.normal
+                    }
                 }
             }
-        }
-    , title =
-        { small =
-            { type_ = "typography"
-            , value =
-                { fontSize = sd.reference.typography.scale.compact.large
-                , fontWeight = sd.reference.typography.fontWeight.bold
-                , fontFamily = sd.reference.typography.fontFamily.primary
-                , lineHeight = sd.reference.typography.lineHeight.normal
+        , body =
+            { extraSmall =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.expanded.twoExtraSmall
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.tight
+                    }
+                }
+            , small =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.expanded.extraSmall
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.normal
+                    }
+                }
+            , medium =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.expanded.small
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.normal
+                    }
+                }
+            , large =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.expanded.medium
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.normal
+                    }
                 }
             }
-        , medium =
-            { type_ = "typography"
-            , value =
-                { fontSize = sd.reference.typography.scale.compact.extraLarge
-                , fontWeight = sd.reference.typography.fontWeight.bold
-                , fontFamily = sd.reference.typography.fontFamily.primary
-                , lineHeight = sd.reference.typography.lineHeight.normal
+        , label =
+            { small =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.expanded.threeExtraSmall
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.none
+                    }
                 }
-            }
-        , large =
-            { type_ = "typography"
-            , value =
-                { fontSize = sd.reference.typography.scale.compact.twoExtraLarge
-                , fontWeight = sd.reference.typography.fontWeight.bold
-                , fontFamily = sd.reference.typography.fontFamily.primary
-                , lineHeight = sd.reference.typography.lineHeight.normal
+            , medium =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.expanded.twoExtraSmall
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.none
+                    }
                 }
-            }
-        }
-    , body =
-        { extraSmall =
-            { type_ = "typography"
-            , value =
-                { fontSize = sd.reference.typography.scale.compact.small
-                , fontWeight = sd.reference.typography.fontWeight.regular
-                , fontFamily = sd.reference.typography.fontFamily.primary
-                , lineHeight = sd.reference.typography.lineHeight.tight
+            , large =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.expanded.extraSmall
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.none
+                    }
                 }
-            }
-        , small =
-            { type_ = "typography"
-            , value =
-                { fontSize = sd.reference.typography.scale.compact.medium
-                , fontWeight = sd.reference.typography.fontWeight.regular
-                , fontFamily = sd.reference.typography.fontFamily.primary
-                , lineHeight = sd.reference.typography.lineHeight.normal
-                }
-            }
-        , medium =
-            { type_ = "typography"
-            , value =
-                { fontSize = sd.reference.typography.scale.compact.large
-                , fontWeight = sd.reference.typography.fontWeight.regular
-                , fontFamily = sd.reference.typography.fontFamily.primary
-                , lineHeight = sd.reference.typography.lineHeight.normal
-                }
-            }
-        , large =
-            { type_ = "typography"
-            , value =
-                { fontSize = sd.reference.typography.scale.compact.extraLarge
-                , fontWeight = sd.reference.typography.fontWeight.regular
-                , fontFamily = sd.reference.typography.fontFamily.primary
-                , lineHeight = sd.reference.typography.lineHeight.normal
-                }
-            }
-        }
-    , label =
-        { small =
-            { type_ = "typography"
-            , value =
-                { fontSize = sd.reference.typography.scale.compact.extraSmall
-                , fontWeight = sd.reference.typography.fontWeight.regular
-                , fontFamily = sd.reference.typography.fontFamily.primary
-                , lineHeight = sd.reference.typography.lineHeight.none
-                }
-            }
-        , medium =
-            { type_ = "typography"
-            , value =
-                { fontSize = sd.reference.typography.scale.compact.small
-                , fontWeight = sd.reference.typography.fontWeight.regular
-                , fontFamily = sd.reference.typography.fontFamily.primary
-                , lineHeight = sd.reference.typography.lineHeight.none
-                }
-            }
-        , large =
-            { type_ = "typography"
-            , value =
-                { fontSize = sd.reference.typography.scale.compact.medium
-                , fontWeight = sd.reference.typography.fontWeight.regular
-                , fontFamily = sd.reference.typography.fontFamily.primary
-                , lineHeight = sd.reference.typography.lineHeight.none
-                }
-            }
-        , extraLarge =
-            { type_ = "typography"
-            , value =
-                { fontSize = sd.reference.typography.scale.compact.large
-                , fontWeight = sd.reference.typography.fontWeight.regular
-                , fontFamily = sd.reference.typography.fontFamily.primary
-                , lineHeight = sd.reference.typography.lineHeight.none
+            , extraLarge =
+                { type_ = "typography"
+                , value =
+                    { fontSize = sd.reference.typography.scale.expanded.small
+                    , fontWeight = sd.reference.typography.fontWeight.regular
+                    , fontFamily = sd.reference.typography.fontFamily.primary
+                    , lineHeight = sd.reference.typography.lineHeight.none
+                    }
                 }
             }
         }
