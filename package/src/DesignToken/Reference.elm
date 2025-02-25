@@ -1,7 +1,7 @@
-module DesignToken.Tokens.Reference exposing (sd)
+module DesignToken.Reference exposing (df)
 
 
-sd =
+df =
     { reference =
         { color = color
         , dimension = dimension
